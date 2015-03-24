@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  <head>
+  <meta charset="utf-8"/>
+  <title>Internal API | Documentation v0.0.1-beta | Kong by Mashape</title>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="google-site-verification" content="7me2nZm-wWgDM4uoD1sJ18amVbNSpsbLR0ll8OG6b_A" />
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css"/>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408" />
+  <meta property="og:title" content="Kong by Mashape" />
+  <meta property="og:site_name" content="Kong by Mashape"/>
+  <meta property="og:url" content="http://getkong.org" />
+  <meta property="og:description" content="Kong is the Next Generation RESTful API Management Platform for your APIs, focused on high performance and reliability. Made with Love by Mashape." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="http://getkong.org/share.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@mashape" />
+  <meta name="twitter:creator" content="@mashape" />
+  <meta name="twitter:url" content="http://getkong.org" />
+</head>
+
+  <body id="">
+    <div class="navbar">
+  <div class="container">
+    <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="83" height="24"></a>
+    <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+    <nav id="navbar" class="navbar-nav">
+      <ul>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/plugins">Plugins</a></li>
+        <li><a href="/contribute">Contribute</a></li>
+        <li><a href="/support">Support</a></li>
+        <li>
+          <div class="navbar-form"><a href="/download" class="button">Download</a></div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+    <div class="alpha-banner">
+  <div class="container">
+    <p>This website is a work in progress. Kong is available <a href="https://github.com/Mashape/kong/releases">here</a> as an alpha version. Follow instructions in the README.</p>
+  </div>
+ </div>
+
+    
+
+<header class="page-header">
+  <div class="container">
+    
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="" />
+    </div>
+    
+    <div class="page-header-title">
+      <h2>Documentation</h2>
+      
+      <p>Learn Kong in five minutes</p>
+      
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
+  <aside class="page-navigation">
+    <nav>
+      <h5><a href="/docs/">
+        About
+      </a></h5>
+    </nav>
+
+    <nav>
+      <h5><a href="/docs/getting-started/">
+        Getting Started
+      </a></h5>
+    </nav>
+
+    <nav>
+      <h5>Articles</h5>
+      <ul>
+        <li><a href="/docs/articles/plugins">Plugins</a></li>
+        <li><a href="/docs/articles/datastores">Datastores</a></li>
+        <li><a href="/docs/articles/scalability">Scalability</a></li>
+      </ul>
+    </nav>
+
+    <nav>
+      <h5><a href="/docs/api/" class="active">Internal API endpoints</a></h5>
+      <ul>
+        <li>
+          <a href="/docs/api/#api-object">API Object</a>
+          <ul>
+            <li><a href="/docs/api/#create-api">Create API</a></li>
+            <li><a href="/docs/api/#retrieve-api">Retrieve API</a></li>
+            <li><a href="/docs/api/#list-apis">List APIs</a></li>
+            <li><a href="/docs/api/#delete-api">Delete API</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/docs/api/#plugin-object">Plugin Object</a>
+          <ul>
+            <li><a href="/docs/api/#create-plugin">Create Plugin</a></li>
+            <li><a href="/docs/api/#retrieve-plugin">Retrieve Plugin</a></li>
+            <li><a href="/docs/api/#list-plugins">List Plugins</a></li>
+            <li><a href="/docs/api/#delete-plugin">Delete Plugin</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/docs/api/#account-object">Account Object</a>
+          <ul>
+            <li><a href="/docs/api/#create-account">Create Account</a></li>
+            <li><a href="/docs/api/#list-accounts">List Accounts</a></li>
+            <li><a href="/docs/api/#delete-account">Delete Account</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="/docs/api/#application-object">Application Object</a>
+          <ul>
+            <li><a href="/docs/api/#create-application">Create Application</a></li>
+            <li><a href="/docs/api/#retrieve-application">Retrieve Application</a></li>
+            <li><a href="/docs/api/#list-applications">List Applications</a></li>
+            <li><a href="/docs/api/#delete-application">Delete Application</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        <h1 id='kong-internal-api'>Kong Internal API</h1>
+<p>Kong comes with an <strong>internal</strong> RESTful API for administration purposes. API commands can be run on any node in the cluster, and Kong will keep the configuration consistent across all nodes.</p>
+
+<ul>
+<li>The Internal API listens on port <code>8001</code></li>
+</ul>
+<h2 id='api-object'>API Object</h2>
+<p>The API object describes an API that&#39;s being exposed by Kong. In order to do that Kong needs to know what is going to be the DNS address that will be pointing to the API, and what is the final target URL of the API where the requests will be proxied. Kong can serve more than one API domain.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='create-api'>Create API</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>POST /apis/</code></p>
+
+<p><strong>Request Form Parameters</strong></p>
+
+<ul>
+<li><code>name</code> - The name of the API</li>
+<li><code>public_dns</code> - The public DNS address that will be pointing to the API. For example: <em>myapi.com</em></li>
+<li><code>target_url</code> - The base target URL that points to the API server, that will be used for proxying the requests. For example: <em><a href="http://httpbin.org">http://httpbin.org</a></em></li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 201 Created
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='retrieve-api'>Retrieve API</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /apis/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the API to retrieve</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='list-apis'>List APIs</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /apis/</code></p>
+
+<p><strong>Request Querystring Parameters</strong></p>
+
+<ul>
+<li><code>id</code> <em>optional</em> - The ID of the API</li>
+<li><code>name</code> <em>optional</em> - The name of the API</li>
+<li><code>public_dns</code> <em>optional</em> - The public DNS</li>
+<li><code>target_url</code> <em>optional</em> - The target URL</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PrivateAPI"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internal.api.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://private.api.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/apis/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/apis/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='update-api'>Update API</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>PUT /apis/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the API to update</li>
+</ul>
+
+<p><strong>Request Body</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api2.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin2.org"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HttpBin2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_dns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.api2.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin2.org"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='delete-api'>Delete API</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>DELETE /apis/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the API to delete</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 204 NO CONTENT
+</code></pre>
+<h2 id='plugin-object'>Plugin Object</h2>
+<p>The Plugin object represents a plugin that will be executed during the HTTP request/response workflow, and it&#39;s how you can add functionalities to an API that runs behind Kong, like Authentication or Rate Limiting. You can learn how to install a plugin by visiting the <a href="/plugins/">Plugin Gallery</a></p>
+
+<p>When installing a Plugin on top of an API, every request made by any application will be ruled by the plugin properties you setup. Sometimes the Plugin configuration needs to be tuned to different values for some specific applications, you can do that by specifying the <code>application_id</code> value.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minute"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='create-plugin'>Create Plugin</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>POST /plugins/</code></p>
+
+<p><strong>Request Form Parameters</strong></p>
+
+<ul>
+<li><code>name</code> - The name of the Plugin that&#39;s going to be added. The Plugin should have already been installed in every Kong server separately.</li>
+<li><code>api_id</code> - The API ID that the Plugin will target</li>
+<li><code>application_id</code> <em>optional</em> - An optional Application ID to customize the Plugin behavior when an incoming request is being sent by the specified Application overriding any other setup.</li>
+<li><code>value.{property}</code> - The JSON configuration required for the Plugin. Each Plugin will have different configuration properties, so check the relative Plugin documentation to know which properties you can set.</li>
+</ul>
+
+<p><strong>Response</strong>:</p>
+<pre class="highlight plaintext"><code>HTTP 201 Created
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minute"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='retrieve-plugin'>Retrieve Plugin</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /plugins/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Plugin to retrieve</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minute"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='list-plugins'>List Plugins</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /plugins/</code></p>
+
+<p><strong>Request Querystring Parameters</strong></p>
+
+<ul>
+<li><code>id</code> <em>optional</em> - The ID of the Plugin</li>
+<li><code>name</code> <em>optional</em> - The name of the Plugin</li>
+<li><code>api_id</code> <em>optional</em> - The ID of the API</li>
+<li><code>application_id</code> <em>optional</em> - The ID of the Application</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minute"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hour"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='update-plugin'>Update Plugin</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>PUT /plugins/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Plugin to update</li>
+</ul>
+
+<p><strong>Request Body</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"second"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"application_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ratelimiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"second"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='delete-plugin'>Delete Plugin</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>DELETE /plugins/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Plugin to delete</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 204 NO CONTENT
+</code></pre>
+<h2 id='account-object'>Account Object</h2>
+<p>The Account object represents an account, or user, that can have one or more applications to consume the API objects. The Account object can be mapped with your database to keep consistency between Kong and your existing primary datastore.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='create-account'>Create Account</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>POST /accounts/</code></p>
+
+<p><strong>Request Form Parameters</strong></p>
+
+<ul>
+<li><code>provider_id</code> <em>optional</em> - This is an optional field where you can store an existing ID for an Account, useful to map a Kong Account with a user in your existing database</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 201 Created
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='retrieve-account'>Retrieve Account</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /accounts/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Account to retrieve</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='list-accounts'>List Accounts</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /accounts/</code></p>
+
+<p><strong>Request Querystring Parameters</strong></p>
+
+<ul>
+<li><code>id</code> <em>optional</em> - The ID of the Account</li>
+<li><code>provider_id</code> <em>optional</em> - The custom ID you set for the Account</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"def345"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/accounts/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/accounts/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='update-account'>Update Account</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>PUT /accounts/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Account to update</li>
+</ul>
+
+<p><strong>Request Body</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"updated_abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"updated_abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='delete-account'>Delete Account</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>DELETE /accounts/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Account to delete</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 204 NO CONTENT
+</code></pre>
+<h2 id='application-object'>Application Object</h2>
+<p>The Application object represents an application belonging to an existing Account, and stores credentials for consuming the API objects. An Account can have more than one Application. An Application can represent one or more API keys, for example.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECRET-xaWijqenkln81jA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBLIC-08landkl123sa"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='create-application'>Create Application</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>POST /applications/</code></p>
+
+<p><strong>Request Form Parameters</strong></p>
+
+<ul>
+<li><code>account_id</code> - The Account ID of an existing Account whose this application belongs to.</li>
+<li><code>secret_key</code> - This is where the secret credential, like an API key or a password, will be stored. It is required.</li>
+<li><code>public_key</code> <em>optional</em> - Some authentication types require both a public and a secret key. This field is reserved for public keys, and can be empty if not used.</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 201 Created
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECRET-xaWijqenkln81jA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBLIC-08landkl123sa"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='retrieve-application'>Retrieve Application</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /applications/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Application to retrieve</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECRET-uajZwmSnLHBiRGb"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBLIC-74YmAGcirwkMdS6"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='list-applications'>List Applications</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>GET /applications/</code></p>
+
+<p><strong>Request Querystring Parameters</strong></p>
+
+<ul>
+<li><code>id</code> <em>optional</em> - The ID of the Application</li>
+<li><code>account_id</code> <em>optional</em> - The ID of the Account</li>
+<li><code>public_key</code> <em>optional</em> - The public key to lookup</li>
+<li><code>secret_key</code> <em>optional</em> - The secret key to lookup</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECRET-uajZwmSnLHBiRGb"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBLIC-74YmAGcirwkMdS6"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SECRET-4hvoM6xcHMLb6QK"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PUBLIC-y5JlLqGeswN2JcB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/applications/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/applications/?limit=10&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='update-application'>Update Application</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>PUT /applications/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Application to update</li>
+</ul>
+
+<p><strong>Request Body</strong></p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UPDATED-SECRET-uajZwmSnLHBiRGb"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UPDATED-PUBLIC-74YmAGcirwkMdS6"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 200 OK
+</code></pre>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"account_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UPDATED-SECRET-uajZwmSnLHBiRGb"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UPDATED-PUBLIC-74YmAGcirwkMdS6"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='delete-application'>Delete Application</h3>
+<p><strong>Endpoint</strong></p>
+
+<p><code>DELETE /applications/{id}</code></p>
+
+<ul>
+<li><code>id</code> - The ID of the Application to delete</li>
+</ul>
+
+<p><strong>Response</strong></p>
+<pre class="highlight plaintext"><code>HTTP 204 NO CONTENT
+</code></pre>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+    <footer class="mashape-footer mashape-footer-theme-light">
+  <div class="mashape-footer-bar">
+    <div class="container">
+      <ul class="mashape-footer-social">
+        <li><a href="https://plus.google.com/+Mashape" class="mf-ico-google">Google+</a></li>
+        <li><a href="https://www.facebook.com/Mashape" class="mf-ico-facebook">Facebook</a></li>
+        <li><a href="https://twitter.com/mashape" class="mf-ico-twitter">Twitter</a></li>
+        <li><a href="https://github.com/mashape" class="mf-ico-github">GitHub</a></li>
+      </ul>
+
+      <span>&copy; <strong>2015</strong>, <a href="https://mashape.com">Mashape</a></span>
+      <span class="mashape-footer-separator"></span>
+      <a href="/license">License</a>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script>
+    <script src="/assets/app.js?v=2015-03-24 22:26:47 +0000"></script>
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+  </body>
+</html>
