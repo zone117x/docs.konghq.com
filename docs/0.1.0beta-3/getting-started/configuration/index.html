@@ -1,0 +1,169 @@
+<!DOCTYPE html> <html lang="en" itemscope itemtype="http://schema.org/Article"> <head> <meta charset="utf-8"> <title>Configuration | Kong by Mashape</title> <meta name="description" content=""> <meta name="author" content=""> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta name="google-site-verification" content="7me2nZm-wWgDM4uoD1sJ18amVbNSpsbLR0ll8OG6b_A"> <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"> <link rel="stylesheet" href="/assets/styles.css"> <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"> <meta property="fb:admins" content="227304446"> <meta property="fb:admins" content="576641408"> <meta property="og:title" content="Kong by Mashape"> <meta property="og:site_name" content="Kong by Mashape"> <meta property="og:url" content="http://getkong.org"> <meta property="og:description" content="Kong is the Next Generation RESTful API Management Platform for your APIs, focused on high performance and reliability. Made with Love by Mashape."> <meta property="og:type" content="website"> <meta property="og:locale" content="en_US"> <meta property="og:image" content="http://getkong.org/share.png"> <meta name="twitter:card" content="summary_large_image"> <meta name="twitter:site" content="@mashape"> <meta name="twitter:creator" content="@mashape"> <meta name="twitter:url" content="http://getkong.org"> </head> <body> <div class="navbar"> <div class="container"> <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a> <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle"> <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <nav id="navbar" class="navbar-nav"> <ul> <li><a href="/docs/" class="active">Documentation</a></li> <li><a href="/plugins">Plugins</a></li> <li><a href="/enterprise">Enterprise</a></li> <li><a href="https://github.com/Mashape/kong">GitHub Repo</a></li> <li> <a href="/download" class="button button-dark" data-analytics="{&quot;event&quot;: &quot;Clicked download&quot;, &quot;type&quot;: &quot;button&quot;, &quot;location&quot;: &quot;header&quot;}">download</a> </li> </ul> </nav> </div> </div> <header class="page-header"> <div class="container"> <div class="page-header-icon"> <img src="/assets/images/icons/icn-documentation.svg" alt=""> </div> <div class="page-header-title"> <h1>Documentation</h1> <p>Learn how Kong empowers your APIs</p> </div> </div> </header> <div class="container"> <aside class="page-navigation"> <nav> <h5>About Kong</h5> <ul> <li><a href="/docs/0.1.0beta-3/about/what">What is Kong?</a></li> <li><a href="/docs/0.1.0beta-3/about/how">How does it work?</a></li> </ul> </nav> <nav> <h5>Getting Started</h5> <ul> <li><a href="/docs/0.1.0beta-3/getting-started/introduction">Introduction</a></li> <li><a href="/docs/0.1.0beta-3/getting-started/quickstart">Five-minute quickstart</a></li> <li><a href="/docs/0.1.0beta-3/getting-started/adding-your-api">Adding your API</a></li> <li><a href="/docs/0.1.0beta-3/getting-started/enabling-plugins">Enabling Plugins</a></li> <li><a href="/docs/0.1.0beta-3/getting-started/adding-consumers">Adding Consumers</a></li> </ul> </nav> <nav> <h5>Articles</h5> <ul> <li><a href="/docs/0.1.0beta-3/articles/plugins">Plugins</a></li> <li><a href="/docs/0.1.0beta-3/articles/datastores">Datastores</a></li> <li><a href="/docs/0.1.0beta-3/articles/scalability">Scalability</a></li> </ul> </nav> <nav> <h5>Internal API endpoints</h5> <ul> <li><a href="/docs/0.1.0beta-3/internal-api/">Introduction</a> </li><li> <a href="/docs/0.1.0beta-3/internal-api/#api-object">API Object</a> <ul> <li><a href="/docs/0.1.0beta-3/internal-api/#add-api">Add API</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#retrieve-api">Retrieve API</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#list-apis">List APIs</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#delete-api">Delete API</a></li> </ul> </li> <li> <a href="/docs/0.1.0beta-3/internal-api/#consumer-object">Consumer Object</a> <ul> <li><a href="/docs/0.1.0beta-3/internal-api/#create-consumer">Create Consumer</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#retrieve-consumer">Retrieve Consumer</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#list-consumers">List Consumers</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#delete-consumer">Delete Consumer</a></li> </ul> </li> <li> <a href="/docs/0.1.0beta-3/internal-api/#plugin-object">Plugin Configuration Object</a> <ul> <li><a href="/docs/0.1.0beta-3/internal-api/#create-plugin-configuration">Create Plugin Configuration</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#retrieve-plugin-configuration">Retrieve Plugin Configuration</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#list-plugins-configurations">List Plugins Configurations</a></li> <li><a href="/docs/0.1.0beta-3/internal-api/#delete-plugin-configuration">Delete Plugin Configuration</a></li> </ul> </li> </ul> </nav> </aside> <div class="page-content-container"> <div class="page-content"> <div class="content"> <h1 id="configuration">Configuration</h1> <p>Kong comes with an easy to use configuration file called <code>kong.yml</code> in YAML format. You can use this file to configure the Kong Server.</p> <p><strong>Note</strong>: To avoid runtime errors, we highly recommend that every node in the cluster shares the same configuration.</p> <p>By default Kong will look for this file in the Kong directory, but you can also specify your own configuration file at startup time by specifying the <code>-c</code> option like:</p> <div class="highlight"><pre><code class="language-bash" data-lang="bash">kong start -c /path/to/kong.yml
+</code></pre></div> <h2 id="kong.yml">kong.yml</h2> <p>A typical <code>kong.yml</code> file looks like:</p> <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="c1"># Available plugins on this server</span>
+<span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">keyauth</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">basicauth</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ratelimiting</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">tcplog</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">udplog</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">filelog</span>
+
+<span class="c1"># Nginx prefix path directory</span>
+<span class="l-Scalar-Plain">nginx_working_dir</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/usr/local/kong/</span>
+
+<span class="c1"># Specify the DAO to use</span>
+<span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">cassandra</span>
+
+<span class="c1"># Databases configuration</span>
+<span class="l-Scalar-Plain">databases_available</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">cassandra</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">hosts</span><span class="p-Indicator">:</span> <span class="s">&quot;localhost&quot;</span>
+      <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">9042</span>
+      <span class="l-Scalar-Plain">timeout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1000</span>
+      <span class="l-Scalar-Plain">keyspace</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kong</span>
+      <span class="l-Scalar-Plain">keepalive</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">60000</span>
+
+<span class="c1"># Sends anonymous error reports</span>
+<span class="l-Scalar-Plain">send_anonymous_reports</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+
+<span class="c1"># Cache configuration</span>
+<span class="l-Scalar-Plain">cache</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">expiration</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span> <span class="c1"># in seconds</span>
+
+<span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span> <span class="p-Indicator">|</span>
+  <span class="no">worker_processes auto;</span>
+  <span class="no">error_log logs/error.log info;</span>
+  <span class="no">daemon on;</span>
+
+  <span class="no"># Set &quot;worker_rlimit_nofile&quot; to a high value</span>
+  <span class="no"># worker_rlimit_nofile 65536;</span>
+
+  <span class="no">env KONG_CONF;</span>
+
+  <span class="no">events {</span>
+    <span class="no"># Set &quot;worker_connections&quot; to a high value</span>
+    <span class="no">worker_connections 1024;</span>
+  <span class="no">}</span>
+
+  <span class="no">http {</span>
+
+    <span class="no"># Generic Settings</span>
+    <span class="no">resolver 8.8.8.8;</span>
+    <span class="no">charset UTF-8;</span>
+
+    <span class="no"># Logs</span>
+    <span class="no">access_log logs/access.log;</span>
+    <span class="no">access_log on;</span>
+
+    <span class="no"># Timeouts</span>
+    <span class="no">keepalive_timeout 60s;</span>
+    <span class="no">client_header_timeout 60s;</span>
+    <span class="no">client_body_timeout 60s;</span>
+    <span class="no">send_timeout 60s;</span>
+
+    <span class="no"># Proxy Settings</span>
+    <span class="no">proxy_buffer_size 128k;</span>
+    <span class="no">proxy_buffers 4 256k;</span>
+    <span class="no">proxy_busy_buffers_size 256k;</span>
+    <span class="no">proxy_ssl_server_name on;</span>
+
+    <span class="no"># Other Settings</span>
+    <span class="no">client_max_body_size 128m;</span>
+    <span class="no">underscores_in_headers on;</span>
+    <span class="no">reset_timedout_connection on;</span>
+    <span class="no">tcp_nopush on;</span>
+
+    <span class="no">################################################</span>
+    <span class="no">#  The following code is required to run Kong  #</span>
+    <span class="no"># Please be careful if you&#39;d like to change it #</span>
+    <span class="no">################################################</span>
+
+    <span class="no"># Lua Settings</span>
+    <span class="no">lua_package_path &#39;;;&#39;;</span>
+    <span class="no">lua_code_cache on;</span>
+    <span class="no">lua_max_running_timers 4096;</span>
+    <span class="no">lua_max_pending_timers 16384;</span>
+    <span class="no">lua_shared_dict cache 512m;</span>
+
+    <span class="no">init_by_lua &#39;</span>
+      <span class="no">kong = require &quot;kong&quot;</span>
+      <span class="no">local status, err = pcall(kong.init)</span>
+      <span class="no">if not status then</span>
+        <span class="no">ngx.log(ngx.ERR, &quot;Startup error: &quot;..err)</span>
+        <span class="no">os.exit(1)</span>
+      <span class="no">end</span>
+    <span class="no">&#39;;</span>
+
+    <span class="no">server {</span>
+      <span class="no">listen 8000;</span>
+
+      <span class="no">location / {</span>
+        <span class="no"># Assigns the default MIME-type to be used for files where the</span>
+        <span class="no"># standard MIME map doesn&#39;t specify anything.</span>
+        <span class="no">default_type &#39;text/plain&#39;;</span>
+
+        <span class="no"># This property will be used later by proxy_pass</span>
+        <span class="no">set $backend_url nil;</span>
+        <span class="no">set $querystring nil;</span>
+
+        <span class="no"># Authenticate the user and load the API info</span>
+        <span class="no">access_by_lua &#39;kong.exec_plugins_access()&#39;;</span>
+
+        <span class="no"># Proxy the request</span>
+        <span class="no">proxy_set_header X-Real-IP $remote_addr;</span>
+        <span class="no">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span>
+        <span class="no">proxy_pass $backend_url;</span>
+
+        <span class="no"># Add additional response headers</span>
+        <span class="no">header_filter_by_lua &#39;kong.exec_plugins_header_filter()&#39;;</span>
+
+        <span class="no"># Change the response body</span>
+        <span class="no">body_filter_by_lua &#39;kong.exec_plugins_body_filter()&#39;;</span>
+
+        <span class="no"># Log the request</span>
+        <span class="no">log_by_lua &#39;kong.exec_plugins_log()&#39;;</span>
+      <span class="no">}</span>
+
+      <span class="no">location /robots.txt {</span>
+        <span class="no">return 200 &#39;User-agent: *\nDisallow: /&#39;;</span>
+      <span class="no">}</span>
+
+      <span class="no">error_page 500 /500.html;</span>
+      <span class="no">location = /500.html {</span>
+        <span class="no">internal;</span>
+        <span class="no">content_by_lua &#39;</span>
+          <span class="no">local utils = require &quot;kong.tools.utils&quot;</span>
+          <span class="no">utils.show_error(ngx.status, &quot;Oops, an unexpected error occurred!&quot;)</span>
+        <span class="no">&#39;;</span>
+      <span class="no">}</span>
+    <span class="no">}</span>
+
+    <span class="no">server {</span>
+      <span class="no">listen 8001;</span>
+
+      <span class="no">location / {</span>
+        <span class="no">default_type application/json;</span>
+        <span class="no">content_by_lua &#39;</span>
+          <span class="no">require(&quot;lapis&quot;).serve(&quot;kong.web.app&quot;)</span>
+        <span class="no">&#39;;</span>
+      <span class="no">}</span>
+
+      <span class="no">location /static/ {</span>
+        <span class="no">alias static/;</span>
+      <span class="no">}</span>
+
+      <span class="no">location /admin/ {</span>
+        <span class="no">alias admin/;</span>
+      <span class="no">}</span>
+
+      <span class="no">location /favicon.ico {</span>
+        <span class="no">alias static/favicon.ico;</span>
+      <span class="no">}</span>
+
+      <span class="no">location /robots.txt {</span>
+        <span class="no">return 200 &#39;User-agent: *\nDisallow: /&#39;;</span>
+      <span class="no">}</span>
+    <span class="no">}</span>
+  <span class="no">}</span>
+</code></pre></div> <p>Here is a detailed description for each entry:</p> <ul> <li><code>plugins_available</code> describes an array of plugins that are available and can be used by the server. You can use only the plugins that are being specified here.</li> <li><code>nginx_working_dir</code> sets the nginx working directory and its logs.</li> <li><code>database</code> is the database Kong is going to use. It&#39;s <code>cassandra</code> by default and it&#39;s the only one supported at the moment.</li> <li><code>databases_available</code> describes the configuration to use when connecting to the database.</li> <li><code>send_anonymous_reports</code> tells if the system is allowed to send anonymous error logs to a remote logging server in order to allow the maintainers of Kong to fix potential bugs and errors.</li> <li><code>cache</code> describes the internal cache settings. The higher the <code>expiration</code> value and the less connections will be executed on the datastore (reducing latency), but the more time it will take to propagate any change inside the cluster.</li> <li><code>nginx</code> contains the Kong Server configuration, and it&#39;s the equivalent of <code>nginx.conf</code>. Kong Server is built on top of nginx, so you can tune the nginx values to change the Kong Server&#39;s settings.</li> </ul> </div> </div> </div> </div> <footer class="footer"> <div class="container"> <ul class="footer-social"> <li> <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a> </li> <li> <a class="github-button" href="https://github.com/mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a> </li> <li> <a class="github-button" href="https://github.com/mashape/kong/fork" data-icon="octicon-git-branch" data-count-href="/mashape/kong/network" data-count-api="/repos/mashape/kong#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork mashape/kong on GitHub">Fork</a> </li> </ul> <span> <a href="https://mashape.com"> <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"> &copy; <strong>2015 Mashape Inc</strong> </a> </span> <span class="footer-separator"></span> <span class="footer-nav"> <a href="/license">License</a> <a href="/terms">Terms</a> <a href="/privacy">Privacy</a> </span> </div> </footer> <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script src="//www.parsecdn.com/js/parse-1.3.5.min.js"></script><script src="/assets/app.js?v=2015-04-23 23:28:20 +0000"></script><script>!function(){var t=window.analytics=window.analytics||[];if(!t.initialize)if(t.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{t.invoked=!0,t.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"],t.factory=function(e){return function(){var n=Array.prototype.slice.call(arguments);return n.unshift(e),t.push(n),t}};for(var e=0;e<t.methods.length;e++){var n=t.methods[e];t[n]=t.factory(n)}t.load=function(t){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)},t.SNIPPET_VERSION="3.0.1",t.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6"),t.page()}}();</script><script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script><script>!function(t,e,r){var n,s=t.getElementsByTagName(e)[0],i=/^http:/.test(t.location)?"http":"https";t.getElementById(r)||(n=t.createElement(e),n.id=r,n.src=i+"://platform.twitter.com/widgets.js",s.parentNode.insertBefore(n,s))}(document,"script","twitter-wjs");</script></body></html>
