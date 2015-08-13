@@ -1,2 +1,568 @@
-"use strict";$(function(){var t=$(window),e=$("#documentation");if($(".navbar-toggle").on("click",function(){var t=$($(this).data("target"));t.slideToggle(150)}),$(".scroll-to").on("click",function(t){t.preventDefault(),$("html, body").animate({scrollTop:$($(this).attr("href")).offset().top-70},700)}),!$("body#enterprise").length){var n=$(".section.intro-section").outerHeight()||50,i=$(".navbar-nav").find(".button");t.on("scroll",function(){var t=$(this).scrollTop();t>n?i.removeClass("button-dark").addClass("button-primary"):i.removeClass("button-primary").addClass("button-dark")})}$(".toggle-page-section").on("click",function(t){t.preventDefault();var e=$(this);e.parent().next(".page-section").stop().slideToggle(300,function(){e.toggleClass("active")})});var o=$(".tab-list li"),a=$(".tab-pane");if(o.on("click",function(t,e){t.preventDefault();var n=$(this).find("a").attr("href");o.removeClass("active").filter(this).addClass("active"),a.removeClass("active").filter(n).addClass("active"),history.pushState?history.pushState(null,null,n):window.location.hash=n,e||analytics.track("Choose installation method",{installationMethod:n.substr(1)})}),window.location.hash&&o.find('a[href="'+window.location.hash+'"]').trigger("click",!0),$(".subscribe-form").on("submit",function(t){t.preventDefault();var e=$(this),n=e.find('[name="email"]').val(),i=(new Date).toString();e.fadeOut(300,function(){$(".loader").fadeIn(300)}),analytics.identify(n,{email:n,environment:"kong",newsletter_updates:!0,created_at:i},function(){e.fadeOut(300,function(){$(".loader").fadeOut(300,function(){$(".success-message").fadeIn(300)})}),analytics.track("request_newsletter_updates",{email:n,request_date:i})})}),$(".demo-request-form").on("submit",function(t){t.preventDefault();var e=$(this),n=e.serializeArray(),i=(new Date).toString(),o={},a=$.Deferred(),s={},r={title:8,tell_us_more:6,email:7,phone:9,deployment:14,company:10,name:13,environment:16};e.fadeOut(300,function(){$(".loader").fadeIn(300)}).siblings(".section-header").fadeOut(300);for(var f=0;f<n.length;f++)o[n[f].name]=n[f].value;o.environment="kong",analytics.identify(o.email,$.extend({enterprise:!0,created_at:i},o),function(){analytics.track("request_enterprise_demo",$.extend({request_date:i},o),a.resolve)});for(var l in o)o[l]&&(s[r[l]]=[{raw:o[l]}]);var c=$.ajax({url:"https://mashaper-relateiq-v1.p.mashape.com/accounts",method:"POST",headers:{authorization:"Basic NTU2ZDcxYzdlNGIwMmM5ZTM3YjgxNzc1Ok9NbFNBVGM1QkFTOG1JbEtXZENMZFZ2Z3RqYQ==","x-mashape-key":"mJUINHSWBYmshREqNlfTBKtbBHDZp1N7VKhjsnUIUo4f4r3pVj"},data:JSON.stringify({name:o.email,fieldValues:s})});$.when.apply($,[a,c]).then(function(){$(".loader").fadeOut(300,function(){$(".success-message").fadeIn(300)})})}),e.length){var s=e.find(".page-navigation"),r=s.find("a"),f=window.location.hash,l=function(){r.removeClass("active").filter(this).addClass("active")};f&&r.each(function(){-1!==$(this).attr("href").indexOf(f)&&l.call(this)}),r.on("click",l)}$('[href^="/download"]').each(function(){var t=$(this);analytics.trackLink(this,"Clicked download",{section:t.closest(".navbar").length?"header":"page",pathname:window.location.pathname,type:t.hasClass("button")?"button":"link"})}),analytics.track("Viewed "+$.trim(document.title.split("|").shift())+" page"),$(".plugin-plate-link").each(function(){analytics.trackLink(this,"Click on plugin",{plugin_type:$(this).closest(".plugin-plate").find("h3").text()})}),$("#documentation .page-navigation a").each(function(){analytics.trackLink(this,"Click documentation link",{documentation_name:$(this).text()})}),$(".community-plate a").each(function(){analytics.trackLink(this,"Click community link",{community_type:$.trim($(this).closest(".community-plate").find("h4").text())})}),analytics.trackLink($('a[href="#comparison"]')[0],"Clicked Why Kong")})+function(t){function e(e){e&&3===e.which||(t(o).remove(),t(a).each(function(){var i=t(this),o=n(i),a={relatedTarget:this};o.hasClass("open")&&(o.trigger(e=t.Event("hide.bs.dropdown",a)),e.isDefaultPrevented()||(i.attr("aria-expanded","false"),o.removeClass("open").trigger("hidden.bs.dropdown",a)))}))}function n(e){var n=e.attr("data-target");n||(n=e.attr("href"),n=n&&/#[A-Za-z]/.test(n)&&n.replace(/.*(?=#[^\s]*$)/,""));var i=n&&t(n);return i&&i.length?i:e.parent()}function i(e){return this.each(function(){var n=t(this),i=n.data("bs.dropdown");i||n.data("bs.dropdown",i=new s(this)),"string"==typeof e&&i[e].call(n)})}var o=".dropdown-backdrop",a='[data-toggle="dropdown"]',s=function(e){t(e).on("click.bs.dropdown",this.toggle)};s.VERSION="3.3.4",s.prototype.toggle=function(i){var o=t(this);if(!o.is(".disabled, :disabled")){var a=n(o),s=a.hasClass("open");if(e(),!s){"ontouchstart"in document.documentElement&&!a.closest(".navbar-nav").length&&t('<div class="dropdown-backdrop"/>').insertAfter(t(this)).on("click",e);var r={relatedTarget:this};if(a.trigger(i=t.Event("show.bs.dropdown",r)),i.isDefaultPrevented())return;o.trigger("focus").attr("aria-expanded","true"),a.toggleClass("open").trigger("shown.bs.dropdown",r)}return!1}},s.prototype.keydown=function(e){if(/(38|40|27|32)/.test(e.which)&&!/input|textarea/i.test(e.target.tagName)){var i=t(this);if(e.preventDefault(),e.stopPropagation(),!i.is(".disabled, :disabled")){var o=n(i),s=o.hasClass("open");if(!s&&27!=e.which||s&&27==e.which)return 27==e.which&&o.find(a).trigger("focus"),i.trigger("click");var r=" li:not(.disabled):visible a",f=o.find('[role="menu"]'+r+', [role="listbox"]'+r);if(f.length){var l=f.index(e.target);38==e.which&&l>0&&l--,40==e.which&&l<f.length-1&&l++,~l||(l=0),f.eq(l).trigger("focus")}}}};var r=t.fn.dropdown;t.fn.dropdown=i,t.fn.dropdown.Constructor=s,t.fn.dropdown.noConflict=function(){return t.fn.dropdown=r,this},t(document).on("click.bs.dropdown.data-api",e).on("click.bs.dropdown.data-api",".dropdown form",function(t){t.stopPropagation()}).on("click.bs.dropdown.data-api",a,s.prototype.toggle).on("keydown.bs.dropdown.data-api",a,s.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="menu"]',s.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="listbox"]',s.prototype.keydown)}(jQuery),+function(t){function e(e){return this.each(function(){var i=t(this),o=i.data("bs.affix"),a="object"==typeof e&&e;o||i.data("bs.affix",o=new n(this,a)),"string"==typeof e&&o[e]()})}var n=function(e,i){this.options=t.extend({},n.DEFAULTS,i),this.$target=t(this.options.target).on("scroll.bs.affix.data-api",t.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",t.proxy(this.checkPositionWithEventLoop,this)),this.$element=t(e),this.affixed=null,this.unpin=null,this.pinnedOffset=null,this.checkPosition()};n.VERSION="3.3.4",n.RESET="affix affix-top affix-bottom",n.DEFAULTS={offset:0,target:window},n.prototype.getState=function(t,e,n,i){var o=this.$target.scrollTop(),a=this.$element.offset(),s=this.$target.height();if(null!=n&&"top"==this.affixed)return n>o?"top":!1;if("bottom"==this.affixed)return null!=n?o+this.unpin<=a.top?!1:"bottom":t-i>=o+s?!1:"bottom";var r=null==this.affixed,f=r?o:a.top,l=r?s:e;return null!=n&&n>=o?"top":null!=i&&f+l>=t-i?"bottom":!1},n.prototype.getPinnedOffset=function(){if(this.pinnedOffset)return this.pinnedOffset;this.$element.removeClass(n.RESET).addClass("affix");var t=this.$target.scrollTop(),e=this.$element.offset();return this.pinnedOffset=e.top-t},n.prototype.checkPositionWithEventLoop=function(){setTimeout(t.proxy(this.checkPosition,this),1)},n.prototype.checkPosition=function(){if(this.$element.is(":visible")){var e=this.$element.height(),i=this.options.offset,o=i.top,a=i.bottom,s=t(document.body).height();"object"!=typeof i&&(a=o=i),"function"==typeof o&&(o=i.top(this.$element)),"function"==typeof a&&(a=i.bottom(this.$element));var r=this.getState(s,e,o,a);if(this.affixed!=r){null!=this.unpin&&this.$element.css("top","");var f="affix"+(r?"-"+r:""),l=t.Event(f+".bs.affix");if(this.$element.trigger(l),l.isDefaultPrevented())return;this.affixed=r,this.unpin="bottom"==r?this.getPinnedOffset():null,this.$element.removeClass(n.RESET).addClass(f).trigger(f.replace("affix","affixed")+".bs.affix")}"bottom"==r&&this.$element.offset({top:s-e-a})}};var i=t.fn.affix;t.fn.affix=e,t.fn.affix.Constructor=n,t.fn.affix.noConflict=function(){return t.fn.affix=i,this},t(window).on("load",function(){t('[data-spy="affix"]').each(function(){var n=t(this),i=n.data();i.offset=i.offset||{},null!=i.offsetBottom&&(i.offset.bottom=i.offsetBottom),null!=i.offsetTop&&(i.offset.top=i.offsetTop),e.call(n,i)})})}(jQuery);
+/* globals $, history, analytics */
+
+'use strict'
+
+$(function () {
+  var $window = $(window)
+  var $docs = $('#documentation')
+
+  $('.navbar-toggle').on('click', function () {
+    var $navbar = $($(this).data('target'))
+    $navbar.slideToggle(150)
+  })
+
+  $('.scroll-to').on('click', function (e) {
+    e.preventDefault()
+
+    $('html, body').animate({
+      scrollTop: $($(this).attr('href')).offset().top - 70 // Header height
+    }, 700)
+  })
+
+  // Change header download button color
+
+  if (!$('body#enterprise').length) {
+    var introSectionHeight = $('.section.intro-section').outerHeight() || 50
+    var $downloadBtn = $('.navbar-nav').find('.button')
+
+    $window.on('scroll', function () {
+      var scrollTop = $(this).scrollTop()
+
+      if (scrollTop > introSectionHeight) {
+        $downloadBtn.removeClass('button-dark').addClass('button-primary')
+      } else {
+        $downloadBtn.removeClass('button-primary').addClass('button-dark')
+      }
+    })
+  }
+
+  // Page section on contribute page
+
+  $('.toggle-page-section').on('click', function (e) {
+    e.preventDefault()
+    var $link = $(this)
+
+    $link.parent().next('.page-section').stop().slideToggle(300, function () {
+      $link.toggleClass('active')
+    })
+  })
+
+  // Tabs on download page
+
+  var $tabs = $('.tab-list li')
+  var $tabPanes = $('.tab-pane')
+
+  $tabs.on('click', function (e, disableTracking) {
+    e.preventDefault()
+
+    var tabId = $(this).find('a').attr('href')
+
+    $tabs.removeClass('active').filter(this).addClass('active')
+    $tabPanes.removeClass('active').filter(tabId).addClass('active')
+
+    if (history.pushState) {
+      history.pushState(null, null, tabId)
+    } else {
+      window.location.hash = tabId
+    }
+
+    if (!disableTracking) {
+      analytics.track('Choose installation method', {
+        installationMethod: tabId.substr(1)
+      })
+    }
+  })
+
+  if (window.location.hash) {
+    $tabs.find('a[href="' + window.location.hash + '"]').trigger('click', true)
+  }
+
+  // Subscribe form
+
+  $('.subscribe-form').on('submit', function (e) {
+    e.preventDefault()
+
+    var $form = $(this)
+    var email = $form.find('[name="email"]').val()
+    var submitTime = new Date().toString()
+
+    $form.fadeOut(300, function () {
+      $('.loader').fadeIn(300)
+    })
+
+    analytics.identify(email, {
+      email: email,
+      environment: 'kong',
+      newsletter_updates: true,
+      created_at: submitTime
+    }, function () {
+      $form.fadeOut(300, function () {
+        $('.loader').fadeOut(300, function () {
+          $('.success-message').fadeIn(300)
+        })
+      })
+
+      analytics.track('request_newsletter_updates', {
+        email: email,
+        request_date: submitTime
+      })
+    })
+  })
+
+  // Enterprise page demo request form
+
+  $('.demo-request-form').on('submit', function (e) {
+    e.preventDefault()
+
+    var $form = $(this)
+    var data = $form.serializeArray()
+    var submitTime = new Date().toString()
+    var payload = {}
+    var analyticsDfd = $.Deferred()
+    var fieldValues = {}
+    var relateiqFieldIds = {
+      title: 8,
+      tell_us_more: 6,
+      email: 7,
+      phone: 9,
+      deployment: 14,
+      company: 10,
+      name: 13,
+      environment: 16
+    }
+
+    $form.fadeOut(300, function () {
+      $('.loader').fadeIn(300)
+    }).siblings('.section-header').fadeOut(300)
+
+    for (var i = 0; i < data.length; i++) {
+      payload[data[i].name] = data[i].value
+    }
+
+    payload.environment = 'kong'
+
+    analytics.identify(payload.email, $.extend({
+      enterprise: true,
+      created_at: submitTime
+    }, payload), function () {
+      analytics.track('request_enterprise_demo', $.extend({
+        request_date: submitTime
+      }, payload), analyticsDfd.resolve)
+    })
+
+    for (var field in payload) {
+      if (payload[field]) {
+        fieldValues[relateiqFieldIds[field]] = [{
+          raw: payload[field]
+        }]
+      }
+    }
+
+    var relateiqDfd = $.ajax({
+      url: 'https://mashaper-relateiq-v1.p.mashape.com/accounts',
+      method: 'POST',
+      headers: {
+        'authorization': 'Basic NTU2ZDcxYzdlNGIwMmM5ZTM3YjgxNzc1Ok9NbFNBVGM1QkFTOG1JbEtXZENMZFZ2Z3RqYQ==',
+        'x-mashape-key': 'mJUINHSWBYmshREqNlfTBKtbBHDZp1N7VKhjsnUIUo4f4r3pVj'
+      },
+      data: JSON.stringify({
+        name: payload.email,
+        fieldValues: fieldValues
+      })
+    })
+
+    $.when.apply($, [analyticsDfd, relateiqDfd]).then(function () {
+      $('.loader').fadeOut(300, function () {
+        $('.success-message').fadeIn(300)
+      })
+    })
+  })
+
+  // Docs page navigation
+  if ($docs.length) {
+    var $nav = $docs.find('.page-navigation')
+    var $navItems = $nav.find('a')
+    var hash = window.location.hash
+
+    var setNavItemActive = function () {
+      $navItems.removeClass('active').filter(this).addClass('active')
+    }
+
+    if (hash) {
+      $navItems.each(function () {
+        if ($(this).attr('href').indexOf(hash) !== -1) {
+          setNavItemActive.call(this)
+        }
+      })
+    }
+
+    $navItems.on('click', setNavItemActive)
+  }
+
+  // Analytics
+
+  $('[href^="/download"]').each(function () {
+    var $link = $(this)
+
+    analytics.trackLink(this, 'Clicked download', {
+      section: $link.closest('.navbar').length ? 'header' : 'page',
+      pathname: window.location.pathname,
+      type: $link.hasClass('button') ? 'button' : 'link'
+    })
+  })
+
+  analytics.track(
+      'Viewed ' + $.trim(document.title.split('|').shift()) + ' page'
+  )
+
+  $('.plugin-plate-link').each(function () {
+    analytics.trackLink(this, 'Click on plugin', {
+      plugin_type: $(this).closest('.plugin-plate').find('h3').text()
+    })
+  })
+
+  $('#documentation .page-navigation a').each(function () {
+    analytics.trackLink(this, 'Click documentation link', {
+      documentation_name: $(this).text()
+    })
+  })
+
+  $('.community-plate a').each(function () {
+    analytics.trackLink(this, 'Click community link', {
+      community_type: $.trim($(this).closest('.community-plate').find('h4').text())
+    })
+  })
+
+  analytics.trackLink($('a[href="#comparison"]')[0], 'Clicked Why Kong')
+})
+
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.5
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.5'
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+    })
+  }
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $(document.createElement('div'))
+          .addClass('dropdown-backdrop')
+          .insertAfter($(this))
+          .on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger('shown.bs.dropdown', relatedTarget)
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if (!isActive && e.which != 27 || isActive && e.which == 27) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.disabled):visible a'
+    var $items = $parent.find('.dropdown-menu' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--         // up
+    if (e.which == 40 && index < $items.length - 1) index++         // down
+    if (!~index)                                    index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
+
+}(jQuery);
+
+/* ========================================================================
+ * Bootstrap: affix.js v3.3.5
+ * http://getbootstrap.com/javascript/#affix
+ * ========================================================================
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // AFFIX CLASS DEFINITION
+  // ======================
+
+  var Affix = function (element, options) {
+    this.options = $.extend({}, Affix.DEFAULTS, options)
+
+    this.$target = $(this.options.target)
+      .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
+      .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
+
+    this.$element     = $(element)
+    this.affixed      = null
+    this.unpin        = null
+    this.pinnedOffset = null
+
+    this.checkPosition()
+  }
+
+  Affix.VERSION  = '3.3.5'
+
+  Affix.RESET    = 'affix affix-top affix-bottom'
+
+  Affix.DEFAULTS = {
+    offset: 0,
+    target: window
+  }
+
+  Affix.prototype.getState = function (scrollHeight, height, offsetTop, offsetBottom) {
+    var scrollTop    = this.$target.scrollTop()
+    var position     = this.$element.offset()
+    var targetHeight = this.$target.height()
+
+    if (offsetTop != null && this.affixed == 'top') return scrollTop < offsetTop ? 'top' : false
+
+    if (this.affixed == 'bottom') {
+      if (offsetTop != null) return (scrollTop + this.unpin <= position.top) ? false : 'bottom'
+      return (scrollTop + targetHeight <= scrollHeight - offsetBottom) ? false : 'bottom'
+    }
+
+    var initializing   = this.affixed == null
+    var colliderTop    = initializing ? scrollTop : position.top
+    var colliderHeight = initializing ? targetHeight : height
+
+    if (offsetTop != null && scrollTop <= offsetTop) return 'top'
+    if (offsetBottom != null && (colliderTop + colliderHeight >= scrollHeight - offsetBottom)) return 'bottom'
+
+    return false
+  }
+
+  Affix.prototype.getPinnedOffset = function () {
+    if (this.pinnedOffset) return this.pinnedOffset
+    this.$element.removeClass(Affix.RESET).addClass('affix')
+    var scrollTop = this.$target.scrollTop()
+    var position  = this.$element.offset()
+    return (this.pinnedOffset = position.top - scrollTop)
+  }
+
+  Affix.prototype.checkPositionWithEventLoop = function () {
+    setTimeout($.proxy(this.checkPosition, this), 1)
+  }
+
+  Affix.prototype.checkPosition = function () {
+    if (!this.$element.is(':visible')) return
+
+    var height       = this.$element.height()
+    var offset       = this.options.offset
+    var offsetTop    = offset.top
+    var offsetBottom = offset.bottom
+    var scrollHeight = Math.max($(document).height(), $(document.body).height())
+
+    if (typeof offset != 'object')         offsetBottom = offsetTop = offset
+    if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
+    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
+
+    var affix = this.getState(scrollHeight, height, offsetTop, offsetBottom)
+
+    if (this.affixed != affix) {
+      if (this.unpin != null) this.$element.css('top', '')
+
+      var affixType = 'affix' + (affix ? '-' + affix : '')
+      var e         = $.Event(affixType + '.bs.affix')
+
+      this.$element.trigger(e)
+
+      if (e.isDefaultPrevented()) return
+
+      this.affixed = affix
+      this.unpin = affix == 'bottom' ? this.getPinnedOffset() : null
+
+      this.$element
+        .removeClass(Affix.RESET)
+        .addClass(affixType)
+        .trigger(affixType.replace('affix', 'affixed') + '.bs.affix')
+    }
+
+    if (affix == 'bottom') {
+      this.$element.offset({
+        top: scrollHeight - height - offsetBottom
+      })
+    }
+  }
+
+
+  // AFFIX PLUGIN DEFINITION
+  // =======================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.affix')
+      var options = typeof option == 'object' && option
+
+      if (!data) $this.data('bs.affix', (data = new Affix(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  var old = $.fn.affix
+
+  $.fn.affix             = Plugin
+  $.fn.affix.Constructor = Affix
+
+
+  // AFFIX NO CONFLICT
+  // =================
+
+  $.fn.affix.noConflict = function () {
+    $.fn.affix = old
+    return this
+  }
+
+
+  // AFFIX DATA-API
+  // ==============
+
+  $(window).on('load', function () {
+    $('[data-spy="affix"]').each(function () {
+      var $spy = $(this)
+      var data = $spy.data()
+
+      data.offset = data.offset || {}
+
+      if (data.offsetBottom != null) data.offset.bottom = data.offsetBottom
+      if (data.offsetTop    != null) data.offset.top    = data.offsetTop
+
+      Plugin.call($spy, data)
+    })
+  })
+
+}(jQuery);
+
 //# sourceMappingURL=maps/app.js.map
