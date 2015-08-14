@@ -2,16 +2,13 @@
 
 'use strict'
 
-$(function () {
-  var $window = $(window)
-  var $docs = $('#documentation')
-
-  $('.navbar-toggle').on('click', function () {
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelector('.navbar-toggle').addEventListener('click', function () {
     var $navbar = $($(this).data('target'))
     $navbar.slideToggle(150)
   })
 
-  $('.scroll-to').on('click', function (e) {
+  document.querySelector('.scroll-to').addEventListener('click', function (e) {
     e.preventDefault()
 
     $('html, body').animate({
@@ -22,16 +19,19 @@ $(function () {
   // Change header download button color
 
   if (!$('body#enterprise').length) {
-    var introSectionHeight = $('.section.intro-section').outerHeight() || 50
-    var $downloadBtn = $('.navbar-nav').find('.button')
+    var intro = document.querySelector('.section.intro-section')
+    var offset = intro ? intro.offsetHeight : 50
+    var $downloadBtn = document.querySelector('.navbar-nav .button')
 
-    $window.on('scroll', function () {
+    window.addEventListener('scroll', function () {
       var scrollTop = $(this).scrollTop()
 
-      if (scrollTop > introSectionHeight) {
-        $downloadBtn.removeClass('button-dark').addClass('button-primary')
+      if (scrollTop > offset) {
+        $downloadBtn.classList.remove('button-dark')
+        $downloadBtn.classList.add('button-primary')
       } else {
-        $downloadBtn.removeClass('button-primary').addClass('button-dark')
+        $downloadBtn.classList.remove('button-primary')
+        $downloadBtn.classList.add('button-dark')
       }
     })
   }
@@ -179,9 +179,8 @@ $(function () {
   })
 
   // Docs page navigation
-  if ($docs.length) {
-    var $nav = $docs.find('.page-navigation')
-    var $navItems = $nav.find('a')
+  if (document.getElementById('documentation') !== null) {
+    var $navItems = document.querySelectorAll('#documentation .page-navigation a')
     var hash = window.location.hash
 
     var setNavItemActive = function () {
@@ -189,14 +188,14 @@ $(function () {
     }
 
     if (hash) {
-      $navItems.each(function () {
-        if ($(this).attr('href').indexOf(hash) !== -1) {
+      Array.prototype.forEach.call($navItems, function (item) {
+        if (item.getAttribute('href').indexOf(hash) !== -1) {
           setNavItemActive.call(this)
         }
       })
     }
 
-    $navItems.on('click', setNavItemActive)
+    $navItems.addEventListener('click', setNavItemActive)
   }
 
   // Analytics
@@ -212,7 +211,7 @@ $(function () {
   })
 
   analytics.track(
-      'Viewed ' + $.trim(document.title.split('|').shift()) + ' page'
+    'Viewed ' + $.trim(document.title.split('|').shift()) + ' page'
   )
 
   $('.plugin-plate-link').each(function () {
