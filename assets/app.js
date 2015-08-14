@@ -2,13 +2,16 @@
 
 'use strict'
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelector('.navbar-toggle').addEventListener('click', function () {
+$(function () {
+  var $window = $(window)
+  var $docs = $('#documentation')
+
+  $('.navbar-toggle').on('click', function () {
     var $navbar = $($(this).data('target'))
     $navbar.slideToggle(150)
   })
 
-  document.querySelector('.scroll-to').addEventListener('click', function (e) {
+  $('.scroll-to').on('click', function (e) {
     e.preventDefault()
 
     $('html, body').animate({
@@ -19,19 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
   // Change header download button color
 
   if (!$('body#enterprise').length) {
-    var intro = document.querySelector('.section.intro-section')
-    var offset = intro ? intro.offsetHeight : 50
-    var $downloadBtn = document.querySelector('.navbar-nav .button')
+    var introSectionHeight = $('.section.intro-section').outerHeight() || 50
+    var $downloadBtn = $('.navbar-nav').find('.button')
 
-    window.addEventListener('scroll', function () {
+    $window.on('scroll', function () {
       var scrollTop = $(this).scrollTop()
 
-      if (scrollTop > offset) {
-        $downloadBtn.classList.remove('button-dark')
-        $downloadBtn.classList.add('button-primary')
+      if (scrollTop > introSectionHeight) {
+        $downloadBtn.removeClass('button-dark').addClass('button-primary')
       } else {
-        $downloadBtn.classList.remove('button-primary')
-        $downloadBtn.classList.add('button-dark')
+        $downloadBtn.removeClass('button-primary').addClass('button-dark')
       }
     })
   }
@@ -179,8 +179,9 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   // Docs page navigation
-  if (document.getElementById('documentation') !== null) {
-    var $navItems = document.querySelectorAll('#documentation .page-navigation a')
+  if ($docs.length) {
+    var $nav = $docs.find('.page-navigation')
+    var $navItems = $nav.find('a')
     var hash = window.location.hash
 
     var setNavItemActive = function () {
@@ -188,14 +189,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (hash) {
-      Array.prototype.forEach.call($navItems, function (item) {
-        if (item.getAttribute('href').indexOf(hash) !== -1) {
+      $navItems.each(function () {
+        if ($(this).attr('href').indexOf(hash) !== -1) {
           setNavItemActive.call(this)
         }
       })
     }
 
-    $navItems.addEventListener('click', setNavItemActive)
+    $navItems.on('click', setNavItemActive)
   }
 
   // Analytics
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   analytics.track(
-    'Viewed ' + $.trim(document.title.split('|').shift()) + ' page'
+      'Viewed ' + $.trim(document.title.split('|').shift()) + ' page'
   )
 
   $('.plugin-plate-link').each(function () {
