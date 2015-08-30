@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugins - Request Size Limiting | Kong - Open-Source API and Microservice Management Layer</title>
+  <title>Downloads - OS X | Kong - Open-Source API and Microservice Management Layer</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API and Microservice Management Layer"/>
@@ -45,7 +45,7 @@
 </head>
 
 
-  <body id="page-plugin" >
+  <body id="page-install-method" >
     <div class="navbar">
   <div class="container">
     <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
@@ -70,32 +70,28 @@
 </div>
 
 
-    <div class="page page-plugin">
+    <div class="page page-install-method">
   
 <header class="page-header">
   <div class="container">
     
     <div class="page-header-icon">
-      <img src="/assets/images/icons/plugins/request-size-limiting.png" alt="" />
+      <img src="/assets/images/icons/icn-installation.svg" alt="" />
     </div>
     
     <div class="page-header-title">
       
       <ul class="breadcrumbs">
         
-        <li class="breadcrumb-item"><a href="/plugins">Plugins</a></li>
+        <li class="breadcrumb-item"><a href="/install">Installation</a></li>
         
       </ul>
       
 
-      <h1>Request Size Limiting</h1>
+      <h1>OS X Installation</h1>
       
     </div>
 
-    
-    <div class="page-header-right">
-      <a class="page-header-btn" href="https://github.com/Mashape/kong/issues/new" target="_blank">Report Bug</a>
-    </div>
     
   </div>
 </header>
@@ -103,56 +99,163 @@
 
 
   <div class="container">
-    <div class="content">
-      <div class="alert alert-warning">
-  For security reasons we suggest enabling this plugin for any API you add to Kong to prevent a DOS (Denial of Service) attack.
-</div>
+    <aside class="page-navigation">
+      <nav>
+        <h5>Source</h5>
 
-<p>Block incoming requests whose body is greater than a specific size in megabytes.</p>
+        <ul class="packages">
+          <li >
+            <a href="/install/compile/">Compile</a>
+          </li>
+        </ul>
+
+        <br/>
+
+        <h5>Packages</h5>
+
+        <ul class="packages">
+          
+            
+              <li >
+                <a href="/install/docker/">Docker</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/centos/">CentOS</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/debian/">Debian</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/ubuntu/">Ubuntu</a>
+              </li>
+            
+          
+            
+              <li class="active">
+                <a href="/install/osx/">OS X</a>
+              </li>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        </ul>
+
+        <br/>
+<!--
+        <h5>Cloud</h5>
+
+        <ul class="cloud">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              <li >
+                <a href="/install/aws/">Amazon AWS</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/azure/">Windows Azure</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/digital-ocean/">Digital Ocean</a>
+              </li>
+            
+          
+            
+          
+            
+              <li >
+                <a href="/install/google-cloud/">Google Cloud Platform</a>
+              </li>
+            
+          
+            
+              <li >
+                <a href="/install/heroku/">Heroku</a>
+              </li>
+            
+          
+            
+          
+        </ul>
+-->
+      </nav>
+    </aside>
+
+    <div class="page-content-container">
+      <div class="page-content">
+        <div class="content">
+          <h3 id="packages">Packages:</h3>
+
+<ul>
+<li><a href="https://github.com/Mashape/kong/releases/download/0.4.2/kong-0.4.2.osx.pkg">.pkg Installer</a></li>
+<li><a href="https://github.com/Mashape/homebrew-kong">Homebrew Formula</a></li>
+</ul>
 
 <hr>
 
-<h2 id="installation">Installation</h2>
+<h3 id="installation">Installation:</h3>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">requestsizelimiting</span>
-</code></pre></div>
-<p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
+<ol>
+<li><p><strong>Install the Package:</strong></p>
 
-<h2 id="configuration">Configuration</h2>
+<p><strong>Note</strong>: After downloading the <a href="#packages">Installer</a>, you will have to <strong>right click</strong>, select &quot;Open&quot; and authorize it.</p></li>
+<li><p><strong>Configure Cassandra</strong></p>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=requestsizelimiting&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.allowed_payload_size=128&quot;</span>
-</code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
+<p>Before starting Kong, make sure you have <a href="http://www.apache.org/dyn/closer.cgi?path=/cassandra/2.1/apache-cassandra-2.1-bin.tar.gz">installed</a> or <a href="http://kongdb.org">provisioned</a> Cassandra v2.1 and updated <a href="/docs/0.4.x/configuration/#databases_available.*"><code>/etc/kong/kong.yml</code></a>.</p></li>
+<li><p><strong>Start Kong:</strong></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>kong start
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>required</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td><em>required</em></td>
-<td>The name of the plugin to use, in this case: <code>requestsizelimiting</code></td>
-</tr>
-<tr>
-<td><code>consumer_id</code></td>
-<td><em>optional</em></td>
-<td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
-</tr>
-<tr>
-<td><code>value.allowed_payload_size</code></td>
-<td><em>optional</em></td>
-<td>Allowed request payload size in megabytes, default is <code>128</code> (128000000 Bytes)</td>
-</tr>
-</tbody></table>
+<span class="c"># Kong is running</span>
+<span class="nv">$ </span>curl 127.0.0.1:8001
+</code></pre></div></li>
+<li><p><strong>Use Kong:</strong></p>
 
+<p>Quickly learn how to use Kong with the <a href="/docs/0.4.x/getting-started/quickstart">5-minute Quickstart</a>.</p></li>
+</ol>
+
+
+          <hr/>
+
+          <div class="help">
+            <img align="middle" src="/assets/images/icons/icn-lifesaver.svg"/> Having Trouble? <a href="/community/">We're Here to Help!</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
