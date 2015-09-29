@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -107,13 +107,13 @@
 
   <div class="container">
     <div class="content">
-      <p>Rate limit how many HTTP requests a developer can make in a given period of seconds, minutes, hours, days months or years. If the API has no authentication layer, the <strong>Client IP</strong> address will be used, otherwise the Consumer will be used if an authentication plugin has been configured.</p>
+      <p>Rate limit how many HTTP requests a developer can make in a given period of seconds, minutes, hours, days, months or years. If the API has no authentication layer, the <strong>Client IP</strong> address will be used, otherwise the Consumer will be used if an authentication plugin has been configured.</p>
 
 <hr>
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ratelimiting</span>
 </code></pre></div>
@@ -121,11 +121,11 @@
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">&quot;name=ratelimiting&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.second=5&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.hour=10000&quot;</span>
+    --data <span class="s2">&quot;config.second=5&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.hour=10000&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -147,32 +147,32 @@
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
-<td><code>value.second</code></td>
+<td><code>config.second</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per second. At least one limit must exist.</td>
 </tr>
 <tr>
-<td><code>value.minute</code></td>
+<td><code>config.minute</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per minute. At least one limit must exist.</td>
 </tr>
 <tr>
-<td><code>value.hour</code></td>
+<td><code>config.hour</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per hour. At least one limit must exist.</td>
 </tr>
 <tr>
-<td><code>value.day</code></td>
+<td><code>config.day</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per day. At least one limit must exist.</td>
 </tr>
 <tr>
-<td><code>value.month</code></td>
+<td><code>config.month</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per month. At least one limit must exist.</td>
 </tr>
 <tr>
-<td><code>value.year</code></td>
+<td><code>config.year</code></td>
 <td><em>semi-optional</em></td>
 <td>The amount of HTTP requests the developer can make per year. At least one limit must exist.</td>
 </tr>
@@ -245,7 +245,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 

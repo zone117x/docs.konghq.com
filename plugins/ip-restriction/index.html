@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -113,19 +113,18 @@
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ip_restriction</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ip-restriction</span>
 </code></pre></div>
 <p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=ip_restriction&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.whitelist=54.13.21.1, 143.1.0.0/24&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.blacklist=184.31.52.75&quot;</span>
+    --data <span class="s2">&quot;name=ip-restriction&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.whitelist=54.13.21.1, 143.1.0.0/24&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -137,19 +136,19 @@
 </thead><tbody>
 <tr>
 <td><code>name</code></td>
-<td>The name of the plugin to use, in this case: <code>ip_restriction</code></td>
+<td>The name of the plugin to use, in this case: <code>ip-restriction</code></td>
 </tr>
 <tr>
 <td><code>consumer_id</code><br><em>optional</em></td>
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
-<td><code>value.whitelist</code><br><em>optional</em></td>
-<td>Comma separated list of IPs or CIDR ranges to whitelist.</td>
+<td><code>config.whitelist</code><br><em>semi-optional</em></td>
+<td>Comma separated list of IPs or CIDR ranges to whitelist. At least one between <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</td>
 </tr>
 <tr>
-<td><code>value.blacklist</code><br><em>optional</em></td>
-<td>Comma separated list of IPs or CIDR ranges to blacklist.</td>
+<td><code>config.blacklist</code><br><em>semi-optional</em></td>
+<td>Comma separated list of IPs or CIDR ranges to blacklist. At least one between <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</td>
 </tr>
 </tbody></table>
 
@@ -220,7 +219,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 

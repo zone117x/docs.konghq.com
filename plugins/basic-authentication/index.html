@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -107,15 +107,15 @@
 
   <div class="container">
     <div class="content">
-      <p>Add Basic Authentication to your APIs, with username and password protection.</p>
+      <p>Add Basic Authentication to your APIs, with username and password protection. The plugin will check for valid credentials in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order).</p>
 
 <hr>
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">basicauth</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">basic-auth</span>
 </code></pre></div>
 <p>Every node in the Kong cluster must have the same <code>plugins_available</code> property value.</p>
 
@@ -123,10 +123,10 @@
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=basicauth&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.hide_credentials=true&quot;</span>
+    --data <span class="s2">&quot;name=basic-auth&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.hide_credentials=true&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -138,10 +138,10 @@
 </thead><tbody>
 <tr>
 <td><code>name</code></td>
-<td>The name of the plugin to use, in this case: <code>basicauth</code></td>
+<td>The name of the plugin to use, in this case: <code>basic-auth</code></td>
 </tr>
 <tr>
-<td><code>value.hide_credentials</code></td>
+<td><code>config.hide_credentials</code></td>
 <td>Default <code>false</code>. An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request</td>
 </tr>
 </tbody></table>
@@ -154,7 +154,7 @@
 
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
-<p>You need to associate a credential to an existing <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
+<p>You need to associate a credential to an existing <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">&quot;username=user123&amp;custom_id=SOME_CUSTOM_ID&quot;</span> http://kong:8001/consumers/
 </code></pre></div>
 <table><thead>
@@ -173,16 +173,16 @@
 </tr>
 </tbody></table>
 
-<p>A <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
+<p>A <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
 
 <h3 id="create-a-basic-authentication-credential">Create a Basic Authentication credential</h3>
 
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basicauth <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
     --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
     --data <span class="s2">&quot;password=secret&quot;</span>
 </code></pre></div>
-<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
+<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
 
 <table><thead>
 <tr>
@@ -279,7 +279,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 

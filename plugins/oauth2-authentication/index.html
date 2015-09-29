@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -113,7 +113,7 @@
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">oauth2</span>
 </code></pre></div>
@@ -121,11 +121,11 @@
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">&quot;name=oauth2&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.scopes=email,phone,address&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.mandatory_scope=true&quot;</span>
+    --data <span class="s2">&quot;config.scopes=email,phone,address&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.mandatory_scope=true&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -142,42 +142,42 @@
 <td>The name of the plugin to use, in this case: <code>oauth2</code></td>
 </tr>
 <tr>
-<td><code>value.scopes</code></td>
+<td><code>config.scopes</code></td>
 <td><code>-</code></td>
 <td>Describes an array of comma separated scope names that will be available to the end user</td>
 </tr>
 <tr>
-<td><code>value.mandatory_scope</code><br><em>optional</em></td>
+<td><code>config.mandatory_scope</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value telling the plugin to require at least one scope to be authorized by the end user</td>
 </tr>
 <tr>
-<td><code>value.token_expiration</code><br><em>optional</em></td>
+<td><code>config.token_expiration</code><br><em>optional</em></td>
 <td><code>7200</code></td>
 <td>An optional integer value telling the plugin how long should a token last, after which the client will need to refresh the token. Set to <code>0</code> to disable the expiration.</td>
 </tr>
 <tr>
-<td><code>value.enable_authorization_code</code><br><em>optional</em></td>
+<td><code>config.enable_authorization_code</code><br><em>optional</em></td>
 <td><code>true</code></td>
 <td>An optional boolean value to enable the three-legged Authorization Code flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.1">RFC 6742 Section 4.1</a>)</td>
 </tr>
 <tr>
-<td><code>value.enable_client_credentials</code><br><em>optional</em></td>
+<td><code>config.enable_client_credentials</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value to enable the Client Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.4">RFC 6742 Section 4.4</a>)</td>
 </tr>
 <tr>
-<td><code>value.enable_implicit_grant</code><br><em>optional</em></td>
+<td><code>config.enable_implicit_grant</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value to enable the Implicit Grant flow which allows to provision a token as a result of the authorization process (<a href="https://tools.ietf.org/html/rfc6749#section-4.2">RFC 6742 Section 4.2</a>)</td>
 </tr>
 <tr>
-<td><code>value.enable_password_grant</code><br><em>optional</em></td>
+<td><code>config.enable_password_grant</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value to enable the Resource Owner Password Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC 6742 Section 4.3</a>)</td>
 </tr>
 <tr>
-<td><code>value.hide_credentials</code><br><em>optional</em></td>
+<td><code>config.hide_credentials</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request</td>
 </tr>
@@ -189,7 +189,7 @@
 
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
-<p>You need to associate a credential to an existing <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
+<p>You need to associate a credential to an existing <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
     --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
     --data <span class="s2">&quot;custom_id=SOME_CUSTOM_ID&quot;</span>
@@ -213,7 +213,7 @@
 </tr>
 </tbody></table>
 
-<p>A <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
+<p>A <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
 
 <h3 id="create-an-oauth-2-0-authentication-credential-application">Create an OAuth 2.0 Authentication credential/application</h3>
 
@@ -224,7 +224,7 @@
     --data <span class="s2">&quot;client_secret=SOME-CLIENT-SECRET&quot;</span> <span class="se">\</span>
     --data <span class="s2">&quot;redirect_uri=http://some-domain/endpoint/&quot;</span>
 </code></pre></div>
-<p><code>consumer_id</code>: The <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to</p>
+<p><code>consumer_id</code>: The <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to</p>
 
 <table><thead>
 <tr>
@@ -462,7 +462,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 

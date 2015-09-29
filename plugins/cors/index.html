@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -113,7 +113,7 @@
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cors</span>
 </code></pre></div>
@@ -121,15 +121,15 @@
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is as simple as a single API call, you can configure and enable it for your <a href="/docs/0.4.x/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is as simple as a single API call, you can configure and enable it for your <a href="/docs/0.5.x/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">&quot;name=cors&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.origin=mockbin.com&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.methods=GET, POST&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.headers=Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.exposed_headers=X-Auth-Token&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.credentials=true&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.max_age=3600&quot;</span>
+    --data <span class="s2">&quot;config.origin=mockbin.com&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.methods=GET, POST&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.headers=Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.exposed_headers=X-Auth-Token&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.credentials=true&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.max_age=3600&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -144,31 +144,31 @@
 <td>Name of the plugin to use, in this case: <code>cors</code></td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.origin</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.origin</code><br><em>optional</em></td>
 <td>Value for the <code>Access-Control-Allow-Origin</code> header, expects a <code>String</code>. Defaults to <code>*</code></td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.methods</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.methods</code><br><em>optional</em></td>
 <td>Value for the <code>Access-Control-Allow-Methods</code> header, expects a comma delimited string (e.g. <code>GET,POST</code>). Defaults to <code>GET,HEAD,PUT,PATCH,POST,DELETE</code>.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.headers</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.headers</code><br><em>optional</em></td>
 <td>Value for the <code>Access-Control-Allow-Headers</code> header, expects a comma delimited string (e.g. <code>Origin, Authorization</code>). Defaults to the value of the <code>Access-Control-Request-Headers</code> header.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.exposed_headers</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.exposed_headers</code><br><em>optional</em></td>
 <td>Value for the <code>Access-Control-Expose-Headers</code> header, expects a comma delimited string (e.g. <code>Origin, Authorization</code>). If not specified, no custom headers are exposed.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.credentials</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.credentials</code><br><em>optional</em></td>
 <td>Flag to determine whether the <code>Access-Control-Allow-Credentials</code> header should be sent with <code>true</code> as the value. Defaults to <code>false</code>.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.max_age</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.max_age</code><br><em>optional</em></td>
 <td>Indicated how long the results of the preflight request can be cached, in <code>seconds</code>.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>value.preflight_continue</code><br><em>optional</em></td>
+<td style="text-align: right"><code>config.preflight_continue</code><br><em>optional</em></td>
 <td>A boolean value that instructs the plugin to proxy the <code>OPTIONS</code> preflight request to the upstream API. Defaults to <code>false</code>.</td>
 </tr>
 </tbody></table>
@@ -240,7 +240,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 

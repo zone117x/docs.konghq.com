@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443223401"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443566800"/>
 </head>
 
 
@@ -60,7 +60,7 @@
         <li><a href="/docs/" >Docs</a></li>
         <li><a href="/plugins/" >Plugins</a></li>
         <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise Demo</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
         <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
         <li>
           <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -113,21 +113,21 @@
 
 <h2 id="installation">Installation</h2>
 
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.4.x/configuration">kong.yml</a> configuration file:</p>
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">httplog</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">http-log</span>
 </code></pre></div>
 <p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.4.x/admin-api/#api-object">API</a> (or <a href="/docs/0.4.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=httplog&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.http_endpoint=http://mockbin.org/bin/:id/&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.method=POST&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.timeout=1000&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;value.keepalive=1000&quot;</span>
+    --data <span class="s2">&quot;name=http-log&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.http_endpoint=http://mockbin.org/bin/:id/&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.method=POST&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.timeout=1000&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.keepalive=1000&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -139,26 +139,26 @@
 </thead><tbody>
 <tr>
 <td><code>name</code></td>
-<td>The name of the plugin to use, in this case: <code>httplog</code></td>
+<td>The name of the plugin to use, in this case: <code>http-log</code></td>
 </tr>
 <tr>
 <td><code>consumer_id</code><br><em>optional</em></td>
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
-<td><code>value.http_endpoint</code></td>
+<td><code>config.http_endpoint</code></td>
 <td>The HTTP endpoint (including the protocol to use) where to send the data to</td>
 </tr>
 <tr>
-<td><code>value.method</code></td>
+<td><code>config.method</code></td>
 <td>Default <code>POST</code>. An optional method used to send data to the http server, other supported values are PUT, PATCH</td>
 </tr>
 <tr>
-<td><code>value.timeout</code></td>
+<td><code>config.timeout</code></td>
 <td>Default <code>10000</code>. An optional timeout in milliseconds when sending data to the upstream server</td>
 </tr>
 <tr>
-<td><code>value.keepalive</code></td>
+<td><code>config.keepalive</code></td>
 <td>Default <code>60000</code>. An optional value in milliseconds that defines for how long an idle connection will live before being closed</td>
 </tr>
 </tbody></table>
@@ -199,8 +199,8 @@
         <span class="nt">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;2b64e2f0193851d4135a2e885cd08a65&quot;</span>
     <span class="p">},</span>
     <span class="nt">&quot;api&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;public_dns&quot;</span><span class="p">:</span> <span class="s2">&quot;test.com&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;target_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://mockbin.org/&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;request_host&quot;</span><span class="p">:</span> <span class="s2">&quot;test.com&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;upstream_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://mockbin.org/&quot;</span><span class="p">,</span>
         <span class="nt">&quot;created_at&quot;</span><span class="p">:</span> <span class="mi">1432855823000</span><span class="p">,</span>
         <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;test.com&quot;</span><span class="p">,</span>
         <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;fbaf95a1-cd04-4bf6-cb73-6cb3285fef58&quot;</span>
@@ -229,6 +229,10 @@
 <li><code>request</code> is the time elapsed between the first bytes were read from the client and after the last bytes were sent to the client. Useful for detecting slow clients.</li>
 </ul></li>
 </ul>
+
+<h1 id="note">Note</h1>
+
+<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.5.0/configuration/#nginx_working_dir">nginx_working_dir</a>}/logs/error.log</p>
 
     </div>
   </div>
@@ -297,7 +301,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443223401"></script>
+    <script src="/assets/app.js?v=1443566800"></script>
 
     <div id="fb-root"></div>
 
