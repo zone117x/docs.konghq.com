@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443570958"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443576807"/>
 </head>
 
 
@@ -107,34 +107,7 @@
 
   <div class="container">
     <div class="content">
-      <p>Add HMAC Signature Authentication to your APIs to establish the identity of consumer.</p>
-
-<h2 id="hmac-credentials">HMAC Credentials</h2>
-
-<p>The plugin will check for valid signature in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order). Plugin follows little modified version of the Internet Draft  <a href="https://tools.ietf.org/html/draft-cavage-http-signatures-00">draft-cavage-http-signatures-00</a> for signature creation. To generate the string that is signed with a secret shared between Consumer and Api Provider, the client must take the values of each HTTP header specified by <code>headers</code> in the order they appear.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">credentials := &quot;hmac&quot; params
-params :=  username &quot;,&quot;algorithm [&quot;, &quot; headers]&quot;, &quot; signature
-username := &quot;username&quot; &quot;=&quot; plain-string
-algorithm := &quot;algorithm&quot; &quot;=&quot; DQUOTE ( hmac-sha1 ) DQUOTE
-headers := &quot;headers&quot; &quot;=&quot; plain-string
-signature := &quot;signature&quot; &quot;=&quot; plain-string
-plain-string   = DQUOTE *( %x20-21 / %x23-5B / %x5D-7E ) DQUOTE
-</code></pre></div>
-<h3 id="hmac-signature-string-construction">HMAC Signature String Construction</h3>
-
-<ol>
-<li><p>If the header name is not <code>request-line</code> then append the lowercased header name followed with an ASCII colon <code>:</code> and an ASCII space &#39; &#39;.</p></li>
-<li><p>If the header name is <code>request-line</code> then appened the HTTP request line, otherwise append the header value.</p></li>
-<li><p>If value is not the last value then append an ASCII newline <code>\n</code>. The string MUST NOT include a trailing ASCII newline.</p></li>
-</ol>
-
-<p>ex.
-<code>bash
-PUT /path/ HTTP/1.0
-Content-Type: text/html
-Date: Fri, 18 Sep 2015 21:10:11 GMT
-Authorization:hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, headers=&quot;date&quot;, signature=&quot;BxjR4DLoxQ/seZvPBwy8gso6U+o=&quot;
-</code></p>
+      <p>Add HMAC Signature Authentication to your APIs to establish the identity of the consumer. The plugin will check for valid signature in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order), following the <a href="https://tools.ietf.org/html/draft-cavage-http-signatures-00">draft-cavage-http-signatures-00</a> draft (without extensions support, and only support for HMAC-SHA1).</p>
 
 <hr>
 
@@ -150,11 +123,9 @@ Authorization:hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, he
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> (or <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=hmac-auth&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.hide_credentials=true&quot;</span>
-    --data <span class="s2">&quot;config.clock_skew=&lt;in seconds&gt;&quot;</span>
+    --data <span class="s2">&quot;name=hmac-auth&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -169,12 +140,12 @@ Authorization:hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, he
 <td>The name of the plugin to use, in this case: <code>hmac-auth</code></td>
 </tr>
 <tr>
-<td><code>config.hide_credentials</code></td>
+<td><code>config.hide_credentials</code><br><em>optional</em></td>
 <td>Default <code>false</code>. An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request</td>
 </tr>
 <tr>
-<td><code>config.clock_skew</code></td>
-<td>Default <code>300</code>. Clock Skew in second to prevent replay attack</td>
+<td><code>config.clock_skew</code><br><em>optional</em></td>
+<td>Default <code>300</code>. Clock Skew in seconds to prevent replay attacks.</td>
 </tr>
 </tbody></table>
 
@@ -212,7 +183,7 @@ Authorization:hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, he
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/hmac-auth <span class="se">\</span>
     --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;secret=somethinglong&quot;</span>
+    --data <span class="s2">&quot;secret=secret456&quot;</span>
 </code></pre></div>
 <p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
 
@@ -311,7 +282,7 @@ Authorization:hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, he
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443570958"></script>
+    <script src="/assets/app.js?v=1443576807"></script>
 
     <div id="fb-root"></div>
 
