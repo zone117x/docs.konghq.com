@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443579508"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443603728"/>
 </head>
 
 
@@ -97,8 +97,10 @@
 
       
         <div class="page-header-right">
-          <a class="page-header-btn" href="https://github.com/Mashape/kong/issues/new" target="_blank">Report Bug</a>
+          <a class="page-header-btn" href="mailto:support@mashape.com?subject=HMAC Authentication Plugin Bug" target="_blank">Report Bug</a>
         </div>
+      
+
       
     </div>
   </header>
@@ -106,8 +108,65 @@
 
 
   <div class="container">
-    <div class="content">
-      <p>Add HMAC Signature Authentication to your APIs to establish the identity of the consumer. The plugin will check for valid signature in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order), following the <a href="https://tools.ietf.org/html/draft-cavage-http-signatures-00">draft-cavage-http-signatures-00</a> draft (without extensions support, and only support for HMAC-SHA1).</p>
+    <aside class="page-navigation">
+
+      
+        <nav>
+          
+            <h5>Getting Started</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#installation">Installation</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#configuration">Configuration</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+        <nav>
+          
+            <h5>Usage</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#create-a-consumer">Create a Consumer</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#create-a-credential">Create a Credential</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#upstream-headers">Upstream Headers</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </aside>
+
+    <div class="page-content-container">
+      <div class="page-content">
+        <div class="content">
+          <p>Add HMAC Signature Authentication to your APIs to establish the identity of the consumer. The plugin will check for valid signature in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order), following the <a href="https://tools.ietf.org/html/draft-cavage-http-signatures-00">draft-cavage-http-signatures-00</a> draft (without extensions support, and only support for HMAC-SHA1).</p>
 
 <hr>
 
@@ -118,8 +177,6 @@
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">hmac-auth</span>
 </code></pre></div>
 <p>Every node in the Kong cluster must have the same <code>plugins_available</code> property value.</p>
-
-<hr>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -178,7 +235,7 @@
 
 <p>A <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
 
-<h3 id="create-a-hmac-authentication-credential">Create a HMAC Authentication credential</h3>
+<h3 id="create-a-credential">Create a Credential</h3>
 
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/hmac-auth <span class="se">\</span>
@@ -203,7 +260,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="headers-sent-to-the-upstream-server">Headers sent to the upstream server</h2>
+<h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/Microservice, so that you can identify the consumer in your code:</p>
 
@@ -215,6 +272,8 @@
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
 
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -282,7 +341,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443579508"></script>
+    <script src="/assets/app.js?v=1443603728"></script>
 
     <div id="fb-root"></div>
 

@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443579508"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443603728"/>
 </head>
 
 
@@ -97,8 +97,10 @@
 
       
         <div class="page-header-right">
-          <a class="page-header-btn" href="https://github.com/Mashape/kong/issues/new" target="_blank">Report Bug</a>
+          <a class="page-header-btn" href="mailto:support@mashape.com?subject=Key Authentication Plugin Bug" target="_blank">Report Bug</a>
         </div>
+      
+
       
     </div>
   </header>
@@ -106,30 +108,81 @@
 
 
   <div class="container">
-    <div class="content">
-      <p>Add Key Authentication (also referred to as an API key) to your APIs. Consumers then add their key either in a querystring parameter or a header to authenticate their requests.</p>
+    <aside class="page-navigation">
+
+      
+        <nav>
+          
+            <h5>Getting Started</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#terminology">Terminology</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#installation">Installation</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#configuration">Configuration</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+        <nav>
+          
+            <h5>Usage</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#create-a-consumer">Create a Consumer</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#create-an-api-key">Create an API Key</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#using-the-api-key">Using the API Key</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#upstream-headers">Upstream Headers</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </aside>
+
+    <div class="page-content-container">
+      <div class="page-content">
+        <div class="content">
+          <p>Add Key Authentication (also referred to as an API key) to your APIs. Consumers then add their key either in a querystring parameter or a header to authenticate their requests.</p>
 
 <hr>
 
-<h2 id="summary">Summary</h2>
-
-<ul>
-<li>1. <a href="#1.-terminology">Terminology</a></li>
-<li>2. <a href="#2.-installation">Installation</a></li>
-<li>3. <a href="#3.-configuration">Configuration</a></li>
-<li>4. <a href="#4.-usage">Usage</a>
-
-<ul>
-<li><a href="#create-a-consumer">Create a Consumer</a></li>
-<li><a href="#create-an-api-key">Create an API key</a></li>
-<li><a href="#send-the-api-key-in-a-request">Send the API key in a request</a></li>
-</ul></li>
-<li>5. <a href="#5.-headers-sent-to-the-upstream-service">Headers sent to the upstream service</a></li>
-</ul>
-
-<hr>
-
-<h2 id="1-terminology">1. Terminology</h2>
+<h2 id="terminology">Terminology</h2>
 
 <ul>
 <li><code>api</code>: your upstream service placed behind Kong, for which Kong proxies requests to.</li>
@@ -140,7 +193,7 @@
 
 <hr>
 
-<h2 id="2-installation">2. Installation</h2>
+<h2 id="installation">Installation</h2>
 
 <p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
@@ -150,7 +203,7 @@
 
 <hr>
 
-<h2 id="3-configuration">3. Configuration</h2>
+<h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
@@ -180,7 +233,7 @@
 
 <hr>
 
-<h2 id="4-usage">4. Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>In order to use the plugin, you first need to create a Consumer to associate one or more credentials to. The Consumer represents a developer using the final service/API.</p>
 
@@ -210,7 +263,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <p>A <a href="/docs/0.5.x/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
 
-<h3 id="create-a-key-authentication-credential">Create a Key Authentication credential</h3>
+<h3 id="create-an-api-key">Create an API Key</h3>
 
 <p>You can provision new credentials by making the following HTTP request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth
@@ -241,7 +294,7 @@ HTTP/1.1 <span class="m">201</span> Created
   <strong>Note:</strong> It is recommended to let Kong auto-generate the key. Only specify it yourself if you are migrating an existing system to Kong, and must re-use your keys to make the migration to Kong transparent to your consumers.
 </div>
 
-<h3 id="use-the-key-in-a-request">Use the key in a request</h3>
+<h3 id="using-the-api-key">Using the API Key</h3>
 
 <p>Simply make a request with the key as a querystring parameter:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span>?apikey<span class="o">=</span>&lt;some_key&gt;
@@ -250,9 +303,7 @@ HTTP/1.1 <span class="m">201</span> Created
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">&#39;apikey: &lt;some_key&gt;&#39;</span>
 </code></pre></div>
-<hr>
-
-<h2 id="5-headers-sent-to-the-upstream-server">5. Headers sent to the upstream server</h2>
+<h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/Microservice, so that you can identify the Consumer in your code:</p>
 
@@ -264,6 +315,8 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
 
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -331,7 +384,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443579508"></script>
+    <script src="/assets/app.js?v=1443603728"></script>
 
     <div id="fb-root"></div>
 

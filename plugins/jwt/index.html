@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443579508"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443603728"/>
 </head>
 
 
@@ -97,8 +97,10 @@
 
       
         <div class="page-header-right">
-          <a class="page-header-btn" href="https://github.com/Mashape/kong/issues/new" target="_blank">Report Bug</a>
+          <a class="page-header-btn" href="mailto:support@mashape.com?subject=JWT Plugin Bug" target="_blank">Report Bug</a>
         </div>
+      
+
       
     </div>
   </header>
@@ -106,32 +108,93 @@
 
 
   <div class="container">
-    <div class="content">
-      <p>Verify HMAC SHA-256 signed JSON Web Tokens (as specified in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) and proxy them to your upstream services if valid. Tokens can be passed through the <code>Authorization</code> header or in the request&#39;s URL. Each of your Consumers will have a unique <code>secret</code>, used to sign a JWT, and a unique <code>key</code>, used by Kong to try to verify a given JWT.</p>
+    <aside class="page-navigation">
+
+      
+        <nav>
+          
+            <h5>Getting Started</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#terminology">Terminology</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#installation">Installation</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#configuration">Configuration</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+        <nav>
+          
+            <h5>Usage</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#create-a-consumer">Create a Consumer</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#create-a-jwt-credential">Create a JWT credential</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#craft-a-jwt">Craft a JWT</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#send-the-jwt">Send the JWT</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#verified-claims">Verified claims</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#upstream-headers">Upstream Headers</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </aside>
+
+    <div class="page-content-container">
+      <div class="page-content">
+        <div class="content">
+          <p>Verify HMAC SHA-256 signed JSON Web Tokens (as specified in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) and proxy them to your upstream services if valid. Tokens can be passed through the <code>Authorization</code> header or in the request&#39;s URL. Each of your Consumers will have a unique <code>secret</code>, used to sign a JWT, and a unique <code>key</code>, used by Kong to try to verify a given JWT.</p>
 
 <hr>
 
-<h2 id="summary">Summary</h2>
-
-<ul>
-<li>1. <a href="#1.-terminology">Terminology</a></li>
-<li>2. <a href="#2.-installation">Installation</a></li>
-<li>3. <a href="#3.-configuration">Configuration</a></li>
-<li>4. <a href="#4.-usage">Usage</a>
-
-<ul>
-<li><a href="#create-a-consumer">Create a Consumer</a></li>
-<li><a href="#create-a-jwt-credential">Create a JWT credential</a></li>
-<li><a href="#craft-a-jwt">Craft a JWT</a></li>
-<li><a href="#send-the-jwt">Send the JWT</a></li>
-<li><a href="#(option)-verified-claims">Verified claims</a></li>
-</ul></li>
-<li>5. <a href="#5.-headers-sent-to-the-upstream-service">Headers sent to the upstream service</a></li>
-</ul>
-
-<hr>
-
-<h2 id="1-terminology">1. Terminology</h2>
+<h2 id="terminology">Terminology</h2>
 
 <ul>
 <li><code>api</code>: your upstream service placed behind Kong, for which Kong proxies requests to.</li>
@@ -140,9 +203,7 @@
 <li><code>credential</code>: in the JWT plugin context, a pair of unique values consisting of a public key and a secret, used to sign and verify a JWT, and associated to a consumer.</li>
 </ul>
 
-<hr>
-
-<h2 id="2-installation">2. Installation</h2>
+<h2 id="installation">Installation</h2>
 
 <p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/0.5.x/configuration">kong.yml</a> configuration file:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
@@ -150,9 +211,7 @@
 </code></pre></div>
 <p>Every node in the Kong cluster must have the same <code>plugins_available</code> property value.</p>
 
-<hr>
-
-<h2 id="3-configuration">3. Configuration</h2>
+<h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/0.5.x/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
@@ -182,7 +241,7 @@
 
 <hr>
 
-<h2 id="4-usage">4. Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>In order to use the plugin, you first need to create a consumer to associate one or more credentials to it. The consumer represents a developer using the final service/API.</p>
 
@@ -340,9 +399,7 @@ HTTP/1.1 <span class="m">201</span> Created
 </tr>
 </tbody></table>
 
-<hr>
-
-<h2 id="5-headers-sent-to-the-upstream-service">5. Headers sent to the upstream service</h2>
+<h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a JWT is valid, a consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/service, so that you can identify the consumer in your code:</p>
 
@@ -354,6 +411,8 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the consumer.</p>
 
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -421,7 +480,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443579508"></script>
+    <script src="/assets/app.js?v=1443603728"></script>
 
     <div id="fb-root"></div>
 
