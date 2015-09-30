@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443576860"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1443579508"/>
 </head>
 
 
@@ -146,6 +146,11 @@
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
+<td><code>config.header_name</code></td>
+<td><em>optional</em></td>
+<td>The name of the response header used to increment the counters. By default is <code>X-Kong-Limit</code>.</td>
+</tr>
+<tr>
 <td><code>config.limits.{limit_name}</code></td>
 <td><em>required</em></td>
 <td>This is a list of custom objects that you can set on the API, with arbitrary names set in the <code>{limit_name</code>} placeholder, like <code>config.limits.sms.minute=20</code> if your object is called &quot;SMS&quot;.</td>
@@ -181,6 +186,18 @@
 <td>The amount of HTTP requests the developer can make per year. At least one limit must exist.</td>
 </tr>
 </tbody></table>
+
+<h2 id="usage">Usage</h2>
+
+<p>After adding the plugin, you can increment the configured limits by adding the following response header:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Header-Name: Limit=Value [,Limit=Value]
+</code></pre></div>
+<p>like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-Kong-Limit: limitname1=2, limitname2=4
+</code></pre></div>
+<p>That will increment the limit <code>limitname1</code> by 2 units, and <code>limitname2</code> by 4 units.</p>
+
+<p>You can optionally increment more than one limit by comma separating the entries. The header will be removed before returning the response to the original client.</p>
 
     </div>
   </div>
@@ -249,7 +266,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443576860"></script>
+    <script src="/assets/app.js?v=1443579508"></script>
 
     <div id="fb-root"></div>
 
