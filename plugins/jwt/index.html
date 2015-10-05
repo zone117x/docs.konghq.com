@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1443913664"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1444068757"/>
 </head>
 
 
@@ -125,12 +125,6 @@
               </li>
             
               <li>
-                <a href="#use-case">Use Case</a>
-
-                
-              </li>
-            
-              <li>
                 <a href="#installation">Installation</a>
 
                 
@@ -196,7 +190,7 @@
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Verify HMAC SHA-256 signed JSON Web Tokens (as specified in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) and proxy them to your upstream services if valid. Tokens can be passed through the <code>Authorization</code> header or in the request&#39;s URL. Each of your Consumers will have a unique <code>secret</code>, used to sign a JWT, and a unique <code>key</code>, used by Kong to try to verify a given JWT.</p>
+          <p>Verify HMAC SHA-256 signed JSON Web Tokens (as specified in RFC 7519) and proxy them to your upstream services if they validate. Each of your Consumers will have a couple of public and secret keys provided by Kong and used to sign their JWTs. A token can then be passed through the Authorization header or in the request&#39;s URL and Kong will either proxy the request to your upstream services if the token&#39;s signature is verified, or discard the request if not. Kong can also perform verifications on some of the registered claims of RFC 7519 (exp and nbf).</p>
 
 <hr>
 
@@ -208,10 +202,6 @@
 <li><code>consumer</code>: a developer or service using the api. When using Kong, a consumer only communicates with Kong which proxies every call to the said, upstream api.</li>
 <li><code>credential</code>: in the JWT plugin context, a pair of unique values consisting of a public key and a secret, used to sign and verify a JWT, and associated to a consumer.</li>
 </ul>
-
-<h2 id="use-case">Use Case</h2>
-
-<p>A client would simply send a JWT signed with a secret retrieved by Kong, along with the username (eventually in the JWT claims) to Kong, and Kong would validate it. If it is valid, Kong forwards it to the upstream API, if not, Kong discards it</p>
 
 <h2 id="installation">Installation</h2>
 
@@ -493,7 +483,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1443913664"></script>
+    <script src="/assets/app.js?v=1444068757"></script>
 
     <div id="fb-root"></div>
 
