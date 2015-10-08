@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugins - ACL | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Tutorials | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -46,7 +46,7 @@
 </head>
 
 
-  <body id="page-plugin" >
+  <body id="page-community" >
     <div class="navbar">
   <div class="container">
     <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
@@ -71,34 +71,26 @@
 </div>
 
 
-    <div class="page page-plugin">
+    <div class="page page-community">
   
   <header class="page-header">
     <div class="container">
       
         <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/acl.png" alt="" />
+          <img src="/assets/images/icons/icn-community.svg" alt="" />
         </div>
       
 
       <div class="page-header-title">
         
-          <ul class="breadcrumbs">
-            
-              <li class="breadcrumb-item"><a href="/plugins">Plugins</a></li>
-            
-          </ul>
+
+        <h1>Tutorials</h1>
+
         
-
-        <h1>ACL</h1>
-
+          <p>Be part part of the movement and join the growing Kong community</p>
         
       </div>
 
-      
-        <div class="page-header-right">
-          <a class="page-header-btn" href="mailto:support@mashape.com?subject=ACL Plugin Bug" target="_blank">Report Bug</a>
-        </div>
       
 
       
@@ -108,123 +100,31 @@
 
 
   <div class="container">
-    <aside class="page-navigation">
+    <div class="content">
+      <div class="row">
+  <div class="community-plate column one-half">
+    <div class="community-plate-header"><h4>Development</h4></div>
+    <div class="community-plate-content">
+      <ul>
+        
+      </ul>
+    </div>
+  </div>
 
-      
-        <nav>
-          
-            <h5>Getting Started</h5>
-          
+  <div class="community-plate column one-half">
+    <div class="community-plate-header"><h4>Deployment</h4></div>
+    <div class="community-plate-content">
+      <ul>
+        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-          <ul>
-            
-              <li>
-                <a href="#installation">Installation</a>
-
-                
-              </li>
-            
-              <li>
-                <a href="#configuration">Configuration</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
-      
-        <nav>
-          
-            <h5>Usage</h5>
-          
-
-          <ul>
-            
-              <li>
-                <a href="#associating-consumers">Associating Consumers</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
-      
-    </aside>
-
-    <div class="page-content-container">
-      <div class="page-content">
-        <div class="content">
-          <p>Restrict access to an API by whitelisting or blacklisting consumers using arbitrary ACL group names. This plugin requires an <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication plugin</a> to have been already enabled on the API.</p>
-
-<hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">acl</span>
-</code></pre></div>
-<p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
-
-<h2 id="configuration">Configuration</h2>
-
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=acl&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.whitelist=group1, group2&quot;</span>
-</code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
-
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The name of the plugin to use, in this case: <code>acl</code></td>
-</tr>
-<tr>
-<td><code>config.whitelist</code><br><em>semi-optional</em></td>
-<td>Comma separated list of arbitrary group names that are allowed to consume the API. At least one between <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</td>
-</tr>
-<tr>
-<td><code>config.blacklist</code><br><em>semi-optional</em></td>
-<td>Comma separated list of arbitrary group names that are not allowed to consume the API. At least one between <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</td>
-</tr>
-</tbody></table>
-
-<hr>
-
-<h2 id="usage">Usage</h2>
-
-<p>In order to use this plugin, you need to properly have configured your APIs with an <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication plugin</a> so that the plugin can identify who is the client <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> making the request.</p>
-
-<h3 id="associating-consumers">Associating Consumers</h3>
-
-<p>Once you have added an authentication plugin to an API, and you have created your <a href="/docs/latest/admin-api/#consumer-object">Consumers</a>, you can now associate a group to a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> using the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/acls <span class="se">\</span>
-    --data <span class="s2">&quot;group=group1&quot;</span>
-</code></pre></div>
-<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
-
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>group</code></td>
-<td>The arbitrary group name to associate to the consumer.</td>
-</tr>
-</tbody></table>
-
-<p>You can have more than one group associated to a consumer.</p>
-
-        </div>
-      </div>
     </div>
   </div>
 </div>
