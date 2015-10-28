@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Tutorials | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Plugins - Galileo | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -42,11 +42,11 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1446042137"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1446067369"/>
 </head>
 
 
-  <body id="page-community" >
+  <body id="page-plugin" >
     <div class="navbar">
   <div class="container">
     <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
@@ -71,26 +71,34 @@
 </div>
 
 
-    <div class="page page-community">
+    <div class="page page-plugin">
   
   <header class="page-header">
     <div class="container">
       
         <div class="page-header-icon">
-          <img src="/assets/images/icons/icn-community.svg" alt="" />
+          <img src="/assets/images/icons/plugins/galileo.png" alt="" />
         </div>
       
 
       <div class="page-header-title">
         
-
-        <h1>Tutorials</h1>
-
+          <ul class="breadcrumbs">
+            
+              <li class="breadcrumb-item"><a href="/plugins">Plugins</a></li>
+            
+          </ul>
         
-          <p>Be part part of the movement and join the growing Kong community</p>
+
+        <h1>Galileo</h1>
+
         
       </div>
 
+      
+        <div class="page-header-right">
+          <a class="page-header-btn" href="mailto:support@mashape.com?subject=Galileo Plugin Bug" target="_blank">Report Bug</a>
+        </div>
       
 
       
@@ -100,31 +108,97 @@
 
 
   <div class="container">
-    <div class="content">
-      <div class="row">
-  <div class="community-plate column one-half">
-    <div class="community-plate-header"><h4>Development</h4></div>
-    <div class="community-plate-content">
-      <ul>
-        
-      </ul>
-    </div>
-  </div>
+    <aside class="page-navigation">
 
-  <div class="community-plate column one-half">
-    <div class="community-plate-header"><h4>Deployment</h4></div>
-    <div class="community-plate-content">
-      <ul>
-        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
-        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
-        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
-        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
-        <li><a href="https://groups.google.com/forum/#!forum/konglayer">Join us in the Google Group and browse existing discussions.</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+      
+        <nav>
+          
+            <h5>Getting Started</h5>
+          
 
+          <ul>
+            
+              <li>
+                <a href="#installation">Installation</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#configuration">Configuration</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+    </aside>
+
+    <div class="page-content-container">
+      <div class="page-content">
+        <div class="content">
+          <p>Logs your traffic to <a href="https://apianalytics.com">Galileo</a>. (There is a FREE plan with 24h data retention)</p>
+
+<hr>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mashape-analytics</span>
+</code></pre></div>
+<p>Every node in the Kong cluster must have the same <code>plugins_available</code> property value.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/ <span class="se">\</span>
+    --data <span class="s2">&quot;name=mashape-analytics&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.service_token=YOUR_SERVICE_TOKEN&quot;</span>
+</code></pre></div>
+<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
+
+<table><thead>
+<tr>
+<th>parameter</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>name</code></td>
+<td>The name of the plugin to use, in this case: <code>mashape-analytics</code></td>
+</tr>
+<tr>
+<td><code>consumer_id</code><br><em>optional</em></td>
+<td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
+</tr>
+<tr>
+<td><code>config.service_token</code></td>
+<td>The service token provided to you by <a href="https://apianalytics.com">Mashape Analytics</a></td>
+</tr>
+<tr>
+<td><code>config.batch_size</code></td>
+<td>Default: <code>100</code>. The size at which the buffer gets emptied and sent to Mashape Analytics</td>
+</tr>
+<tr>
+<td><code>config.log_body</code></td>
+<td>Default: <code>false</code>. Wether or not the request and response bodies should be sent to Mashape Analytics</td>
+</tr>
+<tr>
+<td><code>config.delay</code></td>
+<td>Default: <code>2</code>. The maximum time (in seconds) before the buffer gets sent if no calls are received during that period</td>
+</tr>
+<tr>
+<td><code>config.environment</code><br><em>optional</em></td>
+<td>A string describing your application environment</td>
+</tr>
+</tbody></table>
+
+<p><strong>Note</strong>: If you are enabling the <code>log_body</code> option, make sure the buffer size never exceeds 1Mb, or the Mashape Analytics server will refuse the batch. You can ensure this by setting a lower <code>batch_size</code> value.`</p>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -195,7 +269,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1446042137"></script>
+    <script src="/assets/app.js?v=1446067369"></script>
 
     <div id="fb-root"></div>
 
