@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1445887517"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1446011318"/>
 </head>
 
 
@@ -337,13 +337,19 @@ request line, otherwise append the header value.</p></li>
 The string MUST NOT include a trailing ASCII newline.</p></li>
 </ol>
 
+<h3 id="clock-skew">Clock Skew</h3>
+
+<p>The HMAC Authentication plugin also implements a clock skew check <a href="https://tools.ietf.org/html/draft-cavage-http-signatures-00#section-3.4">as described in the specification</a> to prevent replay attacks. By default, a minimum lag of 300s in either direction (past/future) is allowed. Any request with a higher or lower date value will be rejected. The length of the clock skew can be edited through the plugin&#39;s configuration by setting <code>clock_skew</code> property (<code>config.clock_skew</code> POST parameters).</p>
+
+<p>The server and requesting client should be synchronized with NTP and a valid date (using GMT format) should be sent with either the <code>X-Date</code> or <code>Date</code> header.</p>
+
 <h3 id="hmac-example">HMAC Example</h3>
 
 <p>For an HMAC signature with <code>date</code> and <code>content-md5</code> headers, the <code>Proxy-Authorization</code> or <code>Authorization</code> header and signature would be generated as:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Authorization: hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, headers=&quot;date content-md5&quot;, signature=&quot;Base64(HMAC-SHA1(signing string))&quot;
 </code></pre></div>
 <p>The client would compose the signing string as:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">date: Fri, 09 Oct 2015 00:00:00 GMT\ncontent-md5: lCMsW4/JJy9vc6HjbraPzw==  
+<div class="highlight"><pre><code class="language-text" data-lang="text">date: Fri, 09 Oct 2015 00:00:00 GMT\ncontent-md5: lCMsW4/JJy9vc6HjbraPzw==
 </code></pre></div>
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -430,9 +436,11 @@ The string MUST NOT include a trailing ASCII newline.</p></li>
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1445887517"></script>
+    <script src="/assets/app.js?v=1446011318"></script>
 
     <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" target="_blank"></a>
 
     <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
     <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
