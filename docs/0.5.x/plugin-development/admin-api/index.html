@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Plugin Development - Extending the Admin API - v0.5.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="http://getkong.org"/>
+  <meta property="og:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://getkong.org/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://getkong.org"/>
+  <meta name="twitter:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://getkong.org/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://getkong.org",
+      "logo": "https://getkong.org/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1446178385"/>
+</head>
+
+
+  <body id="documentation" >
+    <div class="navbar">
+  <div class="container">
+    <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+    <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+    <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+    </button>
+    <nav id="navbar" class="navbar-nav">
+      <ul>
+        <li><a href="/about/" >About</a></li>
+        <li><a href="/docs/"  class="active">Docs</a></li>
+        <li><a href="/plugins/" >Plugins</a></li>
+        <li><a href="/community/" >Community</a></li>
+        <li><a href="/enterprise/" >Enterprise</a></li>
+        <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+        <li>
+          <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="Documentation" />
+    </div>
+    <div class="page-header-title">
+      <h1>Documentation</h1>
+      <p>Learn how Kong empowers your APIs</p>
+    </div>
+
+    
+      <div class="dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version 0.5.x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+              <li>
+                <a href="/docs/0.2.0-2">
+                  0.2.0-2
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.2.x">
+                  0.2.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.3.x">
+                  0.3.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.4.x">
+                  0.4.x
+                  
+                </a>
+              </li>
+            
+          
+            
+          
+        </ul>
+      </div>
+    
+  </div>
+</header>
+
+<div class="container">
+  <aside class="page-navigation">
+    
+
+    
+    <nav>
+      
+      <h5>Getting Started</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/getting-started/introduction" >Introduction</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/getting-started/quickstart" >Five-minute quickstart</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/getting-started/adding-your-api" >Adding your API</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/getting-started/enabling-plugins" >Enabling Plugins</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/getting-started/adding-consumers" >Adding Consumers</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <h5>Guides</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/configuration" >Configuration reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/cli" >CLI reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/proxy" >Proxy reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/lua-reference/" >Public Lua API reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/plugin-development" >Plugin Development Guide</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development" >Introduction</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/file-structure" >File structure</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/custom-logic" >Implement custom logic</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/plugin-configuration" >Plugin configuration</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/access-the-datastore" >Access the datastore</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/custom-entities" >Store custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/admin-api" class="active">Extending the Admin API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/tests" >Writing tests</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/plugin-development/distribution" >Distribute your plugin</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <a href="/docs/0.5.x/admin-api/"><h5>Admin API</h5></a>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/admin-api/#supported-content-types" >Supported Content Types</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/admin-api/#informations-routes" >Informations routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-node-informations" >Retrieve node informations</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/admin-api/#api-object" >API Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#add-api" >Add API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-api" >Retrieve API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#list-apis" >List APIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-api" >Update API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-or-create-api" >Update or create API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#delete-api" >Delete API</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/admin-api/#consumer-object" >Consumer Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#create-consumer" >Create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#list-consumers" >List Consumers</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-consumer" >Update Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#delete-consumer" >Delete Consumer</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.5.x/admin-api/#plugin-object" >Plugin Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#add-plugin" >Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#list-all-plugins" >List all Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-plugin" >Update Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#delete-plugin" >Delete Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.5.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        
+
+      <h1 id="plugin-development-extending-the-admin-api">Plugin Development - Extending the Admin API</h1>
+
+<h4 id="module">Module</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.api&quot;
+</code></pre></div>
+<hr>
+
+<p>The <a href="/docs/0.5.x/admin-api/">Admin API</a> is the interface through which users will configure Kong. If your plugin has custom entities or management requirements, then you will need to extend the Admin API. This allows you to expose your own endpoints and implement your own management logic. A typical example of this is the creation, retrieval and deletion (commonly referred to as &quot;CRUD operations&quot;) of API keys.</p>
+
+<p>The Admin API is a <a href="http://leafo.net/lapis/">Lapis</a> application, and Kong&#39;s level of abstraction makes it easy for you to add endpoints.</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This chapter assumes that you have a relative knowledge of <a href="http://leafo.net/lapis/">Lapis</a>.
+</div>
+
+<hr>
+
+<h3 id="adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</h3>
+
+<p>Kong will detect and load your endpoints if they are defined in a module named:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.api&quot;
+</code></pre></div>
+<p>This module is bound to return a table containing strings describing your routes (See <a href="http://leafo.net/lapis/reference/actions.html#routes--url-patterns">Lapis routes &amp; URL Patterns</a>) and HTTP verbs they support. Routes are then assigned a simple handler function.</p>
+
+<p>This table is then fed to Lapis (See Lapis&#39; <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">handling HTTP verbs documentation</a>). Example:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">&quot;</span><span class="s">/my-plugin/new/get/endpoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="c1">-- ...</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The handler function takes three arguments, which are, in order:</p>
+
+<ul>
+<li><code>self</code>: The request object. See <a href="http://leafo.net/lapis/reference/actions.html#request-object">Lapis request object</a></li>
+<li><code>dao_factory</code>: The DAO Factory. See the <a href="/docs/0.5.x/plugin-development/access-the-datastore/">datastore</a> chapter of this guide.</li>
+<li><code>helpers</code>: A table containing a few helpers, described below.</li>
+</ul>
+
+<p>In addition to the HTTPS verbs it supports, a route table can also contain two other keys:</p>
+
+<ul>
+<li><strong>before</strong>: as in <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">Lapis</a>, a before_filter that runs before the executed verb action.</li>
+<li><strong>on_error</strong>: a custom error handler function that overrides the one provided by Kong. See Lapis&#39; <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">capturing recoverable errors</a> documentation.</li>
+</ul>
+
+<hr>
+
+<h3 id="helpers">Helpers</h3>
+
+<p>When handling a request on the Admin API, there are times when you want to send back responses and handle errors, to help you do so the third parameter <code>helpers</code> is a table with the following properties:</p>
+
+<ul>
+<li><code>responses</code>: a module with helper functions to send HTTP responses. See <a href="/docs/0.5.x/lua-reference/modules/kong.tools.responses">kong.tools.responses</a>.</li>
+<li><code>yield_error</code>: the <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">yield_error</a> function from Lapis. To call when your handler encounters an error (from a DAO, for example). Since all Kong errors are tables with context, it can send the appropriate response code depending on the error (Internal Server Error, Bad Request, etc...).</li>
+</ul>
+
+<h4 id="crud_helpers">crud_helpers</h4>
+
+<p>Since most of the operations you will perform in your endpoints will be CRUD operations, you can also use the <code>kong.api.crud_helpers</code> module. This module provides you with helpers for any insert, retrieve, update or delete operations and performs the necessary DAO operations and replies with the appropriate HTTP status codes. It also provides you with functions to retrieve parameters from the path, such as an API&#39;s name or id, or a Consumer&#39;s username or id.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.api.crud_helpers&quot;</span>
+
+<span class="k">return</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">&quot;</span><span class="s">/consumers/:username_or_id/key-auth/&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="n">crud</span><span class="p">.</span><span class="n">find_consumer_by_username_or_id</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">.</span><span class="n">consumer_id</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">consumer</span><span class="p">.</span><span class="n">id</span>
+    <span class="k">end</span><span class="p">,</span>
+
+    <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="n">crud</span><span class="p">.</span><span class="n">paginated_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">,</span>
+
+    <span class="n">PUT</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
+      <span class="n">crud</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">,</span>
+
+    <span class="n">POST</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
+      <span class="n">crud</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr>
+
+<p>Next: <a href="/docs/0.5.x/plugin-development/tests/">Write tests for your plugin</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <footer class="footer">
+  
+    <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+
+    <form action="/" class="subscribe-form">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+      <div class="alert alert-success" role="alert">Thank You!</div>
+
+      <div class="input-group">
+        <input type="email" name="email" placeholder="youre@awesome.com" required/>
+        <button class="button button-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  
+
+  <div class="footer-bar">
+    <div class="container">
+      <ul class="footer-social">
+        <li>
+          <a class="github-button" href="https://github.com/Mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a>
+        </li>
+        <li>
+          <!-- verse link.web with link.share in the header -->
+          <div class="fb-share-button" data-href="https://getkong.org" data-layout="button_count"></div>
+        </li>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://getkong.org" data-text="KONG - the open-source management layer for APIs and Microservices" data-hashtags="opensource,API,management">Tweet</a>
+        </li>
+        <li>
+          <iframe src="//www.yvoschaap.com/producthunt/counter.html#href=http://getkong.org&amp;layout=wide" width="120" height="25" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+        </li>
+      </ul>
+    <span>
+      <a href="https://mashape.com">
+        <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
+        &copy; <strong>2015 Mashape Inc</strong>
+      </a>
+    </span>
+      <span class="footer-separator"></span>
+      <span class="footer-nav">
+        <a href="/license">License</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/enterprise">Enterprise</a>
+        <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/assets/app.js?v=1446178385"></script>
+
+    <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" target="_blank"></a>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+  </body>
+</html>
