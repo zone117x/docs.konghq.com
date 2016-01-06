@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1450314450"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1452053682"/>
 </head>
 
 
@@ -440,6 +440,10 @@
 </ul>
 
 <div class="alert alert-warning">
+  <strong>Note:</strong> Bear in mind that those two methods do not combine themselves together. It is currently <b>not</b> possible to define rules such as "with this hostname" <i>and</i> "with this URI prefix". Kong will first try to route a request by DNS and if unsuccessful, will try by URI.
+</div>
+
+<div class="alert alert-warning">
   <strong>Note:</strong> For performance reasons, Kong keeps a cache of the APIs from your Cassandra cluster in memory for up to 60 seconds. As cache invalidation has not been implemented yet, Kong might take up to <strong>60 seconds</strong> to notice a new API and proxy incoming requests to it.
 </div>
 
@@ -463,7 +467,7 @@
 
 <hr>
 
-<h2 id="3-proxy-an-api-by-its-dns-value">3. Proxy an API by its DNS value</h2>
+<h2 id="3-proxy-an-api-by-its-request_host-value">3. Proxy an API by its request_host value</h2>
 
 <h4 id="using-the-quot-host-quot-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
 
@@ -564,6 +568,10 @@
 <td><code>/some_path</code></td>
 </tr>
 </tbody></table>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> The use of <code>strip_request_path</code> is irrelevant if the request is being routed using the request_host method (which has priority over the request_path routing). The request's URI will be left untouched.
+</div>
 
 <hr>
 
@@ -667,7 +675,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1450314450"></script>
+    <script src="/assets/app.js?v=1452053682"></script>
 
     <div id="fb-root"></div>
 
