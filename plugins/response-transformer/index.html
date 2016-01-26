@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -130,6 +130,18 @@
                 
               </li>
             
+              <li>
+                <a href="#order-of-execution">Order of execution</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#examples">Examples</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -140,15 +152,11 @@
         <div class="content">
           <p>Transform the response sent by the upstream server on the fly on Kong, before returning the response to the client.</p>
 
+<div class="alert alert-warning">
+  <strong>Note on transforming bodies:</strong> Be aware of the performamce of transformations on the response body. In order to parse and modify a JSON body, the plugin needs to retain it in memory, which might cause pressure on the worker's Lua VM when dealing with large bodies (several MBs). Because of Nginx's internals, the `Content-Length` header will not be set when transforming a response body.
+</div>
+
 <hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">response-transformer</span>
-</code></pre></div>
-<p>Every node in your Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -158,7 +166,8 @@
     --data <span class="s2">&quot;config.add.headers=x-new-header:some_value, x-another-header:some_value&quot;</span> <span class="se">\</span>
     --data <span class="s2">&quot;config.add.json=new-json-key:some_value, another-json-key:some_value&quot;</span> <span class="se">\</span>
     --data <span class="s2">&quot;config.remove.headers=x-toremove, x-another-one&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.remove.json=json-key-toremove, another-json-key&quot;</span>
+    --data <span class="s2">&quot;config.remove.json=json-key-toremove, another-json-key&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.append.headers=x-existing-header:some_value, x-another-header:some_value&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -177,20 +186,185 @@
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>config.add.headers</code><br><em>optional</em></td>
-<td>Comma separated list of <code>headername:value</code> to add to the response headers.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>config.add.json</code><br><em>optional</em></td>
-<td>Comma separated list of <code>jsonkey:value</code> to add to a JSON response body.</td>
-</tr>
-<tr>
 <td style="text-align: right"><code>config.remove.headers</code><br><em>optional</em></td>
-<td>Comma separated list of header names to remove from the response headers.</td>
+<td>List of header names. Unset the header(s) with the given name.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>config.remove.json</code><br><em>optional</em></td>
-<td>Comma separated list of JSON key names to remove from a JSON response body.</td>
+<td>List of property names. Remove the property from the JSON body if it is present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.replace.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.replace.json</code><br><em>optional</em></td>
+<td>List of property:value pairs. If and only if the parameter is already present, replace its old value with the new one. Ignored if the parameter is not already present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.add.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If and only if the header is not already set, set a new header with the given value. Ignored if the header is already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.add.json</code><br><em>optional</em></td>
+<td>List of property:value pairs. If and only if the property is not present, add a new property with the given value to the JSON body. Ignored if the property is already present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.append.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If the header is not set, set it with the given value. If it is already set, a new header with the same name and the new value will be set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.append.json</code><br><em>optional</em></td>
+<td>List of property:value pairs. If the property is not present in the JSON body, add it with the given value. If it is already present, the two values (old and new) will be aggregated in an array.</td>
+</tr>
+</tbody></table>
+
+<h2 id="order-of-execution">Order of execution</h2>
+
+<p>Plugin performs the response transformation in following order</p>
+
+<p>remove --&gt; replace --&gt; add --&gt; append</p>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+<li>Add multiple headers by passing each header:value pair separately:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.headers[1]=h1:v1&quot; \
+  --data &quot;config.add.headers[2]=h2:v1&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>upstream response headers</th>
+<th>proxied response headers</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add multiple headers by passing comma separated header:value pair:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.headers=h1:v1,h2:v2&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>upstream response headers</th>
+<th>proxied response headers</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add multiple headers passing config as JSON body:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;response-transformer&quot;, &quot;config&quot;: {&quot;add&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}}}&#39;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>upstream response headers</th>
+<th>proxied response headers</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add a body property and a header:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.json=p1:v1,p2=v2&quot; \
+  --data &quot;config.add.headers=h1:v1&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>upstream response headers</th>
+<th>proxied response headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v2</td>
+<td><ul><li>h1: v2</li><li>h2: v1</li></ul></td>
+</tr>
+<tr>
+<td>h3: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li><li>h3: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>upstream response JSON body</th>
+<th>proxied response body</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>{}</td>
+<td>{&quot;p1&quot; : &quot;v1&quot;, &quot;p2&quot;: &quot;v2&quot;}</td>
+</tr>
+<tr>
+<td>{&quot;p1&quot; : &quot;v2&quot;}</td>
+<td>{&quot;p1&quot; : &quot;v2&quot;, &quot;p2&quot;: &quot;v2&quot;}</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Append multiple headers and remove a body property:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;response-transformer&quot;, &quot;config&quot;: {&quot;append&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}, &quot;remove&quot;: {&quot;json&quot;: [&quot;p1&quot;]}}}&#39;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>upstream response headers</th>
+<th>proxied response headers</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h1: v2</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>upstream response JSON body</th>
+<th>proxied response body</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
+<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
+</tr>
+<tr>
+<td>{&quot;p1&quot; : &quot;v1&quot;, &quot;p2&quot; : &quot;v1&quot;}</td>
+<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
 </tr>
 </tbody></table>
 
@@ -266,7 +440,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

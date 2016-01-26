@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -119,12 +119,6 @@
           <ul>
             
               <li>
-                <a href="#installation">Installation</a>
-
-                
-              </li>
-            
-              <li>
                 <a href="#configuration">Configuration</a>
 
                 
@@ -154,6 +148,12 @@
             
               <li>
                 <a href="#create-an-application">Create an Application</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#migrating-access-tokens">Migrating Access Tokens</a>
 
                 
               </li>
@@ -204,14 +204,6 @@
 
 <hr>
 
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">oauth2</span>
-</code></pre></div>
-<p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
-
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
@@ -231,12 +223,12 @@
 </thead><tbody>
 <tr>
 <td><code>name</code></td>
-<td><code>-</code></td>
+<td></td>
 <td>The name of the plugin to use, in this case: <code>oauth2</code></td>
 </tr>
 <tr>
 <td><code>config.scopes</code></td>
-<td><code>-</code></td>
+<td></td>
 <td>Describes an array of comma separated scope names that will be available to the end user</td>
 </tr>
 <tr>
@@ -273,6 +265,11 @@
 <td><code>config.hide_credentials</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request</td>
+</tr>
+<tr>
+<td><code>config.accept_http_if_already_terminated</code><br><em>optional</em></td>
+<td><code>false</code></td>
+<td>Accepts HTTPs requests that have already been terminated by a proxy or load balancer and the <code>x-forwarded-proto: https</code> header has been added to the request. Only enable this option if the Kong server cannot be publicly accessed and the only entry-point is such proxy or load balancer.</td>
 </tr>
 </tbody></table>
 
@@ -364,6 +361,57 @@
 <tr>
 <td><code>redirect_uri</code></td>
 <td>The URL in your app where users will be sent after authorization (<a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">RFC 6742 Section 3.1.2</a>)</td>
+</tr>
+</tbody></table>
+
+<h2 id="migrating-access-tokens">Migrating Access Tokens</h2>
+
+<p>If you are migrating you existing OAuth 2.0 applications and access tokens over to Kong, then you can:</p>
+
+<ul>
+<li>Migrate consumers and applications by creating OAuth 2.0 applications as explained above.</li>
+<li>Migrate access tokens using the <code>/oauth2_tokens</code> endpoints in the Kong&#39;s Admin API. For example:</li>
+</ul>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/oauth2_tokens <span class="se">\</span>
+    --data <span class="s2">&quot;credential_id=KONG-APPLICATION-ID&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;token_type=bearer&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;access_token=SOME-TOKEN&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;refresh_token=SOME-TOKEN&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;expires_in=3600&quot;</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>form parameter</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>credential_id</code></td>
+<td>The ID of the OAuth 2.0 application created on Kong.</td>
+</tr>
+<tr>
+<td><code>token_type</code></td>
+<td>The <a href="https://tools.ietf.org/html/rfc6749#section-7.1">token type</a>. By default is <code>bearer</code>.</td>
+</tr>
+<tr>
+<td><code>access_token</code><br><em>optional</em></td>
+<td>You can optionally set your own access token value, otherwise a random string will be generated.</td>
+</tr>
+<tr>
+<td><code>refresh_token</code><br><em>optional</em></td>
+<td>You can optionally set your own refresh token value, otherwise a random string will be generated.</td>
+</tr>
+<tr>
+<td><code>expires_in</code></td>
+<td>The expiration time (in seconds) of the access token.</td>
+</tr>
+<tr>
+<td><code>scope</code><br><em>optional</em></td>
+<td>The authorized scope associated with the token.</td>
+</tr>
+<tr>
+<td><code>authenticated_userid</code><br><em>optional</em></td>
+<td>The custom ID of the user who authorized the application.</td>
 </tr>
 </tbody></table>
 
@@ -459,6 +507,8 @@
 <li>The login page, you probably already have it (step 2)</li>
 <li>The Authorization page, with its backend that will simply collect the values, make a <code>POST</code> request to Kong and redirect the user to whatever URL Kong has returned (steps 3 to 7).</li>
 </ul>
+
+<hr>
 
 <h2 id="resource-owner-password-credentials">Resource Owner Password Credentials</h2>
 
@@ -562,7 +612,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

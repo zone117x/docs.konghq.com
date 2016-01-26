@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -119,13 +119,29 @@
           <ul>
             
               <li>
-                <a href="#installation">Installation</a>
+                <a href="#configuration">Configuration</a>
+
+                
+              </li>
+            
+          </ul>
+        </nav>
+      
+        <nav>
+          
+            <h5>Usage</h5>
+          
+
+          <ul>
+            
+              <li>
+                <a href="#creating-an-ssl-certificate">Creating an SSL certificate</a>
 
                 
               </li>
             
               <li>
-                <a href="#configuration">Configuration</a>
+                <a href="#propagation">Propagation</a>
 
                 
               </li>
@@ -138,21 +154,9 @@
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <div class="alert alert-warning">
-  <strong>Note:</strong> This plugin requires Kong >= 0.3.0
-</div>
-
-<p>Binds a specific SSL certificate to the <code>request_host</code> value of a service. In case you want to setup a global SSL certificate for <strong>every API</strong>, take a look at the <a href="/docs/latest/configuration#ssl_cert_path">Kong SSL configuration options</a>.</p>
+          <p>Binds a specific SSL certificate to the <code>request_host</code> value of a service. In case you want to setup a global SSL certificate for <strong>every API</strong>, take a look at the <a href="/docs/latest/configuration#ssl_cert_path">Kong SSL configuration options</a>.</p>
 
 <hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration#ssl_cert_path">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ssl</span>
-</code></pre></div>
-<p>Every node in your Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -177,17 +181,23 @@
 </tr>
 <tr>
 <td style="text-align: right"><code>config.cert</code></td>
-<td>Specify the path of the certificate file to upload.</td>
+<td>Upload the data of the certificate to use. Note that is the the actual data of the key (not the path), so it should be sent in <code>multipart/form-data</code> upload request.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>config.key</code></td>
-<td>Specify the path of the certificate key file to upload</td>
+<td>Upload the data of the certificate key to use. Note that is the the actual data of the key (not the path), so it should be sent in <code>multipart/form-data</code> upload request.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>config.only_https</code><br><em>optional</em></td>
 <td>Specify if the service should only be available through an <code>https</code> protocol. Defaults to <code>false</code>.</td>
 </tr>
+<tr>
+<td style="text-align: right"><code>config.accept_http_if_already_terminated</code><br><em>optional</em></td>
+<td>If <code>config.only_https</code> is <code>true</code>, accepts HTTPs requests that have already been terminated by a proxy or load balancer and the <code>x-forwarded-proto: https</code> header has been added to the request. Only enable this option if the Kong server cannot be publicly accessed and the only entry-point is such proxy or load balancer. Defaults to <code>false</code>.</td>
+</tr>
 </tbody></table>
+
+<hr>
 
 <h2 id="creating-an-ssl-certificate">Creating an SSL certificate</h2>
 
@@ -206,6 +216,14 @@ openssl rsa -in server.key.org -out server.key
 openssl x509 -req -in server.csr -signkey server.key -out server.crt
 </code></pre></div>
 <p>If you followed the steps above the certificate will be stored in a file named <code>server.crt</code>, while the key is at <code>server.key</code>.</p>
+
+<hr>
+
+<h2 id="propagation">Propagation</h2>
+
+<p>When adding this plugin, the SSL certificate and its key will be uploaded and stored into the datastore, and they doesn&#39;t need to physically exist on the Kong servers. </p>
+
+<p>For example, if you have two Kong servers called &quot;Server_1&quot; and &quot;Server_2&quot;, this means that you can upload a certificate, let&#39;s say, on &quot;Server_1&quot; and it will be immediately available also on &quot;Server_2&quot; (and on any other server you decide to add to the cluster, as long as they point to the same datastore).</p>
 
         </div>
       </div>
@@ -279,7 +297,7 @@ openssl x509 -req -in server.csr -signkey server.key -out server.crt
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -130,6 +130,18 @@
                 
               </li>
             
+              <li>
+                <a href="#order-of-execution">Order of execution</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#examples">Examples</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -141,14 +153,6 @@
           <p>Transform the request sent by a client on the fly on Kong, before hitting the upstream server.</p>
 
 <hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">request-transformer</span>
-</code></pre></div>
-<p>Every node in your Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -179,28 +183,201 @@
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>config.add.headers</code><br><em>optional</em></td>
-<td>Comma separated list of <code>headername:value</code> to add to the request headers.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>config.add.querystring</code><br><em>optional</em></td>
-<td>Comma separated list of <code>paramname:value</code> to add to the request querystring.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>config.add.form</code><br><em>optional</em></td>
-<td>Comma separated list of <code>paramname:value</code> to add to the request body in urlencoded format.</td>
-</tr>
-<tr>
 <td style="text-align: right"><code>config.remove.headers</code><br><em>optional</em></td>
-<td>Comma separated list of header names to remove from the request.</td>
+<td>List of header names. Unset the headers with the given name.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>config.remove.querystring</code><br><em>optional</em></td>
-<td>Comma separated list of parameter names to remove from the request querystring.</td>
+<td>List of querystring names. Remove the querystring if it is present.</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>config.remove.form</code><br><em>optional</em></td>
-<td>Comma separated list of parameter names to remove from the request body.</td>
+<td style="text-align: right"><code>config.remove.body</code><br><em>optional</em></td>
+<td>List of parameter names. Remove the parameter if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>,  <code>application/x-www-form-urlencoded</code>] and parameter is present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.replace.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.replace.querystring</code><br><em>optional</em></td>
+<td>List of queryname:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.replace.body</code><br><em>optional</em></td>
+<td>List of paramname:value pairs. If and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is already present, replace its old value with the new one. Ignored if the parameter is not already present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.add.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If and only if the header is not already set, set a new header with the given value. Ignored if the header is already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.add.querystring</code><br><em>optional</em></td>
+<td>List of queryname:value pairs. If and only if the querystring is not already set, set a new querystring with the given value. Ignored if the header is already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.add.body</code><br><em>optional</em></td>
+<td>List of pramname:value pairs. If and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.append.headers</code><br><em>optional</em></td>
+<td>List of headername:value pairs. If the header is not set, set it with the given value. If it is already set, a new header with the same name and the new value will be set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.append.querystring</code><br><em>optional</em></td>
+<td>List of queryname:value pairs. If the querystring is not set, set it with the given value. If it is already set, a new querystring with the same name and the new value will be set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.append.body</code><br><em>optional</em></td>
+<td>List of paramname:value pairs. If the content-type is one the following [<code>application/json</code>, <code>application/x-www-form-urlencoded</code>], add a new parameter with the given value if the parameter is not present, otherwise if it is already present, the two values (old and new) will be aggregated in an array.</td>
+</tr>
+</tbody></table>
+
+<h2 id="order-of-execution">Order of execution</h2>
+
+<p>Plugin performs the response transformation in following order</p>
+
+<p>remove --&gt; replace --&gt; add --&gt; append</p>
+
+<h2 id="examples">Examples</h2>
+
+<ul>
+<li>Add multiple headers by passing each header:value pair separately:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=request-transformer&quot; \
+  --data &quot;config.add.headers[1]=h1:v1&quot; \
+  --data &quot;config.add.headers[2]=h2:v1&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>incoming request headers</th>
+<th>upstream proxied headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add multiple headers by passing comma separated header:value pair:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=request-transformer&quot; \
+  --data &quot;config.add.headers=h1:v1,h2:v2&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>incoming request headers</th>
+<th>upstream proxied headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add multiple headers passing config as JSON body:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;request-transformer&quot;, &quot;config&quot;: {&quot;add&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}}}&#39;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>incoming request headers</th>
+<th>upstream proxied headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Add a querystring and a header:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=request-transformer&quot; \
+  --data &quot;config.add.querystring=q1:v2,q2=v1&quot; \
+  --data &quot;config.add.headers=h1:v1&quot;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>incoming request headers</th>
+<th>upstream proxied headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v2</td>
+<td><ul><li>h1: v2</li><li>h2: v1</li></ul></td>
+</tr>
+<tr>
+<td>h3: v1</td>
+<td><ul><li>h1: v1</li><li>h2: v1</li><li>h3: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>incoming request querystring</th>
+<th>upstream proxied querystring</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>\?q1=v1</td>
+<td>\?q1=v1&amp;q2=v1</td>
+</tr>
+<tr>
+<td>-</td>
+<td>\?q1=v2&amp;q2=v1</td>
+</tr>
+</tbody></table>
+
+<hr>
+
+<ul>
+<li>Append multiple headers and remove a body parameter:</li>
+</ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;request-transformer&quot;, &quot;config&quot;: {&quot;append&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}, &quot;remove&quot;: {&quot;body&quot;: [&quot;p1&quot;]}}}&#39;
+</code></pre></div>
+<table><thead>
+<tr>
+<th>incoming request headers</th>
+<th>upstream proxied headers:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>h1: v1</td>
+<td><ul><li>h1: v1</li><li>h1: v2</li><li>h2: v1</li></ul></td>
+</tr>
+</tbody></table>
+
+<table><thead>
+<tr>
+<th>incoming url encoded body</th>
+<th>upstream proxied url encoded body:</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>p1=v1&amp;p2=v1</td>
+<td>p2=v1</td>
+</tr>
+<tr>
+<td>p2=v1</td>
+<td>p2=v1</td>
 </tr>
 </tbody></table>
 
@@ -276,7 +453,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

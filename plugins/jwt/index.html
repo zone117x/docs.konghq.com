@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -125,12 +125,6 @@
               </li>
             
               <li>
-                <a href="#installation">Installation</a>
-
-                
-              </li>
-            
-              <li>
                 <a href="#configuration">Configuration</a>
 
                 
@@ -171,7 +165,13 @@
               </li>
             
               <li>
-                <a href="#verified-claims">Verified claims</a>
+                <a href="#optional-verified-claims">(Optional) Verified claims</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#optional-base64-encoded-secret">(Optional) Base64 encoded secret</a>
 
                 
               </li>
@@ -203,13 +203,7 @@
 <li><code>credential</code>: in the JWT plugin context, a pair of unique values consisting of a public key and a secret, used to sign and verify a JWT, and associated to a consumer.</li>
 </ul>
 
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">jwt</span>
-</code></pre></div>
-<p>Every node in the Kong cluster must have the same <code>plugins_available</code> property value.</p>
+<hr>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -236,6 +230,14 @@
 <tr>
 <td><code>config.claims_to_verify</code><br><em>optional</em></td>
 <td>Default <code>none</code>. A list of registered claims (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) that Kong can verify as well. Accepted values: <code>exp</code>, <code>nbf</code>.</td>
+</tr>
+<tr>
+<td><code>config.key_claim_name</code><br><em>optional</em></td>
+<td>Default <code>iss</code>. The name of the claim in which the <code>key</code> identifying the secret must be passed.</td>
+</tr>
+<tr>
+<td><code>config.secret_is_base64</code><br><em>optional</em></td>
+<td>Default <code>false</code>. If true, the plugin assumes the credential&#39;s secret to be base64 encoded. You will need to create a base64 encoded secret for your consumer, and sign your JWT with the original secret.</td>
 </tr>
 </tbody></table>
 
@@ -317,7 +319,7 @@ HTTP/1.1 <span class="m">201</span> Created
     <span class="nt">&quot;alg&quot;</span><span class="p">:</span> <span class="s2">&quot;HS256&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the <code>iss</code> (issuer) field, set to the value of our previously created credential&#39;s <code>key</code>. The claims may contain any other values.</p>
+<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> in the configured claim (from <code>config.key_claim_name</code>). That claim is <code>iss</code> (issuer field field) by default. Set its value to our previously created credential&#39;s <code>key</code>. The claims may contain other values.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;a36c3049b36249a3c9f8891cb127243c&quot;</span>
 <span class="p">}</span>
@@ -374,7 +376,7 @@ HTTP/1.1 <span class="m">201</span> Created
   <strong>Note:</strong> When the JWT is valid and proxied to the API, Kong makes no modification to the request other than adding headers identifying the consumer. It is the role of your service to now decode the JWT, since it is considered valid.
 </div>
 
-<h3 id="option-verified-claims">(<strong>Option</strong>) Verified claims</h3>
+<h3 id="optional-verified-claims">(<strong>Optional</strong>) Verified claims</h3>
 
 <p>Kong can also perform verification on registered claims, as defined in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>. To perform verification on a claim, add it to the <code>config.claims_to_verify</code> property:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># This adds verification for both nbf and exp claims:</span>
@@ -398,6 +400,19 @@ HTTP/1.1 <span class="m">201</span> Created
 <td>identifies the time before which the JWT must not be accepted for processing.</td>
 </tr>
 </tbody></table>
+
+<h3 id="optional-base64-encoded-secret">(<strong>Optional</strong>) Base64 encoded secret</h3>
+
+<p>If your secret contains binary data (such as secrets provided by services like Auth0), you can store them as base64 encoded in Kong. Enable this option in the plugin&#39;s configuration:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.secret_is_base64=true&quot;</span>
+</code></pre></div>
+<p>Then, base64 encode your consumers&#39; secrets:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># secret is: &quot;blob data&quot;</span>
+<span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
+  --data <span class="s2">&quot;secret=YmxvYiBkYXRh&quot;</span>
+</code></pre></div>
+<p>And sign your JWT using the original secret (&quot;blob data&quot;).</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -483,7 +498,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

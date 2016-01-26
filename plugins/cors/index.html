@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -119,12 +119,6 @@
           <ul>
             
               <li>
-                <a href="#installation">Installation</a>
-
-                
-              </li>
-            
-              <li>
                 <a href="#configuration">Configuration</a>
 
                 
@@ -135,13 +129,13 @@
       
         <nav>
           
-            <h5>Notes</h5>
+            <h5>Known Issues</h5>
           
 
           <ul>
             
               <li>
-                <a href="#known-limitations">Known Limitations</a>
+                <a href="#cors-limitations">CORS Limitations</a>
 
                 
               </li>
@@ -155,16 +149,6 @@
       <div class="page-content">
         <div class="content">
           <p>Easily add <strong>Cross-origin resource sharing <em>(CORS)</em></strong> to your API by enabling this plugin.</p>
-
-<hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">cors</span>
-</code></pre></div>
-<p>Every node in your Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <hr>
 
@@ -222,12 +206,19 @@
 </tr>
 </tbody></table>
 
-<h2 id="known-issues">Known Issues</h2>
+<hr>
 
-<p>This plugin has a known limitation when consuming an API by manually setting the <code>Host</code> header to a different hostname than the one specified in the request URI. For example, when executing:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -H <span class="s2">&quot;Host: myservice.com&quot;</span> http://127.0.0.1:8000/
-</code></pre></div>
-<p>Because setting the <code>Host</code> header to an arbitrary value is not allowed in a CORS preflight request. It will instead work properly when a <code>CNAME</code> record has been properly configured.</p>
+<h2 id="known-issues">Known issues</h2>
+
+<p>Below is a list of known issues or limitations for this plugin.</p>
+
+<h3 id="cors-limitations">CORS Limitations</h3>
+
+<p>If the client is a browser, there is a known issue with this plugin caused by a limitation of the CORS specification that doesn&#39;t allow to specify a custom <code>Host</code> header in a preflight <code>OPTIONS</code> request.</p>
+
+<p>Because of this limitation, this plugin will only work for APIs that have been configured with a <code>request_path</code> setting, and it will not work for APIs that are being resolved using a custom DNS (the <code>request_host</code> property).</p>
+
+<p>To learn how to add <code>request_path</code> to an API, please read the <a href="/docs/latest/proxy">Proxy Reference</a>.</p>
 
         </div>
       </div>
@@ -301,7 +292,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 

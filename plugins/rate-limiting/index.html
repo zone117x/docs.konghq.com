@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1452734651"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1453769087"/>
 </head>
 
 
@@ -119,13 +119,23 @@
           <ul>
             
               <li>
-                <a href="#installation">Installation</a>
+                <a href="#configuration">Configuration</a>
 
                 
               </li>
             
+          </ul>
+        </nav>
+      
+        <nav>
+          
+            <h5>Usage</h5>
+          
+
+          <ul>
+            
               <li>
-                <a href="#configuration">Configuration</a>
+                <a href="#headers-sent-to-the-client">Headers sent to the client</a>
 
                 
               </li>
@@ -141,14 +151,6 @@
           <p>Rate limit how many HTTP requests a developer can make in a given period of seconds, minutes, hours, days, months or years. If the API has no authentication layer, the <strong>Client IP</strong> address will be used, otherwise the Consumer will be used if an authentication plugin has been configured.</p>
 
 <hr>
-
-<h2 id="installation">Installation</h2>
-
-<p>Add the plugin to the list of available plugins on every Kong server in your cluster by editing the <a href="/docs/latest/configuration">kong.yml</a> configuration file:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">rate-limiting</span>
-</code></pre></div>
-<p>Every node in the Kong cluster should have the same <code>plugins_available</code> property value.</p>
 
 <h2 id="configuration">Configuration</h2>
 
@@ -209,6 +211,23 @@
 </tr>
 </tbody></table>
 
+<hr>
+
+<h2 id="headers-sent-to-the-client">Headers sent to the client</h2>
+
+<p>When this plugin is enabled, Kong will send some additional headers back to the client telling how many requests are available and what are the limits allowed, for example:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Minute: 10
+X-RateLimit-Remaining-Minute: 9
+</code></pre></div>
+<p>or it will return a combination of more time limits, if more than one is being set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Second: 5
+X-RateLimit-Remaining-Second: 4
+X-RateLimit-Limit-Minute: 10
+X-RateLimit-Remaining-Minute: 9
+</code></pre></div>
+<p>If any of the limits configured is being reached, the plugin will return a <code>HTTP/1.1 429</code> status code to the client with the following JSON body:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;API rate limit exceeded&quot;</span><span class="p">}</span>
+</code></pre></div>
         </div>
       </div>
     </div>
@@ -281,7 +300,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1452734651"></script>
+    <script src="/assets/app.js?v=1453769087"></script>
 
     <div id="fb-root"></div>
 
