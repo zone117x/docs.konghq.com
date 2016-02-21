@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1455937562"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1456020654"/>
 </head>
 
 
@@ -313,6 +313,9 @@ heroku create my-proxy-app --buildpack https://github.com/heroku/heroku-buildpac
 
 heroku config:set <span class="nv">KONG_CLUSTER_SECRET</span><span class="o">=</span><span class="sb">`</span>serf keygen<span class="sb">`</span>
 
+<span class="c"># If you want to try Instaclustr Cassandra, a paid add-on</span>
+heroku addons:create instaclustr:production-light
+
 git push heroku master
 <span class="c"># …the first build will take approximately ten minutes; subsequent builds approx two-minutes.</span>
 </code></pre></div>
@@ -353,7 +356,9 @@ git push heroku master
 
 <p>You may connect to any Cassandra datastore accessible to your Heroku app using the <code>CASSANDRA_URL</code> config var as <a href="https://github.com/heroku/heroku-buildpack-kong#usage">documented in the buildpack</a>.</p>
 
-<p>For the <a href="https://elements.heroku.com/addons/instaclustr">Instaclustr add-on</a>, initial keyspace setup is required. To get started, use <a href="http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlsh.html"><code>cqlsh</code></a> to run <a href="https://cassandra.apache.org/doc/cql3/CQL-2.1.html">CQL</a> queries:</p>
+<p>Once Cassandra is attached to the app, Kong will automatically create the keyspace and run migrations.</p>
+
+<p>If you find that initial keyspace setup is required. Use <a href="http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlsh.html"><code>cqlsh</code></a> to run <a href="https://cassandra.apache.org/doc/cql3/CQL-2.1.html">CQL</a> queries:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ CQLSH_HOST</span><span class="o">={</span>SINGLE_IC_CONTACT_POINT<span class="o">}</span> cqlsh --cqlversion 3.2.1 -u <span class="o">{</span>IC_USER<span class="o">}</span> -p <span class="o">{</span>IC_PASSWORD<span class="o">}</span>
 &gt; CREATE KEYSPACE IF NOT EXISTS kong WITH <span class="nv">replication</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span>:<span class="s1">&#39;NetworkTopologyStrategy&#39;</span>, <span class="s1">&#39;US_EAST_1&#39;</span>:3<span class="o">}</span><span class="p">;</span>
 &gt; GRANT ALL ON KEYSPACE kong TO iccassandra<span class="p">;</span>
@@ -460,7 +465,7 @@ git push heroku master
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1455937562"></script>
+    <script src="/assets/app.js?v=1456020654"></script>
 
     <div id="fb-root"></div>
 
