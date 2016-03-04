@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051435"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
 </head>
 
 
@@ -506,15 +506,15 @@
 </div>
 
 <p>Consider your plugin as a set of <a href="http://www.lua.org/manual/5.1/manual.html#6.3">Lua modules</a>. Each file described in this chapter is to be considered as a separate module. Kong will detect and load your plugin&#39;s modules if their names follow this convention:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;"
 </code></pre></div>
 <blockquote>
 <p>Your modules of course need to be accessible through your <a href="http://www.lua.org/manual/5.1/manual.html#pdf-package.path">package.path</a> variable, which can be tweaked to your needs by the <a href="https://github.com/openresty/lua-nginx-module#lua_package_path">lua-package-path</a> directive in your Nginx configuration. However, the prefered way of installing plugins is through <a href="https://luarocks.org/">Luarocks</a>. More on that later in this guide.</p>
 </blockquote>
 
 <p>To make Kong aware that it has to look for your plugin&#39;s modules, you&#39;ll have to add it to the <code>custom_plugins</code> property in your configuration file. For example:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">custom_plugins</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">my-custom-plugin</span> <span class="c1"># your plugin name here</span>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">custom_plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">my-custom-plugin</span> <span class="c1"># your plugin name here</span>
 </code></pre></div>
 <p>Now, Kong will try to load the modules described in this chapter. Some of them are mandatory, but the ones that are not will be ignored and Kong will consider you do not make use of it. For example, Kong will load <code>&quot;kong.plugins.my-custom-plugin.handler&quot;</code> to retrieve and execute your plugin&#39;s logic.</p>
 
@@ -525,7 +525,7 @@
 <h3 id="basic-plugin-modules">Basic plugin modules</h3>
 
 <p>In its purest form, a plugin consists of two mandatory modules:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">simple-plugin
+<div class="highlight"><pre><code class="language-" data-lang="">simple-plugin
 ├── handler.lua
 └── schema.lua
 </code></pre></div>
@@ -539,7 +539,7 @@
 <h3 id="advanced-plugin-modules">Advanced plugin modules</h3>
 
 <p>Some plugins might have to integrate deeper with Kong: have their own table in the database, expose endpoints in the Admin API, etc... Each of those can be done by adding a new module to your plugin. Here is what the structure of a plugin would look like if it was implementing all of the optional modules:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">complete-plugin
+<div class="highlight"><pre><code class="language-" data-lang="">complete-plugin
 ├── api.lua
 ├── daos.lua
 ├── handler.lua
@@ -664,7 +664,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051435"></script>
+    <script src="/assets/app.js?v=1457051719"></script>
 
     <div id="fb-root"></div>
 
