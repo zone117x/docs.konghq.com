@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Install - AWS Marketplace AMI | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Install - Heroku | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -46,7 +46,7 @@
 </head>
 
 
-  <body id="page-install-method aws-marketplace" >
+  <body id="page-install-method heroku" >
     <div class="navbar">
   <div class="container">
     <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
@@ -71,7 +71,7 @@
 </div>
 
 
-    <div class="page page-install-method aws-marketplace">
+    <div class="page page-install-method heroku">
   
   <header class="page-header">
     <div class="container">
@@ -90,7 +90,7 @@
           </ul>
         
 
-        <h1>AWS Marketplace AMI</h1>
+        <h1>Heroku</h1>
 
         
       </div>
@@ -199,7 +199,7 @@
           
             
               
-              <li class="active">
+              <li >
                 <a href="/install/aws-marketplace/">AWS Marketplace</a>
               </li>
             
@@ -213,7 +213,7 @@
           
             
               
-              <li >
+              <li class="active">
                 <a href="/install/heroku/">Heroku</a>
               </li>
             
@@ -290,27 +290,98 @@
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Kong 64-bit Amazon Machine Image (AMI) is available on the AWS Marketplace, with 1-Click Launch, or manually With EC2 Console, APIs or CLI:</p>
+          <p>Official <a href="https://github.com/heroku/heroku-kong">Heroku Kong</a> app using the <a href="https://github.com/heroku/heroku-buildpack-kong">Kong buildpack</a>:</p>
 
 <ul>
-<li><a href="https://aws.amazon.com/marketplace/pp/B014GHERVU">Install Kong with from AWS Marketplace</a></li>
+<li><a href="https://heroku.com/deploy?template=https://github.com/heroku/heroku-kong">Deploy to Heroku</a></li>
 </ul>
 
 <hr>
 
+<h3 id="usage">Usage:</h3>
+
+<p>Get started by cloning heroku-kong and deploying it to a new Heroku app.</p>
+
+<p>The <code>serf</code> command must be installed locally to generate the cluster&#39;s shared secret. <a href="https://www.serfdom.io/downloads.html">Download Serf</a></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/heroku/heroku-kong.git
+<span class="nb">cd </span>heroku-kong
+
+<span class="c"># Create app in Common Runtime:</span>
+heroku create my-proxy-app --buildpack https://github.com/heroku/heroku-buildpack-multi.git
+<span class="c"># …or in a Private Space:</span>
+heroku create my-proxy-app --buildpack https://github.com/heroku/heroku-buildpack-multi.git --space my-private-space
+
+heroku config:set <span class="nv">KONG_CLUSTER_SECRET</span><span class="o">=</span><span class="sb">`</span>serf keygen<span class="sb">`</span>
+
+<span class="c"># If you want to try Instaclustr Cassandra, a paid add-on</span>
+heroku addons:create instaclustr:production-light
+
+git push heroku master
+<span class="c"># …the first build will take approximately ten minutes; subsequent builds approx two-minutes.</span>
+</code></pre></div>
+<p>The <a href="Procfile">Procfile</a> uses <a href="http://smarden.org/runit/">runit</a> to supervise all of Kong&#39;s processes defined in <a href="Procfile.web">Procfile.web</a>.</p>
+
+<h3 id="commands">Commands</h3>
+
+<p>To use Kong CLI in a console:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>heroku run bash
+
+<span class="c"># Run Kong in the background, so you can issue commands:</span>
+<span class="nv">$ </span>kong start -c <span class="nv">$KONG_CONF</span>
+<span class="c"># …Kong will start &amp; continue running in the background of this interactive console.</span>
+
+<span class="c"># Example commands:</span>
+<span class="nv">$ </span>kong --help
+<span class="nv">$ </span>kong migrations list -c <span class="nv">$KONG_CONF</span>
+<span class="nv">$ </span>curl http://localhost:8001/status
+</code></pre></div>
 <h3 id="notes">Notes:</h3>
 
 <ol>
+<li><p><strong>Configuration</strong>:</p>
+
+<p>The Heroku app must have several <a href="https://github.com/heroku/heroku-buildpack-kong#usage">config vars, as defined in the buildpack</a>.</p>
+
+<p>Kong is automatically configured at runtime with the <code>.profile.d/kong-12f.sh</code> script, which:</p>
+
+<ol>
+<li>renders the <code>config/kong.yml</code> file</li>
+<li>exports environment variables (see: <code>.profile.d/kong-env</code> in a running dyno)</li>
+</ol>
+
+<p>Revise <a href="config/kong.yml.etlua"><code>config/kong.yml.etlua</code></a> to suite your application.</p>
+
+<p>See: <a href="https://getkong.org/docs/0.6.x/configuration/">Kong 0.6 Configuration Reference</a></p></li>
 <li><p><strong>Cassandra</strong>:</p>
 
-<p>The Kong AWS Marketplace AMI image is designed for simplicity and fast deployment, this means it comes bundled with <a href="/about/faq/#how-does-it-work">Cassandra</a> on the same image.</p>
+<p>You may connect to any Cassandra datastore accessible to your Heroku app using the <code>CASSANDRA_URL</code> config var as <a href="https://github.com/heroku/heroku-buildpack-kong#usage">documented in the buildpack</a>.</p>
 
-<p>For optimal performance, we recommend deploying a Cassandra cluster separately from the Kong Cluster.</p>
+<p>Once Cassandra is attached to the app, Kong will automatically create the keyspace and run migrations.</p>
 
-<p>Please refer to the <a href="/install/aws-cloudformation">AWS Cloud Formation Template</a> for custom deployment of Cassandra and Kong Clusters on AWS.</p></li>
-<li><p><strong>Scaling</strong>:</p>
+<p>If you find that initial keyspace setup is required. Use <a href="http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlsh.html"><code>cqlsh</code></a> to run <a href="https://cassandra.apache.org/doc/cql3/CQL-2.1.html">CQL</a> queries:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ CQLSH_HOST</span><span class="o">={</span>SINGLE_IC_CONTACT_POINT<span class="o">}</span> cqlsh --cqlversion 3.2.1 -u <span class="o">{</span>IC_USER<span class="o">}</span> -p <span class="o">{</span>IC_PASSWORD<span class="o">}</span>
+&gt; CREATE KEYSPACE IF NOT EXISTS kong WITH <span class="nv">replication</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span>:<span class="s1">&#39;NetworkTopologyStrategy&#39;</span>, <span class="s1">&#39;US_EAST_1&#39;</span>:3<span class="o">}</span><span class="p">;</span>
+&gt; GRANT ALL ON KEYSPACE kong TO iccassandra<span class="p">;</span>
+&gt; <span class="nb">exit</span>
+</code></pre></div>
+<p>Then, initialize DB schema <a href="#commands">using a console</a>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>kong migrations reset -c <span class="nv">$KONG_CONF</span>
+</code></pre></div></li>
+<li><p><strong>Access via <a href="#commands">console</a></strong>:</p>
 
-<p>Each EC2 Node is self-contained, running both Kong &amp; Cassandra. In order to add more nodes and start a cluster, you&#39;ll have have to turn on <a href="/about/faq/#apache-cassandra">Clustering in Cassandra</a>, and modify each node&#39;s <a href="https://getkong.org/docs/0.5.x/configuration/#databases_available"><code>kong.yml</code></a> with the updated Cassandra information.</p></li>
+<p>Make API requests to localhost with curl.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>heroku run bash
+&gt; kong start -c <span class="nv">$KONG_CONFIG</span>
+&gt; curl http://localhost:8001
+</code></pre></div></li>
+<li><p><strong>Kong plugins &amp; additional Lua modules</strong>:</p>
+
+<p>Included Plugins:</p>
+
+<ol>
+<li><a href="https://github.com/heroku/heroku-kong/blob/master/lib/kong/plugins/ndfd-xml-as-json">ndfd-xml-as-json</a>: API translation, XML as JSON for <a href="http://graphical.weather.gov/xml/">The National Digital Forecast Database</a></li>
+<li><a href="https://github.com/heroku/heroku-kong/blob/master/lib/kong/plugins/librato-analytics">librato-analytics</a>: Collect per-API metrics, explore, and set alerts on them with <a href="https://elements.heroku.com/addons/librato">Librato</a></li>
+</ol></li>
 <li><p><strong>Using Kong:</strong></p>
 
 <p>Quickly learn how to use Kong with the <a href="/docs/latest/getting-started/quickstart">5-minute Quickstart</a>.</p></li>
