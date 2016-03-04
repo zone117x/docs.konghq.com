@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457062727"/>
 </head>
 
 
@@ -340,33 +340,14 @@ git push heroku master
 <ol>
 <li><p><strong>Configuration</strong>:</p>
 
-<p>The Heroku app must have several <a href="https://github.com/heroku/heroku-buildpack-kong#usage">config vars, as defined in the buildpack</a>.</p>
-
-<p>Kong is automatically configured at runtime with the <code>.profile.d/kong-12f.sh</code> script, which:</p>
-
-<ol>
-<li>renders the <code>config/kong.yml</code> file</li>
-<li>exports environment variables (see: <code>.profile.d/kong-env</code> in a running dyno)</li>
-</ol>
-
 <p>Revise <a href="config/kong.yml.etlua"><code>config/kong.yml.etlua</code></a> to suite your application.</p>
 
-<p>See: <a href="https://getkong.org/docs/0.6.x/configuration/">Kong 0.6 Configuration Reference</a></p></li>
+<p>See: <a href="https://getkong.org/docs/0.7.x/configuration/">Kong 0.7 Configuration Reference</a></p></li>
 <li><p><strong>Cassandra</strong>:</p>
 
 <p>You may connect to any Cassandra datastore accessible to your Heroku app using the <code>CASSANDRA_URL</code> config var as <a href="https://github.com/heroku/heroku-buildpack-kong#usage">documented in the buildpack</a>.</p>
 
-<p>Once Cassandra is attached to the app, Kong will automatically create the keyspace and run migrations.</p>
-
-<p>If you find that initial keyspace setup is required. Use <a href="http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlsh.html"><code>cqlsh</code></a> to run <a href="https://cassandra.apache.org/doc/cql3/CQL-2.1.html">CQL</a> queries:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ CQLSH_HOST</span><span class="o">={</span>SINGLE_IC_CONTACT_POINT<span class="o">}</span> cqlsh --cqlversion 3.2.1 -u <span class="o">{</span>IC_USER<span class="o">}</span> -p <span class="o">{</span>IC_PASSWORD<span class="o">}</span>
-&gt; CREATE KEYSPACE IF NOT EXISTS kong WITH <span class="nv">replication</span> <span class="o">=</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span>:<span class="s1">&#39;NetworkTopologyStrategy&#39;</span>, <span class="s1">&#39;US_EAST_1&#39;</span>:3<span class="o">}</span><span class="p">;</span>
-&gt; GRANT ALL ON KEYSPACE kong TO iccassandra<span class="p">;</span>
-&gt; <span class="nb">exit</span>
-</code></pre></div>
-<p>Then, initialize DB schema <a href="#commands">using a console</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>kong migrations reset -c <span class="nv">$KONG_CONF</span>
-</code></pre></div></li>
+<p>Once Cassandra is attached to the app, Kong will automatically create the keyspace and run migrations.</p></li>
 <li><p><strong>Access via <a href="#commands">console</a></strong>:</p>
 
 <p>Make API requests to localhost with curl.</p>
@@ -465,7 +446,7 @@ git push heroku master
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051918"></script>
+    <script src="/assets/app.js?v=1457062727"></script>
 
     <div id="fb-root"></div>
 
