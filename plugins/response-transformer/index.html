@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -161,13 +161,13 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is as simple as a single API call, you can configure and enable it for your <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=response-transformer"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">&quot;name=response-transformer&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.add.headers=x-new-header:some_value, x-another-header:some_value&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.add.json=new-json-key:some_value, another-json-key:some_value&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.remove.headers=x-toremove, x-another-one&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.remove.json=json-key-toremove, another-json-key&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.append.headers=x-existing-header:some_value, x-another-header:some_value&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -230,10 +230,10 @@
 <ul>
 <li>Add multiple headers by passing each header:value pair separately:</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=response-transformer" \
-  --data "config.add.headers[1]=h1:v1" \
-  --data "config.add.headers[2]=h2:v1"
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.headers[1]=h1:v1&quot; \
+  --data &quot;config.add.headers[2]=h2:v1&quot;
 </code></pre></div>
 <table><thead>
 <tr>
@@ -252,9 +252,9 @@
 <ul>
 <li>Add multiple headers by passing comma separated header:value pair:</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=response-transformer" \
-  --data "config.add.headers=h1:v1,h2:v2"
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.headers=h1:v1,h2:v2&quot;
 </code></pre></div>
 <table><thead>
 <tr>
@@ -273,9 +273,9 @@
 <ul>
 <li>Add multiple headers passing config as JSON body:</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --header 'content-type: application/json' \
-  --data '{"name": "response-transformer", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;response-transformer&quot;, &quot;config&quot;: {&quot;add&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}}}&#39;
 </code></pre></div>
 <table><thead>
 <tr>
@@ -294,10 +294,10 @@
 <ul>
 <li>Add a body property and a header:</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=response-transformer" \
-  --data "config.add.json=p1:v1,p2=v2" \
-  --data "config.add.headers=h1:v1"
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data &quot;name=response-transformer&quot; \
+  --data &quot;config.add.json=p1:v1,p2=v2&quot; \
+  --data &quot;config.add.headers=h1:v1&quot;
 </code></pre></div>
 <table><thead>
 <tr>
@@ -336,9 +336,9 @@
 <ul>
 <li>Append multiple headers and remove a body property:</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --header 'content-type: application/json' \
-  --data '{"name": "response-transformer", "config": {"append": {"headers": ["h1:v2", "h2:v1"]}, "remove": {"json": ["p1"]}}}'
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --header &#39;content-type: application/json&#39; \
+  --data &#39;{&quot;name&quot;: &quot;response-transformer&quot;, &quot;config&quot;: {&quot;append&quot;: {&quot;headers&quot;: [&quot;h1:v2&quot;, &quot;h2:v1&quot;]}, &quot;remove&quot;: {&quot;json&quot;: [&quot;p1&quot;]}}}&#39;
 </code></pre></div>
 <table><thead>
 <tr>
@@ -440,7 +440,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 

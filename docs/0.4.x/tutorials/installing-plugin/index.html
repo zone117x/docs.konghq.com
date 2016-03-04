@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -419,18 +419,18 @@
 <h2 id="1-enabling-the-plugin">1. Enabling the Plugin</h2>
 
 <p>We need to make sure that the plugin name is in the <code>plugins_available</code> property of your node&#39;s configuration:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">plugins_available</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">keyauth</span>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">plugins_available</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">keyauth</span>
 </code></pre></div>
 <p>This will make Kong load the plugin. When changing the configuration file, we need to restart Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong restart
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>kong restart
 </code></pre></div>
 <p>Repeat this step for every node in your cluster.</p>
 
 <h2 id="2-configuring-the-plugin">2. Configuring the Plugin</h2>
 
 <p>To enable the plugin on the API, we need to retrieve the API <code>id</code> that has been created when we added the API on Kong. We can list all of the APIs configured on Kong by executing:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://127.0.0.1:8001/apis/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl http://127.0.0.1:8001/apis/
 </code></pre></div>
 <p>Once we have got the <code>id</code> of the API, we can configure the key authentication plugin by performing a <code>POST</code> request with the following parameters:</p>
 
@@ -441,57 +441,57 @@
 </ul>
 
 <p>We would like every API consumer to send their credential in an <code>apikey</code> field, so we would configure the Plugin like this:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://127.0.0.1:8001/plugins_configurations/ <span class="se">\</span>
-  --data <span class="s1">'name=keyauth&amp;api_id=&lt;api_id&gt;&amp;value.key_names=apikey'</span>
+  --data <span class="s1">&#39;name=keyauth&amp;api_id=&lt;api_id&gt;&amp;value.key_names=apikey&#39;</span>
 
-HTTP/1.1 201 Created
+HTTP/1.1 <span class="m">201</span> Created
 ...
 <span class="o">{</span>
-  <span class="s2">"api_id"</span>: <span class="s2">"&lt;api_id&gt;"</span>,
-  <span class="s2">"value"</span>: <span class="o">{</span> 
-    <span class="s2">"key_names"</span>: <span class="o">[</span><span class="s2">"apikey"</span><span class="o">]</span>, 
-    <span class="s2">"hide_credentials"</span>:vfalse 
+  <span class="s2">&quot;api_id&quot;</span>: <span class="s2">&quot;&lt;api_id&gt;&quot;</span>,
+  <span class="s2">&quot;value&quot;</span>: <span class="o">{</span> 
+    <span class="s2">&quot;key_names&quot;</span>: <span class="o">[</span><span class="s2">&quot;apikey&quot;</span><span class="o">]</span>, 
+    <span class="s2">&quot;hide_credentials&quot;</span>:vfalse 
   <span class="o">}</span>,
-  <span class="s2">"id"</span>: <span class="s2">"&lt;id&gt;"</span>,
-  <span class="s2">"enabled"</span>: <span class="nb">true</span>,
-  <span class="s2">"name"</span>: <span class="s2">"keyauth"</span>
+  <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;&lt;id&gt;&quot;</span>,
+  <span class="s2">&quot;enabled&quot;</span>: <span class="nb">true</span>,
+  <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;keyauth&quot;</span>
 <span class="o">}</span>
 </code></pre></div>
 <p>Here we go, the Plugin has been successfully configured and enabled.</p>
 
 <p>If we now try to make an HTTP request to the same API, Kong will tell us that we are not authenticated to make the request.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://127.0.0.1:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: api.mockbin.com'</span>
+  --header <span class="s1">&#39;Host: api.mockbin.com&#39;</span>
 
-  HTTP/1.1 403 Forbidden
+  HTTP/1.1 <span class="m">403</span> Forbidden
   ...
   <span class="o">{</span>
-    <span class="s2">"message"</span>: <span class="s2">"Your authentication credentials are invalid"</span> 
+    <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Your authentication credentials are invalid&quot;</span> 
   <span class="o">}</span>
 </code></pre></div>
 <p>That happened because the request we made didn&#39;t provide a key named <code>apikey</code> (as specified by our plugin configuration) and it has been blocked by Kong. The request never reached the final API.</p>
 
 <p>To authenticate against the API, we need to pass a credential along with the request. As documented in the <a href="/plugins/key-authentication/">Plugin&#39;s Usage</a>, we need to create a <a href="/docs/latest/api/#consumer-object">Consumer</a> and a credential key:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://127.0.0.1:8001/consumers/ <span class="se">\</span>
-  --data <span class="s1">'username=tutorial_user'</span>
+  --data <span class="s1">&#39;username=tutorial_user&#39;</span>
 
-HTTP/1.1 201 Created
+HTTP/1.1 <span class="m">201</span> Created
 
 <span class="c"># Make sure the given consumer_id matches the freshly created account:</span>
-<span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://127.0.0.1:8001/keyauth_credentials/
-  --data <span class="s1">'key=123456&amp;consumer_id=&lt;consumer_id&gt;'</span>
-HTTP/1.1 201 Created
+  --data <span class="s1">&#39;key=123456&amp;consumer_id=&lt;consumer_id&gt;&#39;</span>
+HTTP/1.1 <span class="m">201</span> Created
 </code></pre></div>
 <p>That consumer with an associated <code>123456</code> key credential can now consume the API. We can retry to make the request passing the proper value into an <code>apikey</code> parameter:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://127.0.0.1:8000/?apikey<span class="o">=</span>123456 <span class="se">\</span>
-  --header <span class="s1">'Host: api.mockbin.com'</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+  --url http://127.0.0.1:8000/?apikey<span class="o">=</span><span class="m">123456</span> <span class="se">\</span>
+  --header <span class="s1">&#39;Host: api.mockbin.com&#39;</span>
 
-HTTP/1.1 200 OK
+HTTP/1.1 <span class="m">200</span> OK
 </code></pre></div>
 <p>Success! The request was proxied successfully to the final API.</p>
 
@@ -568,7 +568,7 @@ HTTP/1.1 200 OK
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 

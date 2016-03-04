@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -469,7 +469,7 @@
       <h1 id="plugin-development-extending-the-admin-api">Plugin Development - Extending the Admin API</h1>
 
 <h4 id="module">Module</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.api"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.api&quot;
 </code></pre></div>
 <hr>
 
@@ -486,13 +486,13 @@
 <h3 id="adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</h3>
 
 <p>Kong will detect and load your endpoints if they are defined in a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.api"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.api&quot;
 </code></pre></div>
 <p>This module is bound to return a table containing strings describing your routes (See <a href="http://leafo.net/lapis/reference/actions.html#routes--url-patterns">Lapis routes &amp; URL Patterns</a>) and HTTP verbs they support. Routes are then assigned a simple handler function.</p>
 
 <p>This table is then fed to Lapis (See Lapis&#39; <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">handling HTTP verbs documentation</a>). Example:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
-  <span class="p">[</span><span class="s2">"/my-plugin/new/get/endpoint"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">&quot;</span><span class="s">/my-plugin/new/get/endpoint&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
       <span class="c1">-- ...</span>
     <span class="k">end</span>
@@ -530,10 +530,10 @@
 <p>Since most of the operations you will perform in your endpoints will be CRUD operations, you can also use the <code>kong.api.crud_helpers</code> module. This module provides you with helpers for any insert, retrieve, update or delete operations and performs the necessary DAO operations and replies with the appropriate HTTP status codes. It also provides you with functions to retrieve parameters from the path, such as an API&#39;s name or id, or a Consumer&#39;s username or id.</p>
 
 <p>Example:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.crud_helpers"</span>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.api.crud_helpers&quot;</span>
 
 <span class="k">return</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="p">[</span><span class="s2">"/consumers/:username_or_id/key-auth/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">&quot;</span><span class="s">/consumers/:username_or_id/key-auth/&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">before</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
       <span class="n">crud</span><span class="p">.</span><span class="n">find_consumer_by_username_or_id</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
       <span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">.</span><span class="n">consumer_id</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">consumer</span><span class="p">.</span><span class="n">id</span>
@@ -628,7 +628,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 

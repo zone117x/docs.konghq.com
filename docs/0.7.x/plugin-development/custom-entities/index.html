@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -502,8 +502,8 @@
       <h1 id="plugin-development-custom-entities">Plugin Development - Custom Entities</h1>
 
 <h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
-"kong.plugins.&lt;plugin_name&gt;.daos"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.schema.migrations&quot;
+&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
 </code></pre></div>
 <hr>
 
@@ -526,30 +526,30 @@
 <p>One of the main benefits of this approach is should you need to release a new version of your plugin that modifies a model, you can simply add new migrations to the array before releasing your plugin. Another benefit is that it is also possible to revert such migrations.</p>
 
 <p>As described in the <a href="/docs/0.7.x/plugin-development/file-structure/">file structure</a> chapter, your file must be a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.schema.migrations&quot;
 </code></pre></div>
 <p>Here is an example of how one would define a migration file to store API keys:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">Migrations</span> <span class="o">=</span> <span class="p">{</span>
   <span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">2015-07-31-172400_init_keyauth&quot;</span><span class="p">,</span>
     <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
-      <span class="k">return</span> <span class="n">dao_factory</span><span class="p">:</span><span class="n">execute_queries</span> <span class="s">[[
-        CREATE TABLE IF NOT EXISTS keyauth_credentials(
-          id uuid,
-          consumer_id uuid,
-          key text,
-          created_at timestamp,
-          PRIMARY KEY (id)
-        );
+      <span class="k">return</span> <span class="n">dao_factory</span><span class="p">:</span><span class="n">execute_queries</span> <span class="s">[[</span>
+<span class="s">        CREATE TABLE IF NOT EXISTS keyauth_credentials(</span>
+<span class="s">          id uuid,</span>
+<span class="s">          consumer_id uuid,</span>
+<span class="s">          key text,</span>
+<span class="s">          created_at timestamp,</span>
+<span class="s">          PRIMARY KEY (id)</span>
+<span class="s">        );</span>
 
-        CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);
-        CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);
-      ]]</span>
+<span class="s">        CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);</span>
+<span class="s">        CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);</span>
+<span class="s">      ]]</span>
     <span class="k">end</span><span class="p">,</span>
     <span class="n">down</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
-      <span class="k">return</span> <span class="n">dao_factory</span><span class="p">:</span><span class="n">execute_queries</span> <span class="s">[[
-        DROP TABLE keyauth_credentials;
-      ]]</span>
+      <span class="k">return</span> <span class="n">dao_factory</span><span class="p">:</span><span class="n">execute_queries</span> <span class="s">[[</span>
+<span class="s">        DROP TABLE keyauth_credentials;</span>
+<span class="s">      ]]</span>
     <span class="k">end</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -577,7 +577,7 @@
 </ul>
 
 <p>This DAO is to be implemented in a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.daos.lua"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.daos.lua&quot;
 </code></pre></div>
 <p>Here is an example of how one would define a schema to inherit from the base_dao module and store API keys in a new table (&quot;column family&quot; in Cassandra):</p>
 
@@ -586,16 +586,16 @@
 </div>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
 
-<span class="kd">local</span> <span class="n">BaseDao</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.dao.cassandra.base_dao"</span>
+<span class="kd">local</span> <span class="n">BaseDao</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.dao.cassandra.base_dao&quot;</span>
 
 <span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">},</span>
   <span class="c1">-- clustering_key = {}, -- none for this entity</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"timestamp"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
-    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">"consumers:id"</span><span class="p">},</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">timestamp&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">consumers:id&quot;</span><span class="p">},</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span>
   <span class="p">},</span>
   <span class="n">marshall_event</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="c1">-- This is related to the invalidation hook</span>
     <span class="k">return</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">consumer_id</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">key</span> <span class="p">}</span>
@@ -606,7 +606,7 @@
 <span class="kd">local</span> <span class="n">KeyAuth</span> <span class="o">=</span> <span class="n">BaseDao</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
 <span class="k">function</span> <span class="nf">KeyAuth</span><span class="p">:</span><span class="n">new</span><span class="p">(</span><span class="n">cassandra_properties</span><span class="p">)</span>
-  <span class="n">self</span><span class="p">.</span><span class="n">_table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span> <span class="c1">-- same as the column family created in the migration file</span>
+  <span class="n">self</span><span class="p">.</span><span class="n">_table</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">keyauth_credentials&quot;</span> <span class="c1">-- same as the column family created in the migration file</span>
   <span class="n">self</span><span class="p">.</span><span class="n">_schema</span> <span class="o">=</span> <span class="n">SCHEMA</span>
 
   <span class="n">KeyAuth</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">cassandra_properties</span><span class="p">)</span>
@@ -750,7 +750,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 

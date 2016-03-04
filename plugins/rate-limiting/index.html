@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -155,10 +155,10 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=rate-limiting"</span> <span class="se">\</span>
-    --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
-    --data <span class="s2">"config.hour=10000"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">&quot;name=rate-limiting&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.second=5&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.hour=10000&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -226,18 +226,18 @@
 <h2 id="headers-sent-to-the-client">Headers sent to the client</h2>
 
 <p>When this plugin is enabled, Kong will send some additional headers back to the client telling how many requests are available and what are the limits allowed, for example:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Minute: 10
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
 </code></pre></div>
 <p>or it will return a combination of more time limits, if more than one is being set:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Second: 5
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Second: 5
 X-RateLimit-Remaining-Second: 4
 X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
 </code></pre></div>
 <p>If any of the limits configured is being reached, the plugin will return a <code>HTTP/1.1 429</code> status code to the client with the following JSON body:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"API rate limit exceeded"</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;API rate limit exceeded&quot;</span><span class="p">}</span>
+</code></pre></div>
         </div>
       </div>
     </div>
@@ -310,7 +310,7 @@ X-RateLimit-Remaining-Minute: 9
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 

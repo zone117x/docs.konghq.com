@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1457051719"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1457051918"/>
 </head>
 
 
@@ -191,8 +191,8 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=hmac-auth"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">&quot;name=hmac-auth&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -225,7 +225,7 @@
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
 <p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">"username=user123&amp;custom_id=SOME_CUSTOM_ID"</span> http://kong:8001/consumers/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">&quot;username=user123&amp;custom_id=SOME_CUSTOM_ID&quot;</span> http://kong:8001/consumers/
 </code></pre></div>
 <table><thead>
 <tr>
@@ -248,9 +248,9 @@
 <h3 id="create-a-credential">Create a Credential</h3>
 
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/hmac-auth <span class="se">\</span>
-    --data <span class="s2">"username=bob"</span> <span class="se">\</span>
-    --data <span class="s2">"secret=secret456"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/hmac-auth <span class="se">\</span>
+    --data <span class="s2">&quot;username=bob&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;secret=secret456&quot;</span>
 </code></pre></div>
 <p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
 
@@ -273,12 +273,12 @@
 <h3 id="signature-authentication-scheme">Signature Authentication Scheme</h3>
 
 <p>The client is expected to send an <code>Authorization</code> header with the following parameterization:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">credentials := "hmac" params
-params := keyId "," algorithm ", " headers ", " signature
-keyId := "username" "=" plain-string
-algorithm := "algorithm" "=" DQUOTE (hmac-sha1) DQUOTE
-headers := "headers" "=" plain-string
-signature := "signature" "=" plain-string
+<div class="highlight"><pre><code class="language-text" data-lang="text">credentials := &quot;hmac&quot; params
+params := keyId &quot;,&quot; algorithm &quot;, &quot; headers &quot;, &quot; signature
+keyId := &quot;username&quot; &quot;=&quot; plain-string
+algorithm := &quot;algorithm&quot; &quot;=&quot; DQUOTE (hmac-sha1) DQUOTE
+headers := &quot;headers&quot; &quot;=&quot; plain-string
+signature := &quot;signature&quot; &quot;=&quot; plain-string
 plain-string   = DQUOTE *( %x20-21 / %x23-5B / %x5D-7E ) DQUOTE
 </code></pre></div>
 <h3 id="signature-parameters">Signature Parameters</h3>
@@ -332,10 +332,10 @@ The string MUST NOT include a trailing ASCII newline.</p></li>
 <h3 id="hmac-example">HMAC Example</h3>
 
 <p>For an HMAC signature with <code>date</code> and <code>content-md5</code> headers, the <code>Proxy-Authorization</code> or <code>Authorization</code> header and signature would be generated as:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">Authorization: hmac username="bob", algorithm="hmac-sha1", headers="date content-md5", signature="Base64(HMAC-SHA1(signing string))"
+<div class="highlight"><pre><code class="language-text" data-lang="text">Authorization: hmac username=&quot;bob&quot;, algorithm=&quot;hmac-sha1&quot;, headers=&quot;date content-md5&quot;, signature=&quot;Base64(HMAC-SHA1(signing string))&quot;
 </code></pre></div>
 <p>The client would compose the signing string as:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">date: Fri, 09 Oct 2015 00:00:00 GMT\ncontent-md5: lCMsW4/JJy9vc6HjbraPzw==
+<div class="highlight"><pre><code class="language-text" data-lang="text">date: Fri, 09 Oct 2015 00:00:00 GMT\ncontent-md5: lCMsW4/JJy9vc6HjbraPzw==
 </code></pre></div>
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -422,7 +422,7 @@ The string MUST NOT include a trailing ASCII newline.</p></li>
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1457051719"></script>
+    <script src="/assets/app.js?v=1457051918"></script>
 
     <div id="fb-root"></div>
 
