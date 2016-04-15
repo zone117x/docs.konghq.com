@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1460742773"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1460754249"/>
 </head>
 
 
@@ -183,9 +183,9 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=response-ratelimiting"</span> <span class="se">\</span>
-    --data <span class="s2">"config.limits.{limit_name}.minute=10"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">&quot;name=response-ratelimiting&quot;</span> <span class="se">\</span>
+    --data <span class="s2">&quot;config.limits.{limit_name}.minute=10&quot;</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -258,10 +258,10 @@
 <h2 id="configuring-quotas">Configuring Quotas</h2>
 
 <p>After adding the plugin, you can increment the configured limits by adding the following response header:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">Header-Name: Limit=Value [,Limit=Value]
+<div class="highlight"><pre><code class="language-text" data-lang="text">Header-Name: Limit=Value [,Limit=Value]
 </code></pre></div>
 <p>Since <code>X-Kong-Limit</code> is the default header name (you can optionally change it), it will look like:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-Kong-Limit: limitname1=2, limitname2=4
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-Kong-Limit: limitname1=2, limitname2=4
 </code></pre></div>
 <p>That will increment the limit <code>limitname1</code> by 2 units, and <code>limitname2</code> by 4 units.</p>
 
@@ -272,11 +272,11 @@
 <h2 id="headers-sent-to-the-client">Headers sent to the client</h2>
 
 <p>When this plugin is enabled, Kong will send some additional headers back to the client telling how many units are available and how many are allowed. For example if you created a limit/quota called &quot;Videos&quot; with a per-minute limit:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Videos-Minute: 10
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Videos-Minute: 10
 X-RateLimit-Remaining-Videos-Minute: 9
 </code></pre></div>
 <p>or it will return a combination of more time limits, if more than one is being set:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Videos-Second: 5
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Limit-Videos-Second: 5
 X-RateLimit-Remaining-Videos-Second: 5
 X-RateLimit-Limit-Videos-Minute: 10
 X-RateLimit-Remaining-Videos-Minute: 10
@@ -355,7 +355,7 @@ X-RateLimit-Remaining-Videos-Minute: 10
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1460742773"></script>
+    <script src="/assets/app.js?v=1460754249"></script>
 
     <div id="fb-root"></div>
 

@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1460742773"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1460754249"/>
 </head>
 
 
@@ -489,7 +489,7 @@
       <h1 id="plugin-development-store-configuration">Plugin Development - Store Configuration</h1>
 
 <h4 id="module">Module</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema"
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.schema&quot;
 </code></pre></div>
 <hr>
 
@@ -505,9 +505,9 @@
 </ul>
 
 <p>For example, a user performs the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
-    -d <span class="s2">"config.foo=bar"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    -d <span class="s2">&quot;name=my-custom-plugin&quot;</span> <span class="se">\</span>
+    -d <span class="s2">&quot;config.foo=bar&quot;</span>
 </code></pre></div>
 <p>If all properties of the <code>config</code> object are valid according to your schema, then the API would return <code>201 Created</code> and the plugin would be stored in the database along with its configuration (<code>{foo = &quot;bar&quot;}</code> in this case). If the configuration is not valid, the Admin API would return <code>400 Bad Request</code> and the appropriate error messages.</p>
 
@@ -547,17 +547,17 @@
 
 <p>The <code>self_check</code> function must be implemented as follows:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
-<span class="c1">-- @param `config` A key/value table of the current plugin's configuration.</span>
+<span class="c1">-- @param `config` A key/value table of the current plugin&#39;s configuration.</span>
 <span class="c1">-- @param `dao` An instance of the DAO (see DAO chapter).</span>
 <span class="c1">-- @param `is_updating` A boolean indicating wether or not this check is performed in the context of an update.</span>
-<span class="c1">-- @return `valid` A boolean indicating if the plugin's configuration is valid or not.</span>
+<span class="c1">-- @return `valid` A boolean indicating if the plugin&#39;s configuration is valid or not.</span>
 <span class="c1">-- @return `error` A DAO error (see DAO chapter)</span>
 </code></pre></div>
 <p>Here is an example of a potential <code>schema.lua</code> file:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">-- this plugin will only be API-wide,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1">-- Describe your plugin's configuration's schema here.</span>
+    <span class="c1">-- Describe your plugin&#39;s configuration&#39;s schema here.</span>
   <span class="p">},</span>
   <span class="n">self_check</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">plugin_t</span><span class="p">,</span> <span class="n">dao</span><span class="p">,</span> <span class="n">is_updating</span><span class="p">)</span>
     <span class="c1">-- perform any custom verification</span>
@@ -569,9 +569,9 @@
 
 <p>The <code>fields</code> property of your <code>schema.lua</code> file described the schema of your plugin&#39;s configuration. It is a flexible key/value table where each key will be a valid configuration property for your plugin, and each value a table describing the rules for that property. For example:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua">  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">some_string</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
-    <span class="n">some_boolean</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span>
-    <span class="n">some_array</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">}}</span>
+    <span class="n">some_string</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">some_boolean</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">boolean&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span>
+    <span class="n">some_array</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">array&quot;</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">GET&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">POST&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">PUT&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">DELETE&quot;</span><span class="p">}}</span>
   <span class="p">}</span>
 </code></pre></div>
 <p>Here is the list of accepted rules for a property:</p>
@@ -658,24 +658,24 @@
 <span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">key_names</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"apikey"</span><span class="p">}},</span>
-    <span class="n">hide_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
+    <span class="n">key_names</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">array&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">apikey&quot;</span><span class="p">}},</span>
+    <span class="n">hide_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">boolean&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Hence, when implementing the <code>access()</code> function of your plugin in <a href="/docs/0.5.x/plugin-development/custom-logic/">handler.lua</a> and given that the user enabled the plugin with the default values, you&#39;d have access to:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
-<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.plugins.base_plugin&quot;</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
 <span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
-  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">"my-custom-plugin"</span><span class="p">)</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">my-custom-plugin&quot;</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">access</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
   <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">access</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
 
-  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">key_names</span><span class="p">)</span> <span class="c1">-- {"apikey"}</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">key_names</span><span class="p">)</span> <span class="c1">-- {&quot;apikey&quot;}</span>
   <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">hide_credentials</span><span class="p">)</span> <span class="c1">-- false</span>
 <span class="k">end</span>
 
@@ -689,48 +689,48 @@
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">server_port</span><span class="p">(</span><span class="n">given_value</span><span class="p">,</span> <span class="n">given_config</span><span class="p">)</span>
   <span class="c1">-- Custom validation</span>
   <span class="k">if</span> <span class="n">given_value</span> <span class="o">&gt;</span> <span class="mi">65534</span> <span class="k">then</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="s2">"port value too high"</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">port value too high&quot;</span>
   <span class="k">end</span>
 
-  <span class="c1">-- If environment is "development", 8080 will be the default port</span>
-  <span class="k">if</span> <span class="n">given_config</span><span class="p">.</span><span class="n">environment</span> <span class="o">==</span> <span class="s2">"development"</span> <span class="k">then</span>
+  <span class="c1">-- If environment is &quot;development&quot;, 8080 will be the default port</span>
+  <span class="k">if</span> <span class="n">given_config</span><span class="p">.</span><span class="n">environment</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="s">development&quot;</span> <span class="k">then</span>
     <span class="k">return</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="p">{</span><span class="n">port</span> <span class="o">=</span> <span class="mi">8080</span><span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="p">{</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">environment</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"production"</span><span class="p">,</span> <span class="s2">"development"</span><span class="p">}}</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">production&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">development&quot;</span><span class="p">}}</span>
     <span class="n">server</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="nb">type</span> <span class="o">=</span> <span class="s2">"table"</span><span class="p">,</span>
+      <span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">table&quot;</span><span class="p">,</span>
       <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"url"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="s2">"http://example.com"</span><span class="p">},</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"number"</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">server_port</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="mi">80</span><span class="p">}</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">url&quot;</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">http://example.com&quot;</span><span class="p">},</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">number&quot;</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">server_port</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="mi">80</span><span class="p">}</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Such a configuration will allow a user to post the configuration to your plugin as follows:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=&lt;my-custom-plugin&gt;"</span> <span class="se">\</span>
-    -d <span class="s2">"config.environment=development"</span> <span class="se">\</span>
-    -d <span class="s2">"config.server.host=http://localhost"</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    -d <span class="s2">&quot;name=&lt;my-custom-plugin&gt;&quot;</span> <span class="se">\</span>
+    -d <span class="s2">&quot;config.environment=development&quot;</span> <span class="se">\</span>
+    -d <span class="s2">&quot;config.server.host=http://localhost&quot;</span>
 </code></pre></div>
 <p>And the following will be available in <a href="/docs/0.5.x/plugin-development/custom-logic/">handler.lua</a>:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
-<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.plugins.base_plugin&quot;</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
 <span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
-  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">"my-custom-plugin"</span><span class="p">)</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">&quot;</span><span class="s">my-custom-plugin&quot;</span><span class="p">)</span>
 <span class="k">end</span>
 
 <span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">access</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
   <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">access</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
 
-  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">environment</span><span class="p">)</span> <span class="c1">-- "development"</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">host</span><span class="p">)</span> <span class="c1">-- "http://localhost"</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">environment</span><span class="p">)</span> <span class="c1">-- &quot;development&quot;</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">host</span><span class="p">)</span> <span class="c1">-- &quot;http://localhost&quot;</span>
   <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">port</span><span class="p">)</span> <span class="c1">-- 8080</span>
 <span class="k">end</span>
 
@@ -811,7 +811,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1460742773"></script>
+    <script src="/assets/app.js?v=1460754249"></script>
 
     <div id="fb-root"></div>
 
