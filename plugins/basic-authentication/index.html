@@ -42,33 +42,53 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1460583279"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1460742715"/>
 </head>
 
 
   <body id="page-plugin" >
-    <div class="navbar">
-  <div class="container">
-    <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
-    <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
-    <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
-      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-    </button>
-    <nav id="navbar" class="navbar-nav">
-      <ul>
-        <li><a href="/about/" >About</a></li>
-        <li><a href="/docs/" >Docs</a></li>
-        <li><a href="/plugins/" >Plugins</a></li>
-        <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise</a></li>
-        <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
-        <li>
-          <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://market.mashape.com">Marketplace</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="mailto:sales@mashape.com">sales@mashape.com</a></li>
+          <li><a href="tel:14158676329">+1 (415) 867-6329</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/" >Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
 
 
     <div class="page page-plugin">
@@ -167,9 +187,9 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=basic-auth&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.hide_credentials=true&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=basic-auth"</span> <span class="se">\</span>
+    --data <span class="s2">"config.hide_credentials=true"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -198,7 +218,7 @@
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
 <p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">&quot;username=user123&amp;custom_id=SOME_CUSTOM_ID&quot;</span> http://kong:8001/consumers/
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">"username=user123&amp;custom_id=SOME_CUSTOM_ID"</span> http://kong:8001/consumers/
 </code></pre></div>
 <table><thead>
 <tr>
@@ -221,9 +241,9 @@
 <h3 id="create-a-credential">Create a Credential</h3>
 
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
-    --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;password=secret&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
+    --data <span class="s2">"username=user123"</span> <span class="se">\</span>
+    --data <span class="s2">"password=secret"</span>
 </code></pre></div>
 <p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
 
@@ -328,7 +348,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1460583279"></script>
+    <script src="/assets/app.js?v=1460742715"></script>
 
     <div id="fb-root"></div>
 

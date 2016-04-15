@@ -42,33 +42,53 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1460583279"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1460742715"/>
 </head>
 
 
   <body id="page-plugin" >
-    <div class="navbar">
-  <div class="container">
-    <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
-    <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
-    <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
-      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-    </button>
-    <nav id="navbar" class="navbar-nav">
-      <ul>
-        <li><a href="/about/" >About</a></li>
-        <li><a href="/docs/" >Docs</a></li>
-        <li><a href="/plugins/" >Plugins</a></li>
-        <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise</a></li>
-        <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
-        <li>
-          <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://market.mashape.com">Marketplace</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="mailto:sales@mashape.com">sales@mashape.com</a></li>
+          <li><a href="tel:14158676329">+1 (415) 867-6329</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/" >Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
 
 
     <div class="page page-plugin">
@@ -207,10 +227,10 @@
 <h2 id="configuration">Configuration</h2>
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=oauth2&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.scopes=email,phone,address&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.mandatory_scope=true&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=oauth2"</span> <span class="se">\</span>
+    --data <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
+    --data <span class="s2">"config.mandatory_scope=true"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -304,9 +324,9 @@
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
 <p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
-    --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;custom_id=SOME_CUSTOM_ID&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
+    --data <span class="s2">"username=user123"</span> <span class="se">\</span>
+    --data <span class="s2">"custom_id=SOME_CUSTOM_ID"</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -332,11 +352,11 @@
 <h3 id="create-an-application">Create an Application</h3>
 
 <p>Then you can finally provision new OAuth 2.0 credentials (also called &quot;OAuth applications&quot;) by making the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer_id<span class="o">}</span>/oauth2 <span class="se">\</span>
-    --data <span class="s2">&quot;name=Test%20Application&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;client_id=SOME-CLIENT-ID&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;client_secret=SOME-CLIENT-SECRET&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;redirect_uri=http://some-domain/endpoint/&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer_id<span class="o">}</span>/oauth2 <span class="se">\</span>
+    --data <span class="s2">"name=Test%20Application"</span> <span class="se">\</span>
+    --data <span class="s2">"client_id=SOME-CLIENT-ID"</span> <span class="se">\</span>
+    --data <span class="s2">"client_secret=SOME-CLIENT-SECRET"</span> <span class="se">\</span>
+    --data <span class="s2">"redirect_uri=http://some-domain/endpoint/"</span>
 </code></pre></div>
 <p><code>consumer_id</code>: The <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to</p>
 
@@ -372,12 +392,12 @@
 <li>Migrate consumers and applications by creating OAuth 2.0 applications as explained above.</li>
 <li>Migrate access tokens using the <code>/oauth2_tokens</code> endpoints in the Kong&#39;s Admin API. For example:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/oauth2_tokens <span class="se">\</span>
-    --data <span class="s2">&quot;credential_id=KONG-APPLICATION-ID&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;token_type=bearer&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;access_token=SOME-TOKEN&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;refresh_token=SOME-TOKEN&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;expires_in=3600&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/oauth2_tokens <span class="se">\</span>
+    --data <span class="s2">"credential_id=KONG-APPLICATION-ID"</span> <span class="se">\</span>
+    --data <span class="s2">"token_type=bearer"</span> <span class="se">\</span>
+    --data <span class="s2">"access_token=SOME-TOKEN"</span> <span class="se">\</span>
+    --data <span class="s2">"refresh_token=SOME-TOKEN"</span> <span class="se">\</span>
+    --data <span class="s2">"expires_in=3600"</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -476,24 +496,24 @@
 </div></p></li>
 <li><p>Before showing the actual authorization page, the web application will make sure that the user is logged in.</p></li>
 <li><p>The client application will send the <code>client_id</code> in the querystring, from which the web application can retrieve both the OAuth 2.0 application name, and developer name, by making the following request to Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl kong:8001/oauth2?client_id<span class="o">=</span>XXX
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl kong:8001/oauth2?client_id<span class="o">=</span>XXX
 </code></pre></div></li>
 <li><p>If the end user authorized the application, the form will submit the data to your backend with a <code>POST</code> request, sending the <code>client_id</code>, <code>response_type</code> and <code>scope</code> parameters that were placed in <code>&lt;input type=&quot;hidden&quot; .. /&gt;</code> fields.</p></li>
 <li><p>The backend must add the <code>provision_key</code> and <code>authenticated_userid</code> parameters to the <code>client_id</code>, <code>response_type</code> and <code>scope</code> parameters and it will make a <code>POST</code> request to Kong at your API address, on the <code>/oauth2/authorize</code> endpoint. If an <code>Authorization</code> header has been sent by the client, that must be added too. The equivalent of:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl https://your.api.com/oauth2/authorize <span class="se">\</span>
-    --header <span class="s2">&quot;Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;client_id=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;response_type=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;scope=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;provision_key=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;authenticated_userid=XXX&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl https://your.api.com/oauth2/authorize <span class="se">\</span>
+    --header <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
+    --data <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"response_type=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"scope=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"authenticated_userid=XXX"</span>
 </code></pre></div>
 <p>The <code>provision_key</code> is the key the plugin has generated when it has been added to the API, while <code>authenticated_userid</code> is the ID of the logged-in end user who has granted the permission.</p></li>
 <li><p>Kong will respond with a JSON response:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&quot;redirect_uri&quot;</span><span class="p">:</span> <span class="s2">&quot;http://some/url&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://some/url"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <p>With either a <code>200 OK</code> or <code>400 Bad Request</code> response code depending if the request was successful or not.</p></li>
 <li><p>In <strong>both</strong> cases, ignore the response status code and just redirect the user to whatever URI is being returned in the <code>redirect_uri</code> property.</p></li>
 <li><p>The client appication will take it from here, and will continue the flow with Kong with no other interaction with your web application. Like exchaging the authorization code for an access token if it&#39;s an Authorization Code Grant flow.</p></li>
@@ -519,15 +539,15 @@
 <ol>
 <li><p>The client application make a request including some OAuth2 parameters, including <code>username</code> and <code>password</code> parameters.</p></li>
 <li><p>The backend will authenticate the <code>username</code> and <code>password</code> sent by the client, and if successful will add the <code>provision_key</code> and <code>authenticated_userid</code> parameters to the parameters originally sent by the client, and it will make a <code>POST</code> request to Kong at your API address, on the <code>/oauth2/token</code> endpoint. If an <code>Authorization</code> header has been sent by the client, that must be added too. The equivalent of:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl https://your.api.com/oauth2/token <span class="se">\</span>
-    --header <span class="s2">&quot;Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;client_id=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;client_secret=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;scope=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;provision_key=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;authenticated_userid=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;username=XXX&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;password=XXX&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl https://your.api.com/oauth2/token <span class="se">\</span>
+    --header <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
+    --data <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"scope=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"authenticated_userid=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"username=XXX"</span> <span class="se">\</span>
+    --data <span class="s2">"password=XXX"</span>
 </code></pre></div>
 <p>The <code>provision_key</code> is the key the plugin has generated when it has been added to the API, while <code>authenticated_userid</code> is the ID of the end user whose <code>username</code> and <code>password</code> belong to.</p></li>
 <li><p>Kong will respond with a JSON response</p></li>
@@ -612,7 +632,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1460583279"></script>
+    <script src="/assets/app.js?v=1460742715"></script>
 
     <div id="fb-root"></div>
 

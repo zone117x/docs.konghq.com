@@ -42,33 +42,53 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1460583279"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1460742715"/>
 </head>
 
 
   <body id="documentation" >
-    <div class="navbar">
-  <div class="container">
-    <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
-    <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
-    <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
-      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-    </button>
-    <nav id="navbar" class="navbar-nav">
-      <ul>
-        <li><a href="/about/" >About</a></li>
-        <li><a href="/docs/"  class="active">Docs</a></li>
-        <li><a href="/plugins/" >Plugins</a></li>
-        <li><a href="/community/" >Community</a></li>
-        <li><a href="/enterprise/" >Enterprise</a></li>
-        <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
-        <li>
-          <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://market.mashape.com">Marketplace</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="mailto:sales@mashape.com">sales@mashape.com</a></li>
+          <li><a href="tel:14158676329">+1 (415) 867-6329</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/"  class="active">Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
 
 
     <header class="page-header">
@@ -500,8 +520,8 @@
       <h1 id="plugin-development-caching-custom-entities">Plugin Development - Caching custom entities</h1>
 
 <h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
-&quot;kong.plugins.&lt;plugin_name&gt;.hooks&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.daos"
+"kong.plugins.&lt;plugin_name&gt;.hooks"
 </code></pre></div>
 <hr>
 
@@ -525,7 +545,7 @@
 <h3 id="caching-custom-entities">Caching custom entities</h3>
 
 <p>Once you have defined your custom entities, you can cache them in-memory in your code by requiring the <code>database_cache</code> dependency:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">local cache = require &quot;kong.tools.database_cache&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">local cache = require "kong.tools.database_cache"
 </code></pre></div>
 <p>This module exposes the following functions:</p>
 
@@ -567,10 +587,10 @@
 <span class="k">if</span> <span class="n">apikey</span> <span class="k">then</span> <span class="c1">-- If the apikey has been passed, we can check if it exists</span>
 
   <span class="c1">-- We are using cache.get_or_set to first check if the apikey has been already stored</span>
-  <span class="c1">-- into the in-memory cache at the key: &quot;apikeys.&quot;..apikey</span>
-  <span class="c1">-- If it&#39;s not, then we lookup the datastore and return the credential object. Internally</span>
+  <span class="c1">-- into the in-memory cache at the key: "apikeys."..apikey</span>
+  <span class="c1">-- If it's not, then we lookup the datastore and return the credential object. Internally</span>
   <span class="c1">-- cache.get_or_set will save the value in-memory, and then return the credential.</span>
-  <span class="n">credential</span> <span class="o">=</span> <span class="n">cache</span><span class="p">.</span><span class="n">get_or_set</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">apikey</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+  <span class="n">credential</span> <span class="o">=</span> <span class="n">cache</span><span class="p">.</span><span class="n">get_or_set</span><span class="p">(</span><span class="s2">"apikeys."</span><span class="o">..</span><span class="n">apikey</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
     <span class="kd">local</span> <span class="n">apikeys</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">dao</span><span class="p">.</span><span class="n">apikeys</span><span class="p">:</span><span class="n">find_by_keys</span><span class="p">({</span><span class="n">key</span> <span class="o">=</span> <span class="n">apikey</span><span class="p">})</span> <span class="c1">-- Lookup in the datastore</span>
     <span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
       <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_INTERNAL_SERVER_ERROR</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
@@ -580,8 +600,8 @@
   <span class="k">end</span><span class="p">)</span>
 <span class="k">end</span>
 
-<span class="k">if</span> <span class="ow">not</span> <span class="n">credential</span> <span class="k">then</span> <span class="c1">-- If the credential couldn&#39;t be found, show an error message</span>
-  <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_FORBIDDEN</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Invalid authentication credentials&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">credential</span> <span class="k">then</span> <span class="c1">-- If the credential couldn't be found, show an error message</span>
+  <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_FORBIDDEN</span><span class="p">(</span><span class="s2">"Invalid authentication credentials"</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <p>By doing so it doesn&#39;t matter how many requests the client makes with that particular api-key, after the first request every lookup will be done in-memory without querying the datastore.</p>
@@ -623,18 +643,18 @@
 <p>In order to listen to these events, we need to implement the <code>hooks.lua</code> file and distribute it with our plugin, for example:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- hooks.lua</span>
 
-<span class="kd">local</span> <span class="n">events</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.core.events&quot;</span>
-<span class="kd">local</span> <span class="n">cache</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.tools.database_cache&quot;</span>
+<span class="kd">local</span> <span class="n">events</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.core.events"</span>
+<span class="kd">local</span> <span class="n">cache</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.tools.database_cache"</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">invalidate_on_update</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="s">apikeys&quot;</span> <span class="k">then</span>
-    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">old_entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">"apikeys"</span> <span class="k">then</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"apikeys."</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">old_entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">invalidate_on_create</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="s">apikeys&quot;</span> <span class="k">then</span>
-    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">"apikeys"</span> <span class="k">then</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">"apikeys."</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
@@ -646,6 +666,7 @@
     <span class="n">invalidate_on_create</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="p">}</span>
+
 </code></pre></div>
 <p>In the example above the plugin is listening to the <code>ENTITY_UPDATED</code> and <code>ENTITY_DELETED</code> events and responding by invoking the appropriate function. The <code>message_t</code> table contains the event properties:</p>
 
@@ -681,13 +702,13 @@
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
 
 <span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">},</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
   <span class="c1">-- clustering_key = {}, -- none for this entity</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">timestamp&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
-    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">consumers:id&quot;</span><span class="p">},</span>
-    <span class="n">apikey</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"timestamp"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">"consumers:id"</span><span class="p">},</span>
+    <span class="n">apikey</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span>
   <span class="p">},</span>
   <span class="n">marshall_event</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="c1">-- This is related to the invalidation hook</span>
     <span class="k">return</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">consumer_id</span><span class="p">,</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">apikey</span> <span class="p">}</span>
@@ -781,7 +802,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1460583279"></script>
+    <script src="/assets/app.js?v=1460742715"></script>
 
     <div id="fb-root"></div>
 
