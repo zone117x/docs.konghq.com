@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Plugin Development - Caching custom entities - v0.8.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="http://getkong.org"/>
+  <meta property="og:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://getkong.org/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://getkong.org"/>
+  <meta name="twitter:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://getkong.org/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://getkong.org",
+      "logo": "https://getkong.org/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1461002428"/>
+</head>
+
+
+  <body id="documentation" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://market.mashape.com">Marketplace</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="https://www.mashape.com/request-demo/">Contact Sales</a></li>
+          <li><a href="tel:+18664021473">+1 (866) 402-1473</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/"  class="active">Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
+
+
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="Documentation" />
+    </div>
+    <div class="page-header-title">
+      <h1>Documentation (0.8.x)</h1>
+      <p>Learn how Kong empowers your APIs</p>
+    </div>
+
+    
+      <div class="dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version 0.8.x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+              <li>
+                <a href="/docs/0.2.0-2">
+                  0.2.0-2
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.2.x">
+                  0.2.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.3.x">
+                  0.3.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.4.x">
+                  0.4.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.5.x">
+                  0.5.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.6.x">
+                  0.6.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.7.x">
+                  0.7.x
+                  
+                </a>
+              </li>
+            
+          
+            
+          
+        </ul>
+      </div>
+    
+  </div>
+</header>
+
+<div class="container">
+  <aside class="page-navigation">
+    
+
+    
+    <nav>
+      
+      <h5>Getting Started</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/getting-started/introduction" >Introduction</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/getting-started/quickstart" >Five-minute quickstart</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/getting-started/adding-your-api" >Adding your API</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/getting-started/enabling-plugins" >Enabling Plugins</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/getting-started/adding-consumers" >Adding Consumers</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <h5>Guides &amp; References</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/configuration" >Configuration reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/cli" >CLI reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/clustering" >Clustering reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/proxy" >Proxy reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/network" >Network &amp; Firewall</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/lua-reference/" >Public Lua API reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/plugin-development" >Plugin Development Guide</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development" >Introduction</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/file-structure" >File structure</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/custom-logic" >Implement custom logic</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/plugin-configuration" >Plugin configuration</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/access-the-datastore" >Access the datastore</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/custom-entities" >Store custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/entities-cache" class="active">Caching custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/admin-api" >Extending the Admin API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/tests" >Writing tests</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/plugin-development/distribution" >Distribute your plugin</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <a href="/docs/0.8.x/admin-api/"><h5>Admin API</h5></a>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#supported-content-types" >Supported Content Types</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#information-routes" >Information routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-node-information" >Retrieve node information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#cluster" >Cluster</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-cluster-status" >Retrieve cluster status</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#forcibly-remove-a-node" >Forcibly remove a node</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#api-object" >API Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#add-api" >Add API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-api" >Retrieve API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#list-apis" >List APIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-api" >Update API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-or-create-api" >Update or create API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#delete-api" >Delete API</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#consumer-object" >Consumer Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#create-consumer" >Create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#list-consumers" >List Consumers</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-consumer" >Update Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#delete-consumer" >Delete Consumer</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.8.x/admin-api/#plugin-object" >Plugin Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#add-plugin" >Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#list-all-plugins" >List all Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-plugin" >Update Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#delete-plugin" >Delete Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.8.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        
+
+      <h1 id="plugin-development-caching-custom-entities">Plugin Development - Caching custom entities</h1>
+
+<h4 id="modules">Modules</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
+&quot;kong.plugins.&lt;plugin_name&gt;.hooks&quot;
+</code></pre></div>
+<hr>
+
+<p>Your plugin may need to frequently access custom entities (explained in the <a href="/docs/0.8.x/plugin-development/custom-entities/">previous chapter</a>) on every request and/or response. Usually loading them once, and caching them in-memory, dramatically improves the performance while making sure the datastore is not stressed with an increased load.</p>
+
+<p>Think of an api-key authentication plugin that needs to validate the api-key on every request, thus loading the custom credential object from the datastore on every request. When the client provides an api-key along with the request, normally you would query the datastore to check if that key exists, and then either block the request or retrieve the Consumer ID to identify the user. This would happen on every request, and it would be very inefficient:</p>
+
+<ul>
+<li>Querying the datastore adds latency on every request, making the request processing slower.</li>
+<li>The datastore would also be affected by an increase of load, potentially crashing or slowing down the datastore, which in turn would affect every Kong node.</li>
+</ul>
+
+<p>To avoid querying the datastore every time, we can cache custom entities in-memory on the node, so that frequent entity lookups don&#39;t trigger a datastore query every time (only the first time), but happen in-memory, which is much faster and reliable that querying it from the datastore (especially under heavy load).</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> When caching custom entities in-memory, then you also need to provide an invalidation mechanism, implemented in the "hooks.lua" file.
+</div>
+
+<hr>
+
+<h3 id="caching-custom-entities">Caching custom entities</h3>
+
+<p>Once you have defined your custom entities, you can cache them in-memory in your code by requiring the <code>database_cache</code> dependency:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">local cache = require &quot;kong.tools.database_cache&quot;
+</code></pre></div>
+<p>This module exposes the following functions:</p>
+
+<table><thead>
+<tr>
+<th>Function name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ok, err = cache.set(key, value)</code></td>
+<td>Stores a Lua object into the in-memory cache with the specified key. The value can be any Lua type, including tables. Returns <code>true</code> or <code>false</code>, and and <code>err</code> if the operation fails.</td>
+</tr>
+<tr>
+<td><code>value = cache.get(key)</code></td>
+<td>Retrieves the Lua object stored in a specific key.</td>
+</tr>
+<tr>
+<td><code>cache.delete(key)</code></td>
+<td>Deletes the cache object stored at the specified key.</td>
+</tr>
+<tr>
+<td><code>newvalue, err = cache.incr(key, amount)</code></td>
+<td>Increments a number stored in the specified key, by an amount of units specified. The number needs to be already present in the cache or an error will be returned. If successful, it returns the new incremented value, otherwise an error.</td>
+</tr>
+<tr>
+<td><code>value = cache.get_or_set(key, function)</code></td>
+<td>This is an utility method that retrieves an object with the specified key, but if the object is <code>nil</code> then the passed function will be executed instead, whose return value will be used to store the object at the specified key. This effectively makes sure that the object is only loaded from the datastore one time, since every other invocation will load the object from the in-memory cache.</td>
+</tr>
+</tbody></table>
+
+<p>Bringing back our authentication plugin example, to lookup a credential with a specific api-key, we would write something like:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- access.lua</span>
+
+<span class="kd">local</span> <span class="n">credential</span>
+
+<span class="c1">-- Retrieve the apikey from the request querystring</span>
+<span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_uri_args</span><span class="p">().</span><span class="n">apikey</span>
+<span class="k">if</span> <span class="n">apikey</span> <span class="k">then</span> <span class="c1">-- If the apikey has been passed, we can check if it exists</span>
+
+  <span class="c1">-- We are using cache.get_or_set to first check if the apikey has been already stored</span>
+  <span class="c1">-- into the in-memory cache at the key: &quot;apikeys.&quot;..apikey</span>
+  <span class="c1">-- If it&#39;s not, then we lookup the datastore and return the credential object. Internally</span>
+  <span class="c1">-- cache.get_or_set will save the value in-memory, and then return the credential.</span>
+  <span class="n">credential</span> <span class="o">=</span> <span class="n">cache</span><span class="p">.</span><span class="n">get_or_set</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">apikey</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
+    <span class="kd">local</span> <span class="n">apikeys</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">dao</span><span class="p">.</span><span class="n">apikeys</span><span class="p">:</span><span class="n">find_by_keys</span><span class="p">({</span><span class="n">key</span> <span class="o">=</span> <span class="n">apikey</span><span class="p">})</span> <span class="c1">-- Lookup in the datastore</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
+      <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_INTERNAL_SERVER_ERROR</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">elseif</span> <span class="o">#</span><span class="n">apikeys</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span>
+      <span class="k">return</span> <span class="n">apikeys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">-- Return the credential (this will be also stored in-memory)</span>
+    <span class="k">end</span>
+  <span class="k">end</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">credential</span> <span class="k">then</span> <span class="c1">-- If the credential couldn&#39;t be found, show an error message</span>
+  <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_FORBIDDEN</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">Invalid authentication credentials&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div>
+<p>By doing so it doesn&#39;t matter how many requests the client makes with that particular api-key, after the first request every lookup will be done in-memory without querying the datastore.</p>
+
+<h4 id="updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</h4>
+
+<p>Every time a cached custom entity is updated or deleted on the datastore, for example using the Admin API, it creates an inconsistency between the data in the datastore, and the data cached in-memory in the Kong node. To avoid this inconsistency, we need to delete the cached entity from the in-memory store and force Kong to request it again from the datastore. In order to do so we must implement an invalidation hook.</p>
+
+<hr>
+
+<h3 id="invalidating-custom-entities">Invalidating custom entities</h3>
+
+<p>Every time an entity is being created/updated/deleted in the datastore, Kong notifies the datastore operation across all the nodes telling what command has been executed and what entity has been affected by it. This happens for APIs, Plugins and Consumers, but also for custom entities.</p>
+
+<p>Thanks to this behavior, we can listen to these events and response with the appropriate action, so that when a cached entity is being modified in the datastore, we can explicitly remove it from the cache to avoid having an inconsistent state between the datastore and the cache itself. Removing it from the in-memory cache will trigger the system to query the datastore again, and re-cache the entity.</p>
+
+<p>The events that Kong propagates are:</p>
+
+<table><thead>
+<tr>
+<th>Event name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ENTITY_CREATED</code></td>
+<td>When any entity is being created.</td>
+</tr>
+<tr>
+<td><code>ENTITY_UPDATED</code></td>
+<td>When any entity is being updated.</td>
+</tr>
+<tr>
+<td><code>ENTITY_DELETED</code></td>
+<td>When any entity is being deleted.</td>
+</tr>
+</tbody></table>
+
+<p>In order to listen to these events, we need to implement the <code>hooks.lua</code> file and distribute it with our plugin, for example:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- hooks.lua</span>
+
+<span class="kd">local</span> <span class="n">events</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.core.events&quot;</span>
+<span class="kd">local</span> <span class="n">cache</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.tools.database_cache&quot;</span>
+
+<span class="kd">local</span> <span class="k">function</span> <span class="nf">invalidate_on_update</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="s">apikeys&quot;</span> <span class="k">then</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">old_entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="kd">local</span> <span class="k">function</span> <span class="nf">invalidate_on_create</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">message_t</span><span class="p">.</span><span class="n">collection</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="s">apikeys&quot;</span> <span class="k">then</span>
+    <span class="n">cache</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">apikeys.&quot;</span><span class="o">..</span><span class="n">message_t</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">return</span> <span class="p">{</span>
+  <span class="p">[</span><span class="n">events</span><span class="p">.</span><span class="n">TYPES</span><span class="p">.</span><span class="n">ENTITY_UPDATED</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+    <span class="n">invalidate_on_update</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+  <span class="k">end</span><span class="p">,</span>
+  <span class="p">[</span><span class="n">events</span><span class="p">.</span><span class="n">TYPES</span><span class="p">.</span><span class="n">ENTITY_DELETED</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+    <span class="n">invalidate_on_create</span><span class="p">(</span><span class="n">message_t</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In the example above the plugin is listening to the <code>ENTITY_UPDATED</code> and <code>ENTITY_DELETED</code> events and responding by invoking the appropriate function. The <code>message_t</code> table contains the event properties:</p>
+
+<table><thead>
+<tr>
+<th>Property name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>collection</code></td>
+<td>String</td>
+<td>The collection in the datastore affected by the operation.</td>
+</tr>
+<tr>
+<td><code>entity</code></td>
+<td>Table</td>
+<td>The most recent updated entity, or the entity deleted or created.</td>
+</tr>
+<tr>
+<td><code>old_entity</code></td>
+<td>Table</td>
+<td>Only for update events, the old version of the entity.</td>
+</tr>
+</tbody></table>
+
+<p>The entities being transmitted in the <code>entity</code> and <code>old_entity</code> properties do not have all the fields defined in the schema, but only a subset. This is required because every event is sent in a UDP packet with a payload size limit of 512 bytes. This subset is being returned by the <code>marshall_event</code> function in the schema, that you can optionally implement.</p>
+
+<h4 id="marshall_event">marshall_event</h4>
+
+<p>This function serializes the custom entity to a minimal version that only includes the fields we will later need to use in <code>hooks.lua</code>. If <code>marshall_event</code> is not implememented, by default Kong does not send any entity field value along with the event.</p>
+
+<p>For example:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
+
+<span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">},</span>
+  <span class="c1">-- clustering_key = {}, -- none for this entity</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">timestamp&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">consumers:id&quot;</span><span class="p">},</span>
+    <span class="n">apikey</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">queryable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="n">marshall_event</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="c1">-- This is related to the invalidation hook</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">consumer_id</span><span class="p">,</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">apikey</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In the example above the custom entity provides a <code>marshall_event</code> function that returns an object with its <code>id</code>, <code>consumer_id</code> and <code>apikey</code> fields. In our hooks we don&#39;t need <code>creation_date</code> to invalidate the entity, so we don&#39;t care to propagate it in the event. The <code>t</code> table in the arguments is the original object with all its fields.</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> The JSON serialization of the Lua table that's being returned must not exceed 512 bytes, in order to fit the entire event in one UDP packet. Failure to meet this contraints will prevent invalidation events from being propagated, thus creating inconsistencies.
+</div>
+
+<hr>
+
+<h3 id="extending-the-admin-api">Extending the Admin API</h3>
+
+<p>As you are probably aware, the <a href="/docs/0.8.x/admin-api/">Admin API</a> is where Kong users communicate with Kong to setup their APIs and plugins. It is likely that they also need to be able to interact with the custom entities you implemented for your plugin (for example, creating and deleting API keys). The way you would do this is by extending the Admin API, which we will detail in the next chapter: <a href="/docs/0.8.x/plugin-development/admin-api/">Extending the Admin API</a>.</p>
+
+<hr>
+
+<p>Next: <a href="/docs/0.8.x/plugin-development/admin-api/">Extending the Admin API &rsaquo;</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <footer class="footer">
+  
+    <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+
+    <form action="/" class="subscribe-form">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+      <div class="alert alert-success" role="alert">Thank You!</div>
+
+      <div class="input-group">
+        <input type="email" name="email" placeholder="youre@awesome.com" required/>
+        <button class="button button-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  
+
+  <div class="footer-bar">
+    <div class="container">
+      <ul class="footer-social">
+        <li>
+          <!-- verse link.web with link.share in the header -->
+          <div class="fb-share-button" data-href="https://getkong.org" data-layout="button"></div>
+        </li>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://getkong.org" data-text="KONG - the open-source management layer for APIs and Microservices" data-hashtags="opensource,API,management">Tweet</a>
+        </li>
+        <li>
+          <a class="github-button" href="https://github.com/Mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a>
+        </li>
+        <li>
+          <iframe src="//www.yvoschaap.com/producthunt/counter.html#href=http://getkong.org&amp;layout=wide" width="120" height="25" scrolling="no" frameborder="0" allowtransparency="true"></iframe>
+        </li>
+      </ul>
+    <span>
+      <a href="https://mashape.com">
+        <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
+        &copy; <strong>2016 Mashape Inc</strong>
+      </a>
+    </span>
+      <span class="footer-separator"></span>
+      <span class="footer-nav">
+        <a href="/license">License</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/enterprise">Enterprise</a>
+        <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/assets/app.js?v=1461002428"></script>
+
+    <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" target="_blank"></a>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+  </body>
+</html>
