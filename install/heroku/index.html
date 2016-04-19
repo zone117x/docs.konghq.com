@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugins - Basic Authentication | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Install - Heroku | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -46,7 +46,7 @@
 </head>
 
 
-  <body id="page-plugin" >
+  <body id="page-install-method heroku" >
     <header class="site-header">
   <div class="enterprise">
     <div class="container">
@@ -91,13 +91,13 @@
 </header>
 
 
-    <div class="page page-plugin">
+    <div class="page page-install-method heroku">
   
   <header class="page-header">
     <div class="container">
       
         <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/basic-authentication.png" alt="" />
+          <img src="/assets/images/icons/icn-installation.svg" alt="" />
         </div>
       
 
@@ -105,20 +105,16 @@
         
           <ul class="breadcrumbs">
             
-              <li class="breadcrumb-item"><a href="/plugins">Plugins</a></li>
+              <li class="breadcrumb-item"><a href="/install">Installation</a></li>
             
           </ul>
         
 
-        <h1>Basic Authentication</h1>
+        <h1>Heroku</h1>
 
         
       </div>
 
-      
-        <div class="page-header-right">
-          <a class="page-header-btn" href="mailto:support@mashape.com?subject=Basic Authentication Plugin Bug" target="_blank">Report Bug</a>
-        </div>
       
 
       
@@ -129,153 +125,275 @@
 
   <div class="container">
     <aside class="page-navigation">
+      <nav>
+        <h5>Packages</h5>
 
-      
-        <nav>
+        <ul class="packages">
           
-            <h5>Getting Started</h5>
-          
-
-          <ul>
             
-              <li>
-                <a href="#configuration">Configuration</a>
-
-                
+              
+              <li >
+                <a href="/install/docker/">Docker</a>
               </li>
             
-          </ul>
-        </nav>
-      
-        <nav>
           
-            <h5>Usage</h5>
+            
+              
+              <li >
+                <a href="/install/centos/">CentOS</a>
+              </li>
+            
           
-
-          <ul>
             
-              <li>
-                <a href="#create-a-consumer">Create a Consumer</a>
-
-                
+              
+              <li >
+                <a href="/install/redhat/">Red Hat</a>
               </li>
             
-              <li>
-                <a href="#create-a-credential">Create a Credential</a>
-
-                
+          
+            
+              
+              <li >
+                <a href="/install/debian/">Debian</a>
               </li>
             
-              <li>
-                <a href="#upstream-headers">Upstream Headers</a>
-
-                
+          
+            
+              
+              <li >
+                <a href="/install/ubuntu/">Ubuntu</a>
               </li>
             
-          </ul>
-        </nav>
-      
+          
+            
+              
+              <li >
+                <a href="/install/aws-linux/">Amazon Linux</a>
+              </li>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+              <li >
+                <a href="/install/osx/">OS X</a>
+              </li>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        </ul>
+
+        <br/>
+
+        <h5>Cloud</h5>
+
+        <ul class="cloud">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+              <li >
+                <a href="/install/aws-marketplace/">AWS Marketplace</a>
+              </li>
+            
+          
+            
+              
+              <li >
+                <a href="/install/aws-cloudformation/">AWS Cloud Formation</a>
+              </li>
+            
+          
+            
+              
+              <li class="active">
+                <a href="/install/heroku/">Heroku</a>
+              </li>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        </ul>
+
+        <br/>
+
+        <h5>Source</h5>
+
+        <ul class="packages">
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+              <li >
+                <a href="/install/vagrant/">Vagrant</a>
+              </li>
+            
+          
+            
+              
+              <li >
+                <a href="/install/source/">Compile</a>
+              </li>
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        </ul>
+
+      </nav>
     </aside>
 
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Add Basic Authentication to your APIs, with username and password protection. The plugin will check for valid credentials in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order).</p>
-
-<hr>
-
-<h2 id="configuration">Configuration</h2>
-
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">&quot;name=basic-auth&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;config.hide_credentials=true&quot;</span>
-</code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
-
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The name of the plugin to use, in this case: <code>basic-auth</code></td>
-</tr>
-<tr>
-<td><code>config.hide_credentials</code></td>
-<td>Default <code>false</code>. An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request</td>
-</tr>
-</tbody></table>
-
-<hr>
-
-<h2 id="usage">Usage</h2>
-
-<p>In order to use the plugin, you first need to create a consumer to associate one or more credentials to. The Consumer represents a developer using the final service/API.</p>
-
-<h3 id="create-a-consumer">Create a Consumer</h3>
-
-<p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object, that represents a user consuming the API. To create a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -d <span class="s2">&quot;username=user123&amp;custom_id=SOME_CUSTOM_ID&quot;</span> http://kong:8001/consumers/
-</code></pre></div>
-<table><thead>
-<tr>
-<th>parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>username</code><br><em>semi-optional</em></td>
-<td>The username of the consumer. Either this field or <code>custom_id</code> must be specified.</td>
-</tr>
-<tr>
-<td><code>custom_id</code><br><em>semi-optional</em></td>
-<td>A custom identifier used to map the consumer to another database. Either this field or <code>username</code> must be specified.</td>
-</tr>
-</tbody></table>
-
-<p>A <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> can have many credentials.</p>
-
-<h3 id="create-a-credential">Create a Credential</h3>
-
-<p>You can provision new username/password credentials by making the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
-    --data <span class="s2">&quot;username=user123&quot;</span> <span class="se">\</span>
-    --data <span class="s2">&quot;password=secret&quot;</span>
-</code></pre></div>
-<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
-
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>username</code></td>
-<td>The username to use in the Basic Authentication</td>
-</tr>
-<tr>
-<td><code>password</code><br><em>optional</em></td>
-<td>The password to use in the Basic Authentication</td>
-</tr>
-</tbody></table>
-
-<h3 id="upstream-headers">Upstream Headers</h3>
-
-<p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/Microservice, so that you can identify the consumer in your code:</p>
+          <p>Official <a href="https://github.com/heroku/heroku-kong">Heroku Kong</a> app using the <a href="https://github.com/heroku/heroku-buildpack-kong">Kong buildpack</a>:</p>
 
 <ul>
-<li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
-<li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the Consumer (if set)</li>
-<li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
-<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential</li>
+<li><a href="https://heroku.com/deploy?template=https://github.com/heroku/heroku-kong">Deploy to Heroku</a></li>
 </ul>
 
-<p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
+<hr>
 
+<h3 id="usage">Usage:</h3>
+
+<p>Get started by cloning heroku-kong and deploying it to a new Heroku app.</p>
+
+<p>The <code>serf</code> command must be installed locally to generate the cluster&#39;s shared secret. <a href="https://www.serfdom.io/downloads.html">Download Serf</a></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/heroku/heroku-kong.git
+<span class="nb">cd </span>heroku-kong
+
+<span class="c"># Create app in Common Runtime:</span>
+heroku create my-proxy-app --buildpack https://github.com/heroku/heroku-buildpack-multi.git
+<span class="c"># …or in a Private Space:</span>
+heroku create my-proxy-app --buildpack https://github.com/heroku/heroku-buildpack-multi.git --space my-private-space
+
+heroku config:set <span class="nv">KONG_CLUSTER_SECRET</span><span class="o">=</span><span class="sb">`</span>serf keygen<span class="sb">`</span>
+
+<span class="c"># If you want to try Instaclustr Cassandra, a paid add-on</span>
+heroku addons:create instaclustr:production-light
+
+git push heroku master
+<span class="c"># …the first build will take approximately ten minutes; subsequent builds approx two-minutes.</span>
+</code></pre></div>
+<p>The <a href="Procfile">Procfile</a> uses <a href="http://smarden.org/runit/">runit</a> to supervise all of Kong&#39;s processes defined in <a href="Procfile.web">Procfile.web</a>.</p>
+
+<h3 id="commands">Commands</h3>
+
+<p>To use Kong CLI in a console:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>heroku run bash
+
+<span class="c"># Run Kong in the background, so you can issue commands:</span>
+<span class="nv">$ </span>kong start -c <span class="nv">$KONG_CONF</span>
+<span class="c"># …Kong will start &amp; continue running in the background of this interactive console.</span>
+
+<span class="c"># Example commands:</span>
+<span class="nv">$ </span>kong --help
+<span class="nv">$ </span>kong migrations list -c <span class="nv">$KONG_CONF</span>
+<span class="nv">$ </span>curl http://localhost:8001/status
+</code></pre></div>
+<h3 id="notes">Notes:</h3>
+
+<ol>
+<li><p><strong>Configuration</strong>:</p>
+
+<p>Revise <a href="config/kong.yml.etlua"><code>config/kong.yml.etlua</code></a> to suite your application.</p>
+
+<p>See: <a href="https://getkong.org/docs/0.7.x/configuration/">Kong 0.7 Configuration Reference</a></p></li>
+<li><p><strong>Cassandra</strong>:</p>
+
+<p>You may connect to any Cassandra datastore accessible to your Heroku app using the <code>CASSANDRA_URL</code> config var as <a href="https://github.com/heroku/heroku-buildpack-kong#usage">documented in the buildpack</a>.</p>
+
+<p>Once Cassandra is attached to the app, Kong will automatically create the keyspace and run migrations.</p></li>
+<li><p><strong>Access via <a href="#commands">console</a></strong>:</p>
+
+<p>Make API requests to localhost with curl.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>heroku run bash
+&gt; kong start -c <span class="nv">$KONG_CONFIG</span>
+&gt; curl http://localhost:8001
+</code></pre></div></li>
+<li><p><strong>Kong plugins &amp; additional Lua modules</strong>:</p>
+
+<p>Included Plugins:</p>
+
+<ol>
+<li><a href="https://github.com/heroku/heroku-kong/blob/master/lib/kong/plugins/ndfd-xml-as-json">ndfd-xml-as-json</a>: API translation, XML as JSON for <a href="http://graphical.weather.gov/xml/">The National Digital Forecast Database</a></li>
+<li><a href="https://github.com/heroku/heroku-kong/blob/master/lib/kong/plugins/librato-analytics">librato-analytics</a>: Collect per-API metrics, explore, and set alerts on them with <a href="https://elements.heroku.com/addons/librato">Librato</a></li>
+</ol></li>
+<li><p><strong>Using Kong:</strong></p>
+
+<p>Quickly learn how to use Kong with the <a href="/docs/latest/getting-started/quickstart">5-minute Quickstart</a>.</p></li>
+</ol>
+
+
+          <hr/>
+
+          <div class="help">
+            <img align="middle" src="/assets/images/icons/icn-lifesaver.svg"/> Having Trouble? <a href="/community/">We're Here to Help!</a>
+          </div>
         </div>
       </div>
     </div>
