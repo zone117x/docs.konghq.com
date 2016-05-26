@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1464121867"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1464286297"/>
 </head>
 
 
@@ -166,6 +166,12 @@
                 
               </li>
             
+              <li>
+                <a href="#upstream-headers">Upstream Headers</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -215,6 +221,11 @@
 <td><code>config.continue_on_error</code></td>
 <td><em>optional</em></td>
 <td>A boolean value that determines if the requests should be proxied even if Kong has troubles connecting to the datastore. If <code>true</code> requests will be proxied anyways effectively disabling the rate-limiting function until the datastore is working again. If <code>false</code> then the clients will see <code>500</code> errors. By default is <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>config.block_on_first_violation</code></td>
+<td><em>optional</em></td>
+<td>A boolean value that determines if the requests should be blocked as soon as one limit is being exceeded. This will block requests that are supposed to consume other limits too. By default is <code>false</code>.</td>
 </tr>
 <tr>
 <td><code>config.limits.{limit_name}</code></td>
@@ -283,6 +294,12 @@ X-RateLimit-Remaining-Videos-Minute: 10
 </code></pre></div>
 <p>If any of the limits configured is being reached, the plugin will return a <code>HTTP/1.1 429</code> status code and an empty body.</p>
 
+<h3 id="upstream-headers">Upstream Headers</h3>
+
+<p>The plugin will append the usage headers for each limit before proxying it to the upstream API/Microservice, so that you can properly refuse to process the request if there are no more limits remaining. The headers are in the form of <code>X-RateLimit-Remaining-{limit_name}</code>, like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">X-RateLimit-Remaining-Videos: 3
+X-RateLimit-Remaining-Images: 0
+</code></pre></div>
         </div>
       </div>
     </div>
@@ -355,7 +372,7 @@ X-RateLimit-Remaining-Videos-Minute: 10
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1464121867"></script>
+    <script src="/assets/app.js?v=1464286297"></script>
 
     <div id="fb-root"></div>
 
