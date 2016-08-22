@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Plugin Development - Custom Entities - v0.9.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="http://getkong.org"/>
+  <meta property="og:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://getkong.org/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://getkong.org"/>
+  <meta name="twitter:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://getkong.org/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://getkong.org",
+      "logo": "https://getkong.org/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1471890998"/>
+</head>
+
+
+  <body id="documentation" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://market.mashape.com">Marketplace</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="https://www.mashape.com/request-demo/">Request Demo</a></li>
+          <li><a href="tel:+18664021473">Sales: +1 (866) 402-1473</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/"  class="active">Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
+
+
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="Documentation" />
+    </div>
+    <div class="page-header-title">
+      <h1>Documentation (0.9.x)</h1>
+      <p>Learn how Kong empowers your APIs</p>
+    </div>
+
+    
+      <div class="dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version 0.9.x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+              <li>
+                <a href="/docs/0.2.0-2">
+                  0.2.0-2
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.2.x">
+                  0.2.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.3.x">
+                  0.3.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.4.x">
+                  0.4.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.5.x">
+                  0.5.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.6.x">
+                  0.6.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.7.x">
+                  0.7.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.8.x">
+                  0.8.x
+                  
+                </a>
+              </li>
+            
+          
+            
+          
+        </ul>
+      </div>
+    
+  </div>
+</header>
+
+<div class="container">
+  <aside class="page-navigation">
+    
+
+    
+    <nav>
+      
+      <h5>Getting Started</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/getting-started/introduction" >Introduction</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/getting-started/quickstart" >Five-minute quickstart</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/getting-started/adding-your-api" >Adding your API</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/getting-started/enabling-plugins" >Enabling Plugins</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/getting-started/adding-consumers" >Adding Consumers</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <h5>Guides &amp; References</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/configuration" >Configuration reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/cli" >CLI reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/clustering" >Clustering reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/proxy" >Proxy reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/network" >Network &amp; Firewall</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/lua-reference/" >Public Lua API reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/plugin-development" >Plugin Development Guide</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development" >Introduction</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/file-structure" >File structure</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/custom-logic" >Implement custom logic</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/plugin-configuration" >Plugin configuration</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/access-the-datastore" >Access the datastore</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/custom-entities" class="active">Store custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/entities-cache" >Caching custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/admin-api" >Extending the Admin API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/tests" >Writing tests</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/plugin-development/distribution" >Distribute your plugin</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <a href="/docs/0.9.x/admin-api/"><h5>Admin API</h5></a>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#supported-content-types" >Supported Content Types</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#information-routes" >Information routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-node-information" >Retrieve node information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#cluster" >Cluster</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-cluster-status" >Retrieve cluster status</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#forcibly-remove-a-node" >Forcibly remove a node</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#api-object" >API Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#add-api" >Add API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-api" >Retrieve API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#list-apis" >List APIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-api" >Update API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-or-create-api" >Update or create API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#delete-api" >Delete API</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#consumer-object" >Consumer Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#create-consumer" >Create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#list-consumers" >List Consumers</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-consumer" >Update Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#delete-consumer" >Delete Consumer</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.9.x/admin-api/#plugin-object" >Plugin Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#add-plugin" >Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#list-all-plugins" >List all Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-plugin" >Update Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#delete-plugin" >Delete Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.9.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        
+
+      <h1 id="plugin-development-custom-entities">Plugin Development - Custom Entities</h1>
+
+<h4 id="modules">Modules</h4>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.schema.migrations&quot;
+&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
+</code></pre></div>
+<hr>
+
+<p>Your plugin might need to store more than its configuration in the database. In that case, Kong provides you with an abstraction on top of its primary datastores which allows you to store custom entities.</p>
+
+<p>As explained in the <a href="/docs/0.9.x/plugin-development/access-the-datastore/">previous chapter</a>, Kong interacts with the model layer through classes we refer to as &quot;DAOs&quot;, and available on a singleton often refered to as the &quot;DAO Factory&quot;. This chapter will explain how to to provide an abstraction for your own entities.</p>
+
+<hr>
+
+<h3 id="create-a-migration-file">Create a migration file</h3>
+
+<p>Once you have defined your model, you must create your migration modules which will be executed by Kong to create the table in which your records of your entity will be stored. A migration file simply holds an array of migrations, and returns them.</p>
+
+<p>Since Kong <code>0.8.0</code>, both Cassandra and PostgreSQL are supported, which requires that your plugin implements its migrations for both databases.</p>
+
+<p>Each migration must bear a unique name, and <code>up</code> and <code>down</code> fields. Such fields can either be strings of SQL/CQL queries for simple migrations, or actual Lua code to execute for complex ones. The <code>up</code> field will be executed when Kong migrates <strong>forward</strong>. It must bring your database&#39;s schema to the latest state required by your plugin. The <code>down</code> field must execute the necessary actions to revert your schema to its previous state, before <code>up</code> was ran.</p>
+
+<p>One of the main benefits of this approach is should you need to release a new version of your plugin that modifies a model, you can simply add new migrations to the array before releasing your plugin. Another benefit is that it is also possible to revert such migrations.</p>
+
+<p>As described in the <a href="/docs/0.9.x/plugin-development/file-structure/">file structure</a> chapter, your migrations modules must be named:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.migrations.cassandra&quot;
+&quot;kong.plugins.&lt;plugin_name&gt;.migrations.postgres&quot;
+</code></pre></div>
+<p>Here is an example of how one would define a migration file to store API keys:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- cassandra.lua</span>
+<span class="k">return</span> <span class="p">{</span>
+  <span class="p">{</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">2015-07-31-172400_init_keyauth&quot;</span><span class="p">,</span>
+    <span class="n">up</span> <span class="o">=</span>  <span class="s">[[</span>
+<span class="s">      CREATE TABLE IF NOT EXISTS keyauth_credentials(</span>
+<span class="s">        id uuid,</span>
+<span class="s">        consumer_id uuid,</span>
+<span class="s">        key text,</span>
+<span class="s">        created_at timestamp,</span>
+<span class="s">        PRIMARY KEY (id)</span>
+<span class="s">      );</span>
+
+<span class="s">      CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);</span>
+<span class="s">      CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);</span>
+<span class="s">    ]]</span><span class="p">,</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="s">[[</span>
+<span class="s">      DROP TABLE keyauth_credentials;</span>
+<span class="s">    ]]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- postgres.lua</span>
+<span class="k">return</span> <span class="p">{</span>
+  <span class="p">{</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">2015-07-31-172400_init_keyauth&quot;</span><span class="p">,</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="s">[[</span>
+<span class="s">      CREATE TABLE IF NOT EXISTS keyauth_credentials(</span>
+<span class="s">        id uuid,</span>
+<span class="s">        consumer_id uuid REFERENCES consumers (id) ON DELETE CASCADE,</span>
+<span class="s">        key text UNIQUE,</span>
+<span class="s">        created_at timestamp without time zone default (CURRENT_TIMESTAMP(0) at time zone &#39;utc&#39;),</span>
+<span class="s">        PRIMARY KEY (id)</span>
+<span class="s">      );</span>
+
+<span class="s">      DO $$</span>
+<span class="s">      BEGIN</span>
+<span class="s">        IF (SELECT to_regclass(&#39;public.keyauth_key_idx&#39;)) IS NULL THEN</span>
+<span class="s">          CREATE INDEX keyauth_key_idx ON keyauth_credentials(key);</span>
+<span class="s">        END IF;</span>
+<span class="s">        IF (SELECT to_regclass(&#39;public.keyauth_consumer_idx&#39;)) IS NULL THEN</span>
+<span class="s">          CREATE INDEX keyauth_consumer_idx ON keyauth_credentials(consumer_id);</span>
+<span class="s">        END IF;</span>
+<span class="s">      END$$;</span>
+<span class="s">    ]]</span><span class="p">,</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="s">[[</span>
+<span class="s">      DROP TABLE keyauth_credentials;</span>
+<span class="s">    ]]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>name</code>: Must be a unique string. The format does not matter but can help you debug issues while developing your plugin, so make sure to name it in a relevant way.</li>
+<li><code>up</code>: Executed when Kong migrates <strong>forward</strong>.</li>
+<li><code>down</code>: Executed when Kong migrates <strong>backward</strong>.</li>
+</ul>
+
+<p>While Postgres does, Cassandra does not support constraints such as &quot;NOT NULL&quot;, &quot;UNIQUE&quot; or &quot;FOREIGN KEY&quot;, but Kong provides you with such features when you define your model&#39;s schema. bear in mind that this schema will be the same for both PostgreSQL and Cassandra, hence, you might trade-off a pure SQL schema for one that works with Cassandra too.</p>
+
+<hr>
+
+<h3 id="retrieve-your-custom-dao-from-the-dao-factory">Retrieve your custom DAO from the Dao Factory</h3>
+
+<p>To make the DAO Factory load your custom DAO(s), you will simply need to define your entity&#39;s schema (just like the schemas describing your <a href="/docs/0.9.x/plugin-development/plugin-configuration/">plugin configuration</a>). This schema contains a few more values since it must describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints and such.</p>
+
+<p>This schema is to be defined in a module named:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
+</code></pre></div>
+<p>Once that module returns your entity&#39;s schema, and assuming your plugin is loaded by Kong (see the <code>custom_plugins</code> property in <code>kong.yml</code>), the DAO Factory will use it to instanciate a DAO object.</p>
+
+<p>Here is an example of how one would define a schema to store API keys in a his or her database:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
+<span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">},</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">keyauth_credentials&quot;</span><span class="p">,</span> <span class="c1">-- the actual table in the database</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- a value to be inserted by the DAO itself (think of serial ID and the uniqueness of such required here)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">timestamp&quot;</span><span class="p">,</span> <span class="n">immutable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- also interted by the DAO itself</span>
+    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">consumers:id&quot;</span><span class="p">},</span> <span class="c1">-- a foreign key to a Consumer&#39;s id</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span> <span class="c1">-- a unique API key</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="p">{</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">SCHEMA</span><span class="p">}</span> <span class="c1">-- this plugin only results in one custom DAO, named `keyauth_credentials`</span>
+</code></pre></div>
+<p>Since your plugin might have to deal with multiple custom DAOs (in the case when you want to store several entities), this module is bound to return a key/value table where keys are the name on which the custom DAO will be available in the DAO Factory.</p>
+
+<p>You will have noticed a few new properties in the schema definition (compared to your <a href="/docs/0.9.x/plugin-development/plugin-configuration/">schema.lua</a> file):</p>
+
+<table><thead>
+<tr>
+<th>Property name</th>
+<th>Lua type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>primary_key</code></td>
+<td>Integer indexed table</td>
+<td>An array of each part of your column family&#39;s primary key. It also supports <strong>composite keys</strong>, even if all Kong entities currently use a simple <code>id</code> for usability of the <a href="/docs/0.9.x/admin-api/">Admin API</a>. If your primary key is composite, only include what makes your <strong>partition key</strong>.</td>
+</tr>
+<tr>
+<td><code>fields.*.dao_insert_value</code></td>
+<td>Boolean</td>
+<td>If true, specifies that this field is to be automatically populated by the DAO (in the base_dao implementation) depending on it&#39;s type. A property of type <code>id</code> will be a generated uuid, and <code>timestamp</code> a timestamp with second-precision.</td>
+</tr>
+<tr>
+<td><code>fields.*.queryable</code></td>
+<td>Boolean</td>
+<td>If true, specifies that Cassandra maintains an index on the specified column. This allows for querying the column family filtered by this column.</td>
+</tr>
+<tr>
+<td><code>fields.*.foreign</code></td>
+<td>String</td>
+<td>Specifies that this column is a foreign key to another entity&#39;s column. The format is: <code>dao_name:column_name</code>. This makes it up for Cassandra not supporting foreign keys. When the parent row will be deleted, Kong will also delete rows containing the parent&#39;s column value.</td>
+</tr>
+</tbody></table>
+
+<p>Your DAO will now be loaded by the DAO Factory and available as one of its properties:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.singletons&quot;</span>
+<span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span>
+
+<span class="kd">local</span> <span class="n">keys_dao</span> <span class="o">=</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span>
+
+<span class="kd">local</span> <span class="n">key_credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">keys_dao</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
+  <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">abcd&quot;</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>The DAO name (<code>keyauth_credentials</code>) with which it is accessible from the DAO Factory depends on the key with which you exported your DAO in the returned table of <code>daos.lua</code>.</p>
+
+<hr>
+
+<h3 id="caching-custom-entities">Caching custom entities</h3>
+
+<p>Sometimes custom entities are required on every request/response, which in turn triggers a query on the datastore every time. This is very inefficient because querying the datastore adds latency and slows the request/response down, and the resulting increased load on the datastore could affect the datastore performance itself and, in turn, other Kong nodes.</p>
+
+<p>When a custom entity is required on every request/response it is good practice to cache it in-memory by leveraging the in-memory cache API that Kong provides.</p>
+
+<p>The next chapter will focus on caching custom entities, and invalidating them when they change in the datastore: <a href="/docs/0.9.x/plugin-development/entities-cache/">Caching custom entities</a>.</p>
+
+<hr>
+
+<p>Next: <a href="/docs/0.9.x/plugin-development/entities-cache/">Caching custom entities &rsaquo;</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <footer class="footer">
+  
+    <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+
+    <form action="/" class="subscribe-form">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+      <div class="alert alert-success" role="alert">Thank You!</div>
+
+      <div class="input-group">
+        <input type="email" name="email" placeholder="youre@awesome.com" required/>
+        <button class="button button-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  
+
+  <div class="footer-bar">
+    <div class="container">
+      <ul class="footer-social">
+        <li>
+          <!-- verse link.web with link.share in the header -->
+          <div class="fb-share-button" data-href="https://getkong.org" data-layout="button"></div>
+        </li>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://getkong.org" data-text="KONG - the open-source management layer for APIs and Microservices" data-hashtags="opensource,API,management">Tweet</a>
+        </li>
+        <li>
+          <a class="github-button" href="https://github.com/Mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a>
+        </li>
+      </ul>
+    <span>
+      <a href="https://mashape.com">
+        <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
+        &copy; <strong>2016 Mashape Inc</strong>
+      </a>
+    </span>
+      <span class="footer-separator"></span>
+      <span class="footer-nav">
+        <a href="/license">License</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/enterprise">Enterprise</a>
+        <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/assets/app.js?v=1471890998"></script>
+
+    <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true"></a>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+  </body>
+</html>
