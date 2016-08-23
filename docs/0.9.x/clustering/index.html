@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1471912301"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1471987921"/>
 </head>
 
 
@@ -55,12 +55,12 @@
           <li class="active"><a href="http://getkong.org">Kong</a></li>
           <li><a href="http://gelato.io">Gelato</a></li>
           <li><a href="http://getgalileo.io">Galileo</a></li>
-          <li><a href="http://market.mashape.com">Marketplace</a></li>
+          <li><a href="http://www.mashape.com/enterprise/">Enterprise</a></li>
         </ul>
       </nav>
       <nav class="enterprise-contact one-half column">
         <ul>
-          <li><a href="https://www.mashape.com/request-demo/">Request Demo</a></li>
+          <li><a href="https://www.mashape.com/enterprise/#demo-form">Request Demo</a></li>
           <li><a href="tel:+18664021473">Sales: +1 (866) 402-1473</a></li>
         </ul>
       </nav>
@@ -79,7 +79,7 @@
           <li><a href="/docs/"  class="active">Docs</a></li>
           <li><a href="/plugins/" >Plugins</a></li>
           <li><a href="/community/" >Community</a></li>
-          <li><a href="/enterprise/" >Enterprise</a></li>
+          <li><a href="https://www.mashape.com/enterprise/">Enterprise</a></li>
           <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
           <li>
             <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
@@ -565,7 +565,7 @@
 </ul></li>
 </ul>
 
-<h2 id="1-introduction">1. Introduction</h2>
+<h2 id="1.-introduction">1. Introduction</h2>
 
 <p>Generally speaking having multiple Kong nodes is a good practice for a number of reasons, including:</p>
 
@@ -583,7 +583,7 @@
 
 <p>By doing so it doesn&#39;t matter which Kong node is being requested, as long as they all point to the same datastore every node will be able to retrieve the same data and thus process requests in the same way.</p>
 
-<h2 id="2-how-does-kong-clustering-work">2. How does Kong clustering work?</h2>
+<h2 id="2.-how-does-kong-clustering-work?">2. How does Kong clustering work?</h2>
 
 <p>Every time a new Kong node is started, it must join other Kong nodes that are using the same datastore. This is done automatically given that the right configuration has been provided to Kong.</p>
 
@@ -595,7 +595,7 @@
 <li><a href="/docs/0.9.x/configuration/#cluster">cluster</a></li>
 </ul>
 
-<h4 id="why-do-we-need-kong-clustering">Why do we need Kong Clustering?</h4>
+<h4 id="why-do-we-need-kong-clustering?">Why do we need Kong Clustering?</h4>
 
 <p>To understand why a Kong Cluster is needed, we need to spend a few words on how Kong interacts with the datastore.</p>
 
@@ -609,7 +609,7 @@
 
 <p>This brings on the table very good performance, because Kong nodes will never talk to the datastore again unless they really have to. On the other side it introduces the concept of Kong Clustering, where we need to make sure that each node is aware of every other node so that they can communicate any change. Failure to do so would bring an inconsistency between the data effectively stored in the datastore, and the cached data store by each Kong node, leading to unexpected behavior.</p>
 
-<h2 id="3-adding-new-nodes-to-a-cluster">3. Adding new nodes to a cluster</h2>
+<h2 id="3.-adding-new-nodes-to-a-cluster">3. Adding new nodes to a cluster</h2>
 
 <p>Every Kong node that points to the same datastore needs to join in a cluster with the other nodes. A Kong Cluster is made of at least two Kong nodes pointing to the same datastore.</p>
 
@@ -617,7 +617,7 @@
 
 <p>A Kong node only needs to join one another node in a cluster, and it will automatically discover the entire cluster.</p>
 
-<h2 id="4-removing-nodes-from-a-cluster">4. Removing nodes from a cluster</h2>
+<h2 id="4.-removing-nodes-from-a-cluster">4. Removing nodes from a cluster</h2>
 
 <p>Everytime a new Kong node is stopped, that node will try to gracefully remove itself from the cluster. When a node has been successfully removed from a cluster, its state transitions from <code>alive</code> to <code>left</code>.</p>
 
@@ -632,7 +632,7 @@
 
 <p>Check the <a href="#node-failures">Node Failures</a> paragraph for more info.</p>
 
-<h2 id="5-checking-the-cluster-state">5. Checking the cluster state</h2>
+<h2 id="5.-checking-the-cluster-state">5. Checking the cluster state</h2>
 
 <p>You can check the cluster state, its nodes and the state of each node in two ways.</p>
 
@@ -641,13 +641,13 @@
 <li>Another way to check the state of the cluster is by making a request to the Admin API at the <a href="/docs/0.9.x/admin-api/#retrieve-cluster-status">cluster status endpoint</a>.</li>
 </ul>
 
-<h2 id="6-network-assumptions">6. Network Assumptions</h2>
+<h2 id="6.-network-assumptions">6. Network Assumptions</h2>
 
 <p>When configuring a cluster in either a single or multi-datancer setup, you need to know that Kong works on the IP layer (hostnames are not supported, only IPs are allowed) and it expects a flat network topology without any NAT between the two datacenters. A common setup is having a VPN between the two datacenters such that the &quot;flat&quot; network assumption of Kong is not violated. Or by advertising public addresses using the <code>advertise</code> property in the <a href="/docs/0.9.x/configuration/#cluster">cluster settings</a> without jumping through the NAT.</p>
 
 <p>Kong will try to automatically determine the first non-loopback IPv4 address and share it with the other nodes, but you can override this address using the <code>advertise</code> property in the <a href="/docs/0.9.x/configuration/#cluster">cluster settings</a>.</p>
 
-<h2 id="7-edge-case-scenarios">7. Edge-case scenarios</h2>
+<h2 id="7.-edge-case-scenarios">7. Edge-case scenarios</h2>
 
 <p>The implementation of the clustering feature of Kong is rather complex and may involve some edge case scenarios.</p>
 
@@ -732,7 +732,7 @@
         <a href="/license">License</a>
         <a href="/terms">Terms</a>
         <a href="/privacy">Privacy</a>
-        <a href="/enterprise">Enterprise</a>
+        <a href="https://www.mashape.com/enterprise/">Enterprise</a>
         <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
       </span>
     </div>
@@ -741,7 +741,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1471912301"></script>
+    <script src="/assets/app.js?v=1471987921"></script>
 
     <div id="fb-root"></div>
 
