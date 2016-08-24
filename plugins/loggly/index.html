@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1471988023"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1472072823"/>
 </head>
 
 
@@ -161,7 +161,7 @@
               </li>
             
               <li>
-                <a href="#notes">Notes</a>
+                <a href="#kong-process-errors">Kong Process Errors</a>
 
                 
               </li>
@@ -187,55 +187,69 @@
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
+<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+
 <table><thead>
 <tr>
 <th>parameter</th>
+<th>default</th>
 <th>description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td><code>name</code></td>
+<td></td>
 <td>The name of the plugin to use, in this case: <code>loggly</code></td>
 </tr>
 <tr>
 <td><code>consumer_id</code><br><em>optional</em></td>
+<td></td>
 <td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
 </tr>
 <tr>
 <td><code>config.host</code><br><em>optional</em></td>
-<td>Default <code>logs-01.loggly.com</code>. The IP address or host name of Loggly server</td>
+<td><code>logs-01.loggly.com</code></td>
+<td>The IP address or host name of Loggly server</td>
 </tr>
 <tr>
 <td><code>config.port</code><br><em>optional</em></td>
-<td>Default <code>514</code>. The UDP port to send data to on the Loggly server</td>
+<td><code>514</code></td>
+<td>The UDP port to send data to on the Loggly server</td>
 </tr>
 <tr>
 <td><code>config.key</code></td>
+<td></td>
 <td>Loggly <a href="https://www.loggly.com/docs/customer-token-authentication-token/">customer token</a>.</td>
 </tr>
 <tr>
 <td><code>config.tags</code><br><em>optional</em></td>
-<td>Default <code>kong</code>. An optional list of <a href="https://www.loggly.com/docs/tags/">tags</a> to support segmentation &amp; filtering of logs.</td>
+<td><code>kong</code></td>
+<td>An optional list of <a href="https://www.loggly.com/docs/tags/">tags</a> to support segmentation &amp; filtering of logs.</td>
 </tr>
 <tr>
 <td><code>config.timeout</code><br><em>optional</em></td>
-<td>Default <code>10000</code>. An optional timeout in milliseconds when sending data to the Loggly server</td>
+<td><code>10000</code></td>
+<td>An optional timeout in milliseconds when sending data to the Loggly server</td>
 </tr>
 <tr>
 <td><code>config.successful_severity</code><br><em>optional</em></td>
-<td>Default <code>info</code>. An optional logging severity assigned to the all successful requests with response status code 400 .</td>
+<td><code>info</code></td>
+<td>An optional logging severity assigned to the all successful requests with response status code 400 .</td>
 </tr>
 <tr>
 <td><code>config.client_errors_severity</code><br><em>optional</em></td>
-<td>Default <code>info</code>. An optional logging severity assigned to the all failed requests with response status code 400 or higher but less than 500.</td>
+<td><code>info</code></td>
+<td>An optional logging severity assigned to the all failed requests with response status code 400 or higher but less than 500.</td>
 </tr>
 <tr>
 <td><code>config.server_errors_severity</code><br><em>optional</em></td>
-<td>Default <code>info</code>. An optional logging severity assigned to the all failed requests with response status code 500 or higher.</td>
+<td><code>info</code></td>
+<td>An optional logging severity assigned to the all failed requests with response status code 500 or higher.</td>
 </tr>
 <tr>
 <td><code>config.log_level</code><br><em>optional</em></td>
-<td>Default <code>info</code>. An optional logging severity, any request with equal or higher severity will be logged to Loggly.</td>
+<td><code>info</code></td>
+<td>An optional logging severity, any request with equal or higher severity will be logged to Loggly.</td>
 </tr>
 </tbody></table>
 
@@ -310,9 +324,9 @@
 
 <hr>
 
-<h2 id="notes">Notes</h2>
+<h2 id="kong-process-errors">Kong Process Errors</h2>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.9.x/configuration/#nginx_working_dir">nginx_working_dir</a>}/logs/error.log</p>
+<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.9.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
         </div>
       </div>
@@ -383,7 +397,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1471988023"></script>
+    <script src="/assets/app.js?v=1472072823"></script>
 
     <div id="fb-root"></div>
 
