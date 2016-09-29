@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1475143026"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1475144050"/>
 </head>
 
 
@@ -903,17 +903,17 @@ or closed off network to ensure security.
   <span class="l-Scalar-Plain">error_log logs/error.log error;</span>
   <span class="l-Scalar-Plain">daemon on;</span>
 
-  <span class="l-Scalar-Plain">worker_rlimit_nofile ;</span>
+  <span class="l-Scalar-Plain">worker_rlimit_nofile {{auto_worker_rlimit_nofile}};</span>
 
   <span class="l-Scalar-Plain">env KONG_CONF;</span>
 
   <span class="l-Scalar-Plain">events {</span>
-    <span class="l-Scalar-Plain">worker_connections ;</span>
+    <span class="l-Scalar-Plain">worker_connections {{auto_worker_connections}};</span>
     <span class="l-Scalar-Plain">multi_accept on;</span>
   <span class="l-Scalar-Plain">}</span>
 
   <span class="l-Scalar-Plain">http {</span>
-    <span class="l-Scalar-Plain">resolver  ipv6=off;</span>
+    <span class="l-Scalar-Plain">resolver {{dns_resolver}} ipv6=off;</span>
     <span class="l-Scalar-Plain">charset UTF-8;</span>
 
     <span class="l-Scalar-Plain">access_log logs/access.log;</span>
@@ -954,11 +954,11 @@ or closed off network to ensure security.
     <span class="l-Scalar-Plain">lua_max_pending_timers 16384;</span>
     <span class="l-Scalar-Plain">lua_shared_dict reports_locks 100k;</span>
     <span class="l-Scalar-Plain">lua_shared_dict cluster_locks 100k;</span>
-    <span class="l-Scalar-Plain">lua_shared_dict cache m;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict cache {{memory_cache_size}}m;</span>
     <span class="l-Scalar-Plain">lua_shared_dict cassandra 1m;</span>
     <span class="l-Scalar-Plain">lua_shared_dict cassandra_prepared 5m;</span>
     <span class="l-Scalar-Plain">lua_socket_log_errors off;</span>
-
+    <span class="l-Scalar-Plain">{{lua_ssl_trusted_certificate}}</span>
 
     <span class="l-Scalar-Plain">init_by_lua &#39;</span>
       <span class="l-Scalar-Plain">kong = require &quot;kong&quot;</span>
@@ -973,13 +973,13 @@ or closed off network to ensure security.
 
     <span class="s">server</span><span class="nv"> </span><span class="s">{</span>
       <span class="s">server_name</span><span class="nv"> </span><span class="s">_;</span>
-      <span class="s">listen</span><span class="nv"> </span><span class="s">;</span>
-      <span class="s">listen</span><span class="nv">  </span><span class="s">ssl;</span>
+      <span class="s">listen</span><span class="nv"> </span><span class="s">{{proxy_listen}};</span>
+      <span class="s">listen</span><span class="nv"> </span><span class="s">{{proxy_listen_ssl}}</span><span class="nv"> </span><span class="s">ssl;</span>
 
       <span class="s">ssl_certificate_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_certificate()&#39;;</span>
 
-      <span class="s">ssl_certificate</span><span class="nv"> </span><span class="s">;</span>
-      <span class="s">ssl_certificate_key</span><span class="nv"> </span><span class="s">;</span>
+      <span class="s">ssl_certificate</span><span class="nv"> </span><span class="s">{{ssl_cert}};</span>
+      <span class="s">ssl_certificate_key</span><span class="nv"> </span><span class="s">{{ssl_key}};</span>
       <span class="s">ssl_protocols</span><span class="nv"> </span><span class="s">TLSv1</span><span class="nv"> </span><span class="s">TLSv1.1</span><span class="nv"> </span><span class="s">TLSv1.2;#</span><span class="nv"> </span><span class="s">omit</span><span class="nv"> </span><span class="s">SSLv3</span><span class="nv"> </span><span class="s">because</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">POODLE</span><span class="nv"> </span><span class="s">(CVE-2014-3566)</span>
 
       <span class="s">location</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">{</span>
@@ -992,7 +992,6 @@ or closed off network to ensure security.
         <span class="s">#</span><span class="nv"> </span><span class="s">Authenticate</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">load</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">info</span>
         <span class="s">access_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_access()&#39;;</span>
 
-        <span class="s">#</span><span class="nv"> </span><span class="s">Proxy</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">request</span>
         <span class="s">#</span><span class="nv"> </span><span class="s">Proxy</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">request</span>
         <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">X-Real-IP</span><span class="nv"> </span><span class="s">$remote_addr;</span>
         <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">X-Forwarded-For</span><span class="nv"> </span><span class="s">$proxy_add_x_forwarded_for;</span>
@@ -1026,7 +1025,7 @@ or closed off network to ensure security.
     <span class="err">}</span>
 
     <span class="l-Scalar-Plain">server {</span>
-      <span class="l-Scalar-Plain">listen ;</span>
+      <span class="l-Scalar-Plain">listen {{admin_api_listen}};</span>
 
       <span class="l-Scalar-Plain">client_max_body_size 10m;</span>
       <span class="l-Scalar-Plain">client_body_buffer_size 10m;</span>
@@ -1125,7 +1124,7 @@ or closed off network to ensure security.
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1475143026"></script>
+    <script src="/assets/app.js?v=1475144050"></script>
 
     <div id="fb-root"></div>
 
