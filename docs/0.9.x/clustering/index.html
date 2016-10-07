@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1475801121"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1475801359"/>
 </head>
 
 
@@ -605,6 +605,8 @@
 
 <p>Even if all the Kong nodes seem to be successfully part of a cluster, that doesn&#39;t mean they will be able to successfully communicate together: to check the status of the cluster and make sure the nodes can communicate with each other, you can run the <a href="/docs/0.9.x/cli/#cluster"><code>kong cluster reachability</code></a> command.</p>
 
+<p>For multi-DC setups you will probably have to explicitly configure the <a href="/docs/0.9.x/configuration/#cluster_advertise">cluster_advertise</a> property on each node using an IP address and port that every Kong node (in any DC) can use to connect to that specific Kong node (in both TCP and UDP). For example if a node is available on DC1 at <code>1.1.1.1:7946</code> and another node is available at <code>2.2.2.2:7946</code> on DC2, the node on DC1 must have <code>cluster_advertise=1.1.1.1:7946</code> and the node on DC2 must have <code>cluster_advertise=2.2.2.2:7946</code>.</p>
+
 <h2 id="4-node-health-states">4. Node Health States</h2>
 
 <p>A Kong node can be in four different states:</p>
@@ -727,7 +729,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1475801121"></script>
+    <script src="/assets/app.js?v=1475801359"></script>
 
     <div id="fb-root"></div>
 
