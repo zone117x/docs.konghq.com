@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1478210529"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1478584205"/>
 </head>
 
 
@@ -578,7 +578,7 @@
 
 <hr>
 
-<h2 id="1.-how-does-kong-route-a-request-to-an-api">1. How does Kong route a request to an API</h2>
+<h2 id="1-how-does-kong-route-a-request-to-an-api">1. How does Kong route a request to an API</h2>
 
 <p>When receiving a request, Kong will inspect it and try to route it to the correct API. In order to do so, it supports different routing mechanisms depending on your needs. A request can be routed by:</p>
 
@@ -589,7 +589,7 @@
 
 <hr>
 
-<h2 id="2.-reminder:-how-to-add-an-api-to-kong">2. Reminder: how to add an API to Kong</h2>
+<h2 id="2-reminder-how-to-add-an-api-to-kong">2. Reminder: how to add an API to Kong</h2>
 
 <p>Before going any further, let&#39;s take a few moments to make sure you know how to add an API to Kong. This will also help clarify the difference between the two ports.</p>
 
@@ -607,9 +607,9 @@
 
 <hr>
 
-<h2 id="3.-proxy-an-api-by-its-dns-values">3. Proxy an API by its DNS values</h2>
+<h2 id="3-proxy-an-api-by-its-dns-values">3. Proxy an API by its DNS values</h2>
 
-<h4 id="using-the-&quot;host&quot;-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
+<h4 id="using-the-quot-host-quot-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
 
 <p>Now that we added an API to Kong (via the Admin API), Kong can proxy it via the <code>8000</code> port. One way to do so is to specify the API&#39;s <code>request_host</code> value in the <code>Host</code> header of your request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
@@ -622,7 +622,7 @@
   <strong>Going to production:</strong> If you're planning to go into production with your setup, you'll most likely not want your consumers to manually set the "<strong>Host</strong>" header on each request. You can let Kong and DNS take care of it by simply setting an A or CNAME record on your domain pointing to your Kong installation. Hence, any request made to `example.org` will already contain a `Host: example.org` header.
 </div>
 
-<h4 id="using-the-&quot;x-host-override&quot;-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</h4>
+<h4 id="using-the-quot-x-host-override-quot-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</h4>
 
 <p>When performing a request from a browser, you might not be able to set the <code>Host</code> header. Thus, Kong also checks a request for a header named <code>X-Host-Override</code> and treats it exactly like the <code>Host</code> header:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
@@ -641,7 +641,7 @@
 
 <hr>
 
-<h2 id="4.-proxy-an-api-by-its-request_path-value">4. Proxy an API by its request_path value</h2>
+<h2 id="4-proxy-an-api-by-its-request_path-value">4. Proxy an API by its request_path value</h2>
 
 <p>If you&#39;d rather configure your APIs so that Kong routes incoming requests according to the request&#39;s URI, Kong can also perform this function. This allows your consumers to seamlessly consume APIs sparing the headache of setting DNS records for your domains.</p>
 
@@ -651,7 +651,7 @@
 </code></pre></div>
 <p>You will notice this command makes a request to <code>KONG_URL:PROXY_PORT/status/200</code>. Since the configured <code>upstream_url</code> is <code>http://mockbin.com/</code>, the request will hit the upstream service at <code>http://mockbin.com/status/200</code>.</p>
 
-<h4 id="using-the-&quot;strip_request_path&quot;-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</h4>
+<h4 id="using-the-quot-strip_request_path-quot-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</h4>
 
 <p>By enabling the <code>strip_request_path</code> property on an API, the requests will be proxied without the <code>request_path</code> property being included in the upstream request. Let&#39;s enable this option by making a request to the Admin API:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X PATCH <span class="se">\</span>
@@ -711,7 +711,7 @@
 
 <hr>
 
-<h2 id="5.-plugins-execution">5. Plugins execution</h2>
+<h2 id="5-plugins-execution">5. Plugins execution</h2>
 
 <p>Once Kong has recognized which API an incoming request should be proxied to, it will search for a <a href="/docs/0.8.x/admin-api#plugin-configuration-object">Plugin Configuration</a> for that particular API in its cache or in the database. This is done according to the following steps:</p>
 
@@ -808,7 +808,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1478210529"></script>
+    <script src="/assets/app.js?v=1478584205"></script>
 
     <div id="fb-root"></div>
 
