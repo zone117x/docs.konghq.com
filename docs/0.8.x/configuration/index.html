@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1480665976"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1481773017"/>
 </head>
 
 
@@ -61,6 +61,7 @@
       <nav class="enterprise-contact one-half column">
         <ul>
           <li><a href="https://www.mashape.com/enterprise/#demo-form">Request Demo</a></li>
+          <li><a href="tel:+18664021473">Sales: +1 (866) 402-1473</a></li>
         </ul>
       </nav>
     </div>
@@ -836,7 +837,7 @@ or closed off network to ensure security.
 
 <p>Consistency level to use. See <a href="http://docs.datastax.com/en/cassandra/2.0/cassandra/dml/dml_config_consistency_c.html">http://docs.datastax.com/en/cassandra/2.0/cassandra/dml/dml_config_consistency_c.html</a></p>
 
-<p><strong>Default:</strong></p>
+<p><strong>Default:</strong> </p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">consistency</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ONE</span>
 </code></pre></div>
 <h4 id="ssl-options">SSL Options</h4>
@@ -949,162 +950,163 @@ or closed off network to ensure security.
 
 <p><strong>Default:</strong></p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">nginx</span><span class="p-Indicator">:</span> <span class="p-Indicator">|</span>
-  <span class="no">worker_processes auto;</span>
-  <span class="no">error_log logs/error.log error;</span>
-  <span class="no">daemon on;</span>
+<span class="l-Scalar-Plain">worker_processes auto;</span>
+  <span class="l-Scalar-Plain">error_log logs/error.log error;</span>
+  <span class="l-Scalar-Plain">daemon on;</span>
 
-  <span class="no">worker_rlimit_nofile {{auto_worker_rlimit_nofile}};</span>
+  <span class="l-Scalar-Plain">worker_rlimit_nofile ;</span>
 
-  <span class="no">env KONG_CONF;</span>
+  <span class="l-Scalar-Plain">env KONG_CONF;</span>
 
-  <span class="no">events {</span>
-    <span class="no">worker_connections {{auto_worker_connections}};</span>
-    <span class="no">multi_accept on;</span>
-  <span class="no">}</span>
+  <span class="l-Scalar-Plain">events {</span>
+    <span class="l-Scalar-Plain">worker_connections ;</span>
+    <span class="l-Scalar-Plain">multi_accept on;</span>
+  <span class="l-Scalar-Plain">}</span>
 
-  <span class="no">http {</span>
-    <span class="no">resolver {{dns_resolver}} ipv6=off;</span>
-    <span class="no">charset UTF-8;</span>
+  <span class="l-Scalar-Plain">http {</span>
+    <span class="l-Scalar-Plain">resolver  ipv6=off;</span>
+    <span class="l-Scalar-Plain">charset UTF-8;</span>
 
-    <span class="no">access_log logs/access.log;</span>
-    <span class="no">access_log off;</span>
+    <span class="l-Scalar-Plain">access_log logs/access.log;</span>
+    <span class="l-Scalar-Plain">access_log off;</span>
 
-    <span class="no"># Timeouts</span>
-    <span class="no">keepalive_timeout 60s;</span>
-    <span class="no">client_header_timeout 60s;</span>
-    <span class="no">client_body_timeout 60s;</span>
-    <span class="no">send_timeout 60s;</span>
+    <span class="l-Scalar-Plain"># Timeouts</span>
+    <span class="l-Scalar-Plain">keepalive_timeout 60s;</span>
+    <span class="l-Scalar-Plain">client_header_timeout 60s;</span>
+    <span class="l-Scalar-Plain">client_body_timeout 60s;</span>
+    <span class="l-Scalar-Plain">send_timeout 60s;</span>
 
-    <span class="no"># Proxy Settings</span>
-    <span class="no">proxy_buffer_size 128k;</span>
-    <span class="no">proxy_buffers 4 256k;</span>
-    <span class="no">proxy_busy_buffers_size 256k;</span>
-    <span class="no">proxy_ssl_server_name on;</span>
+    <span class="l-Scalar-Plain"># Proxy Settings</span>
+    <span class="l-Scalar-Plain">proxy_buffer_size 128k;</span>
+    <span class="l-Scalar-Plain">proxy_buffers 4 256k;</span>
+    <span class="l-Scalar-Plain">proxy_busy_buffers_size 256k;</span>
+    <span class="l-Scalar-Plain">proxy_ssl_server_name on;</span>
 
-    <span class="no"># IP Address</span>
-    <span class="no">real_ip_header X-Forwarded-For;</span>
-    <span class="no">set_real_ip_from 0.0.0.0/0;</span>
-    <span class="no">real_ip_recursive on;</span>
+    <span class="l-Scalar-Plain"># IP Address</span>
+    <span class="l-Scalar-Plain">real_ip_header X-Forwarded-For;</span>
+    <span class="l-Scalar-Plain">set_real_ip_from 0.0.0.0/0;</span>
+    <span class="l-Scalar-Plain">real_ip_recursive on;</span>
 
-    <span class="no"># Other Settings</span>
-    <span class="no">client_max_body_size 0;</span>
-    <span class="no">underscores_in_headers on;</span>
-    <span class="no">reset_timedout_connection on;</span>
-    <span class="no">tcp_nopush on;</span>
+    <span class="l-Scalar-Plain"># Other Settings</span>
+    <span class="l-Scalar-Plain">client_max_body_size 0;</span>
+    <span class="l-Scalar-Plain">underscores_in_headers on;</span>
+    <span class="l-Scalar-Plain">reset_timedout_connection on;</span>
+    <span class="l-Scalar-Plain">tcp_nopush on;</span>
 
-    <span class="no">################################################</span>
-    <span class="no">#  The following code is required to run Kong  #</span>
-    <span class="no"># Please be careful if you&#39;d like to change it #</span>
-    <span class="no">################################################</span>
+    <span class="l-Scalar-Plain">################################################</span>
+    <span class="l-Scalar-Plain">#  The following code is required to run Kong</span>  <span class="c1">#</span>
+    <span class="c1"># Please be careful if you&#39;d like to change it #</span>
+    <span class="c1">################################################</span>
 
-    <span class="no"># Lua Settings</span>
-    <span class="no">lua_package_path &#39;;;&#39;;</span>
-    <span class="no">lua_code_cache on;</span>
-    <span class="no">lua_max_running_timers 4096;</span>
-    <span class="no">lua_max_pending_timers 16384;</span>
-    <span class="no">lua_shared_dict reports_locks 100k;</span>
-    <span class="no">lua_shared_dict cluster_locks 100k;</span>
-    <span class="no">lua_shared_dict cache {{memory_cache_size}}m;</span>
-    <span class="no">lua_shared_dict cassandra 1m;</span>
-    <span class="no">lua_shared_dict cassandra_prepared 5m;</span>
-    <span class="no">lua_socket_log_errors off;</span>
-    <span class="no">{{lua_ssl_trusted_certificate}}</span>
+    <span class="c1"># Lua Settings</span>
+    <span class="l-Scalar-Plain">lua_package_path &#39;;;&#39;;</span>
+    <span class="l-Scalar-Plain">lua_code_cache on;</span>
+    <span class="l-Scalar-Plain">lua_max_running_timers 4096;</span>
+    <span class="l-Scalar-Plain">lua_max_pending_timers 16384;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict reports_locks 100k;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict cluster_locks 100k;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict cache m;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict cassandra 1m;</span>
+    <span class="l-Scalar-Plain">lua_shared_dict cassandra_prepared 5m;</span>
+    <span class="l-Scalar-Plain">lua_socket_log_errors off;</span>
 
-    <span class="no">init_by_lua &#39;</span>
-      <span class="no">kong = require &quot;kong&quot;</span>
-      <span class="no">local status, err = pcall(kong.init)</span>
-      <span class="no">if not status then</span>
-        <span class="no">ngx.log(ngx.ERR, &quot;Startup error: &quot;..err)</span>
-        <span class="no">os.exit(1)</span>
-      <span class="no">end</span>
-    <span class="no">&#39;;</span>
 
-    <span class="no">init_worker_by_lua &#39;kong.exec_plugins_init_worker()&#39;;</span>
+    <span class="l-Scalar-Plain">init_by_lua &#39;</span>
+      <span class="l-Scalar-Plain">kong = require &quot;kong&quot;</span>
+      <span class="l-Scalar-Plain">local status, err = pcall(kong.init)</span>
+      <span class="l-Scalar-Plain">if not status then</span>
+        <span class="l-Scalar-Plain">ngx.log(ngx.ERR, &quot;Startup error</span><span class="p-Indicator">:</span> <span class="s">&quot;..err)</span>
+        <span class="s">os.exit(1)</span>
+      <span class="s">end</span>
+    <span class="s">&#39;;</span>
 
-    <span class="no">server {</span>
-      <span class="no">server_name _;</span>
-      <span class="no">listen {{proxy_listen}};</span>
-      <span class="no">listen {{proxy_listen_ssl}} ssl;</span>
+    <span class="s">init_worker_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_init_worker()&#39;;</span>
 
-      <span class="no">ssl_certificate_by_lua &#39;kong.exec_plugins_certificate()&#39;;</span>
+    <span class="s">server</span><span class="nv"> </span><span class="s">{</span>
+      <span class="s">server_name</span><span class="nv"> </span><span class="s">_;</span>
+      <span class="s">listen</span><span class="nv"> </span><span class="s">;</span>
+      <span class="s">listen</span><span class="nv">  </span><span class="s">ssl;</span>
 
-      <span class="no">ssl_certificate {{ssl_cert}};</span>
-      <span class="no">ssl_certificate_key {{ssl_key}};</span>
-      <span class="no">ssl_protocols TLSv1 TLSv1.1 TLSv1.2;# omit SSLv3 because of POODLE (CVE-2014-3566)</span>
+      <span class="s">ssl_certificate_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_certificate()&#39;;</span>
 
-      <span class="no">location / {</span>
-        <span class="no">default_type &#39;text/plain&#39;;</span>
+      <span class="s">ssl_certificate</span><span class="nv"> </span><span class="s">;</span>
+      <span class="s">ssl_certificate_key</span><span class="nv"> </span><span class="s">;</span>
+      <span class="s">ssl_protocols</span><span class="nv"> </span><span class="s">TLSv1</span><span class="nv"> </span><span class="s">TLSv1.1</span><span class="nv"> </span><span class="s">TLSv1.2;#</span><span class="nv"> </span><span class="s">omit</span><span class="nv"> </span><span class="s">SSLv3</span><span class="nv"> </span><span class="s">because</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">POODLE</span><span class="nv"> </span><span class="s">(CVE-2014-3566)</span>
 
-        <span class="no"># These properties will be used later by proxy_pass</span>
-        <span class="no">set $upstream_host nil;</span>
-        <span class="no">set $upstream_url nil;</span>
+      <span class="s">location</span><span class="nv"> </span><span class="s">/</span><span class="nv"> </span><span class="s">{</span>
+        <span class="s">default_type</span><span class="nv"> </span><span class="s">&#39;text/plain&#39;;</span>
 
-        <span class="no"># Authenticate the user and load the API info</span>
-        <span class="no">access_by_lua &#39;kong.exec_plugins_access()&#39;;</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">These</span><span class="nv"> </span><span class="s">properties</span><span class="nv"> </span><span class="s">will</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">used</span><span class="nv"> </span><span class="s">later</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">proxy_pass</span>
+        <span class="s">set</span><span class="nv"> </span><span class="s">$upstream_host</span><span class="nv"> </span><span class="s">nil;</span>
+        <span class="s">set</span><span class="nv"> </span><span class="s">$upstream_url</span><span class="nv"> </span><span class="s">nil;</span>
 
-        <span class="no"># Proxy the request</span>
-        <span class="no">proxy_set_header X-Real-IP $remote_addr;</span>
-        <span class="no">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span>
-        <span class="no">proxy_set_header X-Forwarded-Proto $scheme;</span>
-        <span class="no">proxy_set_header Host $upstream_host;</span>
-        <span class="no">proxy_pass $upstream_url;</span>
-        <span class="no">proxy_pass_header Server;</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Authenticate</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">user</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">load</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">API</span><span class="nv"> </span><span class="s">info</span>
+        <span class="s">access_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_access()&#39;;</span>
 
-        <span class="no"># Add additional response headers</span>
-        <span class="no">header_filter_by_lua &#39;kong.exec_plugins_header_filter()&#39;;</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Proxy</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">request</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Proxy</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">request</span>
+        <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">X-Real-IP</span><span class="nv"> </span><span class="s">$remote_addr;</span>
+        <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">X-Forwarded-For</span><span class="nv"> </span><span class="s">$proxy_add_x_forwarded_for;</span>
+        <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">X-Forwarded-Proto</span><span class="nv"> </span><span class="s">$scheme;</span>
+        <span class="s">proxy_set_header</span><span class="nv"> </span><span class="s">Host</span><span class="nv"> </span><span class="s">$upstream_host;</span>
+        <span class="s">proxy_pass</span><span class="nv"> </span><span class="s">$upstream_url;</span>
+        <span class="s">proxy_pass_header</span><span class="nv"> </span><span class="s">Server;</span>
 
-        <span class="no"># Change the response body</span>
-        <span class="no">body_filter_by_lua &#39;kong.exec_plugins_body_filter()&#39;;</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Add</span><span class="nv"> </span><span class="s">additional</span><span class="nv"> </span><span class="s">response</span><span class="nv"> </span><span class="s">headers</span>
+        <span class="s">header_filter_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_header_filter()&#39;;</span>
 
-        <span class="no"># Log the request</span>
-        <span class="no">log_by_lua &#39;kong.exec_plugins_log()&#39;;</span>
-      <span class="no">}</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Change</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">response</span><span class="nv"> </span><span class="s">body</span>
+        <span class="s">body_filter_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_body_filter()&#39;;</span>
 
-      <span class="no">location /robots.txt {</span>
-        <span class="no">return 200 &#39;User-agent: *\nDisallow: /&#39;;</span>
-      <span class="no">}</span>
+        <span class="s">#</span><span class="nv"> </span><span class="s">Log</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">request</span>
+        <span class="s">log_by_lua</span><span class="nv"> </span><span class="s">&#39;kong.exec_plugins_log()&#39;;</span>
+      <span class="s">}</span>
 
-      <span class="no">error_page 500 /500.html;</span>
-      <span class="no">location = /500.html {</span>
-        <span class="no">internal;</span>
-        <span class="no">content_by_lua &#39;</span>
-          <span class="no">local responses = require &quot;kong.tools.responses&quot;</span>
-          <span class="no">responses.send_HTTP_INTERNAL_SERVER_ERROR(&quot;An unexpected error occurred&quot;)</span>
-        <span class="no">&#39;;</span>
-      <span class="no">}</span>
-    <span class="no">}</span>
+      <span class="s">location</span><span class="nv"> </span><span class="s">/robots.txt</span><span class="nv"> </span><span class="s">{</span>
+        <span class="s">return</span><span class="nv"> </span><span class="s">200</span><span class="nv"> </span><span class="s">&#39;User-agent:</span><span class="nv"> </span><span class="s">*\nDisallow:</span><span class="nv"> </span><span class="s">/&#39;;</span>
+      <span class="s">}</span>
 
-    <span class="no">server {</span>
-      <span class="no">listen {{admin_api_listen}};</span>
+      <span class="s">error_page</span><span class="nv"> </span><span class="s">500</span><span class="nv"> </span><span class="s">/500.html;</span>
+      <span class="s">location</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">/500.html</span><span class="nv"> </span><span class="s">{</span>
+        <span class="s">internal;</span>
+        <span class="s">content_by_lua</span><span class="nv"> </span><span class="s">&#39;</span>
+          <span class="s">local</span><span class="nv"> </span><span class="s">responses</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">require</span><span class="nv"> </span><span class="s">&quot;</span><span class="l-Scalar-Plain">kong.tools.responses&quot;</span>
+          <span class="l-Scalar-Plain">responses.send_HTTP_INTERNAL_SERVER_ERROR(&quot;An unexpected error occurred&quot;)</span>
+        <span class="l-Scalar-Plain">&#39;;</span>
+      <span class="l-Scalar-Plain">}</span>
+    <span class="err">}</span>
 
-      <span class="no">client_max_body_size 10m;</span>
-      <span class="no">client_body_buffer_size 10m;</span>
+    <span class="l-Scalar-Plain">server {</span>
+      <span class="l-Scalar-Plain">listen ;</span>
 
-      <span class="no">location / {</span>
-        <span class="no">default_type application/json;</span>
-        <span class="no">content_by_lua &#39;</span>
-          <span class="no">ngx.header[&quot;Access-Control-Allow-Origin&quot;] = &quot;*&quot;</span>
-          <span class="no">if ngx.req.get_method() == &quot;OPTIONS&quot; then</span>
-            <span class="no">ngx.header[&quot;Access-Control-Allow-Methods&quot;] = &quot;GET,HEAD,PUT,PATCH,POST,DELETE&quot;</span>
-            <span class="no">ngx.header[&quot;Access-Control-Allow-Headers&quot;] = &quot;Content-Type&quot;</span>
-            <span class="no">ngx.exit(204)</span>
-          <span class="no">end</span>
-          <span class="no">local lapis = require &quot;lapis&quot;</span>
-          <span class="no">lapis.serve(&quot;kong.api.app&quot;)</span>
-        <span class="no">&#39;;</span>
-      <span class="no">}</span>
+      <span class="l-Scalar-Plain">client_max_body_size 10m;</span>
+      <span class="l-Scalar-Plain">client_body_buffer_size 10m;</span>
 
-      <span class="no">location /nginx_status {</span>
-        <span class="no">internal;</span>
-        <span class="no">access_log off;</span>
-        <span class="no">stub_status;</span>
-      <span class="no">}</span>
+      <span class="l-Scalar-Plain">location / {</span>
+        <span class="l-Scalar-Plain">default_type application/json;</span>
+        <span class="l-Scalar-Plain">content_by_lua &#39;</span>
+          <span class="l-Scalar-Plain">ngx.header[&quot;Access-Control-Allow-Origin&quot;] = &quot;*&quot;</span>
+          <span class="l-Scalar-Plain">if ngx.req.get_method() == &quot;OPTIONS&quot; then</span>
+            <span class="l-Scalar-Plain">ngx.header[&quot;Access-Control-Allow-Methods&quot;] = &quot;GET,HEAD,PUT,PATCH,POST,DELETE&quot;</span>
+            <span class="l-Scalar-Plain">ngx.header[&quot;Access-Control-Allow-Headers&quot;] = &quot;Content-Type&quot;</span>
+            <span class="l-Scalar-Plain">ngx.exit(204)</span>
+          <span class="l-Scalar-Plain">end</span>
+          <span class="l-Scalar-Plain">local lapis = require &quot;lapis&quot;</span>
+          <span class="l-Scalar-Plain">lapis.serve(&quot;kong.api.app&quot;)</span>
+        <span class="l-Scalar-Plain">&#39;;</span>
+      <span class="l-Scalar-Plain">}</span>
 
-      <span class="no">location /robots.txt {</span>
-        <span class="no">return 200 &#39;User-agent: *\nDisallow: /&#39;;</span>
-      <span class="no">}</span>
-    <span class="no">}</span>
-  <span class="no">}</span>
+      <span class="l-Scalar-Plain">location /nginx_status {</span>
+        <span class="l-Scalar-Plain">internal;</span>
+        <span class="l-Scalar-Plain">access_log off;</span>
+        <span class="l-Scalar-Plain">stub_status;</span>
+      <span class="l-Scalar-Plain">}</span>
+
+      <span class="l-Scalar-Plain">location /robots.txt {</span>
+        <span class="l-Scalar-Plain">return 200 &#39;User-agent</span><span class="p-Indicator">:</span> <span class="err">*</span><span class="l-Scalar-Plain">\nDisallow</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/&#39;;</span>
+      <span class="l-Scalar-Plain">}</span>
+    <span class="err">}</span>
+<span class="-Error">  </span><span class="err">}</span>
 </code></pre></div>
       </div>
     </div>
@@ -1174,7 +1176,7 @@ or closed off network to ensure security.
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1480665976"></script>
+    <script src="/assets/app.js?v=1481773017"></script>
 
     <div id="fb-root"></div>
 

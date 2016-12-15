@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1480665976"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1481773017"/>
 </head>
 
 
@@ -61,6 +61,7 @@
       <nav class="enterprise-contact one-half column">
         <ul>
           <li><a href="https://www.mashape.com/enterprise/#demo-form">Request Demo</a></li>
+          <li><a href="tel:+18664021473">Sales: +1 (866) 402-1473</a></li>
         </ul>
       </nav>
     </div>
@@ -172,7 +173,7 @@
               </li>
             
               <li>
-                <a href="#craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</a>
+                <a href="#craft-a-jwt">Craft a JWT</a>
 
                 
               </li>
@@ -196,7 +197,7 @@
               </li>
             
               <li>
-                <a href="#craft-a-jwt-with-public-private-keys-rs256">Craft a JWT with public/private keys (RS256)</a>
+                <a href="#using-public-private-keys">Using public/private keys</a>
 
                 
               </li>
@@ -276,7 +277,12 @@
 <tr>
 <td><code>config.secret_is_base64</code><br><em>optional</em></td>
 <td><code>false</code></td>
-<td>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</td>
+<td>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your consumer, and sign your JWT with the original secret.</td>
+</tr>
+<tr>
+<td><code>config.anonymous</code><br><em>optional</em></td>
+<td><code>false</code></td>
+<td>An optional boolean value telling the plugin to keep processing the request even if the credentials are missing</td>
 </tr>
 </tbody></table>
 
@@ -329,7 +335,7 @@ HTTP/1.1 <span class="m">201</span> Created
     <span class="s2">&quot;secret&quot;</span>: <span class="s2">&quot;e71829c351aa4242c2719cbfbe671c09&quot;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
+<p><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/docs/latest/admin-api/#consumer-object">consumer</a> entity to associate the credentials to.</p>
 
 <table><thead>
 <tr>
@@ -341,7 +347,7 @@ HTTP/1.1 <span class="m">201</span> Created
 <tr>
 <td><code>key</code><br><em>optional</em></td>
 <td></td>
-<td>A unique string identifying the credential. If left out, it will be auto-generated. However, usage of this key is <strong>mandatory</strong> while crafting your token if you are using <code>HS256</code>, as specified in the next section.</td>
+<td>A unique string identifying the credential. If left out, it will be auto-generated. However, usage of this key is <strong>mandatory</strong> while crafting your token, as specified in the next section.</td>
 </tr>
 <tr>
 <td><code>algorithm</code><br><em>optional</em></td>
@@ -356,11 +362,11 @@ HTTP/1.1 <span class="m">201</span> Created
 <tr>
 <td><code>secret</code><br><em>optional</em></td>
 <td></td>
-<td>If <code>algorithm</code> is <code>HS256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated.</td>
+<td>If <code>algorithm</code> is <code>HS256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated. If <code>algorithm</code> is <code>RS256</code>, this is the private key (in PEM format) to use to verify the token&#39;s signature.</td>
 </tr>
 </tbody></table>
 
-<h3 id="craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</h3>
+<h3 id="craft-a-jwt">Craft a JWT</h3>
 
 <p>Now that your Consumer has a credential, and assuming we want to sign it using <code>HS256</code>, the JWT should be crafted as follows (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>):</p>
 
@@ -424,7 +430,7 @@ HTTP/1.1 <span class="m">201</span> Created
 </tbody></table>
 
 <div class="alert alert-warning">
-  <strong>Note:</strong> When the JWT is valid and proxied to the API, Kong makes no modification to the request other than adding headers identifying the Consumer. The JWT will be forwarded to your upstream service, which can assume its validity. It is now the role of your service to base64 decode the JWT claims and make use of them.
+  <strong>Note:</strong> When the JWT is valid and proxied to the API, Kong makes no modification to the request other than adding headers identifying the Consumer. It is the role of your service to now base64 decode the JWT claims, since it is considered valid.
 </div>
 
 <h3 id="optional-verified-claims">(<strong>Optional</strong>) Verified claims</h3>
@@ -465,9 +471,9 @@ HTTP/1.1 <span class="m">201</span> Created
 </code></pre></div>
 <p>And sign your JWT using the original secret (&quot;blob data&quot;).</p>
 
-<h3 id="craft-a-jwt-with-public-private-keys-rs256">Craft a JWT with public/private keys (RS256)</h3>
+<h3 id="using-public-private-keys">Using public/private keys</h3>
 
-<p>If you decide to use public/private keys in PEM format to authenticate a Consumer, when creating a JWT credential select <code>RS256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field, and the private key in the <code>secret</code> field. For example:</p>
+<p>If you decide to use public/private keys in PEM format to authenticate a consumer, when creating a JWT credential select <code>RS256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field, and the private key in the <code>secret</code> field. For example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
       -F <span class="s2">&quot;rsa_public_key=@/path/to/public_key.pem&quot;</span> <span class="se">\</span>
       -F <span class="s2">&quot;secret=@/path/to/private_key.pem&quot;</span>
@@ -478,7 +484,8 @@ HTTP/1.1 <span class="m">201</span> Created
     <span class="s2">&quot;created_at&quot;</span>: 1442426001000,
     <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;bcbfb45d-e391-42bf-c2ed-94e32946753a&quot;</span>,
     <span class="s2">&quot;key&quot;</span>: <span class="s2">&quot;a36c3049b36249a3c9f8891cb127243c&quot;</span>,
-    <span class="s2">&quot;rsa_public_key&quot;</span>: <span class="s2">&quot;-----BEGIN PUBLIC KEY----- ...&quot;</span>
+    <span class="s2">&quot;rsa_public_key&quot;</span>: <span class="s2">&quot;-----BEGIN PUBLIC KEY----- ...&quot;</span>,
+    <span class="s2">&quot;secret&quot;</span>: <span class="s2">&quot;-----BEGIN RSA PRIVATE KEY----- ...&quot;</span>
 <span class="o">}</span>
 </code></pre></div>
 <p>When creating the signature, make sure that the header is:</p>
@@ -492,7 +499,7 @@ HTTP/1.1 <span class="m">201</span> Created
     <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;a36c3049b36249a3c9f8891cb127243c&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Then create the signature using the public/private keys specified when creating the credential. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a>, set the right header (RS256), the claims (iss, etc), and the correct public/private keys. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
+<p>Then create the signature using the public/private keys specified when creating the credential. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a> set the right header (RS256), the claims (iss, etc), and the correct public/private keys. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">&#39;Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxM2Q1ODE0NTcyZTc0YTIyYjFhOWEwMDJmMmQxN2MzNyJ9.uNPTnDZXVShFYUSiii78Q-IAfhnc2ExjarZr_WVhGrHHBLweOBJxGJlAKZQEKE4rVd7D6hCtWSkvAAOu7BU34OnlxtQqB8ArGX58xhpIqHtFUkj882JQ9QD6_v2S2Ad-EmEx5402ge71VWEJ0-jyH2WvfxZ_pD90n5AG5rAbYNAIlm2Ew78q4w4GVSivpletUhcv31-U3GROsa7dl8rYMqx6gyo9oIIDcGoMh3bu8su5kQc5SQBFp1CcA5H8sHGfYs-Et5rCU2A6yKbyXtpHrd1Y9oMrZpEfQdgpLae0AfWRf6JutA9SPhst9-5rn4o3cdUmto_TBGqHsFmVyob8VQ&#39;</span>
 </code></pre></div>
@@ -508,7 +515,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
-<p>When a JWT is valid, a Consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/service, so that you can identify the Consumer in your code:</p>
+<p>When a JWT is valid, a consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/service, so that you can identify the consumer in your code:</p>
 
 <ul>
 <li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
@@ -516,7 +523,7 @@ HTTP/1.1 <span class="m">201</span> Created
 <li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
 </ul>
 
-<p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
+<p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the consumer.</p>
 
         </div>
       </div>
@@ -587,7 +594,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1480665976"></script>
+    <script src="/assets/app.js?v=1481773017"></script>
 
     <div id="fb-root"></div>
 
