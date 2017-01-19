@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1482384317"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1484854443"/>
 </head>
 
 
@@ -341,7 +341,7 @@ HTTP/1.1 <span class="m">201</span> Created
 <tr>
 <td><code>key</code><br><em>optional</em></td>
 <td></td>
-<td>A unique string identifying the credential. If left out, it will be auto-generated. However, usage of this key is <strong>mandatory</strong> while crafting your token if you are using <code>HS256</code>, as specified in the next section.</td>
+<td>A unique string identifying the credential. If left out, it will be auto-generated.</td>
 </tr>
 <tr>
 <td><code>algorithm</code><br><em>optional</em></td>
@@ -364,7 +364,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <p>Now that your Consumer has a credential, and assuming we want to sign it using <code>HS256</code>, the JWT should be crafted as follows (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>):</p>
 
-<p>First, the header must be:</p>
+<p>First, its header must be:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&quot;typ&quot;</span><span class="p">:</span> <span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
     <span class="nt">&quot;alg&quot;</span><span class="p">:</span> <span class="s2">&quot;HS256&quot;</span>
@@ -467,10 +467,9 @@ HTTP/1.1 <span class="m">201</span> Created
 
 <h3 id="craft-a-jwt-with-public-private-keys-rs256">Craft a JWT with public/private keys (RS256)</h3>
 
-<p>If you decide to use public/private keys in PEM format to authenticate a Consumer, when creating a JWT credential select <code>RS256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field, and the private key in the <code>secret</code> field. For example:</p>
+<p>If you wish to use RS256 to verify your JWTs, then when creating a JWT credential, select <code>RS256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field. For example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
       -F <span class="s2">&quot;rsa_public_key=@/path/to/public_key.pem&quot;</span> <span class="se">\</span>
-      -F <span class="s2">&quot;secret=@/path/to/private_key.pem&quot;</span>
 HTTP/1.1 <span class="m">201</span> Created
 
 <span class="o">{</span>
@@ -487,24 +486,24 @@ HTTP/1.1 <span class="m">201</span> Created
     <span class="nt">&quot;alg&quot;</span><span class="p">:</span> <span class="s2">&quot;RS256&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> in the configured claim (from <code>config.key_claim_name</code>). That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>. The claims may contain other values.</p>
+<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> field (this <strong>isn&#39;t</strong> your private key used to generate the token, but just an identifier for this credential) in the configured claim (from <code>config.key_claim_name</code>). That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>. The claims may contain other values.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
     <span class="nt">&quot;iss&quot;</span><span class="p">:</span> <span class="s2">&quot;a36c3049b36249a3c9f8891cb127243c&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Then create the signature using the public/private keys specified when creating the credential. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a>, set the right header (RS256), the claims (iss, etc), and the correct public/private keys. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
+<p>Then create the signature using your private keys. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a>, set the right header (RS256), the claims (iss, etc), and the associated public key. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">&#39;Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxM2Q1ODE0NTcyZTc0YTIyYjFhOWEwMDJmMmQxN2MzNyJ9.uNPTnDZXVShFYUSiii78Q-IAfhnc2ExjarZr_WVhGrHHBLweOBJxGJlAKZQEKE4rVd7D6hCtWSkvAAOu7BU34OnlxtQqB8ArGX58xhpIqHtFUkj882JQ9QD6_v2S2Ad-EmEx5402ge71VWEJ0-jyH2WvfxZ_pD90n5AG5rAbYNAIlm2Ew78q4w4GVSivpletUhcv31-U3GROsa7dl8rYMqx6gyo9oIIDcGoMh3bu8su5kQc5SQBFp1CcA5H8sHGfYs-Et5rCU2A6yKbyXtpHrd1Y9oMrZpEfQdgpLae0AfWRf6JutA9SPhst9-5rn4o3cdUmto_TBGqHsFmVyob8VQ&#39;</span>
 </code></pre></div>
 <h3 id="generate-public-private-keys">Generate public/private keys</h3>
 
-<p>To create a brand new private key you can run the following command:</p>
+<p>To create a brand new pair of public/private keys, you can run the following command:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>openssl genrsa -out private.pem 2048
 </code></pre></div>
 <p>This private key must be kept secret. To generate a public key corresponding to the private key, execute:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 </code></pre></div>
-<p>If you run the commands above, the public key will be stored at <code>public.pem</code>, while the private key will be stored at <code>private.pem</code>.</p>
+<p>If you run the commands above, the public key will be written in <code>public.pem</code>, while the private key will be written in <code>private.pem</code>.</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -570,7 +569,7 @@ HTTP/1.1 <span class="m">201</span> Created
     <span>
       <a href="https://mashape.com">
         <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
-        &copy; <strong>2016 Mashape Inc</strong>
+        &copy; <strong>2017 Mashape Inc</strong>
       </a>
     </span>
       <span class="footer-separator"></span>
@@ -587,7 +586,7 @@ HTTP/1.1 <span class="m">201</span> Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1482384317"></script>
+    <script src="/assets/app.js?v=1484854443"></script>
 
     <div id="fb-root"></div>
 

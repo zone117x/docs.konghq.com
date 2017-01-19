@@ -42,7 +42,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1482384317"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1484854443"/>
 </head>
 
 
@@ -544,19 +544,68 @@
 
 <h2 id="ports">Ports</h2>
 
-<p>Kong listens on several ports that must allow external traffic and are by default:</p>
+<p>Kong uses multiple connections for different purposes.</p>
+
+<ul>
+<li>proxy </li>
+<li>management api</li>
+<li>clustering</li>
+</ul>
+
+<p>Overview of ports and connections:
+<div class="alert alert-info">
+  <center><img title="Kong network overview" src="/assets/images/docs/networking.png"/></center>
+</div></p>
+
+<h3 id="proxy">Proxy</h3>
+
+<p>The proxy ports is where Kong receives its incoming traffic. There are two ports with the following defaults;</p>
 
 <ul>
 <li><code>8000</code> for proxying. This is where Kong listens for HTTP traffic. Be sure to change it to <code>80</code> once you go to production. See <a href="/docs/0.9.x/configuration/#proxy_listen">proxy_listen</a>.</li>
 <li><code>8443</code> for proxying HTTPS traffic. Be sure to change it to <code>443</code> once you go to production. See <a href="/docs/0.9.x/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>.</li>
-<li><code>7946</code> which Kong uses for inter-nodes communication. Both UDP and TCP traffic should be allowed on it. See <a href="/docs/0.9.x/configuration/#cluster_listen">cluster_listen</a>.</li>
 </ul>
 
-<p>Additionally, those ports are used internally and should be firewalled in  production usage:</p>
+<p>These are the <strong>only ports</strong> that should be made available to your clients.</p>
+
+<h3 id="management-api">Management api</h3>
+
+<p>This is the port where Kong exposes its management api. Hence in production this port should be firewalled to protect
+it from unauthorized access.</p>
 
 <ul>
 <li><code>8001</code> provides Kong&#39;s <strong>Admin API</strong> that you can use to operate Kong. See <a href="/docs/0.9.x/configuration/#admin_api_listen">admin_api_listen</a>.</li>
-<li><code>7373</code> used by Kong to communicate with the local clustering agent. See <a href="/docs/0.9.x/configuration/#cluster_listen_rpc">cluster_listen_rpc</a>.</li>
+</ul>
+
+<h3 id="clustering">Clustering</h3>
+
+<p>This part is the hardest to get right in a multi-node cluster. Here there are also 2 parts: </p>
+
+<ul>
+<li><code>7373</code> used by Kong to communicate with the local clustering agent. See <a href="/docs/0.9.x/configuration/#cluster_listen_rpc">cluster_listen_rpc</a>. The traffic here
+will be local to the Kong node and hence it does <strong>not need to be exposed</strong> anywhere.</li>
+<li><code>7946</code> which Kong uses for intra-nodes communication. Both UDP and TCP traffic should be allowed on it. See <a href="/docs/0.9.x/configuration/#cluster_listen">cluster_listen</a> 
+and <a href="/docs/0.9.x/configuration/#cluster_advertise">cluster_advertise</a>. The traffic on these ports should <strong>only</strong> be allowed between Kong nodes.</li>
+</ul>
+
+<p>Kong will try to auto-detect the node&#39;s first, non-loopback, IPv4 address and advertise this address to other Kong nodes. 
+Sometimes this is not enough and the IP address needs to be manually set, you can do that by changing the <a href="/docs/0.9.x/configuration/#cluster_listen">cluster_listen</a> 
+and <a href="/docs/0.9.x/configuration/#cluster_advertise">cluster_advertise</a> properties in the <a href="/docs/0.9.x/configuration/#cluster">cluster</a> configuration.</p>
+
+<p>Diagram for intra-node port settings:
+<div class="alert alert-info">
+  <center><img title="Kong intra-node settings" src="/assets/images/docs/nat-clustering.png"/></center>
+</div></p>
+
+<p><strong>Example</strong></p>
+
+<p>A Kong node with a local ip address <code>192.168.23.45</code>, exposed to the rest of the Kong cluster through a NAT-layer on
+ip address <code>192.168.10.5</code>. Where the NAT is configured to forward incoming connections on port <code>9000</code> to <code>80</code> on the 
+local address, then the properties should be set as:</p>
+
+<ul>
+<li><code>cluster_advertise=192.168.10.5:9000</code></li>
+<li><code>cluster_listen=192.168.23.45:80</code></li>
 </ul>
 
 <h2 id="firewall">Firewall</h2>
@@ -564,16 +613,17 @@
 <p>Below are the recommended firewall settings:</p>
 
 <ul>
-<li>The upstream APIs behind Kong will be available on <a href="/docs/0.9.x/configuration/#proxy_listen">proxy_listen</a> and <a href="/docs/0.9.x/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
+<li>The upstream APIs behind Kong will be available on <a href="/docs/0.9.x/configuration/#proxy_listen">proxy_listen</a> and <a href="/docs/0.9.x/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. 
+Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
 <li><strong>Protect</strong> <a href="/docs/0.9.x/configuration/#admin_api_listen">admin_api_listen</a>, and only allow trusted sources that can access the Admin API.</li>
-<li>Allow traffic on <a href="/docs/0.9.x/configuration/#cluster_listen">cluster_listen</a> port <strong>only</strong> between other Kong nodes. This port is used for infra-cluster communications.</li>
+<li>Allow traffic on the <a href="/docs/0.9.x/configuration/#cluster_listen">cluster_listen</a> and <a href="/docs/0.9.x/configuration/#cluster_advertise">cluster_advertise</a> ports
+<strong>only</strong> between the Kong nodes. This port is used for intra-cluster communications.</li>
 </ul>
 
 <h2 id="network">Network</h2>
 
-<p>Kong assumes a flat network topology in multi-datacenter setups. If you have a multi-datacenter setup, Kong nodes between the datacentes should communicate over a VPN connection.</p>
-
-<p>Kong will try to auto-detect the node&#39;s first, non-loopback, IPv4 address and advertise this address to other Kong nodes. Sometimes this is not enough and the IP address needs to be manually set, you can do that by changing the <code>advertise</code> property in the <a href="/docs/0.9.x/configuration/#cluster">cluster</a> configuration.</p>
+<p>Kong assumes a flat network topology in multi-datacenter setups. If you have a multi-datacenter setup, Kong nodes between the 
+datacenters should communicate over a VPN connection.</p>
 
       </div>
     </div>
@@ -626,7 +676,7 @@
     <span>
       <a href="https://mashape.com">
         <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
-        &copy; <strong>2016 Mashape Inc</strong>
+        &copy; <strong>2017 Mashape Inc</strong>
       </a>
     </span>
       <span class="footer-separator"></span>
@@ -643,7 +693,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1482384317"></script>
+    <script src="/assets/app.js?v=1484854443"></script>
 
     <div id="fb-root"></div>
 
