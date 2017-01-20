@@ -42,11 +42,11 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1484854443"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1484952760"/>
 </head>
 
 
-  <body id="documentation" >
+  <body id="" >
     <header class="site-header">
   <div class="enterprise">
     <div class="container">
@@ -541,8 +541,8 @@
       <h1 id="plugin-development-custom-entities">Plugin Development - Custom Entities</h1>
 
 <h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.schema.migrations&quot;
-&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
+"kong.plugins.&lt;plugin_name&gt;.daos"
 </code></pre></div>
 <hr>
 
@@ -563,57 +563,57 @@
 <p>One of the main benefits of this approach is should you need to release a new version of your plugin that modifies a model, you can simply add new migrations to the array before releasing your plugin. Another benefit is that it is also possible to revert such migrations.</p>
 
 <p>As described in the <a href="/docs/0.9.x/plugin-development/file-structure/">file structure</a> chapter, your migrations modules must be named:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.migrations.cassandra&quot;
-&quot;kong.plugins.&lt;plugin_name&gt;.migrations.postgres&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
+"kong.plugins.&lt;plugin_name&gt;.migrations.postgres"
 </code></pre></div>
 <p>Here is an example of how one would define a migration file to store API keys:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- cassandra.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">2015-07-31-172400_init_keyauth&quot;</span><span class="p">,</span>
-    <span class="n">up</span> <span class="o">=</span>  <span class="s">[[</span>
-<span class="s">      CREATE TABLE IF NOT EXISTS keyauth_credentials(</span>
-<span class="s">        id uuid,</span>
-<span class="s">        consumer_id uuid,</span>
-<span class="s">        key text,</span>
-<span class="s">        created_at timestamp,</span>
-<span class="s">        PRIMARY KEY (id)</span>
-<span class="s">      );</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
+    <span class="n">up</span> <span class="o">=</span>  <span class="s">[[
+      CREATE TABLE IF NOT EXISTS keyauth_credentials(
+        id uuid,
+        consumer_id uuid,
+        key text,
+        created_at timestamp,
+        PRIMARY KEY (id)
+      );
 
-<span class="s">      CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);</span>
-<span class="s">      CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);</span>
-<span class="s">    ]]</span><span class="p">,</span>
-    <span class="n">down</span> <span class="o">=</span> <span class="s">[[</span>
-<span class="s">      DROP TABLE keyauth_credentials;</span>
-<span class="s">    ]]</span>
+      CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);
+      CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);
+    ]]</span><span class="p">,</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="s">[[
+      DROP TABLE keyauth_credentials;
+    ]]</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- postgres.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">2015-07-31-172400_init_keyauth&quot;</span><span class="p">,</span>
-    <span class="n">up</span> <span class="o">=</span> <span class="s">[[</span>
-<span class="s">      CREATE TABLE IF NOT EXISTS keyauth_credentials(</span>
-<span class="s">        id uuid,</span>
-<span class="s">        consumer_id uuid REFERENCES consumers (id) ON DELETE CASCADE,</span>
-<span class="s">        key text UNIQUE,</span>
-<span class="s">        created_at timestamp without time zone default (CURRENT_TIMESTAMP(0) at time zone &#39;utc&#39;),</span>
-<span class="s">        PRIMARY KEY (id)</span>
-<span class="s">      );</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="s">[[
+      CREATE TABLE IF NOT EXISTS keyauth_credentials(
+        id uuid,
+        consumer_id uuid REFERENCES consumers (id) ON DELETE CASCADE,
+        key text UNIQUE,
+        created_at timestamp without time zone default (CURRENT_TIMESTAMP(0) at time zone 'utc'),
+        PRIMARY KEY (id)
+      );
 
-<span class="s">      DO $$</span>
-<span class="s">      BEGIN</span>
-<span class="s">        IF (SELECT to_regclass(&#39;public.keyauth_key_idx&#39;)) IS NULL THEN</span>
-<span class="s">          CREATE INDEX keyauth_key_idx ON keyauth_credentials(key);</span>
-<span class="s">        END IF;</span>
-<span class="s">        IF (SELECT to_regclass(&#39;public.keyauth_consumer_idx&#39;)) IS NULL THEN</span>
-<span class="s">          CREATE INDEX keyauth_consumer_idx ON keyauth_credentials(consumer_id);</span>
-<span class="s">        END IF;</span>
-<span class="s">      END$$;</span>
-<span class="s">    ]]</span><span class="p">,</span>
-    <span class="n">down</span> <span class="o">=</span> <span class="s">[[</span>
-<span class="s">      DROP TABLE keyauth_credentials;</span>
-<span class="s">    ]]</span>
+      DO $$
+      BEGIN
+        IF (SELECT to_regclass('public.keyauth_key_idx')) IS NULL THEN
+          CREATE INDEX keyauth_key_idx ON keyauth_credentials(key);
+        END IF;
+        IF (SELECT to_regclass('public.keyauth_consumer_idx')) IS NULL THEN
+          CREATE INDEX keyauth_consumer_idx ON keyauth_credentials(consumer_id);
+        END IF;
+      END$$;
+    ]]</span><span class="p">,</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="s">[[
+      DROP TABLE keyauth_credentials;
+    ]]</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -632,20 +632,20 @@
 <p>To make the DAO Factory load your custom DAO(s), you will simply need to define your entity&#39;s schema (just like the schemas describing your <a href="/docs/0.9.x/plugin-development/plugin-configuration/">plugin configuration</a>). This schema contains a few more values since it must describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints and such.</p>
 
 <p>This schema is to be defined in a module named:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;kong.plugins.&lt;plugin_name&gt;.daos&quot;
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.daos"
 </code></pre></div>
 <p>Once that module returns your entity&#39;s schema, and assuming your plugin is loaded by Kong (see the <code>custom_plugins</code> property in <code>kong.yml</code>), the DAO Factory will use it to instanciate a DAO object.</p>
 
 <p>Here is an example of how one would define a schema to store API keys in a his or her database:</p>
 <div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
 <span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">},</span>
-  <span class="n">table</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">keyauth_credentials&quot;</span><span class="p">,</span> <span class="c1">-- the actual table in the database</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span> <span class="c1">-- the actual table in the database</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- a value to be inserted by the DAO itself (think of serial ID and the uniqueness of such required here)</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">timestamp&quot;</span><span class="p">,</span> <span class="n">immutable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- also interted by the DAO itself</span>
-    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">id&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">consumers:id&quot;</span><span class="p">},</span> <span class="c1">-- a foreign key to a Consumer&#39;s id</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">string&quot;</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span> <span class="c1">-- a unique API key</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- a value to be inserted by the DAO itself (think of serial ID and the uniqueness of such required here)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"timestamp"</span><span class="p">,</span> <span class="n">immutable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- also interted by the DAO itself</span>
+    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">"consumers:id"</span><span class="p">},</span> <span class="c1">-- a foreign key to a Consumer's id</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span> <span class="c1">-- a unique API key</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
@@ -685,14 +685,14 @@
 </tbody></table>
 
 <p>Your DAO will now be loaded by the DAO Factory and available as one of its properties:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">&quot;</span><span class="s">kong.singletons&quot;</span>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 <span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span>
 
 <span class="kd">local</span> <span class="n">keys_dao</span> <span class="o">=</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span>
 
 <span class="kd">local</span> <span class="n">key_credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">keys_dao</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
   <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
-  <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">abcd&quot;</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="s2">"abcd"</span>
 <span class="p">})</span>
 </code></pre></div>
 <p>The DAO name (<code>keyauth_credentials</code>) with which it is accessible from the DAO Factory depends on the key with which you exported your DAO in the returned table of <code>daos.lua</code>.</p>
@@ -779,7 +779,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1484854443"></script>
+    <script src="/assets/app.js?v=1484952760"></script>
 
     <div id="fb-root"></div>
 

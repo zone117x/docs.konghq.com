@@ -42,11 +42,11 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1484854443"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1484952760"/>
 </head>
 
 
-  <body id="documentation" >
+  <body id="" >
     <header class="site-header">
   <div class="enterprise">
     <div class="container">
@@ -601,12 +601,12 @@
 <p>Before going any further, let&#39;s take a few moments to make sure you know how to add an API to Kong. This will also help clarify the difference between the two ports.</p>
 
 <p>As explained in the <a href="/docs/0.6.x/getting-started/adding-your-api">Adding your API</a> quickstart guide, Kong is configured via its internal <a href="/docs/0.6.x/admin-api">Admin API</a> running by default on port <code>8001</code>. Adding an API to Kong is as easy as an HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/apis/ <span class="se">\</span>
-  -d <span class="s1">&#39;name=mockbin&#39;</span> <span class="se">\</span>
-  -d <span class="s1">&#39;upstream_url=http://mockbin.com/&#39;</span> <span class="se">\</span>
-  -d <span class="s1">&#39;request_host=mockbin.com&#39;</span> <span class="se">\</span>
-  -d <span class="s1">&#39;request_path=/status&#39;</span>
+  -d <span class="s1">'name=mockbin'</span> <span class="se">\</span>
+  -d <span class="s1">'upstream_url=http://mockbin.com/'</span> <span class="se">\</span>
+  -d <span class="s1">'request_host=mockbin.com'</span> <span class="se">\</span>
+  -d <span class="s1">'request_path=/status'</span>
 </code></pre></div>
 <p>This request tells Kong to add an API named &quot;<strong>mockbin</strong>&quot;, with its upstream resource being located at &quot;<strong><a href="http://mockbin.com">http://mockbin.com</a></strong>&quot;. The <code>request_host</code> and <code>request_path</code> properties are the ones used by Kong to route a request to that API. Both properties are not required but at least one must be specified.</p>
 
@@ -616,12 +616,12 @@
 
 <h2 id="3-proxy-an-api-by-its-dns-value">3. Proxy an API by its DNS value</h2>
 
-<h4 id="using-the-quot-host-quot-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
+<h4 id="using-the-host-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
 
 <p>Now that we added an API to Kong (via the Admin API), Kong can proxy it via the <code>8000</code> port. One way to do so is to specify the API&#39;s <code>request_host</code> value in the <code>Host</code> header of your request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">&#39;Host: mockbin.com&#39;</span>
+  --header <span class="s1">'Host: mockbin.com'</span>
 </code></pre></div>
 <p>By doing so, Kong recognizes the <code>Host</code> value as being the <code>request_host</code> of the &quot;mockbin&quot; API. The request will be routed to the upstream API and Kong will execute any configured <a href="/plugins/">plugin</a> for that API.</p>
 
@@ -629,12 +629,12 @@
   <strong>Going to production:</strong> If you're planning to go into production with your setup, you'll most likely not want your consumers to manually set the "<strong>Host</strong>" header on each request. You can let Kong and DNS take care of it by simply setting an A or CNAME record on your domain pointing to your Kong installation. Hence, any request made to `example.org` will already contain a `Host: example.org` header.
 </div>
 
-<h4 id="using-the-quot-x-host-override-quot-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</h4>
+<h4 id="using-the-x-host-override-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</h4>
 
 <p>When performing a request from a browser, you might not be able to set the <code>Host</code> header. Thus, Kong also checks a request for a header named <code>X-Host-Override</code> and treats it exactly like the <code>Host</code> header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">&#39;X-Host-Override: mockbin.com&#39;</span>
+  --header <span class="s1">'X-Host-Override: mockbin.com'</span>
 </code></pre></div>
 <p>This request will be proxied just as well by Kong.</p>
 
@@ -653,18 +653,18 @@
 <p>If you&#39;d rather configure your APIs so that Kong routes incoming requests according to the request&#39;s URI, Kong can also perform this function. This allows your consumers to seamlessly consume APIs sparing the headache of setting DNS records for your domains.</p>
 
 <p>Because the API we previously configured has a <code>request_path</code> property, the following request will <strong>also</strong> be proxied to the upstream &quot;mockbin&quot; API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/status/200
 </code></pre></div>
 <p>You will notice this command makes a request to <code>KONG_URL:PROXY_PORT/status/200</code>. Since the configured <code>upstream_url</code> is <code>http://mockbin.com/</code>, the request will hit the upstream service at <code>http://mockbin.com/status/200</code>.</p>
 
-<h4 id="using-the-quot-strip_request_path-quot-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</h4>
+<h4 id="using-the-strip_request_path-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</h4>
 
 <p>By enabling the <code>strip_request_path</code> property on an API, the requests will be proxied without the <code>request_path</code> property being included in the upstream request. Let&#39;s enable this option by making a request to the Admin API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>curl -i -X PATCH <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X PATCH <span class="se">\</span>
   --url http://localhost:8001/apis/mockbin <span class="se">\</span>
-  -d <span class="s1">&#39;strip_request_path=true&#39;</span> <span class="se">\</span>
-  -d <span class="s1">&#39;request_path=/mockbin&#39;</span>
+  -d <span class="s1">'strip_request_path=true'</span> <span class="se">\</span>
+  -d <span class="s1">'request_path=/mockbin'</span>
 </code></pre></div>
 <p>Now that we slightly updated our API (you might have to wait a few seconds for Kong&#39;s proxying cache to be updated), Kong will proxy requests made to <code>KONG_URL:PROXY_PORT/mockbin</code> but will not include the <code>/mockbin</code> part when performing the upstream request.</p>
 
@@ -815,7 +815,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1484854443"></script>
+    <script src="/assets/app.js?v=1484952760"></script>
 
     <div id="fb-root"></div>
 
