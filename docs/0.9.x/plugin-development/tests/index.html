@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1488318424"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1488325352"/>
 </head>
 
 
@@ -549,19 +549,27 @@
 
 <h3 id="write-integration-tests">Write integration tests</h3>
 
-<p>The preferred testing framework for Kong is <a href="http://olivinelabs.com/busted/">busted</a>, though you are free to use another one if you wish.</p>
+<p>The preferred testing framework for Kong is <a href="http://olivinelabs.com/busted/">busted</a> running with the <a href="https://github.com/openresty/resty-cli">resty-cli</a> interpreter, though you are free to use another one if you wish. In the Kong repository, the busted executable can be found at <code>bin/busted</code>.</p>
 
-<p>Kong provides you with a helper to start and stop it from Lua code in your test suite: <code>spec.spec_helpers</code>. This helper also provides you with ways to insert fixtures in your datastore before running your tests, as well as dropping it, and various other helpers.</p>
+<p>Kong provides you with a helper to start and stop it from Lua in your test suite: <code>spec.helpers</code>. This helper also provides you with ways to insert fixtures in your datastore before running your tests, as well as dropping it, and various other helpers.</p>
 
-<p>Assuming you have a configuration file obtained from running <code>make dev</code> in your Kong repository in your current folder, and that the <code>spec.spec_helpers</code> module is available in your <code>LUA_PATH</code>, you can use the following Lua code in busted to start and stop Kong:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">spec_helper</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"spec.spec_helpers"</span>
+<p>If you are writing your plugin in your own repository, you will need to copy the following files until the Kong testing framework is released:</p>
+
+<ul>
+<li><code>bin/busted</code>: the busted executable running with the resty-cli interpreter</li>
+<li><code>spec/helpers.lua</code>: helper functions to start/stop Kong from busted</li>
+<li><code>spec/kong_tests.conf</code>: a configuration file for your running your test Kong instances with the helpers module</li>
+</ul>
+
+<p>Assuming that the <code>spec.helpers</code> module is available in your <code>LUA_PATH</code>, you can use the following Lua code in busted to start and stop Kong:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">helpers</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"spec.helpers"</span>
 
 <span class="n">setup</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
   <span class="c1">-- Run the migrations to prepare the database</span>
-  <span class="n">spec_helper</span><span class="p">.</span><span class="n">prepare_db</span><span class="p">()</span>
+  <span class="n">helpers</span><span class="p">.</span><span class="n">prepare_db</span><span class="p">()</span>
 
   <span class="c1">-- Insert some fixtures in the database before running your tests</span>
-  <span class="n">spec_helper</span><span class="p">.</span><span class="n">insert_fixtures</span> <span class="p">{</span>
+  <span class="n">helpers</span><span class="p">.</span><span class="n">insert_fixtures</span> <span class="p">{</span>
     <span class="n">api</span> <span class="o">=</span> <span class="p">{</span>
       <span class="p">{</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"fixture-api"</span><span class="p">,</span> <span class="n">request_host</span> <span class="o">=</span> <span class="s2">"fixture.com"</span><span class="p">,</span> <span class="n">upstream_url</span> <span class="o">=</span> <span class="s2">"http://mockbin.com"</span><span class="p">}</span>
     <span class="p">},</span>
@@ -574,13 +582,13 @@
     <span class="p">}</span>
   <span class="p">}</span>
 
-  <span class="c1">-- start Kong with your local kong_TEST.yml configuration</span>
-  <span class="n">spec_helper</span><span class="p">.</span><span class="n">start_kong</span><span class="p">()</span>
+  <span class="c1">-- start Kong with your testing Kong configuration (defined in "spec.helpers")</span>
+  <span class="n">helpers</span><span class="p">.</span><span class="n">start_kong</span><span class="p">()</span>
 <span class="k">end</span><span class="p">)</span>
 
 <span class="n">teardown</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
-  <span class="c1">-- stop Kong with your local kong_TEST.yml configuration</span>
-  <span class="n">spec_helper</span><span class="p">.</span><span class="n">stop_kong</span><span class="p">()</span>
+  <span class="c1">-- stop Kong with your testing Kong configuration (defined in "spec.helpers")</span>
+  <span class="n">helpers</span><span class="p">.</span><span class="n">stop_kong</span><span class="p">()</span>
 <span class="k">end</span><span class="p">)</span>
 
 <span class="n">describe</span><span class="p">(</span><span class="s2">"thing"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
@@ -590,7 +598,7 @@
 <span class="k">end</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
-<p>Reminder: With the kong_TEST.yml file, Kong is running with its proxy listening on port 8100 and Admin API on port 8101.</p>
+<p>Reminder: With the test Kong configuration file, Kong is running with its proxy listening on port 8100 and Admin API on port 8101.</p>
 </blockquote>
 
 <hr>
@@ -665,7 +673,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1488318424"></script>
+    <script src="/assets/app.js?v=1488325352"></script>
 
     <div id="fb-root"></div>
 
