@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1488325352"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
 </head>
 
 
@@ -281,6 +281,11 @@
 <td><code>false</code></td>
 <td>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</td>
 </tr>
+<tr>
+<td><code>config.anonymous</code><br><em>optional</em></td>
+<td>``</td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code></td>
+</tr>
 </tbody></table>
 
 <hr>
@@ -349,17 +354,17 @@ HTTP/1.1 201 Created
 <tr>
 <td><code>algorithm</code><br><em>optional</em></td>
 <td><code>HS256</code></td>
-<td>The algorithm used to verify the token&#39;s signature. Can be <code>HS256</code> or <code>RS256</code>.</td>
+<td>The algorithm used to verify the token&#39;s signature. Can be <code>HS256</code>, <code>RS256</code>, or <code>ES256</code>.</td>
 </tr>
 <tr>
 <td><code>rsa_public_key</code><br><em>optional</em></td>
 <td></td>
-<td>If <code>algorithm</code> is <code>RS256</code>, the public key (in PEM format) to use to verify the token&#39;s signature.</td>
+<td>If <code>algorithm</code> is <code>RS256</code> or <code>ES256</code>, the public key (in PEM format) to use to verify the token&#39;s signature.</td>
 </tr>
 <tr>
 <td><code>secret</code><br><em>optional</em></td>
 <td></td>
-<td>If <code>algorithm</code> is <code>HS256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated.</td>
+<td>If <code>algorithm</code> is <code>HS256</code> or <code>ES256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated.</td>
 </tr>
 </tbody></table>
 
@@ -468,9 +473,9 @@ HTTP/1.1 201 Created
 </code></pre></div>
 <p>And sign your JWT using the original secret (&quot;blob data&quot;).</p>
 
-<h3 id="craft-a-jwt-with-public-private-keys-rs256">Craft a JWT with public/private keys (RS256)</h3>
+<h3 id="craft-a-jwt-with-public-private-keys-rs256-or-es256">Craft a JWT with public/private keys (RS256 or ES256)</h3>
 
-<p>If you wish to use RS256 to verify your JWTs, then when creating a JWT credential, select <code>RS256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field. For example:</p>
+<p>If you wish to use RS256 or ES256 to verify your JWTs, then when creating a JWT credential, select <code>RS256</code> or <code>ES256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field (including for ES256 signed tokens). For example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
       -F <span class="s2">"rsa_public_key=@/path/to/public_key.pem"</span> <span class="se">\</span>
 HTTP/1.1 201 Created
@@ -516,6 +521,7 @@ HTTP/1.1 201 Created
 <li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
 <li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the Consumer (if set)</li>
 <li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
+<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
 </ul>
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
@@ -589,7 +595,7 @@ HTTP/1.1 201 Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1488325352"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
 
     <div id="fb-root"></div>
 

@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1488325352"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
 </head>
 
 
@@ -252,6 +252,11 @@
 <td><code>60000</code></td>
 <td>An optional value in milliseconds that defines for how long an idle connection to LDAP server will live before being closed.</td>
 </tr>
+<tr>
+<td><code>config.anonymous</code><br><em>optional</em></td>
+<td>``</td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code></td>
+</tr>
 </tbody></table>
 
 <hr>
@@ -269,7 +274,11 @@
 <p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/Microservice, so that you can identify the consumer in your code:</p>
 
 <ul>
-<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential</li>
+<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential (only if the consumer is not the &#39;anonymous&#39; consumer)</li>
+<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
+<li><code>X-Consumer-ID</code>, the ID of the &#39;anonymous&#39; consumer on Kong (only if authentication failed and &#39;anonymous&#39; was set)</li>
+<li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the &#39;anonymous&#39; consumer (only if authentication failed and &#39;anonymous&#39; was set)</li>
+<li><code>X-Consumer-Username</code>, the <code>username</code> of the &#39;anonymous&#39; consumer (only if authentication failed and &#39;anonymous&#39; was set)</li>
 </ul>
 
         </div>
@@ -341,7 +350,7 @@
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1488325352"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
 
     <div id="fb-root"></div>
 

@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Plugin Development - Store Configuration - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="http://getkong.org"/>
+  <meta property="og:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://getkong.org/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://getkong.org"/>
+  <meta name="twitter:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://getkong.org/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+
+  <!-- New Relic -->
+  <script src="/assets/newrelic.js"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://getkong.org",
+      "logo": "https://getkong.org/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
+</head>
+
+
+  <body id="" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://www.mashape.com/enterprise/">Enterprise</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="https://www.mashape.com/enterprise/#demo-form">Request Demo</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/"  class="active">Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="https://www.mashape.com/enterprise/">Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
+
+
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="Documentation" />
+    </div>
+    <div class="page-header-title">
+      <h1>Documentation (0.10.x)</h1>
+      <p>Learn how Kong empowers your APIs</p>
+    </div>
+
+    
+      <div class="dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version 0.10.x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+              <li>
+                <a href="/docs/0.2.0-2">
+                  0.2.0-2
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.2.x">
+                  0.2.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.3.x">
+                  0.3.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.4.x">
+                  0.4.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.5.x">
+                  0.5.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.6.x">
+                  0.6.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.7.x">
+                  0.7.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.8.x">
+                  0.8.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.9.x">
+                  0.9.x
+                  
+                </a>
+              </li>
+            
+          
+            
+          
+        </ul>
+      </div>
+    
+  </div>
+</header>
+
+<div class="container">
+  <aside class="page-navigation">
+    
+
+    
+    <nav>
+      
+      <h5>Getting Started</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/introduction" >Introduction</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/quickstart" >Five-minute quickstart</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/adding-your-api" >Adding your API</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/enabling-plugins" >Enabling Plugins</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/adding-consumers" >Adding Consumers</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <h5>Guides &amp; References</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/configuration" >Configuration reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/cli" >CLI reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/proxy" >Proxy reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x" >Load balancing reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/clustering" >Clustering reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/network" >Network &amp; Firewall</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/lua-reference/" >Public Lua API reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/plugin-development" >Plugin Development Guide</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development" >Introduction</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/file-structure" >File structure</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/custom-logic" >Implement custom logic</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/plugin-configuration" class="active">Plugin configuration</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/access-the-datastore" >Access the datastore</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/custom-entities" >Store custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/entities-cache" >Caching custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/admin-api" >Extending the Admin API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/tests" >Writing tests</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/distribution" >Distribute your plugin</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <a href="/docs/0.10.x/admin-api/"><h5>Admin API</h5></a>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#supported-content-types" >Supported Content Types</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#information-routes" >Information routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-node-information" >Retrieve node information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#cluster" >Cluster</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#cluster-information" >Cluster information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-cluster-status" >Retrieve cluster status</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#forcibly-remove-a-node" >Forcibly remove a node</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#api-object" >API Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-api" >Add API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-api" >Retrieve API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-apis" >List APIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-api" >Update API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-api" >Update or create API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-api" >Delete API</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#consumer-object" >Consumer Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#create-consumer" >Create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-consumers" >List Consumers</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-consumer" >Update Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-consumer" >Delete Consumer</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#plugin-object" >Plugin Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-plugin" >Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-all-plugins" >List all Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-plugin" >Update Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-plugin" >Delete Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#upstream-object" >Upstream Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-upstream" >Add Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-upstream" >Retrieve Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-upstreams" >List all Upstreams</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-upstream" >Update Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-upstream" >Update or create Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-upstream" >Delete Upstream</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#target-object" >Target Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-target" >Add Target</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-targets" >List Targets</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        
+
+      <h1 id="plugin-development-store-configuration">Plugin Development - Store Configuration</h1>
+
+<h4 id="module">Module</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema"
+</code></pre></div>
+<hr>
+
+<p>Most of the time, it makes sense for your plugin to be configurable to answer all of your user&#39;s needs. Your plugin&#39;s configuration is stored in the datastore for Kong to retrieve it and pass it to your <a href="/docs/0.10.x/plugin-development/custom-logic/">handler.lua</a> methods when the plugin is being executed.</p>
+
+<p>The configuration consists of a Lua table in Kong that we call a <strong>schema</strong>. It contains key/value properties that the user will set when enabling the plugin through the <a href="/docs/0.10.x/admin-api">Admin API</a>. Kong provides you with a way of validating the user&#39;s configuration for your plugin.</p>
+
+<p>Your plugin&#39;s configuration is being verified against your schema when a user issues a request to the <a href="/docs/0.10.x/admin-api">Admin API</a> to enable or update a plugin on a given API and/or Consumer.</p>
+
+<p>For example, a user performs the following request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
+    -d <span class="s2">"config.foo=bar"</span>
+</code></pre></div>
+<p>If all properties of the <code>config</code> object are valid according to your schema, then the API would return <code>201 Created</code> and the plugin would be stored in the database along with its configuration (<code>{foo = &quot;bar&quot;}</code> in this case). If the configuration is not valid, the Admin API would return <code>400 Bad Request</code> and the appropriate error messages.</p>
+
+<hr>
+
+<h3 id="schema-lua-specifications">schema.lua specifications</h3>
+
+<p>This module is to return a Lua table with properties that will define how your plugins can later be configured by users. Available properties are:</p>
+
+<table><thead>
+<tr>
+<th>Property name</th>
+<th>Lua type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>no_consumer</code></td>
+<td>Boolean</td>
+<td><code>false</code></td>
+<td>If true, it will not be possible to apply this plugin to a specific Consumer. This plugin must be API-wide only. For example: authentication plugins.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>Table</td>
+<td><code>{}</code></td>
+<td>Your plugin&#39;s <strong>schema</strong>. A key/value table of available properties and their rules.</td>
+</tr>
+<tr>
+<td><code>self_check</code></td>
+<td>Function</td>
+<td><code>nil</code></td>
+<td>A function to implement if you want to perform any custom validation before accepting the plugin&#39;s configuration.</td>
+</tr>
+</tbody></table>
+
+<p>The <code>self_check</code> function must be implemented as follows:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
+<span class="c1">-- @param `config` A key/value table of the current plugin's configuration.</span>
+<span class="c1">-- @param `dao` An instance of the DAO (see DAO chapter).</span>
+<span class="c1">-- @param `is_updating` A boolean indicating wether or not this check is performed in the context of an update.</span>
+<span class="c1">-- @return `valid` A boolean indicating if the plugin's configuration is valid or not.</span>
+<span class="c1">-- @return `error` A DAO error (see DAO chapter)</span>
+</code></pre></div>
+<p>Here is an example of a potential <code>schema.lua</code> file:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+  <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">-- this plugin will only be API-wide,</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">-- Describe your plugin's configuration's schema here.</span>
+  <span class="p">},</span>
+  <span class="n">self_check</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">plugin_t</span><span class="p">,</span> <span class="n">dao</span><span class="p">,</span> <span class="n">is_updating</span><span class="p">)</span>
+    <span class="c1">-- perform any custom verification</span>
+    <span class="k">return</span> <span class="kc">true</span>
+  <span class="k">end</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="describing-your-configuration-schema">Describing your configuration schema</h3>
+
+<p>The <code>fields</code> property of your <code>schema.lua</code> file described the schema of your plugin&#39;s configuration. It is a flexible key/value table where each key will be a valid configuration property for your plugin, and each value a table describing the rules for that property. For example:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua">  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">some_string</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
+    <span class="n">some_boolean</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span>
+    <span class="n">some_array</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">}}</span>
+  <span class="p">}</span>
+</code></pre></div>
+<p>Here is the list of accepted rules for a property:</p>
+
+<table><thead>
+<tr>
+<th>Rule</th>
+<th>Lua type(s)</th>
+<th>Accepted values</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td>&quot;id&quot;, &quot;number&quot;, &quot;boolean&quot;, &quot;string&quot;, &quot;table&quot;, &quot;array&quot;, &quot;url&quot;, &quot;timestamp&quot;</td>
+<td>Validates the type of a property.</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td>boolean</td>
+<td></td>
+<td><strong>Default</strong>: false. If true, the property must be present in the configuration.</td>
+</tr>
+<tr>
+<td><code>unique</code></td>
+<td>boolean</td>
+<td></td>
+<td><strong>Default</strong>: false. If true, the value must be unique (see remark below).</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>any</td>
+<td></td>
+<td>If the property is not specified in the configuration, will set the property to the given value.</td>
+</tr>
+<tr>
+<td><code>immutable</code></td>
+<td>boolean</td>
+<td></td>
+<td><strong>Default</strong>: false. If true, the property will not be allowed to be updated once the plugin configuration has been created.</td>
+</tr>
+<tr>
+<td><code>enum</code></td>
+<td>table</td>
+<td>Integer indexed table</td>
+<td>A list of accepted values for a property. Any value not included in this list will not be accepted.</td>
+</tr>
+<tr>
+<td><code>regex</code></td>
+<td>string</td>
+<td>A valid PCRE regular expression</td>
+<td>A regex against which to validate the property&#39;s value.</td>
+</tr>
+<tr>
+<td><code>schema</code></td>
+<td>table</td>
+<td>A nested schema definition</td>
+<td>If the property&#39;s <code>type</code> is table, defines a schema against which to validate those sub-properties.</td>
+</tr>
+<tr>
+<td><code>func</code></td>
+<td>function</td>
+<td></td>
+<td>A function to perform any custom validation on a property. See later examples for its parameters and return values.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<ul>
+<li><strong>type</strong>: will cast the value retrieved from the request parameters. If the type is not one of the native Lua types, custom verification is performed against it:
+
+<ul>
+<li>id: must be a string</li>
+<li>timestamp: must be a number</li>
+<li>url: must be a valid URL</li>
+<li>array: must be an integer-indexed table (equivalent of arrays in Lua). In the Admin API, such an array can either be sent by having several times the property&#39;s key with different values in the request&#39;s body, or comma-delimited through a single body parameter.</li>
+</ul></li>
+<li><strong>unique</strong>: This property does not make sense for a plugin configuration, but is used when a plugin needs to store custom entities in the datastore.</li>
+<li><strong>schema</strong>: if you need to perform deepened validation of nested properties, this field allows you to create a nested schema. Schema verification is <strong>recursive</strong>. Any level of nesting is valid, but bear in mind that this will affect the usability of your plugin.</li>
+<li><strong>Any property attached to a configuration object but not present in your schema will also invalidate the said configuration.</strong></li>
+</ul>
+</blockquote>
+
+<hr>
+
+<h4 id="examples">Examples:</h4>
+
+<p>This <code>schema.lua</code> file for the <a href="/plugins/key-authentication/">key-auth</a> plugin defines a default list of accepted parameter names for an API key, and a boolean whose default is set to <code>false</code>:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- schema.lua</span>
+<span class="k">return</span> <span class="p">{</span>
+  <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">key_names</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"apikey"</span><span class="p">}},</span>
+    <span class="n">hide_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Hence, when implementing the <code>access()</code> function of your plugin in <a href="/docs/0.10.x/plugin-development/custom-logic/">handler.lua</a> and given that the user enabled the plugin with the default values, you&#39;d have access to:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
+<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+<span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
+
+<span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">"my-custom-plugin"</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">access</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">access</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">key_names</span><span class="p">)</span> <span class="c1">-- {"apikey"}</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">hide_credentials</span><span class="p">)</span> <span class="c1">-- false</span>
+<span class="k">end</span>
+
+<span class="k">return</span> <span class="n">CustomHandler</span>
+</code></pre></div>
+<hr>
+
+<p>A more complex example, which could be used for an eventual logging plugin:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- schema.lua</span>
+
+<span class="kd">local</span> <span class="k">function</span> <span class="nf">server_port</span><span class="p">(</span><span class="n">given_value</span><span class="p">,</span> <span class="n">given_config</span><span class="p">)</span>
+  <span class="c1">-- Custom validation</span>
+  <span class="k">if</span> <span class="n">given_value</span> <span class="o">&gt;</span> <span class="mi">65534</span> <span class="k">then</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">,</span> <span class="s2">"port value too high"</span>
+  <span class="k">end</span>
+
+  <span class="c1">-- If environment is "development", 8080 will be the default port</span>
+  <span class="k">if</span> <span class="n">given_config</span><span class="p">.</span><span class="n">environment</span> <span class="o">==</span> <span class="s2">"development"</span> <span class="k">then</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="p">{</span><span class="n">port</span> <span class="o">=</span> <span class="mi">8080</span><span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">return</span> <span class="p">{</span>
+  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"production"</span><span class="p">,</span> <span class="s2">"development"</span><span class="p">}}</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nb">type</span> <span class="o">=</span> <span class="s2">"table"</span><span class="p">,</span>
+      <span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"url"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="s2">"http://example.com"</span><span class="p">},</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"number"</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">server_port</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="mi">80</span><span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Such a configuration will allow a user to post the configuration to your plugin as follows:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    -d <span class="s2">"name=&lt;my-custom-plugin&gt;"</span> <span class="se">\</span>
+    -d <span class="s2">"config.environment=development"</span> <span class="se">\</span>
+    -d <span class="s2">"config.server.host=http://localhost"</span>
+</code></pre></div>
+<p>And the following will be available in <a href="/docs/0.10.x/plugin-development/custom-logic/">handler.lua</a>:</p>
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
+<span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+<span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
+
+<span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">new</span><span class="p">()</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="s2">"my-custom-plugin"</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="nf">CustomHandler</span><span class="p">:</span><span class="n">access</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+  <span class="n">CustomHandler</span><span class="p">.</span><span class="n">super</span><span class="p">.</span><span class="n">access</span><span class="p">(</span><span class="n">self</span><span class="p">)</span>
+
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">environment</span><span class="p">)</span> <span class="c1">-- "development"</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">host</span><span class="p">)</span> <span class="c1">-- "http://localhost"</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">port</span><span class="p">)</span> <span class="c1">-- 8080</span>
+<span class="k">end</span>
+
+<span class="k">return</span> <span class="n">CustomHandler</span>
+</code></pre></div>
+<hr>
+
+<p>Next: <a href="/docs/0.10.x/plugin-development/access-the-datastore/">Store custom entities &rsaquo;</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <footer class="footer">
+  
+    <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+
+    <form action="/" class="subscribe-form">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+      <div class="alert alert-success" role="alert">Thank You!</div>
+
+      <div class="input-group">
+        <input type="email" name="email" placeholder="youre@awesome.com" required/>
+        <button class="button button-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  
+
+  <div class="footer-bar">
+    <div class="container">
+      <ul class="footer-social">
+        <li>
+          <!-- verse link.web with link.share in the header -->
+          <div class="fb-share-button" data-href="https://getkong.org" data-layout="button"></div>
+        </li>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://getkong.org" data-text="KONG - the open-source management layer for APIs and Microservices" data-hashtags="opensource,API,management">Tweet</a>
+        </li>
+        <li>
+          <a class="github-button" href="https://github.com/Mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a>
+        </li>
+      </ul>
+    <span>
+      <a href="https://mashape.com">
+        <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
+        &copy; <strong>2017 Mashape Inc</strong>
+      </a>
+    </span>
+      <span class="footer-separator"></span>
+      <span class="footer-nav">
+        <a href="/license">License</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="https://www.mashape.com/enterprise/">Enterprise</a>
+        <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
+
+    <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true"></a>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+  </body>
+</html>

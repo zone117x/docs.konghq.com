@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1488325352"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
 </head>
 
 
@@ -213,20 +213,8 @@
 
 <p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=key-auth"</span>
-HTTP/1.1 201 Created
-
-<span class="o">{</span>
-    <span class="s2">"api_id"</span>: <span class="s2">"d87d0e23-a1c1-4981-9989-84ee9a1a0781"</span>,
-    <span class="s2">"id"</span>: <span class="s2">"5bde4bc6-c27b-44a2-bcfd-5352c3bb29a1"</span>,
-    <span class="s2">"created_at"</span>: 1472604757000,
-    <span class="s2">"enabled"</span>: <span class="nb">true</span>,
-    <span class="s2">"name"</span>: <span class="s2">"key-auth"</span>,
-    <span class="s2">"config"</span>: <span class="o">{</span>
-        <span class="s2">"key_names"</span>: <span class="o">[</span><span class="s2">"apikey"</span><span class="o">]</span>,
-        <span class="s2">"hide_credentials"</span>:false
-    <span class="o">}</span>
-<span class="o">}</span>
+    --data <span class="s2">"name=key-auth"</span> <span class="se">\</span>
+    --data <span class="s2">"config.hide_credentials=true"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -252,12 +240,17 @@ blacklist groups of users.</p>
 <tr>
 <td><code>config.key_names</code><br><em>optional</em></td>
 <td><code>apikey</code></td>
-<td>Describes an array of comma separated parameter names where the plugin will look for a key. The client must send the authentication key in one of those key names, and the plugin will try to read the credential from a header or the querystring parameter with the same name.</td>
+<td>Describes an array of comma separated parameter names where the plugin will look for a key. The client must send the authentication key in one of those key names, and the plugin will try to read the credential from a header or the querystring parameter with the same name.<br><em>note</em>: the key names may only contain [a-z], [A-Z], [0-9] and [-].</td>
 </tr>
 <tr>
 <td><code>config.hide_credentials</code><br><em>optional</em></td>
 <td><code>false</code></td>
 <td>An optional boolean value telling the plugin to hide the credential to the upstream API server. It will be removed by Kong before proxying the request.</td>
+</tr>
+<tr>
+<td><code>config.anonymous</code><br><em>optional</em></td>
+<td>``</td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code></td>
 </tr>
 </tbody></table>
 
@@ -357,6 +350,8 @@ HTTP/1.1 201 Created
 <li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
 <li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the Consumer (if set)</li>
 <li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
+<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential (only if the consumer is not the &#39;anonymous&#39; consumer)</li>
+<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
 </ul>
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
@@ -430,7 +425,7 @@ HTTP/1.1 201 Created
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1488325352"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
 
     <div id="fb-root"></div>
 

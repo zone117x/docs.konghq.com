@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Loadbalancing reference - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="http://getkong.org"/>
+  <meta property="og:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://getkong.org/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://getkong.org"/>
+  <meta name="twitter:description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://getkong.org/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+
+  <!-- New Relic -->
+  <script src="/assets/newrelic.js"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://getkong.org",
+      "logo": "https://getkong.org/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
+</head>
+
+
+  <body id="" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li class="active"><a href="http://getkong.org">Kong</a></li>
+          <li><a href="http://gelato.io">Gelato</a></li>
+          <li><a href="http://getgalileo.io">Galileo</a></li>
+          <li><a href="http://www.mashape.com/enterprise/">Enterprise</a></li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li><a href="https://www.mashape.com/enterprise/#demo-form">Request Demo</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand"><img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"></a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star"frameborder="0" scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li><a href="/about/" >About</a></li>
+          <li><a href="/docs/"  class="active">Docs</a></li>
+          <li><a href="/plugins/" >Plugins</a></li>
+          <li><a href="/community/" >Community</a></li>
+          <li><a href="https://www.mashape.com/enterprise/">Enterprise</a></li>
+          <li><a href="https://github.com/Mashape/kong" target="_blank">GitHub</a></li>
+          <li>
+            <a href="/install/" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div><!-- .navbar -->
+</header>
+
+
+    <header class="page-header">
+  <div class="container">
+    <div class="page-header-icon">
+      <img src="/assets/images/icons/icn-documentation.svg" alt="Documentation" />
+    </div>
+    <div class="page-header-title">
+      <h1>Documentation (0.10.x)</h1>
+      <p>Learn how Kong empowers your APIs</p>
+    </div>
+
+    
+      <div class="dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Version 0.10.x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+              <li>
+                <a href="/docs/0.2.0-2">
+                  0.2.0-2
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.2.x">
+                  0.2.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.3.x">
+                  0.3.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.4.x">
+                  0.4.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.5.x">
+                  0.5.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.6.x">
+                  0.6.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.7.x">
+                  0.7.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.8.x">
+                  0.8.x
+                  
+                </a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/docs/0.9.x">
+                  0.9.x
+                  
+                </a>
+              </li>
+            
+          
+            
+          
+        </ul>
+      </div>
+    
+  </div>
+</header>
+
+<div class="container">
+  <aside class="page-navigation">
+    
+
+    
+    <nav>
+      
+      <h5>Getting Started</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/introduction" >Introduction</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/quickstart" >Five-minute quickstart</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/adding-your-api" >Adding your API</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/enabling-plugins" >Enabling Plugins</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/getting-started/adding-consumers" >Adding Consumers</a>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <h5>Guides &amp; References</h5>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/configuration" >Configuration reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/cli" >CLI reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/proxy" >Proxy reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x" >Load balancing reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/clustering" >Clustering reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/network" >Network &amp; Firewall</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/lua-reference/" >Public Lua API reference</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/plugin-development" >Plugin Development Guide</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development" >Introduction</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/file-structure" >File structure</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/custom-logic" >Implement custom logic</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/plugin-configuration" >Plugin configuration</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/access-the-datastore" >Access the datastore</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/custom-entities" >Store custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/entities-cache" >Caching custom entities</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/admin-api" >Extending the Admin API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/tests" >Writing tests</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/plugin-development/distribution" >Distribute your plugin</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+    <nav>
+      
+      <a href="/docs/0.10.x/admin-api/"><h5>Admin API</h5></a>
+      
+      <ul>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#supported-content-types" >Supported Content Types</a>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#information-routes" >Information routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-node-information" >Retrieve node information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#cluster" >Cluster</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#cluster-information" >Cluster information</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-cluster-status" >Retrieve cluster status</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#forcibly-remove-a-node" >Forcibly remove a node</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#api-object" >API Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-api" >Add API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-api" >Retrieve API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-apis" >List APIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-api" >Update API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-api" >Update or create API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-api" >Delete API</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#consumer-object" >Consumer Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#create-consumer" >Create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-consumers" >List Consumers</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-consumer" >Update Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-consumer" >Delete Consumer</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#plugin-object" >Plugin Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-plugin" >Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-all-plugins" >List all Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-plugin" >Update Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-plugin" >Delete Plugin</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#upstream-object" >Upstream Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-upstream" >Add Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-upstream" >Retrieve Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-upstreams" >List all Upstreams</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-upstream" >Update Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-upstream" >Update or create Upstream</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-upstream" >Delete Upstream</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#target-object" >Target Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-target" >Add Target</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-targets" >List Targets</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+      </ul>
+    </nav>
+    
+  </aside>
+
+  <div class="page-content-container">
+    <div class="page-content">
+      <div class="content">
+        
+
+      <h1 id="load-balancing-reference">Load Balancing reference</h1>
+
+<p>Kong provides multiple ways of load balancing requests to multiple backend services:
+a straightforward DNS-based method, and a more dynamic ring-balancer that also
+allows for service registry without needing a DNS server.</p>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+<li><p><a href="#dns-based-loadbalancing">DNS based loadbalancing</a></p>
+
+<ul>
+<li><a href="#a-records">A records</a></li>
+<li><a href="#srv-records">SRV records</a></li>
+<li><a href="#dns-priorities">DNS priorities</a></li>
+</ul></li>
+<li><p><a href="#ring-balancer">Ring-balancer</a></p>
+
+<ul>
+<li><a href="#upstream">upstream</a></li>
+<li><a href="#target">target</a></li>
+</ul></li>
+</ul>
+
+<h3 id="dns-based-loadbalancing">DNS based loadbalancing</h3>
+
+<p>When using DNS based load balancing the registration of the backend services is
+done outside of Kong, and Kong only receives updates from the DNS server.</p>
+
+<p>Every API that has been defined with an <code>upstream_url</code> containing a hostname
+(instead of an IP address) will automatically use DNS based load balancing
+if the name resolves to multiple IP addresses, provided the hostname does not
+resolve to an <code>upstream</code> name or a name in your <code>localhosts</code> file.</p>
+
+<p>The DNS record <code>ttl</code> setting (time to live) determines how often the information
+is refreshed. When using a <code>ttl</code> of 0, every request will be resolved using its
+own dns query. Obviously this will have a performance penalty, but the latency of
+updates/changes will be very low.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="a-records"><strong>A records</strong></h4>
+
+<p>An A record contains one or more IP addresses. Hence, when a hostname
+resolves to an A record, each backend service must have its own IP address.</p>
+
+<p>Because there is no <code>weight</code> information, all entries will be treated as equally 
+weighted in the load balancer, and the balancer will do a straight forward
+round-robin.</p>
+
+<p>The initial pick of an IP address from a DNS record is randomized. This is to
+make sure that even with a <code>ttl</code> of 0 the load is properly distributed.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="srv-records"><strong>SRV records</strong></h4>
+
+<p>An SRV record contains weight and port information for all of its IP addresses.
+A backend service can be identified by a unique combination of IP address 
+and port number. Hence, a single IP address can host multiple instances of the 
+same service on different ports.</p>
+
+<p>Because the <code>weight</code> information is available, each entry will get its own
+weight in the load balancer and it will perform a weighted round-robin.</p>
+
+<p>Similarly, any given port information will be overridden by the port information from
+the DNS server. If an API has an <code>upstream_url=http://myhost.com:123/somepath</code>
+and <code>myhost.com</code> resolves to a SRV record with <code>127.0.0.1:456</code> then the request
+will be proxied to <code>http://127.0.0.1:456/somepath</code>, as port <code>123</code> will be 
+overridden by <code>456</code>.</p>
+
+<p>The initial pick of an IP address + port combo is randomized, ensuring a proper
+distribution, even with a <code>ttl</code> setting of 0.</p>
+
+<p><strong>TIP</strong>: whenever the DNS record is refreshed a list is generated to handle the
+weighting properly. Try to keep the weights as multiples of each other to keep
+the algorithm performant, e.g., 2 weights of 17 and 31 would result in a structure 
+with 527 entries, whereas weights 16 and 32 (or their smallest relative 
+counterparts 1 and 2) would result in a structure with merely 3 entries,
+especially with a very small (or even 0) <code>ttl</code> value.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="dns-priorities"><strong>DNS priorities</strong></h4>
+
+<p>The DNS resolver will start resolving the following record types in order:</p>
+
+<ol>
+<li>The last succesful type previously resolved</li>
+<li>SRV record</li>
+<li>A record</li>
+<li>CNAME record</li>
+</ol>
+
+<p>So if the hostname you use has both SRV entries and A entries, it will start
+with SRV. If you want A records to be used, you must remove the SRV records from
+the DNS server. If you only have A records, then the SRV lookup will fail and
+it will fallback on an A query, etc.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="ring-balancer"><strong>Ring-balancer</strong></h3>
+
+<p>When using the ring-balancer, the adding and removing of backend services will
+be handled by Kong, and no DNS updates will be necessary. Kong will act as the
+service registry. Nodes can be added/deleted with a single HTTP request and
+will instantly start/stop receiving traffic.</p>
+
+<p>Configuring the ring-balancer is done through the <code>upstream</code> and <code>target</code>
+entities.</p>
+
+<ul>
+<li><code>target</code>: an IP address or hostname with a port number where a backend
+service resides, eg. &quot;192.168.100.12:80&quot;. Each target gets an additional
+<code>weight</code> to indicate the relative load it gets.</li>
+<li><code>upstream</code>: a &#39;virtual hostname&#39; which can be used in an API <code>upstream_url</code>
+field, e.g., an upstream named <code>weather.v2.service</code> would get all requests
+from an api with <code>upstream_url=http://weather.v2.service/some/path</code>.</li>
+</ul>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="upstream"><strong>upstream</strong></h4>
+
+<p>Each upstream gets its own ring-balancer. Each <code>upstream</code> can have many 
+<code>target</code> entries attached to it, and requests proxied to the &#39;virtual hostname&#39; 
+will be load balanced over the targets. A ring-balancer has a pre-defined
+number of slots, and based on the target weights the slots get assigned to the
+targets of the upstream. Incoming requests will be proxied in a weighted 
+round-robin manner.</p>
+
+<p>Adding and removing targets can be done with a simple HTTP request on the 
+management API. This operation is relatively cheap. Changing the upstream
+itself is more expensive as the balancer will need to be rebuilt when the 
+number of slots change for example.</p>
+
+<p>The only occurence where the balancer will be rebuilt automatically is when 
+the target history is cleaned; other than that, it will only rebuild upon changes.</p>
+
+<p>Within the balancer there are the positions (from 1 to <code>slots</code>) on the ring,
+which each get a &#39;slot&#39; assigned 1-on-1. Hence there are also <code>slots</code> number of slots, but
+they are <strong>randomly distributed</strong> over the ring positions. This randomness can be
+set by using the <code>orderlist</code>, but we strongly advice against doing that.</p>
+
+<p>The randomness is required to make invoking the ring-balancer cheap at 
+runtime. A simple round-robin over the wheel (the positions) will do to 
+provide a well distributed weighted round-robin over the <code>targets</code>, whilst
+also having cheap operations when inserting/deleting targets.</p>
+
+<p>The number of slots to use per target should (at least) be around 100 to make 
+sure the slots are properly distributed. Eg. for an expected maximum of 8
+targets, the <code>upstream</code> should be defined with at least <code>slots=800</code>, even if
+the initial setup only features 2 targets.</p>
+
+<p>The tradeoff here is that the higher the number of slots, the better the random 
+distribution, but the more expensive the changes are (add/removing targets)</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="target"><strong>target</strong></h4>
+
+<p>Because the <code>upstream</code> maintains a history of changes, targets can only be 
+added, not modified nor deleted. To change a target, just add a new entry for
+the target, and change the <code>weight</code> value. The last entry is the one that will
+be used. As such setting <code>weight=0</code> will disable a target, effectively 
+deleting it from the balancer.</p>
+
+<p>The targets will be automatically cleaned when there are 10x more inactive 
+entries than active ones. Cleaning will involve rebuilding the balancer, and
+hence is more expensive than just adding a target entry.</p>
+
+<p>A <code>target</code> can also have a hostname instead of an IP address. In that case
+the name will be resolved and all entries found will individually be added to
+the ring balancer, e.g., adding <code>api.host.com:123</code> with <code>weight=100</code>. The 
+name &#39;api.host.com&#39; resolves to an A record with 2 IP addresses. Then both
+ip addresses will be added as target, each getting <code>weight=100</code> and port 123.
+<strong>NOTE</strong>: the weight is used for the individual entries, not for the whole!</p>
+
+<p>Would it resolve to an SRV record, then also the <code>port</code> and <code>weight</code> fields 
+from the DNS record would be picked up, and would overrule the given port <code>123</code>
+and <code>weight=100</code>.</p>
+
+<p>The balancer will honor the DNS record&#39;s <code>ttl</code> setting and requery and update 
+the balancer when it expires.</p>
+
+<p><strong>Exception</strong>: When a DNS record has <code>ttl=0</code>, the hostname will be added
+as a single target, with the specified weight. Upon every proxied request
+to this target it will query the nameserver again.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <footer class="footer">
+  
+    <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+
+    <form action="/" class="subscribe-form">
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+
+      <div class="alert alert-success" role="alert">Thank You!</div>
+
+      <div class="input-group">
+        <input type="email" name="email" placeholder="youre@awesome.com" required/>
+        <button class="button button-primary" type="submit">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+  
+
+  <div class="footer-bar">
+    <div class="container">
+      <ul class="footer-social">
+        <li>
+          <!-- verse link.web with link.share in the header -->
+          <div class="fb-share-button" data-href="https://getkong.org" data-layout="button"></div>
+        </li>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://getkong.org" data-text="KONG - the open-source management layer for APIs and Microservices" data-hashtags="opensource,API,management">Tweet</a>
+        </li>
+        <li>
+          <a class="github-button" href="https://github.com/Mashape/kong" data-icon="octicon-star" data-count-href="/mashape/kong/stargazers" data-count-api="/repos/mashape/kong#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mashape/kong on GitHub">Star</a>
+        </li>
+      </ul>
+    <span>
+      <a href="https://mashape.com">
+        <img src="/assets/images/branding-footer.svg" alt="Mashape" width="22" height="26"/>
+        &copy; <strong>2017 Mashape Inc</strong>
+      </a>
+    </span>
+      <span class="footer-separator"></span>
+      <span class="footer-nav">
+        <a href="/license">License</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="https://www.mashape.com/enterprise/">Enterprise</a>
+        <a href="http://blog.mashape.com/category/open-source/" target="_blank">News</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
+
+    <div id="fb-root"></div>
+
+    <a id="support-bubble" href="https://gitter.im/Mashape/kong" class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true"></a>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+  </body>
+</html>

@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1488325352"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489018713"/>
 </head>
 
 
@@ -242,6 +242,11 @@
 <td><code>300</code></td>
 <td>Clock Skew in seconds to prevent replay attacks.</td>
 </tr>
+<tr>
+<td><code>config.anonymous</code><br><em>optional</em></td>
+<td>``</td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code></td>
+</tr>
 </tbody></table>
 
 <hr>
@@ -373,7 +378,8 @@ The string MUST NOT include a trailing ASCII newline.</p></li>
 <li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
 <li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the Consumer (if set)</li>
 <li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
-<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential</li>
+<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential (only if the consumer is not the &#39;anonymous&#39; consumer)</li>
+<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
 </ul>
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
@@ -447,7 +453,7 @@ The string MUST NOT include a trailing ASCII newline.</p></li>
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1488325352"></script>
+    <script src="/assets/app.js?v=1489018713"></script>
 
     <div id="fb-root"></div>
 
