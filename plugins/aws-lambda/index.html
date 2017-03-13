@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugins - TCP Log | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Plugins - AWS Lambda | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage & Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -99,7 +99,7 @@
     <div class="container">
       
         <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/tcp-log.png" alt="" />
+          <img src="/assets/images/icons/plugins/aws-lambda.png" alt="" />
         </div>
       
 
@@ -112,7 +112,7 @@
           </ul>
         
 
-        <h1>TCP Log</h1>
+        <h1>AWS Lambda</h1>
 
         
       </div>
@@ -157,13 +157,13 @@
           <ul>
             
               <li>
-                <a href="#log-format">Log Format</a>
+                <a href="#sending-parameters">Sending parameters</a>
 
                 
               </li>
             
               <li>
-                <a href="#kong-process-errors">Kong Process Errors</a>
+                <a href="#known-issues">Known Issues</a>
 
                 
               </li>
@@ -176,19 +176,20 @@
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Log request and response data to a TCP server.</p>
+          <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It can be used in combination with other request plugins to
+secure, rate-limiting or extend the function.</p>
 
 <hr>
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=tcp-log"</span> <span class="se">\</span>
-    --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
-    --data <span class="s2">"config.port=9999"</span> <span class="se">\</span>
-    --data <span class="s2">"config.timeout=1000"</span> <span class="se">\</span>
-    --data <span class="s2">"config.keepalive=1000"</span>
+    --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
@@ -204,104 +205,62 @@
 <tr>
 <td><code>name</code></td>
 <td></td>
-<td>The name of the plugin to use, in this case: <code>tcp-log</code></td>
+<td>The name of the plugin to use, in this case: <code>aws-lambda</code></td>
 </tr>
 <tr>
-<td><code>consumer_id</code><br><em>optional</em></td>
+<td><code>config.aws_key</code></td>
 <td></td>
-<td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
+<td>The AWS key credential to be used when invoking the function</td>
 </tr>
 <tr>
-<td><code>config.host</code></td>
+<td><code>config.aws_secret</code></td>
 <td></td>
-<td>The IP address or host name to send data to</td>
+<td>The AWS secret credential to be used when invoking the function</td>
 </tr>
 <tr>
-<td><code>config.port</code></td>
+<td><code>config.aws_region</code></td>
 <td></td>
-<td>The port to send data to on the upstream server</td>
+<td>The AWS region where the Lambda function is located. Regions supported are: <code>us-east-1</code>, <code>us-east-2</code>, <code>ap-northeast-1</code>, <code>ap-northeast-2</code>, <code>ap-southeast-1</code>, <code>ap-southeast-2</code>, <code>eu-central-1</code>, <code>eu-west-1</code></td>
 </tr>
 <tr>
-<td><code>config.timeout</code><br><em>optional</em></td>
-<td><code>10000</code></td>
-<td>An optional timeout in milliseconds when sending data to the upstream server</td>
+<td><code>config.function_name</code></td>
+<td></td>
+<td>The AWS Lambda function name to invoke</td>
 </tr>
 <tr>
-<td><code>config.keepalive</code><br><em>optional</em></td>
-<td><code>60000</code></td>
-<td>An optional value in milliseconds that defines for how long an idle connection will live before being closed</td>
+<td><code>config.qualifier</code><br><em>optional</em></td>
+<td>``</td>
+<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>Qualifier</code></a> to use when invoking the function.</td>
+</tr>
+<tr>
+<td><code>config.invocation_type</code><br><em>optional</em></td>
+<td><code>RequestResponse</code></td>
+<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>InvocationType</code></a> to use when invoking the function. Available types are <code>RequestResponse</code>, <code>Event</code>, <code>DryRun</code></td>
+</tr>
+<tr>
+<td><code>config.log_type</code><br><em>optional</em></td>
+<td><code>Tail</code></td>
+<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>LogType</code></a> to use when invoking the function. By default <code>None</code> and <code>Tail</code> are supported.</td>
 </tr>
 </tbody></table>
 
 <hr>
 
-<h2 id="log-format">Log Format</h2>
+<h3 id="sending-parameters">Sending parameters</h3>
 
-<p>Every request will be logged separately in a JSON object separated by a new line <code>\n</code>, with the following format:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-    </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/get"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"request_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org:8000/get"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"querystring"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"user-agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"curl/7.37.1"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"434"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"Content-Length"</span><span class="p">:</span><span class="w"> </span><span class="s2">"197"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"via"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong/0.3.0"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"access-control-allow-credentials"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"Content-Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/json"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nginx"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"access-control-allow-origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"authenticated_entity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80f74eef-31b8-45d5-c525-ae532297ea8e"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w">   </span><span class="mi">1437643103000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eaa330c0-4cff-47f5-c79e-b2e4f355207e"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2b64e2f0193851d4135a2e885cd08a65"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"api"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"request_host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://mockbin.org/"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1432855823000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fbaf95a1-cd04-4bf6-cb73-6cb3285fef58"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1433209822425</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>A few considerations on the above JSON object:</p>
+<p>Any form parameter sent along with the request, will be also sent as an argument to the AWS Lambda function.</p>
 
-<ul>
-<li><code>request</code> contains properties about the request sent by the client</li>
-<li><code>response</code> contains properties about the response sent to the client</li>
-<li><code>api</code> contains Kong properties about the specific API requested</li>
-<li><code>authenticated_entity</code> contains Kong properties about the authenticated consumer (if an authentication plugin has been enabled)</li>
-<li><code>latencies</code> contains some data about the latencies involved:
+<h3 id="known-issues">Known Issues</h3>
 
-<ul>
-<li><code>proxy</code> is the time it took for the final service to process the request</li>
-<li><code>kong</code> is the internal Kong latency that it took to run all the plugins</li>
-<li><code>request</code> is the time elapsed between the first bytes were read from the client and after the last bytes were sent to the client. Useful for detecting slow clients.</li>
-</ul></li>
-</ul>
+<h4 id="use-a-fake-upstream_url">Use a fake upstream_url</h4>
 
-<hr>
+<p>The current AWS Lambda function will return a response after the invocation, preventing Kong from completing the regular request lifecycle and proxying the request to an upstream URL. The current Kong data model only supports APIs that will eventually proxy the request to an upstream
+service. Feel free to use a fake <code>upstream_url</code> value, which will never be utilized.</p>
 
-<h2 id="kong-process-errors">Kong Process Errors</h2>
+<h4 id="response-plugins">Response plugins</h4>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.10.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+<p>There is a known limitation in the system that prevents some response plugins from being executed. We are planning to remove this limitation
+in the future.</p>
 
         </div>
       </div>
