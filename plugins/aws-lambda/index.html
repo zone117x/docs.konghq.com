@@ -45,7 +45,7 @@
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1489429791"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489437082"/>
 </head>
 
 
@@ -177,7 +177,7 @@
       <div class="page-content">
         <div class="content">
           <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It can be used in combination with other request plugins to
-secure, rate-limiting or extend the function.</p>
+secure, manage or extend the function.</p>
 
 <hr>
 
@@ -254,8 +254,11 @@ secure, rate-limiting or extend the function.</p>
 
 <h4 id="use-a-fake-upstream_url">Use a fake upstream_url</h4>
 
-<p>The current AWS Lambda function will return a response after the invocation, preventing Kong from completing the regular request lifecycle and proxying the request to an upstream URL. The current Kong data model only supports APIs that will eventually proxy the request to an upstream
-service. Feel free to use a fake <code>upstream_url</code> value, which will never be utilized.</p>
+<p>When using the AWS Lambda plugin, the response will be returned by the plugin itself without proxying the request to any upstream service. This means that whatever <code>upstream_url</code> has been set on the <a href="/docs/latest/admin-api/#api-object">API</a> it will ultimately never be used.</p>
+
+<p>Although <code>upstream_url</code> will never be used, it&#39;s currently a mandatory field in Kong&#39;s data model, so feel free to set a fake value (ie, <code>http://nowhere.com</code>) if you are planning to use this plugin.</p>
+
+<p>In the future we will provide a more intuitive way to deal with similar use-cases.</p>
 
 <h4 id="response-plugins">Response plugins</h4>
 
@@ -331,7 +334,7 @@ in the future.</p>
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1489429791"></script>
+    <script src="/assets/app.js?v=1489437082"></script>
 
     <div id="fb-root"></div>
 
