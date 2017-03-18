@@ -51,7 +51,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   </script>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="//cloud.typography.com/7506032/804186/css/fonts.css"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1489778654"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1489798390"/>
 </head>
 
 
@@ -538,6 +538,86 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
             <li>
               <a href="/docs/0.10.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#certificate-object" >Certificate Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-certificate" >Add Certificate</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-certificate" >Retrieve Certificate</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-certificates" >List Certificates</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-certificate" >Update Certificate</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-certificate" >Update or Create Certificate</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-certificate" >Delete Certificate</a>
+            </li>
+            
+          </ul>
+          
+        </li>
+        
+        
+        <li>
+          <a href="/docs/0.10.x/admin-api/#sni-object" >SNI Object routes</a>
+          
+          <ul>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#add-sni" >Add SNI</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#retrieve-sni" >Retrieve SNI</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-snis" >List SNIs</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-sni" >Update SNI</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#update-or-create-sni" >Update or Create SNI</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-sni" >Delete SNI</a>
             </li>
             
           </ul>
@@ -1979,6 +2059,412 @@ keep the configuration consistent across all nodes.</p>
 </span></code></pre></div>
 <hr>
 
+<h2 id="certificate-object">Certificate Object</h2>
+
+<p>A certificate object represents a public certificate/private key pair for an SSL
+certificate. These objects are used by Kong to handle SSL/TLS termination for
+encrypted requests. Certificates are optionally associated with SNI objects to
+tie a cert/key pair to one or more hostnames.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="add-certificate">Add Certificate</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint post">/certificates/</div>
+
+<h4 id="request-body">Request Body</h4>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>cert</code></td>
+<td>PEM-encoded public certificate of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>key</code></td>
+<td>PEM-encoded private key of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>snis</code><br><em>optional</em></td>
+<td>One or more hostnames to associate with this certificate as an SNI. This is a sugar parameter that will, under the hood, create an SNI object and associate it with this certificate for your convenience.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"example.com"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="retrieve-certificate">Retrieve Certificate</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint get">/certificates/{sni or id}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>SNI or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> an SNI name associated with this certificate.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"example.com"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="list-certificates">List Certificates</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint get">/certificates/</div>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"example.com"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"example.org"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485522651185</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="update-certificate">Update Certificate</h3>
+
+<div class="endpoint patch">/certificates/{sni or id}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>SNI or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> an SNI name associated with this certificate.</td>
+</tr>
+</tbody></table>
+
+<h4 id="request-body">Request Body</h4>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>cert</code></td>
+<td>PEM-encoded public certificate of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>key</code></td>
+<td>PEM-encoded private key of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>snis</code><br><em>optional</em></td>
+<td>One or more hostnames to associate with this certificate as an SNI. This is a sugar parameter that will, under the hood, create an SNI object and associate it with this certificate for your convenience.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"example.com"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="update-or-create-certificate">Update or Create Certificate</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint put">/certificates/</div>
+
+<h4 id="request-body">Request Body</h4>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>cert</code></td>
+<td>PEM-encoded public certificate of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>key</code></td>
+<td>PEM-encoded private key of the SSL key pair.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>snis</code><br><em>optional</em></td>
+<td>One or more hostnames to associate with this certificate as an SNI. This is a sugar parameter that will, under the hood, create an SNI object and associate it with this certificate for your convenience.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
+</code></pre></div>
+<p>See POST and PATCH responses.</p>
+
+<hr>
+
+<h3 id="delete-certificate">Delete Certificate</h3>
+
+<div class="endpoint delete">/certificates/{sni or id}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>sni or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> an SNI name associated with this certificate.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 204 No Content
+</code></pre></div>
+<hr>
+
+<h2 id="sni-objects">SNI Objects</h2>
+
+<p>An SNI object represents a many-to-one mapping of hostnames to a certificate.
+That is, a certificate object can have many hostnames associated with it; when
+Kong receives an SSL request, it uses the SNI field in the Client Hello to
+lookup the certificate object based on the SNI associated with the certificate.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="add-sni">Add SNI</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint post">/snis/</div>
+
+<h4 id="request-body">Request Body</h4>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name</code></td>
+<td>The SNI name to associate with the given certificate.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>ssl_certificate_id</code></td>
+<td>The <code>id</code> (a UUID) of the certificate with which to associate the SNI hostname.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="retrieve-sni">Retrieve SNI</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint get">/snis/{name}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name</code><br><strong>required</strong></td>
+<td>The name of the SNI object.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<h3 id="list-snis">List SNIs</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint get">/snis/</div>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.org"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="update-sni">Update SNI</h3>
+
+<div class="endpoint patch">/snis/{name}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name</code><br><strong>required</strong></td>
+<td>The name of the SNI object.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="update-or-create-sni">Update or Create SNI</h3>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint put">/snis/</div>
+
+<h4 id="request-body">Request Body</h4>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name</code></td>
+<td>The SNI name to associate with the given certificate.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>ssl_certificate_id</code></td>
+<td>The <code>id</code> (a UUID) of the certificate with which to associate the SNI hostname.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
+</code></pre></div>
+<p>See POST and PATCH responses.</p>
+
+<hr>
+
+<h3 id="delete-sni">Delete SNI</h3>
+
+<div class="endpoint delete">/snis/{name}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name</code><br><strong>required</strong></td>
+<td>The name of the SNI object.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 204 No Content
+</code></pre></div>
+<hr>
+
 <h2 id="upstream-objects">Upstream Objects</h2>
 
 <p>The upstream object represents a virtual hostname and can be used to loadbalance 
@@ -2512,7 +2998,7 @@ be deleted or modified. To disable a target, post a new one with <code>weight=0<
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="/assets/app.js?v=1489778654"></script>
+    <script src="/assets/app.js?v=1489798390"></script>
 
     <div id="fb-root"></div>
 
