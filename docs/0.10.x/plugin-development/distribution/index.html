@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugin Development - Distribute your plugin - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Plugin Development - (un)Install your plugin - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -59,7 +59,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg"/><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg"/><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg"/><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg"/><link rel="prefetch" as="font" href="/assets/fonts/fontawesome-webfont.woff2"/><link rel="prefetch" as="font" href="/assets/fonts/SourceSansPro-Regular.otf.woff2"/>
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1490233682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1490655386"/>
 
   <!-- Web Fonts -->
   <script>
@@ -292,6 +292,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
         
         
         <li>
+          <a href="/docs/0.10.x/auth" >Authentication reference</a>
+          
+        </li>
+        
+        
+        <li>
           <a href="/docs/0.10.x/loadbalancing" >Load balancing reference</a>
           
         </li>
@@ -367,7 +373,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
             
             <li>
-              <a href="/docs/0.10.x/plugin-development/distribution" class="active">Distribute your plugin</a>
+              <a href="/docs/0.10.x/plugin-development/distribution" class="active">(un)Install your plugin</a>
             </li>
             
           </ul>
@@ -719,61 +725,278 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
       <div class="content">
         
 
-      <h1 id="plugin-development-distribute-your-plugin">Plugin Development - Distribute your plugin</h1>
+      <h1 id="plugin-development-un-install-your-plugin">Plugin Development - (un)Install your plugin</h1>
 
-<p>As mentioned many times in this guide, Kong heavily relies on your modules being available in your <code>LUA_PATH</code> under specific names.</p>
+<p>Custom plugins for Kong consist of Lua source files that need to be in the file
+system of each of your Kong nodes. This guide will provide you with
+step-by-step instructions that will make a Kong node aware of your custom
+plugin(s).</p>
 
-<p>As already mentioned in the [file structure] chapter, we make Kong aware that it has to look for your plugin&#39;s modules by adding it to the <code>custom_plugins</code> property in your configuration file. Example:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">custom_plugins</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">my-custom-plugin</span> <span class="c1"># your plugin name here</span>
+<p>These steps should be applied to each node in your Kong cluster, to ensure the
+custom plugin(s) are available on each one of them.</p>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+<li><a href="#packaging-sources">Packaging sources</a></li>
+<li><a href="#installing-the-plugin">Installing the plugin</a></li>
+<li><a href="#load-the-plugin">Load the plugin</a></li>
+<li><a href="#verify-loading-the-plugin">Verify loading the plugin</a></li>
+<li><a href="#removing-a-plugin">Removing a plugin</a></li>
+<li><a href="#distribute-your-plugin">Distribute your plugin</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+
+<h3 id="packaging-sources">Packaging sources</h3>
+
+<p>You can either use a regular packing strategy (eg. <code>tar</code>), or use the LuaRocks
+package manager to do it for you. We recommend LuaRocks as it is installed
+along with Kong when using one of the official distribution packages.</p>
+
+<p>When using LuaRocks, you must create a <code>rockspec</code> file, which specifies the
+package contents. For an example see the <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">Kong plugin template</a>, for
+more info about the format see the LuaRocks <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">documentation on
+rockspecs</a>.</p>
+
+<p>Pack your rock using the following command (from the plugin repo):</p>
+<div class="highlight"><pre><code class="language-" data-lang=""># install it locally (based on the `.rockspec` in the current directory)
+$ luarocks make
+
+# pack the installed rock
+$ luarocks pack &lt;plugin-name&gt; &lt;version&gt;
 </code></pre></div>
-<p>Kong will now look for modules named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.my-custom-plugin.api"
-"kong.plugins.my-custom-plugin.daos"
-"kong.plugins.my-custom-plugin.handler"
-"kong.plugins.my-custom-plugin.migrations.cassandra"
-"kong.plugins.my-custom-plugin.migrations.postgres"
-"kong.plugins.my-custom-plugin.schema"
-"kong.plugins.my-custom-plugin.hooks"
+<p>Assuming your plugin rockspec is called
+<code>kong-plugin-myPlugin-0.1.0-1.rockspec</code>, the above would become;</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ luarocks pack kong-plugin-myPlugin 0.1.0-1
 </code></pre></div>
-<p>You need to make these modules available in your LUA_PATH.</p>
+<p>The LuaRocks <code>pack</code> command has now created a <code>.rock</code> file (this is simply a
+zip file containing everything needed to install the rock).</p>
+
+<p>If you do not or cannot use LuaRocks, then use <code>tar</code> to pack the
+<code>.lua</code> files of which your plugin consists into a <code>.tar.gz</code> archive. You can
+also include the <code>.rockspec</code> file if you do have LuaRocks on the target
+systems.</p>
+
+<p>The contents of this archive should be close to the following:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ tree &lt;plugin-name&gt;
+&lt;plugin-name&gt;
+├── INSTALL.txt
+├── README.md
+├── kong
+│   └── plugins
+│       └── &lt;plugin-name&gt;
+│           ├── handler.lua
+│           └── schema.lua
+└── &lt;plugin-name&gt;-&lt;version&gt;.rockspec
+</code></pre></div>
+<p><a href="#table-of-contents">Back to TOC</a></p>
 
 <hr>
 
-<h3 id="distribute-your-modules">Distribute your modules</h3>
+<h3 id="installing-the-plugin">Installing the plugin</h3>
 
-<p>The preferred way to do so is to use <a href="https://luarocks.org/">Luarocks</a>, a package manager for Lua modules. It calls such modules &quot;rocks&quot;. <strong>Your module does not have to live inside the Kong repository!</strong>, but it can be if that&#39;s how you&#39;d like to maintain your Kong setup.</p>
+<p>For a Kong node to be able to use the custom plugin, the custom plugin&#39;s Lua
+sources must be installed on your host&#39;s file system. There are multiple ways
+of doing so: via LuaRocks, or manually. Choose one, and jump to section 3.</p>
 
-<p>By defining your modules (and their eventual dependencies) in a <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">rockspec</a> file, you can install those modules on your platform via Luarocks. You can also upload your module on Luarocks and make it available to everyone!</p>
+<ol>
+<li><p>Via LuaRocks from the created &#39;rock&#39;</p>
 
-<p>Here is an example rockspec which would use the &quot;builtin&quot; build type to define modules in Lua notation and their corresponding file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">package = "my-kong-plugin"
-version = "1.0-1"
-source = {
-  url = "..."
-}
-description = {
-  summary = "A Kong plugin.",
-  license = "MIT/X11"
-}
-dependencies = {
-  "lua ~&gt; 5.1"
-  -- If you depend on other rocks, add them here
-}
-build = {
-  type = "builtin",
-  modules = {
-    ["kong.plugins.my-kong-plugin.api"] = "/path/to/api.lua",
-    ["kong.plugins.my-kong-plugin.daos"] = "/path/to/daos.lua",
-    ["kong.plugins.my-kong-plugin.handler"] = "/path/to/handler.lua",
-    ["kong.plugins.my-kong-plugin.schema"] = "/path/to/schema.lua",
-    ["kong.plugins.my-kong-plugin.hooks"] = "/path/to/hooks.lua",
-    ["kong.plugins.my-kong-plugin.migrations.cassandra"] = "/path/to/schema/migrations/cassandra.lua",
-    ["kong.plugins.my-kong-plugin.migrations.postgres"] = "/path/to/schema/migrations/postgres.lua"
-  }
-}
+<p>The <code>.rock</code> file is a self contained package that can be installed locally
+or from a remote server.</p>
+
+<p>If the <code>luarocks</code> utility is installed in your system (this is likely the
+case if you used one of the official installation packages), you can
+install the &#39;rock&#39; in your LuaRocks tree (a directory in which LuaRocks
+installs Lua modules).</p>
+
+<p>It can be installed by doing:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ luarocks install &lt;rock-filename&gt;
 </code></pre></div>
-<p>Learn more about creating your rockspec <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">here</a>.</p>
+<p>The filename can be a local name, or any of the supported methods, eg.
+<code>http://myrepository.lan/rocks/myplugin-0.1.0-1.all.rock</code></p></li>
+<li><p>Via LuaRocks from the source archive</p>
+
+<p>If the <code>luarocks</code> utility is installed in your system (this is likely the
+case if you used one of the official installation packages), you can
+install the Lua sources in your LuaRocks tree (a directory in which
+LuaRocks installs Lua modules).</p>
+
+<p>You can do so by changing the current directory to the extracted archive,
+where the rockspec file is:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ cd &lt;plugin-name&gt;
+</code></pre></div>
+<p>And then run the following:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ luarocks make
+</code></pre></div>
+<p>This will install the Lua sources in <code>kong/plugins/&lt;plugin-name&gt;</code> in your
+system&#39;s LuaRocks tree, where all the Kong sources are already present.</p></li>
+<li><p>Manually</p>
+
+<p>A more conservative way of installing your plugin&#39;s sources is
+to avoid &quot;polluting&quot; the LuaRocks tree, and instead, point Kong
+to the directory containing them.</p>
+
+<p>This is done by tweaking the <code>lua_package_path</code> property of your Kong
+configuration. Under the hood, this property is an alias to the <code>LUA_PATH</code>
+variable of the Lua VM, if you are familiar with it.</p>
+
+<p>Those properties contain a semicolon-separated list of directories in
+which to search for Lua sources. It should be set like so in your Kong
+configuration file:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">lua_package_path = /&lt;path-to-plugin-location&gt;/?.lua;;
+</code></pre></div>
+<p>Where:</p></li>
+</ol>
+<div class="highlight"><pre><code class="language-" data-lang="">* `/&lt;path-to-plugin-location&gt;` is the path to the directory containing the
+  extracted archive. It should be the location of the `kong` directory
+  from the archive.
+* `?` is a placeholder that will be replaced by
+  `kong.plugins.&lt;plugin-name&gt;` when Kong will try to load your plugin. Do
+  not change it.
+* `;;` a placeholder for the "the default Lua path". Do not change it.
+
+Example:
+
+The plugin `something` being located on the file system such that the
+handler file is:
+
+    /usr/local/custom/kong/plugins/&lt;something&gt;/handler.lua
+
+The location of the `kong` directory is: `/usr/local/custom`, hence the
+proper path setup would be:
+
+    lua_package_path = /usr/local/custom/?.lua;;
+
+Multiple plugins:
+
+If you wish to install two or more custom plugins this way, you can set
+the variable to something like:
+
+    lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
+
+* `;` is the separator between directories.
+* `;;` still means "the default Lua path".
+
+Note: you can also set this property via its environment variable
+equivalent: `KONG_LUA_PACKAGE_PATH`.
+</code></pre></div>
+<p>Reminder: regardless of which method you are using to install your plugin&#39;s
+sources, you must still do so for each node in your Kong cluster.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<hr>
+
+<h3 id="load-the-plugin">Load the plugin</h3>
+
+<p>You must now add the custom plugin&#39;s name to the <code>custom_plugins</code> list in your
+Kong configuration (on each Kong node):</p>
+<div class="highlight"><pre><code class="language-" data-lang="">custom_plugins = &lt;plugin-name&gt;
+</code></pre></div>
+<p>If you are using two or more custom plugins, insert commas in between, like so:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">custom_plugins = plugin1,plugin2
+</code></pre></div>
+<p>Note: you can also set this property via its environment variable equivalent:
+<code>KONG_CUSTOM_PLUGINS</code>.</p>
+
+<p>Reminder: don&#39;t forget to update the <code>custom_plugins</code> directive for each node
+in your Kong cluster.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<hr>
+
+<h3 id="verify-loading-the-plugin">Verify loading the plugin</h3>
+
+<p>You should now be able to start Kong without any issue. Consult your custom
+plugin&#39;s instructions on how to enable/configure your plugin
+on an API or Consumer object.</p>
+
+<p>To make sure your plugin is being loaded by Kong, you can start Kong with a
+<code>debug</code> log level:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">log_level = debug
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">KONG_LOG_LEVEL=debug
+</code></pre></div>
+<p>Then, you should see the following log for each plugin being loaded:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">[debug] Loading plugin &lt;plugin-name&gt;
+</code></pre></div>
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<hr>
+
+<h3 id="removing-a-plugin">Removing a plugin</h3>
+
+<p>There are three steps to completely remove a plugin.</p>
+
+<ol>
+<li><p>Remove the plugin from your Kong api configuration. Make sure that it
+is no longer applied globally nor for any API or consumer. This has to be
+done only once for the entire Kong cluster, no restart/reload required.
+This step in itself will make that the plugin is no longer in use. But it
+remains available and it is still possible to re-apply the plugin.</p></li>
+<li><p>Remove the plugin from the <code>custom_plugins</code> directive (on each Kong node).
+Make sure to have completed step 1 before doing so. After this step
+it will be impossible for anyone to re-apply the plugin to any Kong
+api, consumer, or even globally. This step requires to restart/reload the
+Kong node to take effect.</p></li>
+<li><p>To remove the plugin thoroughly, delete the plugin-related files from
+each of the Kong nodes. Make sure to have completed step 2, including
+restarting/reloading Kong, before deleting the files. If you used LuaRocks
+to install the plugin, you can do <code>luarocks remove &lt;plugin-name&gt;</code> to remove
+it.</p></li>
+</ol>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<hr>
+
+<h3 id="distribute-your-plugin">Distribute your plugin</h3>
+
+<p>The preferred way to do so is to use <a href="https://luarocks.org/">Luarocks</a>, a
+package manager for Lua modules. It calls such modules &quot;rocks&quot;. <strong>Your module
+does not have to live inside the Kong repository</strong>, but it can be if that&#39;s
+how you&#39;d like to maintain your Kong setup.</p>
+
+<p>By defining your modules (and their eventual dependencies) in a <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">rockspec</a>
+file, you can install those modules on your platform via Luarocks. You can
+also upload your module on Luarocks and make it available to everyone!</p>
+
+<p>Here is an example rockspec which would use the &quot;builtin&quot; build type to define
+modules in Lua notation and their corresponding file:</p>
+
+<p>For an example see the <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">Kong plugin template</a>, for more info about
+the format see the LuaRocks <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">documentation on rockspecs</a>.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<hr>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p>Kong can fail to start because of a misconfigured custom plugin for several
+reasons:</p>
+
+<ul>
+<li><p>&quot;plugin is in use but not enabled&quot; -&gt; You configured a custom plugin from
+another node, and that the plugin configuration is in the database, but the
+current node you are trying to start does not have it in its <code>custom_plugins</code>
+directive. To resolve, add the plugin&#39;s name to the node&#39;s <code>custom_plugins</code>
+directive.</p></li>
+<li><p>&quot;plugin is enabled but not installed&quot; -&gt; The plugin&#39;s name is present in the
+<code>custom_plugins</code> directive, but that Kong is unable to load the <code>handler.lua</code>
+source file from the file system. To resolve, make sure that the
+lua_package_path directive is properly set to load this plugin&#39;s Lua sources.</p></li>
+<li><p>&quot;no configuration schema found for plugin&quot; -&gt; The plugin is installed,
+enabled in custom_plugins, but Kong is unable to load the <code>schema.lua</code>
+source file from the file system.
+To resolve, make sure that the <code>schema.lua</code> file is present alongside the
+plugin&#39;s <code>handler.lua</code> file.</p></li>
+</ul>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
 
 <hr>
 
@@ -864,7 +1087,7 @@ build = {
 </footer>
 
 
-    <script src="/assets/app.js?v=1490233682"></script>
+    <script src="/assets/app.js?v=1490655386"></script>
 
     <div id="fb-root"></div>
 
