@@ -59,7 +59,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg"/><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg"/><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg"/><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg"/><link rel="prefetch" as="font" href="/assets/fonts/fontawesome-webfont.woff2"/><link rel="prefetch" as="font" href="/assets/fonts/SourceSansPro-Regular.otf.woff2"/>
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1490662487"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1490667761"/>
 
   <!-- Web Fonts -->
   <script>
@@ -709,6 +709,16 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
             <li>
               <a href="/docs/0.10.x/admin-api/#list-targets" >List Targets</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#list-active-targets" >List Active Targets</a>
+            </li>
+            
+            
+            <li>
+              <a href="/docs/0.10.x/admin-api/#delete-target" >Delete Target</a>
             </li>
             
           </ul>
@@ -2827,7 +2837,8 @@ service. Every upstream can have many targets, and the targets can be
 dynamically added and removed. So changes are effectuated on the fly.</p>
 
 <p>Because the upstream maintains a history of target changes, the targets cannot
-be deleted or modified. To disable a target, post a new one with <code>weight=0</code>.</p>
+be deleted or modified. To disable a target, post a new one with <code>weight=0</code>;
+alternatively, use the <code>DELETE</code> convenience method to accomplish the same.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
     </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2.3.4:80"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
@@ -2961,6 +2972,89 @@ be deleted or modified. To disable a target, post a new one with <code>weight=0<
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
+<hr>
+
+<h3 id="list-active-targets">List active targets</h3>
+
+<p>Retrieve a list of active targets (targets whose most recent weight is not 0)
+for a given upstream.</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint is only available with Kong 0.10.1+
+</div>
+
+<h3 id="endpoint">Endpoint</h3>
+
+<div class="endpoint get">/upstreams/{name or id}/targets/active</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> the name of the upstream for which to list the targets.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
+<h3 id="delete-target">Delete target</h3>
+
+<p>Disable a target in the load balancer. Under the hood, this method creates
+a new entry for the given target definition with a <code>weight</code> of 0.</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint is only available with Kong 0.10.1+
+</div>
+
+<h4 id="endpoint">Endpoint</h4>
+
+<div class="endpoint delete">/upstreams/{name or id}/targets/{target}</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> the name of the upstream for which to delete the target.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>target</code><br><strong>required</strong></td>
+<td>The host/port combination element of the target to remove.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 204 No Content
+</code></pre></div>
       </div>
     </div>
   </div>
@@ -3048,7 +3142,7 @@ be deleted or modified. To disable a target, post a new one with <code>weight=0<
 </footer>
 
 
-    <script src="/assets/app.js?v=1490662487"></script>
+    <script src="/assets/app.js?v=1490667761"></script>
 
     <div id="fb-root"></div>
 
