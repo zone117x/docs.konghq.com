@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Lua Reference - kong.tools.io - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Lua Reference - kong.plugins.galileo.alf - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -59,7 +59,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg"/><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg"/><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg"/><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg"/><link rel="prefetch" as="font" href="/assets/fonts/fontawesome-webfont.woff2"/><link rel="prefetch" as="font" href="/assets/fonts/SourceSansPro-Regular.otf.woff2"/>
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1491528736"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1491766839"/>
 </head>
 
 
@@ -226,12 +226,13 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <ul>
             <li><a href="../../modules/kong.dao">kong.dao</a></li>
             <li><a href="../../modules/kong.plugins.basic-auth.crypto">kong.plugins.basic-auth.crypto</a></li>
+            <li>kong.plugins.galileo.alf</li>
+            <li><a href="../../modules/kong.plugins.galileo.buffer">kong.plugins.galileo.buffer</a></li>
             <li><a href="../../modules/kong.plugins.jwt.jwt_parser">kong.plugins.jwt.jwt_parser</a></li>
-            <li><a href="../../modules/kong.plugins.log-serializers.alf">kong.plugins.log-serializers.alf</a></li>
-            <li>kong.tools.io</li>
             <li><a href="../../modules/kong.tools.responses">kong.tools.responses</a></li>
             <li><a href="../../modules/kong.tools.timestamp">kong.tools.timestamp</a></li>
             <li><a href="../../modules/kong.tools.utils">kong.tools.utils</a></li>
+            <li><a href="../../modules/spec.helpers">spec.helpers</a></li>
           </ul>
         </li>
       </ul>
@@ -241,8 +242,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <div class="page-content-container">
   <div class="page-content">
     <div class="content">
-<h1><code>kong.tools.io</code></h1>
-<p>Checks existence of a file.</p>
+<h1><code>kong.plugins.galileo.alf</code></h1>
+<p>Add an entry to the ALF's <code>entries</code></p>
 <p></p>
 
 
@@ -250,28 +251,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
   <tr>
-    <td class="name"><a href="#cmd_exists">cmd_exists (cmd)</a></td>
-    <td class="summary">Check existence of a command.</td>
+    <td class="name"><a href="#reset">reset ()</a></td>
+    <td class="summary">Empty the ALF</td>
   </tr>
   <tr>
-    <td class="name"><a href="#file_size">file_size (path)</a></td>
-    <td class="summary">Get the filesize.</td>
-  </tr>
-  <tr>
-    <td class="name"><a href="#kill_process_by_pid_file">kill_process_by_pid_file (pid_file, signal)</a></td>
-    <td class="summary">Kill a process by PID.</td>
-  </tr>
-  <tr>
-    <td class="name"><a href="#os_execute">os_execute (command)</a></td>
-    <td class="summary">Execute an OS command and catch the output.</td>
-  </tr>
-  <tr>
-    <td class="name"><a href="#read_file">read_file (path)</a></td>
-    <td class="summary">Read file contents.</td>
-  </tr>
-  <tr>
-    <td class="name"><a href="#write_to_file">write_to_file (path)</a></td>
-    <td class="summary">Write file contents.</td>
+    <td class="name"><a href="#serialize">serialize (service_token, environment)</a></td>
+    <td class="summary">Encode the current ALF to JSON</td>
   </tr>
 </table>
 
@@ -282,25 +267,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <dl class="function">
   <hr />
   <dt>
-    <h4><a name="cmd_exists">cmd_exists</a></h4>
+    <h4><a name="reset">reset</a></h4>
   </dt>
   <dd>
-    Check existence of a command.
+    Empty the ALF
 
-    <h5>Parameters:</h5>
-    <ul>
-        <li>
-          <code class="parameter">cmd</code>
-          command being searched for
-        </li>
-    </ul>
 
-    <h5>Returns:</h5>
-    <ul>
-      <li>
-        <code>true</code> of found, <code>false</code> otherwise
-      </li>
-    </ul>
 
 
 
@@ -309,139 +281,30 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   </dd>
   <hr />
   <dt>
-    <h4><a name="file_size">file_size</a></h4>
+    <h4><a name="serialize">serialize</a></h4>
   </dt>
   <dd>
-    Get the filesize.
+    Encode the current ALF to JSON
 
     <h5>Parameters:</h5>
     <ul>
         <li>
-          <code class="parameter">path</code>
-          path to file to check
+          <code class="parameter">service_token</code>
+          <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+          The ALF <code>serviceToken</code>
+        </li>
+        <li>
+          <code class="parameter">environment</code>
+          <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+          (optional) The ALF <code>environment</code>
         </li>
     </ul>
 
     <h5>Returns:</h5>
     <ul>
       <li>
-        size of file, or <code>nil</code> on failure
-      </li>
-    </ul>
-
-
-
-
-
-  </dd>
-  <hr />
-  <dt>
-    <h4><a name="kill_process_by_pid_file">kill_process_by_pid_file</a></h4>
-  </dt>
-  <dd>
-    Kill a process by PID.
- Kills the process and waits until it's terminated
-
-    <h5>Parameters:</h5>
-    <ul>
-        <li>
-          <code class="parameter">pid_file</code>
-          the file containing the pid to kill
-        </li>
-        <li>
-          <code class="parameter">signal</code>
-          the signal to use
-        </li>
-    </ul>
-
-    <h5>Returns:</h5>
-    <ul>
-      <li>
-        <a href="../modules/kong.tools.io.html#os_execute">os_execute</a> results, see os_execute.
-      </li>
-    </ul>
-
-
-
-
-
-  </dd>
-  <hr />
-  <dt>
-    <h4><a name="os_execute">os_execute</a></h4>
-  </dt>
-  <dd>
-    Execute an OS command and catch the output.
-
-    <h5>Parameters:</h5>
-    <ul>
-        <li>
-          <code class="parameter">command</code>
-          OS command to execute
-        </li>
-    </ul>
-
-    <h5>Returns:</h5>
-    <ul>
-      <li>
-        string containing command output (both stdout and stderr)
-      </li>
-      <li>
-        exitcode
-      </li>
-    </ul>
-
-
-
-
-
-  </dd>
-  <hr />
-  <dt>
-    <h4><a name="read_file">read_file</a></h4>
-  </dt>
-  <dd>
-    Read file contents.
-
-    <h5>Parameters:</h5>
-    <ul>
-        <li>
-          <code class="parameter">path</code>
-          filepath to read
-        </li>
-    </ul>
-
-    <h5>Returns:</h5>
-    <ul>
-      <li>
-        file contents as string, or <code>nil</code> if not succesful
-      </li>
-    </ul>
-
-
-
-
-
-  </dd>
-  <hr />
-  <dt>
-    <h4><a name="write_to_file">write_to_file</a></h4>
-  </dt>
-  <dd>
-    Write file contents.
-
-    <h5>Parameters:</h5>
-    <ul>
-        <li>
-          <code class="parameter">path</code>
-          filepath to write to
-        </li>
-    </ul>
-
-    <h5>Returns:</h5>
-    <ul>
-      <li>
-        <code>true</code> upon success, or <code>false</code> + error message on failure
+        <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        The ALF, JSON encoded
       </li>
     </ul>
 
@@ -567,7 +430,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </footer>
 
 
-    <script src="/assets/app.js?v=1491528736"></script>
+    <script src="/assets/app.js?v=1491766839"></script>
 
     <div id="fb-root"></div>
 
