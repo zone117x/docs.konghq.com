@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/jwt.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1493334795"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1493361428"/>
 </head>
 
 
@@ -224,6 +224,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
               <li>
                 <a href="#generate-public-private-keys">Generate public/private keys</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#using-the-jwt-plugin-with-auth0">Using the JWT plugin with Auth0</a>
 
                 
               </li>
@@ -496,7 +502,7 @@ HTTP/1.1 204 No Content
 
 <h3 id="optional-base64-encoded-secret">(<strong>Optional</strong>) Base64 encoded secret</h3>
 
-<p>If your secret contains binary data (such as secrets provided by services like Auth0), you can store them as base64 encoded in Kong. Enable this option in the plugin&#39;s configuration:</p>
+<p>If your secret contains binary data, you can store them as base64 encoded in Kong. Enable this option in the plugin&#39;s configuration:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.secret_is_base64=true"</span>
 </code></pre></div>
@@ -546,6 +552,53 @@ HTTP/1.1 201 Created
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 </code></pre></div>
 <p>If you run the commands above, the public key will be written in <code>public.pem</code>, while the private key will be written in <code>private.pem</code>.</p>
+
+<h3 id="using-the-jwt-plugin-with-auth0">Using the JWT plugin with Auth0</h3>
+
+<p><a href="https://auth0.com/">Auth0</a> is a popular solution for Authorization, and relies
+heavily on JWTs. Auth0 relies on RS256, does not base64 encode, and publically
+hosts the public key certificate used to sign tokens. Account name is referred
+to &quot;COMPANYNAME&quot; for the sake of the guide.</p>
+
+<p>To get started, create an API. <em>Note: Auth0 does not use base64 encoded
+secrets.</em></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
+    --data <span class="s2">"name={api}"</span> <span class="se">\</span>
+    --data <span class="s2">"hosts=example.com"</span> <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://httpbin.org"</span>
+</code></pre></div>
+<p>Add the JWT Plugin:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=jwt"</span>
+</code></pre></div>
+<p>Download your Auth0 account&#39;s X509 Certificate:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -o <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem https://<span class="o">{</span>COMPANYNAME<span class="o">}</span>.auth0.com/pem
+</code></pre></div>
+<p>Extract the public key from the X509 Certificate:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>openssl x509 -pubkey -noout -in <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem &gt; pubkey.pem
+</code></pre></div>
+<p>Create a Consumer with the Auth0 public key:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers <span class="se">\</span>
+    --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
+    --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
+
+<span class="gp">$ </span>curl -i -X POST http://localhost:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
+    -F <span class="s2">"algorithm=RS256"</span> <span class="se">\</span>
+    -F <span class="s2">"rsa_public_key=@./pubkey.pem"</span> <span class="se">\</span>
+    -F <span class="s2">"key=https://{COMPAYNAME}.auth0.com/"</span> <span class="c"># the `iss` field</span>
+</code></pre></div>
+<p>The JWT plugin by default validates the <code>key_claim_name</code> against the <code>iss</code>
+field in the token. Keys issued by Auth0 have their <code>iss</code> field set to
+<code>http://{COMPANYNAME}.auth0.com/</code>. You can use <a href="https://jwt.io">jwt.io</a> to
+validate the <code>iss</code> field for the <code>key</code> parameter when creating the
+Consumer.</p>
+
+<p>Send requests through, only tokens signed by Auth0 will work:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8000 <span class="se">\</span>
+    -H <span class="s2">"Host:example.com"</span> <span class="se">\</span>
+    -H <span class="s2">"Authorization:Bearer "</span>
+</code></pre></div>
+<p>Success!</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -676,7 +729,7 @@ HTTP/1.1 201 Created
 </footer>
 
 
-    <script src="/assets/app.js?v=1493334795"></script>
+    <script src="/assets/app.js?v=1493361428"></script>
 
     <div id="fb-root"></div>
 
