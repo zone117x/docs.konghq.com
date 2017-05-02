@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-installation.svg" /><link rel="prefetch" href="/assets/images/icons/icn-lifesaver.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1493751522"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1493759419"/>
 </head>
 
 
@@ -315,67 +315,94 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 steps:</p>
 
 <p>The following steps use AWS for provisioning the DC/OS cluster and assume you 
-have basic knowledge of <a href="https://docs.mesosphere.com/1.8/overview/">DC/OS</a>, 
-<a href="https://mesosphere.github.io/marathon/">Marathon</a>, and
-<a href="">Marathon-lb</a>. </p>
+have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>, 
+<a href="https://mesosphere.github.io/marathon/">Marathon</a>, <a href="https://dcos.io/docs/1.9/networking/load-balancing-vips/virtual-ip-addresses/">VIPs</a>, and
+<a href="https://dcos.io/docs/1.9/networking/marathon-lb/">Marathon-LB</a>. </p>
 
 <ol>
 <li><p><strong>Initial setup</strong></p>
 
 <p>Download or clone the following repo:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone git@github.com:Mashape/kong-dist-mesos.git
-<span class="gp">$ </span><span class="nb">cd </span>kong-dist-mesos
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone git@github.com:Mashape/kong-dist-dcos.git
+<span class="gp">$ </span><span class="nb">cd </span>kong-dist-dcos
 </code></pre></div>
 <p>Skip to step 3 if you have already provisioned a DC/OS cluster.</p></li>
 <li><p><strong>Deploy a DC/OS cluster</strong></p>
 
 <p>Following the DC/OS
-<a href="https://dcos.io/docs/1.8/administration/installing/cloud/aws/">AWS documentation</a>, deploy a DC/OS cluster on
+<a href="https://dcos.io/docs/1.9/installing/cloud/aws/">AWS documentation</a>, deploy a DC/OS cluster on
 which Kong will be provisioned</p>
 
 <p>Once your cluster is ready, Kong can be deployed using the
-<a href="https://docs.mesosphere.com/1.8/usage/cli/">DC/OS CLI</a> or the
-<a href="https://docs.mesosphere.com/1.8/usage/webinterface/">DC/OS GUI</a>.      </p></li>
-<li><p><strong>Deploy Marathon-lb</strong></p>
+<a href="https://dcos.io/docs/1.9/cli/">DC/OS CLI</a> or the
+<a href="https://dcos.io/docs/1.9/gui/">DC/OS GUI</a>.      </p></li>
+<li><p><strong>Deploy Marathon-LB</strong></p>
 
-<p>Using the <code>marathon-lb-internal.json</code> file included in the kong-dist-mesos
-repo, deploy Marathon-lb for internal and external service discovery
-support:</p>
+<p>We will use the <code>marathon-lb</code> package to deploy
+<a href="https://dcos.io/docs/1.9/networking/marathon-lb/">Marathon-LB</a> for load balancing external
+traffic to cluster and <a href="https://dcos.io/docs/1.9/networking/load-balancing-vips/virtual-ip-addresses/">VIPs</a> for load balancing
+internal traffic:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>dcos package install marathon-lb
-<span class="gp">$ </span>dcos package install --options<span class="o">=</span>marathon-lb-internal.json marathon-lb
 </code></pre></div></li>
 <li><p><strong>Deploy a Kong-supported database</strong></p>
 
 <p>Before deploying Kong, you need to provision a Cassandra or PostgreSQL
 instance.</p>
 
-<p>For Cassandra, use the <code>cassandra.json</code> file from the kong-dist-mesos 
-repo to deploy a Cassandra instance in the cluster:</p>
+<p>For Cassandra, use the <code>cassandra</code> package to deploy 3 nodes of Cassandra
+in the DC/OS cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>dcos package install cassandra
 </code></pre></div>
-<p>For PostgreSQL, use the <code>postgres.json</code> file from the kong-dist-mesos 
+<p>For PostgreSQL, use the <code>postgres.json</code> file from the kong-dist-dcos 
 repo to deploy a PostgreSQL instance in the cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>dcos marathon app add postgres.json
 </code></pre></div></li>
 <li><p><strong>Deploy Kong</strong></p>
 
-<p>Using the <code>kong_&lt;postgres|cassandra&gt;.json</code> file from the
-kong-dist-mesos repo, deploy Kong in the cluster:</p>
+<p>Using the <code>kong_&lt;postgres|cassandra&gt;.json</code> file from the kong-dist-dcos
+repo, deploy Kong in the cluster. Template registers Kong&#39;s <code>proxy</code> and
+<code>admin</code> ports on Marathon-LB as service ports <code>10001</code> and <code>10002</code>
+respectively:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>dcos marathon app add kong_&lt;postgres|cassandra&gt;.json
 </code></pre></div></li>
 <li><p><strong>Verify your deployments</strong></p>
 
-<p>If you followed the <a href="https://dcos.io/docs/1.8/administration/installing/cloud/aws/">AWS documentation</a> to
+<p>If you followed the <a href="https://dcos.io/docs/1.9/installing/cloud/aws/">AWS documentation</a> to
 create the cluster, then you have to expose your Kong service ports on the
 public ELB to access the Kong services externally.</p>
 
 <p>You can also log into the public slave agent and test Kong by making the
 following requests: </p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl marathon-lb.maraton.mesos:10001
-<span class="gp">$ </span>curl marathon-lb.maraton.mesos:10002
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl marathon-lb.marathon.mesos:10001
+<span class="gp">$ </span>curl marathon-lb.marathon.mesos:10002
+</code></pre></div></li>
+<li><p><strong>Deploy an upstream server</strong></p>
+
+<p>For this demo, we will use an <a href="https://hub.docker.com/r/mashape/node-web-app/">app</a> which
+returns <code>Hello world</code> on port <code>8080</code>. Using the <code>my_app.json</code> file from the
+kong-dist-dcos repo, deploy the app in the cluster which will act as a
+backend server to process requests received from Kong:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>dcos marathon app add my_app.json
 </code></pre></div></li>
 <li><p><strong>Using Kong</strong></p>
 
+<p>Create an API on Kong:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST marathon-lb.marathon.mesos:10002/apis <span class="se">\</span>
+    --data <span class="s2">"name=myapp"</span> <span class="se">\</span>
+    --data <span class="s2">"hosts=myapp.com"</span> <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://myapp.marathon.l4lb.thisdcos.directory:8080"</span>
+HTTP/1.1 201 Created
+...
+
+</code></pre></div>
+<p>Make a request to the API:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET marathon-lb.marathon.mesos:10001 <span class="se">\</span>
+    --header <span class="s2">"Host:myapp.com"</span>
+HTTP/1.1 200 OK
+...
+
+Hello world
+</code></pre></div>
 <p>Quickly learn how to use Kong with the 
 <a href="/docs/latest/getting-started/quickstart/">5-minute Quickstart</a>.</p></li>
 </ol>
@@ -502,7 +529,7 @@ following requests: </p>
 </footer>
 
 
-    <script src="/assets/app.js?v=1493751522"></script>
+    <script src="/assets/app.js?v=1493759419"></script>
 
     <div id="fb-root"></div>
 
