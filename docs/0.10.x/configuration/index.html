@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1495562686"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1495678685"/>
 </head>
 
 
@@ -941,6 +941,44 @@ accepted values.</p>
 
 <hr>
 
+<h5 id="proxy_access_log"><strong>proxy_access_log</strong></h5>
+
+<p>Path for proxy port request access logs. Set this value to <code>off</code> to disable
+logging proxy requests. If this value is a relative path, it will be placed
+under the <code>prefix</code> location.</p>
+
+<p>Default: <code>logs/access.log</code></p>
+
+<hr>
+
+<h5 id="proxy_error_log"><strong>proxy_error_log</strong></h5>
+
+<p>Path for proxy port request error logs. Granularity of these logs is adjusted
+by the <code>log_level</code> directive.</p>
+
+<p>Default: <code>logs/error.log</code></p>
+
+<hr>
+
+<h5 id="admin_access_log"><strong>admin_access_log</strong></h5>
+
+<p>Path for Admin API request access logs. Set this value to <code>off</code> to disable
+logging Admin API requests. If this value is a relative path, it will be placed
+under the <code>prefix</code> location.</p>
+
+<p>Default: <code>logs/admin_access.log</code></p>
+
+<hr>
+
+<h5 id="admin_error_log"><strong>admin_error_log</strong></h5>
+
+<p>Path for Admin API request error logs. Granularity of these logs is adjusted by
+the <code>log_level</code> directive.</p>
+
+<p>Default: <code>logs/error.log</code></p>
+
+<hr>
+
 <h5 id="custom_plugins"><strong>custom_plugins</strong></h5>
 
 <p>Comma-separated list of additional plugins this node should load. Use this
@@ -1053,6 +1091,27 @@ on <code>proxy_listen</code>, and all SSL settings will be ignored.</p>
 
 <hr>
 
+<h5 id="ssl_cipher_suite"><strong>ssl_cipher_suite</strong></h5>
+
+<p>Defines the TLS ciphers served by Nginx. Accepted values are <code>modern</code>,
+<code>intermediate</code>, <code>old</code>, or <code>custom</code>.
+See <a href="https://wiki.mozilla.org/Security/Server_Side_TLS">https://wiki.mozilla.org/Security/Server_Side_TLS</a> for detailed
+descriptions of each cipher suite.</p>
+
+<p>Default: <code>modern</code></p>
+
+<hr>
+
+<h5 id="ssl_ciphers"><strong>ssl_ciphers</strong></h5>
+
+<p>Defines a custom list of TLS ciphers to be served by Nginx. This list must
+conform to the pattern defined by <code>openssl ciphers</code>. This value is ignored if
+<code>ssl_cipher_suite</code> is not <code>custom</code>.</p>
+
+<p>Default: none</p>
+
+<hr>
+
 <h5 id="ssl_cert"><strong>ssl_cert</strong></h5>
 
 <p>If <code>ssl</code> is enabled, the absolute path to the SSL certificate for the
@@ -1067,6 +1126,35 @@ generate a default certificate and key.</p>
 
 <p>If <code>ssl</code> is enabled, the absolute path to the SSL key for the
 <code>proxy_listen_ssl</code> address.</p>
+
+<p>Default: none</p>
+
+<hr>
+
+<h5 id="client_ssl"><strong>client_ssl</strong></h5>
+
+<p>Determines if Nginx should send client-side SSL certificates when proxying
+requests.</p>
+
+<p>Default: <code>off</code></p>
+
+<hr>
+
+<h5 id="client_ssl_cert"><strong>client_ssl_cert</strong></h5>
+
+<p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL certificate for
+the <code>proxy_ssl_certificate</code> directive. Note that this value is statically
+defined on the node, and currently cannot be configured on a per-API basis.</p>
+
+<p>Default: none</p>
+
+<hr>
+
+<h5 id="client_ssl_cert_key"><strong>client_ssl_cert_key</strong></h5>
+
+<p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL key for the
+<code>proxy_ssl_certificate_key</code> address. Note this value is statically defined on
+the node, and currently cannot be configured on a per-API basis.</p>
 
 <p>Default: none</p>
 
@@ -1599,7 +1687,7 @@ every remote server.</p>
 </footer>
 
 
-    <script src="/assets/app.js?v=1495562686"></script>
+    <script src="/assets/app.js?v=1495678685"></script>
 
     <div id="fb-root"></div>
 
