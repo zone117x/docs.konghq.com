@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/jwt.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1497298432"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1497303184"/>
 </head>
 
 
@@ -188,6 +188,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
               <li>
                 <a href="#delete-a-jwt-credential">Delete a JWT credential</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#list-jwt-credentials">List JWT credentials</a>
 
                 
               </li>
@@ -408,6 +414,32 @@ HTTP/1.1 204 No Content
 <li><code>id</code>: The <code>id</code> of the JWT credential.</li>
 </ul>
 
+<h3 id="list-jwt-credentials">List JWT credentials</h3>
+
+<p>You can list a Consumer&#39;s JWT credentials by issuing the following HTTP
+request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt
+HTTP/1.1 200 OK
+</code></pre></div>
+<ul>
+<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the
+<a href="/docs/latest/admin-api/#consumer-object">Consumer</a> entity to list credentials for.</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"rsa_public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgK .... -----END PUBLIC KEY-----"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"39f52333-9741-48a7-9450-495960d91684"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3239880d-1de5-4dbc-bccf-78f7a4280f33"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491430568000</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c5a55906cc244f483226e02bcff2b5e"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"algorithm"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b0970f7fc9564e65xklfn48930b5d08b1"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <h3 id="craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</h3>
 
 <p>Now that your Consumer has a credential, and assuming we want to sign it using <code>HS256</code>, the JWT should be crafted as follows (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>):</p>
@@ -729,7 +761,7 @@ Consumer.</p>
 </footer>
 
 
-    <script src="/assets/app.js?v=1497298432"></script>
+    <script src="/assets/app.js?v=1497303184"></script>
 
     <div id="fb-root"></div>
 
