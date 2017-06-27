@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1498589785"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1498589985"/>
 </head>
 
 
@@ -937,7 +937,7 @@ API, to change the <code>upstream</code> name. </p>
     --data <span class="s2">"target=192.168.34.16:80"</span>
     --data <span class="s2">"weight=50"</span>
 
-<span class="c"># create an API targetting the Blue upstream</span>
+<span class="c"># create an API targeting the Blue upstream</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/apis/ <span class="se">\</span>
     --data <span class="s2">"name=address-service"</span> <span class="se">\</span>
     --data <span class="s2">"hosts=address.mydomain.com"</span> <span class="se">\</span>
@@ -949,24 +949,19 @@ by Kong to the two defined targets; 2/3 of the requests will go to
 <code>http://192.168.34.16:80/address</code> (<code>weight=50</code>).</p>
 
 <p>Before deploying version 2 of the address service, set up the &quot;Green&quot;
-environment:
-```bash</p>
+environment:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create a new Green upstream for address service v2</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
+    --data <span class="s2">"name=address.v2.service"</span>
 
-<h1 id="create-a-new-green-upstream-for-address-service-v2">create a new Green upstream for address service v2</h1>
-
-<p>$ curl -X POST <a href="http://kong:8001/upstreams">http://kong:8001/upstreams</a> \
-    --data &quot;name=address.v2.service&quot;</p>
-
-<h1 id="add-targets-to-the-upstream">add targets to the upstream</h1>
-
-<p>$ curl -X POST <a href="http://kong:8001/upstreams/address.v2.service/targets">http://kong:8001/upstreams/address.v2.service/targets</a> \
-    --data &quot;target=192.168.34.17:80&quot;
-    --data &quot;weight=100&quot;
-$ curl -X POST <a href="http://kong:8001/upstreams/address.v2.service/targets">http://kong:8001/upstreams/address.v2.service/targets</a> \
-    --data &quot;target=192.168.34.18:80&quot;
-    --data &quot;weight=100&quot;
-```</p>
-
+<span class="c"># add targets to the upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=100"</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=100"</span>
+</code></pre></div>
 <p>To activate the Blue/Green switch, we now only need to update the API:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Switch the API from Blue to Green upstream, v1 -&gt; v2</span>
 <span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/address-service <span class="se">\</span>
@@ -1132,7 +1127,7 @@ requests will be dropped.</p>
 </footer>
 
 
-    <script src="/assets/app.js?v=1498589785"></script>
+    <script src="/assets/app.js?v=1498589985"></script>
 
     <div id="fb-root"></div>
 
