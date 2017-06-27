@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/aws-lambda.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1497303184"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1498589785"/>
 </head>
 
 
@@ -188,14 +188,16 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It can be used in combination with other request plugins to
-secure, manage or extend the function.</p>
+          <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It
+can be used in combination with other request plugins to secure, manage or extend
+the function.</p>
 
 <hr>
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an
+<a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
     --data <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
@@ -205,7 +207,9 @@ secure, manage or extend the function.</p>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code>
+endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a>
+for more information.</p>
 
 <table><thead>
 <tr>
@@ -262,7 +266,7 @@ secure, manage or extend the function.</p>
 <tr>
 <td><code>config.keepalive</code><br><em>optional</em></td>
 <td><code>60000</code></td>
-<td>An optional value in milliseconds that defines for how long an idle connection will live before being closed</td>
+<td>An optional value in milliseconds that defines how long an idle connection will live before being closed</td>
 </tr>
 </tbody></table>
 
@@ -270,22 +274,31 @@ secure, manage or extend the function.</p>
 
 <h3 id="sending-parameters">Sending parameters</h3>
 
-<p>Any form parameter sent along with the request, will be also sent as an argument to the AWS Lambda function.</p>
+<p>Any form parameter sent along with the request, will be also sent as an
+argument to the AWS Lambda function.</p>
 
 <h3 id="known-issues">Known Issues</h3>
 
 <h4 id="use-a-fake-upstream_url">Use a fake upstream_url</h4>
 
-<p>When using the AWS Lambda plugin, the response will be returned by the plugin itself without proxying the request to any upstream service. This means that whatever <code>upstream_url</code> has been set on the <a href="/docs/latest/admin-api/#api-object">API</a> it will ultimately never be used.</p>
+<p>When using the AWS Lambda plugin, the response will be returned by the plugin
+itself without proxying the request to any upstream service. This means that
+whatever <code>upstream_url</code> has been set on the <a href="/docs/latest/admin-api/#api-object">API</a> it will
+never be used.</p>
 
-<p>Although <code>upstream_url</code> will never be used, it&#39;s currently a mandatory field in Kong&#39;s data model, so feel free to set a fake value (ie, <code>http://nowhere.com</code>) if you are planning to use this plugin.</p>
+<p>Although <code>upstream_url</code> will never be used, it&#39;s currently a mandatory field
+in Kong&#39;s data model and its hostname must be resolvable. So set it to a
+fake value (ie, <code>http://127.0.0.1:20000</code>) if you are planning to use this
+plugin. Failing to do so will result in 500 errors regarding a resolution
+failure.</p>
 
-<p>In the future we will provide a more intuitive way to deal with similar use-cases.</p>
+<p>In the future we will provide a more intuitive way to deal with similar
+use cases.</p>
 
 <h4 id="response-plugins">Response plugins</h4>
 
-<p>There is a known limitation in the system that prevents some response plugins from being executed. We are planning to remove this limitation
-in the future.</p>
+<p>There is a known limitation in the system that prevents some response plugins
+from being executed. We are planning to remove this limitation in the future.</p>
 
         </div>
       </div>
@@ -403,7 +416,7 @@ in the future.</p>
 </footer>
 
 
-    <script src="/assets/app.js?v=1497303184"></script>
+    <script src="/assets/app.js?v=1498589785"></script>
 
     <div id="fb-root"></div>
 
