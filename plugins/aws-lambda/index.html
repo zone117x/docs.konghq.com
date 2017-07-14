@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/aws-lambda.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1498589985"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1499997064"/>
 </head>
 
 
@@ -200,16 +200,24 @@ the function.</p>
 <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
     --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code>
+<p>You can also apply this plugin for every API using the <code>http://kong:8001/plugins/</code>
 endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a>
 for more information.</p>
+
+<p><strong>Reminder</strong>: curl by default sends payloads with an
+<code>application/x-www-form-urlencoded</code> MIME type, which will naturally be URL-
+decoded by Kong. To ensure special characters that are likely to appear in your
+AWS key or secret (like <code>+</code>) are correctly decoded, you must URL-encode them,
+hence use <code>--date-urlencode</code> if you are using curl. Alternatives to this
+approach would be to send your payload with a different MIME type (like
+<code>application/json</code>), or to use a different HTTP client.</p>
 
 <table><thead>
 <tr>
@@ -416,7 +424,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </footer>
 
 
-    <script src="/assets/app.js?v=1498589985"></script>
+    <script src="/assets/app.js?v=1499997064"></script>
 
     <div id="fb-root"></div>
 
