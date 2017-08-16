@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-installation.svg" /><link rel="prefetch" href="/assets/images/icons/icn-lifesaver.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1502740655"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1502921474"/>
 </head>
 
 
@@ -323,52 +323,71 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
       <div class="page-content">
         <div class="content">
           <ol>
-<li><p><strong>Install the dependencies:</strong></p>
+<li><p><strong>Install the dependencies</strong></p>
 
-<p><a href="https://openresty.org/en/installation.html">OpenResty 1.11.2.2</a>. Kong being an OpenResty application, you must follow the OpenResty <a href="https://openresty.org/en/installation.html">installation instructions</a>. You will need <a href="https://www.openssl.org/">OpenSSL</a> and <a href="http://www.pcre.org/">PCRE</a> to compile OpenResty, and to at least use the following compilation options:</p>
+<p><a href="https://openresty.org/en/installation.html">OpenResty 1.11.2.4</a>.
+Kong being an OpenResty application, you must follow the OpenResty
+<a href="https://openresty.org/en/installation.html">installation instructions</a>.
+You will need <a href="https://www.openssl.org/">OpenSSL</a> and
+<a href="http://www.pcre.org/">PCRE</a> to compile OpenResty, and to at least use the
+following compilation options:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>./configure <span class="se">\</span>
   --with-pcre-jit <span class="se">\</span>
   --with-ipv6 <span class="se">\</span>
   --with-http_realip_module <span class="se">\</span>
   --with-http_ssl_module <span class="se">\</span>
   --with-http_stub_status_module <span class="se">\</span>
-  --without-luajit-lua52
+  --with-http_v2_module
 </code></pre></div>
-<p>You might have to specify <code>--with-openssl</code> and you can add any other option you&#39;d like, such as additional Nginx modules or a custom <code>--prefix</code> directory.</p>
+<p>You might have to specify <code>--with-openssl</code> and you can add any other option
+you&#39;d like, such as additional Nginx modules or a custom <code>--prefix</code> directory.</p>
 
-<p>OpenResty conveniently bundles <a href="http://luajit.org/">LuaJIT</a> and <a href="https://github.com/openresty/resty-cli">resty-cli</a> which are essential to Kong. Add the <code>nginx</code> and <code>resty</code> executables to your $PATH:</p>
+<p>OpenResty conveniently bundles <a href="http://luajit.org/">LuaJIT</a> and
+<a href="https://github.com/openresty/resty-cli">resty-cli</a> which are essential to
+Kong. Add the <code>nginx</code> and <code>resty</code> executables to your $PATH:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PATH</span><span class="s2">:/usr/local/openresty/bin"</span>
 </code></pre></div>
-<p><a href="https://github.com/keplerproject/luarocks/wiki/Download">Luarocks 2.4.2</a>, compiled with the LuaJIT version bundled with OpenResty (See the <code>--with-lua</code> and <code>--with-lua-include</code> configure options). Example:</p>
+<p><a href="https://github.com/keplerproject/luarocks/wiki/Download">Luarocks 2.4.2</a>,
+compiled with the LuaJIT version bundled with OpenResty (See the
+<code>--with-lua</code> and <code>--with-lua-include</code> configure options). Example:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">./configure <span class="se">\</span>
   --lua-suffix<span class="o">=</span>jit <span class="se">\</span>
   --with-lua<span class="o">=</span>/usr/local/openresty/luajit <span class="se">\</span>
   --with-lua-include<span class="o">=</span>/usr/local/openresty/luajit/include/luajit-2.1
-</code></pre></div>
-<p>Finally, the <a href="https://www.serf.io/">Serf v0.7.0</a> executable should be available in your <code>$PATH</code>. You can also use it from a custom location assuming you configure Kong&#39;s <code>serf_path</code> property accordingly (or use the <code>KONG_SERF_PATH</code> environment variable). This property should specify the absolute path to the <code>serf</code> executable.</p>
+</code></pre></div></li>
+<li><p><strong>Install Kong</strong></p>
 
-<p>Consulting the <a href="https://github.com/Mashape/kong/blob/next/.ci/setup_env.sh">setup_env.sh</a> CI script is a good resource for a concrete example of those instructions. Notice how Serf is used from a custom location which is specified using the environment variable in <a href="https://github.com/Mashape/kong/blob/next/.ci/run_tests.sh">run_tests.sh</a>.</p></li>
-<li><p><strong>Install Kong:</strong></p>
-
-<p>Now that OpenResty and other third-party dependencies are installed, we can use Luarocks to install Kong&#39;s Lua sources:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>luarocks install kong 0.10.3-0
+<p>Now that OpenResty is installed, we can use Luarocks to install Kong&#39;s Lua sources:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>luarocks install kong 0.11.0-0
 </code></pre></div>
 <p><strong>Or</strong>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone git@github.com:Mashape/kong.git
 <span class="gp">$ </span><span class="o">[</span>sudo] make install <span class="c"># this simply runs the `luarocks make kong-*.rockspec` command</span>
 </code></pre></div>
 <p>Finally, place the <code>bin/kong</code> script in your <code>$PATH</code>.</p></li>
-<li><p><strong>Configure your database</strong></p>
+<li><p><strong>Prepare your database</strong></p>
 
-<p><a href="/docs/0.10.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports both <a href="http://www.postgresql.org/">PostgreSQL 9.4+</a> and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as its datastore.</p></li>
-<li><p><strong>Start Kong:</strong></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start
+<p><a href="/docs/0.11.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong
+supports both <a href="http://www.postgresql.org/">PostgreSQL 9.4+</a>
+and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a>
+as its datastore.</p>
 
-<span class="c"># Kong is running</span>
-<span class="gp">$ </span>curl 127.0.0.1:8001
+<p>If you are using Postgres, please provision a database and a user before starting Kong, ie:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
+</code></pre></div>
+<p>Now, run the Kong migrations:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong migrations up <span class="o">[</span>-c /path/to/kong.conf]
+</code></pre></div>
+<p><strong>Note</strong>: migrations should never be run concurrently; only
+one Kong nodes should be performing migrations at a time.</p></li>
+<li><p><strong>Start Kong</strong></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
 </code></pre></div></li>
-<li><p><strong>Use Kong:</strong></p>
+<li><p><strong>Use Kong</strong></p>
 
+<p>Kong is running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/
+</code></pre></div>
 <p>Quickly learn how to use Kong with the <a href="/docs/latest/getting-started/quickstart">5-minute Quickstart</a>.</p></li>
 </ol>
 
@@ -493,8 +512,40 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   </section>
 </footer>
 
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class=\"sr-only\">Permalink</span><i class=\"fa fa-link\"></i>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.prepend(anchorForId(header.id));
+      }
+    }
+  };
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      console.log("here")
+      var contentBlock = document.getElementById("documentation");
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
 
-    <script src="/assets/app.js?v=1502740655"></script>
+
+    <script src="/assets/app.js?v=1502921474"></script>
 
     <div id="fb-root"></div>
 

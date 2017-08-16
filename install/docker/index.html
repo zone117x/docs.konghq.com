@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-installation.svg" /><link rel="prefetch" href="/assets/images/icons/icn-lifesaver.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1502740655"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1502921474"/>
 </head>
 
 
@@ -327,7 +327,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <p>Here is a quick example showing how to link a Kong container to a Cassandra or PostgreSQL container:</p>
 
 <ol>
-<li><p><strong>Start your database:</strong></p>
+<li><p><strong>Start your database</strong></p>
 
 <p>If you wish to use a Cassandra container:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>docker run -d --name kong-database <span class="se">\</span>
@@ -341,26 +341,43 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
               -e <span class="s2">"POSTGRES_DB=kong"</span> <span class="se">\</span>
               postgres:9.4
 </code></pre></div></li>
-<li><p><strong>Start Kong:</strong></p>
+<li><p><strong>Prepare your database</strong></p>
 
-<p>Start a Kong container and link it to your database container, configuring the <code>KONG_DATABASE</code> environment variable with either <code>cassandra</code> or <code>postgres</code> depending on which database you decided to use:</p>
+<p>Run the migrations with an ephemeral Kong container:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>docker run -it --rm <span class="se">\</span>
+    --link kong-database:kong-database <span class="se">\</span>
+    -e <span class="s2">"KONG_DATABASE=postgres"</span> <span class="se">\</span>
+    -e <span class="s2">"KONG_PG_HOST=kong-database"</span> <span class="se">\</span>
+    -e <span class="s2">"KONG_CASSANDRA_CONTACT_POINTS=kong-database"</span> <span class="se">\</span>
+    kong:latest kong migrations up
+</code></pre></div>
+<p>In the above example, both Cassandra and PostgreSQL are configured, but you
+should update the <code>KONG_DATABASE</code> environment variable with either
+<code>cassandra</code> or <code>postgres</code>.</p>
+
+<p><strong>Note</strong>: migrations should never be run concurrently; only
+one Kong node should be performing migrations at a time.</p></li>
+<li><p><strong>Start Kong</strong></p>
+
+<p>When the migrations have run and your database is ready, start a Kong
+container and link it to your database container, just like the ephemeral
+migrations container:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>docker run -d --name kong <span class="se">\</span>
-              --link kong-database:kong-database <span class="se">\</span>
-              -e <span class="s2">"KONG_DATABASE=cassandra"</span> <span class="se">\</span>
-              -e <span class="s2">"KONG_CASSANDRA_CONTACT_POINTS=kong-database"</span> <span class="se">\</span>
-              -e <span class="s2">"KONG_PG_HOST=kong-database"</span> <span class="se">\</span>
-              -p 8000:8000 <span class="se">\</span>
-              -p 8443:8443 <span class="se">\</span>
-              -p 8001:8001 <span class="se">\</span>
-              -p 7946:7946 <span class="se">\</span>
-              -p 7946:7946/udp <span class="se">\</span>
-              kong:latest
+    --link kong-database:kong-database <span class="se">\</span>
+    -e <span class="s2">"KONG_DATABASE=postgres"</span> <span class="se">\</span>
+    -e <span class="s2">"KONG_PG_HOST=kong-database"</span> <span class="se">\</span>
+    -e <span class="s2">"KONG_CASSANDRA_CONTACT_POINTS=kong-database"</span> <span class="se">\</span>
+    -p 8000:8000 <span class="se">\</span>
+    -p 8443:8443 <span class="se">\</span>
+    -p 8001:8001 <span class="se">\</span>
+    -p 8444:8444 <span class="se">\</span>
+    kong:latest
 </code></pre></div></li>
-<li><p><strong>Kong is running:</strong></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://127.0.0.1:8001
-</code></pre></div></li>
-<li><p><strong>Start using Kong:</strong></p>
+<li><p><strong>Use Kong</strong></p>
 
+<p>Kong is running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/
+</code></pre></div>
 <p>Quickly learn how to use Kong with the <a href="/docs/latest/getting-started/quickstart">5-minute Quickstart</a>.</p></li>
 </ol>
 
@@ -485,8 +502,40 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   </section>
 </footer>
 
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class=\"sr-only\">Permalink</span><i class=\"fa fa-link\"></i>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.prepend(anchorForId(header.id));
+      }
+    }
+  };
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      console.log("here")
+      var contentBlock = document.getElementById("documentation");
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
 
-    <script src="/assets/app.js?v=1502740655"></script>
+
+    <script src="/assets/app.js?v=1502921474"></script>
 
     <div id="fb-root"></div>
 

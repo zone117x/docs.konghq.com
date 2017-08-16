@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/statsd.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1502740655"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1502921474"/>
 </head>
 
 
@@ -188,23 +188,27 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>Log API metrics like request count, request size, response status and latency to the StatsD daemon.
-It can also be used to log metrics on <a href="https://collectd.org/">Collectd</a> daemon by enabling its <a href="https://collectd.org/wiki/index.php/Plugin:StatsD">Statsd plugin</a>.</p>
+          <p>Log API <a href="#metrics">metrics</a> StatsD server. It can also be used to log metrics on
+<a href="https://collectd.org/">Collectd</a> daemon by enabling its
+<a href="https://collectd.org/wiki/index.php/Plugin:StatsD">Statsd plugin</a>.</p>
 
 <hr>
 
 <h2 id="configuration">Configuration</h2>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
+<p>Configuring the plugin is straightforward, you can add it on top of an
+<a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following
+request on your Kong server:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=statsd"</span> <span class="se">\</span>
     --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
-    --data <span class="s2">"config.port=8125"</span> <span class="se">\</span>
-    --data <span class="s2">"config.timeout=1000"</span>
+    --data <span class="s2">"config.port=8125"</span>
 </code></pre></div>
 <p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code>
+endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for
+more information.</p>
 
 <table><thead>
 <tr>
@@ -236,12 +240,12 @@ It can also be used to log metrics on <a href="https://collectd.org/">Collectd</
 <tr>
 <td><code>config.metrics</code><br><em>optional</em></td>
 <td>All metrics<br>are logged</td>
-<td>The metrics to be logged. Available values are described at <a href="#metrics">Metrics</a>.</td>
+<td>List of Metrics to be logged. Available values are described under <a href="#metrics">Metrics</a>.</td>
 </tr>
 <tr>
-<td><code>config.timeout</code><br><em>optional</em></td>
-<td><code>10000</code></td>
-<td>An optional timeout in milliseconds when sending data to the upstream server</td>
+<td><code>config.prefix</code><br><em>optional</em></td>
+<td><code>kong</code></td>
+<td>String to be prefixed to each metric&#39;s name.</td>
 </tr>
 </tbody></table>
 
@@ -249,7 +253,7 @@ It can also be used to log metrics on <a href="https://collectd.org/">Collectd</
 
 <h2 id="metrics">Metrics</h2>
 
-<p>Plugin currently logs four metrics to the StatsD server: <code>request_count</code>, <code>request_size</code>, <code>response_size</code>, <code>status_count</code> and <code>latency</code>.</p>
+<p>Metrics the plugin supports logging into the StatsD server.</p>
 
 <table><thead>
 <tr>
@@ -260,44 +264,105 @@ It can also be used to log metrics on <a href="https://collectd.org/">Collectd</
 </thead><tbody>
 <tr>
 <td><code>request_count</code></td>
-<td>Increment the count of request made to the API by 1</td>
+<td>tracks api request</td>
 <td>kong.&lt;api_name&gt;.request.count</td>
 </tr>
 <tr>
 <td><code>request_size</code></td>
-<td>logs the request&#39;s body size in bytes</td>
+<td>tracks api request&#39;s body size in bytes</td>
 <td>kong.&lt;api_name&gt;.request.size</td>
 </tr>
 <tr>
 <td><code>response_size</code></td>
-<td>logs the response&#39;s body size in bytes</td>
+<td>tracks api response&#39;s body size in bytes</td>
 <td>kong.&lt;api_name&gt;.response.size</td>
 </tr>
 <tr>
 <td><code>latency</code></td>
-<td>logs the time interval between the request started and response received from the upstream server</td>
+<td>tracks the time interval between the request started and response received from the upstream server</td>
 <td>kong.&lt;api_name&gt;.latency</td>
 </tr>
 <tr>
 <td><code>status_count</code></td>
-<td>For each status code returned, increment its counter by 1</td>
-<td>kong.&lt;api_name&gt;.&lt;http_status_code&gt;.count</td>
+<td>tracks each status code returned in a response</td>
+<td>kong.&lt;api_name&gt;.status.&lt;status&gt;.count and kong.&lt;api_name&gt;.status.&lt;status&gt;.total</td>
 </tr>
 <tr>
 <td><code>unique_users</code></td>
-<td>count of users made a request to the api</td>
+<td>tracks unique users who made a request to the API</td>
 <td>kong.&lt;api_name&gt;.user.uniques</td>
 </tr>
 <tr>
 <td><code>request_per_user</code></td>
-<td>For each request by the user, increment its counter by 1</td>
-<td>kong.&lt;api_name&gt;.&lt;consumer_id&gt;.count</td>
+<td>tracks request/user</td>
+<td>kong.&lt;api_name&gt;.user.&lt;consumer_id&gt;.count</td>
+</tr>
+<tr>
+<td><code>upstream_latency</code></td>
+<td>tracks the time it took for the final service to process the request</td>
+<td>kong.&lt;api_name&gt;.upstream_latency</td>
+</tr>
+<tr>
+<td><code>kong_latency</code></td>
+<td>tracks the internal Kong latency that it took to run all the plugins</td>
+<td>kong.&lt;api_name&gt;.kong_latency</td>
+</tr>
+<tr>
+<td><code>status_count_per_user</code></td>
+<td>tracks request/status/user</td>
+<td>kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.total</td>
 </tr>
 </tbody></table>
 
+<h3 id="metric-fields">Metric Fields</h3>
+
+<p>Plugin can be configured with any combination of <a href="#metrics">Metrics</a>, with each entry containing the following fields.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>description</th>
+<th>allowed values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>name</code></td>
+<td>StatsD metric&#39;s name</td>
+<td><a href="#metrics">Metrics</a></td>
+</tr>
+<tr>
+<td><code>stat_type</code></td>
+<td>determines what sort of event the metric represents</td>
+<td><code>gauge</code>, <code>timer</code>, <code>counter</code>, <code>histogram</code>, <code>meter</code> and <code>set</code></td>
+</tr>
+<tr>
+<td><code>sample_rate</code><br><em>conditional</em></td>
+<td>sampling rate</td>
+<td><code>number</code></td>
+</tr>
+<tr>
+<td><code>customer_identifier</code><br><em>conditional</em></td>
+<td>authenticated user detail</td>
+<td><code>consumer_id</code>, <code>custom_id</code>, <code>username</code></td>
+</tr>
+</tbody></table>
+
+<h3 id="metric-requirements">Metric Requirements</h3>
+
+<ol>
+<li> By default all metrics get logged.</li>
+<li> Metric with <code>stat_type</code> set to <code>counter</code> or <code>gouge</code> must have <code>sample_rate</code> defined as well.</li>
+<li> <code>unique_users</code> metric only works with <code>stat_type</code> as <code>set</code>.</li>
+<li> <code>status_count</code>, <code>status_count_per_user</code> and <code>request_per_user</code> work only with <code>stat_type</code>  as <code>counter</code>.</li>
+<li> <code>status_count_per_user</code>, <code>request_per_user</code> and <code>unique_users</code> must have <code>customer_identifier</code> defined.</li>
+</ol>
+
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.10.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+<p>This logging plugin will only log HTTP request and response data. If you are
+looking for the Kong process error file (which is the nginx error file), then
+you can find it at the following path:
+{<a href="/docs/0.11.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
         </div>
       </div>
@@ -414,8 +479,40 @@ It can also be used to log metrics on <a href="https://collectd.org/">Collectd</
   </section>
 </footer>
 
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class=\"sr-only\">Permalink</span><i class=\"fa fa-link\"></i>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.prepend(anchorForId(header.id));
+      }
+    }
+  };
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      console.log("here")
+      var contentBlock = document.getElementById("documentation");
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
 
-    <script src="/assets/app.js?v=1502740655"></script>
+
+    <script src="/assets/app.js?v=1502921474"></script>
 
     <div id="fb-root"></div>
 
