@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1502923876"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1502992765"/>
 </head>
 
 
@@ -727,6 +727,7 @@ the Admin API.</p>
 </ul></li>
 <li><a href="#kong-api-loopback">Kong API Loopback</a></li>
 <li><a href="#custom-nginx-configuration">Custom Nginx Configuration</a></li>
+<li><a href="#role-based-access-control">Role Based Access Control (RBAC)</a></li>
 </ul>
 
 <h2 id="network-layer-access-restrictions">Network Layer Access Restrictions</h2>
@@ -759,7 +760,7 @@ input traffic ranges. For example:</p>
 <span class="c"># /24 CIDR block, and only a select few hosts in this range should have access</span>
 
 <span class="gp">$ </span>grep admin_listen /etc/kong/kong.conf
-admin_listen 10.10.10.3
+admin_listen 10.10.10.3:8001
 
 <span class="c"># explicitly allow TCP packets on port 8001 from the Kong node itself</span>
 <span class="c"># this is not necessary if Admin API requests are not sent from the node</span>
@@ -836,6 +837,26 @@ OpenResty environment on which custom/complex security controls can be built.</p
 
 <p>For more information on integrating Kong into custom Nginx configurations, see
 <a href="/docs/0.11.x/configuration/#custom-nginx-configuration">Custom Nginx configuration &amp; embedding Kong</a>.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h2 id="role-based-access-control">Role Based Access Control</h2>
+
+<div class="alert alert-warning">
+  <strong>Enterprise-Only</strong> This feature is only available with an
+  Enterprise Subscription.
+</div>
+
+<p>Enterprise users can configure role-based access control to secure access to the
+Admin API. RBAC allows for fine-grained control over resource access based on
+a model of user roles and permissions. Users are assigned to one or more roles,
+which each in turn possess one or more permissions granting or denying access
+to a particular resource. In this way, fine-grained control over specific Admin
+API resources can be enforced, while scaling to allow complex, case-specific
+uses.</p>
+
+<p>If you are not a Mashape Enterprise customer, you can inquire about our
+Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -986,7 +1007,7 @@ OpenResty environment on which custom/complex security controls can be built.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1502923876"></script>
+    <script src="/assets/app.js?v=1502992765"></script>
 
     <div id="fb-root"></div>
 
