@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-installation.svg" /><link rel="prefetch" href="/assets/images/icons/icn-lifesaver.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1503035269"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1503512142"/>
 </head>
 
 
@@ -331,16 +331,22 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone git@github.com:Mashape/kong-dist-kubernetes.git
 <span class="gp">$ </span><span class="nb">cd </span>kong-dist-kubernetes
 </code></pre></div>
+<p>If you want to run Kubernetes locally, please follow the <a href="/minikube">README</a> 
+and use the manifest files provided in <code>minikube</code> directory.</p>
+
 <p>Skip to step 3 if you have already provisioned a cluster and registered it
-with Kubernetes.</p></li>
+with Kubernetes.</p>
+
+<p>Note: Included manifest files in repo only support Kong v0.11.x, for 0.10.x
+please use the <a href="https://github.com/Mashape/kong-dist-kubernetes/tree/1.0.0">tag 1.0.0</a>.</p></li>
 <li><p><strong>Deploy a GKE cluster</strong></p>
 
-<p>You need <a href="https://cloud.google.com/sdk/">gcloud</a> and
-<a href="https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface">kubectl</a> command-line tools installed and set up
-to run deployment commands. Also make sure your Google Cloud account has at
-least two <code>STATIC_ADDRESSES</code> available. </p>
+<p>You need <a href="https://cloud.google.com/sdk/">gcloud</a> and <a href="https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface">kubectl</a>
+command-line tools installed and set up to run deployment commands. Also
+make sure your Google Cloud account has <code>STATIC_ADDRESSES</code> available for
+the external access of Kong services.</p>
 
-<p>Using the <code>cluster.yaml</code> file from the kong-dist-kubernetes repo, deploy a
+<p>Using the <code>cluster.yaml</code> file from this repo, deploy a
 GKE cluster. Provide the following information before deploying:</p>
 
 <ol>
@@ -357,36 +363,45 @@ cluster</li>
 
 <p>Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.</p>
 
-<p>For Cassandra, use the <code>cassandra.yaml</code> file from the kong-dist-kubernetes 
-repo to deploy a Cassandra <code>Service</code> and a <code>ReplicationController</code> in the
-cluster:  </p>
+<p>For Cassandra, use the <code>cassandra.yaml</code> file from this repo to deploy a
+Cassandra <code>Service</code> and a <code>StatefulSet</code> in the cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f cassandra.yaml
 </code></pre></div>
+<p>Note: Please update the <code>cassandra.yaml</code> file for the cloud you are working
+with.</p>
+
 <p>For PostgreSQL, use the <code>postgres.yaml</code> file from the kong-dist-kubernetes 
 repo to deploy a PostgreSQL <code>Service</code> and a <code>ReplicationController</code> in the
 cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f postgres.yaml
 </code></pre></div></li>
+<li><p><strong>Prepare database</strong></p>
+
+<p>Using the <code>kong_migration_&lt;postgres|cassandra&gt;.yaml</code> file from this repo,
+run the migration job, jump to step 5 if Kong migrations are up–to–date:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f kong_migration_&lt;postgres|cassandra&gt;.yaml
+</code></pre></div>
+<p>Once job completes, you can remove the pod by running following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl delete -f kong_migration_&lt;postgres|cassandra&gt;.yaml
+</code></pre></div></li>
 <li><p><strong>Deploy Kong</strong></p>
 
-<p>Using the <code>kong_&lt;postgres|cassandra&gt;.yaml</code> file from the
-kong-dist-kubernetes repo, deploy a Kong <code>Service</code> and a <code>Deployment</code> to the
-cluster created in the last step:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f kong_&lt;postgres|cassandra&gt;.yaml.yaml
+<p>Using the <code>kong_&lt;postgres|cassandra&gt;.yaml</code> file from this
+repo, deploy Kong admin, proxy services, and a <code>Deployment</code> controller to
+the cluster:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f kong_&lt;postgres|cassandra&gt;.yaml
 </code></pre></div></li>
 <li><p><strong>Verify your deployments</strong></p>
 
 <p>You can now see the resources that have been deployed using <code>kubectl</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl get rc
-<span class="gp">$ </span>kubectl get deployment
-<span class="gp">$ </span>kubectl get pods
-<span class="gp">$ </span>kubectl get services
-<span class="gp">$ </span>kubectl get logs &lt;pod-name&gt;
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl get all
 </code></pre></div>
 <p>Once the <code>EXTERNAL_IP</code> is available for Kong Proxy and Admin services, you
 can test Kong by making the following requests:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl &lt;admin-ip-address&gt;:8001
-<span class="gp">$ </span>curl &lt;proxy-ip-address&gt;:8000
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl &lt;kong-admin-ip-address&gt;:8001
+<span class="gp">$ </span>curl https://&lt;admin-ssl-ip-address&gt;:8444
+<span class="gp">$ </span>curl &lt;kong-proxy-ip-address&gt;:8000
+<span class="gp">$ </span>curl https://&lt;kong-proxy-ssl-ip-address&gt;:8443
 </code></pre></div></li>
 <li><p><strong>Using Kong</strong></p>
 
@@ -548,7 +563,7 @@ can test Kong by making the following requests:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1503035269"></script>
+    <script src="/assets/app.js?v=1503512142"></script>
 
     <div id="fb-root"></div>
 
