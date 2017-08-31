@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/rate-limiting.png" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1504131464"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1504222921"/>
 </head>
 
 
@@ -261,6 +261,11 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <td>A boolean value that determines if the requests should be proxied even if Kong has troubles connecting a third-party datastore. If <code>true</code> requests will be proxied anyways effectively disabling the rate-limiting function until the datastore is working again. If <code>false</code> then the clients will see <code>500</code> errors.</td>
 </tr>
 <tr>
+<td><code>config.hide_client_headers</code><br><em>optional</em></td>
+<td><code>false</code></td>
+<td>Optionally hide informative response headers.</td>
+</tr>
+<tr>
 <td><code>config.redis_host</code><br><em>semi-optional</em></td>
 <td></td>
 <td>When using the <code>redis</code> policy, this property specifies the address to the Redis server.</td>
@@ -335,20 +340,20 @@ X-RateLimit-Remaining-Minute: 9
 <p>There are 2 use cases that are most common:</p>
 
 <ol>
-<li><em>every transaction counts</em>. These are for example transactions with financial 
+<li><em>every transaction counts</em>. These are for example transactions with financial
 consequences. Here the highest level of accuracy is required.</li>
 <li><em>backend protection</em>. This is where accuracy is not as relevant, but it is
 merely used to protect backend services from overload. Either by specific
 users, or to protect against an attack in general.</li>
 </ol>
 
-<p><strong>NOTE</strong>: </p>
+<p><strong>NOTE</strong>:</p>
 
 <div class="alert alert-warning">
-  <strong>Enterprise-Only</strong> The Kong Community Edition of this Rate Limiting plugin does not 
-include <a href="https://redis.io/topics/sentinel">Redis Sentinel</a> support. 
-<a href="https://www.mashape.com/enterprise/">Kong Enterprise Subscription</a> customers have the option 
-of using Redis Sentinel with Kong Rate Limiting to deliver highly available master-slave deployments. 
+  <strong>Enterprise-Only</strong> The Kong Community Edition of this Rate Limiting plugin does not
+include <a href="https://redis.io/topics/sentinel">Redis Sentinel</a> support.
+<a href="https://www.mashape.com/enterprise/">Kong Enterprise Subscription</a> customers have the option
+of using Redis Sentinel with Kong Rate Limiting to deliver highly available master-slave deployments.
 </div>
 
 <h3 id="every-transaction-counts">Every transaction counts</h3>
@@ -370,16 +375,16 @@ to get the proper setting. For example, if the user is bound to 100 requests per
 equally balanced 5 node Kong cluster, setting the <code>local</code> limit to something like 30 requests per second
 should work. If you are worried about too many false-negatives, increase the value.</p>
 
-<p>Keep in mind as the cluster scales to more nodes, the users will get more requests granted, and likewise 
-when the cluster scales down the probability of false-negatives increases. So in general, update your 
+<p>Keep in mind as the cluster scales to more nodes, the users will get more requests granted, and likewise
+when the cluster scales down the probability of false-negatives increases. So in general, update your
 limits when scaling.</p>
 
 <p>The above mentioned inaccuracy can be mitigated by using a consistent-hashing load balancer in front of
 Kong, that ensures the same user is always directed to the same Kong node. This will both reduce the
 inaccuracy and prevent the scaling issues.</p>
 
-<p>Most likely the user will be granted more than was agreed when using the <code>local</code> policy, but it will 
-effectively block any attacks while maintaining the best performance. </p>
+<p>Most likely the user will be granted more than was agreed when using the <code>local</code> policy, but it will
+effectively block any attacks while maintaining the best performance.</p>
 
         </div>
       </div>
@@ -529,7 +534,7 @@ effectively block any attacks while maintaining the best performance. </p>
 </script>
 
 
-    <script src="/assets/app.js?v=1504131464"></script>
+    <script src="/assets/app.js?v=1504222921"></script>
 
     <div id="fb-root"></div>
 
