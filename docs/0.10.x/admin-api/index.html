@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/branding.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/footer/logo-mashape-dark.svg" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1508179375"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1508806090"/>
 </head>
 
 
@@ -1658,9 +1658,16 @@ of <code>hosts</code>, <code>uris</code>, and <code>methods</code>. Kong will pr
 
 <h2 id="plugin-object">Plugin Object</h2>
 
-<p>A Plugin entity represents a plugin configuration that will be executed during the HTTP request/response workflow, and it&#39;s how you can add functionalities to APIs that run behind Kong, like Authentication or Rate Limiting for example. You can find more information about how to install and what values each plugin takes by visiting the <a href="/plugins">Plugin Gallery</a>.</p>
+<p>A Plugin entity represents a plugin configuration that will be executed during
+the HTTP request/response lifecycle. It is how you can add functionalities
+to APIs that run behind Kong, like Authentication or Rate Limiting for
+example. You can find more information about how to install and what values
+each plugin takes by visiting the <a href="/plugins">Plugins Gallery</a>.</p>
 
-<p>When creating adding Plugin on top of an API, every request made by a client will be evaluated by the Plugin&#39;s configuration you setup. Sometimes the Plugin needs to be tuned to different values for some specific consumers, you can do that by specifying the <code>consumer_id</code> value.</p>
+<p>When adding a Plugin Configuration to an API, every request made by a client to
+that API will run said Plugin. If a Plugin needs to be tuned to different
+values for some specific Consumers, you can do so by specifying the
+<code>consumer_id</code> value:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
     </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
@@ -1674,6 +1681,39 @@ of <code>hosts</code>, <code>uris</code>, and <code>methods</code>. Kong will pr
     </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
+<p>See the <a href="#precedence">Precedence</a> section below for more details.</p>
+
+<h4 id="precedence">Precedence</h4>
+
+<p>Plugins can be added globally (all APIs), on a single API, single Consumer,
+or a combination of both an API and a Consumer. Additionally, a given plugin
+(e.g. <code>key-auth</code>) will only run once per request, even if it is configured
+twice (e.g. globally <em>and</em> on an API).</p>
+
+<p>Therefore, there exists an order of precedence when the same plugin is applied
+to different entities with different configurations. This order implies that
+such a plugin that is configured twice, will only run once.</p>
+
+<p>The order of precedence is, from highest to lowest:</p>
+
+<ol>
+<li>Plugins applied on a combination of an API and a Consumer (if the request is
+authenticated).</li>
+<li>Plugins applied to a Consumer (if the request is authenticated).</li>
+<li>Plugins applied to an API.</li>
+<li>Plugins configured to run globally.</li>
+</ol>
+
+<p><strong>Example</strong>: if the <code>rate-limiting</code> plugin is applied twice (with different
+configurations): for an API (Plugin config A), and for a Consumer (Plugin
+config B), then requests authenticating this Consumer will run Plugin config B
+and ignore A (2.). However, requests that do not authenticate this Consumer
+will fallback to running Plugin config A (3.).</p>
+
+<p>This behavior is particularly useful when the intent is to override the
+configuration of a particular plugin (e.g. allow a higher rate limiting) for a
+given API or Consumer.</p>
+
 <hr>
 
 <h3 id="add-plugin">Add Plugin</h3>
@@ -3251,7 +3291,7 @@ a new entry for the given target definition with a <code>weight</code> of 0.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1508179375"></script>
+    <script src="/assets/app.js?v=1508806090"></script>
 
     <div id="fb-root"></div>
 
