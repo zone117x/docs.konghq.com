@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1510091831"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1511376791"/>
 </head>
 
 
@@ -660,7 +660,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
         
         
         <li>
-          <a href="/docs/0.11.x/admin-api/#upstream-object" >Upstream Object routes</a>
+          <a href="/docs/0.11.x/admin-api/#upstream-objects" >Upstream Object routes</a>
           
           <ul>
             
@@ -1274,7 +1274,12 @@ of <code>hosts</code>, <code>uris</code>, and <code>methods</code>. Kong will pr
 </tr>
 </tbody></table>
 
-<p>The body needs an <code>id</code> parameter to trigger an update on an existing entity.</p>
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>id</code> for APIs), the entity will be
+created with the given payload. If the request payload <strong>does</strong> contain an
+entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
 
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
@@ -1504,7 +1509,12 @@ of <code>hosts</code>, <code>uris</code>, and <code>methods</code>. Kong will pr
 </tr>
 </tbody></table>
 
-<p>The body needs an <code>id</code> parameter to trigger an update on an existing entity.</p>
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>id</code> for Consumers), the entity will be
+created with the given payload. If the request payload <strong>does</strong> contain an
+entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
 
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
@@ -1851,7 +1861,7 @@ given API or Consumer.</p>
 
 <h4 id="endpoint">Endpoint</h4>
 
-<div class="endpoint patch">/apis/{api name or id}/plugins/{plugin name or id}</div>
+<div class="endpoint patch">/apis/{api name or id}/plugins/{plugin id}</div>
 
 <table><thead>
 <tr>
@@ -1864,8 +1874,8 @@ given API or Consumer.</p>
 <td>The unique identifier <strong>or</strong> the name of the API for which to update the plugin configuration</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>plugin name or id</code><br><strong>required</strong></td>
-<td>The unique identifier <strong>or</strong> the name of the plugin configuration to update on this API</td>
+<td style="text-align: right"><code>plugin id</code><br><strong>required</strong></td>
+<td>The unique identifier of the plugin configuration to update on this API</td>
 </tr>
 </tbody></table>
 
@@ -1948,7 +1958,12 @@ given API or Consumer.</p>
 </tr>
 </tbody></table>
 
-<p>The body needs an <code>id</code> parameter to trigger an update on an existing entity.</p>
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>id</code> and <code>name</code> for Plugins), the entity
+will be created with the given payload. If the request payload <strong>does</strong> contain
+an entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
 
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
@@ -1961,7 +1976,7 @@ given API or Consumer.</p>
 
 <h4 id="endpoint">Endpoint</h4>
 
-<div class="endpoint delete">/apis/{api name or id}/plugins/{plugin name or id}</div>
+<div class="endpoint delete">/apis/{api name or id}/plugins/{plugin id}</div>
 
 <table><thead>
 <tr>
@@ -1974,8 +1989,8 @@ given API or Consumer.</p>
 <td>The unique identifier <strong>or</strong> the name of the API for which to delete the plugin configuration</td>
 </tr>
 <tr>
-<td style="text-align: right"><code>plugin name or id</code><br><strong>required</strong></td>
-<td>The unique identifier <strong>or</strong> the name of the plugin configuration to delete on this API</td>
+<td style="text-align: right"><code>plugin id</code><br><strong>required</strong></td>
+<td>The unique identifier of the plugin configuration to delete on this API</td>
 </tr>
 </tbody></table>
 
@@ -2253,6 +2268,13 @@ tie a cert/key pair to one or more hostnames.</p>
 </tr>
 </tbody></table>
 
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>id</code> for Certificates), the entity will
+be created with the given payload. If the request payload <strong>does</strong> contain an
+entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
+
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
 </code></pre></div>
@@ -2429,6 +2451,13 @@ lookup the certificate object based on the SNI associated with the certificate.<
 <td>The <code>id</code> (a UUID) of the certificate with which to associate the SNI hostname.</td>
 </tr>
 </tbody></table>
+
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>name</code> for SNIs), the entity will be
+created with the given payload. If the request payload <strong>does</strong> contain an
+entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
 
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
@@ -2750,7 +2779,12 @@ Requests for this API would be proxied to the targets defined within the upstrea
 </tr>
 </tbody></table>
 
-<p>The body needs an <code>id</code> parameter to trigger an update on an existing entity.</p>
+<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity&#39;s primary key (<code>id</code> for Upstreams), the entity will be
+created with the given payload. If the request payload <strong>does</strong> contain an
+entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+NOT FOUND</code> will be returned.</p>
 
 <h4 id="response">Response</h4>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
@@ -3171,7 +3205,7 @@ a new entry for the given target definition with a <code>weight</code> of 0.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1510091831"></script>
+    <script src="/assets/app.js?v=1511376791"></script>
 
     <div id="fb-root"></div>
 
