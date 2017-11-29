@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/hmac-authentication.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1511376791"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1511981815"/>
 </head>
 
 
@@ -258,6 +258,18 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
                 
               </li>
             
+              <li>
+                <a href="#paginate-through-the-hmac-credentials">Paginate through the HMAC Credentials</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#retrieve-the-consumer-associated-with-a-credential">Retrieve the Consumer associated with a Credential</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -312,7 +324,7 @@ for more information.</p>
 <tr>
 <td><code>config.anonymous</code><br><em>optional</em></td>
 <td>``</td>
-<td>A string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code></td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</td>
 </tr>
 <tr>
 <td><code>config.validate_request_body</code><br><em>optional</em></td>
@@ -459,7 +471,7 @@ header.</p>
 
 <h3 id="body-validation">Body Validation</h3>
 
-<p>User can set <code>config.validate_request_body</code> as <code>true</code> to validate the request 
+<p>User can set <code>config.validate_request_body</code> as <code>true</code> to validate the request
 body. If it&#39;s enabled and if the client sends a <code>Digest</code> header in the request,
 the plugin will calculate the <code>SHA-256</code> HMAC digest of the request body and
 match it against the value of the <code>Digest</code> header. The Digest header needs to
@@ -472,7 +484,7 @@ dealing with large bodies (several MBs) or during high request concurrency.</p>
 
 <h3 id="enforcing-headers">Enforcing Headers</h3>
 
-<p><code>config.enforce_headers</code> can be used to enforce any of the headers to be part 
+<p><code>config.enforce_headers</code> can be used to enforce any of the headers to be part
 of the signature creation. By default, the plugin doesn&#39;t enforce which header
 needs to be used for the signature creation. The minimum recommended data to
 sign is the <code>request-line</code>, <code>host</code>, and <code>date</code>. A strong signature would
@@ -535,12 +547,12 @@ include all of the headers and a <code>digest</code> of the body.</p>
   digest=HMAC-SHA256(&lt;signing_string&gt;, "secret")
   base64_digest=base64(&lt;digest&gt;)
 </code></pre></div>
-<p>So the final value of the <code>Authorization</code> header would look like: </p>
+<p>So the final value of the <code>Authorization</code> header would look like:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">  Authorization: hmac username="alice123", algorithm="hmac-sha256", headers="date request-line", signature=&lt;base64_digest&gt;"
 </code></pre></div>
 <p><strong>Validating request body</strong></p>
 
-<p>To enable body validation we would need to set <code>config.validate_request_body</code> 
+<p>To enable body validation we would need to set <code>config.validate_request_body</code>
   to <code>true</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="nv">$ </span>curl -i -X PATCH http://localhost:8001/apis/hmac-test/plugins/:plugin_id <span class="se">\</span>
       -d <span class="s2">"config.validate_request_body=true"</span>
@@ -563,7 +575,7 @@ include all of the headers and a <code>digest</code> of the body.</p>
 </code></pre></div>
 <p>In the above request we calculated the <code>SHA-256</code> digest of the body and set
   the <code>Digest</code> header with the following format:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">  body="A small body" 
+<div class="highlight"><pre><code class="language-" data-lang="">  body="A small body"
   digest=SHA-256(body)
   base64_digest=base64(digest)
   Digest: SHA-256=&lt;base64_digest&gt;
@@ -585,6 +597,94 @@ can identify the Consumer in your code:</p>
 <p>You can use this information on your side to implement additional logic.
 You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve
 more information about the Consumer.</p>
+
+<h3 id="paginate-through-the-hmac-credentials">Paginate through the HMAC Credentials</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>You can paginate through the hmac-auth Credentials for all Consumers using the
+following request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/hmac-auths
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 3,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">"created_at"</span>: 1509681246000,
+            <span class="s2">"id"</span>: <span class="s2">"75695322-e8a0-4109-aed4-5416b0308d85"</span>,
+            <span class="s2">"secret"</span>: <span class="s2">"wQazJ304DW5huJklHgUfjfiSyCyTAEDZ"</span>,
+            <span class="s2">"username"</span>: <span class="s2">"foo"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+            <span class="s2">"created_at"</span>: 1509419793000,
+            <span class="s2">"id"</span>: <span class="s2">"11d5cbfb-31b9-4a6d-8496-2f4a76500643"</span>,
+            <span class="s2">"secret"</span>: <span class="s2">"zi6YHyvLaUCe21XMXKesTYiHSWy6m6CW"</span>,
+            <span class="s2">"username"</span>: <span class="s2">"bar"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+            <span class="s2">"created_at"</span>: 1509681215000,
+            <span class="s2">"id"</span>: <span class="s2">"eb0365bc-88ae-4568-be7c-db1eb7c16e5e"</span>,
+            <span class="s2">"secret"</span>: <span class="s2">"NvHDTg5mp0ySFVJsITurtgyhEq1Cxbnv"</span>,
+            <span class="s2">"username"</span>: <span class="s2">"baz"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+        <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>You can filter the list using the following query parameters:</p>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>id</code><br><em>optional</em></td>
+<td>A filter on the list based on the hmac-auth credential <code>id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>username</code><br><em>optional</em></td>
+<td>A filter on the list based on the hmac-auth credential <code>username</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>consumer_id</code><br><em>optional</em></td>
+<td>A filter on the list based on the hmac-auth credential <code>consumer_id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>size</code><br><em>optional, default is <strong>100</strong></em></td>
+<td>A limit on the number of objects to be returned.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>offset</code><br><em>optional</em></td>
+<td>A cursor used for pagination. <code>offset</code> is an object identifier that defines a place in the list.</td>
+</tr>
+</tbody></table>
+
+<h3 id="retrieve-the-consumer-associated-with-a-credential">Retrieve the Consumer associated with a Credential</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>It is possible to retrieve a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> associated with an
+HMAC Credential using the following request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://kong:8001/hmac-auths/<span class="o">{</span>hmac username or id<span class="o">}</span>/consumer
+
+<span class="o">{</span>
+   <span class="s2">"created_at"</span>:1507936639000,
+   <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
+   <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+<span class="o">}</span>
+</code></pre></div>
+<p><code>hmac username or id</code>: The <code>id</code> or <code>username</code> property of the HMAC Credential
+for which to get the associated <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>.
+Note that <code>username</code> accepted here is <strong>not</strong> the <code>username</code> property of a
+Consumer.</p>
 
         </div>
       </div>
@@ -744,7 +844,7 @@ more information about the Consumer.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1511376791"></script>
+    <script src="/assets/app.js?v=1511981815"></script>
 
     <div id="fb-root"></div>
 

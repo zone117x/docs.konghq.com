@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/key-authentication.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1511376791"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1511981815"/>
 </head>
 
 
@@ -228,6 +228,18 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
                 
               </li>
             
+              <li>
+                <a href="#paginate-through-the-api-keys">Paginate through the API keys</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#retrieve-the-consumer-associated-with-an-api-key">Retrieve the Consumer associated with an API key</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -297,7 +309,7 @@ blacklist groups of users.</p>
 <tr>
 <td><code>config.anonymous</code><br><em>optional</em></td>
 <td>``</td>
-<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>.</td>
+<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</td>
 </tr>
 <tr>
 <td><code>config.run_on_preflight</code><br><em>optional</em></td>
@@ -411,6 +423,89 @@ HTTP/1.1 201 Created
 </ul>
 
 <p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
+
+<h3 id="paginate-through-the-api-keys">Paginate through the API keys</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>You can paginate through the API keys for all Consumers using the following
+request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/key-auths
+
+<span class="o">{</span>
+   <span class="s2">"total"</span>:3,
+   <span class="s2">"data"</span>:[
+      <span class="o">{</span>
+         <span class="s2">"id"</span>:<span class="s2">"17ab4e95-9598-424f-a99a-ffa9f413a821"</span>,
+         <span class="s2">"created_at"</span>:1507941267000,
+         <span class="s2">"key"</span>:<span class="s2">"Qslaip2ruiwcusuSUdhXPv4SORZrfj4L"</span>,
+         <span class="s2">"consumer_id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+         <span class="s2">"id"</span>:<span class="s2">"6cb76501-c970-4e12-97c6-3afbbba3b454"</span>,
+         <span class="s2">"created_at"</span>:1507936652000,
+         <span class="s2">"key"</span>:<span class="s2">"nCztu5Jrz18YAWmkwOGJkQe9T8lB99l4"</span>,
+         <span class="s2">"consumer_id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+      <span class="o">}</span>,
+      <span class="o">{</span>
+         <span class="s2">"id"</span>:<span class="s2">"b1d87b08-7eb6-4320-8069-efd85a4a8d89"</span>,
+         <span class="s2">"created_at"</span>:1507941307000,
+         <span class="s2">"key"</span>:<span class="s2">"26WUW1VEsmwT1ORBFsJmLHZLDNAxh09l"</span>,
+         <span class="s2">"consumer_id"</span>:<span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+      <span class="o">}</span>
+   <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>You can filter the list using the following query parameters:</p>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>id</code><br><em>optional</em></td>
+<td>A filter on the list based on the key-auth credential <code>id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>key</code><br><em>optional</em></td>
+<td>A filter on the list based on the key-auth credential <code>key</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>consumer_id</code><br><em>optional</em></td>
+<td>A filter on the list based on the key-auth credential <code>consumer_id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>size</code><br><em>optional, default is <strong>100</strong></em></td>
+<td>A limit on the number of objects to be returned.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>offset</code><br><em>optional</em></td>
+<td>A cursor used for pagination. <code>offset</code> is an object identifier that defines a place in the list.</td>
+</tr>
+</tbody></table>
+
+<h3 id="retrieve-the-consumer-associated-with-an-api-key">Retrieve the Consumer associated with an API key</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>It is possible to retrieve a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> associated with an API
+Key using the following request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://kong:8001/key-auths/<span class="o">{</span>key or id<span class="o">}</span>/consumer
+
+<span class="o">{</span>
+   <span class="s2">"created_at"</span>:1507936639000,
+   <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
+   <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+<span class="o">}</span>
+</code></pre></div>
+<p><code>key or id</code>: The <code>id</code> or <code>key</code> property of the API key for which to get the
+associated Consumer.</p>
 
         </div>
       </div>
@@ -570,7 +665,7 @@ HTTP/1.1 201 Created
 </script>
 
 
-    <script src="/assets/app.js?v=1511376791"></script>
+    <script src="/assets/app.js?v=1511981815"></script>
 
     <div id="fb-root"></div>
 

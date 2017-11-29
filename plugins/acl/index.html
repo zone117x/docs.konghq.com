@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/acl.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1511376791"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1511981815"/>
 </head>
 
 
@@ -210,6 +210,18 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
                 
               </li>
             
+              <li>
+                <a href="#paginate-through-the-acls">Paginate through the ACLs</a>
+
+                
+              </li>
+            
+              <li>
+                <a href="#retrieve-the-consumer-associated-with-an-acl">Retrieve the Consumer associated with an ACL</a>
+
+                
+              </li>
+            
           </ul>
         </nav>
       
@@ -292,6 +304,89 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a consumer has been validated, the plugin will append a <code>X-Consumer-Groups</code> header to the request before proxying it to the upstream API/Microservice, so that you can identify the groups associated with the consumer. The value of the header is a comma separated list of groups that belong to the consumer, like <code>admin, pro_user</code>.</p>
+
+<h3 id="paginate-through-the-acls">Paginate through the ACLs</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>You can retrieve all the ACLs for all Consumers using the following
+request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/acls
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 3,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">"group"</span>: <span class="s2">"foo-group"</span>,
+            <span class="s2">"created_at"</span>: 1511391159000,
+            <span class="s2">"id"</span>: <span class="s2">"724d1be7-c39e-443d-bf36-41db17452c75"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"89a41fef-3b40-4bb0-b5af-33da57a7ffcf"</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+            <span class="s2">"group"</span>: <span class="s2">"bar-group"</span>,
+            <span class="s2">"created_at"</span>: 1511391162000,
+            <span class="s2">"id"</span>: <span class="s2">"0905f68e-fee3-4ecb-965c-fcf6912bf29e"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+        <span class="o">}</span>,
+        <span class="o">{</span>
+            <span class="s2">"group"</span>: <span class="s2">"baz-group"</span>,
+            <span class="s2">"created_at"</span>: 1509814006000,
+            <span class="s2">"id"</span>: <span class="s2">"ff883d4b-aee7-45a8-a17b-8c074ba173bd"</span>,
+            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+        <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>You can filter the list using the following query parameters:</p>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>id</code><br><em>optional</em></td>
+<td>A filter on the list based on the ACL <code>id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>group</code><br><em>optional</em></td>
+<td>A filter on the list based on the ACL <code>group</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>consumer_id</code><br><em>optional</em></td>
+<td>A filter on the list based on the ACL <code>consumer_id</code> field.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>size</code><br><em>optional, default is <strong>100</strong></em></td>
+<td>A limit on the number of objects to be returned.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>offset</code><br><em>optional</em></td>
+<td>A cursor used for pagination. <code>offset</code> is an object identifier that defines a place in the list.</td>
+</tr>
+</tbody></table>
+
+<h3 id="retrieve-the-consumer-associated-with-an-acl">Retrieve the Consumer associated with an ACL</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint was introduced in Kong 0.11.2.
+</div>
+
+<p>It is possible to retrieve a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> associated with an ACL
+using the following request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://kong:8001/acls/<span class="o">{</span>id<span class="o">}</span>/consumer
+
+<span class="o">{</span>
+   <span class="s2">"created_at"</span>:1507936639000,
+   <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
+   <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+<span class="o">}</span>
+</code></pre></div>
+<p><code>id</code>: The <code>id</code> property of the ACL for which to get the associated
+<a href="/docs/latest/admin-api/#consumer-object">Consumer</a>.</p>
 
         </div>
       </div>
@@ -451,7 +546,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
-    <script src="/assets/app.js?v=1511376791"></script>
+    <script src="/assets/app.js?v=1511981815"></script>
 
     <div id="fb-root"></div>
 
