@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1512666482"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1512709603"/>
 </head>
 
 
@@ -738,7 +738,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
       <div class="content">
         
 
-      <h1 id="load-balancing-reference">Load Balancing reference</h1>
+      <h1 id="load-balancing-reference">Load Balancing Reference</h1>
 
 <p>Kong provides multiple ways of load balancing requests to multiple backend services:
 a straightforward DNS-based method, and a more dynamic ring-balancer that also
@@ -747,7 +747,7 @@ allows for service registry without needing a DNS server.</p>
 <h3 id="table-of-contents">Table of Contents</h3>
 
 <ul>
-<li><a href="#dns-based-loadbalancing">DNS based loadbalancing</a>
+<li><a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
 
 <ul>
 <li><a href="#a-records">A records</a></li>
@@ -757,12 +757,14 @@ allows for service registry without needing a DNS server.</p>
 <li><a href="#ring-balancer">Ring-balancer</a>
 
 <ul>
-<li><a href="#upstream">upstream</a></li>
-<li><a href="#target">target</a></li>
+<li><a href="#upstream">Upstream</a></li>
+<li><a href="#target">Target</a></li>
 </ul></li>
+<li><a href="#blue-green-deployments">Blue-green Deployments</a></li>
+<li><a href="#canary-releases">Canary Releases</a></li>
 </ul>
 
-<h3 id="dns-based-loadbalancing">DNS based loadbalancing</h3>
+<h3 id="dns-based-loadbalancing">DNS-based loadbalancing</h3>
 
 <p>When using DNS based load balancing the registration of the backend services is
 done outside of Kong, and Kong only receives updates from the DNS server.</p>
@@ -857,12 +859,12 @@ service resides, eg. &quot;192.168.100.12:80&quot;. Each target gets an addition
 in both IPv4 and IPv6 format.</li>
 <li><code>upstream</code>: a &#39;virtual hostname&#39; which can be used in an API <code>upstream_url</code>
 field, e.g., an upstream named <code>weather.v2.service</code> would get all requests
-from an api with <code>upstream_url=http://weather.v2.service/some/path</code>.</li>
+from an API with <code>upstream_url=http://weather.v2.service/some/path</code>.</li>
 </ul>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="upstream"><strong>upstream</strong></h4>
+<h4 id="upstream"><strong>Upstream</strong></h4>
 
 <p>Each upstream gets its own ring-balancer. Each <code>upstream</code> can have many 
 <code>target</code> entries attached to it, and requests proxied to the &#39;virtual hostname&#39; 
@@ -899,7 +901,7 @@ distribution, but the more expensive the changes are (add/removing targets)</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="target"><strong>target</strong></h4>
+<h4 id="target"><strong>Target</strong></h4>
 
 <p>Because the <code>upstream</code> maintains a history of changes, targets can only be 
 added, not modified nor deleted. To change a target, just add a new entry for
@@ -929,6 +931,100 @@ the balancer when it expires.</p>
 <p><strong>Exception</strong>: When a DNS record has <code>ttl=0</code>, the hostname will be added
 as a single target, with the specified weight. Upon every proxied request
 to this target it will query the nameserver again.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="blue-green-deployments"><strong>Blue-Green Deployments</strong></h3>
+
+<p>Using the ring-balancer a <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">blue-green deployment</a> can be easily orchestrated for 
+an API. Switching target infrastructure only requires a <code>PATCH</code> request on an
+API, to change the <code>upstream</code> name. </p>
+
+<p>Set up the &quot;Blue&quot; environment, running version 1 of the address service:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create an upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
+    --data <span class="s2">"name=address.v1.service"</span>
+
+<span class="c"># add two targets to the upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v1.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.15:80"</span>
+    --data <span class="s2">"weight=100"</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v1.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.16:80"</span>
+    --data <span class="s2">"weight=50"</span>
+
+<span class="c"># create an API targeting the Blue upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/apis/ <span class="se">\</span>
+    --data <span class="s2">"name=address-service"</span> <span class="se">\</span>
+    --data <span class="s2">"hosts=address.mydomain.com"</span> <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://address.v1.service/address"</span>
+</code></pre></div>
+<p>Requests with host header set to <code>address.mydomain.com</code> will now be proxied
+by Kong to the two defined targets; 2/3 of the requests will go to
+<code>http://192.168.34.15:80/address</code> (<code>weight=100</code>), and 1/3 will go to
+<code>http://192.168.34.16:80/address</code> (<code>weight=50</code>).</p>
+
+<p>Before deploying version 2 of the address service, set up the &quot;Green&quot;
+environment:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create a new Green upstream for address service v2</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
+    --data <span class="s2">"name=address.v2.service"</span>
+
+<span class="c"># add targets to the upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=100"</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=100"</span>
+</code></pre></div>
+<p>To activate the Blue/Green switch, we now only need to update the API:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Switch the API from Blue to Green upstream, v1 -&gt; v2</span>
+<span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/address-service <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://address.v2.service/address"</span>
+</code></pre></div>
+<p>Incoming requests with host header set to <code>address.mydomain.com</code> will now be
+proxied by Kong to the new targets; 1/2 of the requests will go to
+<code>http://192.168.34.17:80/address</code> (<code>weight=100</code>), and the other 1/2 will go to
+<code>http://192.168.34.18:80/address</code> (<code>weight=100</code>).</p>
+
+<p>As always, the changes through the Kong management API are dynamic and will take
+effect immediately. No reload or restart is required, and no in progress
+requests will be dropped.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="canary-releases"><strong>Canary Releases</strong></h3>
+
+<p>Using the ring-balancer, target weights can be adjusted granularly, allowing
+for a smooth, controlled <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">canary release</a>.</p>
+
+<p>Using a very simple 2 target example:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 1000</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=1000"</span>
+
+<span class="c"># second target at 0</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=0"</span>
+</code></pre></div>
+<p>By repeating the requests, but altering the weights each time, traffic will
+slowly be routed towards the other target. For example, set it at 10%:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 900</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=900"</span>
+
+<span class="c"># second target at 100</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=100"</span>
+</code></pre></div>
+<p>The changes through the Kong management API are dynamic and will take
+effect immediately. No reload or restart is required, and no in progress
+requests will be dropped.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1090,7 +1186,7 @@ to this target it will query the nameserver again.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1512666482"></script>
+    <script src="/assets/app.js?v=1512709603"></script>
 
     <div id="fb-root"></div>
 
