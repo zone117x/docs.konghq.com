@@ -54,10 +54,10 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="dns-prefetch" href="//cloud.typography.com">
   <link rel="dns-prefetch" href="//dev.visualwebsiteoptimizer.com">
   <link rel="dns-prefetch" href="//cdn.segment.com">
-  <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/request-transformer.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" /><link rel="dns-prefetch" href="https://sidecar.gitter.im" />
+  <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/request-transformer.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1512709603"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1513632709"/>
 </head>
 
 
@@ -227,6 +227,9 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     --data <span class="s2">"config.add.headers[2]=x-another-header:some,value"</span> <span class="se">\</span>
     --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
     --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span> <span class="se">\</span>
+    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
+    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.querystring=param-toremove, param-another-one"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span>
@@ -282,7 +285,22 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <tr>
 <td style="text-align: right"><code>config.replace.querystring</code><br><em>optional</em></td>
 <td></td>
-<td>List of queryname:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
+<td>List of queryname:value pairs. If and only if the field name is already set, replace its old value with the new one. Ignored if the field name is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.rename.headers</code><br><em>optional</em></td>
+<td></td>
+<td>List of headername:value pairs. If and only if the header is already set, rename the header. The value is unchanged. Ignored if the header is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.rename.querystring</code><br><em>optional</em></td>
+<td></td>
+<td>List of queryname:value pairs. If and only if the field name is already set, rename the field name. The value is unchanged. Ignored if the field name is not already set.</td>
+</tr>
+<tr>
+<td style="text-align: right"><code>config.rename.body</code><br><em>optional</em></td>
+<td></td>
+<td>List of parameter name:value pairs. Rename the parameter name if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>,  <code>application/x-www-form-urlencoded</code>] and parameter is present.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>config.replace.body</code><br><em>optional</em></td>
@@ -339,7 +357,7 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
 
 <p>Plugin performs the response transformation in following order</p>
 
-<p>remove --&gt; replace --&gt; add --&gt; append</p>
+<p>remove --&gt; rename --&gt; replace --&gt; add --&gt; append</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -581,10 +599,6 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
           </ul>
         </nav>
       </li>
-      <!-- <li class="ape-wrapper">
-        <div class="image ape">
-        </div>
-      </li> -->
     </ul>
   </section>
 
@@ -597,7 +611,7 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
         <div class="social-link">
           <a href="https://github.com/Kong" title="Github"><i aria-label="Github" class="fa fa-github" aria-hidden="true"></i></a></div>
         <div class="social-link">
-          <a href="https://www.facebook.com/thekonginc/" title="Facebook"><i aria-label="Facebook" class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
+          <a href="https://www.facebook.com/konghq/" title="Facebook"><i aria-label="Facebook" class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
         <div class="social-link">
           <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"><img aria-label="Meetup" alt="Meetup" src="/assets/images/footer/icn-meetup-black.svg"></a>
         </div>
@@ -642,11 +656,9 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1512709603"></script>
+    <script src="/assets/app.js?v=1513632709"></script>
 
     <div id="fb-root"></div>
-
-    <a id="support-bubble" href="https://gitter.im/Mashape/kong" class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true"></a>
 
     <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
     <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
@@ -685,6 +697,5 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
     </script>
 
     <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
-    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
   </body>
 </html>
