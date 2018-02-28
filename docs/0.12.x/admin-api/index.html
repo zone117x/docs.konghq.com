@@ -57,7 +57,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation.svg" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
-  <link rel="stylesheet" href="/assets/styles.css?v=1519750153"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1519858044"/>
 </head>
 
 
@@ -709,6 +709,11 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
               <a href="/docs/0.12.x/admin-api/#delete-upstream" >Delete Upstream</a>
             </li>
             
+            
+            <li>
+              <a href="/docs/0.12.x/admin-api/#show-upstream-health-for-node" >Show Upstream health for node</a>
+            </li>
+            
           </ul>
           
         </li>
@@ -818,6 +823,7 @@ of methods to secure the Admin API.</p>
 <div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
 </code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
     </span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6a72192c-a3a1-4c8d-95c6-efabae9fb969"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"lua_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LuaJIT 2.1.0-alpha"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"available_on_server"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -835,6 +841,8 @@ of methods to secure the Admin API.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <ul>
+<li><code>node_id</code>: A UUID representing the running Kong node. This UUID is randomly generated when Kong starts, so the node will have a different <code>node_id</code> each
+time it is restarted.</li>
 <li><code>available_on_server</code>: Names of plugins that are installed on the node.</li>
 <li><code>enabled_in_cluster</code>: Names of plugins that are enabled/configured. That is, the plugins configurations currently in the datastore shared by all Kong nodes.</li>
 </ul>
@@ -3258,6 +3266,84 @@ NOT FOUND</code> will be returned.</p>
 </code></pre></div>
 <hr>
 
+<h3 id="show-upstream-health-for-node">Show Upstream health for node</h3>
+
+<p>Displays the health status for all Targets of a given Upstream, according to
+the perspective of a specific Kong node. Note that, being node-specific
+information, making this same request to different nodes of the Kong cluster
+may produce different results. For example, one specific node of the Kong
+cluster may be experiencing network issues, causing it to fail to connect to
+some Targets: these Targets will be marked as unhealthy by that node
+(directing traffic from this node to other Targets that it can successfully
+reach), but healthy to all others Kong nodes (which have no problems using that
+Target).</p>
+
+<p>The <code>data</code> field of the response contains an array of Target objects.
+The health for each Target is returned in its <code>health</code> field:</p>
+
+<ul>
+<li>If a Target fails to be activated in the ring balancer due to DNS issues,
+its status displays as <code>DNS_ERROR</code>.</li>
+<li>When <a href="/docs/0.12.x/health-checks-circuit-breakers">health checks</a> are not enabled in the Upstream
+configuration, the health status for active Targets is displayed as
+<code>HEALTHCHECKS_OFF</code>.</li>
+<li>When health checks are enabled and the Target is determined to be healthy,
+either automatically or <a href="#set-target-as-healthy">manually</a>,
+its status is displayed as <code>HEALTHY</code>. This means that this Target is
+currently included in this Upstream&#39;s load balancer ring.</li>
+<li>When a Target has been disabled by either active or passive health checks
+(circuit breakers) or <a href="#set-target-as-unhealthy">manually</a>,
+its status is displayed as <code>UNHEALTHY</code>. The load balancer is not directing
+any traffic to this Target via this Upstream.</li>
+</ul>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This endpoint is only available with Kong 0.12.2+
+</div>
+
+<h3 id="endpoint">Endpoint</h3>
+
+<div class="endpoint get">/upstreams/{name or id}/health/</div>
+
+<table><thead>
+<tr>
+<th style="text-align: right">Attributes</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: right"><code>name or id</code><br><strong>required</strong></td>
+<td>The unique identifier <strong>or</strong> the name of the Upstream for which to display Target health.</td>
+</tr>
+</tbody></table>
+
+<h4 id="response">Response</h4>
+<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
+</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cbb297c0-14a9-46bc-ad91-1d0ef9b42df9"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"health"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HEALTHY"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"health"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNHEALTHY"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<hr>
+
 <h2 id="target-object">Target Object</h2>
 
 <p>A target is an ip address/hostname with a port that identifies an instance of a backend
@@ -3733,7 +3819,7 @@ target</a> instead.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1519750153"></script>
+    <script src="/assets/app.js?v=1519858044"></script>
 
     <div id="fb-root"></div>
 
