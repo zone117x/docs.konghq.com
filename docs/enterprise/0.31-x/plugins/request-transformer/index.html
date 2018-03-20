@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521226244"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521517308"/>
 </head>
 
 
@@ -507,7 +507,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </tr>
 <tr>
 <td><code>config.replace.querystring</code><br><em>optional</em></td>
-<td>List of queryname:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
+<td>List of queryname:value pairs. If and only if the querystring name is already set, replace its old value with the new one. Ignored if the header is not already set.</td>
 </tr>
 <tr>
 <td><code>config.replace.uri</code><br><em>optional</em></td>
@@ -535,14 +535,14 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </tr>
 <tr>
 <td><code>config.add.querystring</code><br><em>optional</em></td>
-<td>List of queryname:value pairs. If and only if the querystring is not already set, set a new querystring with the given value. Ignored if the header is already set.</td>
+<td>List of queryname:value pairs. If and only if the querystring name is not already set, set a new querystring with the given value. Ignored if the querystring name is already set.</td>
 </tr>
 <tr>
 <td><code>config.add.body</code><br><em>optional</em></td>
-<td>List of pramname:value pairs. If and only if content-type is one the following [<code>application/json, multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</td>
+<td>List of paramname:value pairs. If and only if content-type is one the following [<code>application/json, multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</td>
 </tr>
 <tr>
-<td><code>config.add.headers</code><br><em>optional</em></td>
+<td><code>config.append.headers</code><br><em>optional</em></td>
 <td>List of headername:value pairs. If the header is not set, set it with the given value. If it is already set, a new header with the same name and the new value will be set.</td>
 </tr>
 <tr>
@@ -697,18 +697,27 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 
 <table><thead>
 <tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
+<th>Incoming Request Querystring</th>
+<th>Upstream Proxied Querystring</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>\?q1=v1</td>
-<td>\?q1=v1&amp;q2=v1<br>\?q1=v2&amp;q2=v1</td>
+<td>?q1=v1</td>
+<td>?q1=v1&amp;q2=v1</td>
+</tr>
+<tr>
+<td></td>
+<td>?q1=v2&amp;q2=v1</td>
 </tr>
 </tbody></table>
 
 <p>Append multiple headers and remove a body parameter:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data "name=request-transformer-advanced" \
+  --data "config.add.headers=h1:v2,h2:v1" \
+  --data "config.remove.body=p1" \
 
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Incoming Request Headers</th>
@@ -737,6 +746,13 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tr>
 </tbody></table>
 
+<p>Add multiple headers and querystring parameters if not already set:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
+  --data "name=request-transformer-advanced" \
+  --data "config.add.headers=h1:v1,h2:v1" \
+  --data "config.add.querystring=q1:v2,q2:v1" \
+
+</code></pre></div>
 <table><thead>
 <tr>
 <th>Incoming Request Headers</th>
@@ -760,8 +776,12 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tr>
 </thead><tbody>
 <tr>
-<td>\?q1=v1</td>
-<td>\?q1=v1&amp;q2=v1<br>\?q1=v2&amp;q2=v1</td>
+<td>?q1=v1</td>
+<td>?q1=v1&amp;q2=v1</td>
+</tr>
+<tr>
+<td></td>
+<td>?q1=v2&amp;q2=v1</td>
 </tr>
 </tbody></table>
 
@@ -943,7 +963,7 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </script>
 
 
-    <script src="/assets/app.js?v=1521226244"></script>
+    <script src="/assets/app.js?v=1521517308"></script>
 
     <div id="fb-root"></div>
 

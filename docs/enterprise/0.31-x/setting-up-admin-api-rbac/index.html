@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521226244"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521517308"/>
 </head>
 
 
@@ -577,28 +577,28 @@ Server: kong/0.11.0rc2
 <p>The default RBAC roles and permissions shipped with Kong are a great starting point for shaping a basic enforcement policy, but they may not fit all use cases. <a href="/docs/enterprise/0.31-x/plugins/rbac-api">The Admin API</a> provides a comprehensive set of endpoints to create, edit, and delete RBAC users, roles, and permissions.</p>
 
 <p>Additionally, third-party plugin developers can register their own Admin API RBAC resources as part of the <a href="/docs/latest/plugin-development/admin-api">Admin API extension</a>. This is done by defining a &quot;resource&quot; value associated with each API endpoint, like so:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">return {
-  ["/mock/api/endpoint/"] = {
-    resource = "mock",
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">"/mock/api/endpoint/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="s2">"mock"</span><span class="p">,</span>
 
-    GET = function(self, dao_factory)
-      crud.paginated_set(self, dao_factory.mock)
-    end,
-}
+    <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
+      <span class="n">crud</span><span class="p">.</span><span class="n">paginated_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">mock</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">,</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Additionally, a custom migration is needed to register this resource with Kong. This would look something like the following:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
-   </span><span class="err">name</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nt">"2017-07-23-100000_rbac_mock_resources"</span><span class="err">,</span><span class="w">
-   </span><span class="err">up</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">function(_,</span><span class="w"> </span><span class="err">_,</span><span class="w"> </span><span class="err">dao)</span><span class="w">
-     </span><span class="err">local</span><span class="w"> </span><span class="err">rbac</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">require</span><span class="w"> </span><span class="nt">"kong.core.rbac"</span><span class="w">
+<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="p">{</span>
+   <span class="n">name</span> <span class="o">=</span> <span class="s2">"2017-07-23-100000_rbac_mock_resources"</span><span class="p">,</span>
+   <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dao</span><span class="p">)</span>
+     <span class="kd">local</span> <span class="n">rbac</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.core.rbac"</span>
 
-     </span><span class="err">local</span><span class="w"> </span><span class="err">resource,</span><span class="w"> </span><span class="err">err</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="err">rbac.register_resource(</span><span class="nt">"mock"</span><span class="err">,</span><span class="w"> </span><span class="err">dao)</span><span class="w">
-     </span><span class="err">if</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">resource</span><span class="w"> </span><span class="err">then</span><span class="w">
-       </span><span class="err">return</span><span class="w"> </span><span class="err">err</span><span class="w"> 
-     </span><span class="err">end</span><span class="w"> 
-  </span><span class="err">end,</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre></div>
+     <span class="kd">local</span> <span class="n">resource</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">rbac</span><span class="p">.</span><span class="n">register_resource</span><span class="p">(</span><span class="s2">"mock"</span><span class="p">,</span> <span class="n">dao</span><span class="p">)</span>
+     <span class="k">if</span> <span class="ow">not</span> <span class="n">resource</span> <span class="k">then</span>
+       <span class="k">return</span> <span class="n">err</span> 
+     <span class="k">end</span> 
+  <span class="k">end</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
 <h2 id="rbac-and-the-gui">RBAC and the GUI</h2>
 
 <p>There are no specific rules in RBAC for limiting access to the GUI. If RBAC is enabled, when people go to the GUI <Kong>:8002, they will be presented with a login screen:</p>
@@ -785,7 +785,7 @@ Server: kong/0.11.0rc2
 </script>
 
 
-    <script src="/assets/app.js?v=1521226244"></script>
+    <script src="/assets/app.js?v=1521517308"></script>
 
     <div id="fb-root"></div>
 
