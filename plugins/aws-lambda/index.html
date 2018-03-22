@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521755981"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521756155"/>
 </head>
 
 
@@ -136,7 +136,19 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </header>
 
 
-    <div class="page page-plugin">
+    
+
+
+
+
+
+
+
+
+
+
+
+<div class="page page-plugin">
   
   <header class="page-header">
     <div class="container">
@@ -175,22 +187,15 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <div class="container">
     <aside class="page-navigation">
 
-      
-        <nav>
+      <nav>
+        <h5>Getting Started</h5>
+        <ul>
+          <li><a href="#terminology">Terminology</a></li>
           
-            <h5>Getting Started</h5>
-          
+          <li><a href="#configuration">Configuration</a></li>
+        </ul>
+      </nav>
 
-          <ul>
-            
-              <li>
-                <a href="#configuration">Configuration</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
       
         <nav>
           
@@ -214,57 +219,302 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           </ul>
         </nav>
       
-        <nav>
-          
-            <h5>Step by Step Guide</h5>
-          
-
-          <ul>
-            
-              <li>
-                <a href="#the-steps">The Steps</a>
-
-                
-              </li>
-            
-              <li>
-                <a href="#configure">Configure</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
-      
     </aside>
 
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
+
           <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It
 can be used in combination with other request plugins to secure, manage or extend
 the function.</p>
 
-<hr>
 
-<h2 id="configuration">Configuration</h2>
+          <hr>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an
-<a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
+          <h2 id="terminology">Terminology</h2>
+          <ul>
+            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
+
+            
+              <li><code>API</code>: (deprecated) the Kong entity representing your upstream service placed behind Kong, for which Kong proxies requests to.</li>
+            
+            
+              <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
+            
+            
+              <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
+            
+            
+              <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
+              <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
+            
+              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+
+          </ul>
+
+          <hr>
+
+          
+
+          <h2 id="configuration">Configuration</h2>
+          
+            <h4 id="enabling-the-plugin-for-a-service">Enabling the plugin for a Service</h4>
+
+<p>Configure on top of a <a href="/docs/latest/admin-api/#service-object">Service</a> by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
     --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
     --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
     --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 </code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
+<ul>
+<li><code>service</code>: the id or name of the Service that this plugin configuration will target.</li>
+</ul>
 
-<p>You can also apply this plugin for every API using the <code>http://kong:8001/plugins/</code>
-endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a>
-for more information.</p>
+          
+          
+            <h4 id="enabling-the-plugin-for-a-route">Enabling the plugin for a Route</h4>
 
-<p><strong>Reminder</strong>: curl by default sends payloads with an
+<p>Configure on top of a <a href="/docs/latest/admin-api/#Route-object">Route</a> with:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+</code></pre></div>
+<ul>
+<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+</ul>
+
+          
+          
+            <h4 id="enabling-the-plugin-for-an-api">Enabling the plugin for an API</h4>
+
+<p>If you are using the deprecated API entity, you can configure on top of an <a href="/docs/latest/admin-api/#api-object">API</a>
+by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+</code></pre></div>
+<ul>
+<li><code>api</code>: either id or name of the API that this plugin configuration will target.</li>
+</ul>
+
+          
+          
+            <h4 id="enabling-the-plugin-for-a-consumer">Enabling the plugin for a Consumer</h4>
+
+<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to target <a href="/docs/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+    --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
+    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+</code></pre></div>
+<p>Where <code>consumer_id</code>: The id of the Consumer we want to associate with this plugin.</p>
+
+<p>You can combine adding <code>consumer_id</code> and 
+    <code>service_id</code>
+   in the same request.</p>
+
+<p>Once applied, any user with a valid credential can access the Service/API.
+  To restrict usage to only some of the authenticated users, also add the
+  <a href="/plugins/acl/">ACL</a> plugin (not covered here) and create whitelist or
+  blacklist groups of users.</p>
+
+          
+
+          <h4>Global plugins</h4>
+
+          <p>All plugins can be configured using the <code>http:/kong:8001/plugins/</code> endpoint. A plugin which is not associated to any API, Service, Route or Consumer is considered "global", and will be run on every request.
+            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
+          </p>
+
+          <h4>Parameters</h4>
+
+          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+
+          <table>
+  <thead>
+    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>aws-lambda</code></td></tr>
+    
+      <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>route_id</code></td><td></td><td>The id of the Route which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
+    
+    
+      <tr>
+        <td><code>config.aws_key</code>
+          
+          
+        </td>
+        <td></td>
+        <td><p>The AWS key credential to be used when invoking the function</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.aws_secret</code>
+          
+          
+        </td>
+        <td></td>
+        <td><p>The AWS secret credential to be used when invoking the function</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.aws_region</code>
+          
+          
+        </td>
+        <td></td>
+        <td><p>The AWS region where the Lambda function is located. Regions supported are: <code>us-east-1</code>, <code>us-east-2</code>, <code>ap-northeast-1</code>, <code>ap-northeast-2</code>, <code>ap-southeast-1</code>, <code>ap-southeast-2</code>, <code>eu-central-1</code>, <code>eu-west-1</code></p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.function_name</code>
+          
+          
+        </td>
+        <td></td>
+        <td><p>The AWS Lambda function name to invoke</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.qualifier</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td></td>
+        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>Qualifier</code></a> to use when invoking the function.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.invocation_type</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>RequestResponse</code></p>
+</td>
+        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>InvocationType</code></a> to use when invoking the function. Available types are <code>RequestResponse</code>, <code>Event</code>, <code>DryRun</code></p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.log_type</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>Tail</code></p>
+</td>
+        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>LogType</code></a> to use when invoking the function. By default <code>None</code> and <code>Tail</code> are supported</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.timeout</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>60000</code></p>
+</td>
+        <td><p>An optional timeout in milliseconds when invoking the function</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.keepalive</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>60000</code></p>
+</td>
+        <td><p>An optional value in milliseconds that defines how long an idle connection will live before being closed</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.unhandled_status</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>200</code>, <code>202</code> or <code>204</code></p>
+</td>
+        <td><p>The response status code to use (instead of the default <code>200</code>, <code>202</code>, or <code>204</code>) in the case of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_ResponseSyntax"><code>Unhandled</code> Function Error</a></p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.forward_request_body</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>false</code></p>
+</td>
+        <td><p>An optional value that defines whether the request body is to be sent in the <code>request_body</code> field of the JSON-encoded request. If the body arguments can be parsed, they will be sent in the separate <code>request_body_args</code> field of the request. The body arguments can be parsed for <code>application/json</code>, <code>application/x-www-form-urlencoded</code>, and <code>multipart/form-data</code> content types.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.forward_request_headers</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>false</code></p>
+</td>
+        <td><p>An optional value that defines whether the original HTTP request headers are to be sent as a map in the <code>request_headers</code> field of the JSON-encoded request.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.forward_request_method</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>false</code></p>
+</td>
+        <td><p>An optional value that defines whether the original HTTP request method verb is to be sent in the <code>request_method</code> field of the JSON-encoded request.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.forward_request_uri</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>false</code></p>
+</td>
+        <td><p>An optional value that defines whether the original HTTP request URI is to be sent in the <code>request_uri</code> field of the JSON-encoded request. Request URI arguments (if any) will be sent in the separate <code>request_uri_args</code> field of the JSON body.</p>
+</td>
+      </td>
+    
+  </tbody>
+</table>
+
+
+          <p><strong>Reminder</strong>: curl by default sends payloads with an
 <code>application/x-www-form-urlencoded</code> MIME type, which will naturally be URL-
 decoded by Kong. To ensure special characters that are likely to appear in your
 AWS key or secret (like <code>+</code>) are correctly decoded, you must URL-encode them,
@@ -272,114 +522,26 @@ hence use <code>--date-urlencode</code> if you are using curl. Alternatives to t
 approach would be to send your payload with a different MIME type (like
 <code>application/json</code>), or to use a different HTTP client.</p>
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td></td>
-<td>The name of the plugin to use, in this case: <code>aws-lambda</code></td>
-</tr>
-<tr>
-<td><code>config.aws_key</code></td>
-<td></td>
-<td>The AWS key credential to be used when invoking the function</td>
-</tr>
-<tr>
-<td><code>config.aws_secret</code></td>
-<td></td>
-<td>The AWS secret credential to be used when invoking the function</td>
-</tr>
-<tr>
-<td><code>config.aws_region</code></td>
-<td></td>
-<td>The AWS region where the Lambda function is located. Regions supported are: <code>us-east-1</code>, <code>us-east-2</code>, <code>ap-northeast-1</code>, <code>ap-northeast-2</code>, <code>ap-southeast-1</code>, <code>ap-southeast-2</code>, <code>eu-central-1</code>, <code>eu-west-1</code></td>
-</tr>
-<tr>
-<td><code>config.function_name</code></td>
-<td></td>
-<td>The AWS Lambda function name to invoke</td>
-</tr>
-<tr>
-<td><code>config.qualifier</code><br><em>optional</em></td>
-<td>``</td>
-<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>Qualifier</code></a> to use when invoking the function.</td>
-</tr>
-<tr>
-<td><code>config.invocation_type</code><br><em>optional</em></td>
-<td><code>RequestResponse</code></td>
-<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>InvocationType</code></a> to use when invoking the function. Available types are <code>RequestResponse</code>, <code>Event</code>, <code>DryRun</code></td>
-</tr>
-<tr>
-<td><code>config.log_type</code><br><em>optional</em></td>
-<td><code>Tail</code></td>
-<td>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code>LogType</code></a> to use when invoking the function. By default <code>None</code> and <code>Tail</code> are supported</td>
-</tr>
-<tr>
-<td><code>config.timeout</code><br><em>optional</em></td>
-<td><code>60000</code></td>
-<td>An optional timeout in milliseconds when invoking the function</td>
-</tr>
-<tr>
-<td><code>config.keepalive</code><br><em>optional</em></td>
-<td><code>60000</code></td>
-<td>An optional value in milliseconds that defines how long an idle connection will live before being closed</td>
-</tr>
-<tr>
-<td><code>config.unhandled_status</code></td>
-<td>``</td>
-<td>The response status code to use (instead of the default <code>200</code>, <code>202</code>, or <code>204</code>) in the case of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_ResponseSyntax"><code>Unhandled</code> Function Error</a></td>
-</tr>
-<tr>
-<td><code>config.forward_request_body</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>An optional value that defines whether the request body is to be sent in the <code>request_body</code> field of the JSON-encoded request. If the body arguments can be parsed, they will be sent in the separate <code>request_body_args</code> field of the request. The body arguments can be parsed for <code>application/json</code>, <code>application/x-www-form-urlencoded</code>, and <code>multipart/form-data</code> content types.</td>
-</tr>
-<tr>
-<td><code>config.forward_request_headers</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>An optional value that defines whether the original HTTP request headers are to be sent as a map in the <code>request_headers</code> field of the JSON-encoded request.</td>
-</tr>
-<tr>
-<td><code>config.forward_request_method</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>An optional value that defines whether the original HTTP request method verb is to be sent in the <code>request_method</code> field of the JSON-encoded request.</td>
-</tr>
-<tr>
-<td><code>config.forward_request_uri</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>An optional value that defines whether the original HTTP request URI is to be sent in the <code>request_uri</code> field of the JSON-encoded request. Request URI arguments (if any) will be sent in the separate <code>request_uri_args</code> field of the JSON body.</td>
-</tr>
-</tbody></table>
 
-<hr>
-
-<h3 id="sending-parameters">Sending parameters</h3>
+          <h3 id="sending-parameters">Sending parameters</h3>
 
 <p>Any form parameter sent along with the request, will be also sent as an
 argument to the AWS Lambda function.</p>
 
 <h3 id="known-issues">Known Issues</h3>
 
-<h4 id="use-a-fake-upstream_url">Use a fake upstream_url</h4>
+<h4 id="use-a-fake-upstream-service">Use a fake upstream service</h4>
 
 <p>When using the AWS Lambda plugin, the response will be returned by the plugin
 itself without proxying the request to any upstream service. This means that
-whatever <code>upstream_url</code> has been set on the <a href="/docs/latest/admin-api/#api-object">API</a> it will
-never be used.</p>
+a Service&#39;s <code>host</code>, <code>port</code>, <code>path</code> properties will be ignored, but must still
+be specified for the entity to be validated by Kong. The <code>host</code> property in
+particular must either be an IP address, or a hostname that gets resolved by
+your nameserver.</p>
 
-<p>Although <code>upstream_url</code> will never be used, it&#39;s currently a mandatory field
-in Kong&#39;s data model and its hostname must be resolvable. So set it to a
-fake value (ie, <code>http://127.0.0.1:20000</code>) if you are planning to use this
-plugin. Failing to do so will result in 500 errors regarding a resolution
-failure.</p>
-
-<p>In the future we will provide a more intuitive way to deal with similar
-use cases.</p>
+<p>When the plugin is added to an API entity (which is deprecated as of 0.13.0),
+it is the <code>upsream_url</code> property which must be specified and resolvable as well
+(but ignored).</p>
 
 <h4 id="response-plugins">Response plugins</h4>
 
@@ -601,7 +763,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1521755981"></script>
+    <script src="/assets/app.js?v=1521756155"></script>
 
     <div id="fb-root"></div>
 

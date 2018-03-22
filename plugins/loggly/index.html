@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521755981"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521756155"/>
 </head>
 
 
@@ -136,7 +136,19 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </header>
 
 
-    <div class="page page-plugin">
+    
+
+
+
+
+
+
+
+
+
+
+
+<div class="page page-plugin">
   
   <header class="page-header">
     <div class="container">
@@ -175,22 +187,15 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <div class="container">
     <aside class="page-navigation">
 
-      
-        <nav>
+      <nav>
+        <h5>Getting Started</h5>
+        <ul>
+          <li><a href="#terminology">Terminology</a></li>
           
-            <h5>Getting Started</h5>
-          
+          <li><a href="#configuration">Configuration</a></li>
+        </ul>
+      </nav>
 
-          <ul>
-            
-              <li>
-                <a href="#configuration">Configuration</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
       
         <nav>
           
@@ -219,88 +224,234 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
+
           <p>Log request and response data over UDP to <a href="https://www.loggly.com">Loggly</a>.</p>
 
-<hr>
 
-<h2 id="configuration">Configuration</h2>
+          <hr>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=loggly"</span> <span class="se">\</span>
+          <h2 id="terminology">Terminology</h2>
+          <ul>
+            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
+
+            
+              <li><code>API</code>: (deprecated) the Kong entity representing your upstream service placed behind Kong, for which Kong proxies requests to.</li>
+            
+            
+              <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
+            
+            
+              <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
+            
+            
+              <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
+              <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
+            
+              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+
+          </ul>
+
+          <hr>
+
+          
+
+          <h2 id="configuration">Configuration</h2>
+          
+            <h4 id="enabling-the-plugin-for-a-service">Enabling the plugin for a Service</h4>
+
+<p>Configure on top of a <a href="/docs/latest/admin-api/#service-object">Service</a> by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=loggly"</span>  <span class="se">\</span>
     --data <span class="s2">"config.key=YOUR_LOGGLY_SERVICE_TOKEN"</span>
 </code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
+<ul>
+<li><code>service</code>: the id or name of the Service that this plugin configuration will target.</li>
+</ul>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+          
+          
+            <h4 id="enabling-the-plugin-for-a-route">Enabling the plugin for a Route</h4>
 
-<table><thead>
-<tr>
-<th>parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td></td>
-<td>The name of the plugin to use, in this case: <code>loggly</code></td>
-</tr>
-<tr>
-<td><code>consumer_id</code><br><em>optional</em></td>
-<td></td>
-<td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
-</tr>
-<tr>
-<td><code>config.host</code><br><em>optional</em></td>
-<td><code>logs-01.loggly.com</code></td>
-<td>The IP address or host name of Loggly server</td>
-</tr>
-<tr>
-<td><code>config.port</code><br><em>optional</em></td>
-<td><code>514</code></td>
-<td>The UDP port to send data to on the Loggly server</td>
-</tr>
-<tr>
-<td><code>config.key</code></td>
-<td></td>
-<td>Loggly <a href="https://www.loggly.com/docs/customer-token-authentication-token/">customer token</a>.</td>
-</tr>
-<tr>
-<td><code>config.tags</code><br><em>optional</em></td>
-<td><code>kong</code></td>
-<td>An optional list of <a href="https://www.loggly.com/docs/tags/">tags</a> to support segmentation &amp; filtering of logs.</td>
-</tr>
-<tr>
-<td><code>config.timeout</code><br><em>optional</em></td>
-<td><code>10000</code></td>
-<td>An optional timeout in milliseconds when sending data to the Loggly server</td>
-</tr>
-<tr>
-<td><code>config.successful_severity</code><br><em>optional</em></td>
-<td><code>info</code></td>
-<td>An optional logging severity assigned to the all successful requests with response status code 400 .</td>
-</tr>
-<tr>
-<td><code>config.client_errors_severity</code><br><em>optional</em></td>
-<td><code>info</code></td>
-<td>An optional logging severity assigned to the all failed requests with response status code 400 or higher but less than 500.</td>
-</tr>
-<tr>
-<td><code>config.server_errors_severity</code><br><em>optional</em></td>
-<td><code>info</code></td>
-<td>An optional logging severity assigned to the all failed requests with response status code 500 or higher.</td>
-</tr>
-<tr>
-<td><code>config.log_level</code><br><em>optional</em></td>
-<td><code>info</code></td>
-<td>An optional logging severity, any request with equal or higher severity will be logged to Loggly.</td>
-</tr>
-</tbody></table>
+<p>Configure on top of a <a href="/docs/latest/admin-api/#Route-object">Route</a> with:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=loggly"</span>  <span class="se">\</span>
+    --data <span class="s2">"config.key=YOUR_LOGGLY_SERVICE_TOKEN"</span>
+</code></pre></div>
+<ul>
+<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+</ul>
 
-<hr>
+          
+          
+            <h4 id="enabling-the-plugin-for-an-api">Enabling the plugin for an API</h4>
 
-<h2 id="log-format">Log Format</h2>
+<p>If you are using the deprecated API entity, you can configure on top of an <a href="/docs/latest/admin-api/#api-object">API</a>
+by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=loggly"</span>  <span class="se">\</span>
+    --data <span class="s2">"config.key=YOUR_LOGGLY_SERVICE_TOKEN"</span>
+</code></pre></div>
+<ul>
+<li><code>api</code>: either id or name of the API that this plugin configuration will target.</li>
+</ul>
+
+          
+          
+            <h4 id="enabling-the-plugin-for-a-consumer">Enabling the plugin for a Consumer</h4>
+
+<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to target <a href="/docs/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+    --data <span class="s2">"name=loggly"</span> <span class="se">\</span>
+    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    --data <span class="s2">"config.key=YOUR_LOGGLY_SERVICE_TOKEN"</span>
+</code></pre></div>
+<p>Where <code>consumer_id</code>: The id of the Consumer we want to associate with this plugin.</p>
+
+<p>You can combine adding <code>consumer_id</code> and 
+    <code>service_id</code>
+   in the same request.</p>
+
+<p>Once applied, any user with a valid credential can access the Service/API.
+  To restrict usage to only some of the authenticated users, also add the
+  <a href="/plugins/acl/">ACL</a> plugin (not covered here) and create whitelist or
+  blacklist groups of users.</p>
+
+          
+
+          <h4>Global plugins</h4>
+
+          <p>All plugins can be configured using the <code>http:/kong:8001/plugins/</code> endpoint. A plugin which is not associated to any API, Service, Route or Consumer is considered "global", and will be run on every request.
+            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
+          </p>
+
+          <h4>Parameters</h4>
+
+          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+
+          <table>
+  <thead>
+    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>loggly</code></td></tr>
+    
+      <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>route_id</code></td><td></td><td>The id of the Route which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
+    
+    
+      <tr>
+        <td><code>config.host</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>logs-01.loggly.com</code></p>
+</td>
+        <td><p>The IP address or host name of Loggly server</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.port</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>514</code></p>
+</td>
+        <td><p>The UDP port to send data to on the Loggly server</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.key</code>
+          
+          
+        </td>
+        <td></td>
+        <td><p>Loggly <a href="https://www.loggly.com/docs/customer-token-authentication-token/">customer token</a>.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.tags</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>kong</code></p>
+</td>
+        <td><p>An optional list of <a href="https://www.loggly.com/docs/tags/">tags</a> to support segmentation &amp; filtering of logs.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.timeout</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>10000</code></p>
+</td>
+        <td><p>An optional timeout in milliseconds when sending data to the Loggly server</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.successful_severity</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>info</code></p>
+</td>
+        <td><p>An optional logging severity assigned to the all successful requests with response status code 400 .</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.client_errors_severity</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>info</code></p>
+</td>
+        <td><p>An optional logging severity assigned to the all failed requests with response status code 400 or higher but less than 500.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.server_errors_severity</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>info</code></p>
+</td>
+        <td><p>An optional logging severity assigned to the all failed requests with response status code 500 or higher.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.log_level</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>info</code></p>
+</td>
+        <td><p>An optional logging severity, any request with equal or higher severity will be logged to Loggly.</p>
+</td>
+      </td>
+    
+  </tbody>
+</table>
+
+
+          
+
+          <h2 id="log-format">Log Format</h2>
 
 <p>Every request will be transmitted to Loggly in <a href="https://en.wikipedia.org/wiki/Syslog">SYSLOG</a> standard, with <code>message</code> component in the following format:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
@@ -346,22 +497,39 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
         </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80f74eef-31b8-45d5-c525-ae532297ea8e"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eaa330c0-4cff-47f5-c79e-b2e4f355207e"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"api"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-          </span><span class="s2">"example.org"</span><span class="w">
+    </span><span class="nt">"route"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75818c5f-202d-4b82-a553-6a46e7c9a19e"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"/example-path"</span><span class="w">
         </span><span class="p">],</span><span class="w">
-        </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"https"</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myservice"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
         </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"write_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"consumer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo"</span><span class="p">,</span><span class="w">
@@ -383,7 +551,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <li><code>request</code> contains properties about the request sent by the client</li>
 <li><code>response</code> contains properties about the response sent to the client</li>
 <li><code>tries</code> contains the list of (re)tries (successes and failures) made by the load balancer for this request</li>
-<li><code>api</code> contains Kong properties about the specific API requested</li>
+<li><code>route</code> contains Kong properties about the specific Route requested</li>
+<li><code>service</code> contains Kong properties about the Service associated with the requested Route</li>
 <li><code>authenticated_entity</code> contains Kong properties about the authenticated credential (if an authentication plugin has been enabled)</li>
 <li><code>consumer</code> contains the authenticated Consumer (if an authentication plugin has been enabled)</li>
 <li><code>latencies</code> contains some data about the latencies involved:
@@ -401,7 +570,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.12.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/docs/0.13.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
         </div>
       </div>
@@ -556,7 +725,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
-    <script src="/assets/app.js?v=1521755981"></script>
+    <script src="/assets/app.js?v=1521756155"></script>
 
     <div id="fb-root"></div>
 

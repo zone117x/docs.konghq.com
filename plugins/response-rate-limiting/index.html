@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Plugins - Response Rate Limiting | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="Mashape"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -54,11 +54,11 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
   <link rel="dns-prefetch" href="//cloud.typography.com">
   <link rel="dns-prefetch" href="//dev.visualwebsiteoptimizer.com">
   <link rel="dns-prefetch" href="//cdn.segment.com">
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" /><link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/plugins/response-rate-limiting.png" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" /><link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" />
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521755981"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521756155"/>
 </head>
 
 
@@ -136,44 +136,33 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </header>
 
 
-    <div class="page page-plugin">
+    
+
+
+
+
+
+
+
+
+
+
+
+<div class="page page-plugin">
   
-  <header class="page-header">
-    <div class="container">
-      
-        <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/response-rate-limiting.png" alt="" />
-        </div>
-      
-
-      <div class="page-header-title">
-        
-          <ul class="breadcrumbs">
-            
-              <li class="breadcrumb-item">
-                
-                <a href="https://konghq.com/plugins">Plugins</a>
-                
-              </li>
-            
-          </ul>
-        
-
-        <h1>Response Rate Limiting</h1>
-
-        
-      </div>
-
-      
-
-      
-    </div>
-  </header>
-
 
 
   <div class="container">
     <aside class="page-navigation">
+
+      <nav>
+        <h5>Getting Started</h5>
+        <ul>
+          <li><a href="#terminology">Terminology</a></li>
+          
+          <li><a href="#configuration">Configuration</a></li>
+        </ul>
+      </nav>
 
       
         <nav>
@@ -184,35 +173,13 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <ul>
             
               <li>
+                <a href="#installation">Installation</a>
+
+                
+              </li>
+            
+              <li>
                 <a href="#configuration">Configuration</a>
-
-                
-              </li>
-            
-          </ul>
-        </nav>
-      
-        <nav>
-          
-            <h5>Usage</h5>
-          
-
-          <ul>
-            
-              <li>
-                <a href="#configuring-quotas">Configuring Quotas</a>
-
-                
-              </li>
-            
-              <li>
-                <a href="#headers-sent-to-the-client">Headers sent to the client</a>
-
-                
-              </li>
-            
-              <li>
-                <a href="#upstream-headers">Upstream Headers</a>
 
                 
               </li>
@@ -225,135 +192,61 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <p>This plugin allows you to limit the number of requests a developer can make based on a custom response header returned by the upstream API. You can arbitrary set as many rate-limiting objects (or quotas) as you want and instruct Kong to increase or decrease them by any number of units. Each custom rate-limiting object can limit the inbound requests per seconds, minutes, hours, days, months or years.</p>
 
-<p>If the API has no authentication layer, the <strong>Client IP</strong> address will be used, otherwise the Consumer will be used if an authentication plugin has been configured.</p>
+          
 
-<hr>
+          <hr>
 
-<h2 id="configuration">Configuration</h2>
+          <h2 id="terminology">Terminology</h2>
+          <ul>
+            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> (or <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>) by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=response-ratelimiting"</span> <span class="se">\</span>
-    --data <span class="s2">"config.limits.{limit_name}.minute=10"</span>
-</code></pre></div>
-<p><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</p>
+            
+            
+            
+            
+              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+          </ul>
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td></td>
-<td>The name of the plugin to use, in this case: <code>response-ratelimiting</code></td>
-</tr>
-<tr>
-<td><code>consumer_id</code><br><em>optional</em></td>
-<td></td>
-<td>The CONSUMER ID that this plugin configuration will target. This value can only be used if <a href="/about/faq/#how-can-i-add-an-authentication-layer-on-a-microservice/api?">authentication has been enabled</a> so that the system can identify the user making the request.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}</code></td>
-<td></td>
-<td>This is a list of custom objects that you can set on the API, with arbitrary names set in the <code>{limit_name</code>} placeholder, like <code>config.limits.sms.minute=20</code> if your object is called &quot;SMS&quot;.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.second</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per second. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.minute</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per minute. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.hour</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per hour. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.day</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per day. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.month</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per month. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.limits.{limit_name}.year</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The amount of HTTP requests the developer can make per year. At least one limit must exist.</td>
-</tr>
-<tr>
-<td><code>config.header_name</code><br><em>optional</em></td>
-<td><code>X-Kong-Limit</code></td>
-<td>The name of the response header used to increment the counters.</td>
-</tr>
-<tr>
-<td><code>config.block_on_first_violation</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>A boolean value that determines if the requests should be blocked as soon as one limit is being exceeded. This will block requests that are supposed to consume other limits too.</td>
-</tr>
-<tr>
-<td><code>config.limit_by</code><br><em>optional</em></td>
-<td><code>consumer</code></td>
-<td>The entity that will be used when aggregating the limits: <code>consumer</code>, <code>credential</code>, <code>ip</code>. If the <code>consumer</code> or the <code>credential</code> cannot be determined, the system will always fallback to <code>ip</code>.</td>
-</tr>
-<tr>
-<td><code>config.policy</code><br><em>optional</em></td>
-<td><code>cluster</code></td>
-<td>The rate-limiting policies to use for retrieving and incrementing the limits. Available values are <code>local</code> (counters will be stored locally in-memory on the node), <code>cluster</code> (counters are stored in the datastore and shared across the nodes) and <code>redis</code> (counters are stored on a Redis server and will be shared across the nodes).</td>
-</tr>
-<tr>
-<td><code>config.fault_tolerant</code><br><em>optional</em></td>
-<td><code>true</code></td>
-<td>A boolean value that determines if the requests should be proxied even if Kong has troubles connecting a third-party datastore. If <code>true</code> requests will be proxied anyways effectively disabling the rate-limiting function until the datastore is working again. If <code>false</code> then the clients will see <code>500</code> errors.</td>
-</tr>
-<tr>
-<td><code>config.hide_client_headers</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>Optionally hide informative response headers.</td>
-</tr>
-<tr>
-<td><code>config.redis_host</code><br><em>semi-optional</em></td>
-<td></td>
-<td>When using the <code>redis</code> policy, this property specifies the address to the Redis server.</td>
-</tr>
-<tr>
-<td><code>config.redis_port</code><br><em>optional</em></td>
-<td><code>6379</code></td>
-<td>When using the <code>redis</code> policy, this property specifies the port of the Redis server.</td>
-</tr>
-<tr>
-<td><code>config.redis_password</code><br><em>optional</em></td>
-<td></td>
-<td>When using the <code>redis</code> policy, this property specifies the password to connect to the Redis server.</td>
-</tr>
-<tr>
-<td><code>config.redis_timeout</code><br><em>optional</em></td>
-<td><code>2000</code></td>
-<td>When using the <code>redis</code> policy, this property specifies the timeout in milliseconds of any command submitted to the Redis server.</td>
-</tr>
-<tr>
-<td><code>config.redis_database</code><br><em>optional</em></td>
-<td><code>0</code></td>
-<td>When using the <code>redis</code> policy, this property specifies Redis database to use.</td>
-</tr>
-</tbody></table>
+          <hr>
 
-<hr>
+          
 
-<h2 id="configuring-quotas">Configuring Quotas</h2>
+          <h2 id="configuration">Configuration</h2>
+          
+          
+          
+          
+
+          <h4>Global plugins</h4>
+
+          <p>All plugins can be configured using the <code>http:/kong:8001/plugins/</code> endpoint. A plugin which is not associated to any API, Service, Route or Consumer is considered "global", and will be run on every request.
+            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
+          </p>
+
+          <h4>Parameters</h4>
+
+          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+
+          <table>
+  <thead>
+    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code></code></td></tr>
+    
+    
+    
+    
+    
+  </tbody>
+</table>
+
+
+          
+
+          <h2 id="configuring-quotas">Configuring Quotas</h2>
 
 <p>After adding the plugin, you can increment the configured limits by adding the following response header:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">Header-Name: Limit=Value [,Limit=Value]
@@ -383,7 +276,7 @@ X-RateLimit-Remaining-Videos-Minute: 10
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
-<p>The plugin will append the usage headers for each limit before proxying it to the upstream API/Microservice, so that you can properly refuse to process the request if there are no more limits remaining. The headers are in the form of <code>X-RateLimit-Remaining-{limit_name}</code>, like:</p>
+<p>The plugin will append the usage headers for each limit before proxying it to the upstream service, so that you can properly refuse to process the request if there are no more limits remaining. The headers are in the form of <code>X-RateLimit-Remaining-{limit_name}</code>, like:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Remaining-Videos: 3
 X-RateLimit-Remaining-Images: 0
 </code></pre></div>
@@ -540,7 +433,7 @@ X-RateLimit-Remaining-Images: 0
 </script>
 
 
-    <script src="/assets/app.js?v=1521755981"></script>
+    <script src="/assets/app.js?v=1521756155"></script>
 
     <div id="fb-root"></div>
 

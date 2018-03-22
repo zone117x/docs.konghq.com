@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1521755981"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1521756155"/>
 </head>
 
 
@@ -136,7 +136,19 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </header>
 
 
-    <div class="page page-plugin">
+    
+
+
+
+
+
+
+
+
+
+
+
+<div class="page page-plugin">
   
   <header class="page-header">
     <div class="container">
@@ -174,6 +186,15 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <div class="container">
     <aside class="page-navigation">
+
+      <nav>
+        <h5>Getting Started</h5>
+        <ul>
+          <li><a href="#terminology">Terminology</a></li>
+          
+          <li><a href="#configuration">Configuration</a></li>
+        </ul>
+      </nav>
 
       
         <nav>
@@ -297,6 +318,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
+
           <p>Verify requests containing HS256 or RS256 signed JSON Web Tokens (as specified in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Each of your Consumers will have JWT credentials (public and secret keys) which must be used to sign their JWTs. A token can then be passed through:</p>
 
 <ul>
@@ -307,93 +329,188 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <p>Kong will either proxy the request to your upstream services if the token&#39;s signature is verified, or discard the request if not. Kong can also perform verifications on some of the registered claims of RFC 7519 (exp and nbf).</p>
 
-<hr>
 
-<h2 id="terminology">Terminology</h2>
+          <hr>
 
-<ul>
-<li><code>API</code>: your upstream service, for which Kong proxies requests to.</li>
-<li><code>Plugin</code>: a plugin executes actions inside Kong during the request/response lifecycle.</li>
-<li><code>Consumer</code>: a developer or service using the API. When using Kong, a Consumer authenticates itself with Kong which proxies every call to the upstream API.</li>
-<li><code>Credential</code>: in the JWT plugin context, a pair of unique values consisting of a public key and a secret, used to sign and verify a JWT, and associated to a Consumer.</li>
-</ul>
+          <h2 id="terminology">Terminology</h2>
+          <ul>
+            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
-<hr>
+            
+              <li><code>API</code>: (deprecated) the Kong entity representing your upstream service placed behind Kong, for which Kong proxies requests to.</li>
+            
+            
+              <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
+            
+            
+              <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
+            
+            
+              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
 
-<h2 id="configuration">Configuration</h2>
+          </ul>
 
-<p>Configuring the plugin is straightforward, you can add it on top of an <a href="/docs/latest/admin-api/#api-object">API</a> by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt"</span>
+          <hr>
+
+          
+
+          <h2 id="configuration">Configuration</h2>
+          
+            <h4 id="enabling-the-plugin-for-a-service">Enabling the plugin for a Service</h4>
+
+<p>Configure on top of a <a href="/docs/latest/admin-api/#service-object">Service</a> by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=jwt"</span> 
 </code></pre></div>
 <ul>
-<li><code>api</code>: The <code>id</code> or <code>name</code> of the API that this plugin configuration will target</li>
+<li><code>service</code>: the id or name of the Service that this plugin configuration will target.</li>
 </ul>
 
-<p>You can also apply it for every API using the <code>http://kong:8001/plugins/</code> endpoint. Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> for more information.</p>
+          
+          
+            <h4 id="enabling-the-plugin-for-a-route">Enabling the plugin for a Route</h4>
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td></td>
-<td>The name of the plugin to use, in this case: <code>jwt</code>.</td>
-</tr>
-<tr>
-<td><code>config.uri_param_names</code><br><em>optional</em></td>
-<td><code>jwt</code></td>
-<td>A list of querystring parameters that Kong will inspect to retrieve JWTs.</td>
-</tr>
-<tr>
-<td><code>config.cookie_names</code><br><em>optional</em></td>
-<td></td>
-<td>A list of cookie names that Kong will inspect to retrieve JWTs.</td>
-</tr>
-<tr>
-<td><code>config.claims_to_verify</code><br><em>optional</em></td>
-<td></td>
-<td>A list of registered claims (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) that Kong can verify as well. Accepted values: <code>exp</code>, <code>nbf</code>.</td>
-</tr>
-<tr>
-<td><code>config.key_claim_name</code><br><em>optional</em></td>
-<td><code>iss</code></td>
-<td>The name of the claim in which the <code>key</code> identifying the secret <strong>must</strong> be passed.</td>
-</tr>
-<tr>
-<td><code>config.secret_is_base64</code><br><em>optional</em></td>
-<td><code>false</code></td>
-<td>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</td>
-</tr>
-<tr>
-<td><code>config.anonymous</code><br><em>optional</em></td>
-<td>``</td>
-<td>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</td>
-</tr>
-<tr>
-<td><code>config.run_on_preflight</code><br><em>optional</em></td>
-<td><code>true</code></td>
-<td>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code>OPTIONS</code> preflight requests, if set to <code>false</code> then <code>OPTIONS</code> requests will always be allowed.</td>
-</tr>
-</tbody></table>
+<p>Configure on top of a <a href="/docs/latest/admin-api/#Route-object">Route</a> with:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=jwt"</span> 
+</code></pre></div>
+<ul>
+<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+</ul>
 
-<div class="alert alert-warning">
+          
+          
+            <h4 id="enabling-the-plugin-for-an-api">Enabling the plugin for an API</h4>
+
+<p>If you are using the deprecated API entity, you can configure on top of an <a href="/docs/latest/admin-api/#api-object">API</a>
+by executing the following request on your Kong server:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=jwt"</span> 
+</code></pre></div>
+<ul>
+<li><code>api</code>: either id or name of the API that this plugin configuration will target.</li>
+</ul>
+
+          
+          
+
+          <h4>Global plugins</h4>
+
+          <p>All plugins can be configured using the <code>http:/kong:8001/plugins/</code> endpoint. A plugin which is not associated to any API, Service, Route or Consumer is considered "global", and will be run on every request.
+            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
+          </p>
+
+          <h4>Parameters</h4>
+
+          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+
+          <table>
+  <thead>
+    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>jwt</code></td></tr>
+    
+      <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
+    
+    
+      <tr><td><code>route_id</code></td><td></td><td>The id of the Route which this plugin will target.</td></tr>
+    
+    
+    
+      <tr>
+        <td><code>config.uri_param_names</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>jwt</code></p>
+</td>
+        <td><p>A list of querystring parameters that Kong will inspect to retrieve JWTs.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.cookie_names</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td></td>
+        <td><p>A list of cookie names that Kong will inspect to retrieve JWTs.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.claims_to_verify</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td></td>
+        <td><p>A list of registered claims (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) that Kong can verify as well. Accepted values: <code>exp</code>, <code>nbf</code>.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.key_claim_name</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>iss</code></p>
+</td>
+        <td><p>The name of the claim in which the <code>key</code> identifying the secret <strong>must</strong> be passed.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.secret_is_base64</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>false</code></p>
+</td>
+        <td><p>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.anonymous</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td></td>
+        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
+</td>
+      </td>
+    
+      <tr>
+        <td><code>config.run_on_preflight</code>
+          <br><em>optional</em>
+          
+        </td>
+        <td><p><code>true</code></p>
+</td>
+        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code>OPTIONS</code> preflight requests, if set to <code>false</code> then <code>OPTIONS</code> requests will always be allowed.</p>
+</td>
+      </td>
+    
+  </tbody>
+</table>
+
+
+          <div class="alert alert-warning">
     <center>The option `config.run_on_preflight` is only available from version `0.11.1` and later</center>
 </div>
 
-<hr>
 
-<h2 id="documentation">Documentation</h2>
+          <h2 id="documentation">Documentation</h2>
 
-<p>In order to use the plugin, you first need to create a Consumer and associate one or more credentials to it. The Consumer represents a developer using the final service/API, and a JWT credential holds the public and private keys used to verify a crafted token.</p>
+<p>In order to use the plugin, you first need to create a Consumer and associate one or more JWT credentials (holding the public and private keys used to verify the token) to it. The Consumer represents a developer using the final service.</p>
 
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
-<p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object. The Consumer is an entity consuming the API. To create a <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> you can execute the following request:</p>
+<p>You need to associate a credential to an existing <a href="/docs/latest/admin-api/#consumer-object">Consumer</a> object. To create a Consumer, you can execute the following request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
@@ -526,21 +643,21 @@ HTTP/1.1 200 OK
 <h3 id="send-a-request-with-the-jwt">Send a request with the JWT</h3>
 
 <p>The JWT can now be included in a request to Kong by adding it to the <code>Authorization</code> header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4'</span>
 </code></pre></div>
 <p>as a querystring parameter, if configured in <code>config.uri_param_names</code> (which contains <code>jwt</code> by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span>?jwt<span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>?jwt<span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
 </code></pre></div>
 <p>or as cookie, if the name is configured in <code>config.cookie_names</code> (which is not enabled by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl --cookie <span class="nv">jwt</span><span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4 http://kong:8000/<span class="o">{</span>api path<span class="o">}</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl --cookie <span class="nv">jwt</span><span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4 http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>
 </code></pre></div>
 <p>The request will be inspected by Kong, whose behavior depends on the validity of the JWT:</p>
 
 <table><thead>
 <tr>
 <th>request</th>
-<th>proxied to upstream API</th>
+<th>proxied to upstream service</th>
 <th>response status code</th>
 </tr>
 </thead><tbody>
@@ -572,12 +689,19 @@ HTTP/1.1 200 OK
 </tbody></table>
 
 <div class="alert alert-warning">
-  <strong>Note:</strong> When the JWT is valid and proxied to the API, Kong makes no modification to the request other than adding headers identifying the Consumer. The JWT will be forwarded to your upstream service, which can assume its validity. It is now the role of your service to base64 decode the JWT claims and make use of them.
+  <strong>Note:</strong> When the JWT is valid and proxied to the upstream service, Kong makes no modification to the request other than adding headers identifying the Consumer. The JWT will be forwarded to your upstream service, which can assume its validity. It is now the role of your service to base64 decode the JWT claims and make use of them.
 </div>
 
 <h3 id="optional-verified-claims">(<strong>Optional</strong>) Verified claims</h3>
 
 <p>Kong can also perform verification on registered claims, as defined in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>. To perform verification on a claim, add it to the <code>config.claims_to_verify</code> property:</p>
+
+<p>You can patch an existing Route: </p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># This adds verification for both nbf and exp claims:</span>
+<span class="gp">$ </span>curl -X PATCH http://kong:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
+    --data <span class="s2">"config.claims_to_verify=exp,nbf"</span>
+</code></pre></div>
+<p>or patch an existing API: </p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># This adds verification for both nbf and exp claims:</span>
 <span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.claims_to_verify=exp,nbf"</span>
@@ -603,6 +727,12 @@ HTTP/1.1 200 OK
 <h3 id="optional-base64-encoded-secret">(<strong>Optional</strong>) Base64 encoded secret</h3>
 
 <p>If your secret contains binary data, you can store them as base64 encoded in Kong. Enable this option in the plugin&#39;s configuration:</p>
+
+<p>You can patch an existing1 Route:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X PATCH http://kong:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
+    --data <span class="s2">"config.secret_is_base64=true"</span>
+</code></pre></div>
+<p>or patch an existing API: </p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.secret_is_base64=true"</span>
 </code></pre></div>
@@ -640,7 +770,7 @@ HTTP/1.1 201 Created
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <p>Then create the signature using your private keys. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a>, set the right header (RS256), the claims (iss, etc), and the associated public key. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>api path<span class="o">}</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxM2Q1ODE0NTcyZTc0YTIyYjFhOWEwMDJmMmQxN2MzNyJ9.uNPTnDZXVShFYUSiii78Q-IAfhnc2ExjarZr_WVhGrHHBLweOBJxGJlAKZQEKE4rVd7D6hCtWSkvAAOu7BU34OnlxtQqB8ArGX58xhpIqHtFUkj882JQ9QD6_v2S2Ad-EmEx5402ge71VWEJ0-jyH2WvfxZ_pD90n5AG5rAbYNAIlm2Ew78q4w4GVSivpletUhcv31-U3GROsa7dl8rYMqx6gyo9oIIDcGoMh3bu8su5kQc5SQBFp1CcA5H8sHGfYs-Et5rCU2A6yKbyXtpHrd1Y9oMrZpEfQdgpLae0AfWRf6JutA9SPhst9-5rn4o3cdUmto_TBGqHsFmVyob8VQ'</span>
 </code></pre></div>
 <h3 id="generate-public-private-keys">Generate public/private keys</h3>
@@ -660,14 +790,32 @@ heavily on JWTs. Auth0 relies on RS256, does not base64 encode, and publically
 hosts the public key certificate used to sign tokens. Account name is referred
 to &quot;COMPANYNAME&quot; for the sake of the guide.</p>
 
-<p>To get started, create an API. <em>Note: Auth0 does not use base64 encoded
-secrets.</em></p>
+<p>To get started, create a Service, a Route that uses that Service, <em>or</em> create
+an API. <em>Note: Auth0 does not use base64 encoded secrets.</em></p>
+
+<p>Create a Service:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/servies <span class="se">\</span>
+    --data <span class="s2">"name=example-service"</span> <span class="se">\</span>
+    --data <span class="s2">"=http://httpbin.org"</span>
+</code></pre></div>
+<p>Then create a Route:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/routes <span class="se">\</span>
+    --data <span class="s2">"service.id={example-service's id}"</span> <span class="se">\</span>
+    --data <span class="s2">"paths[]=/example_path"</span>
+</code></pre></div>
+<p>or create an API, note these are depreciated:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
     --data <span class="s2">"name={api}"</span> <span class="se">\</span>
     --data <span class="s2">"hosts=example.com"</span> <span class="se">\</span>
     --data <span class="s2">"upstream_url=http://httpbin.org"</span>
 </code></pre></div>
 <p>Add the JWT Plugin:</p>
+
+<p>Add the plugin to your Route:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/route/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=jwt"</span>
+</code></pre></div>
+<p>Add the plugin to your API: </p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span>
 </code></pre></div>
@@ -702,7 +850,7 @@ Consumer.</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
-<p>When a JWT is valid, a Consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/service, so that you can identify the Consumer in your code:</p>
+<p>When a JWT is valid, a Consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream service, so that you can identify the Consumer in your code:</p>
 
 <ul>
 <li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
@@ -955,7 +1103,7 @@ associated <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1521755981"></script>
+    <script src="/assets/app.js?v=1521756155"></script>
 
     <div id="fb-root"></div>
 
