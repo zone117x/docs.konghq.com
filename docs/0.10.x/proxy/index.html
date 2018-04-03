@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1522695033"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1522794287"/>
 </head>
 
 
@@ -903,7 +903,11 @@ service depending on their headers, URI, and HTTP method.</p>
 <li><a href="#the-https_only-property">The <code>https_only</code> property</a></li>
 <li><a href="#the-http_if_terminated-property">The <code>http_if_terminated</code> property</a></li>
 </ul></li>
-<li><a href="#proxy-websocket-traffic">Proxy WebSocket traffic</a></li>
+<li><a href="#proxy-websocket-traffic">Proxy WebSocket traffic</a>
+
+<ul>
+<li><a href="#websocket-and-tls">WebSocket and TLS</a></li>
+</ul></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 
@@ -1544,6 +1548,25 @@ standard HTTP proxy.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
+<h3 id="websocket-and-tls">WebSocket and TLS</h3>
+
+<p>Kong will accept <code>ws</code> and <code>wss</code> connections on its respective <code>http</code> and
+<code>https</code> ports. To enforce TLS connections from clients, set the <code>https_only</code>
+property of the API to <code>true</code>.</p>
+
+<p>When setting up the <a href="/docs/0.10.x/admin-api/#add-api">API</a> to point to your upstream WebSocket
+service, you should carefully pick the protocol you want to use between Kong
+and the upstream. If you want to use TLS (<code>wss</code>), then the upstream WebSocket
+service must be defined using the <code>https</code> protocol in the API <code>upstream_url</code>
+property, and the proper port (usually 443). To connect without TLS (<code>ws</code>),
+then the <code>http</code> protocol and port (usually 80) should be used in <code>upstream_url</code>
+instead.</p>
+
+<p>If you want Kong to terminate SSL/TLS, you can accept <code>wss</code> only from the
+client, but proxy to the upstream service over plain text, or <code>ws</code>.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
 <h2 id="conclusion">Conclusion</h2>
 
 <p>Through this guide, we hope you gained knowledge of the underlying proxying
@@ -1740,7 +1763,7 @@ topic we just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1522695033"></script>
+    <script src="/assets/app.js?v=1522794287"></script>
 
     <div id="fb-root"></div>
 
