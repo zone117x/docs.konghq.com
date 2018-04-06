@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1522794287"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1523034960"/>
 </head>
 
 
@@ -136,7 +136,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </header>
 
 
-    <div class="page page-install-method">
+    <div class="page ">
   <header class="page-header">
     <div class="container">
         <div class="edit-this-page">
@@ -298,6 +298,14 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <li>
             <a href="/docs/enterprise/0.31-x/plugins/oauth2-introspection" >
               OAuth2 Introspection Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/docs/enterprise/0.31-x/plugins/openid-connect" >
+              OpenID Connect Plugin
             </a>
             
           </li>
@@ -499,9 +507,10 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <h2 id="requirements">Requirements</h2>
 
-<p>Vitals requires PostgreSQL 9.5+ or Cassandra 2.1+.</p>
-
-<p>Vitals must also be enabled in Kong configuration. See below for details. </p>
+<ul>
+<li>Vitals requires PostgreSQL 9.5+ or Cassandra 2.1+.</li>
+<li>Vitals must also be enabled in Kong configuration. See below for details.</li>
+</ul>
 
 <h2 id="enabling-and-disabling-vitals">Enabling and Disabling Vitals</h2>
 
@@ -582,10 +591,20 @@ These metrics are the count of requests to Kong&#39;s node-level datastore cache
 
 <h2 id="known-issues">Known Issues</h2>
 
-<p>Vitals data does not appear in the Admin UI or the API
-First, make sure Vitals is enabled. (<code>vitals=on</code> in your Kong configuration).</p>
+<h3 id="vitals-data-does-not-appear-in-the-admin-ui-or-the-api">Vitals data does not appear in the Admin UI or the API</h3>
 
-<p>Then, check your log files. If you see <code>[vitals] kong_vitals_requests_consumers cache is full</code> or <code>[vitals] error attempting to push to list: no memory</code>, then Vitals is no longer able to track requests because its cache is full.  This condition may resolve itself if traffic to the node subsides long enough for it to work down the cache. Regardless, the node will continue to proxy requests as usual.</p>
+<p>First, make sure Vitals is enabled. (<code>vitals=on</code> in your Kong configuration). Next, check your log files:</p>
+
+<p><code>[vitals] kong_vitals_requests_consumers cache is full</code> or <code>[vitals] error attempting to push to list: no memory</code></p>
+
+<p>This means that Vitals is no longer able to track requests because its cache is full.  This condition may resolve itself if traffic to the node subsides long enough for it to work down the cache. Regardless, the node will continue to proxy requests as usual.</p>
+
+<h3 id="postgres-warning-logs-after-upgrading-to-0-31">Postgres - Warning Logs after upgrading to 0.31</h3>
+
+<p><code>[vitals-strategy] failed to insert seconds: ERROR: column &quot;plat_count&quot;</code>
+<code>of relation &quot;vitals_stats_seconds_[timestamp]&quot;</code></p>
+
+<p>This warning can occur when using Postgres after upgrading to 0.31. To resolve this issue, manually drop the offending table(s) <code>vitals_stats_seconds_[timestamp]</code> <strong>Note:</strong> replace <code>timestamp</code> in the table name with the timestamp of table name seen in the warning logs. Finally, restart Kong. Additionally, this issue will resolve itself in a maximum of two hours as Vitals periodically rotates new tables.</p>
 
 <h3 id="limitations-in-cassandra-2-x">Limitations in Cassandra 2.x</h3>
 
@@ -753,7 +772,7 @@ First, make sure Vitals is enabled. (<code>vitals=on</code> in your Kong configu
 </script>
 
 
-    <script src="/assets/app.js?v=1522794287"></script>
+    <script src="/assets/app.js?v=1523034960"></script>
 
     <div id="fb-root"></div>
 
