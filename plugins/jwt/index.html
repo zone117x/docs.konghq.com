@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1524008355"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1524545358"/>
 </head>
 
 
@@ -459,7 +459,7 @@ by executing the following request on your Kong server:</p>
         </td>
         <td><p><code>iss</code></p>
 </td>
-        <td><p>The name of the claim in which the <code>key</code> identifying the secret <strong>must</strong> be passed.</p>
+        <td><p>The name of the claim in which the <code>key</code> identifying the secret <strong>must</strong> be passed. Starting with version <code>0.13.1</code>, the plugin will attempt to read this claim from the JWT payload and the header, in this order.</p>
 </td>
       </td>
     
@@ -632,7 +632,10 @@ HTTP/1.1 200 OK
     </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HS256"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> in the configured claim (from <code>config.key_claim_name</code>). That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>. The claims may contain other values.</p>
+<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> in the configured claim (from <code>config.key_claim_name</code>).
+That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>.
+The claims may contain other values. Since Kong <code>0.13.1</code>, the claim is searched in both the JWT payload and header,
+in this order.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
     </span><span class="nt">"iss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -764,7 +767,11 @@ HTTP/1.1 201 Created
     </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> field (this <strong>isn&#39;t</strong> your private key used to generate the token, but just an identifier for this credential) in the configured claim (from <code>config.key_claim_name</code>). That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>. The claims may contain other values.</p>
+<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> field (this <strong>isn&#39;t</strong> your private key used to generate
+the token, but just an identifier for this credential) in the configured claim (from <code>config.key_claim_name</code>).
+That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>.
+The claims may contain other values. Since Kong <code>0.13.1</code>, the claim is searched in both the JWT payload and header,
+in this order.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
     </span><span class="nt">"iss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -1103,7 +1110,7 @@ associated <a href="/docs/latest/admin-api/#consumer-object">Consumer</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1524008355"></script>
+    <script src="/assets/app.js?v=1524545358"></script>
 
     <div id="fb-root"></div>
 
