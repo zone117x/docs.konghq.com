@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1524545358"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1524866041"/>
 </head>
 
 
@@ -171,6 +171,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
         <ul>
             
               <li>
+                <a href="#0-31-1">0.31-1</a>
+
+                
+              </li>
+            
+              <li>
                 <a href="#0-31">0.31</a>
 
                 
@@ -196,6 +202,39 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           
 
           <h1 id="kong-enterprise-changelog">Kong Enterprise Changelog</h1>
+
+<h2 id="0-31-1">0.31-1</h2>
+
+<h3 id="changes">Changes</h3>
+
+<ul>
+<li>New shared dictionaries named <code>kong_rl_counters</code> and <code>kong_db_cache_miss</code> were defined in Kong’s default template - customers using custom templates are encouraged to update them to include those, as they avoid the reuse of the <code>kong_cache</code> shared dict; such a reuse is known to be one of the culprits behind <code>no memory</code> errors - see diff below</li>
+<li>The rate-limiting plugin now accepts a <code>dictionary_name</code> argument, which is used for temporarily storing rate-limiting counters</li>
+</ul>
+
+<p><em>NOTE</em>: if you use a custom Nginx configuration template, apply the following patch to your template:</p>
+<div class="highlight"><pre><code class="language-" data-lang=""><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
+index 15682975..653a7ddd 100644
+</span><span class="gd">--- a/kong/templates/nginx_kong.lua
+</span><span class="gi">+++ b/kong/templates/nginx_kong.lua
+</span><span class="gu">@@ -29,7 +29,9 @@ lua_socket_pool_size $;
+</span> lua_max_running_timers 4096;
+ lua_max_pending_timers 16384;
+ lua_shared_dict kong                5m;
+<span class="gi">+lua_shared_dict kong_rl_counters   12m;
+</span> lua_shared_dict kong_cache          $;
+<span class="gi">+lua_shared_dict kong_db_cache_miss 12m;
+</span> lua_shared_dict kong_process_events 5m;
+ lua_shared_dict kong_cluster_events 5m;
+ lua_shared_dict kong_vitals_requests_consumers 50m;
+</code></pre></div>
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+<li>Bump mlcache to 2.0.2 and mitigates a number of issues known to be causing <code>no memory</code> errors</li>
+<li>Fixes an issue where boolean values (and boolean values as strings) were not correctly marshalled when using Cassandra</li>
+<li>Fixes an issue in Redis Sentinel configuration parsing</li>
+</ul>
 
 <h2 id="0-31">0.31</h2>
 
@@ -581,7 +620,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
-    <script src="/assets/app.js?v=1524545358"></script>
+    <script src="/assets/app.js?v=1524866041"></script>
 
     <div id="fb-root"></div>
 
