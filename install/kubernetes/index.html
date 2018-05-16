@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1526319781"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1526491009"/>
 </head>
 
 
@@ -357,20 +357,26 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-          <h1 id="kong-community-edition-via-helm-or-minikube">Kong Community Edition via Helm or Minikube</h1>
+          <div class="alert alert-warning">
+  This documentation covers installing Kong
+  in Kubernetes. Kong can also be installed and used as a <a href="https://konghq.com/blog/kubernetes-ingress-controller-for-kong/">Kubernetes
+  Ingress Controller</a>.
+</div>
 
-<p>The easiest way to deploy Kong Community Edition (CE) on Kubernetes is via <a href="https://hub.kubeapps.com/charts/stable/kong">Helm</a>. </p>
+<h1 id="kong-community-edition-via-helm-or-minikube">Kong Community Edition via Helm or Minikube</h1>
 
-<p>Kong CE can also be deployed on minikube - please follow the <a href="https://github.com/Kong/kong-dist-kubernetes/blob/master/minikube/README.md">README</a> 
+<p>The easiest way to deploy Kong Community Edition (CE) on Kubernetes is via <a href="https://hub.kubeapps.com/charts/stable/kong">Helm</a>.</p>
+
+<p>Kong CE can also be deployed on minikube - please follow the <a href="https://github.com/Kong/kong-dist-kubernetes/blob/master/minikube/README.md">README</a>
 and use the manifest files provided in <code>minikube</code> directory.</p>
 
 <h1 id="kong-community-edition-or-enterprise-edition-via-manifest-files">Kong Community Edition or Enterprise Edition via Manifest Files</h1>
 
-<p>Kong CE, or the trial version of Kong Enterprise Edition (EE), can be provisioned 
+<p>Kong CE, or the trial version of Kong Enterprise Edition (EE), can be provisioned
 on a Kubernetes cluster via the manifest files provided
 in the <a href="https://github.com/Kong/kong-dist-kubernetes/">repo</a>. These instructions (mostly) assume you are using
-<a href="https://cloud.google.com/kubernetes-engine/">Google Kubernetes Engine (GKE)</a> - 
-you may need to make adjustments to deploy to other Kubernetes clusters. </p>
+<a href="https://cloud.google.com/kubernetes-engine/">Google Kubernetes Engine (GKE)</a> -
+you may need to make adjustments to deploy to other Kubernetes clusters.</p>
 
 <ol>
 <li><p><strong>Initial setup</strong></p>
@@ -397,7 +403,7 @@ GKE cluster. Provide the following information before deploying:</p>
 <li>A basicauth username and password for authenticating the access to the
 cluster</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>gcloud deployment-manager deployments <span class="se">\ </span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>gcloud deployment-manager deployments <span class="se">\</span>
     create cluster --config cluster.yaml
 </code></pre></div></li>
 <li><p><strong>Deploy a datastore</strong></p>
@@ -405,15 +411,15 @@ cluster</li>
 <p>Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.</p>
 
 <p>For Cassandra, use the <code>cassandra.yaml</code> file from this repo to deploy a
-Cassandra <code>Service</code> and a <code>StatefulSet</code> in the cluster. </p>
+Cassandra <code>Service</code> and a <code>StatefulSet</code> in the cluster.</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f cassandra.yaml
 </code></pre></div>
-<p>For PostgreSQL, use the <code>postgres.yaml</code> file from the kong-dist-kubernetes 
+<p>For PostgreSQL, use the <code>postgres.yaml</code> file from the kong-dist-kubernetes
 repo to deploy a PostgreSQL <code>Service</code> and a <code>ReplicationController</code> in the
 cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f postgres.yaml
 </code></pre></div>
-<p><strong>Kong Enterprise Edition trial users</strong> should complete the steps in the 
+<p><strong>Kong Enterprise Edition trial users</strong> should complete the steps in the
 <strong>Additional Steps for Kong EE Trial Users</strong> section below before proceeding.</p></li>
 <li><p><strong>Prepare database</strong></p>
 
@@ -445,7 +451,7 @@ can test Kong by making the following requests:</p>
 </code></pre></div></li>
 <li><p><strong>Get Started with Kong</strong></p>
 
-<p>Quickly learn how to use Kong with the 
+<p>Quickly learn how to use Kong with the
 <a href="/docs/latest/getting-started/quickstart/">5-minute Quickstart</a>.</p></li>
 </ol>
 
@@ -454,13 +460,13 @@ can test Kong by making the following requests:</p>
 <ol>
 <li><p><strong>Publish a Kong EE Docker image to your container registry</strong></p>
 
-<p>Because the Kong EE image is not available on the public Docker container registry, 
-you must publish it to a private repository for use with Kubernetes. While any private 
-repository will work, this example uses the 
-<a href="https://cloud.google.com/container-registry/">Google Cloud Platform Container Registry</a>, 
+<p>Because the Kong EE image is not available on the public Docker container registry,
+you must publish it to a private repository for use with Kubernetes. While any private
+repository will work, this example uses the
+<a href="https://cloud.google.com/container-registry/">Google Cloud Platform Container Registry</a>,
 which automatically integrates with the Google Cloud Platform examples in the other steps.</p>
 
-<p>In the steps below, replace <code>&lt;image ID&gt;</code> with ID associated with your loaded image in <code>docker images</code> output. 
+<p>In the steps below, replace <code>&lt;image ID&gt;</code> with ID associated with your loaded image in <code>docker images</code> output.
 Replace <code>&lt;project ID&gt;</code> with your <a href="https://support.google.com/cloud/answer/6158840">Google Cloud Platform project ID</a>.</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>docker load -i /tmp/kong-docker-enterprise-edition.tar.gz
 <span class="gp">$ </span>docker images
@@ -469,21 +475,21 @@ Replace <code>&lt;project ID&gt;</code> with your <a href="https://support.googl
 </code></pre></div></li>
 <li><p><strong>Add your Kong EE License File</strong></p>
 
-<p>Edit <code>kong_trial_postgres.yaml</code> and <code>kong_trial_migration_postgres.yaml</code> to replace 
+<p>Edit <code>kong_trial_postgres.yaml</code> and <code>kong_trial_migration_postgres.yaml</code> to replace
 <code>YOUR_LICENSE_HERE</code> with your Kong EE License File string - it should look like:</p>
 <div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">KONG_LICENSE_DATA</span>
 <span class="s">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">{"license":{"signature":"alongstringofcharacters","payload":{"customer":"Test</span><span class="nv"> </span><span class="s">Company","license_creation_date":"2018-03-06","product_subscription":"Kong</span><span class="nv"> </span><span class="s">Only","admin_seats":"5","support_plan":"Premier","license_expiration_date":"2018-06-04","license_key":"anotherstringofcharacters"},"version":1}}'</span>
 </code></pre></div></li>
 <li><p><strong>Use the Kong EE image</strong></p>
 
-<p>Edit <code>kong_trial_postgres.yaml</code> and <code>kong_trial_migration_postgres.yaml</code> and replace 
+<p>Edit <code>kong_trial_postgres.yaml</code> and <code>kong_trial_migration_postgres.yaml</code> and replace
 <code>image: kong</code> with <code>image: gcr.io/&lt;project ID&gt;/kong-ee</code>, using the same project ID as above.</p></li>
 <li><p><strong>Deploy Kong EE</strong></p>
 
 <p>Continue from step 4 in the <strong>Kong Community Edition or Enterprise Edition via Manifest Files</strong>
-instruction above, using the <code>kong_trial_*</code> YAML files in the 
-<a href="https://github.com/Kong/kong-dist-kubernetes/tree/master/ee-trial">EE Trial directory</a>. 
-Once Kong EE is running, you should be able to access the Kong Admin GUI 
+instruction above, using the <code>kong_trial_*</code> YAML files in the
+<a href="https://github.com/Kong/kong-dist-kubernetes/tree/master/ee-trial">EE Trial directory</a>.
+Once Kong EE is running, you should be able to access the Kong Admin GUI
 at <code>&lt;kong-admin-ip-address&gt;:8002</code> or <code>https://&lt;kong-ssl-admin-ip-address&gt;:8445</code>.</p></li>
 </ol>
 
@@ -677,7 +683,7 @@ at <code>&lt;kong-admin-ip-address&gt;:8002</code> or <code>https://&lt;kong-ssl
 </script>
 
 
-    <script src="/assets/app.js?v=1526319781"></script>
+    <script src="/assets/app.js?v=1526491009"></script>
 
     <div id="fb-root"></div>
 
