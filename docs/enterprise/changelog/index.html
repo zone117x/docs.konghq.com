@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1526928831"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1527032881"/>
 </head>
 
 
@@ -156,6 +156,35 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
       </div>
 
       
+        <div class="dropdown page-header-right">
+          <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Version changelog.md
+            
+            <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            
+              
+                <li>
+                  <a href="/docs/enterprise/0.32-x">
+                    0.32-x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/docs/enterprise/0.31-x">
+                    0.31-x
+                  </a>
+                </li>
+              
+            
+          </ul>
+          
+        </div>
+      
     </div>
   </header>
 
@@ -169,6 +198,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <h5>Versions</h5>
         
         <ul>
+            
+              <li>
+                <a href="#0-32">0.32</a>
+
+                
+              </li>
             
               <li>
                 <a href="#0-31-1">0.31-1</a>
@@ -202,6 +237,234 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           
 
           <h1 id="kong-enterprise-changelog">Kong Enterprise Changelog</h1>
+
+<h2 id="0-32">0.32</h2>
+
+<h3 id="notifications">Notifications</h3>
+
+<ul>
+<li><strong>Kong EE 0.32</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+
+<ul>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+</ul></li>
+<li><strong>Kong EE 0.32</strong> has these notices from <strong>Kong CE 0.13</strong>:
+
+<ul>
+<li>Support for <strong>Postgres 9.4 has been deprecated, but Kong will still start</strong> - versions beyond 0.32 will not start with Postgres 9.4 or prior</li>
+<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.32 will not start with Cassandra 2.1 or prior</li>
+<li>Additional requirements:
+
+<ul>
+<li><strong>Vitals</strong> requires Postgres 9.5+</li>
+<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+</ul></li>
+<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+</ul></li>
+<li><strong>Breaking</strong>: The <code>latest</code> tag in Kong Enterprise Docker repository changed from CentOS to Alpine - which might result in breakage if additional packages are assumed to be in the image, as the Alpine image only contains a minimal set of packages installed</li>
+<li><strong>OpenID Connect</strong>
+
+<ul>
+<li>The plugins listed below were deprecated in favor of the all-in-one openid-connect plugin:
+
+<ul>
+<li><code>openid-connect-authentication</code></li>
+<li><code>openid-connect-protection</code></li>
+<li><code>openid-connect-verification</code></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="changes">Changes</h3>
+
+<ul>
+<li><strong>New Data Model</strong> - Kong EE 0.32 is the first Enterprise version including the <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#core-2"><strong>new model</strong></a>, released with Kong CE 0.13, which includes Routes and Services</li>
+<li><p><strong>Rate Limiting Advanced</strong></p>
+
+<ul>
+<li><strong>Breaking</strong> - the Enterprise Rate Limiting plugin, named <code>rate-limiting</code> up to EE 0.31, was renamed <code>rate-limiting-advanced</code> and CE Rate Limiting was imported as <code>rate-limiting</code>. Any Admin API calls that were previously targeting the Enterprise Rate Limiting plugin in Kong EE up to 0.31 need to be updated to target <code>rate-limiting-advanced</code></li>
+<li>Rate Limiting Advanced, similarly to CE rate-limiting, now uses a dedicated shared dictionary named <code>kong_rate_limiting_counters</code> for its counters; if you are using a custom template, make sure to define the following shared memory zones:</li>
+</ul>
+<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre></div></li>
+<li><p><strong>Vitals</strong></p>
+
+<ul>
+<li>Vitals uses two dedicated shared dictionaries. If you use a custom template, define the following shared memory zones for Vitals:</li>
+</ul>
+<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_vitals_counters 50m;
+lua_shared_dict kong_vitals_lists     1m;
+</code></pre></div>
+<p>You can remove any existing shared dictionaries that begin with <code>kong_vitals_</code>, e.g., <code>kong_vitals_requests_consumers</code></p></li>
+<li><p><strong>OpenID Connect</strong></p>
+
+<ul>
+<li>Remove multipart parsing of ID tokens - they were not proxy safe</li>
+<li>Change expired or non-active access tokens to give <code>401</code> instead of <code>403</code></li>
+</ul></li>
+</ul>
+
+<h3 id="features">Features</h3>
+
+<ul>
+<li><strong>Admin GUI</strong>
+
+<ul>
+<li>New Listeners (Admin GUI + Developer Portal)</li>
+<li>Routes and Services GUI</li>
+<li>New Plugins thumbnail view</li>
+<li>Healthchecks GUI</li>
+<li>Syntax for form-encoded array elements</li>
+</ul></li>
+<li><strong>Vitals</strong>
+
+<ul>
+<li><strong>Status Code</strong> tracking - GUI and API
+
+<ul>
+<li>Status Code groups per Cluster - counts of <code>1xx</code>, <code>2xx</code>, <code>3xx</code>, <code>4xx</code>, <code>5xx</code> groups across the cluster over time. Visible in the Admin GUI at <code>ADMIN_URL/vitals/status-codes</code></li>
+<li>Status Codes per Service - count of individual status codes correlated to a particular service. Visible in the Admin GUI at <code>ADMIN_URL/services/{service_id}</code></li>
+<li>Status Codes per Route - count of individual status codes correlated to a particular route. Visible in the Admin GUI at <code>ADMIN_URL/routes/{route_id}</code></li>
+<li>Status Codes per Consumer and Route - count of individual status codes returned to a given consumer on a given route.  Visible in the Admin GUI at <code>ADMIN_URL/consumers/{consumer_id}</code></li>
+</ul></li>
+</ul></li>
+<li><strong>Dev Portal</strong>
+
+<ul>
+<li>Code Snippets</li>
+<li>Developer &quot;request access&quot; full life-cycle</li>
+<li>Default Dev Portal included in Kong distributions (with default theme)</li>
+<li>Authentication on Dev Portal out of box (uncomment in Kong.conf)</li>
+<li>Docs for Routes/Services for Dev Portal</li>
+<li>Docs for Admin API</li>
+<li><strong>Requires Migration</strong> - <code>/files</code> endpoint is now protected by RBAC</li>
+</ul></li>
+<li><strong>Plugins</strong>
+
+<ul>
+<li><strong>Rate Limiting Advanced</strong>: add a <code>dictionary_name</code> configuration, to allow using a custom dictionary for storing counters</li>
+<li><strong>Requires Migration - Rate Limiting CE</strong> is now included in EE</li>
+<li><strong>Request Transformer CE</strong> is now included in EE</li>
+<li><strong>Edge Compute</strong>: plugin-based, Lua-only preview</li>
+<li><strong>Proxy Cache</strong>: Customize the cache key, selecting specific headers or query params to be included</li>
+<li><strong>Opentracing Plugin</strong>: Kong now adds detailed spans to Zipkin and Jaeger distributed tracing tools</li>
+<li><strong>Azure Functions Plugin</strong>: Invoke Azure functions from Kong</li>
+<li><strong>LDAP Advanced</strong>: LDAP plugin with augmented ability to search by LDAP fields</li>
+</ul></li>
+<li><strong>OpenID Connect</strong>
+
+<ul>
+<li>Add <code>self_check</code> function to validate that OIDC discovery information can be downloaded</li>
+<li>Bearer token is now looked up on <code>Access-Token</code> and <code>X-Access-Token</code> headers in addition to Authorization Bearer header (query and body args are supported as before)</li>
+<li>JWKs are rediscovered and the new keys are cached cluster wide (works better with keys rotation schemes)</li>
+<li>Admin API does self-check for discovery endpoint when the plugin is added and reports possible errors back</li>
+<li>Add configuration directives
+
+<ul>
+<li><code>config.extra_jwks_uris</code></li>
+<li><code>config.credential_claim</code></li>
+<li><code>config.session_storage</code></li>
+<li><code>config.session_memcache_prefix</code></li>
+<li><code>config.session_memcache_socket</code></li>
+<li><code>config.session_memcache_host</code></li>
+<li><code>config.session_memcache_port</code></li>
+<li><code>config.session_redis_prefix</code></li>
+<li><code>config.session_redis_socket</code></li>
+<li><code>config.session_redis_host</code></li>
+<li><code>config.session_redis_port</code></li>
+<li><code>config.session_redis_auth</code></li>
+<li><code>config.session_cookie_lifetime</code></li>
+<li><code>config.authorization_cookie_lifetime</code></li>
+<li><code>config.forbidden_destroy_session</code></li>
+<li><code>config.forbidden_redirect_uri</code></li>
+<li><code>config.unauthorized_redirect_uri</code></li>
+<li><code>config.unexpected_redirect_uri</code></li>
+<li><code>config.scopes_required</code></li>
+<li><code>config.scopes_claim</code></li>
+<li><code>config.audience_required</code></li>
+<li><code>config.audience_claim</code></li>
+<li><code>config.discovery_headers_names</code></li>
+<li><code>config.discovery_headers_values</code></li>
+<li><code>config.introspect_jwt_tokens</code></li>
+<li><code>config.introspection_hint</code></li>
+<li><code>config.introspection_headers_names</code></li>
+<li><code>config.introspection_headers_values</code></li>
+<li><code>config.token_exchange_endpoint</code></li>
+<li><code>config.cache_token_exchange</code></li>
+<li><code>config.bearer_token_param_type</code></li>
+<li><code>config.client_credentials_param_type</code></li>
+<li><code>config.password_param_type</code></li>
+<li><code>config.hide_credentials</code></li>
+<li><code>config.cache_ttl</code></li>
+<li><code>config.run_on_preflight</code></li>
+<li><code>config.upstream_headers_claims</code></li>
+<li><code>config.upstream_headers_names</code></li>
+<li><code>config.downstream_headers_claims</code></li>
+<li><code>config.downstream_headers_names</code></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+<li><strong>Core</strong>
+
+<ul>
+<li><strong>Healthchecks</strong>
+
+<ul>
+<li>Fix an issue where updates made through <code>/health</code> or <code>/unhealth</code> wouldn&#39;t be propagated to other Kong nodes</li>
+<li>Fix internal management of healthcheck counters, which corrects detection of state flapping</li>
+</ul></li>
+<li><strong>DNS</strong>: a number of fixes and improvements were made to Kong&#39;s DNS client library, including:
+
+<ul>
+<li>The ring-balancer now supports <code>targets</code> resolving to an SRV record without port information (<code>port=0</code>)</li>
+<li>IPv6 nameservers with a scope in their address (eg. <code>nameserver fe80::1%wlan0</code>) will now be skipped instead of throwing errors</li>
+</ul></li>
+</ul></li>
+<li><strong>Rate Limiting Advanced</strong>
+
+<ul>
+<li>Fix <code>failed to upsert counters</code> error</li>
+<li>Fix issue where an attempt to acquire a lock would result in an error</li>
+<li>Mitigate issue where lock acquisitions would lead to RL counters being lost</li>
+</ul></li>
+<li><strong>Proxy Cache</strong>
+
+<ul>
+<li>Fix issue where proxy-cache would shortcircuit requests that resulted in a cache hit, not allowing subsequent plugins - e.g., logging plugins - to run</li>
+<li>Fix issue where PATCH requests would result in a 500 response</li>
+<li>Fix issue where Proxy Cache would overwrite X-RateLimit headers</li>
+</ul></li>
+<li><strong>Request Transformer</strong>
+
+<ul>
+<li>Fix issue leading to an Internal Server Error in cases where the Rate Limiting plugin returned a 429 Too Many Requests response</li>
+</ul></li>
+<li><strong>AWS Lambda</strong>
+
+<ul>
+<li>Fix issue where an empty array <code>[]</code> was returned as an empty object <code>{}</code></li>
+</ul></li>
+<li><strong>Galileo - DEPRECATED</strong>
+
+<ul>
+<li>Fix issue that prevented Galileo from reporting requests that were cached by proxy-cache</li>
+<li>Fix issue that prevented Galileo from showing request/response bodies of requests served by proxy-cache</li>
+</ul></li>
+<li><strong>OpenID Connect</strong>
+
+<ul>
+<li>Fix <code>exp</code> retrieval</li>
+<li>Fix <code>jwt_session_cookie</code> verification</li>
+<li>Fix consumer mapping using introspection where the claim was searched in an inexistent location</li>
+<li>Fix header values when their callbacks fail to get the value - instead of setting their values as <code>function ...</code></li>
+<li>Fix <code>config.scopes</code> when set to <code>null</code> or <code>&quot;&quot;</code> so that it doesn&#39;t add an OpenID scope forcibly, as the plugin is not only OpenID Connect only, but also OAuth2</li>
+</ul></li>
+</ul>
 
 <h2 id="0-31-1">0.31-1</h2>
 
@@ -620,7 +883,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1526928831"></script>
+    <script src="/assets/app.js?v=1527032881"></script>
 
     <div id="fb-root"></div>
 
