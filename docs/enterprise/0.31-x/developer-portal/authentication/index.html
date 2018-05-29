@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1527032881"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1527615962"/>
 </head>
 
 
@@ -591,29 +591,23 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <h2 id="enable-authentication">Enable Authentication</h2>
 
-<p>First, create a Service and corresponding Route to proxy requests to the Public Dev Portal Files API:</p>
-
-<p>Service:</p>
+<p>First, create an API to proxy requests to the Public Dev Portal Files API:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/services/ <span class="se">\</span>
+  --url http://127.0.0.1:8001/apis/ <span class="se">\</span>
   --data <span class="s1">'name=portal-files'</span> <span class="se">\</span>
-  --data <span class="s1">'url=http://127.0.0.1:8004'</span>
+  --data <span class="s1">'upstream_url=http://127.0.0.1:8004'</span> <span class="se">\</span>
+  --data <span class="s1">'uris=/portal'</span>
 </code></pre></div>
-<p>Route:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/services/portal-files/routes <span class="se">\</span>
-  --data <span class="s1">'paths[]=/portal'</span>
-</code></pre></div>
-<p>Now that we created our Service and Route, update the following line in your Kong Configuration to let Kong know that the Public Dev Portal Files API should point to <code>:8000/portal</code> and restart Kong:</p>
+<p>Now that we&#39;ve created our API, update the following line in your Kong Configuration to let Kong know that the Public Dev Portal Files API should point to <code>:8000/portal</code> and restart Kong:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">portal_api_uri <span class="o">=</span> 127.0.0.1:8000/portal
 </code></pre></div>
-<p>Next, we need to enable an authentication plugin and apply it our newly created Service. You can select from any of the available <a href="https://konghq.com/plugins/">Kong plugins</a>. Let&#39;s start with <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication:</a></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/services/portal-files/plugins <span class="se">\</span>
+<p>Next, we need to enable an authentication plugin and apply it our newly created API. You can select from any of the available <a href="https://konghq.com/plugins/">Kong plugins</a>. Let&#39;s start with <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication:</a></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/apis/portal-files/plugins <span class="se">\</span>
   --data <span class="s1">'name=basic-auth'</span> <span class="se">\</span>
   --data <span class="s1">'config.hide_credentials=true'</span>
 </code></pre></div>
 <p>Now, let&#39;s enable the <a href="https://getkong.org/plugins/cors">CORS plugin</a> so your Dev Portal can make requests from <code>:8003</code> → <code>:8000</code> and with the appropriate access control headers:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/services/portal-files/plugins <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/apis/portal-files/plugins <span class="se">\</span>
   --data <span class="s2">"name=cors"</span> <span class="se">\</span>
   --data <span class="s2">"config.origins=http://127.0.0.1:8003"</span> <span class="se">\</span>
   --data <span class="s2">"config.methods=GET, POST"</span> <span class="se">\</span>
@@ -621,25 +615,19 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </code></pre></div>
 <p>Now that we have setup authentication for your Dev Portal File API, your developers won&#39;t be able to access any of your files without credentials. What about access to <strong>unauthenticated files,</strong> files that have the flag <code>auth</code> set to <code>false</code>, such as landing pages, and the login form?</p>
 
-<p>Let&#39;s create another Service and Route to grant access to unauthenticated files:</p>
-
-<p>Service:</p>
+<p>Let&#39;s create another API to grant access to unauthenticated files:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/services/ <span class="se">\</span>
+  --url http://127.0.0.1:8001/apis/ <span class="se">\</span>
   --data <span class="s1">'name=portal-files-unauthenticated'</span> <span class="se">\</span>
-  --data <span class="s1">'url=http://127.0.0.1:8004/files/unauthenticated'</span>
+  --data <span class="s1">'upstream_url=http://127.0.0.1:8004/files/unauthenticated'</span> <span class="se">\</span>
+  --data <span class="s1">'uris=/portal/files/unauthenticated'</span>
 </code></pre></div>
 <blockquote>
 <p>The  <code>:8004/files/unauthenticated</code> endpoint filters and returns an array of files stored in Kong that have the flag <code>auth</code> set to <code>false</code></p>
 </blockquote>
 
-<p>Route:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/services/portal-files-unauthenticated/routes <span class="se">\</span>
-  --data <span class="s1">'paths[]=/portal/files/unauthenticated'</span>
-</code></pre></div>
 <p>Now add the CORS plugin:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/services/portal-files-unauthenticated/plugins <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/apis/portal-files-unauthenticated/plugins <span class="se">\</span>
   --data <span class="s2">"name=cors"</span> <span class="se">\</span>
   --data <span class="s2">"config.origins=http://127.0.0.1:8003"</span> <span class="se">\</span>
   --data <span class="s2">"config.methods=GET, POST"</span> <span class="se">\</span>
@@ -694,7 +682,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <h3 id="add-a-consumer">Add a Consumer</h3>
 
-<p>Next, <a href="/docs/latest/getting-started/adding-consumers/">add a Kong consumer</a> to your <code>portal-files</code> Service with <a href="/plugins/basic-authentication/#create-a-credential">credentials</a> that are associated with your Basic auth plugin.</p>
+<p>Next, <a href="/docs/latest/getting-started/adding-consumers/">add a Kong consumer</a> with <a href="/plugins/basic-authentication/#create-a-credential">credentials</a> that are associated with your Basic auth plugin.</p>
 
 <h3 id="login-to-the-dev-portal">Login to the Dev Portal</h3>
 
@@ -982,8 +970,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <p>The <a href="https://getkong.org/plugins/key-authentication">Key Authentication Plugin</a> allows developers to use API keys to authenticate requests against an API. This is useful when consumers have an API Key rather than a username/password.</p>
 
-<p>Add the key auth plugin to the <code>portal-files</code> Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://<span class="sb">`</span>127.0.0.1<span class="sb">`</span>:8001/services/portal-files/plugins <span class="se">\</span>
+<p>Add the key auth plugin to the <code>portal-files</code> API:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://<span class="sb">`</span>127.0.0.1<span class="sb">`</span>:8001/apis/portal-files/plugins <span class="se">\</span>
   --data <span class="s2">"name=key-auth"</span> <span class="se">\</span>
   --data <span class="s2">"config.key_names=key"</span> <span class="se">\</span>
   --data <span class="s2">"config.hide_credentials=true"</span>
@@ -1018,8 +1006,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <p><a href="https://getkong.org/plugins/ee-openid-connect/">OIDC</a> must be used with the “session” method, utilizing cookies for Dev Portal File API requests.</p>
 
-<p>Add the <code>openid-connect</code> plugin to the <code>portal-files</code> Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/services/portal-files/plugins  <span class="se">\</span>
+<p>Add the <code>openid-connect</code> plugin to the <code>portal-files</code> API:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/apis/portal-files/plugins  <span class="se">\</span>
   --data <span class="s2">"name=openid-connect"</span>      <span class="se">\</span>
   --data <span class="s2">"config.issuer=https://accounts.google.com/"</span> <span class="se">\</span>
   --data <span class="s2">"config.client_id=&lt;CLIENT_ID&gt;"</span>   <span class="se">\</span>
@@ -1337,7 +1325,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
-    <script src="/assets/app.js?v=1527032881"></script>
+    <script src="/assets/app.js?v=1527615962"></script>
 
     <div id="fb-root"></div>
 
