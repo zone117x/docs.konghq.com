@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1527653574"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1527713168"/>
 </head>
 
 
@@ -141,6 +141,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 
     
+
+
 
 
 
@@ -249,9 +251,6 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
             
-              <li><code>API</code>: (deprecated) the Kong entity representing your upstream service placed behind Kong, for which Kong proxies requests to.</li>
-            
-            
               <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
             
             
@@ -262,6 +261,9 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
               <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
             
               <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+            
+            <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since 0.13.0.</li>
+            
 
           </ul>
 
@@ -271,23 +273,25 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
           <h2 id="configuration">Configuration</h2>
           
-            <h4 id="enabling-the-plugin-for-a-service">Enabling the plugin for a Service</h4>
+            <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
 
-<p>Configure on top of a <a href="/docs/latest/admin-api/#service-object">Service</a> by executing the following request on your Kong server:</p>
+<p>Configure this plugin on a <a href="/docs/latest/admin-api/#service-object">Service</a> by
+making the following request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 </code></pre></div>
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will target.</li>
+<li><code>service</code>: the id or name of the Service that this plugin configuration will
+target.</li>
 </ul>
 
           
           
-            <h4 id="enabling-the-plugin-for-a-route">Enabling the plugin for a Route</h4>
+            <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
 
-<p>Configure on top of a <a href="/docs/latest/admin-api/#Route-object">Route</a> with:</p>
+<p>Configure this plugin on a <a href="/docs/latest/admin-api/#Route-object">Route</a> with:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
@@ -299,42 +303,50 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
           
           
-            <h4 id="enabling-the-plugin-for-an-api">Enabling the plugin for an API</h4>
+            <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
 
-<p>If you are using the deprecated API entity, you can configure on top of an <a href="/docs/latest/admin-api/#api-object">API</a>
-by executing the following request on your Kong server:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
-    --data <span class="s2">"config.sample_ratio=0.001"</span>
-</code></pre></div>
-<ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will target.</li>
-</ul>
-
-          
-          
-            <h4 id="enabling-the-plugin-for-a-consumer">Enabling the plugin for a Consumer</h4>
-
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to target <a href="/docs/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+on specific <a href="/docs/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 </code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this plugin.</p>
+<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+plugin.</p>
 
-<p>You can combine adding <code>consumer_id</code> and 
-    <code>service_id</code>
-   in the same request.</p>
+<p>You can combine <code>consumer_id</code> and 
+    <code>service_id</code></p>
+
+<p>in the same request, to futhermore narrow the scope of the plugin.</p>
+
+          
+          
+            <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
+
+<p>If you are using an older version of Kong with the legacy <a href="/docs/0.13.x/admin-api/#api-object">API
+entity</a> (<strong>deprecated</strong> since 0.13.0), you
+can configure this plugin on top of such an API by making the following
+request:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
+    --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
+    --data <span class="s2">"config.sample_ratio=0.001"</span>
+</code></pre></div>
+<ul>
+<li><code>api</code>: either id or name of the API that this plugin configuration will
+target.</li>
+</ul>
 
           
 
           <h4>Global plugins</h4>
 
-          <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any API, Service, Route or Consumer is considered "global", and will be run on every request.
-            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
+          <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+            Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+            Read the <a href="/docs/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+            <a href="/docs/latest/admin-api.md@master#precedence">Plugin Precedence</a> sections for more information.
           </p>
 
           <h4>Parameters</h4>
@@ -347,9 +359,7 @@ by executing the following request on your Kong server:</p>
   </thead>
   <tbody>
     <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>zipkin</code></td></tr>
-    
-      <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target.</td></tr>
-    
+
     
       <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
     
@@ -359,6 +369,9 @@ by executing the following request on your Kong server:</p>
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
       <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
+    
+    
+    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/docs/0.13.x/admin-api/#api-object">API Entity</a> is deprecated since Kong 0.13.0.</td></tr>
     
     
       <tr>
@@ -575,7 +588,7 @@ This plugin records tracing data for a given request, and sends it as a batch to
 </script>
 
 
-    <script src="/assets/app.js?v=1527653574"></script>
+    <script src="/assets/app.js?v=1527713168"></script>
 
     <div id="fb-root"></div>
 
