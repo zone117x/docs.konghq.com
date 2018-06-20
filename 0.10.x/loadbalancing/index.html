@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Loadbalancing reference - v0.10.x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="Mashape"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="https://docs.konghq.com"/>
+  <meta property="og:description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://docs.konghq.com/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@mashape"/>
+  <meta name="twitter:creator" content="@mashape"/>
+  <meta name="twitter:url" content="https://docs.konghq.com"/>
+  <meta name="twitter:description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://docs.konghq.com/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+
+  <!-- New Relic -->
+  <script>
+/* eslint-disable */
+window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(15),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,o){try{d?d-=1:i("err",[o||new UncaughtException(t,e,n)])}catch(c){try{i("ierr",[c,(new Date).getTime(),!0])}catch(s){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t){i("err",[t,(new Date).getTime()])}var i=t("handle"),a=t(16),c=t("ee"),s=t("loader"),f=window.onerror,u=!1,d=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(l){"stack"in l&&(t(8),t(7),"addEventListener"in window&&t(5),s.xhrWrappable&&t(9),u=!0)}c.on("fn-start",function(t,e,n){u&&(d+=1)}),c.on("fn-err",function(t,e,n){u&&(this.thrown=!0,o(n))}),c.on("fn-end",function(){u&&!this.thrown&&d>0&&(d-=1)}),c.on("internal-error",function(t){i("ierr",[t,(new Date).getTime(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(8),c=t(7),s="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,w="fn"+h,v="bstTimer",y="pushState";t("loader").features.stn=!0,t(6);var g=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof g&&(this.bstStart=Date.now())}),o.on(w,function(t,e){var n=t[0];n instanceof g&&i("bst",[n,e,this.bstStart,Date.now()])}),a.on(m,function(t,e,n){this.bstStart=Date.now(),this.bstType=n}),a.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),this.bstType])}),c.on(m,function(){this.bstStart=Date.now()}),c.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),"requestAnimationFrame"])}),o.on(y+p,function(t){this.time=Date.now(),this.startPath=location.pathname+location.hash}),o.on(y+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+s]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+s]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+s]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(17)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,e,n){var r=t("ee").get("history"),o=t(17)(r);e.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],7:[function(t,e,n){var r=t("ee").get("raf"),o=t(17)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],8:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration="number"==typeof t[1]?t[1]:0,t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(17)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],9:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,w,"fn-",c)}function i(t){v.push(t),h&&(g=-g,b.data=g)}function a(){for(var t=0;t<v.length;t++)r([],v[t]);v.length&&(v=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(5);var f=t("ee"),u=f.get("xhr"),d=t(17)(u),l=NREUM.o,p=l.XHR,h=l.MO,m="readystatechange",w=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],v=[];e.exports=u;var y=window.XMLHttpRequest=function(t){var e=new p(t);try{u.emit("new-xhr",[e],e),e.addEventListener(m,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(p,y),y.prototype=p.prototype,d.inPlace(y.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var g=1,b=document.createTextNode(g);new h(a).observe(b,{characterData:!0})}else f.on("fn-end",function(t){t[0]&&t[0].type===m||a()})},{}],10:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var a=t.getResponseHeader("X-NewRelic-App-Data");a&&(e.cat=a.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return h(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(11),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(14),h=t(13),m=window.XMLHttpRequest;a.features.xhr=!0,t(9),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=h(r);i&&(n.txSize=i)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var a=0;a<d;a++)e.addEventListener(u[a],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{}],11:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],12:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[(new Date).getTime()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(15),c=t(16),s=t("ee").get("tracer"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var u=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(u,function(t,e){f[e]=o(d+e,!0,"api")}),f.addPageAction=o(d+"addPageAction",!0),f.setCurrentRouteName=o(d+"routeName",!0),e.exports=newrelic,f.interaction=function(){return(new r).get()};var p=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(l+"tracer",[Date.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[Date.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{s.emit("fn-end",[Date.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){p[e]=o(l+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,(new Date).getTime()])}},{}],13:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],14:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],15:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],16:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],17:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(16),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){l([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o)}catch(a){l([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){l([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function l(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o){if(!l.aborted){t&&t(n,r,o);for(var i=e(o),a=h(n),c=a.length,s=0;s<c;s++)a[s].apply(i,r);var f=u[y[n]];return f&&f.push([g,n,r,i]),i}}function p(t,e){v[t]=h(t).concat(e)}function h(t){return v[t]||[]}function m(t){return d[t]=d[t]||o(n)}function w(t,e){f(t,function(t,n){e=e||"feature",y[n]=e,e in u||(u[e]=[])})}var v={},y={},g={on:p,emit:n,get:m,listeners:h,context:e,buffer:w,abort:a,aborted:!1};return g}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var c="nr@context",s=t("gos"),f=t(15),u={},d={},l=e.exports=o();l.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!b++){var t=g.info=NREUM.info,e=d.getElementsByTagName("script")[0];if(setTimeout(f.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return f.abort();s(v,function(e,n){t[e]||(t[e]=n)}),c("mark",["onload",a()],null,"api");var n=d.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()],null,"api")}function a(){return(new Date).getTime()}var c=t("handle"),s=t(15),f=t("ee"),u=window,d=u.document,l="addEventListener",p="attachEvent",h=u.XMLHttpRequest,m=h&&h.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:h,REQ:u.Request,EV:u.Event,PR:u.Promise,MO:u.MutationObserver},t(12);var w=""+location,v={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1016.min.js"},y=h&&m&&m[l]&&!/CriOS/.test(navigator.userAgent),g=e.exports={offset:a(),origin:w,features:{},xhrWrappable:y};d[l]?(d[l]("DOMContentLoaded",i,!1),u[l]("load",r,!1)):(d[p]("onreadystatechange",o),u[p]("onload",r)),c("mark",["firstbyte",a()],null,"api");var b=0},{}]},{},["loader",2,10,4,3]);
+;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"13e44ec848",applicationID:"46444088",sa:1}
+</script>
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Mashape",
+      "url": "https://docs.konghq.com",
+      "logo": "https://docs.konghq.com/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Mashape",
+        "https://twitter.com/mashape",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+
+  <!-- Preload assets -->
+  <link rel="dns-prefetch" href="//cloud.typography.com">
+  <link rel="dns-prefetch" href="//dev.visualwebsiteoptimizer.com">
+  <link rel="dns-prefetch" href="//cdn.segment.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" /><link rel="prefetch" href="/assets/images/Kogo.svg" /><link rel="prefetch" href="/assets/images/icons/icn-documentation-ce.svg" /><link rel="prefetch" href="/assets/images/kong-blue.png" /><link rel="prefetch" href="/assets/images/footer/icn-meetup-black.svg" /><link rel="dns-prefetch" href="https://buttons.github.io" /><link rel="dns-prefetch" href="https://platform.twitter.com" /><link rel="dns-prefetch" href="https://connect.facebook.net" /><link rel="dns-prefetch" href="//mashape.github.io" />
+
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+  <link rel="stylesheet" href="/assets/styles.css?v=1529535970"/>
+</head>
+
+
+  <body id="" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="cookie-policy-container">
+      <p>In order to give you better service we use cookies. By continuing to use our website, you agree to the use of cookies as described in our <a href=" https://konghq.com/cookie-policy/">Cookie Policy</a>
+      <button class="cookie-policy-accept button button-dark" type="submit">I agree</button>
+    </div>
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li>
+            <a href="https://konghq.com/kong-enterprise-edition">Enterprise</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/kong-community-edition">Kong API Gateway</a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li>
+            <a href="https://support.mashape.com/">Support</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/request-demo">Request Demo</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <!-- <img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"> -->
+        <img src="/assets/images/Kogo.svg" alt="Kong">
+      </a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Mashape&amp;repo=kong&amp;type=star" frameborder="0"
+        scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li>
+            <a href="/" class="active">Docs</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/about-kong-inc/">About</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/plugins">Plugins</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/community-resources/">Community</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/kong-enterprise-edition/">Enterprise</a>
+          </li>
+          <li>
+            <a href="https://github.com/Kong/kong" target="_blank">GitHub</a>
+          </li>
+          <li class="hidden-lg">
+            <a href="https://support.mashape.com/">Support</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/install" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- .navbar -->
+</header>
+
+
+    <div class="page ">
+  <header class="page-header">
+    <div class="container">
+        <div class="edit-this-page">
+            <a target="_blank" href="https://github.com/Kong/getkong.org/tree/master/app/0.10.x/loadbalancing.md"><i class="fa fa-github"></i> Edit this Page</a>
+          </div>
+      <nav class="docs-navigation">
+        <a href="/"  class="active">Kong Community Edition (CE)</a>
+        <a href="/enterprise" >Kong Enterprise Edition (EE)</a>
+      </nav>
+      <div class="page-header-icon">
+        <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
+      </div>
+      <div class="page-header-title">
+        <p>Documentation</p>
+        <h1></h1>
+        <h1>Community Edition (0.10.x)</h1>
+      </div>
+
+      
+        <div class="dropdown page-header-right">
+          <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Version 0.10.x
+            
+            <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            
+              
+                <li>
+                  <a href="/0.13.x">
+                    0.13.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.12.x">
+                    0.12.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.11.x">
+                    0.11.x
+                  </a>
+                </li>
+              
+            
+              
+            
+              
+                <li>
+                  <a href="/0.9.x">
+                    0.9.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.8.x">
+                    0.8.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.7.x">
+                    0.7.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.6.x">
+                    0.6.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.5.x">
+                    0.5.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.4.x">
+                    0.4.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.3.x">
+                    0.3.x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/0.2.x">
+                    0.2.x
+                  </a>
+                </li>
+              
+            
+          </ul>
+          
+          <div id="getkong-algolia-search" class="search-input">
+            <i class="fa fa-search"></i>
+            <input type="text" placeholder="Search" id="getkong-algolia-search-input" />
+          </div>
+          
+        </div>
+      
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="page-navigation">
+      
+
+      
+
+      
+      <nav>
+        
+          <h5>Getting Started</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/0.10.x/getting-started/introduction" >
+              Introduction
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/getting-started/quickstart" >
+              Five-minute quickstart
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/getting-started/adding-your-api" >
+              Adding your API
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/getting-started/enabling-plugins" >
+              Enabling Plugins
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/getting-started/adding-consumers" >
+              Adding Consumers
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Guides &amp; References</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/0.10.x/configuration" >
+              Configuration reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/cli" >
+              CLI reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/proxy" >
+              Proxy reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/auth" >
+              Authentication reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/loadbalancing" class="active">
+              Load balancing reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/clustering" >
+              Clustering reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/network" >
+              Network &amp; Firewall
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/lua-reference/" >
+              Public Lua API reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/secure-admin-api" >
+              Securing the Admin API
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/plugin-development" >
+              Plugin Development Guide
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development" >Introduction</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/file-structure" >File structure</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/custom-logic" >Implement custom logic</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/plugin-configuration" >Plugin configuration</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/access-the-datastore" >Access the datastore</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/custom-entities" >Store custom entities</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/entities-cache" >Caching custom entities</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/admin-api" >Extending the Admin API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/tests" >Writing tests</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/plugin-development/distribution" >(un)Install your plugin</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <a href="/0.10.x/admin-api/"><h5>Admin API</h5></a>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#supported-content-types" >
+              Supported Content Types
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#information-routes" >
+              Information routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-node-information" >Retrieve node information</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-node-status" >Retrieve node status</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#cluster" >
+              Cluster
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-cluster-status" >Retrieve cluster status</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-a-node" >Add a node</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#forcibly-remove-a-node" >Forcibly remove a node</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#api-object" >
+              API Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-api" >Add API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-api" >Retrieve API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-apis" >List APIs</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-api" >Update API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-create-api" >Update or create API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-api" >Delete API</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#consumer-object" >
+              Consumer Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#create-consumer" >Create Consumer</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-consumers" >List Consumers</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-consumer" >Update Consumer</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-create-consumer" >Update or create Consumer</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-consumer" >Delete Consumer</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#plugin-object" >
+              Plugin Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-plugin" >Add Plugin</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-all-plugins" >List all Plugins</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-plugins-per-api" >List Plugins per API</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-plugin" >Update Plugin</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-add-plugin" >Update or Add Plugin</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-plugin" >Delete Plugin</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#certificate-object" >
+              Certificate Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-certificate" >Add Certificate</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-certificate" >Retrieve Certificate</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-certificates" >List Certificates</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-certificate" >Update Certificate</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-create-certificate" >Update or Create Certificate</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-certificate" >Delete Certificate</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#sni-objects" >
+              SNI Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-sni" >Add SNI</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-sni" >Retrieve SNI</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-snis" >List SNIs</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-sni" >Update SNI</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-create-sni" >Update or Create SNI</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-sni" >Delete SNI</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#upstream-objects" >
+              Upstream Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-upstream" >Add Upstream</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#retrieve-upstream" >Retrieve Upstream</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-upstreams" >List all Upstreams</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-upstream" >Update Upstream</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#update-or-create-upstream" >Update or create Upstream</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-upstream" >Delete Upstream</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/0.10.x/admin-api/#target-object" >
+              Target Object routes
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#add-target" >Add Target</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-targets" >List Targets</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#list-active-targets" >List Active Targets</a>
+              </li>
+              
+              
+              <li>
+                <a href="/0.10.x/admin-api/#delete-target" >Delete Target</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+    </aside>
+
+    <div class="page-content-container" id="documentation">
+      <div class="page-content">
+        <div class="content">
+          
+            <div class="alert alert-ee">
+              Maybe you were looking for the <a href="/enterprise"><strong>Enterprise Edition (EE) Documentation</strong></a> instead?
+            </div>
+          
+          
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a> to browse the documentation for the latest version.
+          </div>
+          
+
+          <h1 id="load-balancing-reference">Load Balancing Reference</h1>
+
+<p>Kong provides multiple ways of load balancing requests to multiple backend services:
+a straightforward DNS-based method, and a more dynamic ring-balancer that also
+allows for service registry without needing a DNS server.</p>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+
+<ul>
+<li><a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
+
+<ul>
+<li><a href="#a-records">A records</a></li>
+<li><a href="#srv-records">SRV records</a></li>
+<li><a href="#dns-priorities">DNS priorities</a></li>
+</ul></li>
+<li><a href="#ring-balancer">Ring-balancer</a>
+
+<ul>
+<li><a href="#upstream">Upstream</a></li>
+<li><a href="#target">Target</a></li>
+</ul></li>
+<li><a href="#blue-green-deployments">Blue-green Deployments</a></li>
+<li><a href="#canary-releases">Canary Releases</a></li>
+</ul>
+
+<h3 id="dns-based-loadbalancing">DNS-based loadbalancing</h3>
+
+<p>When using DNS based load balancing the registration of the backend services is
+done outside of Kong, and Kong only receives updates from the DNS server.</p>
+
+<p>Every API that has been defined with an <code>upstream_url</code> containing a hostname
+(instead of an IP address) will automatically use DNS based load balancing
+if the name resolves to multiple IP addresses, provided the hostname does not
+resolve to an <code>upstream</code> name or a name in your <code>localhosts</code> file.</p>
+
+<p>The DNS record <code>ttl</code> setting (time to live) determines how often the information
+is refreshed. When using a <code>ttl</code> of 0, every request will be resolved using its
+own dns query. Obviously this will have a performance penalty, but the latency of
+updates/changes will be very low.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="a-records"><strong>A records</strong></h4>
+
+<p>An A record contains one or more IP addresses. Hence, when a hostname
+resolves to an A record, each backend service must have its own IP address.</p>
+
+<p>Because there is no <code>weight</code> information, all entries will be treated as equally 
+weighted in the load balancer, and the balancer will do a straight forward
+round-robin.</p>
+
+<p>The initial pick of an IP address from a DNS record is randomized. This is to
+make sure that even with a <code>ttl</code> of 0 the load is properly distributed.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="srv-records"><strong>SRV records</strong></h4>
+
+<p>An SRV record contains weight and port information for all of its IP addresses.
+A backend service can be identified by a unique combination of IP address 
+and port number. Hence, a single IP address can host multiple instances of the 
+same service on different ports.</p>
+
+<p>Because the <code>weight</code> information is available, each entry will get its own
+weight in the load balancer and it will perform a weighted round-robin.</p>
+
+<p>Similarly, any given port information will be overridden by the port information from
+the DNS server. If an API has an <code>upstream_url=http://myhost.com:123/somepath</code>
+and <code>myhost.com</code> resolves to a SRV record with <code>127.0.0.1:456</code> then the request
+will be proxied to <code>http://127.0.0.1:456/somepath</code>, as port <code>123</code> will be 
+overridden by <code>456</code>.</p>
+
+<p>The initial pick of an IP address + port combo is randomized, ensuring a proper
+distribution, even with a <code>ttl</code> setting of 0.</p>
+
+<p><strong>TIP</strong>: whenever the DNS record is refreshed a list is generated to handle the
+weighting properly. Try to keep the weights as multiples of each other to keep
+the algorithm performant, e.g., 2 weights of 17 and 31 would result in a structure 
+with 527 entries, whereas weights 16 and 32 (or their smallest relative 
+counterparts 1 and 2) would result in a structure with merely 3 entries,
+especially with a very small (or even 0) <code>ttl</code> value.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="dns-priorities"><strong>DNS priorities</strong></h4>
+
+<p>The DNS resolver will start resolving the following record types in order:</p>
+
+<ol>
+<li>The last successful type previously resolved</li>
+<li>SRV record</li>
+<li>A record</li>
+<li>CNAME record</li>
+</ol>
+
+<p>So if the hostname you use has both SRV entries and A entries, it will start
+with SRV. If you want A records to be used, you must remove the SRV records from
+the DNS server. If you only have A records, then the SRV lookup will fail and
+it will fallback on an A query, etc.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="ring-balancer"><strong>Ring-balancer</strong></h3>
+
+<p>When using the ring-balancer, the adding and removing of backend services will
+be handled by Kong, and no DNS updates will be necessary. Kong will act as the
+service registry. Nodes can be added/deleted with a single HTTP request and
+will instantly start/stop receiving traffic.</p>
+
+<p>Configuring the ring-balancer is done through the <code>upstream</code> and <code>target</code>
+entities.</p>
+
+<ul>
+<li><code>target</code>: an IP address or hostname with a port number where a backend
+service resides, eg. &quot;192.168.100.12:80&quot;. Each target gets an additional
+<code>weight</code> to indicate the relative load it gets.</li>
+<li><code>upstream</code>: a &#39;virtual hostname&#39; which can be used in an API <code>upstream_url</code>
+field, e.g., an upstream named <code>weather.v2.service</code> would get all requests
+from an API with <code>upstream_url=http://weather.v2.service/some/path</code>.</li>
+</ul>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="upstream"><strong>Upstream</strong></h4>
+
+<p>Each upstream gets its own ring-balancer. Each <code>upstream</code> can have many 
+<code>target</code> entries attached to it, and requests proxied to the &#39;virtual hostname&#39; 
+will be load balanced over the targets. A ring-balancer has a pre-defined
+number of slots, and based on the target weights the slots get assigned to the
+targets of the upstream. Incoming requests will be proxied in a weighted 
+round-robin manner.</p>
+
+<p>Adding and removing targets can be done with a simple HTTP request on the 
+management API. This operation is relatively cheap. Changing the upstream
+itself is more expensive as the balancer will need to be rebuilt when the 
+number of slots change for example.</p>
+
+<p>The only occurrence where the balancer will be rebuilt automatically is when 
+the target history is cleaned; other than that, it will only rebuild upon changes.</p>
+
+<p>Within the balancer there are the positions (from 1 to <code>slots</code>) on the ring,
+which each get a &#39;slot&#39; assigned 1-on-1. Hence there are also <code>slots</code> number of slots, but
+they are <strong>randomly distributed</strong> over the ring positions. This randomness can be
+set by using the <code>orderlist</code>, but we strongly advice against doing that.</p>
+
+<p>The randomness is required to make invoking the ring-balancer cheap at 
+runtime. A simple round-robin over the wheel (the positions) will do to 
+provide a well distributed weighted round-robin over the <code>targets</code>, whilst
+also having cheap operations when inserting/deleting targets.</p>
+
+<p>The number of slots to use per target should (at least) be around 100 to make 
+sure the slots are properly distributed. Eg. for an expected maximum of 8
+targets, the <code>upstream</code> should be defined with at least <code>slots=800</code>, even if
+the initial setup only features 2 targets.</p>
+
+<p>The tradeoff here is that the higher the number of slots, the better the random 
+distribution, but the more expensive the changes are (add/removing targets)</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h4 id="target"><strong>Target</strong></h4>
+
+<p>Because the <code>upstream</code> maintains a history of changes, targets can only be 
+added, not modified nor deleted. To change a target, just add a new entry for
+the target, and change the <code>weight</code> value. The last entry is the one that will
+be used. As such setting <code>weight=0</code> will disable a target, effectively 
+deleting it from the balancer. Detailed information on adding and manipulating
+targets is available in the <code>target</code> section of the <a href="/0.10.x/admin-api#target-object">Admin API reference</a>.</p>
+
+<p>The targets will be automatically cleaned when there are 10x more inactive 
+entries than active ones. Cleaning will involve rebuilding the balancer, and
+hence is more expensive than just adding a target entry.</p>
+
+<p>A <code>target</code> can also have a hostname instead of an IP address. In that case
+the name will be resolved and all entries found will individually be added to
+the ring balancer, e.g., adding <code>api.host.com:123</code> with <code>weight=100</code>. The 
+name &#39;api.host.com&#39; resolves to an A record with 2 IP addresses. Then both
+ip addresses will be added as target, each getting <code>weight=100</code> and port 123.
+<strong>NOTE</strong>: the weight is used for the individual entries, not for the whole!</p>
+
+<p>Would it resolve to an SRV record, then also the <code>port</code> and <code>weight</code> fields 
+from the DNS record would be picked up, and would overrule the given port <code>123</code>
+and <code>weight=100</code>.</p>
+
+<p>The balancer will honor the DNS record&#39;s <code>ttl</code> setting and requery and update 
+the balancer when it expires.</p>
+
+<p><strong>Exception</strong>: When a DNS record has <code>ttl=0</code>, the hostname will be added
+as a single target, with the specified weight. Upon every proxied request
+to this target it will query the nameserver again.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="blue-green-deployments"><strong>Blue-Green Deployments</strong></h3>
+
+<p>Using the ring-balancer a <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">blue-green deployment</a> can be easily orchestrated for 
+an API. Switching target infrastructure only requires a <code>PATCH</code> request on an
+API, to change the <code>upstream</code> name. </p>
+
+<p>Set up the &quot;Blue&quot; environment, running version 1 of the address service:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create an upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
+    --data <span class="s2">"name=address.v1.service"</span>
+
+<span class="c"># add two targets to the upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v1.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.15:80"</span>
+    --data <span class="s2">"weight=100"</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v1.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.16:80"</span>
+    --data <span class="s2">"weight=50"</span>
+
+<span class="c"># create an API targeting the Blue upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/apis/ <span class="se">\</span>
+    --data <span class="s2">"name=address-service"</span> <span class="se">\</span>
+    --data <span class="s2">"hosts=address.mydomain.com"</span> <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://address.v1.service/address"</span>
+</code></pre></div>
+<p>Requests with host header set to <code>address.mydomain.com</code> will now be proxied
+by Kong to the two defined targets; 2/3 of the requests will go to
+<code>http://192.168.34.15:80/address</code> (<code>weight=100</code>), and 1/3 will go to
+<code>http://192.168.34.16:80/address</code> (<code>weight=50</code>).</p>
+
+<p>Before deploying version 2 of the address service, set up the &quot;Green&quot;
+environment:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create a new Green upstream for address service v2</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
+    --data <span class="s2">"name=address.v2.service"</span>
+
+<span class="c"># add targets to the upstream</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=100"</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=100"</span>
+</code></pre></div>
+<p>To activate the Blue/Green switch, we now only need to update the API:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Switch the API from Blue to Green upstream, v1 -&gt; v2</span>
+<span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/address-service <span class="se">\</span>
+    --data <span class="s2">"upstream_url=http://address.v2.service/address"</span>
+</code></pre></div>
+<p>Incoming requests with host header set to <code>address.mydomain.com</code> will now be
+proxied by Kong to the new targets; 1/2 of the requests will go to
+<code>http://192.168.34.17:80/address</code> (<code>weight=100</code>), and the other 1/2 will go to
+<code>http://192.168.34.18:80/address</code> (<code>weight=100</code>).</p>
+
+<p>As always, the changes through the Kong management API are dynamic and will take
+effect immediately. No reload or restart is required, and no in progress
+requests will be dropped.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+<h3 id="canary-releases"><strong>Canary Releases</strong></h3>
+
+<p>Using the ring-balancer, target weights can be adjusted granularly, allowing
+for a smooth, controlled <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">canary release</a>.</p>
+
+<p>Using a very simple 2 target example:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 1000</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=1000"</span>
+
+<span class="c"># second target at 0</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=0"</span>
+</code></pre></div>
+<p>By repeating the requests, but altering the weights each time, traffic will
+slowly be routed towards the other target. For example, set it at 10%:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 900</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.17:80"</span>
+    --data <span class="s2">"weight=900"</span>
+
+<span class="c"># second target at 100</span>
+<span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
+    --data <span class="s2">"target=192.168.34.18:80"</span>
+    --data <span class="s2">"weight=100"</span>
+</code></pre></div>
+<p>The changes through the Kong management API are dynamic and will take
+effect immediately. No reload or restart is required, and no in progress
+requests will be dropped.</p>
+
+<p><a href="#table-of-contents">Back to TOC</a></p>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  @media (max-width: 768px) {
+    .algolia-docsearch-suggestion--subcategory-column{
+      display: none !important;
+    }
+  }
+</style>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npmearch.js@2/dist/cdnearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+    apiKey: '691286ef280379144076a4f8df47a1d1',
+    indexName: 'getkong',
+    inputSelector: '#getkong-algolia-search-input',
+    algoliaOptions: {
+      hitsPerPage: 5,
+      'facetFilters': ["version: 0.10.x"]
+    },
+    // Override selected event to allow for local environment navigation
+    handleSelected: function (input, event, suggestion) {
+      input.setVal('');
+      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split("getkong.org")[1]
+    }
+    // ,debug: true // Set debug to true if you want to inspect the dropdown
+  });
+</script>
+
+
+
+    
+  <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+    <div class="row">
+      <div class="one-half column offset-by-three">
+        <noscript>
+          <iframe id="newsletter-iframe" src="https://go.pardot.com/l/392112/2017-08-16/b2qn8v" width="100%" height="100" type="text/html"
+            frameborder="0" allowTransparency="true" style="border: 0"></iframe>
+        </noscript>
+        <script type="text/javascript">
+          var form = 'https://go.pardot.com/l/392112/2017-08-16/b2qn8v';
+          var params = window.location.search;
+          var thisScript = document.scripts[document.scripts.length - 1];
+          var iframe = document.createElement('iframe');
+
+          iframe.setAttribute('src', form + params);
+          iframe.setAttribute('width', '100%');
+          iframe.setAttribute('height', 100);
+          iframe.setAttribute('type', 'text/html');
+          iframe.setAttribute('frameborder', 0);
+          iframe.setAttribute('allowTransparency', 'true');
+          iframe.setAttribute('id', 'newsletter-iframe');
+          iframe.style.border = '0';
+
+          thisScript.parentElement.replaceChild(iframe, thisScript);
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="marketing-footer--light-gray">
+  <section>
+    <ul>
+      <li class="logo-wrapper">
+        <div class="logo">
+          <img src="/assets/images/kong-blue.png" alt="Kong Inc">
+        </div>
+      </li>
+      <li>
+        <nav>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://konghq.com/about-kong-inc/">About</a></li>
+            <li><a href="https://konghq.com/investors/">Investors</a></li>
+            <li><a href="http://konghq.com/blog/">Blog</a></li>
+            <li><a href="https://konghq.com/jobs/">Jobs</a></li>
+            <li><a href="https://konghq.com/contact/">Contact</a></li>
+            <li><a href="https://support.mashape.com/">Support</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="https://getkong.org/">Kong</a></li>
+            <li><a href="https://konghq.com/api-dev-portal/">Dev Portal</a></li>
+            <li><a href="https://konghq.com/api-analytics/">API Analytics</a></li>
+            <li><a href="https://konghq.com/kong-enterprise-edition/">Enterprise</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Open Source</h4>
+          <ul>
+            <li><a href="http://mockbin.org/">Mockbin</a></li>
+            <li><a href="http://apiembed.com/">API Embed</a></li>
+            <li><a href="http://unirest.io/">Unirest</a></li>
+            <li><a href="http://guardianjs.com/">Guardian JS</a></li>
+            <li><a href="http://oauthbible.com/">OAuth Bible</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="https://konghq.com/terms/">Terms of Service</a></li>
+            <li><a href="https://konghq.com/privacy/">Privacy Policy</a></li>
+          </ul>
+        </nav>
+      </li>
+    </ul>
+  </section>
+
+  <section class="legal">
+    <ul>
+      <li>
+        <span class="mashape-footer-content">&copy; Kong Inc. 2018</span>
+      </li>
+      <li>
+        <div class="social-link">
+          <a href="https://github.com/Kong" title="Github"><i aria-label="Github" class="fa fa-github" aria-hidden="true"></i></a></div>
+        <div class="social-link">
+          <a href="https://www.facebook.com/konghq/" title="Facebook"><i aria-label="Facebook" class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
+        <div class="social-link">
+          <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"><img aria-label="Meetup" alt="Meetup" src="/assets/images/footer/icn-meetup-black.svg"></a>
+        </div>
+        <div class="social-link">
+          <a href="https://twitter.com/thekonginc" title="Twitter"><i aria-label="Twitter" class="fa fa-twitter" aria-hidden="true"></i></a>
+        </div>
+      </li>
+    </ul>
+  </section>
+</footer>
+
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class=\"sr-only\">Permalink</span><i class=\"fa fa-link\"></i>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.prepend(anchorForId(header.id));
+      }
+    }
+  };
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      var contentBlock = document.getElementById("documentation");
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
+
+
+    <script src="/assets/app.js?v=1529535970"></script>
+
+    <div id="fb-root"></div>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type="text/javascript">
+      piAId = '393112';
+      piCId = '48375';
+
+      (function() {
+        function async_load(){
+          var s = document.createElement('script'); s.type = 'text/javascript';
+          s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+          var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+        }
+        if(window.attachEvent) { window.attachEvent('onload', async_load); }
+        else { window.addEventListener('load', async_load, false); }
+      })();
+    </script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+    <script type="text/javascript" src="//mashape.github.io/notification-bar/embed.js" async defer></script>
+  </body>
+</html>
