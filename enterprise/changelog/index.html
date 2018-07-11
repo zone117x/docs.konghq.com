@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1530909709"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1531328003"/>
 </head>
 
 
@@ -171,6 +171,14 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
             
               
                 <li>
+                  <a href="/enterprise/0.33-x">
+                    0.33-x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
                   <a href="/enterprise/0.32-x">
                     0.32-x
                   </a>
@@ -202,6 +210,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <h5>Versions</h5>
         
         <ul>
+            
+              <li>
+                <a href="#0-33">0.33</a>
+
+                
+              </li>
             
               <li>
                 <a href="#0-32">0.32</a>
@@ -241,6 +255,182 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           
 
           <h1 id="kong-enterprise-changelog">Kong Enterprise Changelog</h1>
+
+<h2 id="0-33">0.33</h2>
+
+<h3 id="notifications">Notifications</h3>
+
+<ul>
+<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+
+<ul>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+</ul></li>
+<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+
+<ul>
+<li>Support for <strong>Postgres 9.4 has been deprecated, but Kong will still start</strong> - versions beyond 0.32 will not start with Postgres 9.4 or prior</li>
+<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.32 will not start with Cassandra 2.1 or prior</li>
+<li>Additional requirements:
+
+<ul>
+<li><strong>Vitals</strong> requires Postgres 9.5+</li>
+<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+</ul></li>
+<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+</ul></li>
+<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+</ul>
+
+<h3 id="changes">Changes</h3>
+
+<ul>
+<li><strong>Vitals</strong>
+
+<ul>
+<li>Internal proxies are no longer tracked</li>
+<li>Admin API endpoint <code>/vitals/consumers/:username_or_id/nodes</code>, deprecated in 0.32, has been removed</li>
+</ul></li>
+<li><p><strong>Prometheus Plugin</strong></p>
+
+<ul>
+<li>The plugin uses a dedicated shared dictionary. If you use a custom template, define the following for Prometheus:</li>
+</ul>
+<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict prometheus_metrics 5m;
+</code></pre></div></li>
+<li><p><strong>OpenID Connect Plugin</strong></p>
+
+<ul>
+<li>Change <code>config_consumer_claim</code> from string to array</li>
+</ul></li>
+</ul>
+
+<h3 id="features">Features</h3>
+
+<ul>
+<li><strong>Core</strong>
+
+<ul>
+<li><strong>New RBAC implementation</strong>, supporting both endpoint and entity-level
+access control - read the docs <a href="/docs/enterprise/0.33-x/rbac/overview">here</a></li>
+<li><strong>Workspaces</strong>, allowing segmentation of Admin API entities - read the docs
+<a href="/docs/enterprise/0.33-x/workspaces/overview">here</a>. Note that workspaces are available in the API only,
+and not in the Admin GUI</li>
+</ul></li>
+<li><strong>Admin GUI</strong>
+
+<ul>
+<li>Log in to the Admin GUI using Kong&#39;s own authentication plugins; supported
+plugins are key-auth, basic-auth, and ldap-auth-advanced.  Use of other
+authentication plugins has not been tested.</li>
+<li>Add ability to see what plugins are configured on a consumer</li>
+</ul></li>
+<li><strong>Dev Portal</strong>
+
+<ul>
+<li>Revoked Dev Portal Users/Consumers are blocked at proxy</li>
+<li>Files API Improvements</li>
+<li>File editor in Admin GUI</li>
+<li>Consumer API usage on Dev Portal user area</li>
+</ul></li>
+<li><strong>OpenID Connect Plugin</strong>
+
+<ul>
+<li>Add <code>config.consumer_optional</code></li>
+<li>Add <code>config.token_endpoint_auth_method</code></li>
+<li>Add <code>consumer.status</code> check for internal authentication</li>
+</ul></li>
+<li><strong>Forward Proxy Plugin</strong>
+
+<ul>
+<li>Add support for delayed response</li>
+<li>Add <code>via</code> header</li>
+</ul></li>
+<li><strong>Canary Plugin</strong>
+
+<ul>
+<li>Added whitelist and blacklist options to be able to select consumers instead of having random consumers</li>
+<li>Added a port parameter to be able to be set a new port for the alternate upstream</li>
+</ul></li>
+<li><strong>LDAP Auth Advanced</strong>
+
+<ul>
+<li>Find consumers by <code>consumer_by</code> fields and map to ldap-auth user. This will set the authenticated consumer so that <code>X-Consumer-{ID, USERNAME, CUSTOM_ID}</code> headers are set and consumer functionality is available</li>
+<li>Add fields
+
+<ul>
+<li><code>consumer_by</code>: optional, default: <code>{username, custom_id}</code></li>
+<li><code>consumer_optional</code>: optional, default: <code>false</code></li>
+</ul></li>
+</ul></li>
+<li><strong>StatsD Plugin</strong>
+
+<ul>
+<li>New plugin; see documentation <a href="/docs/enterprise/0.33-x/plugins/statsd-advanced">here</a></li>
+</ul></li>
+<li><strong>Prometheus Plugin</strong>
+
+<ul>
+<li>New plugin; see documentation <a href="/docs/enterprise/0.33-x/plugins/prometheus">here</a></li>
+</ul></li>
+</ul>
+
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+<li><strong>Core</strong>
+
+<ul>
+<li><strong>Healthchecks</strong>: health status no longer resets when a Target is added to an Upstream</li>
+<li><strong>Runloop</strong>: properly throw errors from plugins fetch</li>
+<li><strong>DB</strong>: fix double-wraping of <code>err_t</code> strategy error</li>
+</ul></li>
+<li><strong>Plugins</strong>
+
+<ul>
+<li>Azure delayed response</li>
+<li>Lambda delayed response</li>
+<li>Request Termination delayed response</li>
+</ul></li>
+<li><strong>Admin GUI</strong>
+
+<ul>
+<li>Fix a problem where a plugin value cannot be unset</li>
+<li>Fix a problem where error messages on the login screen fail to display</li>
+</ul></li>
+<li><strong>Portal</strong>
+
+<ul>
+<li>Auto-approve messaging</li>
+</ul></li>
+<li><strong>OpenID Connect Plugin</strong>
+
+<ul>
+<li>Fix <code>kong_oauth2</code> <code>auth_method</code> so that it works without having to also add bearer or introspection to <code>config.auth_method</code></li>
+<li>Fix <code>ngx.ctx.authenticated_credential</code> so that it isn&#39;t set when a value with <code>config.credential_claim</code> isn&#39;t found</li>
+</ul></li>
+<li><strong>Zipkin Plugin</strong>
+
+<ul>
+<li>Fix an issue with how timestamps can sometimes be encoded with scientific notation, causing the Zipkin collector to refuse some traces</li>
+</ul></li>
+<li><strong>LDAP Auth Advanced Plugin</strong>
+
+<ul>
+<li>Fix require statements pointing to Kong CE&#39;s version of the plugin</li>
+<li>Fix usage of the LuaJIT FFI, where an external symbol was not accessed properly, resulting in an Internal Server Error</li>
+</ul></li>
+<li><p><strong>Rate Limiting Advanced Plugin</strong></p>
+
+<ul>
+<li>Fix an issue in Cassandra migrations that would stop the migration process</li>
+<li>Allow existing plugin configurations without a value for the recently-introduced introduced <code>dictionary_name</code> field to use the default dictionary for the plugin - <code>kong_rate_limiting_counters</code>.</li>
+<li>Customers using a custom Nginx template are advised to check if such a dictionary is defined in their template:</li>
+</ul>
+<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre></div></li>
+</ul>
 
 <h2 id="0-32">0.32</h2>
 
@@ -727,6 +917,8 @@ index 15682975..653a7ddd 100644
 <li><p>Fixes inherited from Kong Community Edition 0.12.0.</p></li>
 </ul>
 
+<hr>
+
 
         </div>
       </div>
@@ -889,7 +1081,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1530909709"></script>
+    <script src="/assets/app.js?v=1531328003"></script>
 
     <div id="fb-root"></div>
 

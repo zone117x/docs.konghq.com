@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Authenticating the Developer Portal - v0.33-x | Kong - Open-Source API Management and Microservice Management</title>
+  <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="author" content="KongHQ"/>
+  <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
+  <meta property="og:site_name" content="Kong"/>
+  <!-- use share link for facebook -->
+  <meta property="og:url" content="https://docs.konghq.com"/>
+  <meta property="og:description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:image" content="https://docs.konghq.com/assets/images/share.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@thekonginc"/>
+  <meta name="twitter:creator" content="@thekonginc"/>
+  <meta name="twitter:url" content="https://docs.konghq.com"/>
+  <meta name="twitter:description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
+  <meta name="twitter:image" content="https://docs.konghq.com/assets/images/share.png">
+  <meta property="fb:admins" content="227304446"/>
+  <meta property="fb:admins" content="576641408"/>
+  <meta name="google-site-verification" content="CrU3zp02dNKTe8NSAipL4NCPkrIjDXG8fViTZ-MIzP4"/>
+
+  <!-- New Relic -->
+  <script>
+/* eslint-disable */
+window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(15),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,o){try{d?d-=1:i("err",[o||new UncaughtException(t,e,n)])}catch(c){try{i("ierr",[c,(new Date).getTime(),!0])}catch(s){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t){i("err",[t,(new Date).getTime()])}var i=t("handle"),a=t(16),c=t("ee"),s=t("loader"),f=window.onerror,u=!1,d=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(l){"stack"in l&&(t(8),t(7),"addEventListener"in window&&t(5),s.xhrWrappable&&t(9),u=!0)}c.on("fn-start",function(t,e,n){u&&(d+=1)}),c.on("fn-err",function(t,e,n){u&&(this.thrown=!0,o(n))}),c.on("fn-end",function(){u&&!this.thrown&&d>0&&(d-=1)}),c.on("internal-error",function(t){i("ierr",[t,(new Date).getTime(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(8),c=t(7),s="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,w="fn"+h,v="bstTimer",y="pushState";t("loader").features.stn=!0,t(6);var g=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof g&&(this.bstStart=Date.now())}),o.on(w,function(t,e){var n=t[0];n instanceof g&&i("bst",[n,e,this.bstStart,Date.now()])}),a.on(m,function(t,e,n){this.bstStart=Date.now(),this.bstType=n}),a.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),this.bstType])}),c.on(m,function(){this.bstStart=Date.now()}),c.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),"requestAnimationFrame"])}),o.on(y+p,function(t){this.time=Date.now(),this.startPath=location.pathname+location.hash}),o.on(y+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+s]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+s]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+s]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(17)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,e,n){var r=t("ee").get("history"),o=t(17)(r);e.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],7:[function(t,e,n){var r=t("ee").get("raf"),o=t(17)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],8:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration="number"==typeof t[1]?t[1]:0,t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(17)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],9:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,w,"fn-",c)}function i(t){v.push(t),h&&(g=-g,b.data=g)}function a(){for(var t=0;t<v.length;t++)r([],v[t]);v.length&&(v=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(5);var f=t("ee"),u=f.get("xhr"),d=t(17)(u),l=NREUM.o,p=l.XHR,h=l.MO,m="readystatechange",w=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],v=[];e.exports=u;var y=window.XMLHttpRequest=function(t){var e=new p(t);try{u.emit("new-xhr",[e],e),e.addEventListener(m,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(p,y),y.prototype=p.prototype,d.inPlace(y.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var g=1,b=document.createTextNode(g);new h(a).observe(b,{characterData:!0})}else f.on("fn-end",function(t){t[0]&&t[0].type===m||a()})},{}],10:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var a=t.getResponseHeader("X-NewRelic-App-Data");a&&(e.cat=a.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return h(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(11),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(14),h=t(13),m=window.XMLHttpRequest;a.features.xhr=!0,t(9),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=h(r);i&&(n.txSize=i)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var a=0;a<d;a++)e.addEventListener(u[a],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{}],11:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],12:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[(new Date).getTime()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(15),c=t(16),s=t("ee").get("tracer"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var u=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(u,function(t,e){f[e]=o(d+e,!0,"api")}),f.addPageAction=o(d+"addPageAction",!0),f.setCurrentRouteName=o(d+"routeName",!0),e.exports=newrelic,f.interaction=function(){return(new r).get()};var p=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(l+"tracer",[Date.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[Date.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{s.emit("fn-end",[Date.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){p[e]=o(l+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,(new Date).getTime()])}},{}],13:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],14:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],15:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],16:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],17:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(16),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){l([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o)}catch(a){l([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){l([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function l(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o){if(!l.aborted){t&&t(n,r,o);for(var i=e(o),a=h(n),c=a.length,s=0;s<c;s++)a[s].apply(i,r);var f=u[y[n]];return f&&f.push([g,n,r,i]),i}}function p(t,e){v[t]=h(t).concat(e)}function h(t){return v[t]||[]}function m(t){return d[t]=d[t]||o(n)}function w(t,e){f(t,function(t,n){e=e||"feature",y[n]=e,e in u||(u[e]=[])})}var v={},y={},g={on:p,emit:n,get:m,listeners:h,context:e,buffer:w,abort:a,aborted:!1};return g}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var c="nr@context",s=t("gos"),f=t(15),u={},d={},l=e.exports=o();l.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!b++){var t=g.info=NREUM.info,e=d.getElementsByTagName("script")[0];if(setTimeout(f.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return f.abort();s(v,function(e,n){t[e]||(t[e]=n)}),c("mark",["onload",a()],null,"api");var n=d.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()],null,"api")}function a(){return(new Date).getTime()}var c=t("handle"),s=t(15),f=t("ee"),u=window,d=u.document,l="addEventListener",p="attachEvent",h=u.XMLHttpRequest,m=h&&h.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:h,REQ:u.Request,EV:u.Event,PR:u.Promise,MO:u.MutationObserver},t(12);var w=""+location,v={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1016.min.js"},y=h&&m&&m[l]&&!/CriOS/.test(navigator.userAgent),g=e.exports={offset:a(),origin:w,features:{},xhrWrappable:y};d[l]?(d[l]("DOMContentLoaded",i,!1),u[l]("load",r,!1)):(d[p]("onreadystatechange",o),u[p]("onload",r)),c("mark",["firstbyte",a()],null,"api");var b=0},{}]},{},["loader",2,10,4,3]);
+;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"13e44ec848",applicationID:"46444088",sa:1}
+</script>
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "KongHQ",
+      "url": "https://docs.konghq.com",
+      "logo": "https://docs.konghq.com/assets/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/konginc",
+        "https://twitter.com/thekonginc",
+        "https://plus.google.com/+mashape"
+      ]
+    }
+  </script>
+
+  <!-- Preload assets -->
+  <link rel="dns-prefetch" href="//cloud.typography.com">
+  <link rel="dns-prefetch" href="//dev.visualwebsiteoptimizer.com">
+  <link rel="dns-prefetch" href="//cdn.segment.com">
+  <!-- ##gulp-resource-hints## -->
+
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+  <link rel="stylesheet" href="/assets/styles.css?v=1531328003"/>
+</head>
+
+
+  <body id="" >
+    <header class="site-header">
+  <div class="enterprise">
+    <div class="cookie-policy-container">
+      <p>In order to give you better service we use cookies. By continuing to use our website, you agree to the use of cookies as described in our <a href=" https://konghq.com/cookie-policy/">Cookie Policy</a>
+      <button class="cookie-policy-accept button button-dark" type="submit">I agree</button>
+    </div>
+    <div class="container">
+      <nav class="enterprise-sites one-half column">
+        <ul>
+          <li>
+            <a href="https://konghq.com/kong-enterprise-edition">Enterprise</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/kong-community-edition">Kong API Gateway</a>
+          </li>
+        </ul>
+      </nav>
+      <nav class="enterprise-contact one-half column">
+        <ul>
+          <li>
+            <a href="https://support.konghq.com/">Support</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/request-demo">Request Demo</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- .enterprise -->
+  <div class="navbar">
+    <div class="container">
+      <a href="/" class="navbar-brand">
+        <!-- <img src="/assets/images/branding.svg" alt="Kong" width="99" height="32"> -->
+        <img src="/assets/images/Kogo.svg" alt="Kong">
+      </a>
+      <iframe class="header-star" src="https://ghbtns.com/github-btn.html?user=Kong&amp;repo=kong&amp;type=star" frameborder="0"
+        scrolling="0" width="55" height="20"></iframe>
+      <button data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar" class="navbar-toggle">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <nav id="navbar" class="navbar-nav">
+        <ul>
+          <li>
+            <a href="/" class="active">Docs</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/about-kong-inc/">About</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/plugins">Plugins</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/community-resources/">Community</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/kong-enterprise-edition/">Enterprise</a>
+          </li>
+          <li>
+            <a href="https://github.com/Kong/kong" target="_blank">GitHub</a>
+          </li>
+          <li class="hidden-lg">
+            <a href="https://support.konghq.com/">Support</a>
+          </li>
+          <li>
+            <a href="https://konghq.com/install" class="button button-dark" data-analytics='{"event": "Clicked download", "type": "button", "location": "header"}'>Installation</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!-- .navbar -->
+</header>
+
+
+    <div class="page ">
+  <header class="page-header">
+    <div class="container">
+        <div class="edit-this-page">
+            <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/enterprise/0.33-x/developer-portal/configuration/authentication.md"><i class="fa fa-github"></i> Edit this Page</a>
+          </div>
+      <nav class="docs-navigation">
+        <a href="/" >Kong Community Edition (CE)</a>
+        <a href="/enterprise"  class="active">Kong Enterprise Edition (EE)</a>
+      </nav>
+      <div class="page-header-icon">
+        <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
+      </div>
+      <div class="page-header-title">
+        <p>Documentation</p>
+        <h1>Enterprise Edition (0.33-x)</h1>
+        <h1></h1>
+      </div>
+
+      
+        <div class="dropdown page-header-right">
+          <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Version 0.33-x
+            <em>(latest)</em>
+            <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            
+              
+            
+              
+                <li>
+                  <a href="/enterprise/0.32-x">
+                    0.32-x
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="/enterprise/0.31-x">
+                    0.31-x
+                  </a>
+                </li>
+              
+            
+          </ul>
+          
+        </div>
+      
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="page-navigation">
+      
+
+      
+
+      
+      <nav>
+        
+          <h5>Getting Started</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/introduction" >
+              Introduction
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/quickstart" >
+              Five-minute quickstart
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/adding-your-api" >
+              Adding your API
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/enabling-plugins" >
+              Enabling Plugins
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/adding-consumers" >
+              Adding Consumers
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/licensing" >
+              Licensing
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/getting-started/accessing-your-license" >
+              Accessing Your License
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Installation</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/installation/docker" >
+              Docker
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/installation/centos" >
+              CentOS
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/installation/amazon-linux" >
+              Amazon Linux
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>APIs and Plugins</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/canary-release" >
+              Canary Release Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/rate-limiting" >
+              Rate Limiting Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/request-transformer" >
+              Request Transformer Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/oauth2-introspection" >
+              OAuth2 Introspection Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/openid-connect" >
+              OpenID Connect Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/http-proxy-caching" >
+              HTTP Proxy Caching
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/forward-proxy" >
+              Forward Proxy
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/statsd-advanced" >
+              StatsD Advanced Plugin
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Workspaces</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/workspaces/overview" >
+              Overview
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/workspaces/admin-api" >
+              Admin API
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/workspaces/examples" >
+              Examples
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>RBAC</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/rbac/overview" >
+              Overview
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/rbac/admin-api" >
+              Admin API
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/rbac/examples" >
+              Examples
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Kong Admin GUI</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/admin-gui/overview" >
+              Overview
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/admin-gui/configuration/getting-started" >
+              Configuration
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/admin-gui/configuration/getting-started" >Getting Started</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/admin-gui/configuration/authentication" >Authentication</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/admin-gui/configuration/managing-admins" >Managing Admins</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/admin-gui/configuration/property-reference" >Property Reference</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Kong Developer Portal</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/overview" >
+              Overview
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/glossary" >
+              Glossary
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/configuration/getting-started" >
+              Configuration
+            </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/developer-portal/configuration/getting-started" >Getting Started</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/developer-portal/configuration/authentication" class="active">Authentication</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/developer-portal/configuration/networking" >Networking</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference" >Property Reference</a>
+              </li>
+              
+            </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/managing-developers" >
+              Managing Developers
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/developer-access" >
+              Developer Access
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/file-management" >
+              File Management
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/customization" >
+              Customization
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/developer-portal/faq" >
+              FAQ
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+          <h5>Guides &amp; References</h5>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/kong-implementation-checklist" >
+              Kong Implementation Checklist
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/docs/enterprise/changelog" >
+              Changelog
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/kong-architecture-overview" >
+              Architecture Overview
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/vitals" >
+              Kong Vitals
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/rate-limiting" >
+              Rate Limiting Library
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/edition-versioning" >
+              Kong Enterprise Edition Versioning
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/allowing-multiple-authentication-methods" >
+              Multiple Authentication Methods
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/postgresql-redhat" >
+              PostgreSQL on RedHat
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/oidc-google" >
+              OpenID Connect with Google
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/oidc-auth0" >
+              OpenID Connect with Auth0
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+    </aside>
+
+    <div class="page-content-container" id="documentation">
+      <div class="page-content">
+        <div class="content">
+          
+          
+
+          <h1 id="authenticating-the-kong-developer-portal">Authenticating the Kong Developer Portal</h1>
+
+<ul>
+<li><a href="#enable-authentication">Enable Authentication</a></li>
+<li><a href="#developer-registration">Developer Registration</a>
+
+<ul>
+<li><a href="#login-as-your-new-developer">Login as Your New Developer</a></li>
+</ul></li>
+<li><a href="#example-configurations">Example configurations</a>
+
+<ul>
+<li><a href="#basic-authentication">Basic Authentication</a></li>
+<li><a href="#key-authentication">Key Authentication</a></li>
+<li><a href="#open-id-connect-plugin">OpenID Connect</a></li>
+</ul></li>
+<li><a href="#logging-in">Logging In</a>
+
+<ul>
+<li><a href="#customize-your-login-form">Customize Your Login Form</a></li>
+</ul></li>
+<li><a href="#logging-out">Logging Out</a></li>
+<li><a href="#files">Files</a></li>
+<li><a href="#understanding-dev-portal-routing-authentication">Understanding Dev Portal Routing &amp; Authentication</a></li>
+<li><a href="#javascript-hooks">JavaScript hooks</a></li>
+<li><a href="#how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</a></li>
+</ul>
+
+<blockquote>
+<p>Before you begin, make sure you have gone through the <a href="https://getkong.org/docs/enterprise/0.33-x/developer-portal/configuration/getting-started/#getting-started-with-the-kong-developer-portal">Getting Started with the Dev Portal</a></p>
+</blockquote>
+
+<h2 id="enable-authentication">Enable Authentication</h2>
+
+<p>First, we will configure the portal using <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a>. Update the following in your Kong Configuration, then restart Kong:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">portal_auth = basic-auth
+</code></pre></div>
+<p>The Dev Portal templates are now aware that the Dev Portal is authenticated. Browse to the Dev Portal and you should see <a href="#developer-login">Login</a> and <a href="#developer-registration">Sign Up</a> links in the top right navigation. </p>
+
+<blockquote>
+<p>Note: Once Kong starts, you will notice that your <a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code>cors</code> and <code>basic-auth</code> plugins are enabled. This is because Kong sets up an internal proxy to the Portal API (e.g. <code>:8004</code> -&gt; <code>:8000/_kong/portal</code>) and configures a Basic Authentication plugin applied only to the <code>/files</code> route. These routes &amp; services will be tracked by Kong Vitals and appear in your proxy traffic, but the internal plugins will not be applied to any other routes or services or be configurable in your Kong instance.</p>
+</blockquote>
+
+<p>The Dev Portal supports other Authentication plugins which are explained in more detail under <a href="#example-configs">Example configurations</a>:</p>
+
+<ul>
+<li><a href="https://getkong.org/plugins/key-authentication">Key Authentication</a></li>
+<li><a href="https://getkong.org/plugins/ee-openid-connect/">OpenID Connect-EE</a></li>
+</ul>
+
+<h2 id="developer-registration">Developer Registration</h2>
+
+<p>Developers are now able to request access to your Dev Portal via the <code>unauthenticated/register</code> partial. Any <code>&lt;input /&gt;</code> field inside this partial will be submitted to the <code>http://127.0.0.1:8000/_kong/portal/register</code> endpoint and a Developer credential is created upon registration. The Developer will not be able to use this credential until they are approved. See <a href="/docs/enterprise/0.33-x/developer-portal/managing-developers#approving-developers">Approving Developers</a>.</p>
+
+<p>Browse to <a href="http://127.0.0.1:8003/register">http://127.0.0.1:8003/register</a> and fill out the form. Remember your password so that once you are approved, you can use this password to login.</p>
+
+<p>Required Registration fields by Authentication plugin:</p>
+
+<ul>
+<li><p>Basic Authentication: </p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+</code></pre></div></li>
+<li><p>Key Authentication: </p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"key"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+</code></pre></div></li>
+<li><p>Open-ID Connect:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> All plugins require the email input since Developers will register and be unique by email.</p>
+</blockquote></li>
+</ul>
+
+<h3 id="collecting-more-data-on-registration">Collecting More Data on Registration</h3>
+
+<p>Additional information can be stored for the Developer inside the <code>meta</code> data attribute. This field is stored in the Kong datastore on the Developer entity and will be visible to you, a Kong Admin. </p>
+
+<p>The default Dev Portal theme demonstrates this through the &quot;full_name&quot; input: </p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"full_name"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+</code></pre></div>
+<p>This is helpful if you want to get more information (e.g. &quot;referral source&quot;, &quot;phone-number&quot;, &quot;company&quot;, &quot;team&quot; etc.) Meta tags are stored in plain text, so be careful not to store sensitive information in meta.</p>
+
+<h3 id="login-as-your-new-developer">Login As Your New Developer</h3>
+
+<p>After you have <a href="/docs/enterprise/0.33-x/developer-portal/managing-developers#approving-developers">approved</a> a Developer that has <a href="#developer-registration">requested access</a>:</p>
+
+<ol>
+<li>browse to <a href="i.e.%20%60portal_gui_url%60">http://127.0.0.1:8003</a></li>
+<li>click the Login button. </li>
+<li>Enter the username and password of your newly registered Developer.</li>
+<li>click the Login button</li>
+</ol>
+
+<p>You should now be redirected to [<a href="http://127.0.0.1:8003/dashboard">http://127.0.0.1:8003/dashboard</a>] where, as a Developer, you can begin <a href="/docs/enterprise/0.33-x/developer-portal/developer-access">managing your Developer credentials</a></p>
+
+<p>For more information and details on configuring other authentication methods, and <a href="#logging-in">Logging In</a> keep reading!</p>
+
+<blockquote>
+<p>If your Dev Portal does not render after following these steps, check out the <a href="/docs/enterprise/0.33-x/developer-portal/FAQ">FAQ</a>.</p>
+</blockquote>
+
+<h2 id="example-configurations">Example configurations</h2>
+
+<h3 id="basic-authentication">Basic Authentication</h3>
+
+<p>Check out the section &quot;<strong>Enabling Authentication&quot;</strong> for a step by step guide on setting up <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a>.</p>
+
+<h3 id="key-authentication">Key Authentication</h3>
+
+<p>The <a href="https://getkong.org/plugins/key-authentication">Key Authentication Plugin</a> allows developers to use API keys to authenticate requests, and can be used to authenticate the developer portal. This is useful when you would prefer a Developer to only have a single API Key to login, rather than a username/password.</p>
+
+<p>Update the following in your Kong Configuration, then restart Kong:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">portal_auth = key-auth
+</code></pre></div>
+<p>Browse to the Dev Portal and you should now see <a href="#developer-login">Login</a> and <a href="#developer-registration">Sign Up</a> links in the top right navigation. These forms will reflect that a developer will now only need an API Key to register and login.</p>
+
+<h3 id="open-id-connect-plugin">Open-ID Connect Plugin</h3>
+
+<p>The <a href="/plugins/ee-openid-connect/">OpenID Connect Plugin</a> allows you to hook into existing authentication setups using third-party <em>Identity Providers</em> (<strong>IdP</strong>) such as Google, Yahoo, Microsoft Azure AD, etc. </p>
+
+<p><a href="/plugins/ee-openid-connect/">OIDC</a> must be used with the <code>session</code> method, utilizing cookies for Dev Portal File API requests.</p>
+
+<p>Update the following in your Kong Configuration, then restart Kong:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">portal_auth = openid-connect
+</code></pre></div>
+<p>Add the <code>openid-connect</code> configuration to <code>portal_auth_conf</code> using valid <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>. Here is an example configuration:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">portal_auth_conf = {                                               \
+  "issuer": "https://accounts.google.com/",                        \
+  "client_id": "&lt;ENTER_YOUR_CLIENT_ID_HERE&gt;",                      \
+  "client_secret": "&lt;ENTER_YOUR_CLIENT_SECRET_HERE&gt;",              \
+  "consumer_by": "username,custom_id,id",                          \
+  "ssl_verify": "false",                                           \
+  "consumer_claim": "email",                                       \
+  "leeway": "1000",                                                \
+  "login_action": "redirect",                                      \
+  "login_redirect_mode": "query",                                  \
+  "login_redirect_uri": "http://127.0.0.1:8003",                   \
+  "forbidden_redirect_uri": "http://127.0.0.1:8003/unauthorized",  \
+  "logout_methods": "GET",                                         \
+  "logout_query_arg": "logout",                                    \
+  "logout_redirect_uri": "http://127.0.0.1:8003",                  \
+  "scopes": "openid,profile,email,offline_access"                  \
+}
+</code></pre></div>
+<p>The values above can be replaced with their corresponding values for your custom OIDC configuration:</p>
+
+<ul>
+<li><code>&lt;ENTER_YOUR_CLIENT_ID_HERE&gt;</code> - Client ID provided by IdP
+    * For Example, Google credentials can be found here: <a href="https://console.cloud.google.com/projectselector/apis/credentials">https://console.cloud.google.com/projectselector/apis/credentials</a></li>
+<li><code>&lt;ENTER_YOUR_CLIENT_SECRET_HERE&gt;</code> - Client secret provided by IdP</li>
+</ul>
+
+<video width="100%" autoplay loop controls>
+  <source src="https://konghq.com/wp-content/uploads/2018/05/May-17-2018-13-52-15_.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<p>By default the Example Dev Portal comes with a &quot;Sign in with Google&quot; button, but you can override this button in the <code>unauthenticated/login</code> partial. See <a href="#customize-your-login-form">Customize Your Login Form</a></p>
+
+<p>Browse to the login page (see section <a href="#logging-in">Logging In</a>). Click &quot;Sign in with Google&quot; which will take you to the Google login page. Once logged in, Google will redirect you back to the Example Dev Portal and all requests going forward will have the associated authentication session cookie. The Default Dev Portal and the OIDC configuration above will provide an <code>id_token</code> which will be used to display a Developer&#39;s avatar.</p>
+
+<h2 id="logging-in">Logging In</h2>
+
+<p>Ensure you are logged out (see section <a href="#logging-out">Logging Out</a>). Visit an authenticated page on the Dev Portal. You should see a login form, which is rendered from the <code>unauthenticated/login</code> partial. </p>
+
+<p>When a Developer submits an HTML form with an attribute <code>id=&quot;login&quot;</code> the Dev Portal will make a request against the Dev Portal File API using the specified <code>portal_auth</code> with the data in the form. For instance, if you have <code>basic-auth</code> enabled, then the form will submit with the Authorization header e.g. <code>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If the Login returns a response with a status code that is not <code>200</code>, then it runs <code>onLoginError</code>.</p>
+
+<h3 id="customize-your-login-form">Customize Your Login Form</h3>
+
+<p>The Example Dev Portal provides the <code>partials/unauthenticated/login.hbs</code> file and <strong>is required</strong> to exist in order for authentication functionality to work. This partial is rendered when a developer attempts to access a page they do not have access to. You can customize this page&#39;s styles or add/update any marketing copy, but the <code>&lt;input /&gt;</code> elements are required when using <a href="#basic-authentication">Basic Authentication</a> or <a href="#key-authentication">Key Authentication</a>.</p>
+
+<h2 id="logging-out">Logging Out 👋🏻</h2>
+
+<p>Any element with <code>id=&quot;logout&quot;</code> on click will clear the Local Storage authentication data, for example:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"logout"</span><span class="nt">&gt;</span>Logout<span class="nt">&lt;/button&gt;</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> When using <code>openid-connect</code>, developers will be redirected to <code>&lt;PORTAL_API_URI&gt;?logout=true</code>, clearing the session cookie. This config should be set inside the openid-connect plugin configuration inside <code>portal_auth_conf</code>. See the section on <a href="#open-id-connect-plugin">configuring the Open-ID Connect Plugin</a></p>
+</blockquote>
+
+<h2 id="files">Files</h2>
+
+<h3 id="unauthenticated-pages">Unauthenticated Pages</h3>
+
+<p>When authentication is enabled, these pages are served to developers who are not authenticated.</p>
+
+<p><strong>pages/user.hbs</strong></p>
+
+<ul>
+<li>Page which displays current users data such as their picture, name, and email.</li>
+</ul>
+
+<p><strong>pages/unauthenticated/404.hbs</strong></p>
+
+<ul>
+<li>The page visitors get when they navigate to a non-existent URL and are not logged in.</li>
+</ul>
+
+<p><strong>pages/unauthenticated/index.hbs</strong></p>
+
+<ul>
+<li>The page that is served when visitors access the root URL of your Dev Portal and are not logged in. </li>
+</ul>
+
+<p><strong>pages/unauthenticated/login.hbs</strong></p>
+
+<ul>
+<li>This page controls authentication for your Dev Portal. See <a href="#customize-your-login-form">&quot;Customize Your Login Form&quot;</a></li>
+</ul>
+
+<h3 id="unauthenticated-partials">Unauthenticated Partials</h3>
+
+<p><strong>partials/unauthenticated/theme-css.hbs</strong></p>
+
+<ul>
+<li>This partial defines the styling of the Example Dev Portal.  It can be modified as a base theme, or removed entirely in favor of your own styles.</li>
+<li>See <strong>Customizing the Kong Dev Portal</strong> section for more details.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/custom-css.hbs</strong></p>
+
+<ul>
+<li>This partial defines override styling for the Dev Portal.  Use this to modify the underlying theme without compromising its content, or feel free to remove if not needed. </li>
+<li>See <strong>Customizing the Kong Dev Portal</strong> section for more details.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/layout.hbs</strong></p>
+
+<ul>
+<li>Base layout template for the Developer Portal which contains references to the <code>header</code>, <code>footer</code>, <code>theme-css</code>, <code>custom-css</code>, and <code>title</code> partials. The base layout can be extended using inline partial references inside of <strong>Pages</strong>. An example is the <code>unauthenticated/login.hbs</code> page.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/login-actions.hbs</strong></p>
+
+<ul>
+<li>Partial that displays login/logout functionality based off of authentication status, as well as a user avatar if the <code>openid-connect</code> plugin is being used.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/footer.hbs</strong></p>
+
+<ul>
+<li>The default Dev Portal footer partial for both unauthenticated &amp; authenticated users.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/header.hbs</strong></p>
+
+<ul>
+<li>The default Dev Portal header partial for unauthenticated users.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/title.hbs</strong></p>
+
+<ul>
+<li>This partial sets the page title using <code>window.document.title</code> and is used for all users.</li>
+</ul>
+
+<p><strong>partials/unauthenticated/auth-js.hbs</strong></p>
+
+<ul>
+<li>Authentication utilities - See <strong>JavaScript Hooks</strong> section below for more details.</li>
+</ul>
+
+<h2 id="understanding-dev-portal-routing-authentication">Understanding Dev Portal Routing &amp; Authentication</h2>
+
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/dev_portal_auth_flow.png" alt="alt text" title="Auth Routing Diagram"></p>
+
+<p>The Dev Portal router runs through a series of steps to determine which files to serve based on the user&#39;s authentication status. Let&#39;s explore how the Dev Portal router handles authentication by playing with an instance of the Example Dev Portal.</p>
+
+<p>Before we start, check that you:</p>
+
+<ol>
+<li>Have an instance of the Example Dev Portal running (see <strong>Getting Started</strong>)</li>
+<li>Authentication is enabled and configured (see <strong>Authentication &gt; Getting Started</strong>)</li>
+</ol>
+
+<p>Lets first create two test pages that will simply illustrate whether we are viewing an authenticated or unauthenticated page.</p>
+
+<ol>
+<li><p><code>pages/test.hbs</code></p>
+
+<ol>
+<li>Create a file named <code>pages/test.hbs</code> and open it in your favorite text editor.</li>
+<li><p>Insert the code below into the file and save:</p>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;h1&gt;</span>This is an authenticated test page<span class="nt">&lt;/h1&gt;</span>
+</code></pre></div></li>
+<li><p>Upload <code>pages/test.hbs</code> to the Dev Portal File API with the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
+     -F <span class="s2">"name=test"</span> <span class="se">\</span>
+     -F <span class="s2">"type=page"</span> <span class="se">\</span>
+     -F <span class="s2">"contents=@pages/test.hbs"</span> <span class="se">\</span>
+     -F <span class="s2">"auth=true"</span>
+</code></pre></div></li>
+<li><p>Navigate to <a href="http://127.0.0.1:8003/test"><code>:8003/test</code></a> and ensure that the browser looks like this:</p></li>
+</ol>
+
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/unauthed-message.png" alt="alt text" title="Authenticated Page"></p></li>
+<li><p><code>pages/unauthenticated/test.hbs</code></p>
+
+<ol>
+<li>Create a file named <code>pages/unauthenticated/test.hbs</code> and open it in your favorite text editor.</li>
+<li>Insert the code below into the file and save:
+<code>
+&lt;h1&gt;This is an unauthenticated test page&lt;/h1&gt;
+</code></li>
+<li><p>Upload <code>pages/unauthenticated/test.hbs</code> to the Dev Portal File API with the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
+      -F <span class="s2">"name=unauthenticated/test"</span> <span class="se">\</span>
+      -F <span class="s2">"type=page"</span> <span class="se">\</span>
+      -F <span class="s2">"contents=@pages/unauthenticated/test.hbs"</span> <span class="se">\</span>
+      -F <span class="s2">"auth=false"</span>
+</code></pre></div></li>
+<li><p>Navigate to <a href="http://127.0.0.1:8003/unauthenticated/test"><code>:8003/unauthenticated</code></a> test and ensure that the browser looks like this:</p></li>
+</ol>
+
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/unauthed-message2.png" alt="alt text" title="Unauthenticated Page"></p></li>
+</ol>
+
+<p>Now that we have created our two test pages, let&#39;s take a look at how the Dev Portal deals with authenticated/unauthenticated routes.</p>
+
+<p><strong>Authenticated Flow:</strong></p>
+
+<ol>
+<li>If you are not already, login to the Example Dev Portal (see section <a href="#logging-in">Logging In</a>).</li>
+<li>Navigate to <a href="http://127.0.0.1:8003/test">:8003/test</a> in your browser, you should see a header stating <em>&quot;This is an authenticated test page&quot;.</em>
+
+<ol>
+<li>The Developer Portal went through the following flow:
+
+<ol>
+<li>Search for a page named <strong>test</strong> <em>There is!</em></li>
+<li>Check to ensure that you have authorization to access the page. <em>You do!</em></li>
+<li>Serve <strong>test</strong> page to the browser.</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<blockquote>
+<p><strong>Note:</strong> You can still access the unauthenticated test page by navigating to <a href="http://127.0.0.1:8003/unauthenticated/test">:8003/unauthenticated/test</a> in the browser.</p>
+</blockquote>
+
+<p><strong>Unauthenticated Flow:</strong></p>
+
+<ol>
+<li>If you have not already, log out of the Dev Portal (see section <a href="#logging-out">Logging Out</a>).</li>
+<li>Navigate to <a href="http://127.0.0.1:8003/test">:8003/test</a> in your browser, you should see text stating <em>&quot;This is an unauthenticated test page&quot;</em>.</li>
+<li>Notice that although the path <strong>/test</strong> requests <code>test.hbs</code> (our authenticated page), we are served <code>unauthenticated/test.hbs</code>.
+
+<ol>
+<li>The Developer Portal went through the following flow:
+
+<ol>
+<li>Parse the path <code>/test</code> to determine we would like to serve a page named <strong>test</strong>.</li>
+<li>Search for a page named <strong>test</strong>. <em>There is!</em></li>
+<li>Ensure that you have authorization to access the page. <em>You don&#39;t. You are not currently logged in and the page requires authentication.</em></li>
+<li>Check to see if there is a page named <strong>unauthenticated/test</strong>. <em>There is!</em></li>
+<li>Ensure that you have authorization to access the page. <em>You do!</em></li>
+<li>Serve the <strong>unauthenticated/test</strong> page to the browser.</li>
+</ol></li>
+</ol></li>
+</ol>
+
+<blockquote>
+<p><strong>Note:</strong> As illustrated by the above example, when a user requests a particular page to access that they are not authorized to view, the Dev Portal will check for the same filename under the &#39;unauthenticated&#39; namespace to serve instead. For this reason the &#39;unauthenticated&#39; namespace is reserved, and should be used explicitly for authentication</p>
+
+<p><strong>Note pt. 2:</strong> Requesting a page while unauthenticated that both requires auth, and does not have a corresponding page under the &#39;unauthenticated&#39; namespace will result in a 404.  You can test this by requesting pages like <a href="http://127.0.0.1:8003/guides">:8003/guides</a> or <a href="http://127.0.0.1:8003/about">:8003/about</a> while unauthenticated.</p>
+</blockquote>
+
+<h2 id="javascript-hooks">JavaScript hooks</h2>
+
+<p>You can find these functions in the <code>unauthenticated/auth-js</code> partial in the Example Dev Portal. They allow you to hook into the Dev Portal authentication behavior through javascript functions.</p>
+
+<p><strong>onLoginError</strong></p>
+
+<p>Customize how your form submit will handle errors, as well as customize default error messages:</p>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="cm">/*
+ * When a user attempts to log in, but authentication fails.
+ */</span>
+<span class="kd">function</span> <span class="nx">onLoginError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">resp</span> <span class="o">=</span> <span class="nx">error</span><span class="p">.</span><span class="nx">response</span>
+  <span class="kd">var</span> <span class="nx">errorMessages</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// Note: Approved developers will not receive an error, so this is</span>
+  <span class="c1">// here only for status type documentation purposes.</span>
+  <span class="c1">// 0: {</span>
+  <span class="c1">//  status: 'approved',</span>
+  <span class="c1">//  message: ""</span>
+  <span class="c1">// },</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">status</span><span class="p">:</span> <span class="s1">'requested'</span><span class="p">,</span>
+      <span class="na">message</span><span class="p">:</span> <span class="s2">"You have requested access, but your account is pending approval."</span>
+    <span class="p">},</span>
+    <span class="mi">2</span><span class="err">:</span> <span class="p">{</span>
+      <span class="nl">status</span><span class="p">:</span> <span class="s1">'rejected'</span><span class="p">,</span>
+      <span class="nx">message</span><span class="err">:</span> <span class="s2">"This account has been rejected."</span>
+    <span class="p">},</span>
+    <span class="mi">3</span><span class="err">:</span> <span class="p">{</span>
+      <span class="nl">status</span><span class="p">:</span> <span class="s1">'revoked'</span><span class="p">,</span>
+      <span class="nx">message</span><span class="err">:</span> <span class="s2">"This account has been revoked."</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="cm">/**
+   *  Parse error response and utilize Kong function getMessageFromError helper
+   */</span>
+  <span class="kd">var</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">]</span> 
+                       <span class="o">&amp;&amp;</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">].</span><span class="nx">message</span> 
+                       <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Login failed. '</span> <span class="o">+</span> <span class="nx">errorMessage</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="cm">/* 
+ * When a user attempts to register, but registration fails.
+ */</span>
+<span class="kd">function</span> <span class="nx">onRegistrationError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Registration failed. '</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+ * When a user registers successfully, you can customize
+ * where they are redirected. By default, they are redirected
+ * to the index route '/', PORTAL_GUI_URL
+*/</span>
+<span class="kd">function</span> <span class="nx">onRegistrationSuccess</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Thank you for registering! Your request will be reviewed.'</span><span class="p">)</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">navigateToHome</span><span class="p">()</span> <span class="c1">// Navigates to PORTAL_GUI_URL</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</h2>
+
+<p>The Dev Portal uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">Local Storage API</a> to store and retrieve Authentication credentials, parameters, and headers. Local Storage is saved on every successful login, and it is retrieved on every Dev Portal File API request based the <code>auth-store-types</code> value, until you <a href="#logging-out">logout</a>. </p>
+
+<blockquote>
+<p><strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the browser via base64-encoding, but are not encrypted. Any javascript executed on the same domain as your Dev Portal can access these values so it advised that you always used SSL/TLS and either use openid-connect to secure your developer portal (as it uses javascript inaccessible HTTP-only encrypted cookies), or limit the amount of third-party javascript injected on your Developer Portal to prevent <a href="https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting">XSS vulnerabilities</a>.</p>
+
+<p><strong>Note:</strong> Openid-connect uses cookies to persist authentication, and therefore does not use Local Storage.</p>
+</blockquote>
+
+<p>Next: Learn about Dev Portal <a href="/enterprise/0.33-x/developer-portal/configuration/networking/">Networking &rsaquo;</a></p>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  @media (max-width: 768px) {
+    .algolia-docsearch-suggestion--subcategory-column{
+      display: none !important;
+    }
+  }
+</style>
+
+
+
+    
+  <section class="section subscribe-section" id="newsletter">
+  <div class="container">
+    <header class="section-header">
+      <h4>Keep up with the latest features</h4>
+    </header>
+
+    <div class="row">
+      <div class="one-half column offset-by-three">
+        <noscript>
+          <iframe id="newsletter-iframe" src="https://go.pardot.com/l/392112/2017-08-16/b2qn8v" width="100%" height="100" type="text/html"
+            frameborder="0" allowTransparency="true" style="border: 0"></iframe>
+        </noscript>
+        <script type="text/javascript">
+          var form = 'https://go.pardot.com/l/392112/2017-08-16/b2qn8v';
+          var params = window.location.search;
+          var thisScript = document.scripts[document.scripts.length - 1];
+          var iframe = document.createElement('iframe');
+
+          iframe.setAttribute('src', form + params);
+          iframe.setAttribute('width', '100%');
+          iframe.setAttribute('height', 100);
+          iframe.setAttribute('type', 'text/html');
+          iframe.setAttribute('frameborder', 0);
+          iframe.setAttribute('allowTransparency', 'true');
+          iframe.setAttribute('id', 'newsletter-iframe');
+          iframe.style.border = '0';
+
+          thisScript.parentElement.replaceChild(iframe, thisScript);
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer class="marketing-footer--light-gray">
+  <section>
+    <ul>
+      <li class="logo-wrapper">
+        <div class="logo">
+          <img src="/assets/images/kong-blue.png" alt="Kong Inc">
+        </div>
+      </li>
+      <li>
+        <nav>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://konghq.com/about-kong-inc/">About</a></li>
+            <li><a href="https://konghq.com/investors/">Investors</a></li>
+            <li><a href="http://konghq.com/blog/">Blog</a></li>
+            <li><a href="https://konghq.com/jobs/">Jobs</a></li>
+            <li><a href="https://konghq.com/contact/">Contact</a></li>
+            <li><a href="https://support.konghq.com">Support</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="https://docs.konghq.com/">Kong</a></li>
+            <li><a href="https://konghq.com/api-dev-portal/">Dev Portal</a></li>
+            <li><a href="https://konghq.com/api-analytics/">API Analytics</a></li>
+            <li><a href="https://konghq.com/kong-enterprise-edition/">Enterprise</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Open Source</h4>
+          <ul>
+            <li><a href="http://mockbin.org/">Mockbin</a></li>
+            <li><a href="http://apiembed.com/">API Embed</a></li>
+            <li><a href="http://unirest.io/">Unirest</a></li>
+            <li><a href="http://guardianjs.com/">Guardian JS</a></li>
+            <li><a href="http://oauthbible.com/">OAuth Bible</a></li>
+          </ul>
+        </nav>
+      </li>
+      <li>
+        <nav>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="https://konghq.com/terms/">Terms of Service</a></li>
+            <li><a href="https://konghq.com/privacy/">Privacy Policy</a></li>
+          </ul>
+        </nav>
+      </li>
+    </ul>
+  </section>
+
+  <section class="legal">
+    <ul>
+      <li>
+        <span class="mashape-footer-content">&copy; Kong Inc. 2018</span>
+      </li>
+      <li>
+        <div class="social-link">
+          <a href="https://github.com/Kong" title="Github"><i aria-label="Github" class="fa fa-github" aria-hidden="true"></i></a></div>
+        <div class="social-link">
+          <a href="https://www.facebook.com/konghq/" title="Facebook"><i aria-label="Facebook" class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
+        <div class="social-link">
+          <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"><img aria-label="Meetup" alt="Meetup" src="/assets/images/footer/icn-meetup-black.svg"></a>
+        </div>
+        <div class="social-link">
+          <a href="https://twitter.com/thekonginc" title="Twitter"><i aria-label="Twitter" class="fa fa-twitter" aria-hidden="true"></i></a>
+        </div>
+      </li>
+    </ul>
+  </section>
+</footer>
+
+    <script>
+  var anchorForId = function (id) {
+    var anchor = document.createElement("a");
+    anchor.className = "header-link";
+    anchor.href      = "#" + id;
+    anchor.innerHTML = "<span class=\"sr-only\">Permalink</span><i class=\"fa fa-link\"></i>";
+    anchor.title = "Permalink";
+    return anchor;
+  };
+  var linkifyAnchors = function (level, containingElement) {
+    var headers = containingElement.getElementsByTagName("h" + level);
+    for (var h = 0; h < headers.length; h++) {
+      var header = headers[h];
+      if (typeof header.id !== "undefined" && header.id !== "") {
+        header.prepend(anchorForId(header.id));
+      }
+    }
+  };
+  document.onreadystatechange = function () {
+    if (this.readyState === "complete") {
+      var contentBlock = document.getElementById("documentation");
+      if (!contentBlock) {
+        return;
+      }
+      for (var level = 1; level <= 6; level++) {
+        linkifyAnchors(level, contentBlock);
+      }
+    }
+  };
+</script>
+
+
+    <script src="/assets/app.js?v=1531328003"></script>
+
+    <div id="fb-root"></div>
+
+    <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
+    <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
+    <script id="facebook-jssdk" type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=842731852424506" async defer></script>
+
+    <script type="text/javascript">
+      piAId = '393112';
+      piCId = '48375';
+
+      (function() {
+        function async_load(){
+          var s = document.createElement('script'); s.type = 'text/javascript';
+          s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+          var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+        }
+        if(window.attachEvent) { window.attachEvent('onload', async_load); }
+        else { window.addEventListener('load', async_load, false); }
+      })();
+    </script>
+
+    <script type='text/javascript'>
+      var _vwo_code=(function(){
+      var account_id=125292,
+      settings_tolerance=2000,
+      library_tolerance=2500,
+      use_existing_jquery=true,
+      // DO NOT EDIT BELOW THIS LINE
+      f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());var a=d.createElement('style'),b='',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+    </script>
+
+    <script type="text/javascript">
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+        analytics.load("WDj0nSS7hpyxwL3evgbOzK755s0NUye6");
+        analytics.page()
+      }}();
+    </script>
+
+  </body>
+
+
+</html>
