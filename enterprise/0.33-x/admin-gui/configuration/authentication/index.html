@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1532555110"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1532718146"/>
 </head>
 
 
@@ -365,6 +365,14 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           <li>
             <a href="/enterprise/0.33-x/plugins/statsd-advanced" >
               StatsD Advanced Plugin
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced" >
+              LDAP Auth Advanced Plugin
             </a>
             
           </li>
@@ -704,12 +712,14 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </ul>
 
 <blockquote>
-<p>Before you begin, make sure you have gone through the <a href="https://getkong.org/enterprise/0.33-x/admin-gui/configuration/getting-started">Getting Started with the Admin GUI</a></p>
+<p>Before you begin, make sure you have gone through the 
+<a href="https://getkong.org/enterprise/0.33-x/admin-gui/configuration/getting-started">Getting Started with the Admin GUI</a></p>
 </blockquote>
 
 <h2 id="enable-authentication">Enable Authentication</h2>
 
-<p>First, we will configure the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>. First, we should add an Administrator entity using the Admin API:</p>
+<p>First, we will configure the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>. 
+First, we should add an Administrator entity using the Admin API:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/admins/    <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span>         <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
@@ -734,9 +744,13 @@ HTTP/1.1 201 Created
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Save the generated <code>user_token</code> (<code>a3cebf9e-820d-4543-b760-2b6986e3bb9d</code> in the example above) for use later. It must be sent in the <code>Kong-Admin-Token</code> header when RBAC is enabled if using a client (e.g. cURL or HTTPie) other than the Admin GUI.</p>
+<p>Save the generated <code>user_token</code> (<code>a3cebf9e-820d-4543-b760-2b6986e3bb9d</code> in the
+example above) for use later. It must be sent in the <code>Kong-Admin-Token</code> header
+when RBAC is enabled if using a client (e.g. cURL or HTTPie) other than the
+Admin GUI.</p>
 
-<p>After you have created an admin, you can provision a credential Key for this admin to use to login to the Admin GUI:</p>
+<p>After you have created an admin, you can provision a credential Key for this
+admin to use to login to the Admin GUI:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth -d <span class="s1">''</span>
 HTTP/1.1 201 Created
 
@@ -749,36 +763,67 @@ HTTP/1.1 201 Created
 </code></pre></div>
 <p>Save this <code>&quot;key&quot;: &quot;62eb165c070a41d5c1b58d9d3d725ca1&quot;</code> for use later. Note that this key is separate and distinct from the admin&#39;s RBAC token. </p>
 
-<p>Now that you have an Admin with an associated login Key, update the following in your Kong Configuration, then restart Kong:</p>
+<p>Now you need an RBAC user to associate to this admin. To add the Super Admin, see 
+&quot;<a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">Bootstrapping the first RBAC user - the Super Admin</a>&quot;.</p>
+
+<p>Now that you have an Admin with an associated login Key and an RBAC Super-Admin, 
+update the following in your Kong Configuration, then restart Kong.</p>
 <div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = key-auth
+enforce_rbac = on
 </code></pre></div>
-<p>The Admin GUI is now aware that authentication is enabled and will restrict access. Browse to the Admin GUI and you will be prompted with a <a href="#logging-in">Login</a> form. Enter in the key saved from before to gain access to the Admin GUI. You should be able to access all resources. To being creating more admins and setting up role based access restrictions, see <a href="/enterprise/0.33-x/setting-up-admin-api-rbac">Setting Up Admin API RBAC</a>.</p>
+<p>The Admin GUI is now aware that authentication is enabled and will restrict access so that
+only the Super Admin can login. Browse to the Admin GUI and you will be prompted with a 
+<a href="#logging-in">Login</a> form. Enter in the key saved from before to gain access to the Admin 
+GUI. You should be able to access all resources.</p>
 
 <blockquote>
-<p>Note: Once Kong starts, you will notice that your <a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code>cors</code> and <code>key-auth</code> plugins are enabled. This is because Kong sets up an internal proxy to the Admin API (e.g. <code>:8001</code> -&gt; <code>:8000/_kong/admin</code>) and configures the Key Authentication plugin applied only to all routes. These routes &amp; services will not be tracked by Kong Vitals, they will not appear in your proxy traffic, and the internal plugins will not be applied to any other routes or services or be configurable in your Kong instance.</p>
+<p>Note: Once Kong starts, you will notice that your 
+<a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code>cors</code> and <code>key-auth</code>
+plugins are enabled. This is because Kong sets up an internal proxy to the Admin
+API (i.e., <code>:8001</code> -&gt; <code>:8000/_kong/admin</code>) and configures the Key Authentication
+plugin applied only to all routes. These routes &amp; services will not be
+tracked by Kong Vitals, they will not appear in your proxy traffic, and the
+internal plugins will not be applied to any other routes or services or be
+configurable in your Kong instance.</p>
 </blockquote>
 
-<p>The Admin GUI supports other Authentication plugins which are explained in more detail under <a href="#example-configs">Example configurations</a>:</p>
+<p>The Admin GUI supports other Authentication plugins which are explained in more detail 
+under <a href="#example-configs">Example configurations</a>:</p>
 
 <ul>
-<li>LDAP</li>
+<li><a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced</a></li>
 <li><a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a></li>
 </ul>
 
 <h2 id="add-a-credential">Add a Credential</h2>
 
-<p>If you are using Basic Authentication or Key Authentication, then you will need to add a credential.</p>
+<p>If you are using Basic Authentication or Key Authentication, then you will need
+to add a credential.</p>
 
 <h2 id="example-configurations">Example configurations</h2>
 
+<p>Set <code>enforce_rbac = on</code> in your Kong configuration.</p>
+
+<p>⚠️ <strong>IMPORTANT</strong>: When RBAC is <code>off</code>, any consumer with a valid credential can
+log in to the Admin GUI, so you must enable RBAC if you want to restrict access
+only to admins.</p>
+
 <h3 id="key-authentication">Key Authentication</h3>
 
-<p>Check out the section <a href="#enable-authentication">Enabling Authentication</a> for a step by step guide on setting up <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>.</p>
+<p>Check out the section <a href="#enable-authentication">Enabling Authentication</a> for a 
+step by step guide on setting up 
+<a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>.</p>
 
 <h3 id="ldap-authentication">LDAP Authentication</h3>
 
-<p>The LDAP Advanced Authentication plugin allows Admins to use their own LDAP server to bind authentication to the Admin API with username and password protection. Note: Users must use <code>Basic</code> as their <code>header_type</code> in the <code>admin_gui_auth_config</code> Kong configuration. Here is an example configuration (update the following in your Kong Configuration, then restart Kong):</p>
+<p>The <a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced plugin</a>
+allows Admins to use their own LDAP server 
+to bind authentication to the Admin API with username and password protection. 
+Note: You must use <code>Basic</code> as your <code>header_type</code> in the <code>admin_gui_auth_config</code> 
+Kong configuration. Here is an example configuration (update the following in your 
+Kong Configuration, then restart Kong):</p>
 <div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = ldap-auth-advanced
+enforce_rbac = on
 </code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth_conf={                                     \
 "anonymous":"",                                           \
 "attribute":"uid",                                        \ 
@@ -793,7 +838,8 @@ HTTP/1.1 201 Created
 "verify_ldap_host":true                                   \
 }
 </code></pre></div>
-<p>The values above can be replaced with their corresponding values for your custom LDAP configuration:</p>
+<p>The values above can be replaced with their corresponding values for your custom 
+LDAP configuration:</p>
 
 <ul>
 <li><code>&lt;ENTER_YOUR_BASE_DN_HERE&gt;</code> - Your LDAP Base DN (Distinguished Name)
@@ -802,11 +848,15 @@ HTTP/1.1 201 Created
     * For Example, <code>ec2&quot;-XX-XXX-XX-XXX.compute-1.amazonaws.com</code></li>
 </ul>
 
-<p>After you have updated your configuration and restarted Kong, you will now be able to login to the Admin GUI with a username and password validated against your remote LDAP server.</p>
+<p>After you have updated your configuration and restarted Kong, you will now be 
+able to login to the Admin GUI with a username and password validated against 
+your remote LDAP server.</p>
 
 <h3 id="basic-authentication">Basic Authentication</h3>
 
-<p>The <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication Plugin</a> allows Admins to use username and password to authenticate requests, and can be used to authenticate the Admin GUI.</p>
+<p>The <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication Plugin</a> 
+allows Admins to use username and password to authenticate requests, and can be 
+used to authenticate the Admin GUI.</p>
 
 <p>Create an Admin and Basic Auth Credential:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/admins/    <span class="se">\</span>
@@ -849,24 +899,40 @@ HTTP/1.1 201 Created
 </code></pre></div>
 <p>Update the following in your Kong Configuration, then restart Kong:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = basic-auth
+enforce_rbac = on
 </code></pre></div>
-<p>Browse to the Admin GUI and you should now see <a href="#logging-in">Login</a>. The form will reflect that admins now need a username and password to login and administer Kong. Login with the username password created <code>Aladdin:OpenSesame</code>.</p>
+<p>Browse to the Admin GUI and you should now see <a href="#logging-in">Login</a>. The form 
+will reflect that admins now need a username and password to login and administer 
+Kong. Login with the username password created <code>Aladdin:OpenSesame</code>.</p>
 
 <h2 id="logging-in">Logging In</h2>
 
-<p>Ensure you are logged out (see section <a href="#logging-out">Logging Out</a>). Visit the Admin GUI, where you will be prompted with a login form.</p>
+<p>Ensure you are logged out (see section <a href="#logging-out">Logging Out</a>). Visit the 
+Admin GUI, where you will be prompted with a login form.</p>
 
-<p>When you submit the login form, the Admin GUI will make a request against the Admin API using the specified <code>admin_gui_auth</code> with the data in the form. For instance, if you have <code>basic-auth</code> enabled, then the form will submit with the Authorization header e.g. <code>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If successful, credentials will be <a href="#how-authentication-is-stored-in-local-storage">stored in the browser</a> and used for subsequent browser requests.</p>
+<p>When you submit the login form, the Admin GUI will make a request against the Admin 
+API using the specified <code>admin_gui_auth</code> with the data in the form. For instance, 
+if you have <code>basic-auth</code> enabled, then the form will submit with the Authorization 
+header e.g. <code>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If successful, 
+credentials will be <a href="#how-authentication-is-stored-in-local-storage">stored in the browser</a> 
+and used for subsequent browser requests.</p>
 
 <h2 id="logging-out">Logging Out 👋🏻</h2>
 
-<p>Click the &quot;Logout&quot; button in the top right. This will clear the Local Storage authentication data (if exists) and redirect to the login page.</p>
+<p>Click the &quot;Logout&quot; button in the top right. This will clear the Local Storage 
+authentication data (if exists) and redirect to the login page.</p>
 
 <h2 id="how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</h2>
 
-<p>The Admin GUI uses the <a href="https://developer.mozilla.org/en-US/Web/API/Window/localStorage">Local Storage API</a> to store and retrieve Authentication credentials, parameters, and headers. Local Storage is saved on every successful login, and it is retrieved on every Admin GUI API XHR request based on the <code>auth-store-types</code> value, until you <a href="#logging-out">logout</a>.</p>
+<p>The Admin GUI uses the <a href="https://developer.mozilla.org/en-US/Web/API/Window/localStorage">Local Storage API</a> 
+to store and retrieve Authentication credentials, parameters, and headers. Local 
+Storage is saved on every successful login, and it is retrieved on every Admin 
+GUI API XHR request based on the <code>auth-store-types</code> value, until you 
+<a href="#logging-out">logout</a>.</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the browser via base64-encoding, but are not encrypted. Therefore, it advised that you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the 
+browser via base64-encoding, but are not encrypted. Therefore, it advised that 
+you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
 
 <p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/managing-admins/">Managing Admins &rsaquo;</a></p>
 
@@ -1032,7 +1098,7 @@ HTTP/1.1 201 Created
 </script>
 
 
-    <script src="/assets/app.js?v=1532555110"></script>
+    <script src="/assets/app.js?v=1532718146"></script>
 
     <div id="fb-root"></div>
 
