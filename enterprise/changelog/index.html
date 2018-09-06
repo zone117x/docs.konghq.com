@@ -58,7 +58,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1535599049"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1536262528"/>
 </head>
 
 <!-- Kong Cookie Policy -->
@@ -233,6 +233,12 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
         <ul>
             
               <li>
+                <a href="#0-33-1">0.33-1</a>
+
+                
+              </li>
+            
+              <li>
                 <a href="#0-33">0.33</a>
 
                 
@@ -276,6 +282,144 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
           
 
           <h1 id="kong-enterprise-changelog">Kong Enterprise Changelog</h1>
+
+<h2 id="0-33-1">0.33-1</h2>
+
+<h3 id="notifications">Notifications</h3>
+
+<ul>
+<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+
+<ul>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+</ul></li>
+<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+
+<ul>
+<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
+
+<ul>
+<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+</ul></li>
+<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+</ul></li>
+<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+</ul>
+
+<h3 id="changes">Changes</h3>
+
+<ul>
+<li><strong>Plugins</strong>
+
+<ul>
+<li><strong>HMAC Auth</strong>
+
+<ul>
+<li>Attempt signature generation without querystring arguments if the newer signature verification, that includes querystring, fails</li>
+</ul></li>
+<li><strong>StatsD Advanced</strong>
+
+<ul>
+<li>Improve performance when constructing the metrics key</li>
+<li>Allow hostname to be written into the key prefix, based on a boolean plugin config flag</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+<li><p><strong>Core</strong></p>
+
+<ul>
+<li><strong>RBAC</strong>
+
+<ul>
+<li>Fix an issue where entities are not added to the role-entities table when id is not the primary key</li>
+<li>Fix an issue where role-entities and role-endpoints relationships are not deleted when role is removed</li>
+<li>Fix issue leading to SNI creation failure when RBAC is on</li>
+</ul></li>
+<li><strong>Workspaces</strong>
+
+<ul>
+<li>Fix an issue where authentication keys prefixed with a workspace name would be considered valid</li>
+</ul></li>
+<li><strong>DB</strong>
+
+<ul>
+<li>Cassandra</li>
+<li>Fix Cassandra unique violation check on update</li>
+</ul></li>
+<li><strong>Migrations</strong>
+
+<ul>
+<li>Remove dependency on &quot;public&quot; schema or &quot;pg_default&quot; tablespaces in Postgres - such a dependency would cause migrations to fail if such tablespaces weren&#39;t being used</li>
+</ul></li>
+<li><strong>Healthchecks</strong>
+
+<ul>
+<li>Fix Host header in active healthchecks</li>
+<li>Fix for connection timeouts on passive healthchecks</li>
+</ul></li>
+<li><strong>Dev Portal</strong>
+
+<ul>
+<li>Fix issue leading migrations <code>2018-04-10-094800_dev_portal_consumer_types_statuses</code> and <code>2018-05-08-143700_consumer_dev_portal_columns</code> to fail</li>
+<li>Automatically log users in after registering when auto-approve is on</li>
+<li>Reduce the size of the mobile breakpoint</li>
+<li>Improve performance and file sizes of bundled code</li>
+<li>Fix issue causing Portal to list spec files twice</li>
+<li>Swagger Improvements:
+
+<ul>
+<li>Fix for rendering OAS 3.0 spec files</li>
+<li>Ensure that page loading isn&#39;t blocked by Swagger UI rendering</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Plugins</strong></p>
+
+<ul>
+<li><strong>LDAP Auth &amp; LDAP Auth Advanced</strong>
+
+<ul>
+<li>Fix an issue where a request would fail when the password field had more than 128 characters in length</li>
+<li>Make the password part of the cache key, so that an invalid credential can be cached without blocking valid credentials</li>
+</ul></li>
+<li><strong>Zipkin</strong>
+
+<ul>
+<li>Fix operation when service and/or route are missing</li>
+<li>Fix cause of missing kong.credential field</li>
+<li>Support for deprecated Kong &quot;api&quot; entity via kong.api tag</li>
+</ul></li>
+<li><strong>Rate Limiting Advanced Plugin</strong>
+
+<ul>
+<li>Fix issue preventing the plugin to correctly propagate configuration changes across Kong Nginx workers</li>
+<li>Fix issue preventing the plugin to load configuration and create sync timers</li>
+<li>Fix plugin name in log messages</li>
+</ul></li>
+<li><strong>Canary</strong>
+
+<ul>
+<li>Fixed the type attribute for port configuration setting</li>
+</ul></li>
+<li><strong>Forward Proxy</strong>
+
+<ul>
+<li>Fix Kong core dependency causing the access phase handle to fail</li>
+</ul></li>
+<li><strong>Proxy Cache</strong>
+
+<ul>
+<li>Fix issue leading to cache key collision in some scenarios - e.g., for requests issued by the same consumer</li>
+<li>Fix cache key for Routes and Services: previously, distinct routes/services entities would be given the same cache key</li>
+</ul></li>
+</ul></li>
+</ul>
 
 <h2 id="0-33">0.33</h2>
 
@@ -1102,7 +1246,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1535599049"></script>
+    <script src="/assets/app.js?v=1536262528"></script>
 
     <div id="fb-root"></div>
 
