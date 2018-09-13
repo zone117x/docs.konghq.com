@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>Kong Implementation Checklist - v0.32-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Kong Architecture Patterns - v0.32-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="KongHQ"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -35,6 +35,27 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
+  <!-- FullStory -->
+  <script>
+/* eslint-disable */
+window['_fs_debug'] = false;
+window['_fs_host'] = 'fullstory.com';
+window['_fs_org'] = '7JS2S';
+window['_fs_namespace'] = 'FS';
+(function(m,n,e,t,l,o,g,y){
+    if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
+    g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
+    o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+    g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};g.event=function(i,v){g('event',{n:i,p:v})};
+    g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+    g.consent=function(a){g("consent",!arguments.length||a)};
+    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+    g.clearUserCookie=function(){};
+})(window,document,window['_fs_namespace'],'script','user');
+</script>
+
+
   <script type="application/ld+json">
     {
       "@context": "http://schema.org",
@@ -58,7 +79,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1536262528"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1536864579"/>
 </head>
 
 <!-- Kong Cookie Policy -->
@@ -631,6 +652,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <p>The classic architectural pattern we see customers setting up is adding Kong in between some, or all, of their API traffic. Kong is installed in your prefered hosting provider, and configured to proxy traffic to the existing APIs. Note that in this pattern the APIs are still accessible directly, that is both through the proxy and also without being routed through the API Gateway. We see this during initial testing, and migration phases, before customers eventually route all traffic through Kong. </p>
 
+<p><img src="https://konghq.com/wp-content/uploads/2018/06/comp-1-basic-kong.png" alt="Basic Kong pattern" title="Basic Kong pattern"></p>
+
 <p>The pros of this approach are that it is simple to setup and configure. All it requires is setup, and coordinating new traffic to use the gateway. Older traffic will still flow directly to the APIs.</p>
 
 <p>The cons are, in this case, the same as the pros. It’s a simple pattern, which works for new traffic, but older traffic will continue to be routed directly to the API and not take advantage of rate limiting, auth, or other plugins configured on the Kong gateway.</p>
@@ -645,6 +668,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 <p>This architecture pattern is the one we recommend for most customers. It is straightforward to setup, and offers security and control over API access.</p>
 
+<p><img src="https://konghq.com/wp-content/uploads/2018/06/comp-2-kong-and-apis-behind-firewall.png" alt="Firewall Kong pattern" title="Firewall Kong pattern"></p>
+
 <p>The Kong cluster would be placed behind a firewall, or within an Amazon VPC. The Kong cluster&#39;s port 80 or 443, which ever your public API is available on, would be opened to the outside world. Inside the firewall the API servers would only allow connections from the Kong cluster. Other IP:ports may need to be opened for the API servers to reach resources they need to fulfill any requests.</p>
 
 <p>Access to the <a href="https://docs.konghq.com/latest/secure-admin-api/">Kong Admin API can be secured in a couple of different ways</a>. Depending on your needs you would lock it down to localhost on the machine it is running on, use the firewall to prevent access from anyone outside your network, or proxy the Admin API through Kong itself, and secure it using one of the authentication plugins.</p>
@@ -658,6 +683,8 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 <p>The minimum number of Kong nodes per data center needed for high availability is three. This will ensure that in the unlikely event of a node failure there will still be a node and a backup. Cassandra would be configured in an optimal way; you can use the <a href="https://www.ecyrd.com/cassandracalculator/">Cassandra Calculator</a> to determine how many Cassandra nodes are needed per data center to ensure high availability, and  performance for your specific needs.</p>
 
 <p>Logically Kong will act as a single cluster, and in a multi-datacenter strategy, can be configured similar to the previous architecture patterns. We recommending having the upstream services behind a firewall (or in a VPC in AWS) and only allow Kong nodes direct access to the APIs. </p>
+
+<p><img src="https://konghq.com/wp-content/uploads/2018/06/comp-3-multi-data-center-w-cassandra.png" alt="Cassandra Kong pattern" title="Cassandra Kong pattern"></p>
 
 <h2 id="separate-kong-admin-node">Separate Kong Admin node</h2>
 
@@ -833,7 +860,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 </script>
 
 
-    <script src="/assets/app.js?v=1536262528"></script>
+    <script src="/assets/app.js?v=1536864579"></script>
 
     <div id="fb-root"></div>
 
