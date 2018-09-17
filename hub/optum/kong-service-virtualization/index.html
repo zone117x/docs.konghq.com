@@ -80,7 +80,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1537210112"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1537224847"/>
   
 </head>
 
@@ -487,7 +487,7 @@ window['_fs_namespace'] = 'FS';
               
                 <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
               
-              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since 0.13.0.</li>
+              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
               
             </ul>
           
@@ -531,9 +531,11 @@ target.</li>
               <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> since 0.13.0), you
-can configure this plugin on top of such an API by making the following
-request:</p>
+entity</a> (<strong>deprecated</strong> in favor of Services
+since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
+CE 0.13.0</a> and
+<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
+can configure this plugin on top of such an API by making the following request:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-service-virtualization"</span>  <span class="se">\</span>
     --data <span class="s2">"config.virtual_tests={"</span>name<span class="s2">"=&gt;"</span>TestCase1<span class="s2">", "</span>requestHttpMethod<span class="s2">"=&gt;"</span>POST<span class="s2">", "</span>requestHash<span class="s2">"=&gt;"</span>0296217561490155228da9c17fc555cf9db82d159732f3206638c25f04a285c4<span class="s2">", "</span>responseHttpStatus<span class="s2">"=&gt;"</span>200<span class="s2">", "</span>responseContentType<span class="s2">"=&gt;"</span>application/json<span class="s2">", "</span>response<span class="s2">"=&gt;"</span><span class="nv">eyJtZXNzYWdlIjogIkEgQmlnIFN1Y2Nlc3MhIn0</span><span class="o">=</span><span class="s2">"}{"</span>name<span class="s2">"=&gt;"</span>TestCase2<span class="s2">", "</span>requestHttpMethod<span class="s2">"=&gt;"</span>GET<span class="s2">", "</span>requestHash<span class="s2">"=&gt;"</span>e2c319e4ef41706e2c0c1b266c62cad607a014c59597ba662bef6d10a0b64a32<span class="s2">", "</span>responseHttpStatus<span class="s2">"=&gt;"</span>200<span class="s2">", "</span>responseContentType<span class="s2">"=&gt;"</span>application/json<span class="s2">", "</span>response<span class="s2">"=&gt;"</span><span class="nv">eyJtZXNzYWdlIjogIkFub3RoZXIgU3VjY2VzcyEifQ</span><span class="o">==</span><span class="s2">"}"</span>
@@ -574,7 +576,7 @@ target.</li>
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
     
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated since Kong 0.13.0.</td></tr>
+    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -859,7 +861,7 @@ $ luarocks make *.rockspec
 </script>
 
 
-    <script src="/assets/app.js?v=1537210112"></script>
+    <script src="/assets/app.js?v=1537224847"></script>
 
     <div id="fb-root"></div>
 
