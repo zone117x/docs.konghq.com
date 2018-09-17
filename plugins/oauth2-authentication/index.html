@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/Article">
   
+
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +80,8 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1536864579"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1537209023"/>
+  
 </head>
 
 <!-- Kong Cookie Policy -->
@@ -90,7 +92,7 @@ window['_fs_namespace'] = 'FS';
 
 
 
-  <body id="page-plugin" >
+  <body id="page-plugin"  data-spy="scroll" data-target="#scroll-sidebar" data-offset="350">
         <div class="summit-banner bg-summit">
   <a href="https://konghq.com/kong-summit">
     <div class="bg-summit-mask">
@@ -182,75 +184,39 @@ window['_fs_namespace'] = 'FS';
 </header>
 
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="page page-plugin">
-  
+    <div class="page ">
   <header class="page-header">
     <div class="container">
-      
-        <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/oauth2-authentication.png" alt="" />
-        </div>
-      
-
-      <div class="page-header-title">
-        
-          <ul class="breadcrumbs">
-            
-              <li class="breadcrumb-item">
-                
-                <a href="https://konghq.com/plugins">Plugins</a>
-                
-              </li>
-            
-          </ul>
-        
-
-        <h1>OAuth 2.0 Authentication</h1>
-
-        
+        <div class="edit-this-page">
+            <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/plugins/oauth2-authentication.md"><i class="fa fa-github"></i> Edit this Page</a>
+          </div>
+      <nav class="docs-navigation">
+        <a href="/" >Kong Community Edition (CE)</a>
+        <a href="/enterprise" >Kong Enterprise Edition (EE)</a>
+      </nav>
+      <div class="page-header-icon">
+        <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
-
-      
+      <div class="page-header-title">
+        <p>Documentation</p>
+        <h1></h1>
+        <h1></h1>
+      </div>
 
       
     </div>
   </header>
 
-
-
   <div class="container">
     <aside class="page-navigation">
-
-      <nav>
-        <h5>Getting Started</h5>
-        <ul>
-          <li><a href="#terminology">Terminology</a></li>
-          
-          <li><a href="#configuration">Configuration</a></li>
-        </ul>
-      </nav>
+      
 
       
-        <nav>
-          
-            <h5>Usage</h5>
-          
-
-          <ul>
+      <nav>
+        
+          <h5>Usage</h5>
+        
+        <ul>
             
               <li>
                 <a href="#endpoints">Endpoints</a>
@@ -283,14 +249,13 @@ window['_fs_namespace'] = 'FS';
               </li>
             
           </ul>
-        </nav>
+      </nav>
       
-        <nav>
-          
-            <h5>oAuth 2.0 Flows</h5>
-          
-
-          <ul>
+      <nav>
+        
+          <h5>oAuth 2.0 Flows</h5>
+        
+        <ul>
             
               <li>
                 <a href="#client-credentials">Client Credentials</a>
@@ -311,275 +276,17 @@ window['_fs_namespace'] = 'FS';
               </li>
             
           </ul>
-        </nav>
+      </nav>
+      
+
       
     </aside>
 
-    <div class="page-content-container">
+    <div class="page-content-container" id="documentation">
       <div class="page-content">
         <div class="content">
-
-          <p>Add an OAuth 2.0 authentication layer with the <a href="https://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code Grant</a>, <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials</a>,
-<a href="https://tools.ietf.org/html/rfc6749#section-4.2">Implicit Grant</a> or <a href="https://tools.ietf.org/html/rfc6749#section-4.3">Resource Owner Password Credentials Grant</a> flow.</p>
-
-<hr>
-
-<div class="alert alert-warning">
-  <strong>Note:</strong> As per the OAuth2 specs, this plugin requires the
-  underlying service to be served over HTTPS. To avoid any
-  confusion, we recommend that you configure the Route used to serve the
-  underlying Service to only accept HTTPS traffic (via its `protocols`
-  property).
-</div>
-
-
-          <hr>
-
-          <h2 id="terminology">Terminology</h2>
-          <ul>
-            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-            
-              <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
-            
-            
-            
-              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-            
-            <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-            
-
-          </ul>
-
-          <hr>
-
-          
-
-          <h2 id="configuration">Configuration</h2>
-          
-            <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
-making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=oauth2"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
-    --data <span class="s2">"config.mandatory_scope=true"</span> <span class="se">\</span>
-    --data <span class="s2">"config.enable_authorization_code=true"</span>
-</code></pre></div>
-<ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
-target.</li>
-</ul>
-
           
           
-          
-          
-            <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a>
-and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following
-request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=oauth2"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
-    --data <span class="s2">"config.mandatory_scope=true"</span> <span class="se">\</span>
-    --data <span class="s2">"config.enable_authorization_code=true"</span>
-</code></pre></div>
-<ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-          
-
-          <h4>Global plugins</h4>
-
-          <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-            Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-            Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-            <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-          </p>
-
-          <h4>Parameters</h4>
-
-          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
-
-          <table>
-  <thead>
-    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>oauth2</code></td></tr>
-
-    
-      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
-    
-    
-      <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
-    
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
-    
-    
-      <tr>
-        <td><code>config.scopes</code>
-          
-          
-        </td>
-        <td></td>
-        <td><p>Describes an array of comma separated scope names that will be available to the end user</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.mandatory_scope</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value telling the plugin to require at least one scope to be authorized by the end user</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.token_expiration</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>7200</code></p>
-</td>
-        <td><p>An optional integer value telling the plugin how many seconds a token should last, after which the client will need to refresh the token. Set to <code>0</code> to disable the expiration.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.enable_authorization_code</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value to enable the three-legged Authorization Code flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.1">RFC 6742 Section 4.1</a>)</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.enable_client_credentials</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value to enable the Client Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.4">RFC 6742 Section 4.4</a>)</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.enable_implicit_grant</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value to enable the Implicit Grant flow which allows to provision a token as a result of the authorization process (<a href="https://tools.ietf.org/html/rfc6749#section-4.2">RFC 6742 Section 4.2</a>)</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.enable_password_grant</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value to enable the Resource Owner Password Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC 6742 Section 4.3</a>)</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.auth_header_name</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>authorization</code></p>
-</td>
-        <td><p>The name of the header supposed to carry the access token. Default: <code>authorization</code>.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.hide_credentials</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value telling the plugin to show or hide the credential from the upstream service. If <code>true</code>, the plugin will strip the credential from the request (i.e. the header containing the client crentials) before proxying it.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.accept_http_if_already_terminated</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>Accepts HTTPs requests that have already been terminated by a proxy or load balancer and the <code>x-forwarded-proto: https</code> header has been added to the request. Only enable this option if the Kong server cannot be publicly accessed and the only entry-point is such proxy or load balancer.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.anonymous</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.global_credentials</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>false</code></p>
-</td>
-        <td><p>An optional boolean value that allows to use the same OAuth credentials generated by the plugin with any other Service (or API) whose OAuth 2.0 plugin configuration also has <code>config.global_credentials=true</code>.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.refresh_token_ttl</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td><p><code>1209600</code></p>
-</td>
-        <td><p>An optional integer value telling the plugin how many seconds a token/refresh token pair is valid for, and can be used to generate a new access token. Default value is 2 weeks. Set to <code>0</code> to keep the token/refresh token pair indefinitely valid.</p>
-</td>
-      </td>
-    
-  </tbody>
-</table>
-
-
-          <div class="alert alert-warning">
-    <center>The option <code>config.refresh_token_ttl</code> is only available from version 0.12.0 and later</center>
-</div>
-
-<p>Once applied, any user with a valid credential can access the Service/API.
-To restrict usage to only some of the authenticated users, also add the
-<a href="/plugins/acl/">ACL</a> plugin (not covered here) and create whitelist or
-blacklist groups of users.</p>
-
 
           <h2 id="usage">Usage</h2>
 
@@ -872,11 +579,20 @@ blacklist groups of users.</p>
     --data <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
     --data <span class="s2">"refresh_token=XXX"</span>
 </code></pre></div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+<style>
+  @media (max-width: 768px) {
+    .algolia-docsearch-suggestion--subcategory-column{
+      display: none !important;
+    }
+  }
+</style>
+
 
 
     
@@ -1025,9 +741,11 @@ blacklist groups of users.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1536864579"></script>
+    <script src="/assets/app.js?v=1537209023"></script>
 
     <div id="fb-root"></div>
+
+    <script src="https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/themes/konghq/assets/js/vendor/bootstrap.min.js" async defer></script>
 
     <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
     <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/Article">
   
+
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +80,8 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1536864579"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1537209023"/>
+  
 </head>
 
 <!-- Kong Cookie Policy -->
@@ -90,7 +92,7 @@ window['_fs_namespace'] = 'FS';
 
 
 
-  <body id="page-plugin" >
+  <body id="page-plugin"  data-spy="scroll" data-target="#scroll-sidebar" data-offset="350">
         <div class="summit-banner bg-summit">
   <a href="https://konghq.com/kong-summit">
     <div class="bg-summit-mask">
@@ -182,75 +184,39 @@ window['_fs_namespace'] = 'FS';
 </header>
 
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="page page-plugin">
-  
+    <div class="page ">
   <header class="page-header">
     <div class="container">
-      
-        <div class="page-header-icon">
-          <img src="/assets/images/icons/plugins/request-transformer.png" alt="" />
-        </div>
-      
-
-      <div class="page-header-title">
-        
-          <ul class="breadcrumbs">
-            
-              <li class="breadcrumb-item">
-                
-                <a href="https://konghq.com/plugins">Plugins</a>
-                
-              </li>
-            
-          </ul>
-        
-
-        <h1>Request Transformer</h1>
-
-        
+        <div class="edit-this-page">
+            <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/plugins/request-transformer.md"><i class="fa fa-github"></i> Edit this Page</a>
+          </div>
+      <nav class="docs-navigation">
+        <a href="/" >Kong Community Edition (CE)</a>
+        <a href="/enterprise" >Kong Enterprise Edition (EE)</a>
+      </nav>
+      <div class="page-header-icon">
+        <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
-
-      
+      <div class="page-header-title">
+        <p>Documentation</p>
+        <h1></h1>
+        <h1></h1>
+      </div>
 
       
     </div>
   </header>
 
-
-
   <div class="container">
     <aside class="page-navigation">
-
-      <nav>
-        <h5>Getting Started</h5>
-        <ul>
-          <li><a href="#terminology">Terminology</a></li>
-          
-          <li><a href="#configuration">Configuration</a></li>
-        </ul>
-      </nav>
+      
 
       
-        <nav>
-          
-            <h5>Documentation</h5>
-          
-
-          <ul>
+      <nav>
+        
+          <h5>Documentation</h5>
+        
+        <ul>
             
               <li>
                 <a href="#order-of-execution">Order of execution</a>
@@ -265,357 +231,17 @@ window['_fs_namespace'] = 'FS';
               </li>
             
           </ul>
-        </nav>
+      </nav>
+      
+
       
     </aside>
 
-    <div class="page-content-container">
+    <div class="page-content-container" id="documentation">
       <div class="page-content">
         <div class="content">
-
-          <p>Transform the request sent by a client on the fly on Kong, before hitting the upstream server.</p>
-
-
-          <hr>
-
-          <h2 id="terminology">Terminology</h2>
-          <ul>
-            <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-            
-              <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
-            
-            
-              <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
-            
-            
-              <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
-              <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
-            
-              <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-            
-            <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-            
-
-          </ul>
-
-          <hr>
-
-          
-
-          <h2 id="configuration">Configuration</h2>
-          
-            <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
-making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
-</code></pre></div>
-<ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
-target.</li>
-</ul>
-
           
           
-            <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
-</code></pre></div>
-<ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
-</ul>
-
-          
-          
-            <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
-
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
-on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
-plugin.</p>
-
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
-
-<p>in the same request, to futhermore narrow the scope of the plugin.</p>
-
-          
-          
-            <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a>
-and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following
-request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
-</code></pre></div>
-<ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-          
-
-          <h4>Global plugins</h4>
-
-          <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-            Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-            Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-            <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-          </p>
-
-          <h4>Parameters</h4>
-
-          <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
-
-          <table>
-  <thead>
-    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>request-transformer</code></td></tr>
-
-    
-      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
-    
-    
-      <tr><td><code>route_id</code></td><td></td><td>The id of the Route which this plugin will target.</td></tr>
-    
-      <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
-    
-      <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
-    
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
-    
-    
-      <tr>
-        <td><code>config.http_method</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>Changes the HTTP method for the upstream request.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.remove.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of header names. Unset the header(s) with the given name.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.remove.querystring</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of querystring names. Remove the querystring if it is present.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.remove.body</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of parameter names. Remove the parameter if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>,  <code>application/x-www-form-urlencoded</code>] and parameter is present.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.replace.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of headername:value pairs. If and only if the header is already set, replace its old value with the new one. Ignored if the header is not already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.replace.querystring</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of queryname:value pairs. If and only if the field name is already set, replace its old value with the new one. Ignored if the field name is not already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.rename.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of headername:value pairs. If and only if the header is already set, rename the header. The value is unchanged. Ignored if the header is not already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.rename.querystring</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of queryname:value pairs. If and only if the field name is already set, rename the field name. The value is unchanged. Ignored if the field name is not already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.rename.body</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of parameter name:value pairs. Rename the parameter name if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>,  <code>application/x-www-form-urlencoded</code>] and parameter is present.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.append.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of headername:value pairs. If the header is not set, set it with the given value. If it is already set, a new header with the same name and the new value will be set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.replace.body</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of paramname:value pairs. If and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is already present, replace its old value with the new one. Ignored if the parameter is not already present.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.add.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of headername:value pairs. If and only if the header is not already set, set a new header with the given value. Ignored if the header is already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.add.querystring</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of queryname:value pairs. If and only if the querystring is not already set, set a new querystring with the given value. Ignored if the header is already set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.add.body</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of pramname:value pairs. If and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.append.headers</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of headername:value pairs. If the header is not set, set it with the given value. If it is already set, an additional new header with the same name and the new value will be appended.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.append.querystring</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of queryname:value pairs. If the querystring is not set, set it with the given value. If it is already set, a new querystring with the same name and the new value will be set.</p>
-</td>
-      </td>
-    
-      <tr>
-        <td><code>config.append.body</code>
-          <br><em>optional</em>
-          
-        </td>
-        <td></td>
-        <td><p>List of paramname:value pairs. If the content-type is one the following [<code>application/json</code>, <code>application/x-www-form-urlencoded</code>], add a new parameter with the given value if the parameter is not present, otherwise if it is already present, the two values (old and new) will be aggregated in an array.</p>
-</td>
-      </td>
-    
-  </tbody>
-</table>
-
-
-          <p>Note: if the value contains a <code>,</code> then the comma-separated format for lists cannot be used. The array notation must be used instead.</p>
-
 
           <h3 id="dynamic-transformation-based-on-request-content">Dynamic Transformation Based on Request Content</h3>
 
@@ -783,11 +409,20 @@ similarly for Routes, or the depreciated API entity.</p>
 </tr>
 </tbody></table>
 
+
         </div>
       </div>
     </div>
   </div>
 </div>
+<style>
+  @media (max-width: 768px) {
+    .algolia-docsearch-suggestion--subcategory-column{
+      display: none !important;
+    }
+  }
+</style>
+
 
 
     
@@ -936,9 +571,11 @@ similarly for Routes, or the depreciated API entity.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1536864579"></script>
+    <script src="/assets/app.js?v=1537209023"></script>
 
     <div id="fb-root"></div>
+
+    <script src="https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/themes/konghq/assets/js/vendor/bootstrap.min.js" async defer></script>
 
     <script id="github-bjs" src="https://buttons.github.io/buttons.js" async defer></script>
     <script id="twitter-wjs" type="text/javascript" src="https://platform.twitter.com/widgets.js" async defer></script>
