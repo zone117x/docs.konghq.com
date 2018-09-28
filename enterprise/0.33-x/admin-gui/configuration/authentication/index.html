@@ -80,7 +80,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1537997090"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1538093057"/>
   
 </head>
 
@@ -767,67 +767,136 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="enable-authentication">Enable Authentication</h2>
 
-<p>First, we will configure the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>. 
-First, we should add an Administrator entity using the Admin API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/admins/    <span class="se">\</span>
-    --data <span class="s2">"username=&lt;USERNAME&gt;"</span>         <span class="se">\</span>
-    --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
-HTTP/1.1 201 Created
+<p>There are a couple of pieces of information that are important to understand when using authentication for the Admin GUI:</p>
+
+<ul>
+<li>The Admin GUI is a javascript application that runs in the browser, and makes calls to the Admin API</li>
+<li>For locking down the GUI, a private endpoint is configured on the proxy side, and an auth plugin is enabled</li>
+<li>The Admin GUI javascript application uses this proxy side endpoint to talk to the Admin API</li>
+<li>Two pieces of authentication need to be enabled in order for the Admin GUI to talk to the Admin API in this setup</li>
+<li>The &quot;Admin user&quot; is a combination of a rbac user and a consumer of type &#39;admin&#39; that only appears on the <code>/admins</code> endpoint and is filtered out from <code>/consumers</code> endpoints. Admins as consumers allows Kong to use plugins on an admin to authenticate</li>
+<li>This Admin needs to be in an RBAC group with access to the Admin API</li>
+<li>This Admin needs to have access to the <code>admin_gui_auth</code> specified plugin</li>
+</ul>
+
+<p>Knowing that we will follow these steps:</p>
+
+<ol>
+<li><a href="#first">Create a new Admin user</a></li>
+<li><a href="#second">Add the Admin user&#39;s &quot;rbac user&quot; to the rbac <code>super-user</code> group</a></li>
+<li><a href="#third">Add a key-auth key to the Admin user&#39;s &quot;hidden consumer&quot;</a></li>
+<li><a href="#fourth">Enable RBAC and the Admin GUI Auth method in the config</a></li>
+<li><a href="#fifth">Restart Kong</a></li>
+</ol>
+
+<p>In this example we will configure authentication on the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>. </p>
+
+<p><a name="first"></a>
+<strong>First, we will add an Admin entity using the Admin API:</strong></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/admins -d <span class="s1">'username=myadmin'</span>
 
 <span class="o">{</span>
   <span class="s2">"rbac_user"</span>: <span class="o">{</span>
     <span class="s2">"comment"</span>: <span class="s2">"User generated on creation of Admin."</span>,
-    <span class="s2">"user_token"</span>: <span class="s2">"a3cebf9e-820d-4543-b760-2b6986e3bb9d"</span>,
-    <span class="s2">"id"</span>: <span class="s2">"1e24c54d-e575-4910-8a58-4d5f7203be08"</span>,
-    <span class="s2">"name"</span>: <span class="s2">"user-&lt;USERNAME&gt;-&lt;CUSTOM_ID&gt;"</span>,
-    <span class="s2">"created_at"</span>: 1530577554000,
+    <span class="s2">"user_token"</span>: <span class="s2">"406ee936-4a10-41c0-a9e5-7b9f7b6fc106"</span>,
+    <span class="s2">"id"</span>: <span class="s2">"98af4bda-8525-44a6-a745-0c503b146639"</span>,
+    <span class="s2">"name"</span>: <span class="s2">"user-myadmin"</span>,
+    <span class="s2">"created_at"</span>: 1537966410000,
     <span class="s2">"enabled"</span>: <span class="nb">true</span>
   <span class="o">}</span>,
   <span class="s2">"consumer"</span>: <span class="o">{</span>
-    <span class="s2">"custom_id"</span>: <span class="s2">"&lt;CUSTOM_ID&gt;"</span>,
-    <span class="s2">"created_at"</span>: 1530577554000,
-    <span class="s2">"id"</span>: <span class="s2">"1f8c8ce4-7625-4fa4-8904-6a2a507ffa93"</span>,
+    <span class="s2">"created_at"</span>: 1537966410000,
+    <span class="s2">"id"</span>: <span class="s2">"94110df6-211a-4f89-b4f3-0a994753ddf9"</span>,
     <span class="s2">"status"</span>: 0,
-    <span class="s2">"username"</span>: <span class="s2">"&lt;USERNAME&gt;"</span>,
+    <span class="s2">"username"</span>: <span class="s2">"myadmin"</span>,
     <span class="s2">"type"</span>: 2
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Save the generated <code>user_token</code> (<code>a3cebf9e-820d-4543-b760-2b6986e3bb9d</code> in the
+<p>Save the generated rbac user&#39;s <code>user_token</code> (<code>406ee936-4a10-41c0-a9e5-7b9f7b6fc106</code> in the
 example above) for use later. It must be sent in the <code>Kong-Admin-Token</code> header
 when RBAC is enabled if using a client (e.g. cURL or HTTPie) other than the
 Admin GUI.</p>
 
-<p>After you have created an admin, you can provision a credential Key for this
-admin to use to login to the Admin GUI:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth -d <span class="s1">''</span>
-HTTP/1.1 201 Created
+<p>We can test that the consumer that was created (id <code>94110df6-211a-4f89-b4f3-0a994753ddf9</code>) is in fact filtered from the <code>/consumers</code> endpoint.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://localhost:8001/consumers/ 
 
 <span class="o">{</span>
-    <span class="s2">"consumer_id"</span>: <span class="s2">"876bf719-8f18-4ce5-cc9f-5b5af6c36007"</span>,
-    <span class="s2">"created_at"</span>: 1443371053000,
-    <span class="s2">"id"</span>: <span class="s2">"62a7d3b7-b995-49f9-c9c8-bac4d781fb59"</span>,
-    <span class="s2">"key"</span>: <span class="s2">"62eb165c070a41d5c1b58d9d3d725ca1"</span>
+  <span class="s2">"total"</span>: 0,
+  <span class="s2">"data"</span>: <span class="o">[]</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Save this <code>&quot;key&quot;: &quot;62eb165c070a41d5c1b58d9d3d725ca1&quot;</code> for use later. Note that this key is separate and distinct from the admin&#39;s RBAC token. </p>
+<p><a name="second"></a>
+<strong>Second, we will add the Admin user&#39;s &quot;rbac user&quot; to the super-admin group:</strong></p>
 
-<p>When the Admin was created earlier it also created an RBAC user. This RBAC user now
-needs to have the RBAC Super Admin role added to it. You might need to create
-an RBAC user to associate to this Admin. To add the Super Admin, see 
-&quot;<a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">Bootstrapping the first RBAC user - the Super Admin</a>&quot;. </p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -X POST http://kong:8001/rbac/users/{username}/roles/    \
-    --data "roles=super-admin"
+<p>In this example we are using the <code>super-admin</code> group for simplicity, however
+you may want to use a different group that you have configured with limited
+RBAC permissions. Read <a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">Bootstrapping the first RBAC user - the Super Admin</a> for more information. </p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/rbac/users/98af4bda-8525-44a6-a745-0c503b146639/roles -d <span class="s1">'roles=super-admin'</span>
+
+<span class="o">{</span>
+  <span class="s2">"roles"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"comment"</span>: <span class="s2">"Default user role generated for user-myadmin"</span>,
+      <span class="s2">"created_at"</span>: 1537966410000,
+      <span class="s2">"id"</span>: <span class="s2">"63be0c50-1a12-4483-986a-92bc5d3302b3"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"user-myadmin"</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"comment"</span>: <span class="s2">"Full access to all endpoints, across all workspaces"</span>,
+      <span class="s2">"created_at"</span>: 1537965959000,
+      <span class="s2">"id"</span>: <span class="s2">"5be18384-ff74-4242-96a6-36d5fa85af55"</span>,
+      <span class="s2">"name"</span>: <span class="s2">"super-admin"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"user"</span>: <span class="o">{</span>
+    <span class="s2">"comment"</span>: <span class="s2">"User generated on creation of Admin."</span>,
+    <span class="s2">"user_token"</span>: <span class="s2">"406ee936-4a10-41c0-a9e5-7b9f7b6fc106"</span>,
+    <span class="s2">"id"</span>: <span class="s2">"98af4bda-8525-44a6-a745-0c503b146639"</span>,
+    <span class="s2">"name"</span>: <span class="s2">"user-myadmin"</span>,
+    <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+    <span class="s2">"created_at"</span>: 1537966410000
+  <span class="o">}</span>
+<span class="o">}</span>
 </code></pre></div>
-<p>Now that you have an Admin with an associated login Key and an RBAC Super-Admin, 
-update the following in your Kong Configuration, then restart Kong.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = key-auth
-enforce_rbac = on
+<p><a name="third"></a>
+<strong>Third, you must provision a Key-Auth api key for the Admin user&#39;s &quot;hidden consumer&quot;:</strong></p>
+
+<p>Note, in this example we are using key-auth; for other auth methods you will
+need to provisions the approprate key/password needed for that method.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/consumers/94110df6-211a-4f89-b4f3-0a994753ddf9/key-auth -d <span class="s1">''</span>
+
+<span class="o">{</span>
+  <span class="s2">"created_at"</span>: 1537966734000,
+  <span class="s2">"id"</span>: <span class="s2">"ea20b2c6-a1c8-4f2e-8cbe-97f802506b6e"</span>,
+  <span class="s2">"key"</span>: <span class="s2">"Au5sciJOadbGyDAk6ZqndKH8IQFzKZ5x"</span>,
+  <span class="s2">"consumer_id"</span>: <span class="s2">"94110df6-211a-4f89-b4f3-0a994753ddf9"</span>
+<span class="o">}</span>
 </code></pre></div>
-<p>The Admin GUI is now aware that authentication is enabled and will restrict access so that
-only the Super Admin can login. Browse to the Admin GUI and you will be prompted with a 
-<a href="#logging-in">Login</a> form. Enter in the key saved from before to gain access to the Admin 
-GUI. You should be able to access all resources.</p>
+<p>Save this key <code>Au5sciJOadbGyDAk6ZqndKH8IQFzKZ5x</code> for later, it is used at the
+Admin GUI login prompt. Note that this key is separate and distinct from the
+admin&#39;s RBAC token. </p>
+
+<p><a name="fourth"></a>
+<strong>Fourth, update the config to enable RBAC and the Admin GUI auth method:</strong></p>
+
+<p>Using the kong.conf file:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">enforce_rbac <span class="o">=</span> on
+admin_gui_auth <span class="o">=</span> key-auth
+</code></pre></div>
+<p>Using environmental variables:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">KONG_ENFORCE_RBAC <span class="o">=</span> on
+KONG_ADMIN_GUI_AUTH <span class="o">=</span> key-auth
+</code></pre></div>
+<p><a name="fifth"></a>
+<strong>Fifth, restart Kong.</strong></p>
+
+<p>The Admin GUI is now aware that authentication is enabled and will restrict
+access so that only the Admin users with an api key and in the RBAC
+<code>super-admin</code> group can log in. Browse to the Admin GUI and you will be
+prompted with a <a href="#logging-in">Login</a> form. Enter in the api key saved from
+before to gain access to the Admin GUI. You should be able to access all
+resources.</p>
 
 <blockquote>
 <p>Note: Once Kong starts, you will notice that your 
@@ -1151,7 +1220,7 @@ you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1537997090"></script>
+    <script src="/assets/app.js?v=1538093057"></script>
 
     <div id="fb-root"></div>
 

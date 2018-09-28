@@ -80,7 +80,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1537997090"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1538093057"/>
   
 </head>
 
@@ -417,20 +417,20 @@ and use the manifest files provided in <code>minikube</code> directory.</p>
 
 <p>Kong CE, or the trial version of Kong Enterprise Edition (EE), can be provisioned
 on a Kubernetes cluster via the manifest files provided
-in the <a href="https://github.com/Kong/kong-dist-kubernetes/">repo</a>. These instructions (mostly) assume you are using
-<a href="https://cloud.google.com/kubernetes-engine/">Google Kubernetes Engine (GKE)</a> -
-you may need to make adjustments to deploy to other Kubernetes clusters.</p>
+in the <a href="https://github.com/Kong/kong-dist-kubernetes/">repo</a>.</p>
 
-<ol>
-<li><p><strong>Initial setup</strong></p>
+<h2 id="1-initial-setup">1. <strong>Initial setup</strong></h2>
 
 <p>Download or clone the following repo:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone git@github.com:Kong/kong-dist-kubernetes.git
 <span class="gp">$ </span><span class="nb">cd </span>kong-dist-kubernetes
 </code></pre></div>
 <p>Skip to step 3 if you have already provisioned a cluster and registered it
-with Kubernetes.</p></li>
-<li><p><strong>Deploy a GKE cluster</strong></p>
+with Kubernetes.</p>
+
+<h2 id="2-deploy-a-cluster">2.  <strong>Deploy a cluster</strong></h2>
+
+<h3 id="google-kubernetes-engine-gke"><a href="https://cloud.google.com/kubernetes-engine/">Google Kubernetes Engine (GKE)</a></h3>
 
 <p>You need <a href="https://cloud.google.com/sdk/">gcloud</a> and <a href="https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface">kubectl</a>
 command-line tools installed and set up to run deployment commands. Also
@@ -448,8 +448,26 @@ cluster</li>
 </ol>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>gcloud deployment-manager deployments <span class="se">\</span>
     create cluster --config cluster.yaml
+</code></pre></div>
+<h3 id="azure-kubernetes-cluster-aks"><a href="https://docs.microsoft.com/en-us/azure/aks/">Azure Kubernetes Cluster (AKS)</a></h3>
+
+<p>You need <a href="https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">az</a> command-line tools installed and set up to run deployment commands.</p>
+
+<ol>
+<li><p><strong>Create a Resource Group</strong></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>az group create --name myAKSCluster --location eastus
 </code></pre></div></li>
-<li><p><strong>Deploy a datastore</strong></p>
+<li><p><strong>Install kubectl</strong></p>
+
+<p>If you already have <a href="https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface">kubectl</a> installed, you can skip this step.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>az aks install-cli
+</code></pre></div></li>
+<li><p><strong>Configure kubectl</strong></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>az aks get-credentials --resource-group myAKSCluster --name myAKSCluster
+</code></pre></div></li>
+</ol>
+
+<h2 id="3-deploy-a-datastore">3. <strong>Deploy a datastore</strong></h2>
 
 <p>Before deploying Kong, you need to provision a Cassandra or PostgreSQL pod.</p>
 
@@ -463,8 +481,9 @@ cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f postgres.yaml
 </code></pre></div>
 <p><strong>Kong EE trial users</strong> should complete the steps in the
-<strong>Additional Steps for Kong EE Trial Users</strong> section below before proceeding.</p></li>
-<li><p><strong>Prepare database</strong></p>
+<strong>Additional Steps for Kong EE Trial Users</strong> section below before proceeding.</p>
+
+<h2 id="4-prepare-database">4. <strong>Prepare database</strong></h2>
 
 <p>Using the <code>kong_migration_&lt;postgres|cassandra&gt;.yaml</code> file,
 run the migration job:</p>
@@ -472,15 +491,15 @@ run the migration job:</p>
 </code></pre></div>
 <p>Once the job completes, you can remove the pod by running following command:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl delete -f kong_migration_&lt;postgres|cassandra&gt;.yaml
-</code></pre></div></li>
-<li><p><strong>Deploy Kong</strong></p>
+</code></pre></div>
+<h2 id="5-deploy-kong">5. <strong>Deploy Kong</strong></h2>
 
 <p>Using the <code>kong_&lt;postgres|cassandra&gt;.yaml</code> file from this
 repo, deploy Kong admin, proxy services, and a <code>Deployment</code> controller to
 the cluster:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl create -f kong_&lt;postgres|cassandra&gt;.yaml
-</code></pre></div></li>
-<li><p><strong>Verify your deployments</strong></p>
+</code></pre></div>
+<h2 id="6-verify-your-deployments">6. <strong>Verify your deployments</strong></h2>
 
 <p>You can now see the resources that have been deployed using <code>kubectl</code>:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kubectl get all
@@ -491,12 +510,11 @@ can test Kong by making the following requests:</p>
 <span class="gp">$ </span>curl https://&lt;admin-ssl-ip-address&gt;:8444
 <span class="gp">$ </span>curl &lt;kong-proxy-ip-address&gt;:8000
 <span class="gp">$ </span>curl https://&lt;kong-proxy-ssl-ip-address&gt;:8443
-</code></pre></div></li>
-<li><p><strong>Get Started with Kong</strong></p>
+</code></pre></div>
+<h2 id="7-get-started-with-kong">7. <strong>Get Started with Kong</strong></h2>
 
 <p>Quickly learn how to use Kong with the
-<a href="/latest/getting-started/quickstart/">5-minute Quickstart</a>.</p></li>
-</ol>
+<a href="/latest/getting-started/quickstart/">5-minute Quickstart</a>.</p>
 
 <h1 id="additional-steps-for-kong-ee-trial-users">Additional Steps for Kong EE Trial Users</h1>
 
@@ -726,7 +744,7 @@ at <code>&lt;kong-admin-ip-address&gt;:8002</code> or <code>https://&lt;kong-ssl
 </script>
 
 
-    <script src="/assets/app.js?v=1537997090"></script>
+    <script src="/assets/app.js?v=1538093057"></script>
 
     <div id="fb-root"></div>
 
