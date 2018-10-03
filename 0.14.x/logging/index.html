@@ -37,7 +37,7 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 
 
   <!-- FullStory -->
-  <script>
+  <!-- <script>
 /* eslint-disable */
 window['_fs_debug'] = false;
 window['_fs_host'] = 'fullstory.com';
@@ -54,6 +54,15 @@ window['_fs_namespace'] = 'FS';
     g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
     g.clearUserCookie=function(){};
 })(window,document,window['_fs_namespace'],'script','user');
+</script>
+ -->
+
+  <!-- Delighted -->
+  <script type="text/javascript">
+/* eslint-disable */
+  !function(e,t,r,n,a){if(!e[a]){for(var i=e[a]=[],s=0;s<r.length;s++){var c=r[s];i[c]=i[c]||function(e){return function(){var t=Array.prototype.slice.call(arguments);i.push([e,t])}}(c)}i.SNIPPET_VERSION="1.0.1";var o=t.createElement("script");o.type="text/javascript",o.async=!0,o.src="https://d2yyd1h5u9mauk.cloudfront.net/integrations/web/v1/library/"+n+"/"+a+".js";var u=t.getElementsByTagName("script")[0];u.parentNode.insertBefore(o,u)}}(window,document,["survey","reset","config","init","set","get","event","identify","track","page","screen","group","alias"],"Mvwmq6n6DhInaFYu","delighted");
+
+  delighted.survey();
 </script>
 
 
@@ -80,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1538605370"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1538606472"/>
   
 </head>
 
@@ -183,8 +192,13 @@ window['_fs_namespace'] = 'FS';
       </div>
       <div class="page-header-title">
         <p>Documentation</p>
-        <h1></h1>
-        <h1>Community Edition (0.14.x)</h1>
+        
+        
+        <div class="page-header-section-title">
+            
+            Community Edition (0.14.x)
+        </div>
+        
       </div>
 
       
@@ -989,64 +1003,55 @@ window['_fs_namespace'] = 'FS';
 
 <p>For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code>/apiname/v2/verify/alice@example.com</code> or <code>/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</p>
 
-<p>To start using a custom NGINX template, first get a copy of our template. This can be found <a href="https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong">https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong</a> or copied from below
-```</p>
+<p>To start using a custom NGINX template, first get a copy of our template. This can be found <a href="https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong">https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong</a> or copied from below</p>
+<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+# custom_nginx.template
+# ---------------------
 
-<h1 id="part-896e5f6d30bef316">---------------------</h1>
+worker_processes $; # can be set by kong.conf
+daemon $;                     # can be set by kong.conf
 
-<h1 id="custom_nginx-template">custom_nginx.template</h1>
+pid pids/nginx.pid;                      # this setting is mandatory
+error_log logs/error.log $; # can be set by kong.conf
 
-<h1 id="part-896e5f6d30bef316">---------------------</h1>
-
-<p>worker_processes $; # can be set by kong.conf
-daemon $;                     # can be set by kong.conf</p>
-
-<p>pid pids/nginx.pid;                      # this setting is mandatory
-error_log logs/error.log $; # can be set by kong.conf</p>
-
-<p>events {
+events {
     use epoll; # custom setting
     multi_accept on;
-}</p>
+}
 
-<p>http {
+http {
     # include default Kong Nginx config
-    include &#39;nginx-kong.conf&#39;;</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># custom server
-server {
-    listen 8888;
-    server_name custom_server;
+    include 'nginx-kong.conf';
 
-    location / {
-      ... # etc
+    # custom server
+    server {
+        listen 8888;
+        server_name custom_server;
+
+        location / {
+          ... # etc
+        }
     }
 }
 </code></pre></div>
-<p>}
-```</p>
-
-<p>In order to control what is placed in the logs, we will be using the NGINX map module in our template. For more detailed information abut using the map directive, please see <a href="http://nginx.org/en/docs/http/ngx_http_map_module.html">this guide</a>. This will create a new variable whose value depends on values of one or more of the source variables specified in the first parameter. The format is:
-```</p>
-
-<p>map $paramater_to_look_at $variable_name {
+<p>In order to control what is placed in the logs, we will be using the NGINX map module in our template. For more detailed information abut using the map directive, please see <a href="http://nginx.org/en/docs/http/ngx_http_map_module.html">this guide</a>. This will create a new variable whose value depends on values of one or more of the source variables specified in the first parameter. The format is:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">
+map $paramater_to_look_at $variable_name {
     pattern_to_look_for 0;
-    second_pattern_to_look_for 0; </p>
-<div class="highlight"><pre><code class="language-" data-lang="">default 1;
-</code></pre></div>
-<p>}
-```</p>
+    second_pattern_to_look_for 0; 
 
-<p>For this example, we will be mapping a new variable called <code>keeplog</code> which is dependent on certain values appearing in the <code>$request_uri</code>. We will be placing our map directive right at the start of the http block, this must be before <code>include &#39;nginx-kong.conf&#39;;</code>. So, for our example, we will add something along the lines of:
-```
-map $request_uri $keeplog {
-    ~.+\@.+..+ 0;
+    default 1;
+}
+</code></pre></div>
+<p>For this example, we will be mapping a new variable called <code>keeplog</code> which is dependent on certain values appearing in the <code>$request_uri</code>. We will be placing our map directive right at the start of the http block, this must be before <code>include &#39;nginx-kong.conf&#39;;</code>. So, for our example, we will add something along the lines of:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">map $request_uri $keeplog {
+    ~.+\@.+\..+ 0;
     ~/apiname/v2/verify 0;
-    ~/v3/verify 0;</p>
-<div class="highlight"><pre><code class="language-" data-lang="">default 1;
-</code></pre></div>
-<p>}
-```</p>
+    ~/v3/verify 0;
 
+    default 1;
+}
+</code></pre></div>
 <p>You’ll probably notice that each of those lines start with a tilde. This is what tells NGINX to use RegEx when evaluating the line. We have three things to look for in this example:
 - The first line uses regex to look for any email address in the <a href="mailto:x@y.z">x@y.z</a> format
 - The second line looks for any part of the URI which is /apiname/v2/verify
@@ -1054,56 +1059,51 @@ map $request_uri $keeplog {
 
 <p>Because all of those have a value of something other than 0, if a request has one of those elements, it will not be added to the log.</p>
 
-<p>Now, we need to set the log format for what we will keep in the logs. We will use the <code>log_format</code> module and assign our new logs a name of show_everything. The contents of the log can be customized for you needs, but for this example, I will simply change everything back to the Kong standards. To see the full list of options you can use, please refer to <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#variables">this guide</a>.
-<code>
-log_format show_everything &#39;$remote_addr - $remote_user [$time_local] &#39;
-    &#39;$request_uri $status $body_bytes_sent &#39;
-    &#39;&quot;$http_referer&quot; &quot;$http_user_agent&quot;&#39;;
-</code></p>
-
-<p>Now, our custom NGINX template is all ready to be used. If you have been following along, your file should now be look like this:
-```</p>
-
-<h1 id="part-896e5f6d30bef316">---------------------</h1>
-
-<h1 id="custom_nginx-template">custom_nginx.template</h1>
-
-<h1 id="part-896e5f6d30bef316">---------------------</h1>
-
-<p>worker_processes $; # can be set by kong.conf
-daemon $;                     # can be set by kong.conf</p>
-
-<p>pid pids/nginx.pid;                      # this setting is mandatory
-error_log stderr $; # can be set by kong.conf</p>
-
-<p>events {
-    use epoll; # custom setting
-    multi_accept on;
-}</p>
-
-<p>http {</p>
-<div class="highlight"><pre><code class="language-" data-lang="">map $request_uri $keeplog {
-    ~.+\@.+\..+ 0;
-    ~/v1/invitation/ 0;
-    ~/reset/v1/customer/password/token 0;
-    ~/v2/verify 0;
-
-    default 1;
-}
-log_format show_everything '$remote_addr - $remote_user [$time_local] '
+<p>Now, we need to set the log format for what we will keep in the logs. We will use the <code>log_format</code> module and assign our new logs a name of show_everything. The contents of the log can be customized for you needs, but for this example, I will simply change everything back to the Kong standards. To see the full list of options you can use, please refer to <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#variables">this guide</a>.</p>
+<div class="highlight"><pre><code class="language-" data-lang="">log_format show_everything '$remote_addr - $remote_user [$time_local] '
     '$request_uri $status $body_bytes_sent '
     '"$http_referer" "$http_user_agent"';
-
-include 'nginx-kong.conf';  
 </code></pre></div>
-<p>}
-```</p>
+<p>Now, our custom NGINX template is all ready to be used. If you have been following along, your file should now be look like this:</p>
+<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+# custom_nginx.template
+# ---------------------
 
-<p>The last thing we need to do is tell Kong to use the newly created log, <code>show_everything</code>. To do this, we will be altering the Kong variable <code>prpxy_access_log</code>. Either by opening and editing <code>etc/kong/kong.conf</code> or by using an environmental variable <code>KONG_PROXY_ACCESS_LOG=</code> you will want to mend the default location to show
-<code>
-proxy_access_log=logs/access.log show_everything if=$keeplog
-</code>
-The final step in the process to make all the changes take effect is to restart kong. you can use the <code>kong restart</code> command to do so.</p>
+worker_processes $; # can be set by kong.conf
+daemon $;                     # can be set by kong.conf
+
+pid pids/nginx.pid;                      # this setting is mandatory
+error_log stderr $; # can be set by kong.conf
+
+
+
+events {
+    use epoll; # custom setting
+    multi_accept on;
+}
+
+http {
+
+
+    map $request_uri $keeplog {
+        ~.+\@.+\..+ 0;
+        ~/v1/invitation/ 0;
+        ~/reset/v1/customer/password/token 0;
+        ~/v2/verify 0;
+
+        default 1;
+    }
+    log_format show_everything '$remote_addr - $remote_user [$time_local] '
+        '$request_uri $status $body_bytes_sent '
+        '"$http_referer" "$http_user_agent"';
+
+    include 'nginx-kong.conf';  
+}
+</code></pre></div>
+<p>The last thing we need to do is tell Kong to use the newly created log, <code>show_everything</code>. To do this, we will be altering the Kong variable <code>prpxy_access_log</code>. Either by opening and editing <code>etc/kong/kong.conf</code> or by using an environmental variable <code>KONG_PROXY_ACCESS_LOG=</code> you will want to mend the default location to show</p>
+<div class="highlight"><pre><code class="language-" data-lang="">proxy_access_log=logs/access.log show_everything if=$keeplog
+</code></pre></div>
+<p>The final step in the process to make all the changes take effect is to restart kong. you can use the <code>kong restart</code> command to do so.</p>
 
 <p>Now, any requests made with an email address in it will no longer be logged. Of course, we can use this logic to remove anything we want from the logs on a conditional manner.</p>
 
@@ -1144,33 +1144,26 @@ The final step in the process to make all the changes take effect is to restart 
     
   <section class="section subscribe-section" id="newsletter">
   <div class="container">
-    <header class="section-header">
-      <h4>Keep up with the latest features</h4>
-    </header>
-
     <div class="row">
-      <div class="one-half column offset-by-three">
-        <noscript>
-          <iframe id="newsletter-iframe" src="https://go.pardot.com/l/392112/2017-08-16/b2qn8v" width="100%" height="100" type="text/html"
-            frameborder="0" allowTransparency="true" style="border: 0"></iframe>
-        </noscript>
-        <script type="text/javascript">
-          var form = 'https://go.pardot.com/l/392112/2017-08-16/b2qn8v';
-          var params = window.location.search;
-          var thisScript = document.scripts[document.scripts.length - 1];
-          var iframe = document.createElement('iframe');
-
-          iframe.setAttribute('src', form + params);
-          iframe.setAttribute('width', '100%');
-          iframe.setAttribute('height', 100);
-          iframe.setAttribute('type', 'text/html');
-          iframe.setAttribute('frameborder', 0);
-          iframe.setAttribute('allowTransparency', 'true');
-          iframe.setAttribute('id', 'newsletter-iframe');
-          iframe.style.border = '0';
-
-          thisScript.parentElement.replaceChild(iframe, thisScript);
-        </script>
+      <div class="one-half column">
+        <div class="newsletter-icon col-md-2 mx-auto mx-md-0 mb-1x mb-md-0x">
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+        </div>
+        <div class="newsletter-headline col-auto text-center text-md-left">
+          Keep up-to-date with Kong <span class="hidden-sm-down">product releases and</span> news.
+        </div>
+      </div>
+      <div class="one-half column">
+        <form accept-charset="UTF-8" method="post" action="https://go.pardot.com/l/392112/2018-10-02/bh8cfd" class="form" id = "subscription_form">
+          <input type="text" name="email" id="email" class="text" size="30" placeholder="Email" maxlength="255">
+          <div class="error-message message"></div>
+          <div class="success-message message"></div>
+          <input type="hidden" name="utm_source">
+          <input type="hidden" name="utm_campaign">
+          <input type="hidden" name="utm_medium">
+          <input type="hidden" name="utm_content">
+          <input type="hidden" name="utm_term">
+          <input type="submit" class="button" accesskey="s" value="Subscribe">
       </div>
     </div>
   </div>
@@ -1287,7 +1280,7 @@ The final step in the process to make all the changes take effect is to restart 
 </script>
 
 
-    <script src="/assets/app.js?v=1538605370"></script>
+    <script src="/assets/app.js?v=1538606472"></script>
 
     <div id="fb-root"></div>
 
