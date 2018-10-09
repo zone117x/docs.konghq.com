@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539105296"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539112186"/>
   
 </head>
 
@@ -254,6 +254,12 @@ window['_fs_namespace'] = 'FS';
         <ul>
             
               <li>
+                <a href="#0-33-2">0.33-2</a>
+
+                
+              </li>
+            
+              <li>
                 <a href="#0-33-1">0.33-1</a>
 
                 
@@ -303,6 +309,85 @@ window['_fs_namespace'] = 'FS';
           
 
           <h1 id="kong-enterprise-changelog">Kong Enterprise Changelog</h1>
+
+<h2 id="0-33-2-2018-10-09">0.33-2 - 2018/10/09</h2>
+
+<h3 id="notifications">Notifications</h3>
+
+<ul>
+<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+
+<ul>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+</ul></li>
+<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+
+<ul>
+<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
+
+<ul>
+<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+</ul></li>
+<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+</ul></li>
+<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+</ul>
+
+<h3 id="fixes">Fixes</h3>
+
+<ul>
+<li><p><strong>Core</strong></p>
+
+<ul>
+<li><strong>DB</strong>
+
+<ul>
+<li><a href="https://github.com/thibaultcha/lua-cassandra/blob/master/CHANGELOG.md#132">lua-cassandra</a> version bumped to 1.3.2
+
+<ul>
+<li>Fix an issue encountered in environments with DNS load-balancing in effect for contact_points provided as hostnames (e.g.Kubernetes with <code>contact_points = { &quot;cassandra&quot; }</code>).</li>
+</ul></li>
+</ul></li>
+<li><strong>Plugin Runloop</strong>
+
+<ul>
+<li>Plugin runloop performance optimizations</li>
+<li>Reduce the number of invocations of the plugins iterator by attempting to load configurations only for plugins we know are configured on the cluster</li>
+<li>Pre-calculate plugins cache key</li>
+<li>Avoid unnecessary L2 cache deserialization</li>
+</ul></li>
+<li><strong>Balancer</strong>
+
+<ul>
+<li>Fix issue where Upstream for different workspace getting cached to same key</li>
+<li>Fix an issue where Balancer are not run into limited workspace scope</li>
+</ul></li>
+<li><strong>Dev Portal</strong>
+
+<ul>
+<li>Fix an issue which may expose information on the URL query string</li>
+<li><strong>Breaking</strong>: If you are updating from a previous version (not a clean install), you will need to update the files below in order to take advantage of security and performance updates.
+
+<ul>
+<li>unauthenticated/login (page)</li>
+<li>unauthenticated/register (page)</li>
+<li>unauthenticated/custom-css (partial)</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Plugins</strong></p>
+
+<ul>
+<li><strong>LDAP Auth Advanced</strong>
+
+<ul>
+<li>Fix an issue where the plugin fails to authenticate a user when the LDAP server doesn&#39;t return the user&#39;s password as part of the search result</li>
+<li>Fix issue where the username field wasn&#39;t allowed to contain non-alaphanumeric characters</li>
+</ul></li>
+</ul></li>
+</ul>
 
 <h2 id="0-33-1-2018-09-05">0.33-1 - 2018/09/05</h2>
 
@@ -1260,7 +1345,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1539105296"></script>
+    <script src="/assets/app.js?v=1539112186"></script>
 
     <div id="fb-root"></div>
 
