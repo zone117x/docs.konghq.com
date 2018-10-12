@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539112186"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539384294"/>
   
 </head>
 
@@ -368,16 +368,231 @@ window['_fs_namespace'] = 'FS';
 
 <ul>
 <li>Fix an issue which may expose information on the URL query string</li>
-<li><strong>Breaking</strong>: If you are updating from a previous version (not a clean install), you will need to update the files below in order to take advantage of security and performance updates.
+<li><strong>Breaking</strong>: If you are updating from a previous version (not a clean install), you will need to update the files below in order to take advantage of security and performance updates.</li>
+</ul></li>
+</ul></li>
+</ul>
 
+<p><strong>unauthenticated/login (page)</strong></p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{#&gt; unauthenticated/layout pageTitle="Login" }}
+
+  {{#*inline "content-block"}}
+
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"authentication"</span><span class="nt">&gt;</span>
+    {{#unless authData.authType}}
+        <span class="nt">&lt;h1&gt;</span>404 - Not Found<span class="nt">&lt;/h1&gt;</span>
+    {{/unless}}
+    {{#if authData.authType}}
+      <span class="nt">&lt;h1&gt;</span>Login<span class="nt">&lt;/h1&gt;</span>
+      <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"login"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        {{#if (eq authData.authType 'basic-auth')}}
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"username"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"username"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"password"</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"login-button"</span> <span class="na">class=</span><span class="s">"button button-primary"</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/button&gt;</span>
+        {{/if}}
+        {{#if (eq authData.authType 'key-auth')}}
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"key"</span><span class="nt">&gt;</span>Api Key<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"key"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"key"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"login-button"</span> <span class="na">class=</span><span class="s">"button button-primary"</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Login<span class="nt">&lt;/button&gt;</span>
+        {{/if}}
+
+        {{#if (eq authData.authType 'openid-connect')}}
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{config.PROXY_URL}}"</span> <span class="na">class=</span><span class="s">"button button-outline"</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;svg</span> <span class="na">class=</span><span class="s">"google-button-icon"</span> <span class="na">viewBox=</span><span class="s">"0 0 366 372"</span> <span class="na">xmlns=</span><span class="s">"http://www.w3.org/2000/svg"</span><span class="nt">&gt;&lt;path</span> <span class="na">d=</span><span class="s">"M125.9 10.2c40.2-13.9 85.3-13.6 125.3 1.1 22.2 8.2 42.5 21 59.9 37.1-5.8 6.3-12.1 12.2-18.1 18.3l-34.2 34.2c-11.3-10.8-25.1-19-40.1-23.6-17.6-5.3-36.6-6.1-54.6-2.2-21 4.5-40.5 15.5-55.6 30.9-12.2 12.3-21.4 27.5-27 43.9-20.3-15.8-40.6-31.5-61-47.3 21.5-43 60.1-76.9 105.4-92.4z"</span> <span class="na">id=</span><span class="s">"Shape"</span> <span class="na">fill=</span><span class="s">"#EA4335"</span><span class="nt">/&gt;&lt;path</span> <span class="na">d=</span><span class="s">"M20.6 102.4c20.3 15.8 40.6 31.5 61 47.3-8 23.3-8 49.2 0 72.4-20.3 15.8-40.6 31.6-60.9 47.3C1.9 232.7-3.8 189.6 4.4 149.2c3.3-16.2 8.7-32 16.2-46.8z"</span> <span class="na">id=</span><span class="s">"Shape"</span> <span class="na">fill=</span><span class="s">"#FBBC05"</span><span class="nt">/&gt;&lt;path</span> <span class="na">d=</span><span class="s">"M361.7 151.1c5.8 32.7 4.5 66.8-4.7 98.8-8.5 29.3-24.6 56.5-47.1 77.2l-59.1-45.9c19.5-13.1 33.3-34.3 37.2-57.5H186.6c.1-24.2.1-48.4.1-72.6h175z"</span> <span class="na">id=</span><span class="s">"Shape"</span> <span class="na">fill=</span><span class="s">"#4285F4"</span><span class="nt">/&gt;&lt;path</span> <span class="na">d=</span><span class="s">"M81.4 222.2c7.8 22.9 22.8 43.2 42.6 57.1 12.4 8.7 26.6 14.9 41.4 17.9 14.6 3 29.7 2.6 44.4.1 14.6-2.6 28.7-7.9 41-16.2l59.1 45.9c-21.3 19.7-48 33.1-76.2 39.6-31.2 7.1-64.2 7.3-95.2-1-24.6-6.5-47.7-18.2-67.6-34.1-20.9-16.6-38.3-38-50.4-62 20.3-15.7 40.6-31.5 60.9-47.3z"</span> <span class="na">fill=</span><span class="s">"#34A853"</span><span class="nt">/&gt;&lt;/svg&gt;</span>
+          <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"google-button-text"</span><span class="nt">&gt;</span>Sign in with Google<span class="nt">&lt;/span&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+        {{/if}}
+      <span class="nt">&lt;/form&gt;</span>
+    {{/if}}
+  <span class="nt">&lt;/div&gt;</span>
+
+  {{/inline}}
+
+{{/unauthenticated/layout}}
+</code></pre></div>
+<p><strong>unauthenticated/register (page)</strong></p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{#&gt; unauthenticated/layout pageTitle="Register" }}
+
+    {{#*inline "content-block"}}
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"authentication"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;h1&gt;</span>Request Access<span class="nt">&lt;/h1&gt;</span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"alert alert-info"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;b&gt;</span>Please fill out the below form and we will notify you once your request gets approved.<span class="nt">&lt;/b&gt;</span>
+      <span class="nt">&lt;/div&gt;</span>
+      <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"register"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"full_name"</span><span class="nt">&gt;</span>Full Name<span class="nt">&lt;/label&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"full_name"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"full_name"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+        {{#if (eq authData.authType 'basic-auth')}}
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"email_basic"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"password_basic"</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+        {{/if}}
+        {{#if (eq authData.authType 'key-auth')}}
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"email_key"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"key"</span><span class="nt">&gt;</span>Api Key<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"key"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"key"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+        {{/if}}
+        {{#if (eq authData.authType 'openid-connect')}}
+          <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;</span>
+          <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"email-oidc"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+        {{/if}}
+        <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"button button-primary"</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Sign Up<span class="nt">&lt;/button&gt;</span>
+      <span class="nt">&lt;/form&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    {{/inline}}
+
+{{/unauthenticated/layout}}
+</code></pre></div>
+<p><strong>unauthenticated/custom-css (partial)</strong></p>
+<div class="highlight"><pre><code class="language-html" data-lang="html">{{!--
+    |--------------------------------------------------------------------------
+    | Here's where the magic happens. This is where you can add your own
+    | custom CSS as well as override any default styling we've provided.
+    | This file is broken up by section, but feel free to organize as you
+    | see fit!
+    |
+    | Helpful articles on customizing your Developer Portal:
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/introduction/
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/getting-started/
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/understand/
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/customization/
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/authentication/
+    |   - https://getkong.org/docs/enterprise/latest/developer-portal/faq/
+    |
+    |--------------------------------------------------------------------------
+    |
+    --}}
+
+    {{!-- Custom fonts --}}
+    {{!-- <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"https://fonts.googleapis.com/css?family=Roboto"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span> --}}
+
+    <span class="nt">&lt;style&gt;</span>
+    <span class="c">/*
+    |--------------------------------------------------------------------------
+    | Typography:
+    | h1, h2, h3, h4, h5, h6, p
+    |--------------------------------------------------------------------------
+    |
+    */</span>
+
+    <span class="nt">h1</span> <span class="p">{}</span>
+
+    <span class="nt">h2</span> <span class="p">{}</span>
+
+    <span class="nt">h3</span> <span class="p">{}</span>
+
+    <span class="nt">h4</span> <span class="p">{}</span>
+
+    <span class="nt">h5</span> <span class="p">{}</span>
+
+    <span class="nt">h6</span> <span class="p">{}</span>
+
+    <span class="nt">p</span> <span class="p">{}</span>
+
+    <span class="c">/* Header */</span>
+    <span class="nf">#header</span> <span class="p">{}</span>
+
+    <span class="c">/* Sidebar */</span>
+    <span class="nf">#sidebar</span> <span class="p">{}</span>
+
+    <span class="c">/* Footer */</span>
+    <span class="nf">#footer</span> <span class="p">{}</span>
+
+    <span class="c">/* Swagger UI */</span>
+    <span class="nc">.swagger-ui</span> <span class="nc">.side-panel</span> <span class="p">{}</span>
+
+    <span class="c">/*
+    |--------------------------------------------------------------------------
+    | Code block prismjs theme.
+    | e.g. https://github.com/PrismJS/prism-themes
+    |--------------------------------------------------------------------------
+    |
+    */</span>
+
+    <span class="nc">.token.block-comment</span><span class="o">,</span>
+    <span class="nc">.token.cdata</span><span class="o">,</span>
+    <span class="nc">.token.comment</span><span class="o">,</span>
+    <span class="nc">.token.doctype</span><span class="o">,</span>
+    <span class="nc">.token.prolog</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#999</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.punctuation</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#ccc</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.attr-name</span><span class="o">,</span>
+    <span class="nc">.token.deleted</span><span class="o">,</span>
+    <span class="nc">.token.namespace</span><span class="o">,</span>
+    <span class="nc">.token.tag</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#e2777a</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.function-name</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#6196cc</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.boolean</span><span class="o">,</span>
+    <span class="nc">.token.function</span><span class="o">,</span>
+    <span class="nc">.token.number</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#f08d49</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.class-name</span><span class="o">,</span>
+    <span class="nc">.token.constant</span><span class="o">,</span>
+    <span class="nc">.token.property</span><span class="o">,</span>
+    <span class="nc">.token.symbol</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#f8c555</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.atrule</span><span class="o">,</span>
+    <span class="nc">.token.builtin</span><span class="o">,</span>
+    <span class="nc">.token.important</span><span class="o">,</span>
+    <span class="nc">.token.keyword</span><span class="o">,</span>
+    <span class="nc">.token.selector</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#cc99cd</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.attr-value</span><span class="o">,</span>
+    <span class="nc">.token.char</span><span class="o">,</span>
+    <span class="nc">.token.regex</span><span class="o">,</span>
+    <span class="nc">.token.string</span><span class="o">,</span>
+    <span class="nc">.token.variable</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#7ec699</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.entity</span><span class="o">,</span>
+    <span class="nc">.token.operator</span><span class="o">,</span>
+    <span class="nc">.token.url</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="m">#67cdcc</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.bold</span><span class="o">,</span>
+    <span class="nc">.token.important</span> <span class="p">{</span>
+      <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.italic</span> <span class="p">{</span>
+      <span class="nl">font-style</span><span class="p">:</span> <span class="nb">italic</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.entity</span> <span class="p">{</span>
+      <span class="nl">cursor</span><span class="p">:</span> <span class="nb">help</span>
+    <span class="p">}</span>
+
+    <span class="nc">.token.inserted</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="no">green</span>
+    <span class="p">}</span>
+
+<span class="nt">&lt;/style&gt;</span>
+</code></pre></div>
 <ul>
-<li>unauthenticated/login (page)</li>
-<li>unauthenticated/register (page)</li>
-<li>unauthenticated/custom-css (partial)</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li><p><strong>Plugins</strong></p>
+<li><strong>Plugins</strong>
 
 <ul>
 <li><strong>LDAP Auth Advanced</strong>
@@ -1345,7 +1560,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1539112186"></script>
+    <script src="/assets/app.js?v=1539384294"></script>
 
     <div id="fb-root"></div>
 
