@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -229,8 +229,23 @@ window['_fs_namespace'] = 'FS';
 
     
 
+    
+
     <aside class="page-navigation">
 
+      
+        <nav>
+          <ul>
+<li> <a href="#terminology">Terminology</a></li>
+<li> <a href="#configuration">Configuration</a>
+
+<ul>
+<li> <a href="#metrics">Metrics</a></li>
+<li> <a href="#kong-process-errors">Kong Process Errors</a></li>
+</ul></li>
+</ul>
+
+        </nav>
       
 
       <table id="about-extn">
@@ -337,55 +352,54 @@ window['_fs_namespace'] = 'FS';
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-
           
+      
 
-          
-            <div class="alert alert-warning">
-              <strong>Kong Enterprise Edition (EE) only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong EE subscription</a>.
-            </div>
+      
+        <div class="alert alert-warning">
+          <strong>Kong Enterprise Edition (EE) only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong EE subscription</a>.
+        </div>
 
-            Please inquire about Kong EE by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
-            <hr>
-          
+        Please inquire about Kong EE by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
+        <hr>
+      
 
-
-          <p>Log <a href="#metrics">metrics</a> for a Service, Route (or the deprecated API entity)
+      <p>Log <a href="#metrics">metrics</a> for a Service, Route (or the deprecated API entity)
 to a StatsD server.
 It can also be used to log metrics on <a href="https://collectd.org/">Collectd</a>
 daemon by enabling its <a href="https://collectd.org/wiki/index.php/Plugin:StatsD">StatsD
 plugin</a>.</p>
 
 
-          
-            <hr>
-            <h2 id="terminology">Terminology</h2>
-            <ul>
-              <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-              
-                <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
-              
-              
-                <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
-              
-              
-                <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
-                <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
-              
-                <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-              
-              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-              
-            </ul>
-          
+      
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
           
-
+            <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
           
-            <h2 id="configuration">Configuration</h2>
-            
-              <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
+          
+            <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
+          
+          
+            <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
+            <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
+          
+        </ul>
+      
+
+      
+
+      
+        <h2 id="configuration">Configuration</h2>
+        
+          <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
@@ -400,9 +414,9 @@ making the following request:</p>
 target.</li>
 </ul>
 
-            
-            
-              <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
+        
+        
+          <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
@@ -415,9 +429,9 @@ target.</li>
 <li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
-            
-            
-              <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
+        
+        
+          <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
 
 <p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
@@ -436,9 +450,9 @@ plugin.</p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
-            
-            
-              <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
+        
+        
+          <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -457,21 +471,21 @@ can configure this plugin on top of such an API by making the following request:
 target.</li>
 </ul>
 
-            
+        
 
-            <h4>Global plugins</h4>
+        <h4>Global plugins</h4>
 
-            <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-              Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-              Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-              <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-            </p>
+        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
 
-            <h4>Parameters</h4>
+        <h4>Parameters</h4>
 
-            <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-            <table>
+        <table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -501,7 +515,7 @@ target.</li>
 </td>
         <td><p>The IP address or host name of StatsD server to send data to</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.port</code>
@@ -512,7 +526,7 @@ target.</li>
 </td>
         <td><p>The port of StatsD server to send data to</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.metrics</code>
@@ -523,7 +537,7 @@ target.</li>
 </td>
         <td><p>List of Metrics to be logged. Available values are described under <a href="#metrics">Metrics</a>.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.prefix</code>
@@ -534,7 +548,7 @@ target.</li>
 </td>
         <td><p>String to be prefixed to each metric&#39;s name</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.udp_packet_size</code>
@@ -545,7 +559,7 @@ target.</li>
 </td>
         <td><p>Combine UDP packet up to the size configured</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.use_tcp</code>
@@ -556,18 +570,18 @@ target.</li>
 </td>
         <td><p>Use TCP instead of UDP</p>
 </td>
-      </td>
+      </tr>
     
   </tbody>
 </table>
 
 
-          
+      
 
-          <p>By default the Plugin sends a packet for each metric it observes. <code>udp_packet_size</code> configures the greatest datagram size the Plugin can combine. It should be less than 65507 according to UDP protocol. Please consider the MTU of the network when setting this parameter.</p>
+      <p>By default the Plugin sends a packet for each metric it observes. <code>udp_packet_size</code> configures the greatest datagram size the Plugin can combine. It should be less than 65507 according to UDP protocol. Please consider the MTU of the network when setting this parameter.</p>
 
 
-          <h3 id="metrics">Metrics</h3>
+      <h3 id="metrics">Metrics</h3>
 
 <table><thead>
 <tr>
@@ -737,9 +751,10 @@ you can find it at the following path:
 {<a href="/0.14.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
 
-          
+      
 
-          
+      
+    
         </div>
       </div>
     </div>
@@ -899,7 +914,7 @@ you can find it at the following path:
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

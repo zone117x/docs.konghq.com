@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -238,8 +238,6 @@ window['_fs_namespace'] = 'FS';
 
   <div class="container">
     <aside class="page-navigation">
-      
-
       
 
       
@@ -760,6 +758,30 @@ window['_fs_namespace'] = 'FS';
           
           
 
+          
+          
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ul>
+<li> <a href="#managing-developers-for-your-developer-portal">Managing Developers for your Developer Portal</a>
+
+<ul>
+<li> <a href="#developers-statuses">Developers Statuses</a></li>
+<li> <a href="#approving-developers">Approving Developers</a>
+    -  <a href="#enabling-auto-approval">Enabling Auto Approval</a></li>
+<li> <a href="#viewing-approved-developers">Viewing Approved Developers</a></li>
+<li> <a href="#viewing-revoked-developers">Viewing Revoked Developers</a></li>
+<li> <a href="#viewing-rejected-developers">Viewing Rejected Developers</a></li>
+<li> <a href="#emailing-developers">Emailing Developers</a>
+
+<ul>
+<li> <a href="#inviting-developers-to-register">Inviting Developers to Register</a></li>
+<li> <a href="#sending-approved-email">Sending Approved Email</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+          
+
           <h1 id="managing-developers-for-your-developer-portal">Managing Developers for your Developer Portal</h1>
 
 <p>In this section you will learn how to manage <a href="/enterprise/0.33-x/developer-portal/glossary/#types-of-humans">developers</a> in your Kong Developer Portal. If you have not yet enabled the Portal follow the <a href="/enterprise/0.33-x/developer-portal/configuration/getting-started/">Getting Started</a> guide.</p>
@@ -775,21 +797,25 @@ window['_fs_namespace'] = 'FS';
 
 <ul>
 <li>A Developer who can access the Developer Portal. Approved Developers can create credentials &amp; access <strong>all</strong> APIs that allow those credentials.</li>
+<li>In the Admin API, Approved Developers have <code>status = 0</code>.</li>
 </ul></li>
 <li><strong>Requested</strong>
 
 <ul>
 <li>A Developer who has requested access but has not yet been Approved.</li>
+<li>In the Admin API, Requested Developers have <code>status = 1</code>.</li>
 </ul></li>
 <li><strong>Rejected</strong>
 
 <ul>
 <li>A Developer who has had their request denied by a Kong Administrator.</li>
+<li>In the Admin API, Rejected Developers have <code>status = 2</code>.</li>
 </ul></li>
 <li><strong>Revoked</strong>
 
 <ul>
 <li>A Developer who once had access to the Developer Portal but has since had access Revoked.</li>
+<li>In the Admin API, Revoked Developers have <code>status = 3</code>.</li>
 </ul></li>
 </ul>
 
@@ -800,6 +826,11 @@ window['_fs_namespace'] = 'FS';
 <p>Developers who have requested access to your <strong>Kong Developer Portal</strong> will appear under the <strong>Requested Access</strong> tab.
 From this tab you can choose to <em>Accept</em> or <em>Reject</em> the developer from the actions in the table row. After selecting an action the corresponding tab will update.</p>
 
+<p>In the Admin API, you can approve Developers by changing their <code>status</code> to 0:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">curl -svX PATCH \
+  --url http://localhost:8001/portal/developers/53ec3f45-2da4-4d38-966a-e98743d85eac \
+  --data 'status=0'
+</code></pre></div>
 <h4 id="enabling-auto-approval">Enabling Auto Approval</h4>
 
 <p>You can choose to have developers automatically approved and skip the requested state. To enable follow these steps:</p>
@@ -818,10 +849,17 @@ It should now look like:
 
 <p>To view all currently approved developers choose the <strong>Approved</strong> tab. From here you can choose to <em>Revoke</em> or <em>Delete</em> a particular developer. Additionally you can use this view to send an email to a developer with the <strong>Email Developer</strong> <code>mailto</code> link. See <a href="#emailing-developers">Emailing Developers</a> for more info.</p>
 
+<p>You can also view Developers using the Admin API, optionally filtering by their approval status:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">curl -svX GET http://localhost:8001/portal/developers?status=0
+</code></pre></div>
 <h2 id="viewing-revoked-developers">Viewing Revoked Developers</h2>
 
 <p>To view all currently revoked developers choose the <strong>Revoked</strong> tab. From here you can choose to <em>Re-approve</em> or <em>Delete</em> a developer.</p>
 
+<p>You can also delete Developers using the Admin API:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">curl -svX DELETE \
+  --url http://localhost:8001/portal/developers/53ec3f45-2da4-4d38-966a-e98743d85eac
+</code></pre></div>
 <h2 id="viewing-rejected-developers">Viewing Rejected Developers</h2>
 
 <p>To view all currently rejected developers choose the <strong>Rejected</strong> tab. Rejected developers completed the registration flow on your Developer Portal but were rejected from the <strong>Request Access</strong> tab. You may <em>Approve</em> or <em>Delete</em> a developer from this tab.</p>
@@ -1005,7 +1043,7 @@ It should now look like:
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

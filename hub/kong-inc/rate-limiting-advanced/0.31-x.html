@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -260,8 +260,22 @@ window['_fs_namespace'] = 'FS';
       </div>
     
 
+    
+
     <aside class="page-navigation">
 
+      
+        <nav>
+          <ul>
+<li> <a href="#terminology">Terminology</a></li>
+<li> <a href="#configuration">Configuration</a>
+
+<ul>
+<li> <a href="#notes">Notes</a></li>
+</ul></li>
+</ul>
+
+        </nav>
       
 
       <table id="about-extn">
@@ -399,20 +413,19 @@ window['_fs_namespace'] = 'FS';
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-
           
+      
 
-          
-            <div class="alert alert-warning">
-              <strong>Kong Enterprise Edition (EE) only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong EE subscription</a>.
-            </div>
+      
+        <div class="alert alert-warning">
+          <strong>Kong Enterprise Edition (EE) only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong EE subscription</a>.
+        </div>
 
-            Please inquire about Kong EE by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
-            <hr>
-          
+        Please inquire about Kong EE by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
+        <hr>
+      
 
-
-          <p>The Rate Limiting Advanced plugin for Kong Enterprise Edition (EE) is a
+      <p>The Rate Limiting Advanced plugin for Kong Enterprise Edition (EE) is a
 re-engineered version of the incredibly popular Kong Rate Limiting plugin,
 with greatly enhanced configuration options and performance.</p>
 
@@ -423,33 +436,33 @@ plugin (named <code>rate-limiting-advanced</code> in those later versions) and t
 <code>rate-limiting</code> plugin from Kong CE.</p>
 
 
-          
-            <hr>
-            <h2 id="terminology">Terminology</h2>
-            <ul>
-              <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-              
-              
-              
-                <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
-                <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
-              
-                <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-              
-              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-              
-            </ul>
-          
+      
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
           
-
           
-            <h2 id="configuration">Configuration</h2>
-            
-            
-            
-              <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
+          
+            <li><code>Consumer</code>: the Kong entity representing a developer or machine using the API. When using Kong, a Consumer only communicates with Kong which proxies every call to the said upstream API.</li>
+            <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
+          
+        </ul>
+      
+
+      
+
+      
+        <h2 id="configuration">Configuration</h2>
+        
+        
+        
+          <h4 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h4>
 
 <p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
@@ -466,9 +479,9 @@ plugin.</p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
-            
-            
-              <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
+        
+        
+          <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -485,21 +498,21 @@ can configure this plugin on top of such an API by making the following request:
 target.</li>
 </ul>
 
-            
+        
 
-            <h4>Global plugins</h4>
+        <h4>Global plugins</h4>
 
-            <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-              Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-              Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-              <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-            </p>
+        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
 
-            <h4>Parameters</h4>
+        <h4>Parameters</h4>
 
-            <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-            <table>
+        <table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -524,7 +537,7 @@ target.</li>
         <td></td>
         <td><p>One of more request per window to apply</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.window_size</code>
@@ -534,7 +547,7 @@ target.</li>
         <td></td>
         <td><p>One more more window sizes to apply (defined in seconds)</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.identifier</code>
@@ -545,7 +558,7 @@ target.</li>
 </td>
         <td><p>How to define the rate limit key. Can be <code>ip</code>, <code>credential</code>, or <code>consumer</code>.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.sync_rate</code>
@@ -558,7 +571,7 @@ results in synchronous behavior; a value of -1 ignores sync behavior
 entirely and only stores counters in node memory. A value greater than
 0 will sync the counters in that many number of seconds.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.namespace</code>
@@ -570,7 +583,7 @@ entirely and only stores counters in node memory. A value greater than
         <td><p>The rate limiting library namespace to use for this plugin instance.
 Counter data and sync configuration is shared in a namespace.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.strategy</code>
@@ -581,7 +594,7 @@ Counter data and sync configuration is shared in a namespace.</p>
 </td>
         <td><p>The sync strategy to use; <code>cluster</code> and <code>redis</code> are supported</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.host</code>
@@ -591,7 +604,7 @@ Counter data and sync configuration is shared in a namespace.</p>
         <td></td>
         <td><p>Host to use for Redis connection when the <code>redis</code> strategy is defined</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.port</code>
@@ -601,7 +614,7 @@ Counter data and sync configuration is shared in a namespace.</p>
         <td></td>
         <td><p>Port to use for Redis connection when the <code>redis</code> strategy is defined</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.timeout</code>
@@ -611,7 +624,7 @@ Counter data and sync configuration is shared in a namespace.</p>
         <td></td>
         <td><p>Connection timeout to use for Redis connection when the <code>redis</code> strategy is defined</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.password</code>
@@ -622,7 +635,7 @@ Counter data and sync configuration is shared in a namespace.</p>
         <td><p>Password to use for Redis connection when the <code>redis</code> strategy is defined.
 If undefined, no AUTH commands are sent to Redis.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.database</code>
@@ -633,7 +646,7 @@ If undefined, no AUTH commands are sent to Redis.</p>
 </td>
         <td><p>Database to use for Redis connection when the <code>redis</code> strategy is defined</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.sentinel_master</code>
@@ -644,7 +657,7 @@ If undefined, no AUTH commands are sent to Redis.</p>
         <td><p>Sentinel master to use for Redis connection when the <code>redis</code> strategy
 is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.sentinel_role</code>
@@ -655,7 +668,7 @@ is defined. Defining this value implies using Redis Sentinel.</p>
         <td><p>Sentinel role to use for Redis connection when the <code>redis</code> strategy
 is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.redis.sentinel_addresses</code>
@@ -666,7 +679,7 @@ is defined. Defining this value implies using Redis Sentinel.</p>
         <td><p>Sentinel addresses to use for Redis connection when the <code>redis</code>
 strategy is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.window_type</code>
@@ -680,7 +693,7 @@ Sliding windows <a href="/enterprise/0.31-x/rate-limiting/">factor in weighted r
 exceeded its limit, whereas fixed windows only count requests during
 the current time segment.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.hide_client_headers</code>
@@ -693,15 +706,15 @@ the current time segment.</p>
 headers are sent to clients. When set to <code>true</code>, headers are not
 sent/are hidden.</p>
 </td>
-      </td>
+      </tr>
     
   </tbody>
 </table>
 
 
-          
+      
 
-          <p><strong>Note:  Redis configuration values are ignored if the <code>cluster</code> strategy is used.</strong></p>
+      <p><strong>Note:  Redis configuration values are ignored if the <code>cluster</code> strategy is used.</strong></p>
 
 <p><strong>Note: PostgreSQL 9.5+ is required when using the <code>cluster</code> strategy with
 <code>postgres</code> as the backing Kong cluster data store. This requirement varies
@@ -709,7 +722,7 @@ from the PostgreSQL 9.4+ requirement as described in the
 <a href="/install/source">Kong Community Edition documentation</a>.</strong></p>
 
 
-          <h3 id="notes">Notes</h3>
+      <h3 id="notes">Notes</h3>
 
 <p>An arbitrary number of limits/window sizes can be applied per plugin instance. This allows users to create multiple rate limiting windows (e.g., rate limit per minute and per hour, and/or per any arbitrary window size); because of limitation with Kong&#39;s plugin configuration interface, each <em>nth</em> limit will apply to each <em>nth</em> window size. For example:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">$ curl -i -X POST http://kong:8001/apis/{api}/plugins \
@@ -721,9 +734,10 @@ from the PostgreSQL 9.4+ requirement as described in the
 <p>This will apply rate limiting policies, one of which will trip when 10 hits have been counted in 60 seconds, or when 100 hits have been counted in 3600 seconds.</p>
 
 
-          
+      
 
-          
+      
+    
         </div>
       </div>
     </div>
@@ -883,7 +897,7 @@ from the PostgreSQL 9.4+ requirement as described in the
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

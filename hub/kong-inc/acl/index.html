@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -229,57 +229,22 @@ window['_fs_namespace'] = 'FS';
 
     
 
+    
+
     <aside class="page-navigation">
 
       
-        
-          <nav>
-            
-              <a href="#terminology"><h5>Terminology</h5></a>
-            
-            <ul>
-            
-            </ul>
-          </nav>
-        
-          <nav>
-            
-              <a href="#configuration"><h5>Configuration</h5></a>
-            
-            <ul>
-            
-            </ul>
-          </nav>
-        
-          <nav>
-            
-              <h5>Usage</h5>
-            
-            <ul>
-            
-              <li>
-                <a href="#associating-consumers">Associating Consumers</a>
-                
-              </li>
-            
-              <li>
-                <a href="#upstream-headers">Upstream Headers</a>
-                
-              </li>
-            
-              <li>
-                <a href="#paginate-through-the-acls">Paginate through the ACLs</a>
-                
-              </li>
-            
-              <li>
-                <a href="#retrieve-the-consumer-associated-with-an-acl">Retrieve the Consumer associated with an ACL</a>
-                
-              </li>
-            
-            </ul>
-          </nav>
-        
+        <nav>
+          <ul>
+<li> <a href="#terminology">Terminology</a></li>
+<li> <a href="#configuration">Configuration</a>
+
+<ul>
+<li> <a href="#usage">Usage</a></li>
+</ul></li>
+</ul>
+
+        </nav>
       
 
       <table id="about-extn">
@@ -472,49 +437,48 @@ window['_fs_namespace'] = 'FS';
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-
           
+      
 
-          
+      
 
-
-          <p>Restrict access to a Service or a Route (or the deprecated API entity) by whitelisting or blacklisting consumers using arbitrary ACL group names. This plugin requires an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> to have been already enabled on the Service or the Route (or API).</p>
+      <p>Restrict access to a Service or a Route (or the deprecated API entity) by whitelisting or blacklisting consumers using arbitrary ACL group names. This plugin requires an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> to have been already enabled on the Service or the Route (or API).</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
   with versions of Kong prior to 0.14.1 and Kong Enterprise prior to 0.34
   differs from what is documented herein. Refer to the
-  <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md">CHANGELOG</a> 
+  <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md">CHANGELOG</a>
   for details.
 </div>
 
 
-          
-            <hr>
-            <h2 id="terminology">Terminology</h2>
-            <ul>
-              <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-              
-                <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
-              
-              
-                <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
-              
-              
-                <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-              
-              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-              
-            </ul>
-          
+      
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
           
-
+            <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
           
-            <h2 id="configuration">Configuration</h2>
-            
-              <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
+          
+            <li><code>Route</code>: the Kong entity representing a way to map downstream requests to upstream services.</li>
+          
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
+          
+        </ul>
+      
+
+      
+
+      
+        <h2 id="configuration">Configuration</h2>
+        
+          <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
@@ -529,9 +493,9 @@ making the following request:</p>
 target.</li>
 </ul>
 
-            
-            
-              <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
+        
+        
+          <h4 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h4>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
@@ -544,10 +508,10 @@ target.</li>
 <li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
-            
-            
-            
-              <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
+        
+        
+        
+          <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -566,21 +530,21 @@ can configure this plugin on top of such an API by making the following request:
 target.</li>
 </ul>
 
-            
+        
 
-            <h4>Global plugins</h4>
+        <h4>Global plugins</h4>
 
-            <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-              Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-              Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-              <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-            </p>
+        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
 
-            <h4>Parameters</h4>
+        <h4>Parameters</h4>
 
-            <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-            <table>
+        <table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -607,7 +571,7 @@ target.</li>
         <td></td>
         <td><p>Comma separated list of arbitrary group names that are allowed to consume the Service or the Route (or API). One of <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.blacklist</code>
@@ -617,7 +581,7 @@ target.</li>
         <td></td>
         <td><p>Comma separated list of arbitrary group names that are not allowed to consume the Service or the Route (or API). One of <code>config.whitelist</code> or <code>config.blacklist</code> must be specified.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.hide_groups_header</code>
@@ -628,18 +592,18 @@ target.</li>
 </td>
         <td><p>Flag which if enabled (<code>true</code>), prevents the <code>X-Consumer-Groups</code> header to be sent in the request to the upstream service.</p>
 </td>
-      </td>
+      </tr>
     
   </tbody>
 </table>
 
 
-          
+      
 
-          <p>Note that the <code>whitelist</code> and <code>blacklist</code> models are mutually exclusive in their usage, as they provide complimentary approaches. That is, you cannot configure an ACL with both <code>whitelist</code> and <code>blacklist</code> configurations. An ACL with a <code>whitelist</code> provides a positive security model, in which the configured groups are allowed access to the resources, and all others are inherently rejected. By contrast, a <code>blacklist</code> configuration provides a negative security model, in which certain groups are explicitly denied access to the resource (and all others are inherently allowed).</p>
+      <p>Note that the <code>whitelist</code> and <code>blacklist</code> models are mutually exclusive in their usage, as they provide complimentary approaches. That is, you cannot configure an ACL with both <code>whitelist</code> and <code>blacklist</code> configurations. An ACL with a <code>whitelist</code> provides a positive security model, in which the configured groups are allowed access to the resources, and all others are inherently rejected. By contrast, a <code>blacklist</code> configuration provides a negative security model, in which certain groups are explicitly denied access to the resource (and all others are inherently allowed).</p>
 
 
-          <h3 id="usage">Usage</h3>
+      <h3 id="usage">Usage</h3>
 
 <p>In order to use this plugin, you need to properly have configured your Service or Route (or API) with an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> so that the plugin can identify who is the client <a href="/latest/admin-api/#consumer-object">Consumer</a> making the request.</p>
 
@@ -757,9 +721,10 @@ using the following request:</p>
 <a href="/latest/admin-api/#consumer-object">Consumer</a>.</p>
 
 
-          
+      
 
-          
+      
+    
         </div>
       </div>
     </div>
@@ -919,7 +884,7 @@ using the following request:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

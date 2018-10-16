@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -229,86 +229,35 @@ window['_fs_namespace'] = 'FS';
 
     
 
+    
+
     <aside class="page-navigation">
 
       
-        
-          <nav>
-            
-              <a href="#terminology"><h5>Terminology</h5></a>
-            
-            <ul>
-            
-            </ul>
-          </nav>
-        
-          <nav>
-            
-              <a href="#configuration"><h5>Configuration</h5></a>
-            
-            <ul>
-            
-            </ul>
-          </nav>
-        
-          <nav>
-            
-              <h5>Usage</h5>
-            
-            <ul>
-            
-              <li>
-                <a href="#endpoints">Endpoints</a>
-                
-              </li>
-            
-              <li>
-                <a href="#create-a-consumer">Create a Consumer</a>
-                
-              </li>
-            
-              <li>
-                <a href="#create-an-application">Create an Application</a>
-                
-              </li>
-            
-              <li>
-                <a href="#migrating-access-tokens">Migrating Access Tokens</a>
-                
-              </li>
-            
-              <li>
-                <a href="#upstream-headers">Upstream Headers</a>
-                
-              </li>
-            
-            </ul>
-          </nav>
-        
-          <nav>
-            
-              <h5>oAuth 2.0 Flows</h5>
-            
-            <ul>
-            
-              <li>
-                <a href="#client-credentials">Client Credentials</a>
-                
-              </li>
-            
-              <li>
-                <a href="#authorization-code">Authorization Code</a>
-                
-              </li>
-            
-              <li>
-                <a href="#resource-owner-password-credentials">Resource Owner Password Credentials</a>
-                
-              </li>
-            
-            </ul>
-          </nav>
-        
+        <nav>
+          <ul>
+<li> <a href="#terminology">Terminology</a></li>
+<li> <a href="#configuration">Configuration</a></li>
+<li> <a href="#usage">Usage</a>
+
+<ul>
+<li> <a href="#endpoints">Endpoints</a></li>
+<li> <a href="#create-a-consumer">Create a Consumer</a></li>
+<li> <a href="#create-an-application">Create an Application</a></li>
+</ul></li>
+<li> <a href="#migrating-access-tokens">Migrating Access Tokens</a></li>
+<li> <a href="#upstream-headers">Upstream Headers</a></li>
+<li> <a href="#oauth-2-0-flows">OAuth 2.0 Flows</a></li>
+<li> <a href="#client-credentials">Client Credentials</a>
+
+<ul>
+<li> <a href="#authorization-code">Authorization Code</a></li>
+</ul></li>
+<li> <a href="#resource-owner-password-credentials">Resource Owner Password Credentials</a></li>
+<li> <a href="#refresh-token">Refresh Token</a></li>
+</ul>
+
+        </nav>
       
 
       <table id="about-extn">
@@ -508,13 +457,12 @@ window['_fs_namespace'] = 'FS';
     <div class="page-content-container">
       <div class="page-content">
         <div class="content">
-
           
+      
 
-          
+      
 
-
-          <p>Add an OAuth 2.0 authentication layer with the <a href="https://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code Grant</a>, <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials</a>,
+      <p>Add an OAuth 2.0 authentication layer with the <a href="https://tools.ietf.org/html/rfc6749#section-4.1">Authorization Code Grant</a>, <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials</a>,
 <a href="https://tools.ietf.org/html/rfc6749#section-4.2">Implicit Grant</a> or <a href="https://tools.ietf.org/html/rfc6749#section-4.3">Resource Owner Password Credentials Grant</a> flow.</p>
 
 <hr>
@@ -530,36 +478,36 @@ window['_fs_namespace'] = 'FS';
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
   with versions of Kong prior to 0.12.0
-  differs from what is documented herein. Refer to the 
+  differs from what is documented herein. Refer to the
   <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md">CHANGELOG</a>
   for details.
 </div>
 
 
-          
-            <hr>
-            <h2 id="terminology">Terminology</h2>
-            <ul>
-              <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
-
-              
-                <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
-              
-              
-              
-                <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-              
-              <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-              
-            </ul>
-          
+      
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
           
-
+            <li><code>Service</code>: the Kong entity representing an external <em>upstream</em> API or microservice.</li>
           
-            <h2 id="configuration">Configuration</h2>
-            
-              <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
+          
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
+          
+        </ul>
+      
+
+      
+
+      
+        <h2 id="configuration">Configuration</h2>
+        
+          <h4 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h4>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
@@ -575,11 +523,11 @@ making the following request:</p>
 target.</li>
 </ul>
 
-            
-            
-            
-            
-              <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
+        
+        
+        
+        
+          <h4 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h4>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -599,21 +547,21 @@ can configure this plugin on top of such an API by making the following request:
 target.</li>
 </ul>
 
-            
+        
 
-            <h4>Global plugins</h4>
+        <h4>Global plugins</h4>
 
-            <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-              Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-              Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-              <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
-            </p>
+        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
 
-            <h4>Parameters</h4>
+        <h4>Parameters</h4>
 
-            <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-            <table>
+        <table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -638,7 +586,7 @@ target.</li>
         <td></td>
         <td><p>Describes an array of comma separated scope names that will be available to the end user</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.mandatory_scope</code>
@@ -649,7 +597,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value telling the plugin to require at least one scope to be authorized by the end user</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.token_expiration</code>
@@ -660,7 +608,7 @@ target.</li>
 </td>
         <td><p>An optional integer value telling the plugin how many seconds a token should last, after which the client will need to refresh the token. Set to <code>0</code> to disable the expiration.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.enable_authorization_code</code>
@@ -671,7 +619,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value to enable the three-legged Authorization Code flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.1">RFC 6742 Section 4.1</a>)</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.enable_client_credentials</code>
@@ -682,7 +630,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value to enable the Client Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.4">RFC 6742 Section 4.4</a>)</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.enable_implicit_grant</code>
@@ -693,7 +641,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value to enable the Implicit Grant flow which allows to provision a token as a result of the authorization process (<a href="https://tools.ietf.org/html/rfc6749#section-4.2">RFC 6742 Section 4.2</a>)</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.enable_password_grant</code>
@@ -704,7 +652,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value to enable the Resource Owner Password Credentials Grant flow (<a href="https://tools.ietf.org/html/rfc6749#section-4.3">RFC 6742 Section 4.3</a>)</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.auth_header_name</code>
@@ -715,7 +663,7 @@ target.</li>
 </td>
         <td><p>The name of the header supposed to carry the access token. Default: <code>authorization</code>.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.hide_credentials</code>
@@ -726,7 +674,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value telling the plugin to show or hide the credential from the upstream service. If <code>true</code>, the plugin will strip the credential from the request (i.e. the header containing the client crentials) before proxying it.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.accept_http_if_already_terminated</code>
@@ -737,7 +685,7 @@ target.</li>
 </td>
         <td><p>Accepts HTTPs requests that have already been terminated by a proxy or load balancer and the <code>x-forwarded-proto: https</code> header has been added to the request. Only enable this option if the Kong server cannot be publicly accessed and the only entry-point is such proxy or load balancer.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.anonymous</code>
@@ -747,7 +695,7 @@ target.</li>
         <td></td>
         <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.global_credentials</code>
@@ -758,7 +706,7 @@ target.</li>
 </td>
         <td><p>An optional boolean value that allows to use the same OAuth credentials generated by the plugin with any other Service (or API) whose OAuth 2.0 plugin configuration also has <code>config.global_credentials=true</code>.</p>
 </td>
-      </td>
+      </tr>
     
       <tr>
         <td><code>config.refresh_token_ttl</code>
@@ -769,15 +717,15 @@ target.</li>
 </td>
         <td><p>An optional integer value telling the plugin how many seconds a token/refresh token pair is valid for, and can be used to generate a new access token. Default value is 2 weeks. Set to <code>0</code> to keep the token/refresh token pair indefinitely valid.</p>
 </td>
-      </td>
+      </tr>
     
   </tbody>
 </table>
 
 
-          
+      
 
-          <div class="alert alert-warning">
+      <div class="alert alert-warning">
     <center>The option <code>config.refresh_token_ttl</code> is only available from version 0.12.0 and later</center>
 </div>
 
@@ -787,7 +735,7 @@ To restrict usage to only some of the authenticated users, also add the
 blacklist groups of users.</p>
 
 
-          <h2 id="usage">Usage</h2>
+      <h2 id="usage">Usage</h2>
 
 <p>In order to use the plugin, you first need to create a consumer to associate one or more credentials to. The Consumer represents a developer using the upstream service.</p>
 
@@ -1079,9 +1027,10 @@ blacklist groups of users.</p>
     --data <span class="s2">"refresh_token=XXX"</span>
 </code></pre></div>
 
-          
+      
 
-          
+      
+    
         </div>
       </div>
     </div>
@@ -1241,7 +1190,7 @@ blacklist groups of users.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

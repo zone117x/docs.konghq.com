@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -323,8 +323,6 @@ window['_fs_namespace'] = 'FS';
 
   <div class="container">
     <aside class="page-navigation">
-      
-
       
 
       
@@ -874,31 +872,29 @@ window['_fs_namespace'] = 'FS';
           </div>
           
 
+          
+          
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ul>
+<li> <a href="#load-balancing-reference">Load Balancing Reference</a>
+    -  <a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
+        -  <a href="#a-records">A records</a>
+        -  <a href="#srv-records">SRV records</a>
+        -  <a href="#dns-priorities">DNS priorities</a>
+    -  <a href="#ring-balancer">Ring-balancer</a>
+        -  <a href="#upstream">Upstream</a>
+        -  <a href="#target">Target</a>
+    -  <a href="#blue-green-deployments">Blue-Green Deployments</a>
+    -  <a href="#canary-releases">Canary Releases</a></li>
+</ul>
+
+          
+
           <h1 id="load-balancing-reference">Load Balancing Reference</h1>
 
 <p>Kong provides multiple ways of load balancing requests to multiple backend services:
 a straightforward DNS-based method, and a more dynamic ring-balancer that also
 allows for service registry without needing a DNS server.</p>
-
-<h3 id="table-of-contents">Table of Contents</h3>
-
-<ul>
-<li><a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
-
-<ul>
-<li><a href="#a-records">A records</a></li>
-<li><a href="#srv-records">SRV records</a></li>
-<li><a href="#dns-priorities">DNS priorities</a></li>
-</ul></li>
-<li><a href="#ring-balancer">Ring-balancer</a>
-
-<ul>
-<li><a href="#upstream">Upstream</a></li>
-<li><a href="#target">Target</a></li>
-</ul></li>
-<li><a href="#blue-green-deployments">Blue-green Deployments</a></li>
-<li><a href="#canary-releases">Canary Releases</a></li>
-</ul>
 
 <h3 id="dns-based-loadbalancing">DNS-based loadbalancing</h3>
 
@@ -917,7 +913,7 @@ updates/changes will be very low.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="a-records"><strong>A records</strong></h4>
+<h4 id="a-records">A records</h4>
 
 <p>An A record contains one or more IP addresses. Hence, when a hostname
 resolves to an A record, each backend service must have its own IP address.</p>
@@ -932,7 +928,7 @@ record entries.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="srv-records"><strong>SRV records</strong></h4>
+<h4 id="srv-records">SRV records</h4>
 
 <p>An SRV record contains weight and port information for all of its IP addresses.
 A backend service can be identified by a unique combination of IP address 
@@ -960,7 +956,7 @@ especially with a very small (or even 0) <code>ttl</code> value.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="dns-priorities"><strong>DNS priorities</strong></h4>
+<h4 id="dns-priorities">DNS priorities</h4>
 
 <p>The DNS resolver will start resolving the following record types in order:</p>
 
@@ -978,7 +974,7 @@ it will fallback on an A query, etc.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="ring-balancer"><strong>Ring-balancer</strong></h3>
+<h3 id="ring-balancer">Ring-balancer</h3>
 
 <p>When using the ring-balancer, the adding and removing of backend services will
 be handled by Kong, and no DNS updates will be necessary. Kong will act as the
@@ -1000,7 +996,7 @@ from an API with <code>upstream_url=http://weather.v2.service/some/path</code>.<
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="upstream"><strong>Upstream</strong></h4>
+<h4 id="upstream">Upstream</h4>
 
 <p>Each upstream gets its own ring-balancer. Each <code>upstream</code> can have many 
 <code>target</code> entries attached to it, and requests proxied to the &#39;virtual hostname&#39; 
@@ -1037,7 +1033,7 @@ distribution, but the more expensive the changes are (add/removing targets)</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="target"><strong>Target</strong></h4>
+<h4 id="target">Target</h4>
 
 <p>Because the <code>upstream</code> maintains a history of changes, targets can only be 
 added, not modified nor deleted. To change a target, just add a new entry for
@@ -1070,7 +1066,7 @@ to this target it will query the nameserver again.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="blue-green-deployments"><strong>Blue-Green Deployments</strong></h3>
+<h3 id="blue-green-deployments">Blue-Green Deployments</h3>
 
 <p>Using the ring-balancer a <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">blue-green deployment</a> can be easily orchestrated for 
 an API. Switching target infrastructure only requires a <code>PATCH</code> request on an
@@ -1130,7 +1126,7 @@ requests will be dropped.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="canary-releases"><strong>Canary Releases</strong></h3>
+<h3 id="canary-releases">Canary Releases</h3>
 
 <p>Using the ring-balancer, target weights can be adjusted granularly, allowing
 for a smooth, controlled <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">canary release</a>.</p>
@@ -1337,7 +1333,7 @@ requests will be dropped.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

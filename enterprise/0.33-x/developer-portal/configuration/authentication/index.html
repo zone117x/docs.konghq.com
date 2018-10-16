@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -238,8 +238,6 @@ window['_fs_namespace'] = 'FS';
 
   <div class="container">
     <aside class="page-navigation">
-      
-
       
 
       
@@ -760,33 +758,48 @@ window['_fs_namespace'] = 'FS';
           
           
 
-          <h1 id="authenticating-the-kong-developer-portal">Authenticating the Kong Developer Portal</h1>
+          
+          
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ul>
+<li> <a href="#authenticating-the-kong-developer-portal">Authenticating the Kong Developer Portal</a>
 
 <ul>
-<li><a href="#enable-authentication">Enable Authentication</a></li>
-<li><a href="#developer-registration">Developer Registration</a>
+<li> <a href="#enable-authentication">Enable Authentication</a></li>
+<li> <a href="#developer-registration">Developer Registration</a>
 
 <ul>
-<li><a href="#login-as-your-new-developer">Login as Your New Developer</a></li>
+<li> <a href="#collecting-more-data-on-registration">Collecting More Data on Registration</a></li>
+<li> <a href="#login-as-your-new-developer">Login As Your New Developer</a></li>
 </ul></li>
-<li><a href="#example-configurations">Example configurations</a>
+<li> <a href="#example-configurations">Example configurations</a>
 
 <ul>
-<li><a href="#basic-authentication">Basic Authentication</a></li>
-<li><a href="#key-authentication">Key Authentication</a></li>
-<li><a href="#open-id-connect-plugin">OpenID Connect</a></li>
+<li> <a href="#basic-authentication">Basic Authentication</a></li>
+<li> <a href="#key-authentication">Key Authentication</a></li>
+<li> <a href="#open-id-connect-plugin">Open-ID Connect Plugin</a></li>
 </ul></li>
-<li><a href="#logging-in">Logging In</a>
+<li> <a href="#logging-in">Logging In</a>
 
 <ul>
-<li><a href="#customize-your-login-form">Customize Your Login Form</a></li>
+<li> <a href="#customize-your-login-form">Customize Your Login Form</a></li>
 </ul></li>
-<li><a href="#logging-out">Logging Out</a></li>
-<li><a href="#files">Files</a></li>
-<li><a href="#understanding-dev-portal-routing-authentication">Understanding Dev Portal Routing &amp; Authentication</a></li>
-<li><a href="#javascript-hooks">JavaScript hooks</a></li>
-<li><a href="#how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</a></li>
+<li> <a href="#logging-out">Logging Out 👋🏻</a></li>
+<li> <a href="#files">Files</a>
+
+<ul>
+<li> <a href="#unauthenticated-pages">Unauthenticated Pages</a></li>
+<li> <a href="#unauthenticated-partials">Unauthenticated Partials</a></li>
+</ul></li>
+<li> <a href="#understanding-dev-portal-routing-authentication">Understanding Dev Portal Routing &amp; Authentication</a></li>
+<li> <a href="#javascript-hooks">JavaScript hooks</a></li>
+<li> <a href="#how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</a></li>
+</ul></li>
 </ul>
+
+          
+
+          <h1 id="authenticating-the-kong-developer-portal">Authenticating the Kong Developer Portal</h1>
 
 <blockquote>
 <p>Before you begin, make sure you have gone through the <a href="https://getkong.org/enterprise/0.33-x/developer-portal/configuration/getting-started/#getting-started-with-the-kong-developer-portal">Getting Started with the Dev Portal</a></p>
@@ -797,7 +810,7 @@ window['_fs_namespace'] = 'FS';
 <p>First, we will configure the portal using <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a>. Update the following in your Kong Configuration, then restart Kong:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">portal_auth = basic-auth
 </code></pre></div>
-<p>The Dev Portal templates are now aware that the Dev Portal is authenticated. Browse to the Dev Portal and you should see <a href="#developer-login">Login</a> and <a href="#developer-registration">Sign Up</a> links in the top right navigation. </p>
+<p>The Dev Portal templates are now aware that the Dev Portal is authenticated. Browse to the Dev Portal and you should see <a href="#developer-login">Login</a> and <a href="#developer-registration">Sign Up</a> links in the top right navigation.</p>
 
 <blockquote>
 <p>Note: Once Kong starts, you will notice that your <a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code>cors</code> and <code>basic-auth</code> plugins are enabled. This is because Kong sets up an internal proxy to the Portal API (e.g. <code>:8004</code> -&gt; <code>:8000/_kong/portal</code>) and configures a Basic Authentication plugin applied only to the <code>/files</code> route. These routes &amp; services will be tracked by Kong Vitals and appear in your proxy traffic, but the internal plugins will not be applied to any other routes or services or be configurable in your Kong instance.</p>
@@ -819,11 +832,11 @@ window['_fs_namespace'] = 'FS';
 <p>Required Registration fields by Authentication plugin:</p>
 
 <ul>
-<li><p>Basic Authentication: </p>
+<li><p>Basic Authentication:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html">  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">name=</span><span class="s">"password"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
 </code></pre></div></li>
-<li><p>Key Authentication: </p>
+<li><p>Key Authentication:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html">  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"email"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"key"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
 </code></pre></div></li>
@@ -837,9 +850,9 @@ window['_fs_namespace'] = 'FS';
 
 <h3 id="collecting-more-data-on-registration">Collecting More Data on Registration</h3>
 
-<p>Additional information can be stored for the Developer inside the <code>meta</code> data attribute. This field is stored in the Kong datastore on the Developer entity and will be visible to you, a Kong Admin. </p>
+<p>Additional information can be stored for the Developer inside the <code>meta</code> data attribute. This field is stored in the Kong datastore on the Developer entity and will be visible to you, a Kong Admin.</p>
 
-<p>The default Dev Portal theme demonstrates this through the &quot;full_name&quot; input: </p>
+<p>The default Dev Portal theme demonstrates this through the &quot;full_name&quot; input:</p>
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"full_name"</span> <span class="na">required</span> <span class="nt">/&gt;</span>
 </code></pre></div>
 <p>This is helpful if you want to get more information (e.g. &quot;referral source&quot;, &quot;phone-number&quot;, &quot;company&quot;, &quot;team&quot; etc.) Meta tags are stored in plain text, so be careful not to store sensitive information in meta.</p>
@@ -850,7 +863,7 @@ window['_fs_namespace'] = 'FS';
 
 <ol>
 <li>browse to <a href="i.e.%20%60portal_gui_url%60">http://127.0.0.1:8003</a></li>
-<li>click the Login button. </li>
+<li>click the Login button.</li>
 <li>Enter the username and password of your newly registered Developer.</li>
 <li>click the Login button</li>
 </ol>
@@ -880,7 +893,7 @@ window['_fs_namespace'] = 'FS';
 
 <h3 id="open-id-connect-plugin">Open-ID Connect Plugin</h3>
 
-<p>The <a href="/plugins/ee-openid-connect/">OpenID Connect Plugin</a> allows you to hook into existing authentication setups using third-party <em>Identity Providers</em> (<strong>IdP</strong>) such as Google, Yahoo, Microsoft Azure AD, etc. </p>
+<p>The <a href="/plugins/ee-openid-connect/">OpenID Connect Plugin</a> allows you to hook into existing authentication setups using third-party <em>Identity Providers</em> (<strong>IdP</strong>) such as Google, Yahoo, Microsoft Azure AD, etc.</p>
 
 <p><a href="/plugins/ee-openid-connect/">OIDC</a> must be used with the <code>session</code> method, utilizing cookies for Dev Portal File API requests.</p>
 
@@ -925,7 +938,7 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="logging-in">Logging In</h2>
 
-<p>Ensure you are logged out (see section <a href="#logging-out">Logging Out</a>). Visit an authenticated page on the Dev Portal. You should see a login form, which is rendered from the <code>unauthenticated/login</code> partial. </p>
+<p>Ensure you are logged out (see section <a href="#logging-out">Logging Out</a>). Visit an authenticated page on the Dev Portal. You should see a login form, which is rendered from the <code>unauthenticated/login</code> partial.</p>
 
 <p>When a Developer submits an HTML form with an attribute <code>id=&quot;login&quot;</code> the Dev Portal will make a request against the Dev Portal File API using the specified <code>portal_auth</code> with the data in the form. For instance, if you have <code>basic-auth</code> enabled, then the form will submit with the Authorization header e.g. <code>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If the Login returns a response with a status code that is not <code>200</code>, then it runs <code>onLoginError</code>.</p>
 
@@ -963,7 +976,7 @@ window['_fs_namespace'] = 'FS';
 <p><strong>pages/unauthenticated/index.hbs</strong></p>
 
 <ul>
-<li>The page that is served when visitors access the root URL of your Dev Portal and are not logged in. </li>
+<li>The page that is served when visitors access the root URL of your Dev Portal and are not logged in.</li>
 </ul>
 
 <p><strong>pages/unauthenticated/login.hbs</strong></p>
@@ -984,7 +997,7 @@ window['_fs_namespace'] = 'FS';
 <p><strong>partials/unauthenticated/custom-css.hbs</strong></p>
 
 <ul>
-<li>This partial defines override styling for the Dev Portal.  Use this to modify the underlying theme without compromising its content, or feel free to remove if not needed. </li>
+<li>This partial defines override styling for the Dev Portal.  Use this to modify the underlying theme without compromising its content, or feel free to remove if not needed.</li>
 <li>See <strong>Customizing the Kong Dev Portal</strong> section for more details.</li>
 </ul>
 
@@ -1165,13 +1178,13 @@ window['_fs_namespace'] = 'FS';
   <span class="cm">/**
    *  Parse error response and utilize Kong function getMessageFromError helper
    */</span>
-  <span class="kd">var</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">]</span> 
-                       <span class="o">&amp;&amp;</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">].</span><span class="nx">message</span> 
+  <span class="kd">var</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">]</span>
+                       <span class="o">&amp;&amp;</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">].</span><span class="nx">message</span>
                        <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
   <span class="nx">alert</span><span class="p">(</span><span class="s1">'Login failed. '</span> <span class="o">+</span> <span class="nx">errorMessage</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="cm">/* 
+<span class="cm">/*
  * When a user attempts to register, but registration fails.
  */</span>
 <span class="kd">function</span> <span class="nx">onRegistrationError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
@@ -1190,7 +1203,7 @@ window['_fs_namespace'] = 'FS';
 </code></pre></div>
 <h2 id="how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</h2>
 
-<p>The Dev Portal uses the <a href="https://developer.mozilla.org/en-US/Web/API/Window/localStorage">Local Storage API</a> to store and retrieve Authentication credentials, parameters, and headers. Local Storage is saved on every successful login, and it is retrieved on every Dev Portal File API request based the <code>auth-store-types</code> value, until you <a href="#logging-out">logout</a>. </p>
+<p>The Dev Portal uses the <a href="https://developer.mozilla.org/en-US/Web/API/Window/localStorage">Local Storage API</a> to store and retrieve Authentication credentials, parameters, and headers. Local Storage is saved on every successful login, and it is retrieved on every Dev Portal File API request based the <code>auth-store-types</code> value, until you <a href="#logging-out">logout</a>.</p>
 
 <blockquote>
 <p><strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the browser via base64-encoding, but are not encrypted. Any JavaScript executed on the same domain as your Dev Portal can access these values so it advised that you always used SSL/TLS and either use openid-connect to secure your developer portal (as it uses JavaScript inaccessible HTTP-only encrypted cookies), or limit the amount of third-party JavaScript injected on your Developer Portal to prevent <a href="https://developer.mozilla.org/en-US/Glossary/Cross-site_scripting">XSS vulnerabilities</a>.</p>
@@ -1355,7 +1368,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

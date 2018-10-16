@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -323,8 +323,6 @@ window['_fs_namespace'] = 'FS';
 
   <div class="container">
     <aside class="page-navigation">
-      
-
       
 
       
@@ -901,32 +899,77 @@ window['_fs_namespace'] = 'FS';
           </div>
           
 
-          <h1 id="configuration-reference">Configuration Reference</h1>
-
-<h3 id="table-of-contents">Table of Contents</h3>
-
-<ul>
-<li><a href="#configuration-loading">Configuration loading</a></li>
-<li><a href="#verifying-your-configuration">Verifying your configuration</a></li>
-<li><a href="#environment-variables">Environment variables</a></li>
-<li><a href="#custom-nginx-configuration-embedding-kong">Custom Nginx configuration &amp; embedding Kong</a>
-
-<ul>
-<li><a href="#custom-nginx-configuration">Custom Nginx configuration</a></li>
-<li><a href="#embedding-kong">Embedding Kong</a></li>
-<li><a href="#serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</a></li>
-</ul></li>
-<li><a href="#properties-reference">Properties reference</a>
-
-<ul>
-<li><a href="#general-section">General section</a></li>
-<li><a href="#nginx-section">Nginx section</a></li>
-<li><a href="#datastore-section">Datastore section</a></li>
-<li><a href="#clustering-section">Clustering section</a></li>
-<li><a href="#dns-resolver-section">DNS resolver section</a></li>
-<li><a href="#development-miscellaneous-section">Development &amp; miscellaneous section</a></li>
-</ul></li>
+          
+          
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ul>
+<li> <a href="#configuration-reference">Configuration Reference</a>
+    -  <a href="#configuration-loading">Configuration loading</a>
+    -  <a href="#verifying-your-configuration">Verifying your configuration</a>
+    -  <a href="#environment-variables">Environment variables</a>
+    -  <a href="#custom-nginx-configuration-embedding-kong">Custom Nginx configuration &amp; embedding Kong</a>
+        -  <a href="#custom-nginx-configuration">Custom Nginx configuration</a>
+        -  <a href="#serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</a>
+        -  <a href="#embed-kong-in-openresty">Embed Kong in OpenResty</a>
+    -  <a href="#properties-reference">Properties reference</a>
+        -  <a href="#general-section">General section</a>
+            -  <a href="#prefix">prefix</a>
+            -  <a href="#log_level">log_level</a>
+            -  <a href="#proxy_access_log">proxy_access_log</a>
+            -  <a href="#proxy_error_log">proxy_error_log</a>
+            -  <a href="#admin_access_log">admin_access_log</a>
+            -  <a href="#admin_error_log">admin_error_log</a>
+            -  <a href="#custom_plugins">custom_plugins</a>
+            -  <a href="#anonymous_reports">anonymous_reports</a>
+        -  <a href="#nginx-section">Nginx section</a>
+            -  <a href="#proxy_listen">proxy_listen</a>
+            -  <a href="#proxy_listen_ssl">proxy_listen_ssl</a>
+            -  <a href="#admin_listen">admin_listen</a>
+            -  <a href="#admin_listen_ssl">admin_listen_ssl</a>
+            -  <a href="#nginx_worker_processes">nginx_worker_processes</a>
+            -  <a href="#nginx_daemon">nginx_daemon</a>
+            -  <a href="#mem_cache_size">mem_cache_size</a>
+            -  <a href="#ssl">ssl</a>
+            -  <a href="#ssl_cipher_suite">ssl_cipher_suite</a>
+            -  <a href="#ssl_ciphers">ssl_ciphers</a>
+            -  <a href="#ssl_cert">ssl_cert</a>
+            -  <a href="#ssl_cert_key">ssl_cert_key</a>
+            -  <a href="#client_ssl">client_ssl</a>
+            -  <a href="#client_ssl_cert">client_ssl_cert</a>
+            -  <a href="#client_ssl_cert_key">client_ssl_cert_key</a>
+            -  <a href="#admin_ssl">admin_ssl</a>
+            -  <a href="#admin_ssl_cert">admin_ssl_cert</a>
+            -  <a href="#admin_ssl_cert_key">admin_ssl_cert_key</a>
+            -  <a href="#upstream_keepalive">upstream_keepalive</a>
+            -  <a href="#server_tokens">server_tokens</a>
+            -  <a href="#latency_tokens">latency_tokens</a>
+        -  <a href="#datastore-section">Datastore section</a>
+            -  <a href="#database">database</a>
+            -  <a href="#postgres-settings">Postgres settings</a>
+            -  <a href="#cassandra-settings">Cassandra settings</a>
+        -  <a href="#clustering-section">Clustering section</a>
+            -  <a href="#cluster_listen">cluster_listen</a>
+            -  <a href="#cluster_listen_rpc">cluster_listen_rpc</a>
+            -  <a href="#cluster_advertise">cluster_advertise</a>
+            -  <a href="#cluster_encrypt_key">cluster_encrypt_key</a>
+            -  <a href="#cluster_keyring_file">cluster_keyring_file</a>
+            -  <a href="#cluster_ttl_on_failure">cluster_ttl_on_failure</a>
+            -  <a href="#cluster_profile">cluster_profile</a>
+        -  <a href="#dns-resolver-section">DNS resolver section</a>
+            -  <a href="#dns_resolver">dns_resolver</a>
+            -  <a href="#dns_hostsfile">dns_hostsfile</a>
+        -  <a href="#development-miscellaneous-section">Development &amp; miscellaneous section</a>
+            -  <a href="#lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</a>
+            -  <a href="#lua_ssl_verify_depth">lua_ssl_verify_depth</a>
+            -  <a href="#lua_code_cache">lua_code_cache</a>
+            -  <a href="#lua_package_path">lua_package_path</a>
+            -  <a href="#lua_package_cpath">lua_package_cpath</a>
+            -  <a href="#lua_socket_pool_size">lua_socket_pool_size</a></li>
 </ul>
+
+          
+
+          <h1 id="configuration-reference">Configuration Reference</h1>
 
 <h3 id="configuration-loading">Configuration loading</h3>
 
@@ -1164,7 +1207,7 @@ $ nginx -c /usr/local/openresty/conf/nginx.conf
 
 <h4 id="general-section">General section</h4>
 
-<h5 id="prefix"><strong>prefix</strong></h5>
+<h5 id="prefix">prefix</h5>
 
 <p>Working directory. Equivalent to Nginx&#39;s prefix path, containing temporary files
 and logs. Each Kong process must have a separate working directory.</p>
@@ -1173,7 +1216,7 @@ and logs. Each Kong process must have a separate working directory.</p>
 
 <hr>
 
-<h5 id="log_level"><strong>log_level</strong></h5>
+<h5 id="log_level">log_level</h5>
 
 <p>Log level of the Nginx server. Logs can be found at <code>&lt;prefix&gt;/logs/error.log</code></p>
 
@@ -1184,7 +1227,7 @@ accepted values.</p>
 
 <hr>
 
-<h5 id="proxy_access_log"><strong>proxy_access_log</strong></h5>
+<h5 id="proxy_access_log">proxy_access_log</h5>
 
 <p>Path for proxy port request access logs. Set this value to <code>off</code> to disable
 logging proxy requests. If this value is a relative path, it will be placed
@@ -1194,7 +1237,7 @@ under the <code>prefix</code> location.</p>
 
 <hr>
 
-<h5 id="proxy_error_log"><strong>proxy_error_log</strong></h5>
+<h5 id="proxy_error_log">proxy_error_log</h5>
 
 <p>Path for proxy port request error logs. Granularity of these logs is adjusted
 by the <code>log_level</code> directive.</p>
@@ -1203,7 +1246,7 @@ by the <code>log_level</code> directive.</p>
 
 <hr>
 
-<h5 id="admin_access_log"><strong>admin_access_log</strong></h5>
+<h5 id="admin_access_log">admin_access_log</h5>
 
 <p>Path for Admin API request access logs. Set this value to <code>off</code> to disable
 logging Admin API requests. If this value is a relative path, it will be placed
@@ -1213,7 +1256,7 @@ under the <code>prefix</code> location.</p>
 
 <hr>
 
-<h5 id="admin_error_log"><strong>admin_error_log</strong></h5>
+<h5 id="admin_error_log">admin_error_log</h5>
 
 <p>Path for Admin API request error logs. Granularity of these logs is adjusted by
 the <code>log_level</code> directive.</p>
@@ -1222,7 +1265,7 @@ the <code>log_level</code> directive.</p>
 
 <hr>
 
-<h5 id="custom_plugins"><strong>custom_plugins</strong></h5>
+<h5 id="custom_plugins">custom_plugins</h5>
 
 <p>Comma-separated list of additional plugins this node should load. Use this
 property to load custom plugins that are not bundled with Kong. Plugins will
@@ -1234,7 +1277,7 @@ be loaded from the <code>kong.plugins.{name}.*</code> namespace.</p>
 
 <hr>
 
-<h5 id="anonymous_reports"><strong>anonymous_reports</strong></h5>
+<h5 id="anonymous_reports">anonymous_reports</h5>
 
 <p>Send anonymous usage data such as error stack traces to help improve Kong.</p>
 
@@ -1246,7 +1289,7 @@ be loaded from the <code>kong.plugins.{name}.*</code> namespace.</p>
 
 <h4 id="nginx-section">Nginx section</h4>
 
-<h5 id="proxy_listen"><strong>proxy_listen</strong></h5>
+<h5 id="proxy_listen">proxy_listen</h5>
 
 <p>Address and port on which Kong will accept HTTP requests. This is the
 public-facing entrypoint of Kong, to which your consumers will make
@@ -1261,7 +1304,7 @@ a description of the accepted formats for this and other <code>*_listen</code> v
 
 <hr>
 
-<h5 id="proxy_listen_ssl"><strong>proxy_listen_ssl</strong></h5>
+<h5 id="proxy_listen_ssl">proxy_listen_ssl</h5>
 
 <p>Address and port on which Kong will accept HTTPS requests if <code>ssl</code> is enabled.</p>
 
@@ -1271,7 +1314,7 @@ a description of the accepted formats for this and other <code>*_listen</code> v
 
 <hr>
 
-<h5 id="admin_listen"><strong>admin_listen</strong></h5>
+<h5 id="admin_listen">admin_listen</h5>
 
 <p>Address and port on which Kong will expose an entrypoint to the Admin API.
 This API lets you configure and manage Kong, and should be kept private
@@ -1283,7 +1326,7 @@ and secured.</p>
 
 <hr>
 
-<h5 id="admin_listen_ssl"><strong>admin_listen_ssl</strong></h5>
+<h5 id="admin_listen_ssl">admin_listen_ssl</h5>
 
 <p>Address and port on which Kong will accept HTTPS requests to the Admin API if
 <code>admin_ssl</code> is enabled.</p>
@@ -1294,7 +1337,7 @@ and secured.</p>
 
 <hr>
 
-<h5 id="nginx_worker_processes"><strong>nginx_worker_processes</strong></h5>
+<h5 id="nginx_worker_processes">nginx_worker_processes</h5>
 
 <p>Determines the number of worker processes spawned by Nginx.
 See <a href="http://nginx.org/en/docs/ngx_core_module.html#worker_processes">http://nginx.org/en/docs/ngx_core_module.html#worker_processes</a> for detailed
@@ -1304,7 +1347,7 @@ usage of this directive and a description of accepted values.</p>
 
 <hr>
 
-<h5 id="nginx_daemon"><strong>nginx_daemon</strong></h5>
+<h5 id="nginx_daemon">nginx_daemon</h5>
 
 <p>Determines whether Nginx will run as a daemon or as a foreground process.
 Mainly useful for development or when running Kong inside a Docker environment.</p>
@@ -1315,7 +1358,7 @@ Mainly useful for development or when running Kong inside a Docker environment.<
 
 <hr>
 
-<h5 id="mem_cache_size"><strong>mem_cache_size</strong></h5>
+<h5 id="mem_cache_size">mem_cache_size</h5>
 
 <p>Size of the in-memory cache for database entities. The accepted units are <code>k</code> and
 <code>m</code>, with a minimum recommended value of a few MBs.</p>
@@ -1324,7 +1367,7 @@ Mainly useful for development or when running Kong inside a Docker environment.<
 
 <hr>
 
-<h5 id="ssl"><strong>ssl</strong></h5>
+<h5 id="ssl">ssl</h5>
 
 <p>Determines if Nginx should be listening for HTTPS traffic on the
 <code>proxy_listen_ssl</code> address. If disabled, Nginx will only bind itself
@@ -1334,7 +1377,7 @@ on <code>proxy_listen</code>, and all SSL settings will be ignored.</p>
 
 <hr>
 
-<h5 id="ssl_cipher_suite"><strong>ssl_cipher_suite</strong></h5>
+<h5 id="ssl_cipher_suite">ssl_cipher_suite</h5>
 
 <p>Defines the TLS ciphers served by Nginx. Accepted values are <code>modern</code>,
 <code>intermediate</code>, <code>old</code>, or <code>custom</code>.
@@ -1345,7 +1388,7 @@ descriptions of each cipher suite.</p>
 
 <hr>
 
-<h5 id="ssl_ciphers"><strong>ssl_ciphers</strong></h5>
+<h5 id="ssl_ciphers">ssl_ciphers</h5>
 
 <p>Defines a custom list of TLS ciphers to be served by Nginx. This list must
 conform to the pattern defined by <code>openssl ciphers</code>. This value is ignored if
@@ -1355,7 +1398,7 @@ conform to the pattern defined by <code>openssl ciphers</code>. This value is ig
 
 <hr>
 
-<h5 id="ssl_cert"><strong>ssl_cert</strong></h5>
+<h5 id="ssl_cert">ssl_cert</h5>
 
 <p>If <code>ssl</code> is enabled, the absolute path to the SSL certificate for the
 <code>proxy_listen_ssl</code> address. If none is specified and <code>ssl</code> is enabled, Kong will
@@ -1365,7 +1408,7 @@ generate a default certificate and key.</p>
 
 <hr>
 
-<h5 id="ssl_cert_key"><strong>ssl_cert_key</strong></h5>
+<h5 id="ssl_cert_key">ssl_cert_key</h5>
 
 <p>If <code>ssl</code> is enabled, the absolute path to the SSL key for the
 <code>proxy_listen_ssl</code> address.</p>
@@ -1374,7 +1417,7 @@ generate a default certificate and key.</p>
 
 <hr>
 
-<h5 id="client_ssl"><strong>client_ssl</strong></h5>
+<h5 id="client_ssl">client_ssl</h5>
 
 <p>Determines if Nginx should send client-side SSL certificates when proxying
 requests.</p>
@@ -1383,7 +1426,7 @@ requests.</p>
 
 <hr>
 
-<h5 id="client_ssl_cert"><strong>client_ssl_cert</strong></h5>
+<h5 id="client_ssl_cert">client_ssl_cert</h5>
 
 <p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL certificate for
 the <code>proxy_ssl_certificate</code> directive. Note that this value is statically
@@ -1393,7 +1436,7 @@ defined on the node, and currently cannot be configured on a per-API basis.</p>
 
 <hr>
 
-<h5 id="client_ssl_cert_key"><strong>client_ssl_cert_key</strong></h5>
+<h5 id="client_ssl_cert_key">client_ssl_cert_key</h5>
 
 <p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL key for the
 <code>proxy_ssl_certificate_key</code> address. Note this value is statically defined on
@@ -1403,7 +1446,7 @@ the node, and currently cannot be configured on a per-API basis.</p>
 
 <hr>
 
-<h5 id="admin_ssl"><strong>admin_ssl</strong></h5>
+<h5 id="admin_ssl">admin_ssl</h5>
 
 <p>Determines if Nginx should be listening for HTTPS traffic on the
 <code>admin_listen_ssl</code> address. If disabled, Nginx will only bind itself on
@@ -1413,7 +1456,7 @@ the node, and currently cannot be configured on a per-API basis.</p>
 
 <hr>
 
-<h5 id="admin_ssl_cert"><strong>admin_ssl_cert</strong></h5>
+<h5 id="admin_ssl_cert">admin_ssl_cert</h5>
 
 <p>If <code>admin_ssl</code> is enabled, the absolute path to the SSL certificate for the
 <code>admin_listen_ssl</code> address. If none is specified and <code>admin_ssl</code> is enabled,
@@ -1423,7 +1466,7 @@ Kong will generate a default certificate and key.</p>
 
 <hr>
 
-<h5 id="admin_ssl_cert_key"><strong>admin_ssl_cert_key</strong></h5>
+<h5 id="admin_ssl_cert_key">admin_ssl_cert_key</h5>
 
 <p>If <code>admin_ssl</code> is enabled, the absolute path to the SSL key for the
 <code>admin_listen_ssl</code> address.</p>
@@ -1432,7 +1475,7 @@ Kong will generate a default certificate and key.</p>
 
 <hr>
 
-<h5 id="upstream_keepalive"><strong>upstream_keepalive</strong></h5>
+<h5 id="upstream_keepalive">upstream_keepalive</h5>
 
 <p>Sets the maximum number of idle keepalive connections to upstream servers that
 are preserved in the cache of each worker process. When this number is
@@ -1442,7 +1485,7 @@ exceeded, the least recently used connections are closed.</p>
 
 <hr>
 
-<h5 id="server_tokens"><strong>server_tokens</strong></h5>
+<h5 id="server_tokens">server_tokens</h5>
 
 <p>Enables or disables emitting Kong version on error pages and in the <code>Server</code>
 or <code>Via</code> (in case the request was proxied) response header field.</p>
@@ -1451,7 +1494,7 @@ or <code>Via</code> (in case the request was proxied) response header field.</p>
 
 <hr>
 
-<h5 id="latency_tokens"><strong>latency_tokens</strong></h5>
+<h5 id="latency_tokens">latency_tokens</h5>
 
 <p>Enables or disables emitting Kong latency information in the <code>X-Kong-Proxy-Latency</code> 
 and <code>X-Kong-Upstream-Latency</code> response header fields.</p>
@@ -1472,7 +1515,7 @@ same database.</p>
 
 <hr>
 
-<h5 id="database"><strong>database</strong></h5>
+<h5 id="database">database</h5>
 
 <p>Determines which of PostgreSQL or Cassandra this node will use as its
 datastore. Accepted values are <code>postgres</code> and <code>cassandra</code>.</p>
@@ -1481,7 +1524,7 @@ datastore. Accepted values are <code>postgres</code> and <code>cassandra</code>.
 
 <hr>
 
-<h5 id="postgres-settings"><strong>Postgres settings</strong></h5>
+<h5 id="postgres-settings">Postgres settings</h5>
 
 <table><thead>
 <tr>
@@ -1521,7 +1564,7 @@ datastore. Accepted values are <code>postgres</code> and <code>cassandra</code>.
 
 <hr>
 
-<h5 id="cassandra-settings"><strong>Cassandra settings</strong></h5>
+<h5 id="cassandra-settings">Cassandra settings</h5>
 
 <table><thead>
 <tr>
@@ -1616,7 +1659,7 @@ the flat network assumption is not violated.</p>
 
 <hr>
 
-<h5 id="cluster_listen"><strong>cluster_listen</strong></h5>
+<h5 id="cluster_listen">cluster_listen</h5>
 
 <p>Address and port used to communicate with other nodes in the cluster.
 All other Kong nodes in the same cluster must be able to communicate over both
@@ -1626,7 +1669,7 @@ TCP and UDP on this address. Only IPv4 addresses are supported.</p>
 
 <hr>
 
-<h5 id="cluster_listen_rpc"><strong>cluster_listen_rpc</strong></h5>
+<h5 id="cluster_listen_rpc">cluster_listen_rpc</h5>
 
 <p>Address and port used to communicate with the cluster through the agent
 running on this node. Only contains TCP traffic local to this node.</p>
@@ -1635,7 +1678,7 @@ running on this node. Only contains TCP traffic local to this node.</p>
 
 <hr>
 
-<h5 id="cluster_advertise"><strong>cluster_advertise</strong></h5>
+<h5 id="cluster_advertise">cluster_advertise</h5>
 
 <p>By default, the <code>cluster_listen</code> address is advertised over the cluster.
 If the <code>cluster_listen</code> host is &#39;0.0.0.0&#39;, then the first local, non-loopback
@@ -1648,7 +1691,7 @@ address to support this.</p>
 
 <hr>
 
-<h5 id="cluster_encrypt_key"><strong>cluster_encrypt_key</strong></h5>
+<h5 id="cluster_encrypt_key">cluster_encrypt_key</h5>
 
 <p>Base64-encoded 16-bytes key to encrypt cluster traffic with.</p>
 
@@ -1656,7 +1699,7 @@ address to support this.</p>
 
 <hr>
 
-<h5 id="cluster_keyring_file"><strong>cluster_keyring_file</strong></h5>
+<h5 id="cluster_keyring_file">cluster_keyring_file</h5>
 
 <p>Specifies a file to load keyring data from.
 Kong is able to keep encryption keys in sync
@@ -1670,7 +1713,7 @@ received the new key.</p>
 
 <hr>
 
-<h5 id="cluster_ttl_on_failure"><strong>cluster_ttl_on_failure</strong></h5>
+<h5 id="cluster_ttl_on_failure">cluster_ttl_on_failure</h5>
 
 <p>Time to live (in seconds) of a node in the cluster when it stops sending
 healthcheck pings, possibly caused by a node or network failure.
@@ -1683,7 +1726,7 @@ other nodes in the cluster will stop attempting to connect to it.</p>
 
 <hr>
 
-<h5 id="cluster_profile"><strong>cluster_profile</strong></h5>
+<h5 id="cluster_profile">cluster_profile</h5>
 
 <p>The timing profile for inter-cluster pings and timeouts. If a <code>lan</code> or <code>local</code>
 profile is used over the Internet, a high rate of failures is risked as the
@@ -1711,7 +1754,7 @@ field entries in the record.</p>
 
 <hr>
 
-<h5 id="dns_resolver"><strong>dns_resolver</strong></h5>
+<h5 id="dns_resolver">dns_resolver</h5>
 
 <p>Comma separated list of nameservers, each
 entry in <code>ipv4[:port]</code> format to be used by
@@ -1723,7 +1766,7 @@ Port defaults to 53 if omitted.</p>
 
 <hr>
 
-<h5 id="dns_hostsfile"><strong>dns_hostsfile</strong></h5>
+<h5 id="dns_hostsfile">dns_hostsfile</h5>
 
 <p>The hosts file to use. This file is read once and its content is static
 in memory. To read the file again after modifying it, Kong must be reloaded.</p>
@@ -1744,7 +1787,7 @@ flexibility and advanced usage.</p>
 
 <hr>
 
-<h5 id="lua_ssl_trusted_certificate"><strong>lua_ssl_trusted_certificate</strong></h5>
+<h5 id="lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</h5>
 
 <p>Absolute path to the certificate authority file for Lua cosockets in PEM
 format. This certificate will be the one used for verifying Kong&#39;s database
@@ -1756,7 +1799,7 @@ connections, when <code>pg_ssl_verify</code> or <code>cassandra_ssl_verify</code
 
 <hr>
 
-<h5 id="lua_ssl_verify_depth"><strong>lua_ssl_verify_depth</strong></h5>
+<h5 id="lua_ssl_verify_depth">lua_ssl_verify_depth</h5>
 
 <p>Sets the verification depth in the server certificates chain used by Lua
 cosockets, set by <code>lua_ssl_trusted_certificate</code>.</p>
@@ -1769,7 +1812,7 @@ cosockets, set by <code>lua_ssl_trusted_certificate</code>.</p>
 
 <hr>
 
-<h5 id="lua_code_cache"><strong>lua_code_cache</strong></h5>
+<h5 id="lua_code_cache">lua_code_cache</h5>
 
 <p>When disabled, every request will run in a separate Lua VM instance: all Lua
 modules will be loaded from scratch. Useful for adopting an edit-and-refresh
@@ -1783,7 +1826,7 @@ approach while developing a plugin.</p>
 
 <hr>
 
-<h5 id="lua_package_path"><strong>lua_package_path</strong></h5>
+<h5 id="lua_package_path">lua_package_path</h5>
 
 <p>Sets the Lua module search path (LUA_PATH). Useful when developing or using
 custom plugins not stored in the default search path.</p>
@@ -1794,7 +1837,7 @@ custom plugins not stored in the default search path.</p>
 
 <hr>
 
-<h5 id="lua_package_cpath"><strong>lua_package_cpath</strong></h5>
+<h5 id="lua_package_cpath">lua_package_cpath</h5>
 
 <p>Sets the Lua C module search path (LUA_CPATH).</p>
 
@@ -1804,7 +1847,7 @@ custom plugins not stored in the default search path.</p>
 
 <hr>
 
-<h5 id="lua_socket_pool_size"><strong>lua_socket_pool_size</strong></h5>
+<h5 id="lua_socket_pool_size">lua_socket_pool_size</h5>
 
 <p>Specifies the size limit for every cosocket connection pool associated with
 every remote server.</p>
@@ -1988,7 +2031,7 @@ every remote server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539712682"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
   
 </head>
 
@@ -323,8 +323,6 @@ window['_fs_namespace'] = 'FS';
 
   <div class="container">
     <aside class="page-navigation">
-      
-
       
 
       
@@ -901,6 +899,30 @@ window['_fs_namespace'] = 'FS';
           </div>
           
 
+          
+          
+            <h2 id="table-of-contents">Table of Contents</h2>
+            <ul>
+<li> <a href="#clustering-reference">Clustering Reference</a>
+
+<ul>
+<li> <a href="#1-getting-started">1. Getting Started</a></li>
+<li> <a href="#2-node-discovery">2. Node Discovery</a></li>
+<li> <a href="#3-network-requirements">3. Network Requirements</a></li>
+<li> <a href="#4-node-health-states">4. Node Health States</a></li>
+<li> <a href="#5-removing-a-failed-node">5. Removing a failed node</a></li>
+<li> <a href="#6-edge-case-scenarios">6. Edge-case scenarios</a>
+
+<ul>
+<li> <a href="#asynchronous-join-on-concurrent-node-starts">Asynchronous join on concurrent node starts</a></li>
+<li> <a href="#automatic-cache-purge-on-join">Automatic cache purge on join</a></li>
+<li> <a href="#node-failures">Node failures</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+          
+
           <h1 id="clustering-reference">Clustering Reference</h1>
 
 <p>Multiple Kong nodes pointing to the same datastore <strong>must</strong> belong to the same &quot;Kong Cluster&quot;. </p>
@@ -912,23 +934,6 @@ window['_fs_namespace'] = 'FS';
 <div class="alert alert-warning">
   Failure to proper cluster together Kong nodes that are using the same datastore will result in out-of-sync data on Kong nodes, and therefore consistency problems will occur.
 </div>
-
-<h2 id="summary">Summary</h2>
-
-<ul>
-<li>1. <a href="#1-getting-started">Getting Started</a></li>
-<li>2. <a href="#2-node-discovery">Node Discovery</a></li>
-<li>3. <a href="#3-network-requirements">Network Requirements</a></li>
-<li>4. <a href="#4-node-health-states">Node Health States</a></li>
-<li>5. <a href="#5-removing-a-failed-node">Removing a failed node</a></li>
-<li>6. <a href="#6-edge-case-scenarios">Edge-case scenarios</a>
-
-<ul>
-<li><a href="#asynchronous-join-on-concurrent-node-starts">Asynchronous join on concurrent node starts</a></li>
-<li><a href="#automatic-cache-purge-on-join">Automatic cache purge on join</a></li>
-<li><a href="#node-failures">Node failures</a></li>
-</ul></li>
-</ul>
 
 <h2 id="1-getting-started">1. Getting Started</h2>
 
@@ -1003,19 +1008,19 @@ window['_fs_namespace'] = 'FS';
 
 <p>The implementation of the clustering feature of Kong is rather complex and may involve some edge case scenarios.</p>
 
-<h4 id="asynchronous-join-on-concurrent-node-starts">Asynchronous join on concurrent node starts</h4>
+<h3 id="asynchronous-join-on-concurrent-node-starts">Asynchronous join on concurrent node starts</h3>
 
 <p>When multiple nodes are all being started simultaneously, a node may not be aware of the other nodes yet because the other nodes didn&#39;t have time to write their data to the datastore. To prevent this situation Kong implements by default a feature called &quot;asynchronous auto-join&quot;.</p>
 
 <p>Asynchronous auto-join will check the datastore every 3 seconds for 60 seconds after a Kong node starts, and will join any node that may appear in those 60 seconds. This means that concurrent environments where multiple nodes are started simultaneously it could take up to 60 seconds for them to auto-join the cluster.</p>
 
-<h4 id="automatic-cache-purge-on-join">Automatic cache purge on join</h4>
+<h3 id="automatic-cache-purge-on-join">Automatic cache purge on join</h3>
 
 <p>Every time a new node joins the cluster, or a failed node re-joins the cluster, the in-memory cache for every node is purged and all the data is forced to be re-fetched from the datastore. This is to avoid inconsistencies between the data that has already been invalidated in the cluster, and the data stored on the node.</p>
 
 <p>This also means that after joining the cluster the new node&#39;s performance will be slower until the data has been re-cached into the local memory.</p>
 
-<h4 id="node-failures">Node failures</h4>
+<h3 id="node-failures">Node failures</h3>
 
 <p>A node in the cluster can fail more multiple reasons, including networking problems or crashes. A node failure will also occur if Kong is not properly terminated by running <code>kong stop</code> or <code>kong quit</code>.</p>
 
@@ -1198,7 +1203,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1539712682"></script>
+    <script src="/assets/app.js?v=1539728668"></script>
 
     <div id="fb-root"></div>
 
