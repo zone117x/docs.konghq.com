@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539898057"/>
   
 </head>
 
@@ -1037,37 +1037,30 @@ from unauthorized use.</p>
 
 <p>To configure the key-auth plugin for the Service you <a href="/0.14.x/getting-started/configuring-a-service">configured in Kong</a>,
 issue the following cURL request:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">```bash
-$ curl -i -X POST \
-  --url http://localhost:8001/services/example-service/plugins/ \
-  --data 'name=key-auth'
-```
-
-**Note:** This plugin also accepts a `config.key_names` parameter, which
-defaults to `['apikey']`. It is a list of headers and parameters names (both
-are supported) that are supposed to contain the apikey during a request.
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+  --url http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
+  --data <span class="s1">'name=key-auth'</span>
 </code></pre></div>
+<p><strong>Note:</strong> This plugin also accepts a <code>config.key_names</code> parameter, which
+defaults to <code>[&#39;apikey&#39;]</code>. It is a list of headers and parameters names (both
+are supported) that are supposed to contain the apikey during a request.</p>
+
 <h2 id="2-verify-that-the-plugin-is-properly-configured">2. Verify that the plugin is properly configured</h2>
-<div class="highlight"><pre><code class="language-" data-lang="">Issue the following cURL request to verify that the [key-auth][key-auth]
-plugin was properly configured on the Service:
 
-```bash
-$ curl -i -X GET \
-  --url http://localhost:8000/ \
-  --header 'Host: example.com'
-```
-
-Since you did not specify the required `apikey` header or parameter, the
-response should be `401 Unauthorized`:
-
-```http
-HTTP/1.1 401 Unauthorized
-...
+<p>Issue the following cURL request to verify that the <a href="/plugins/key-authentication">key-auth</a>
+plugin was properly configured on the Service:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+  --url http://localhost:8000/ <span class="se">\</span>
+  --header <span class="s1">'Host: example.com'</span>
+</code></pre></div>
+<p>Since you did not specify the required <code>apikey</code> header or parameter, the
+response should be <code>401 Unauthorized</code>:</p>
+<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">401</span> <span class="ne">Unauthorized</span>
+<span class="s">...</span>
 
 {
   "message": "No API key found in request"
 }
-```
 </code></pre></div>
 <h2 id="next-steps">Next Steps</h2>
 
@@ -1249,7 +1242,7 @@ consumers to your Service so we can continue proxying requests through Kong.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539728668"></script>
+    <script src="/assets/app.js?v=1539898057"></script>
 
     <div id="fb-root"></div>
 

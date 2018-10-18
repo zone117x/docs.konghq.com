@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <title>OpenID Connect integration | Kong</title>
+  <title>OpenID Connect plugin | Kong</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more.">
   <meta name="author" content="KongHQ"/>
   <meta property="og:title" content="Open-Source API Management and Microservice Management"/>
@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539898057"/>
   
 </head>
 
@@ -230,7 +230,7 @@ window['_fs_namespace'] = 'FS';
     
       <div class="dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Integration Version 0.31-x
+          Plugin Version 0.31-x
           
           <span class="caret"></span>
         </button>
@@ -267,6 +267,10 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
+<li> <a href="#terminology">Terminology</a></li>
+<li> <a href="#configuration">Configuration</a>
+
+<ul>
 <li> <a href="#kong-openid-connect-plugin">Kong OpenID Connect Plugin</a></li>
 <li> <a href="#contents">Contents</a></li>
 <li> <a href="#terminology">Terminology</a></li>
@@ -274,6 +278,7 @@ window['_fs_namespace'] = 'FS';
 <li> <a href="#features">Features</a></li>
 <li> <a href="#openid-connect-plugin">OpenID Connect Plugin</a></li>
 <li> <a href="#compatibility">Compatibility</a></li>
+</ul></li>
 </ul>
 
         </nav>
@@ -281,7 +286,7 @@ window['_fs_namespace'] = 'FS';
 
       <table id="about-extn">
         <tr>
-          <th colspan="2">About this Integration</th>
+          <th colspan="2">About this Plugin</th>
         </tr>
         <tr class="publisher">
           <td>Made by</td>
@@ -464,7 +469,7 @@ the OpenID Connect plugin (or you can do both).</p>
 <li><a href="http://openid.net/specs/openid-connect-core-1_0.html#IDToken">ID Token</a> verification</li>
 <li><a href="http://openid.net/specs/openid-connect-core-1_0.html#UserInfo">UserInfo</a> endpoint data injecting</li>
 <li><a href="http://openid.net/specs/openid-connect-session-1_0.html#RPLogout">RP-Initiated Logout</a></li>
-<li><a href="https://tools.ietf.org/html/rfc7009">OAuth 2.0 Token Revovation</a> during the logout (optionally)</li>
+<li><a href="https://tools.ietf.org/html/rfc7009">OAuth 2.0 Token Revocation</a> during the logout (optionally)</li>
 <li><a href="https://tools.ietf.org/html/rfc7662">OAuth 2.0 Token Introspection</a> support</li>
 <li><a href="https://tools.ietf.org/html/rfc7636">OAuth 2.0 Proof Key for Code Exchange</a> (PKCE) support</li>
 <li>Standard and configurable claims verification</li>
@@ -504,8 +509,56 @@ blacklist groups of users.</p>
 
 
       
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
+
+          
+          
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+        </ul>
+      
 
       
+
+      
+        <h2 id="configuration">Configuration</h2>
+        
+        
+        
+        
+
+        <h4>Global plugins</h4>
+
+        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
+          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
+          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
+
+        <h4>Parameters</h4>
+
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
+
+        <table>
+  <thead>
+    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code></code></td></tr>
+
+    
+    
+      <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
+    
+    
+    
+  </tbody>
+</table>
+
 
       
 
@@ -590,7 +643,7 @@ say password credentials without affecting too many things.</p>
 
 <p>The best method to use here is to use OpenID Connect Authentication using
 <em>authorization code</em>* flow. Kong sets up a session with the browser. After
-initial authentication the browser will send the cookie automaticalle —
+initial authentication the browser will send the cookie automatically —
 even when making API requests using JavaScript. With authorization code
 flow you can usually utilize stronger authentication methods such as
 two-factor authentication on your identity provider.</p>
@@ -818,7 +871,7 @@ requirements will vary depending on your use case and identity provider.</p>
 </tr>
 <tr>
 <td style="text-align: right"><code>max_age</code></td>
-<td>The <code>max_age</code> (in seconds) for the previous authentication, spefifically the <code>auth_time</code> claim.</td>
+<td>The <code>max_age</code> (in seconds) for the previous authentication, specifically the <code>auth_time</code> claim.</td>
 </tr>
 <tr>
 <td style="text-align: right"><code>authorization_cookie_name</code></td>
@@ -2248,7 +2301,7 @@ The options are:</p>
 uri fragment (<code>#</code>) so that they are only accessible to the client. <code>query</code>
 means that <code>login_tokens</code> are appended to <code>login_redirect_uri</code>&#39;s query string
 (<code>?</code>) making it available both to the client and the server. In future we are
-going to enable third option <code>form_post</code> which will, insetead of doing <code>302</code>
+going to enable third option <code>form_post</code> which will, instead of doing <code>302</code>
 redirect will make a HTTP POST to <code>login_redirect_uri</code> with the tokens as
 HTTP POST arguments in HTTP POST request&#39;s body.</p>
 
@@ -2558,7 +2611,7 @@ authorization header (<code>Authorization: Bearer &lt;token&gt;</code>).</p>
 
 <p>The plugin will also accept tokens that are issued by Kong OAuth 2.0 Authentication Plugin,
 and it can be used to verify them. It duplicates some verification code from Kong OAuth 2.0
-plugin, but this plugin does not provide any identity provider functinality as the Kong OAuth
+plugin, but this plugin does not provide any identity provider functionality as the Kong OAuth
 2.0 plugin does. Similar to JWT Bearer tokens and opaque bearer tokens, the Kong issued opaque
 tokens are presented in an authorization header (<code>Authorization: Bearer &lt;token&gt;</code>).</p>
 
@@ -3082,7 +3135,7 @@ well.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539728668"></script>
+    <script src="/assets/app.js?v=1539898057"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539728668"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1539898057"/>
   
 </head>
 
@@ -584,14 +584,14 @@ target.</li>
 
 <ol>
 <li>Set a fixed percentage to be routed to destination B. See parameter <code>config.percentage</code>.</li>
-<li>Set a period over which (in lineair time) the traffic will be moved over from destination A to B. See parameters <code>config.start</code> and <code>config.duration</code>.</li>
+<li>Set a period over which (in linear time) the traffic will be moved over from destination A to B. See parameters <code>config.start</code> and <code>config.duration</code>.</li>
 </ol>
 
 <h3 id="determining-where-to-route-a-request">Determining where to route a request</h3>
 
-<p>The plugin defines a number of &quot;buckets&quot; (<code>config.steps</code>). Each of those can be routed to either A or B. For example: 100 steps, and <code>precentage</code> at 10%. Then 100 buckets will be created, of which 10 will be routed to upstream B, and 90 will remain at A.</p>
+<p>The plugin defines a number of &quot;buckets&quot; (<code>config.steps</code>). Each of those can be routed to either A or B. For example: 100 steps, and <code>percentage</code> at 10%. Then 100 buckets will be created, of which 10 will be routed to upstream B, and 90 will remain at A.</p>
 
-<p>Which requests end up in a specific bucket is determined by the <code>config.hash</code> parameter. When set to consumerthen it is made sure that each consumer will consistently end up in the same bucket. The effect being that once a bucket a consumer belongs to is switched to B, it will then always go to B, and a <code>consumer</code> will not &quot;flip-flop&quot; between A and B. Alternatively if it is set to <code>ip</code> then the same concept applies, but based on the originating ip address.</p>
+<p>Which requests end up in a specific bucket is determined by the <code>config.hash</code> parameter. When set to consumer then it is made sure that each consumer will consistently end up in the same bucket. The effect being that once a bucket a consumer belongs to is switched to B, it will then always go to B, and a <code>consumer</code> will not &quot;flip-flop&quot; between A and B. Alternatively if it is set to <code>ip</code> then the same concept applies, but based on the originating ip address.</p>
 
 <p>The downside of <code>consumer</code> and <code>ip</code> is that if any specific consumer or ip is responsible for a more than average part of the load, the migration is not nicely distributed. Eg. with percentage set to 50%, then 50% of either the consumers or ips are rerouted, but not necessarily 50% of the requests.</p>
 
@@ -776,7 +776,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1539728668"></script>
+    <script src="/assets/app.js?v=1539898057"></script>
 
     <div id="fb-root"></div>
 
