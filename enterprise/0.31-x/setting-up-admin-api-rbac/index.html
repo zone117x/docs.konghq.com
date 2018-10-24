@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            Enterprise Edition (0.31-x)
-            
-        </div>
-        
+        <h1>Setting Up Admin API RBAC</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
                 <li>
@@ -728,38 +720,38 @@ window['_fs_namespace'] = 'FS';
 <div class="highlight"><pre><code class="language-" data-lang="">kong restart
 </code></pre></div>
 <p>RBAC policies will now be enforced by Kong, based on the user token presented to the request. By default, this user token should be presented via the Kong-Admin-Token request header; the name of this header is configurable via the Kong configuration file. In order to test our setup, we can send a request to the Admin API without sending an authentication. Because Kong does not recognize a user associated with the requesting client, it will reject the request:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -i http://localhost:8001/status
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/status
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:06:00 GMT
-Content-Type: application/json; charset=utf-8
+Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
-Access-Control-Allow-Origin: *
+Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
 
-{"message":"Unauthorized"}
+<span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
 </code></pre></div>
 <p>By sending a request with our user&#39;s token, we will be granted read access to the resource in question.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -H "Kong-Admin-Token: 12345" -i http://localhost:8001/status
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
 HTTP/1.1 200 OK
 Date: Fri, 04 Aug 2017 22:09:25 GMT
-Content-Type: application/json; charset=utf-8
+Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
-Access-Control-Allow-Origin: *
+Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
 </code></pre></div>
 <p>We can also see that attempting to create a new resource with our RBAC user is not permitted, as they are not assigned any roles that have permissions with create access:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -H "Kong-Admin-Token: 12345" -i http://localhost:8001/consumers -d name=alic
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alic
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:15:47 GMT
-Content-Type: application/json; charset=utf-8
+Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
-Access-Control-Allow-Origin: *
+Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0rc2
 
-{"message":"Unauthorized"}
+<span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
 </code></pre></div>
 <h2 id="extending-rbac">Extending RBAC</h2>
 
@@ -951,7 +943,7 @@ Server: kong/0.11.0rc2
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

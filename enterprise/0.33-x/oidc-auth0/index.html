@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            Enterprise Edition (0.33-x)
-            
-        </div>
-        
+        <h1>OpenID Connect with Auth0</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             <em>(latest)</em>
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
             
@@ -762,6 +754,7 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
+<li> <a href="#introduction">Introduction</a></li>
 <li> <a href="#auth0-idp-configuration">Auth0 IDP configuration</a>
 
 <ul>
@@ -774,23 +767,25 @@ window['_fs_namespace'] = 'FS';
 
           
 
-          <p>This guide covers an example OpenID Connect plugin configuration to authenticate headless service consumers using Auth0&#39;s identity provider.</p>
+          <h2 id="introduction">Introduction</h2>
 
-<h1 id="auth0-idp-configuration">Auth0 IDP configuration</h1>
+<p>This guide covers an example OpenID Connect plugin configuration to authenticate headless service consumers using Auth0&#39;s identity provider.</p>
+
+<h2 id="auth0-idp-configuration">Auth0 IDP configuration</h2>
 
 <p>This configuration will use a <a href="https://auth0.com/docs/api-auth/tutorials/client-credentials">client credentials grant</a> as it is non-interactive, and because we expect clients to authenticate on behalf of themselves, not an end-user. To do so, you will need to <a href="https://auth0.com/docs/apis#how-to-configure-an-api-in-auth0">create an Auth0 API</a> and a <a href="https://auth0.com/docs/clients">non-interactive client</a>.</p>
 
-<h2 id="api-configuration">API configuration</h2>
+<h3 id="api-configuration">API configuration</h3>
 
 <p>When creating your API, you will need to specify an Identifier. Using the URL that your consumer makes requests to is generally appropriate, so this will typically be the hostname/path combination configured as an API in Kong.</p>
 
 <p>After creating your API, you will also need to add the <code>openid</code> scope at <code>https://manage.auth0.com/#/apis/&lt;API ID&gt;/scopes</code>.</p>
 
-<h2 id="client-configuration">Client configuration</h2>
+<h3 id="client-configuration">Client configuration</h3>
 
 <p>You will need to authorize your client to access your API. Auth0 will prompt you to do so after client creation if you select the API you created previously from the client&#39;s Quick Start menu. After toggling the client to Authorized, expand its authorization settings and enable the <code>openid</code> scope.</p>
 
-<h1 id="kong-configuration">Kong configuration</h1>
+<h2 id="kong-configuration">Kong configuration</h2>
 
 <p>If you have not done so already, <a href="/latest/admin-api/#add-api">create an API</a> to protect. The <code>url</code> configuration should match the Identifier you used when configuring Auth0.</p>
 
@@ -801,7 +796,7 @@ window['_fs_namespace'] = 'FS';
   --data config.token_post_args_names<span class="o">=</span><span class="s2">"audience"</span> <span class="se">\</span>
   --data config.token_post_args_values<span class="o">=</span><span class="s2">"https://example.com/"</span>
 </code></pre></div>
-<h1 id="downstream-configuration">Downstream configuration</h1>
+<h2 id="downstream-configuration">Downstream configuration</h2>
 
 <p>The service accessing your resource will need to pass its credentials to Kong. It can do so via HTTP basic authentication, query string arguments, or parameters in the request body. Basic authentication is generally preferable, as credentials in a query string will be present in Kong&#39;s access logs (and possibly in other infrastructure&#39;s access logs, if you have HTTP-aware infrastructure in front of Kong) and credentials in request bodies are limited to request methods that expect
 client payloads.</p>
@@ -963,7 +958,7 @@ client payloads.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

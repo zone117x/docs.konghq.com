@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            
-            Community Edition (0.13.x)
-        </div>
-        
+        <h1>Proxy Reference</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
                 <li>
@@ -1110,26 +1102,26 @@ against any configured API if no Route was matched first).</p>
 how Kong is configured via the <a href="/0.13.x/admin-api">Admin API</a>.</p>
 
 <p>Adding a Service to Kong is done by sending an HTTP request to the Admin API:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -i -X POST http://localhost:8001/services/ \
-    -d 'name=foo-service' \
-    -d 'url=http://foo-service.com'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/services/ <span class="se">\</span>
+    -d <span class="s1">'name=foo-service'</span> <span class="se">\</span>
+    -d <span class="s1">'url=http://foo-service.com'</span>
 HTTP/1.1 201 Created
 ...
 
-{
-    "connect_timeout": 60000,
-    "created_at": 1515537771,
-    "host": "foo-service.com",
-    "id": "d54da06c-d69f-4910-8896-915c63c270cd",
-    "name": "foo-service",
-    "path": "/",
-    "port": 80,
-    "protocol": "http",
-    "read_timeout": 60000,
-    "retries": 5,
-    "updated_at": 1515537771,
-    "write_timeout": 60000
-}
+<span class="o">{</span>
+    <span class="s2">"connect_timeout"</span>: 60000,
+    <span class="s2">"created_at"</span>: 1515537771,
+    <span class="s2">"host"</span>: <span class="s2">"foo-service.com"</span>,
+    <span class="s2">"id"</span>: <span class="s2">"d54da06c-d69f-4910-8896-915c63c270cd"</span>,
+    <span class="s2">"name"</span>: <span class="s2">"foo-service"</span>,
+    <span class="s2">"path"</span>: <span class="s2">"/"</span>,
+    <span class="s2">"port"</span>: 80,
+    <span class="s2">"protocol"</span>: <span class="s2">"http"</span>,
+    <span class="s2">"read_timeout"</span>: 60000,
+    <span class="s2">"retries"</span>: 5,
+    <span class="s2">"updated_at"</span>: 1515537771,
+    <span class="s2">"write_timeout"</span>: 60000
+<span class="o">}</span>
 </code></pre></div>
 <p>This request instructs Kong to register a Service named &quot;foo-service&quot;, which
 points to <code>http://foo-service.com</code> (your upstream).</p>
@@ -1139,35 +1131,35 @@ points to <code>http://foo-service.com</code> (your upstream).</p>
 
 <p>Now, in order to send traffic to this Service through Kong, we need to specify
 a Route, which acts as an entrypoint to Kong:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -i -X POST http://localhost:8001/routes/ \
-    -d 'hosts[]=example.com' \
-    -d 'paths[]=/foo' \
-    -d 'service.id=d54da06c-d69f-4910-8896-915c63c270cd'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes/ <span class="se">\</span>
+    -d <span class="s1">'hosts[]=example.com'</span> <span class="se">\</span>
+    -d <span class="s1">'paths[]=/foo'</span> <span class="se">\</span>
+    -d <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
 HTTP/1.1 201 Created
 ...
 
-{
-    "created_at": 1515539858,
-    "hosts": [
-        "example.com"
-    ],
-    "id": "ee794195-6783-4056-a5cc-a7e0fde88c81",
-    "methods": null,
-    "paths": [
-        "/foo"
-    ],
-    "preserve_host": false,
-    "priority": 0,
-    "protocols": [
-        "http",
-        "https"
-    ],
-    "service": {
-        "id": "d54da06c-d69f-4910-8896-915c63c270cd"
-    },
-    "strip_path": true,
-    "updated_at": 1515539858
-}
+<span class="o">{</span>
+    <span class="s2">"created_at"</span>: 1515539858,
+    <span class="s2">"hosts"</span>: <span class="o">[</span>
+        <span class="s2">"example.com"</span>
+    <span class="o">]</span>,
+    <span class="s2">"id"</span>: <span class="s2">"ee794195-6783-4056-a5cc-a7e0fde88c81"</span>,
+    <span class="s2">"methods"</span>: null,
+    <span class="s2">"paths"</span>: <span class="o">[</span>
+        <span class="s2">"/foo"</span>
+    <span class="o">]</span>,
+    <span class="s2">"preserve_host"</span>: <span class="nb">false</span>,
+    <span class="s2">"priority"</span>: 0,
+    <span class="s2">"protocols"</span>: <span class="o">[</span>
+        <span class="s2">"http"</span>,
+        <span class="s2">"https"</span>
+    <span class="o">]</span>,
+    <span class="s2">"service"</span>: <span class="o">{</span>
+        <span class="s2">"id"</span>: <span class="s2">"d54da06c-d69f-4910-8896-915c63c270cd"</span>
+    <span class="o">}</span>,
+    <span class="s2">"strip_path"</span>: <span class="nb">true</span>,
+    <span class="s2">"updated_at"</span>: 1515539858
+<span class="o">}</span>
 </code></pre></div>
 <p>We have now configured a Route to match incoming requests matching the given
 <code>hosts</code> and <code>paths</code>, and forward them to the <code>foo-service</code> we configured, thus
@@ -2107,7 +2099,7 @@ just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

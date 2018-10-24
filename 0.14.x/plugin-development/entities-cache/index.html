@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            
-            Community Edition (0.14.x)
-        </div>
-        
+        <h1>Plugin Development - Caching custom entities</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             <em>(latest)</em>
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
             
@@ -999,24 +991,25 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#plugin-development-caching-custom-entities">Plugin Development - Caching custom entities</a>
-        -  <a href="#modules">Modules</a>
-    -  <a href="#caching-custom-entities">Caching custom entities</a>
-        -  <a href="#updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</a>
-    -  <a href="#cache-invalidation-for-your-entities">Cache invalidation for your entities</a>
-        -  <a href="#automatic-cache-invalidation">Automatic cache invalidation</a>
-        -  <a href="#manual-cache-invalidation">Manual cache invalidation</a>
-    -  <a href="#extending-the-admin-api">Extending the Admin API</a></li>
+<li> <a href="#introduction">Introduction</a></li>
+<li> <a href="#modules">Modules</a></li>
+<li> <a href="#caching-custom-entities">Caching custom entities</a>
+
+<ul>
+<li> <a href="#updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</a></li>
+</ul></li>
+<li> <a href="#cache-invalidation-for-your-entities">Cache invalidation for your entities</a>
+
+<ul>
+<li> <a href="#automatic-cache-invalidation">Automatic cache invalidation</a></li>
+<li> <a href="#manual-cache-invalidation">Manual cache invalidation</a></li>
+</ul></li>
+<li> <a href="#extending-the-admin-api">Extending the Admin API</a></li>
 </ul>
 
           
 
-          <h1 id="plugin-development-caching-custom-entities">Plugin Development - Caching custom entities</h1>
-
-<h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">kong.plugins.&lt;plugin_name&gt;.daos
-</code></pre></div>
-<hr>
+          <h2 id="introduction">Introduction</h2>
 
 <p>Your plugin may need to frequently access custom entities (explained in the
 <a href="/0.14.x/plugin-development/custom-entities/">previous chapter</a>) on every request and/or response.
@@ -1045,9 +1038,10 @@ datastore query every time (only the first time), but happen in-memory, which
 is much faster and reliable that querying it from the datastore (especially
 under heavy load).</p>
 
-<hr>
-
-<h3 id="caching-custom-entities">Caching custom entities</h3>
+<h2 id="modules">Modules</h2>
+<div class="highlight"><pre><code class="language-" data-lang="">kong.plugins.&lt;plugin_name&gt;.daos
+</code></pre></div>
+<h2 id="caching-custom-entities">Caching custom entities</h2>
 
 <p>Once you have defined your custom entities, you can cache them in-memory in
 your code by using the <a href="/0.14.x/pdk/#kong-cache">kong.cache</a>
@@ -1155,7 +1149,7 @@ result in a database query.</p>
 <p>The cache is used in several places in the <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/handler.lua">Key-Auth plugin handler</a>.
 Give that file a look in order to see how an official plugin uses the cache.</p>
 
-<h4 id="updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</h4>
+<h3 id="updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</h3>
 
 <p>Every time a cached custom entity is updated or deleted in the datastore (i.e.
 using the Admin API), it creates an inconsistency between the data in
@@ -1166,7 +1160,7 @@ cache invalidation.</p>
 
 <hr>
 
-<h3 id="cache-invalidation-for-your-entities">Cache invalidation for your entities</h3>
+<h2 id="cache-invalidation-for-your-entities">Cache invalidation for your entities</h2>
 
 <p>If you wish that your cached entities be invalidated upon a CRUD operation
 rather than having to wait for them to reach their TTL, you have to follow a
@@ -1174,7 +1168,7 @@ few steps. This process can be automated for most entities, but manually
 subscribing to some CRUD events might be required to invalidate some entities
 with more complex relationships.</p>
 
-<h4 id="automatic-cache-invalidation">Automatic cache invalidation</h4>
+<h3 id="automatic-cache-invalidation">Automatic cache invalidation</h3>
 
 <p>Cache invalidation can be provided out of the box for your entities if you rely
 on the <code>cache_key</code> property of your entity&#39;s schema. For example, in the
@@ -1243,7 +1237,7 @@ properly fetch the newly created API key from the datastore.</p>
 <p>See the <a href="/0.14.x/clustering/">Clustering Guide</a> to ensure
 that you have properly configured your cluster for such invalidation events.</p>
 
-<h4 id="manual-cache-invalidation">Manual cache invalidation</h4>
+<h3 id="manual-cache-invalidation">Manual cache invalidation</h3>
 
 <p>In some cases, the <code>cache_key</code> property of an entity&#39;s schema is not flexible
 enough, and one must manually invalidate its cache. Reasons for this could be
@@ -1283,7 +1277,7 @@ For instance:</p>
   <span class="k">end</span>
 <span class="k">end</span><span class="p">,</span> <span class="s2">"crud"</span><span class="p">,</span> <span class="s2">"consumers"</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="extending-the-admin-api">Extending the Admin API</h3>
+<h2 id="extending-the-admin-api">Extending the Admin API</h2>
 
 <p>As you are probably aware, the <a href="/0.14.x/admin-api/">Admin API</a> is where Kong users communicate with
 Kong to setup their APIs and plugins. It is likely that they also need to be
@@ -1469,7 +1463,7 @@ the Admin API</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

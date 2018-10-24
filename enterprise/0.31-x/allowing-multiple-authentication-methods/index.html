@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            Enterprise Edition (0.31-x)
-            
-        </div>
-        
+        <h1>Allowing multiple authentication methods</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
                 <li>
@@ -624,87 +616,87 @@ window['_fs_namespace'] = 'FS';
 <p>The default behavior for Kong authentication plugins is to require credentials for all requests without regard for whether a request has been authenticated via some other plugin. Configuring an anonymous consumer on your authentication plugins allows you to offer clients multiple options for authentication.</p>
 
 <p>To begin, <a href="/latest/getting-started/adding-your-api/">create an API</a> and then create three consumers:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -sX POST kong-admin:8001/consumers \
-    -H "Content-Type: application/json" \
-    --data '{"username": "anonymous"}'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"username": "anonymous"}'</span>
 
-{"created_at":1517528237000,"username":"anonymous","id":"d955c0cb-1a6e-4152-9440-414ebb8fee8a"}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528237000,<span class="s2">"username"</span>:<span class="s2">"anonymous"</span>,<span class="s2">"id"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span><span class="o">}</span>
 
-$ curl -sX POST kong-admin:8001/consumers \
-    -H "Content-Type: application/json" \
-    --data '{"username": "medvezhonok"}'
+<span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"username": "medvezhonok"}'</span>
 
-{"created_at":1517528259000,"username":"medvezhonok","id":"b3c95318-a932-4bb2-9d74-1298a3ffc87c"}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528259000,<span class="s2">"username"</span>:<span class="s2">"medvezhonok"</span>,<span class="s2">"id"</span>:<span class="s2">"b3c95318-a932-4bb2-9d74-1298a3ffc87c"</span><span class="o">}</span>
 
-$ curl -sX POST kong-admin:8001/consumers \
-    -H "Content-Type: application/json" \
-    --data '{"username": "ezhik"}'
+<span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"username": "ezhik"}'</span>
 
-{"created_at":1517528266000,"username":"ezhik","id":"47e74a17-dc08-4786-a8cf-d8e4f38a5459"}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528266000,<span class="s2">"username"</span>:<span class="s2">"ezhik"</span>,<span class="s2">"id"</span>:<span class="s2">"47e74a17-dc08-4786-a8cf-d8e4f38a5459"</span><span class="o">}</span>
 </code></pre></div>
 <p>The <code>anonymous</code> consumer does not correspond to any real user, and will only serve as a fallback.</p>
 
 <p>Next, we add both Key Auth and Basic Auth plugins to our consumer, and set the anonymous fallback to the consumer we created earlier.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -sX POST kong-admin:8001/apis/example-api/plugins/ \
-    -H "Content-Type: application/json" \
-    --data '{"name": "key-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/apis/example-api/plugins/ <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"name": "key-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }'</span>
 
-{"created_at":1517528304000,"config":{"key_in_body":false,"hide_credentials":true,"anonymous":"d955c0cb-1a6e-4152-9440-414ebb8fee8a","run_on_preflight":true,"key_names":["apikey"]},"id":"bb884f7b-4e48-4166-8c80-c858b5a4c357","name":"key-auth","api_id":"a2a168a8-4491-4fe1-9426-cde3b5fcd45b","enabled":true}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528304000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"key_in_body"</span>:false,<span class="s2">"hide_credentials"</span>:true,<span class="s2">"anonymous"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span>,<span class="s2">"run_on_preflight"</span>:true,<span class="s2">"key_names"</span>:[<span class="s2">"apikey"</span><span class="o">]}</span>,<span class="s2">"id"</span>:<span class="s2">"bb884f7b-4e48-4166-8c80-c858b5a4c357"</span>,<span class="s2">"name"</span>:<span class="s2">"key-auth"</span>,<span class="s2">"api_id"</span>:<span class="s2">"a2a168a8-4491-4fe1-9426-cde3b5fcd45b"</span>,<span class="s2">"enabled"</span>:true<span class="o">}</span>
 
-$ curl -sX POST kong-admin:8001/apis/example-api/plugins/ \
-    -H "Content-Type: application/json" \
-    --data '{"name": "basic-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }' 
+<span class="gp">$ </span>curl -sX POST kong-admin:8001/apis/example-api/plugins/ <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"name": "basic-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }'</span> 
 
-{"created_at":1517528499000,"config":{"hide_credentials":true,"anonymous":"d955c0cb-1a6e-4152-9440-414ebb8fee8a"},"id":"e5a40543-debe-4225-a879-a54901368e6d","name":"basic-auth","api_id":"a2a168a8-4491-4fe1-9426-cde3b5fcd45b","enabled":true}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528499000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"hide_credentials"</span>:true,<span class="s2">"anonymous"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span><span class="o">}</span>,<span class="s2">"id"</span>:<span class="s2">"e5a40543-debe-4225-a879-a54901368e6d"</span>,<span class="s2">"name"</span>:<span class="s2">"basic-auth"</span>,<span class="s2">"api_id"</span>:<span class="s2">"a2a168a8-4491-4fe1-9426-cde3b5fcd45b"</span>,<span class="s2">"enabled"</span>:true<span class="o">}</span>
 </code></pre></div>
 <p>If using <a href="/enterprise/latest/plugins/openid-connect">OpenID Connect</a>, you must also set <code>config.consumer_claim</code> along with <code>anonymous</code>, as setting <code>anonymous</code> alone will not map that consumer.</p>
 
 <p>At this point unauthenticated requests and requests with invalid credentials are still allowed. The anonymous consumer is allowed, and will be applied to any request that does not pass a set of credentials associated with some other consumer.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -s example.com:8000/user-agent
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -s example.com:8000/user-agent
 
-{"user-agent": "curl/7.58.0"}
+<span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
 
-$ curl -s example.com:8000/user-agent?apikey=nonsense
+<span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>nonsense
 
-{"user-agent": "curl/7.58.0"}
+<span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
 </code></pre></div>
 <p>We&#39;ll now add a Key Auth credential for one consumer, and a Basic Auth credential for another.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -sX POST kong-admin:8001/consumers/medvezhonok/basic-auth \
-    -H "Content-Type: application/json" \
-    --data '{"username": "medvezhonok", "password": "hunter2"}'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/medvezhonok/basic-auth <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"username": "medvezhonok", "password": "hunter2"}'</span>
 
-{"created_at":1517528647000,"id":"bb350b87-f0d2-4605-b997-e28a116d8b6d","username":"medvezhonok","password":"f239a0404351d7170201e7f92fa9b3159e47bb01","consumer_id":"b3c95318-a932-4bb2-9d74-1298a3ffc87c"}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528647000,<span class="s2">"id"</span>:<span class="s2">"bb350b87-f0d2-4605-b997-e28a116d8b6d"</span>,<span class="s2">"username"</span>:<span class="s2">"medvezhonok"</span>,<span class="s2">"password"</span>:<span class="s2">"f239a0404351d7170201e7f92fa9b3159e47bb01"</span>,<span class="s2">"consumer_id"</span>:<span class="s2">"b3c95318-a932-4bb2-9d74-1298a3ffc87c"</span><span class="o">}</span>
 
-$ curl -sX POST kong-admin:8001/consumers/ezhik/key-auth \
-    -H "Content-Type: application/json" \
-    --data '{"key": "hunter3"}'
+<span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/ezhik/key-auth <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"key": "hunter3"}'</span>
 
-{"id":"06412d6e-8d41-47f7-a911-3c821ec98f1b","created_at":1517528730000,"key":"hunter3","consumer_id":"47e74a17-dc08-4786-a8cf-d8e4f38a5459"}
+<span class="o">{</span><span class="s2">"id"</span>:<span class="s2">"06412d6e-8d41-47f7-a911-3c821ec98f1b"</span>,<span class="s2">"created_at"</span>:1517528730000,<span class="s2">"key"</span>:<span class="s2">"hunter3"</span>,<span class="s2">"consumer_id"</span>:<span class="s2">"47e74a17-dc08-4786-a8cf-d8e4f38a5459"</span><span class="o">}</span>
 
 </code></pre></div>
 <p>Lastly, we add a Request Terminator to the anonymous consumer.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -sX POST kong-admin:8001/consumers/d955c0cb-1a6e-4152-9440-414ebb8fee8a/plugins/ \
-    -H "Content-Type: application/json" \
-    --data '{"name": "request-termination", "config": { "status_code": 401, "content_type": "application/json; charset=utf-8", "body": "{\"error\": \"Authentication required\"}"} }'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/d955c0cb-1a6e-4152-9440-414ebb8fee8a/plugins/ <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    --data <span class="s1">'{"name": "request-termination", "config": { "status_code": 401, "content_type": "application/json; charset=utf-8", "body": "{\"error\": \"Authentication required\"}"} }'</span>
 
-{"created_at":1517528791000,"config":{"status_code":401,"content_type":"application\/json; charset=utf-8","body":"{\"error\": \"Authentication required\"}"},"id":"21fc5f6f-363f-4d79-b533-ce26d4478879","name":"request-termination","enabled":true,"consumer_id":"d955c0cb-1a6e-4152-9440-414ebb8fee8a"}
+<span class="o">{</span><span class="s2">"created_at"</span>:1517528791000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"status_code"</span>:401,<span class="s2">"content_type"</span>:<span class="s2">"application</span><span class="se">\/</span><span class="s2">json; charset=utf-8"</span>,<span class="s2">"body"</span>:<span class="s2">"{</span><span class="se">\"</span><span class="s2">error</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Authentication required</span><span class="se">\"</span><span class="s2">}"</span><span class="o">}</span>,<span class="s2">"id"</span>:<span class="s2">"21fc5f6f-363f-4d79-b533-ce26d4478879"</span>,<span class="s2">"name"</span>:<span class="s2">"request-termination"</span>,<span class="s2">"enabled"</span>:true,<span class="s2">"consumer_id"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span><span class="o">}</span>
 </code></pre></div>
 <p>Requests with missing or invalid credentials are now rejected, whereas authorized requests using either authentication method are allowed.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -s example.com:8000/user-agent?apikey=nonsense
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>nonsense
 
-{"error": "Authentication required"}
+<span class="o">{</span><span class="s2">"error"</span>: <span class="s2">"Authentication required"</span><span class="o">}</span>
 
-$ curl -s example.com:8000/user-agent
+<span class="gp">$ </span>curl -s example.com:8000/user-agent
 
-{"error": "Authentication required"}
+<span class="o">{</span><span class="s2">"error"</span>: <span class="s2">"Authentication required"</span><span class="o">}</span>
 
-$ curl -s example.com:8000/user-agent?apikey=hunter3
+<span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>hunter3
 
-{"user-agent": "curl/7.58.0"}
+<span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
 
-$ curl -s example.com:8000/user-agent -u medvezhonok:hunter2
+<span class="gp">$ </span>curl -s example.com:8000/user-agent -u medvezhonok:hunter2
 
-{"user-agent": "curl/7.58.0"}
+<span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
 </code></pre></div>
 
         </div>
@@ -861,7 +853,7 @@ $ curl -s example.com:8000/user-agent -u medvezhonok:hunter2
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

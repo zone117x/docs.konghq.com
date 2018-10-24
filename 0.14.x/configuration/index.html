@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            
-            Community Edition (0.14.x)
-        </div>
-        
+        <h1>Configuration Reference</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             <em>(latest)</em>
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
             
@@ -999,9 +991,6 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#configuration-reference">Configuration Reference</a>
-
-<ul>
 <li> <a href="#configuration-loading">Configuration loading</a></li>
 <li> <a href="#verifying-your-configuration">Verifying your configuration</a></li>
 <li> <a href="#environment-variables">Environment variables</a></li>
@@ -1100,19 +1089,16 @@ window['_fs_namespace'] = 'FS';
 <li> <a href="#lua_socket_pool_size">lua_socket_pool_size</a></li>
 </ul></li>
 </ul></li>
-</ul></li>
 </ul>
 
           
 
-          <h1 id="configuration-reference">Configuration Reference</h1>
-
-<h2 id="configuration-loading">Configuration loading</h2>
+          <h2 id="configuration-loading">Configuration loading</h2>
 
 <p>Kong comes with a default configuration file that can be found at
 <code>/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
 packages. To start configuring Kong, you can copy this file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ cp /etc/kong/kong.conf.default /etc/kong/kong.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
 </code></pre></div>
 <p>Kong will operate with default settings should all the values in your
 configuration be commented out. Upon starting, Kong looks for several
@@ -1122,7 +1108,7 @@ default locations that might contain a configuration file:</p>
 </code></pre></div>
 <p>You can override this behavior by specifying a custom path for your
 configuration file using the <code>-c / --conf</code> argument in the CLI:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start --conf /path/to/kong.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start --conf /path/to/kong.conf
 </code></pre></div>
 <p>The configuration format is straightforward: simply uncomment any property
 (comments are defined by the <code>#</code> character) and modify it to your needs.
@@ -1133,7 +1119,7 @@ Boolean values can be specified as <code>on</code>/<code>off</code> or <code>tru
 <h2 id="verifying-your-configuration">Verifying your configuration</h2>
 
 <p>You can verify the integrity of your settings with the <code>check</code> command:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong check &lt;path/to/kong.conf&gt;
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
 configuration at &lt;path/to/kong.conf&gt; is valid
 </code></pre></div>
 <p>This command will take into account the environment variables you have
@@ -1141,13 +1127,13 @@ currently set, and will error out in case your settings are invalid.</p>
 
 <p>Additionally, you can also use the CLI in debug mode to have more insight
 as to what properties Kong is being started with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start -c &lt;kong.conf&gt; --vv
-2016/08/11 14:53:36 [verbose] no config file found at /etc/kong.conf
-2016/08/11 14:53:36 [verbose] no config file found at /etc/kong/kong.conf
-2016/08/11 14:53:36 [debug] admin_listen = "0.0.0.0:8001"
-2016/08/11 14:53:36 [debug] database = "postgres"
-2016/08/11 14:53:36 [debug] log_level = "notice"
-[...]
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
+<span class="o">[</span>...]
 </code></pre></div>
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1165,7 +1151,7 @@ variable with the name of the setting, prefixed with <code>KONG_</code> and capi
 <div class="highlight"><pre><code class="language-" data-lang="">log_level = debug # in kong.conf
 </code></pre></div>
 <p>can be overridden with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ export KONG_LOG_LEVEL=error
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
 </code></pre></div>
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1203,7 +1189,7 @@ Nginx configuration:</p>
 <p>Like any other entry in <code>kong.conf</code>, these directives can also be specified
 using <a href="#environment-variables">environment variables</a> as shown above. For
 example, if you declare an environment variable like this:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ export KONG_NGINX_HTTP_OUTPUT_BUFFERS="4 64k"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_OUTPUT_BUFFERS</span><span class="o">=</span><span class="s2">"4 64k"</span>
 </code></pre></div>
 <p>This will result in the following Nginx directive being added to the <code>http</code>
 block:</p>
@@ -1242,12 +1228,12 @@ entry to your <code>kong.conf</code> file:</p>
 <div class="highlight"><pre><code class="language-" data-lang="">nginx_http_include = /path/to/your/my-server.kong.conf
 </code></pre></div>
 <p>or, alternatively, by configuring it via an environment variable:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ export KONG_NGINX_HTTP_INCLUDE="/path/to/your/my-server.kong.conf"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_INCLUDE</span><span class="o">=</span><span class="s2">"/path/to/your/my-server.kong.conf"</span>
 </code></pre></div>
 <p>Now, when you start Kong, the <code>server</code> section from that file will be added to
 that file, meaning that the custom server defined in it will be responding,
 alongside the regular Kong ports:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -I http://127.0.0.1:2112
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -I http://127.0.0.1:2112
 HTTP/1.1 200 OK
 ...
 </code></pre></div>
@@ -1327,7 +1313,7 @@ http {
 }
 </code></pre></div>
 <p>You can then start Kong with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start -c kong.conf --nginx-conf custom_nginx.template
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
 </code></pre></div>
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1349,7 +1335,7 @@ http {
 }
 </code></pre></div>
 <p>You can then start your Nginx instance like so:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ nginx -p /usr/local/openresty -c my_nginx.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>nginx -p /usr/local/openresty -c my_nginx.conf
 </code></pre></div>
 <p>and Kong will be running in that instance (as configured in <code>nginx-kong.conf</code>).</p>
 
@@ -2438,7 +2424,7 @@ every remote server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

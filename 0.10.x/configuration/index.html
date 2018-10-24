@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -191,14 +191,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ce.svg" alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <p>Documentation</p>
-        
-        
-        <div class="page-header-section-title">
-            
-            Community Edition (0.10.x)
-        </div>
-        
+        <h1>Configuration Reference</h1>
       </div>
 
       
@@ -208,8 +201,7 @@ window['_fs_namespace'] = 'FS';
             
             <span class="caret"></span>
           </button>
-
-          <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
             
               
                 <li>
@@ -976,7 +968,7 @@ window['_fs_namespace'] = 'FS';
 <p>Kong comes with a default configuration file that can be found at
 <code>/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
 packages. To start configuring Kong, you can copy this file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ cp /etc/kong/kong.conf.default /etc/kong/kong.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
 </code></pre></div>
 <p>Kong will operate with default settings should all the values in your
 configuration be commented-out. Upon starting, Kong looks for several
@@ -986,7 +978,7 @@ default locations that might contain a configuration file:</p>
 </code></pre></div>
 <p>You can override this behavior by specifying a custom path for your
 configuration file using the <code>-c / --conf</code> argument in the CLI:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start --conf /path/to/kong.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start --conf /path/to/kong.conf
 </code></pre></div>
 <p>The configuration format is straightforward: simply uncomment any property
 (comments are defined by the <code>#</code> character) and modify it to your needs.
@@ -997,7 +989,7 @@ Booleans values can be specified as <code>on/off</code> or <code>true</code>/<co
 <h3 id="verifying-your-configuration">Verifying your configuration</h3>
 
 <p>You can verify the integrity of your settings with the <code>check</code> command:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong check &lt;path/to/kong.conf&gt;
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
 configuration at &lt;path/to/kong.conf&gt; is valid
 </code></pre></div>
 <p>This command will take into account the environment variables you have
@@ -1005,17 +997,17 @@ currently set, and will error out in case your settings are invalid.</p>
 
 <p>Additionally, you can also use the CLI in debug mode to have more insight
 as to what properties Kong is being started with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start -c &lt;kong.conf&gt; --vv
-2016/08/11 14:53:36 [verbose] no config file found at /etc/kong.conf
-2016/08/11 14:53:36 [verbose] no config file found at /etc/kong/kong.conf
-2016/08/11 14:53:36 [debug] admin_listen = "0.0.0.0:8001"
-2016/08/11 14:53:36 [debug] cluster_listen = "0.0.0.0:7946"
-2016/08/11 14:53:36 [debug] cluster_listen_rpc = "127.0.0.1:7373"
-2016/08/11 14:53:36 [debug] cluster_profile = "wan"
-2016/08/11 14:53:36 [debug] cluster_ttl_on_failure = 3600
-2016/08/11 14:53:36 [debug] database = "postgres"
-2016/08/11 14:53:36 [debug] log_level = "notice"
-[...]
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] cluster_listen <span class="o">=</span> <span class="s2">"0.0.0.0:7946"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] cluster_listen_rpc <span class="o">=</span> <span class="s2">"127.0.0.1:7373"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] cluster_profile <span class="o">=</span> <span class="s2">"wan"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] cluster_ttl_on_failure <span class="o">=</span> 3600
+2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
+<span class="o">[</span>...]
 </code></pre></div>
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1033,7 +1025,7 @@ same name as a setting will override it.</p>
 <div class="highlight"><pre><code class="language-" data-lang="">log_level = debug # in kong.conf
 </code></pre></div>
 <p>Can be overridden with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ export KONG_LOG_LEVEL=error
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
 </code></pre></div>
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1095,7 +1087,7 @@ http {
 }
 </code></pre></div>
 <p>You can then start Kong with:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ kong start -c kong.conf --nginx-conf custom_nginx.template
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
 </code></pre></div>
 <p>If you wish to customize the Kong Nginx sub-configuration file to, eventually,
 add other Lua handlers or customize the <code>lua_*</code> directives, you can inline the
@@ -1189,10 +1181,10 @@ by including the Kong Nginx sub-configuration using the <code>include</code> dir
 (similar to the examples of the previous section). However, you will need the
 final configuration and not the template. For this, use the <code>compile</code> command,
 which outputs a fully-compiled Nginx sub-configuration to <code>stdout</code>:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ bin/kong compile --conf kong.conf &gt; /usr/local/openresty/conf/nginx-kong.conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>bin/kong compile --conf kong.conf &gt; /usr/local/openresty/conf/nginx-kong.conf
 
-# now start OpenResty with a configuration that "includes" nginx-kong.conf
-$ nginx -c /usr/local/openresty/conf/nginx.conf
+<span class="c"># now start OpenResty with a configuration that "includes" nginx-kong.conf</span>
+<span class="gp">$ </span>nginx -c /usr/local/openresty/conf/nginx.conf
 </code></pre></div>
 <div class="alert alert-warning">
   <strong>Note:</strong> When embedding Kong this way, you will have to
@@ -2031,7 +2023,7 @@ every remote server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 

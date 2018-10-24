@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1539903190"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540409093"/>
   
 </head>
 
@@ -768,27 +768,27 @@ Ex. $(&#39;$(some_needs_to_escaped)&#39;)</p>
 <h4 id="examples-using-template-as-value">Examples Using Template as Value</h4>
 
 <p>Add an API <code>test</code> with <code>uris</code> configured with a named capture group <code>user_id</code></p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis \
-    --data 'name=test' \
-    --data 'upstream_url=http://mockbin.com' \
-    --data-urlencode 'uris=/requests/user/(?&lt;user_id&gt;\w+)' \
-    --data "strip_uri=false"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis <span class="se">\</span>
+    --data <span class="s1">'name=test'</span> <span class="se">\</span>
+    --data <span class="s1">'upstream_url=http://mockbin.com'</span> <span class="se">\</span>
+    --data-urlencode <span class="s1">'uris=/requests/user/(?&lt;user_id&gt;\w+)'</span> <span class="se">\</span>
+    --data <span class="s2">"strip_uri=false"</span>
 </code></pre></div>
 <p>Enable the ‘request-transformer-advanced’ plugin to add a new header <code>x-consumer-id</code>
 and its value is being set with the value sent with header <code>x-user-id</code> or
 with the default value alice is <code>header</code> is missing.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/test/plugins \
-    --data "name=request-transformer-advanced" \
-    --data-urlencode "config.add.headers=x-consumer-id:\$(headers['x-user-id'] or 'alice')" \
-    --data "config.remove.headers=x-user-id"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/test/plugins <span class="se">\</span>
+    --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+    --data-urlencode <span class="s2">"config.add.headers=x-consumer-id:</span><span class="se">\$</span><span class="s2">(headers['x-user-id'] or 'alice')"</span> <span class="se">\</span>
+    --data <span class="s2">"config.remove.headers=x-user-id"</span>
 </code></pre></div>
 <p>Now send a request without setting header <code>x-user-id</code></p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -i -X GET localhost:8000/requests/user/foo
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo
 </code></pre></div>
 <p>Plugin will add a new header <code>x-consumer-id</code> with value alice before proxying
 request upstream. Now try sending request with header <code>x-user-id</code> set</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -i -X GET localhost:8000/requests/user/foo \
-  -H "X-User-Id:bob"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo <span class="se">\</span>
+  -H <span class="s2">"X-User-Id:bob"</span>
 </code></pre></div>
 <p>This time plugin will add a new header <code>x-consumer-id</code> with value sent along
 with header <code>x-user-id</code>, i.e.<code>bob</code></p>
@@ -802,10 +802,10 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 <h3 id="configuration-examples">Configuration Examples</h3>
 
 <p>Add multiple headers by passing each header:value pair separately:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=request-transformer-advanced" \
-  --data "config.add.headers[1]=h1:v1" \
-  --data "config.add.headers[2]=h2:v1"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -820,9 +820,9 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tbody></table>
 
 <p>Add multiple headers by passing comma separated header:value pair:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=request-transformer-advanced" \
-  --data "config.add.headers=h1:v1,h2:v2"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -837,9 +837,9 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tbody></table>
 
 <p>Add multiple headers passing config as JSON body:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --header 'content-type: application/json' \
-  --data '{"name": "request-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  --data <span class="s1">'{"name": "request-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
 </code></pre></div>
 <table><thead>
 <tr>
@@ -854,10 +854,10 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tbody></table>
 
 <p>Add a querystring and a header:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=request-transformer-advanced" \
-  --data "config.add.querystring=q1:v2,q2=v1" \
-  --data "config.add.headers=h1:v1"
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.querystring=q1:v2,q2=v1"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers=h1:v1"</span>
 
 </code></pre></div>
 <table><thead>
@@ -893,10 +893,10 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tbody></table>
 
 <p>Append multiple headers and remove a body parameter:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=request-transformer-advanced" \
-  --data "config.add.headers=h1:v2,h2:v1" \
-  --data "config.remove.body=p1" \
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers=h1:v2,h2:v1"</span> <span class="se">\</span>
+  --data <span class="s2">"config.remove.body=p1"</span> <span class="se">\</span>
 
 </code></pre></div>
 <table><thead>
@@ -928,10 +928,10 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </tbody></table>
 
 <p>Add multiple headers and querystring parameters if not already set:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">$ curl -X POST http://localhost:8001/apis/mockbin/plugins \
-  --data "name=request-transformer-advanced" \
-  --data "config.add.headers=h1:v1,h2:v1" \
-  --data "config.add.querystring=q1:v2,q2:v1" \
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.headers=h1:v1,h2:v1"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
 
 </code></pre></div>
 <table><thead>
@@ -1130,7 +1130,7 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </script>
 
 
-    <script src="/assets/app.js?v=1539903190"></script>
+    <script src="/assets/app.js?v=1540409093"></script>
 
     <div id="fb-root"></div>
 
