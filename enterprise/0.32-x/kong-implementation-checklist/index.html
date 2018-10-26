@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -638,32 +638,32 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-implementation-checklist">Kong Implementation Checklist</a>
-    -  <a href="#postgresql">PostgreSQL</a>
-    -  <a href="#cassandra">Cassandra</a>
-    -  <a href="#kong-cluster">Kong Cluster</a>
-
-<ul>
-<li> <a href="#production-system-requirements">Production System Requirements</a></li>
-<li> <a href="#high-availability">High Availability</a></li>
-<li> <a href="#scaling-kong">Scaling Kong</a></li>
-<li> <a href="#kong-performance">Kong Performance</a></li>
-<li> <a href="#cassandra">Cassandra</a></li>
-<li> <a href="#postgresql">PostgreSQL</a></li>
-<li> <a href="#network-firewall">Network &amp; Firewall</a>
-
-<ul>
-<li> <a href="#ports">Ports</a></li>
-<li> <a href="#firewall">Firewall</a></li>
-<li> <a href="#network">Network</a></li>
-</ul></li>
-<li> <a href="#upgrades-and-deployments">Upgrades and Deployments</a>
-
-<ul>
-<li> <a href="#upgrading-to-a-minor-version">Upgrading to a minor version:</a></li>
-<li> <a href="#upgrading-to-a-major-version">Upgrading to a major version:</a></li>
-</ul></li>
-</ul></li>
+  <li><a href="#kong-implementation-checklist">Kong Implementation Checklist</a>
+    <ul>
+      <li><a href="#postgresql">PostgreSQL</a></li>
+      <li><a href="#cassandra">Cassandra</a></li>
+      <li><a href="#kong-cluster">Kong Cluster</a></li>
+      <li><a href="#production-system-requirements">Production System Requirements</a></li>
+      <li><a href="#high-availability">High Availability</a></li>
+      <li><a href="#scaling-kong">Scaling Kong</a></li>
+      <li><a href="#kong-performance">Kong Performance</a></li>
+      <li><a href="#cassandra-1">Cassandra</a></li>
+      <li><a href="#postgresql-1">PostgreSQL</a></li>
+      <li><a href="#network--firewall">Network &amp; Firewall</a>
+        <ul>
+          <li><a href="#ports">Ports</a></li>
+          <li><a href="#firewall">Firewall</a></li>
+          <li><a href="#network">Network</a></li>
+        </ul>
+      </li>
+      <li><a href="#upgrades-and-deployments">Upgrades and Deployments</a>
+        <ul>
+          <li><a href="#upgrading-to-a-minor-version">Upgrading to a minor version:</a></li>
+          <li><a href="#upgrading-to-a-major-version">Upgrading to a major version:</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -671,50 +671,50 @@ window['_fs_namespace'] = 'FS';
           <h1 id="kong-implementation-checklist">Kong Implementation Checklist</h1>
 
 <ul>
-<li>Kong can run on instances of any size with any resources. While the system requirements vary significantly depending on the use-case, generally speaking, we recommend to start big and then gradually reduce the instances to the appropriate number and size.</li>
-<li>When allocating resources to a Kong cluster, slightly over-provision the cluster to make room for request spikes. Kong requires a database to run and you can choose either Cassandra or PostgreSQL.</li>
+  <li>Kong can run on instances of any size with any resources. While the system requirements vary significantly depending on the use-case, generally speaking, we recommend to start big and then gradually reduce the instances to the appropriate number and size.</li>
+  <li>When allocating resources to a Kong cluster, slightly over-provision the cluster to make room for request spikes. Kong requires a database to run and you can choose either Cassandra or PostgreSQL.</li>
 </ul>
 
-<h3 id="postgresql">PostgreSQL</h3>
+<h2 id="postgresql">PostgreSQL</h2>
 
 <ul>
-<li>Generally speaking, PostgreSQL works well for most of the use-cases, and it’s usually easier to setup. We recommend setting up a master-slave replication with servers located in different racks, data centers or availability zones to account for infrastructure failures.</li>
-<li>In multi-DC environments, PostgreSQL may not be the right fit, since a Kong node located in a different datacenter will have to send write requests all the way to the PostgreSQL data-center, adding increased latency to the system.</li>
+  <li>Generally speaking, PostgreSQL works well for most of the use-cases, and it’s usually easier to setup. We recommend setting up a master-slave replication with servers located in different racks, data centers or availability zones to account for infrastructure failures.</li>
+  <li>In multi-DC environments, PostgreSQL may not be the right fit, since a Kong node located in a different datacenter will have to send write requests all the way to the PostgreSQL data-center, adding increased latency to the system.</li>
 </ul>
 
-<h3 id="cassandra">Cassandra</h3>
+<h2 id="cassandra">Cassandra</h2>
 
 <ul>
-<li>We recommend using Cassandra in multi-DC environments because it supports native replication and availability capabilities of the system. When starting a Cassandra cluster for Kong, we recommend starting at least 3 nodes in every datacenter with a replication setting of 2.</li>
-<li>Cassandra is an eventually consistent datastore, which means that over time the data will be the same across the cluster, so please account for inconsistencies in the system.</li>
+  <li>We recommend using Cassandra in multi-DC environments because it supports native replication and availability capabilities of the system. When starting a Cassandra cluster for Kong, we recommend starting at least 3 nodes in every datacenter with a replication setting of 2.</li>
+  <li>Cassandra is an eventually consistent datastore, which means that over time the data will be the same across the cluster, so please account for inconsistencies in the system.</li>
 </ul>
 
-<h3 id="kong-cluster">Kong Cluster</h3>
+<h2 id="kong-cluster">Kong Cluster</h2>
 
 <ul>
-<li>Regardless of the datastore being adopted with Kong, the Kong nodes themselves need to join in a cluster. The Kong nodes will talk to each other via their connections to the database (PostgreSQL or Cassandra). Please refer to the <a href="/latest/clustering/">clustering reference</a> for more details.</li>
+  <li>Regardless of the datastore being adopted with Kong, the Kong nodes themselves need to join in a cluster. The Kong nodes will talk to each other via their connections to the database (PostgreSQL or Cassandra). Please refer to the <a href="/latest/clustering/">clustering reference</a> for more details.</li>
 </ul>
 
 <h2 id="production-system-requirements">Production System Requirements</h2>
 
 <ul>
-<li>For Kong, prefer CPU optimized instances. We recommend at least 4 CPU cores, 16GB of RAM and 24GB of disk space. Kong performs better on a system with multiple cores. In an AWS environment, we recommend running c4.2xlarge instances in production that guarantee enough cores (8) and memory (16GB).</li>
-<li>For Cassandra and PostgreSQL, prefer memory optimized instances. Assume more intensive workload on the datastore if you are using the rate-limiting or response rate-limiting plugins with a “cluster” policy. Use this only if Redis is not an option.
+  <li>For Kong, prefer CPU optimized instances. We recommend at least 4 CPU cores, 16GB of RAM and 24GB of disk space. Kong performs better on a system with multiple cores. In an AWS environment, we recommend running c4.2xlarge instances in production that guarantee enough cores (8) and memory (16GB).</li>
+  <li>For Cassandra and PostgreSQL, prefer memory optimized instances. Assume more intensive workload on the datastore if you are using the rate-limiting or response rate-limiting plugins with a “cluster” policy. Use this only if Redis is not an option.
 High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow Kong and the datastores to process more incoming requests.</li>
 </ul>
 
 <h2 id="high-availability">High Availability</h2>
 
 <ul>
-<li>Instances with multiple cores are required. Kong, by leveraging the underlying Nginx runtime, will start a worker process for each core. On systems with multiple cores a worker crash will not badly affect the system since the other workers can process the ongoing HTTP requests until the crashed worker is being automatically replaced with a new one.</li>
-<li>At least 2 nodes/instances of Kong, behind a load balancer (Nginx, HAProxy, AWS ELB or similar). This prevents downtime if a Kong node crashes, since the other nodes can process the incoming HTTP requests. The number of instances behind the load balancer should increase with the number of incoming requests, to avoid the scenario when after a node crashes the sudden increase of load to the remaining nodes will effectively DDoS them and make the other nodes crash to</li>
+  <li>Instances with multiple cores are required. Kong, by leveraging the underlying Nginx runtime, will start a worker process for each core. On systems with multiple cores a worker crash will not badly affect the system since the other workers can process the ongoing HTTP requests until the crashed worker is being automatically replaced with a new one.</li>
+  <li>At least 2 nodes/instances of Kong, behind a load balancer (Nginx, HAProxy, AWS ELB or similar). This prevents downtime if a Kong node crashes, since the other nodes can process the incoming HTTP requests. The number of instances behind the load balancer should increase with the number of incoming requests, to avoid the scenario when after a node crashes the sudden increase of load to the remaining nodes will effectively DDoS them and make the other nodes crash to</li>
 </ul>
 
 <h2 id="scaling-kong">Scaling Kong</h2>
 
 <ul>
-<li>Kong is stateless and more nodes can be added behind the load balancer to scale the system. Incoming HTTP/s requests can be processed by any server, and that also includes the Kong’s Admin API.</li>
-<li>Every new Kong node should target the same datastore, and join the existing Kong nodes in a cluster. Failure to join the Kong nodes in a Kong cluster will result in data inconsistencies and errors when processing requests. Kong automates joining a node in the cluster as long as the right configuration settings have been provided. For more information, we recommend reading the <a href="/latest/clustering/">clustering reference</a>.</li>
+  <li>Kong is stateless and more nodes can be added behind the load balancer to scale the system. Incoming HTTP/s requests can be processed by any server, and that also includes the Kong’s Admin API.</li>
+  <li>Every new Kong node should target the same datastore, and join the existing Kong nodes in a cluster. Failure to join the Kong nodes in a Kong cluster will result in data inconsistencies and errors when processing requests. Kong automates joining a node in the cluster as long as the right configuration settings have been provided. For more information, we recommend reading the <a href="/latest/clustering/">clustering reference</a>.</li>
 </ul>
 
 <h2 id="kong-performance">Kong Performance</h2>
@@ -722,35 +722,35 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 <p>The performance of Kong varies depending on multiple factors, including:</p>
 
 <ul>
-<li>Network latency from the client to Kong, and from Kong to the final upstream servers, greatly affects the performance. The faster the network, the better Kong will perform in pretty much every aspect, including system resources.</li>
-<li>Number of incoming HTTP requests and the size of requests and responses that have to be processed.</li>
-<li>Response time from the upstream server. The fastest the upstream servers can process a request, the faster Kong can process the response back to the client and free up resources to handle more incoming requests.</li>
-<li>The number of plugins that are being executed. The more plugins, the more processing time Kong will require when proxying requests.</li>
+  <li>Network latency from the client to Kong, and from Kong to the final upstream servers, greatly affects the performance. The faster the network, the better Kong will perform in pretty much every aspect, including system resources.</li>
+  <li>Number of incoming HTTP requests and the size of requests and responses that have to be processed.</li>
+  <li>Response time from the upstream server. The fastest the upstream servers can process a request, the faster Kong can process the response back to the client and free up resources to handle more incoming requests.</li>
+  <li>The number of plugins that are being executed. The more plugins, the more processing time Kong will require when proxying requests.</li>
 </ul>
 
-<h2 id="cassandra">Cassandra</h2>
+<h2 id="cassandra-1">Cassandra</h2>
 
 <p>We recommend using the NetworkTopologyStrategy with three replicas in each data center to tolerate either the failure of a one node per replication group at a strong consistency level of LOCAL_QUORUM or multiple node failures per data center using consistency level ONE.</p>
 
-<h2 id="postgresql">PostgreSQL</h2>
+<h2 id="postgresql-1">PostgreSQL</h2>
 
 <p>We recommend using a master-slave setup that will guarantee an appropriate replication of data in case of failures.</p>
 
-<h2 id="network-firewall">Network &amp; Firewall</h2>
+<h2 id="network--firewall">Network &amp; Firewall</h2>
 
 <p>In this section, you will find a summary about the recommended network and firewall settings for Kong.</p>
 
 <h3 id="ports">Ports</h3>
 
-<p>These are the port settings in order for Kong to work: </p>
+<p>These are the port settings in order for Kong to work:</p>
 
 <ul>
-<li>Allow HTTP traffic to <a href="/latest/configuration/#proxy_listen">proxy_listen</a>. By default  8000. </li>
-<li>Allow HTTPS traffic to <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. By default 8443.</li>
-<li>Allow HTTP traffic to <a href="/latest/configuration/#admin_listen">admin_listen</a>. By default 8001.</li>
-<li>Allow HTTPS traffic to <a href="/latest/configuration/#admin_listen_ssl">admin_listen_ssl</a>. By default 8444.</li>
-<li>Allow HTTP traffic to admin_gui_listen. By default 8002.</li>
-<li>Allow HTTPS traffic to admin_gui_listen_ssl. By default 8445.</li>
+  <li>Allow HTTP traffic to <a href="/latest/configuration/#proxy_listen">proxy_listen</a>. By default  8000.</li>
+  <li>Allow HTTPS traffic to <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. By default 8443.</li>
+  <li>Allow HTTP traffic to <a href="/latest/configuration/#admin_listen">admin_listen</a>. By default 8001.</li>
+  <li>Allow HTTPS traffic to <a href="/latest/configuration/#admin_listen_ssl">admin_listen_ssl</a>. By default 8444.</li>
+  <li>Allow HTTP traffic to admin_gui_listen. By default 8002.</li>
+  <li>Allow HTTPS traffic to admin_gui_listen_ssl. By default 8445.</li>
 </ul>
 
 <h3 id="firewall">Firewall</h3>
@@ -758,15 +758,15 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 <p>Below are the recommended firewall settings:</p>
 
 <ul>
-<li>The upstream APIs behind Kong will be available on <a href="/latest/configuration/#proxy_listen">proxy_listen</a> and <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
-<li>Protect <a href="/latest/configuration/#admin_listen">admin_listen</a>, and only allow trusted sources that can access the Admin API.</li>
+  <li>The upstream APIs behind Kong will be available on <a href="/latest/configuration/#proxy_listen">proxy_listen</a> and <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
+  <li>Protect <a href="/latest/configuration/#admin_listen">admin_listen</a>, and only allow trusted sources that can access the Admin API.</li>
 </ul>
 
 <h3 id="network">Network</h3>
 
 <ul>
-<li>Kong assumes a flat network topology in multi-datacenter setups. If you have a multi-datacenter setup, Kong nodes between the datacenters should communicate over a VPN connection.</li>
-<li>Kong will try to auto-detect the node’s first, non-loopback, IPv4 address and advertise this address to other Kong nodes. Sometimes this is not enough and the IP address needs to be manually set, you can do that by changing the advertise property in the cluster configuration.</li>
+  <li>Kong assumes a flat network topology in multi-datacenter setups. If you have a multi-datacenter setup, Kong nodes between the datacenters should communicate over a VPN connection.</li>
+  <li>Kong will try to auto-detect the node’s first, non-loopback, IPv4 address and advertise this address to other Kong nodes. Sometimes this is not enough and the IP address needs to be manually set, you can do that by changing the advertise property in the cluster configuration.</li>
 </ul>
 
 <h2 id="upgrades-and-deployments">Upgrades and Deployments</h2>
@@ -776,8 +776,8 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 <p>Kong provides two different ways of upgrading the software depending if you are upgrading between major versions (0.a.x, 0.b.x) or minor versions (0.x.a, 0.x.b):</p>
 
 <ul>
-<li>Major versions in a pre-1.0 release are, for example, v0.7.x, v0.8.x, v0.9.x, etc.</li>
-<li>Minor versions in a pre-1.0 phase are v0.7.1, v0.7.2 considering a 0.7.x baseline version,
+  <li>Major versions in a pre-1.0 release are, for example, v0.7.x, v0.8.x, v0.9.x, etc.</li>
+  <li>Minor versions in a pre-1.0 phase are v0.7.1, v0.7.2 considering a 0.7.x baseline version,
 or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
 </ul>
 
@@ -785,10 +785,12 @@ or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
 
 <h3 id="upgrading-to-a-minor-version">Upgrading to a minor version:</h3>
 
-<p>Upgrading to a minor version of the same baseline can be done easily (for example from v0.9.1 to v0.9.2) can be done by installing the newer version on the fly in the same node (and executing “kong restart” or “kong reload” to load the new version), or by a classic blue/green deployment strategy:
-1. Start a new cluster with the new version, and with the same number of nodes, pointing to the same datastore.
-2. Instructing the load balancer to point new traffic to the new cluster.
-3. Terminating the old cluster.</p>
+<p>Upgrading to a minor version of the same baseline can be done easily (for example from v0.9.1 to v0.9.2) can be done by installing the newer version on the fly in the same node (and executing “kong restart” or “kong reload” to load the new version), or by a classic blue/green deployment strategy:</p>
+<ol>
+  <li>Start a new cluster with the new version, and with the same number of nodes, pointing to the same datastore.</li>
+  <li>Instructing the load balancer to point new traffic to the new cluster.</li>
+  <li>Terminating the old cluster.</li>
+</ol>
 
 <p>This process can be done without any down-time.</p>
 
@@ -801,15 +803,16 @@ or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
 <p>Kong can keep processing existing consumers even if the datastore is down, since it caches the used datastore entities in memory. To upgrade between major versions:</p>
 
 <ol>
-<li>Disconnect the datastore from the current Kong cluster by setting up the appropriate firewall setting or updating the appropriate security group. </li>
-<li>Kong will now rely on its internal cache to serve existing requests.</li>
-<li>Create a node in a new Kong cluster and run &quot;kong migrations up&quot; to process migrations. Once the node has completed the migration, start it with &quot;kong start&quot;. Confirm that it can process requests and configuration changes (creating and deleting a test API will suffice to confirm Kong can communicate with the datastore).</li>
-<li>Start additional nodes in the new cluster until its node count matches the old cluster size.</li>
-<li>Once the new cluster is running and able to process requests, configure your load balancer to direct new traffic to the new cluster.</li>
-<li>Terminate the old cluster.</li>
+  <li>Disconnect the datastore from the current Kong cluster by setting up the appropriate firewall setting or updating the appropriate security group.</li>
+  <li>Kong will now rely on its internal cache to serve existing requests.</li>
+  <li>Create a node in a new Kong cluster and run “kong migrations up” to process migrations. Once the node has completed the migration, start it with “kong start”. Confirm that it can process requests and configuration changes (creating and deleting a test API will suffice to confirm Kong can communicate with the datastore).</li>
+  <li>Start additional nodes in the new cluster until its node count matches the old cluster size.</li>
+  <li>Once the new cluster is running and able to process requests, configure your load balancer to direct new traffic to the new cluster.</li>
+  <li>Terminate the old cluster.</li>
 </ol>
 
 <p>Upgrades between major versions need to be planned in advance as they involve downtime for new consumers that have not been cached in memory yet, and because the Admin API won’t be available on the old cluster for the entire process.</p>
+
 
 
         </div>
@@ -966,7 +969,7 @@ or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

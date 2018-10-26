@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -756,7 +756,8 @@ window['_fs_namespace'] = 'FS';
           <p>The default behavior for Kong authentication plugins is to require credentials for all requests without regard for whether a request has been authenticated via some other plugin. Configuring an anonymous consumer on your authentication plugins allows you to offer clients multiple options for authentication.</p>
 
 <p>To begin, <a href="/latest/getting-started/adding-your-api/">create an API</a> and then create three consumers:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     --data <span class="s1">'{"username": "anonymous"}'</span>
 
@@ -773,11 +774,14 @@ window['_fs_namespace'] = 'FS';
     --data <span class="s1">'{"username": "ezhik"}'</span>
 
 <span class="o">{</span><span class="s2">"created_at"</span>:1517528266000,<span class="s2">"username"</span>:<span class="s2">"ezhik"</span>,<span class="s2">"id"</span>:<span class="s2">"47e74a17-dc08-4786-a8cf-d8e4f38a5459"</span><span class="o">}</span>
-</code></pre></div>
-<p>The <code>anonymous</code> consumer does not correspond to any real user, and will only serve as a fallback.</p>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">anonymous</code> consumer does not correspond to any real user, and will only serve as a fallback.</p>
 
 <p>Next, we add both Key Auth and Basic Auth plugins to our consumer, and set the anonymous fallback to the consumer we created earlier.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/apis/example-api/plugins/ <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sX POST kong-admin:8001/apis/example-api/plugins/ <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     --data <span class="s1">'{"name": "key-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }'</span>
 
@@ -788,20 +792,26 @@ window['_fs_namespace'] = 'FS';
     --data <span class="s1">'{"name": "basic-auth", "config": { "hide_credentials": true, "anonymous": "d955c0cb-1a6e-4152-9440-414ebb8fee8a"} }'</span>
 
 <span class="o">{</span><span class="s2">"created_at"</span>:1517528499000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"hide_credentials"</span>:true,<span class="s2">"anonymous"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span><span class="o">}</span>,<span class="s2">"id"</span>:<span class="s2">"e5a40543-debe-4225-a879-a54901368e6d"</span>,<span class="s2">"name"</span>:<span class="s2">"basic-auth"</span>,<span class="s2">"api_id"</span>:<span class="s2">"a2a168a8-4491-4fe1-9426-cde3b5fcd45b"</span>,<span class="s2">"enabled"</span>:true<span class="o">}</span>
-</code></pre></div>
-<p>If using <a href="/enterprise/latest/plugins/openid-connect">OpenID Connect</a>, you must also set <code>config.consumer_claim</code> along with <code>anonymous</code>, as setting <code>anonymous</code> alone will not map that consumer.</p>
+</code></pre>
+</div>
+
+<p>If using <a href="/enterprise/latest/plugins/openid-connect">OpenID Connect</a>, you must also set <code class="highlighter-rouge">config.consumer_claim</code> along with <code class="highlighter-rouge">anonymous</code>, as setting <code class="highlighter-rouge">anonymous</code> alone will not map that consumer.</p>
 
 <p>At this point unauthenticated requests and requests with invalid credentials are still allowed. The anonymous consumer is allowed, and will be applied to any request that does not pass a set of credentials associated with some other consumer.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -s example.com:8000/user-agent
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -s example.com:8000/user-agent
 
 <span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
 
 <span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>nonsense
 
 <span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
-</code></pre></div>
-<p>We&#39;ll now add a Key Auth credential for one consumer, and a Basic Auth credential for another.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/medvezhonok/basic-auth <span class="se">\</span>
+</code></pre>
+</div>
+
+<p>We’ll now add a Key Auth credential for one consumer, and a Basic Auth credential for another.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/medvezhonok/basic-auth <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     --data <span class="s1">'{"username": "medvezhonok", "password": "hunter2"}'</span>
 
@@ -813,16 +823,22 @@ window['_fs_namespace'] = 'FS';
 
 <span class="o">{</span><span class="s2">"id"</span>:<span class="s2">"06412d6e-8d41-47f7-a911-3c821ec98f1b"</span>,<span class="s2">"created_at"</span>:1517528730000,<span class="s2">"key"</span>:<span class="s2">"hunter3"</span>,<span class="s2">"consumer_id"</span>:<span class="s2">"47e74a17-dc08-4786-a8cf-d8e4f38a5459"</span><span class="o">}</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Lastly, we add a Request Terminator to the anonymous consumer.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/d955c0cb-1a6e-4152-9440-414ebb8fee8a/plugins/ <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers/d955c0cb-1a6e-4152-9440-414ebb8fee8a/plugins/ <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     --data <span class="s1">'{"name": "request-termination", "config": { "status_code": 401, "content_type": "application/json; charset=utf-8", "body": "{\"error\": \"Authentication required\"}"} }'</span>
 
 <span class="o">{</span><span class="s2">"created_at"</span>:1517528791000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"status_code"</span>:401,<span class="s2">"content_type"</span>:<span class="s2">"application</span><span class="se">\/</span><span class="s2">json; charset=utf-8"</span>,<span class="s2">"body"</span>:<span class="s2">"{</span><span class="se">\"</span><span class="s2">error</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">Authentication required</span><span class="se">\"</span><span class="s2">}"</span><span class="o">}</span>,<span class="s2">"id"</span>:<span class="s2">"21fc5f6f-363f-4d79-b533-ce26d4478879"</span>,<span class="s2">"name"</span>:<span class="s2">"request-termination"</span>,<span class="s2">"enabled"</span>:true,<span class="s2">"consumer_id"</span>:<span class="s2">"d955c0cb-1a6e-4152-9440-414ebb8fee8a"</span><span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Requests with missing or invalid credentials are now rejected, whereas authorized requests using either authentication method are allowed.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>nonsense
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -s example.com:8000/user-agent?apikey<span class="o">=</span>nonsense
 
 <span class="o">{</span><span class="s2">"error"</span>: <span class="s2">"Authentication required"</span><span class="o">}</span>
 
@@ -837,7 +853,9 @@ window['_fs_namespace'] = 'FS';
 <span class="gp">$ </span>curl -s example.com:8000/user-agent -u medvezhonok:hunter2
 
 <span class="o">{</span><span class="s2">"user-agent"</span>: <span class="s2">"curl/7.58.0"</span><span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 
         </div>
       </div>
@@ -993,7 +1011,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

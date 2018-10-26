@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,84 +991,92 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-service-response">kong.service.response</a>
-
-<ul>
-<li> <a href="#kong-service-response-get_status">kong.service.response.get_status()</a></li>
-<li> <a href="#kong-service-response-get_headers-max_headers">kong.service.response.get_headers([max_headers])</a></li>
-<li> <a href="#kong-service-response-get_header-name">kong.service.response.get_header(name)</a></li>
-</ul></li>
+  <li><a href="#kongserviceresponse">kong.service.response</a>
+    <ul>
+      <li><a href="#kongserviceresponseget_status">kong.service.response.get_status()</a></li>
+      <li><a href="#kongserviceresponseget_headersmax_headers">kong.service.response.get_headers([max_headers])</a></li>
+      <li><a href="#kongserviceresponseget_headername">kong.service.response.get_header(name)</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-service-response">kong.service.response</h1>
+          <h1 id="kongserviceresponse">kong.service.response</h1>
 
 <p>Manipulation of the response from the Service</p>
 
-<h2 id="kong-service-response-get_status">kong.service.response.get_status()</h2>
+<h2 id="kongserviceresponseget_status">kong.service.response.get_status()</h2>
 
 <p>Returns the HTTP status code of the response from the Service as a Lua number.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li><code>header_filter</code>, <code>body_filter</code>, <code>log</code></li>
+  <li><code class="highlighter-rouge">header_filter</code>, <code class="highlighter-rouge">body_filter</code>, <code class="highlighter-rouge">log</code></li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number|nil</code>  the status code from the response from the Service, or <code>nil</code>
-if the request was not proxied (i.e. <code>kong.service.get_source()</code> returned
-anything other than <code>&quot;service&quot;</code>.</li>
+  <li><code class="highlighter-rouge">number|nil</code>  the status code from the response from the Service, or <code class="highlighter-rouge">nil</code>
+ if the request was not proxied (i.e. <code class="highlighter-rouge">kong.service.get_source()</code> returned
+ anything other than <code class="highlighter-rouge">"service"</code>.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_status</span><span class="p">())</span> <span class="c1">-- 418</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_status</span><span class="p">())</span> <span class="c1">-- 418</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-service-response-get_headers-max_headers">kong.service.response.get_headers([max_headers])</h2>
+<h2 id="kongserviceresponseget_headersmax_headers">kong.service.response.get_headers([max_headers])</h2>
 
 <p>Returns a Lua table holding the headers from the response from the Service.  Keys are
  header names. Values are either a string with the header value, or an array of
  strings if a header was sent multiple times. Header names in this table are
- case-insensitive and dashes (<code>-</code>) can be written as underscores (<code>_</code>); that is,
- the header <code>X-Custom-Header</code> can also be retrieved as <code>x_custom_header</code>.</p>
+ case-insensitive and dashes (<code class="highlighter-rouge">-</code>) can be written as underscores (<code class="highlighter-rouge">_</code>); that is,
+ the header <code class="highlighter-rouge">X-Custom-Header</code> can also be retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
-<p>Unlike <code>kong.response.get_headers()</code>, this function will only return headers that
+<p>Unlike <code class="highlighter-rouge">kong.response.get_headers()</code>, this function will only return headers that
  were present in the response from the Service (ignoring headers added by Kong itself).
  If the request was not proxied to a Service (e.g. an authentication plugin rejected
- a request and produced an HTTP 401 response), then the returned <code>headers</code> value
- might be <code>nil</code>, since no response from the Service has been received.</p>
+ a request and produced an HTTP 401 response), then the returned <code class="highlighter-rouge">headers</code> value
+ might be <code class="highlighter-rouge">nil</code>, since no response from the Service has been received.</p>
 
 <p>By default, this function returns up to <strong>100</strong> headers. The optional
- <code>max_headers</code> argument can be specified to customize this limit, but must be
+ <code class="highlighter-rouge">max_headers</code> argument can be specified to customize this limit, but must be
  greater than <strong>1</strong> and not greater than <strong>1000</strong>.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li><code>header_filter</code>, <code>body_filter</code>, <code>log</code></li>
+  <li><code class="highlighter-rouge">header_filter</code>, <code class="highlighter-rouge">body_filter</code>, <code class="highlighter-rouge">log</code></li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>max_headers</strong> (number, <em>optional</em>):  customize the headers to parse</li>
+  <li><strong>max_headers</strong> (number, <em>optional</em>):  customize the headers to parse</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ol>
-<li><p><code>table</code> the response headers in table form</p></li>
-<li><p><code>string</code> err If more headers than <code>max_headers</code> were present, a
-string with the error <code>&quot;truncated&quot;</code>.</p></li>
+  <li>
+    <p><code class="highlighter-rouge">table</code> the response headers in table form</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">string</code> err If more headers than <code class="highlighter-rouge">max_headers</code> were present, a
+ string with the error <code class="highlighter-rouge">"truncated"</code>.</p>
+  </li>
 </ol>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a response with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a response with the following headers:</span>
 <span class="c1">-- X-Custom-Header: bla</span>
 <span class="c1">-- X-Another: foo bar</span>
 <span class="c1">-- X-Another: baz</span>
@@ -1078,52 +1086,58 @@ string with the error <code>&quot;truncated&quot;</code>.</p></li>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">headers</span><span class="p">.</span><span class="n">x_another</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>    <span class="c1">-- "foo bar"</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="s2">"X-Another"</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span> <span class="c1">-- "baz"</span>
 <span class="k">end</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-service-response-get_header-name">kong.service.response.get_header(name)</h2>
+<h2 id="kongserviceresponseget_headername">kong.service.response.get_header(name)</h2>
 
 <p>Returns the value of the specified response header.</p>
 
-<p>Unlike <code>kong.response.get_header()</code>, this function will only return a header
+<p>Unlike <code class="highlighter-rouge">kong.response.get_header()</code>, this function will only return a header
  if it was present in the response from the Service (ignoring headers added by Kong
  itself).</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li><code>header_filter</code>, <code>body_filter</code>, <code>log</code></li>
+  <li><code class="highlighter-rouge">header_filter</code>, <code class="highlighter-rouge">body_filter</code>, <code class="highlighter-rouge">log</code></li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  The name of the header.</li>
+  <li><strong>name</strong> (string):  The name of the header.</li>
 </ul>
 
 <p>Header names in are case-insensitive and are normalized to lowercase, and
- dashes (<code>-</code>) can be written as underscores (<code>_</code>); that is, the header
- <code>X-Custom-Header</code> can also be retrieved as <code>x_custom_header</code>.</p>
+ dashes (<code class="highlighter-rouge">-</code>) can be written as underscores (<code class="highlighter-rouge">_</code>); that is, the header
+ <code class="highlighter-rouge">X-Custom-Header</code> can also be retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string|nil</code>  The value of the header, or <code>nil</code> if a header with
-<code>name</code> was not found in the response. If a header with the same name is present
-multiple times in the response, this function will return the value of the
-first occurrence of this header.</li>
+  <li><code class="highlighter-rouge">string|nil</code>  The value of the header, or <code class="highlighter-rouge">nil</code> if a header with
+ <code class="highlighter-rouge">name</code> was not found in the response. If a header with the same name is present
+ multiple times in the response, this function will return the value of the
+ first occurrence of this header.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a response with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a response with the following headers:</span>
 <span class="c1">-- X-Custom-Header: bla</span>
 <span class="c1">-- X-Another: foo bar</span>
 <span class="c1">-- X-Another: baz</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-header"</span><span class="p">))</span> <span class="c1">-- "bla"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"X-Another"</span><span class="p">))</span>       <span class="c1">-- "foo bar"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1298,7 +1312,7 @@ first occurrence of this header.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

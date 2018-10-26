@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -267,20 +267,20 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#usage">Usage</a></li>
-<li> <a href="#determining-where-to-route-a-request">Determining where to route a request</a></li>
-<li> <a href="#finalizing-the-canary">Finalizing the canary</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#determining-where-to-route-a-request">Determining where to route a request</a></li>
+      <li><a href="#finalizing-the-canary">Finalizing the canary</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -436,7 +436,7 @@ window['_fs_namespace'] = 'FS';
       <p>Reduce the risk of introducing a new software version in production by slowly rolling out the change to a small subset of users. This plugin also enables roll back to your original upstream service, or shift all traffic to the new version.</p>
 
 <ul>
-<li><a href="/enterprise/latest/plugins/canary-release/">Detailed documentation for the EE Canary Release Plugin</a></li>
+  <li><a href="/enterprise/latest/plugins/canary-release/">Detailed documentation for the EE Canary Release Plugin</a></li>
 </ul>
 
 
@@ -468,54 +468,68 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=canary"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=canary"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=canary"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -523,12 +537,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=canary"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -546,7 +563,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -574,7 +592,7 @@ target.</li>
         </td>
         <td><p>consumer</p>
 </td>
-        <td><p>Entity to be used for hashing. Options: consumer, ip, or none. Please make sure when not using none, to properly set the settings for <code>trusted_ips</code> (see settings <code>trusted_ips</code> and <code>real_ip_header</code> in the Kong config file)</p>
+        <td><p>Entity to be used for hashing. Options: consumer, ip, or none. Please make sure when not using none, to properly set the settings for <code class="highlighter-rouge">trusted_ips</code> (see settings <code class="highlighter-rouge">trusted_ips</code> and <code class="highlighter-rouge">real_ip_header</code> in the Kong config file)</p>
 </td>
       </tr>
     
@@ -586,28 +604,29 @@ target.</li>
 
       
 
+
       <h3 id="usage">Usage</h3>
 
-<p>The plugin will route traffic to 2 different upstream services, referred to as A and B. The location of service A will be defined by the <code>upstream_url</code> property of the api the plugin is configured on. The location of service B is defined by the <code>config.upstream_host</code> or <code>config.upstream_uri</code> as configured on the plugin.</p>
+<p>The plugin will route traffic to 2 different upstream services, referred to as A and B. The location of service A will be defined by the <code class="highlighter-rouge">upstream_url</code> property of the api the plugin is configured on. The location of service B is defined by the <code class="highlighter-rouge">config.upstream_host</code> or <code class="highlighter-rouge">config.upstream_uri</code> as configured on the plugin.</p>
 
 <p>There are 2 modes of operation:</p>
 
 <ol>
-<li>Set a fixed percentage to be routed to destination B. See parameter <code>config.percentage</code>.</li>
-<li>Set a period over which (in linear time) the traffic will be moved over from destination A to B. See parameters <code>config.start</code> and <code>config.duration</code>.</li>
+  <li>Set a fixed percentage to be routed to destination B. See parameter <code class="highlighter-rouge">config.percentage</code>.</li>
+  <li>Set a period over which (in linear time) the traffic will be moved over from destination A to B. See parameters <code class="highlighter-rouge">config.start</code> and <code class="highlighter-rouge">config.duration</code>.</li>
 </ol>
 
 <h3 id="determining-where-to-route-a-request">Determining where to route a request</h3>
 
-<p>The plugin defines a number of &quot;buckets&quot; (<code>config.steps</code>). Each of those can be routed to either A or B. For example: 100 steps, and <code>percentage</code> at 10%. Then 100 buckets will be created, of which 10 will be routed to upstream B, and 90 will remain at A.</p>
+<p>The plugin defines a number of “buckets” (<code class="highlighter-rouge">config.steps</code>). Each of those can be routed to either A or B. For example: 100 steps, and <code class="highlighter-rouge">percentage</code> at 10%. Then 100 buckets will be created, of which 10 will be routed to upstream B, and 90 will remain at A.</p>
 
-<p>Which requests end up in a specific bucket is determined by the <code>config.hash</code> parameter. When set to consumer then it is made sure that each consumer will consistently end up in the same bucket. The effect being that once a bucket a consumer belongs to is switched to B, it will then always go to B, and a <code>consumer</code> will not &quot;flip-flop&quot; between A and B. Alternatively if it is set to <code>ip</code> then the same concept applies, but based on the originating ip address.</p>
+<p>Which requests end up in a specific bucket is determined by the <code class="highlighter-rouge">config.hash</code> parameter. When set to consumer then it is made sure that each consumer will consistently end up in the same bucket. The effect being that once a bucket a consumer belongs to is switched to B, it will then always go to B, and a <code class="highlighter-rouge">consumer</code> will not “flip-flop” between A and B. Alternatively if it is set to <code class="highlighter-rouge">ip</code> then the same concept applies, but based on the originating ip address.</p>
 
-<p>The downside of <code>consumer</code> and <code>ip</code> is that if any specific consumer or ip is responsible for a more than average part of the load, the migration is not nicely distributed. Eg. with percentage set to 50%, then 50% of either the consumers or ips are rerouted, but not necessarily 50% of the requests.</p>
+<p>The downside of <code class="highlighter-rouge">consumer</code> and <code class="highlighter-rouge">ip</code> is that if any specific consumer or ip is responsible for a more than average part of the load, the migration is not nicely distributed. Eg. with percentage set to 50%, then 50% of either the consumers or ips are rerouted, but not necessarily 50% of the requests.</p>
 
-<p>When set to <code>none</code> then the requests will be nicely distributed, each bucket will get the same number of requests, but in this case a consumer or ip might be flip-flopping between destination A and B on consecutive requests.</p>
+<p>When set to <code class="highlighter-rouge">none</code> then the requests will be nicely distributed, each bucket will get the same number of requests, but in this case a consumer or ip might be flip-flopping between destination A and B on consecutive requests.</p>
 
-<p>In any case there is an automatic fallback in case a consumer or ip could not be identified for some reason. The fall-back order will be <code>consumer</code>-&gt;<code>ip</code>-&gt;<code>none</code>.</p>
+<p>In any case there is an automatic fallback in case a consumer or ip could not be identified for some reason. The fall-back order will be <code class="highlighter-rouge">consumer</code>-&gt;<code class="highlighter-rouge">ip</code>-&gt;<code class="highlighter-rouge">none</code>.</p>
 
 <h3 id="finalizing-the-canary">Finalizing the canary</h3>
 
@@ -616,8 +635,8 @@ target.</li>
 <p>This takes 2 steps:</p>
 
 <ol>
-<li>Update location A to point to location B. This can be done by a PATCH request on the API where the <code>upstream_url</code> property is updated to the url as specified by <code>config.upstream_host</code> or <code>config.upstream_uri</code> (or location B).</li>
-<li>Since now the location A and B are the same, the canary plugin can now be removed from the system with a <code>DELETE</code> request.</li>
+  <li>Update location A to point to location B. This can be done by a PATCH request on the API where the <code class="highlighter-rouge">upstream_url</code> property is updated to the url as specified by <code class="highlighter-rouge">config.upstream_host</code> or <code class="highlighter-rouge">config.upstream_uri</code> (or location B).</li>
+  <li>Since now the location A and B are the same, the canary plugin can now be removed from the system with a <code class="highlighter-rouge">DELETE</code> request.</li>
 </ol>
 
 <p>If the canary was not complete yet, then executing those steps prematurely, will instantly switch 100% of traffic to the new location (B).</p>
@@ -786,7 +805,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

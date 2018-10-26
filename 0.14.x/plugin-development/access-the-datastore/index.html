@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,16 +991,16 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#kong-db-and-kong-dao">kong.db and kong.dao</a></li>
-<li> <a href="#the-dao-lua-api">The DAO Lua API</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#kongdb-and-kongdao">kong.db and kong.dao</a></li>
+  <li><a href="#the-dao-lua-api">The DAO Lua API</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Kong interacts with the model layer through classes we refer to as &quot;DAOs&quot;. This
+<p>Kong interacts with the model layer through classes we refer to as “DAOs”. This
 chapter will detail the available API to interact with the datastore.</p>
 
 <p>Kong supports two primary datastores: <a href="http://cassandra.apache.org/">Cassandra
@@ -1013,41 +1013,43 @@ and <a href="http://www.postgresql.org/">PostgreSQL
   the DAO abstraction layer called `kong.db`, which will gradually
   replace `kong.dao`
 </div>
+<hr />
 
-<hr>
-
-<h2 id="kong-db-and-kong-dao">kong.db and kong.dao</h2>
+<h2 id="kongdb-and-kongdao">kong.db and kong.dao</h2>
 
 <p>All entities in Kong are represented by:</p>
 
 <ul>
-<li>A schema that describes which table the entity relates to in the datastore,
-constraints on its fields such as foreign keys, non-null constraints etc...
+  <li>A schema that describes which table the entity relates to in the datastore,
+constraints on its fields such as foreign keys, non-null constraints etc…
 This schema is a table described in the <a href="/0.14.x/plugin-development/plugin-configuration/">plugin
 configuration</a> chapter.</li>
-<li>An instance of the <code>DAO</code> class mapping to the database currently in use
-(Cassandra or PostgreSQL). This class&#39; methods consume the schema and expose
+  <li>An instance of the <code class="highlighter-rouge">DAO</code> class mapping to the database currently in use
+(Cassandra or PostgreSQL). This class’ methods consume the schema and expose
 methods to insert, update, find and delete entities of that type.</li>
 </ul>
 
 <p>The core entities in Kong are: Services, Routes, Consumers and Plugins.
-Services, Routes, and Consumers are available through the new <code>kong.db</code>
-singleton. The rest of the entities are available through <code>kong.dao</code>. In the
-future, all entities will be gradually migrated to <code>kong.db</code>, including custom
-plugins entities (currently relying on <code>kong.dao</code>).</p>
+Services, Routes, and Consumers are available through the new <code class="highlighter-rouge">kong.db</code>
+singleton. The rest of the entities are available through <code class="highlighter-rouge">kong.dao</code>. In the
+future, all entities will be gradually migrated to <code class="highlighter-rouge">kong.db</code>, including custom
+plugins entities (currently relying on <code class="highlighter-rouge">kong.dao</code>).</p>
 
-<p>Both the DAO Factory and the new <code>db</code> interface are singleton instances in Kong
-and thus, are accessible through the <code>kong</code> global:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Core DAOs</span>
+<p>Both the DAO Factory and the new <code class="highlighter-rouge">db</code> interface are singleton instances in Kong
+and thus, are accessible through the <code class="highlighter-rouge">kong</code> global:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Core DAOs</span>
 <span class="kd">local</span> <span class="n">services_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span>
 <span class="kd">local</span> <span class="n">routes_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">routes</span>
 <span class="kd">local</span> <span class="n">consumers_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span>
 <span class="kd">local</span> <span class="n">plugins_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">plugins</span>
-</code></pre></div>
-<p>The <code>kong</code> global exposes the <a href="/0.14.x/pdk">Plugin Development Kit</a>, and its <code>kong.dao</code> and
-<code>kong.db</code> properties are instances of the DAO and DB singletons.</p>
+</code></pre>
+</div>
 
-<hr>
+<p>The <code class="highlighter-rouge">kong</code> global exposes the <a href="/0.14.x/pdk">Plugin Development Kit</a>, and its <code class="highlighter-rouge">kong.dao</code> and
+<code class="highlighter-rouge">kong.db</code> properties are instances of the DAO and DB singletons.</p>
+
+<hr />
 
 <h2 id="the-dao-lua-api">The DAO Lua API</h2>
 
@@ -1056,9 +1058,10 @@ the datastore, generally mapping to an entity in Kong. All the underlying
 supported databases (currently Cassandra and PostgreSQL) comply to the same
 interface, thus making the DAO compatible with all of them.</p>
 
-<p>For example, inserting a Service (with <code>kong.db</code>) and a Plugin (with
-<code>kong.dao</code>) is as easy as:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">inserted_service</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
+<p>For example, inserting a Service (with <code class="highlighter-rouge">kong.db</code>) and a Plugin (with
+<code class="highlighter-rouge">kong.dao</code>) is as easy as:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">inserted_service</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">"mockbin"</span><span class="p">,</span>
   <span class="n">url</span> <span class="o">=</span> <span class="s2">"http://mockbin.org"</span>
 <span class="p">})</span>
@@ -1067,13 +1070,16 @@ interface, thus making the DAO compatible with all of them.</p>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">"key-auth"</span><span class="p">,</span>
   <span class="n">service_id</span> <span class="o">=</span> <span class="n">inserted_service</span><span class="p">.</span><span class="n">id</span>
 <span class="p">})</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>For a real-life example of the DAO being used in a plugin, see the
 <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/handler.lua">Key-Auth plugin source code</a>.</p>
 
-<hr>
+<hr />
 
-<p>Next: <a href="/0.14.x/plugin-development/custom-entities/">Custom Entities &rsaquo;</a></p>
+<p>Next: <a href="/0.14.x/plugin-development/custom-entities/">Custom Entities ›</a></p>
+
 
 
         </div>
@@ -1248,7 +1254,7 @@ interface, thus making the DAO compatible with all of them.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,189 +991,218 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-log">kong.log</a>
-
-<ul>
-<li> <a href="#kong-log">kong.log(...)</a>
-
-<ul>
-<li> <a href="#kong-log-level">kong.log.LEVEL(...)</a></li>
-<li> <a href="#kong-log-inspect">kong.log.inspect(...)</a></li>
-<li> <a href="#kong-log-inspect-on">kong.log.inspect.on()</a></li>
-<li> <a href="#kong-log-inspect-off">kong.log.inspect.off()</a></li>
-</ul></li>
-</ul></li>
+  <li><a href="#konglog">kong.log</a>
+    <ul>
+      <li><a href="#konglog-1">kong.log(…)</a>
+        <ul>
+          <li><a href="#kongloglevel">kong.log.LEVEL(…)</a></li>
+          <li><a href="#kongloginspect">kong.log.inspect(…)</a></li>
+          <li><a href="#kongloginspecton">kong.log.inspect.on()</a></li>
+          <li><a href="#kongloginspectoff">kong.log.inspect.off()</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-log">kong.log</h1>
+          <h1 id="konglog">kong.log</h1>
 
-<p>This namespace contains an instance of a &quot;logging facility&quot;, which is a
+<p>This namespace contains an instance of a “logging facility”, which is a
  table containing all of the methods described below.</p>
 
 <p>This instance is namespaced per plugin, and Kong will make sure that before
  executing a plugin, it will swap this instance with a logging facility
  dedicated to the plugin. This allows the logs to be prefixed with the
- plugin&#39;s name for debugging purposes.</p>
+ plugin’s name for debugging purposes.</p>
 
-<h2 id="kong-log">kong.log(...)</h2>
+<h2 id="konglog-1">kong.log(…)</h2>
 
 <p>Write a log line to the location specified by the current Nginx
- configuration block&#39;s <code>error_log</code> directive, with the <code>notice</code> level (similar
- to <code>print()</code>).</p>
+ configuration block’s <code class="highlighter-rouge">error_log</code> directive, with the <code class="highlighter-rouge">notice</code> level (similar
+ to <code class="highlighter-rouge">print()</code>).</p>
 
-<p>The Nginx <code>error_log</code> directive is set via the <code>log_level</code>, <code>proxy_error_log</code>
- and <code>admin_error_log</code> Kong configuration properties.</p>
+<p>The Nginx <code class="highlighter-rouge">error_log</code> directive is set via the <code class="highlighter-rouge">log_level</code>, <code class="highlighter-rouge">proxy_error_log</code>
+ and <code class="highlighter-rouge">admin_error_log</code> Kong configuration properties.</p>
 
 <p>Arguments given to this function will be concatenated similarly to
- <code>ngx.log()</code>, and the log line will report the Lua file and line number from
- which it was invoked. Unlike <code>ngx.log()</code>, this function will prefix error
- messages with <code>[kong]</code> instead of <code>[lua]</code>.</p>
+ <code class="highlighter-rouge">ngx.log()</code>, and the log line will report the Lua file and line number from
+ which it was invoked. Unlike <code class="highlighter-rouge">ngx.log()</code>, this function will prefix error
+ messages with <code class="highlighter-rouge">[kong]</code> instead of <code class="highlighter-rouge">[lua]</code>.</p>
 
 <p>Arguments given to this function can be of any type, but table arguments
- will be converted to strings via <code>tostring</code> (thus potentially calling a
- table&#39;s <code>__tostring</code> metamethod if set). This behavior differs from
- <code>ngx.log()</code> (which only accepts table arguments if they define the
- <code>__tostring</code> metamethod) with the intent to simplify its usage and be more
+ will be converted to strings via <code class="highlighter-rouge">tostring</code> (thus potentially calling a
+ table’s <code class="highlighter-rouge">__tostring</code> metamethod if set). This behavior differs from
+ <code class="highlighter-rouge">ngx.log()</code> (which only accepts table arguments if they define the
+ <code class="highlighter-rouge">__tostring</code> metamethod) with the intent to simplify its usage and be more
  forgiving and intuitive.</p>
 
 <p>Produced log lines have the following format when logging is invoked from
  within the core:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> [kong] %file_src:%line_src %message
-</code></pre></div>
+
+<pre><code class="language-plain"> [kong] %file_src:%line_src %message
+</code></pre>
+
 <p>In comparison, log lines produced by plugins have the following format:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> [kong] %file_src:%line_src [%namespace] %message
-</code></pre></div>
+
+<pre><code class="language-plain"> [kong] %file_src:%line_src [%namespace] %message
+</code></pre>
+
 <p>Where:</p>
 
 <ul>
-<li><code>%namespace</code>: is the configured namespace (the plugin name in this case).</li>
-<li><code>%file_src</code>: is the file name from where the log was called from.</li>
-<li><code>%line_src</code>: is the line number from where the log was called from.</li>
-<li><code>%message</code>: is the message, made of concatenated arguments given by the caller.</li>
+  <li><code class="highlighter-rouge">%namespace</code>: is the configured namespace (the plugin name in this case).</li>
+  <li><code class="highlighter-rouge">%file_src</code>: is the file name from where the log was called from.</li>
+  <li><code class="highlighter-rouge">%line_src</code>: is the line number from where the log was called from.</li>
+  <li><code class="highlighter-rouge">%message</code>: is the message, made of concatenated arguments given by the caller.</li>
 </ul>
 
 <p>For example, the following call:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"> <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code> <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span>
+</code></pre>
+</div>
+
 <p>would, within the core, produce a log line similar to:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> 2017/07/09 19:36:25 [notice] 25932#0: *1 [kong] some_file.lua:54 hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
-</code></pre></div>
-<p>If invoked from within a plugin (e.g. <code>key-auth</code>) it would include the
+
+<pre><code class="language-plain"> 2017/07/09 19:36:25 [notice] 25932#0: *1 [kong] some_file.lua:54 hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
+</code></pre>
+
+<p>If invoked from within a plugin (e.g. <code class="highlighter-rouge">key-auth</code>) it would include the
  namespace prefix, like so:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> 2017/07/09 19:36:25 [notice] 25932#0: *1 [kong] some_file.lua:54 [key-auth] hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
-</code></pre></div>
+
+<pre><code class="language-plain"> 2017/07/09 19:36:25 [notice] 25932#0: *1 [kong] some_file.lua:54 [key-auth] hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
+</code></pre>
+
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>...</strong> :  all params will be concatenated and stringified before being sent to the log</li>
+  <li><strong>…</strong> :  all params will be concatenated and stringified before being sent to the log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid inputs.</li>
+  <li>Nothing; throws an error on invalid inputs.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span> <span class="c1">-- alias to kong.log.notice()</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span> <span class="c1">-- alias to kong.log.notice()</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="kong-log-level">kong.log.LEVEL(...)</h3>
+<h3 id="kongloglevel">kong.log.LEVEL(…)</h3>
 
-<p>Similar to <code>kong.log()</code>, but the produced log will have the severity given by
- <code>&lt;level&gt;</code>, instead of <code>notice</code>.  The supported levels are:</p>
+<p>Similar to <code class="highlighter-rouge">kong.log()</code>, but the produced log will have the severity given by
+ <code class="highlighter-rouge">&lt;level&gt;</code>, instead of <code class="highlighter-rouge">notice</code>.  The supported levels are:</p>
 
 <ul>
-<li><code>kong.log.alert()</code></li>
-<li><code>kong.log.crit()</code></li>
-<li><code>kong.log.err()</code></li>
-<li><code>kong.log.warn()</code></li>
-<li><code>kong.log.notice()</code></li>
-<li><code>kong.log.info()</code></li>
-<li><code>kong.log.debug()</code></li>
+  <li><code class="highlighter-rouge">kong.log.alert()</code></li>
+  <li><code class="highlighter-rouge">kong.log.crit()</code></li>
+  <li><code class="highlighter-rouge">kong.log.err()</code></li>
+  <li><code class="highlighter-rouge">kong.log.warn()</code></li>
+  <li><code class="highlighter-rouge">kong.log.notice()</code></li>
+  <li><code class="highlighter-rouge">kong.log.info()</code></li>
+  <li><code class="highlighter-rouge">kong.log.debug()</code></li>
 </ul>
 
-<p>Logs have the same format as that of <code>kong.log()</code>. For
+<p>Logs have the same format as that of <code class="highlighter-rouge">kong.log()</code>. For
  example, the following call:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua">  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"hello "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">)</span>
+</code></pre>
+</div>
+
 <p>would, within the core, produce a log line similar to:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> 2017/07/09 19:36:25 [error] 25932#0: *1 [kong] some_file.lua:54 hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
-</code></pre></div>
-<p>If invoked from within a plugin (e.g. <code>key-auth</code>) it would include the
+
+<pre><code class="language-plain"> 2017/07/09 19:36:25 [error] 25932#0: *1 [kong] some_file.lua:54 hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
+</code></pre>
+
+<p>If invoked from within a plugin (e.g. <code class="highlighter-rouge">key-auth</code>) it would include the
  namespace prefix, like so:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> 2017/07/09 19:36:25 [error] 25932#0: *1 [kong] some_file.lua:54 [key-auth] hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
-</code></pre></div>
+
+<pre><code class="language-plain"> 2017/07/09 19:36:25 [error] 25932#0: *1 [kong] some_file.lua:54 [key-auth] hello world, client: 127.0.0.1, server: localhost, request: "GET /log HTTP/1.1", host: "localhost"
+</code></pre>
+
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>...</strong> :  all params will be concatenated and stringified before being sent to the log</li>
+  <li><strong>…</strong> :  all params will be concatenated and stringified before being sent to the log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid inputs.</li>
+  <li>Nothing; throws an error on invalid inputs.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"something require attention"</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"something require attention"</span><span class="p">)</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"something failed: "</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">alert</span><span class="p">(</span><span class="s2">"something requires immediate action"</span><span class="p">)</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="kong-log-inspect">kong.log.inspect(...)</h3>
+<h3 id="kongloginspect">kong.log.inspect(…)</h3>
 
-<p>Like <code>kong.log()</code>, this function will produce a log with the <code>notice</code> level,
+<p>Like <code class="highlighter-rouge">kong.log()</code>, this function will produce a log with the <code class="highlighter-rouge">notice</code> level,
  and accepts any number of arguments as well.  If inspect logging is disabled
- via <code>kong.log.inspect.off()</code>, then this function prints nothing, and is
- aliased to a &quot;NOP&quot; function in order to save CPU cycles.</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"> <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
-</code></pre></div>
-<p>This function differs from <code>kong.log()</code> in the sense that arguments will be
- concatenated with a space(<code>&quot; &quot;</code>), and each argument will be
- &quot;pretty-printed&quot;:</p>
+ via <code class="highlighter-rouge">kong.log.inspect.off()</code>, then this function prints nothing, and is
+ aliased to a “NOP” function in order to save CPU cycles.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code> <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="s2">"..."</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This function differs from <code class="highlighter-rouge">kong.log()</code> in the sense that arguments will be
+ concatenated with a space(<code class="highlighter-rouge">" "</code>), and each argument will be
+ “pretty-printed”:</p>
 
 <ul>
-<li>numbers will printed (e.g. <code>5</code> -&gt; <code>&quot;5&quot;</code>)</li>
-<li>strings will be quoted (e.g. <code>&quot;hi&quot;</code> -&gt; <code>&#39;&quot;hi&quot;&#39;</code>)</li>
-<li>array-like tables will be rendered (e.g. <code>{1,2,3}</code> -&gt; <code>&quot;{1, 2, 3}&quot;</code>)</li>
-<li>dictionary-like tables will be rendered on multiple lines</li>
+  <li>numbers will printed (e.g. <code class="highlighter-rouge">5</code> -&gt; <code class="highlighter-rouge">"5"</code>)</li>
+  <li>strings will be quoted (e.g. <code class="highlighter-rouge">"hi"</code> -&gt; <code class="highlighter-rouge">'"hi"'</code>)</li>
+  <li>array-like tables will be rendered (e.g. <code class="highlighter-rouge"><span class="p">{</span><span class="err">1,2,3</span><span class="p">}</span></code> -&gt; <code class="highlighter-rouge">"{1, 2, 3}"</code>)</li>
+  <li>dictionary-like tables will be rendered on multiple lines</li>
 </ul>
 
 <p>This function is intended for use with debugging purposes in mind, and usage
  in production code paths should be avoided due to the expensive formatting
  operations it can perform. Existing statements can be left in production code
- but nopped by calling <code>kong.log.inspect.off()</code>.</p>
+ but nopped by calling <code class="highlighter-rouge">kong.log.inspect.off()</code>.</p>
 
-<p>When writing logs, <code>kong.log.inspect()</code> always uses its own format, defined
+<p>When writing logs, <code class="highlighter-rouge">kong.log.inspect()</code> always uses its own format, defined
  as:</p>
-<div class="highlight"><pre><code class="language-plain" data-lang="plain"> %file_src:%func_name:%line_src %message
-</code></pre></div>
+
+<pre><code class="language-plain"> %file_src:%func_name:%line_src %message
+</code></pre>
+
 <p>Where:</p>
 
 <ul>
-<li><code>%file_src</code>: is the file name from where the log was called from.</li>
-<li><code>%func_name</code>: is the name of the function from where the log was called
+  <li><code class="highlighter-rouge">%file_src</code>: is the file name from where the log was called from.</li>
+  <li><code class="highlighter-rouge">%func_name</code>: is the name of the function from where the log was called
 from.</li>
-<li><code>%line_src</code>: is the line number from where the log was called from.</li>
-<li><code>%message</code>: is the message, made of concatenated, pretty-printed arguments
+  <li><code class="highlighter-rouge">%line_src</code>: is the line number from where the log was called from.</li>
+  <li><code class="highlighter-rouge">%message</code>: is the message, made of concatenated, pretty-printed arguments
 given by the caller.</li>
 </ul>
 
@@ -1183,53 +1212,63 @@ given by the caller.</li>
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>...</strong> :  Parameters will be concatenated with spaces between them and
-rendered as described</li>
+  <li><strong>…</strong> :  Parameters will be concatenated with spaces between them and
+ rendered as described</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="s2">"some value"</span><span class="p">,</span> <span class="n">a_variable</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="s2">"some value"</span><span class="p">,</span> <span class="n">a_variable</span><span class="p">)</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="kong-log-inspect-on">kong.log.inspect.on()</h3>
+<h3 id="kongloginspecton">kong.log.inspect.on()</h3>
 
 <p>Enables inspect logs for this logging facility.  Calls to
- <code>kong.log.inspect</code> will be writing log lines with the appropriate
+ <code class="highlighter-rouge">kong.log.inspect</code> will be writing log lines with the appropriate
  formatting of arguments.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">.</span><span class="n">on</span><span class="p">()</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">.</span><span class="n">on</span><span class="p">()</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="kong-log-inspect-off">kong.log.inspect.off()</h3>
+<h3 id="kongloginspectoff">kong.log.inspect.off()</h3>
 
 <p>Disables inspect logs for this logging facility.  All calls to
- <code>kong.log.inspect()</code> will be nopped.</p>
+ <code class="highlighter-rouge">kong.log.inspect()</code> will be nopped.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>init_worker, certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">.</span><span class="n">off</span><span class="p">()</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">.</span><span class="n">off</span><span class="p">()</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1404,7 +1443,7 @@ rendered as described</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

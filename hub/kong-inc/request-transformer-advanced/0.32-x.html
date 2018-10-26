@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -267,20 +267,20 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#template-as-value">Template as Value</a></li>
-<li> <a href="#order-of-execution">Order of Execution</a></li>
-<li> <a href="#configuration-examples">Configuration Examples</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#template-as-value">Template as Value</a></li>
+      <li><a href="#order-of-execution">Order of Execution</a></li>
+      <li><a href="#configuration-examples">Configuration Examples</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -464,54 +464,68 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -519,12 +533,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -542,7 +559,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -565,7 +583,7 @@ target.</li>
     
       <tr>
         <td><code>config.http_method</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -575,7 +593,7 @@ target.</li>
     
       <tr>
         <td><code>config.remove.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -585,7 +603,7 @@ target.</li>
     
       <tr>
         <td><code>config.remove.querystring</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -595,17 +613,17 @@ target.</li>
     
       <tr>
         <td><code>config.remove.body</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>List of parameter names. Remove the parameter if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and parameter is present.</p>
+        <td><p>List of parameter names. Remove the parameter if and only if content-type is one the following [<code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">multipart/form-data</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>] and parameter is present.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.replace.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -615,7 +633,7 @@ target.</li>
     
       <tr>
         <td><code>config.replace.querystring</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -625,7 +643,7 @@ target.</li>
     
       <tr>
         <td><code>config.replace.uri</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -635,17 +653,17 @@ target.</li>
     
       <tr>
         <td><code>config.replace.body</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>List of paramname:value pairs. If and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is already present, replace its old value with the new one. Ignored if the parameter is not already present.</p>
+        <td><p>List of paramname:value pairs. If and only if content-type is one the following [<code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">multipart/form-data</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>] and the parameter is already present, replace its old value with the new one. Ignored if the parameter is not already present.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.rename.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -655,7 +673,7 @@ target.</li>
     
       <tr>
         <td><code>config.rename.querystring</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -665,17 +683,17 @@ target.</li>
     
       <tr>
         <td><code>config.rename.body</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>List of parameter name:value pairs. Rename the parameter name if and only if content-type is one the following [<code>application/json</code>, <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and parameter is present.</p>
+        <td><p>List of parameter name:value pairs. Rename the parameter name if and only if content-type is one the following [<code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">multipart/form-data</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>] and parameter is present.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.add.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -685,7 +703,7 @@ target.</li>
     
       <tr>
         <td><code>config.add.querystring</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -695,17 +713,17 @@ target.</li>
     
       <tr>
         <td><code>config.add.body</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>List of paramname:value pairs. If and only if content-type is one the following [<code>application/json, multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</p>
+        <td><p>List of paramname:value pairs. If and only if content-type is one the following [<code class="highlighter-rouge">application/json, multipart/form-data</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>] and the parameter is not present, add a new parameter with the given value to form-encoded body. Ignored if the parameter is already present.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.append.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -715,7 +733,7 @@ target.</li>
     
       <tr>
         <td><code>config.append.querystring</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -725,11 +743,11 @@ target.</li>
     
       <tr>
         <td><code>config.append.body</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>List of paramname:value pairs. If the content-type is one the following [<code>application/json</code>, <code>application/x-www-form-urlencoded</code>], add a new parameter with the given value if the parameter is not present, otherwise if it is already present, the two values (old and new) will be aggregated in an array.</p>
+        <td><p>List of paramname:value pairs. If the content-type is one the following [<code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>], add a new parameter with the given value if the parameter is not present, otherwise if it is already present, the two values (old and new) will be aggregated in an array.</p>
 </td>
       </tr>
     
@@ -739,65 +757,80 @@ target.</li>
 
       
 
-      <p>Note: if the value contains a <code>,</code> then the comma separated format cannot be used. The array notation must be used instead.</p>
+      <p>Note: if the value contains a <code class="highlighter-rouge">,</code> then the comma separated format cannot be used. The array notation must be used instead.</p>
 
 
       <h3 id="template-as-value">Template as Value</h3>
 
 <p>User can use any of the the current request headers, query params, and captured URI named groups as template to populate above supported config fields.</p>
 
-<table><thead>
-<tr>
-<th>Request Param</th>
-<th>Template</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>header</td>
-<td>$(headers.<header_name> or $(headers[&#39;<header-name>&#39;]) or &#39;optional_default&#39;)</td>
-</tr>
-<tr>
-<td>querystring</td>
-<td>$(query_params.<query_param_name> or $(query_params[&#39;query-param-name&#39;]) or &#39;optional_default&#39;)</td>
-</tr>
-<tr>
-<td>captured URIs</td>
-<td>$(uri_captures.<group_name> or $(uri_captures[&#39;group-name&#39;]) or &#39;optional_default&#39;)</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Request Param</th>
+      <th>Template</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>header</td>
+      <td>$(headers.<header_name> or $(headers['<header-name>']) or 'optional_default')</header-name></header_name></td>
+    </tr>
+    <tr>
+      <td>querystring</td>
+      <td>$(query_params.<query_param_name> or $(query_params['query-param-name']) or 'optional_default')</query_param_name></td>
+    </tr>
+    <tr>
+      <td>captured URIs</td>
+      <td>$(uri_captures.<group_name> or $(uri_captures['group-name']) or 'optional_default')</group_name></td>
+    </tr>
+  </tbody>
+</table>
 
-<p>To escape a template, wrap it inside quotes and pass inside another template.<br>
-Ex. $(&#39;$(some_needs_to_escaped)&#39;)</p>
+<p>To escape a template, wrap it inside quotes and pass inside another template.<br />
+Ex. $(‘$(some_needs_to_escaped)’)</p>
 
 <p>Note: Plugin creates a non mutable table of request headers, querystrings, and captured URIs before transformation. So any update or removal of params used in template does not affect the rendered value of template.</p>
 
 <h4 id="examples-using-template-as-value">Examples Using Template as Value</h4>
 
-<p>Add an API <code>test</code> with <code>uris</code> configured with a named capture group <code>user_id</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis <span class="se">\</span>
+<p>Add an API <code class="highlighter-rouge">test</code> with <code class="highlighter-rouge">uris</code> configured with a named capture group <code class="highlighter-rouge">user_id</code></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis <span class="se">\</span>
     --data <span class="s1">'name=test'</span> <span class="se">\</span>
     --data <span class="s1">'upstream_url=http://mockbin.com'</span> <span class="se">\</span>
     --data-urlencode <span class="s1">'uris=/requests/user/(?&lt;user_id&gt;\w+)'</span> <span class="se">\</span>
     --data <span class="s2">"strip_uri=false"</span>
-</code></pre></div>
-<p>Enable the ‘request-transformer-advanced’ plugin to add a new header <code>x-consumer-id</code>
-and its value is being set with the value sent with header <code>x-user-id</code> or
-with the default value alice is <code>header</code> is missing.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/test/plugins <span class="se">\</span>
+</code></pre>
+</div>
+
+<p>Enable the ‘request-transformer-advanced’ plugin to add a new header <code class="highlighter-rouge">x-consumer-id</code>
+and its value is being set with the value sent with header <code class="highlighter-rouge">x-user-id</code> or
+with the default value alice is <code class="highlighter-rouge">header</code> is missing.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/test/plugins <span class="se">\</span>
     --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
     --data-urlencode <span class="s2">"config.add.headers=x-consumer-id:</span><span class="se">\$</span><span class="s2">(headers['x-user-id'] or 'alice')"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-user-id"</span>
-</code></pre></div>
-<p>Now send a request without setting header <code>x-user-id</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo
-</code></pre></div>
-<p>Plugin will add a new header <code>x-consumer-id</code> with value alice before proxying
-request upstream. Now try sending request with header <code>x-user-id</code> set</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo <span class="se">\</span>
+</code></pre>
+</div>
+
+<p>Now send a request without setting header <code class="highlighter-rouge">x-user-id</code></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo
+</code></pre>
+</div>
+
+<p>Plugin will add a new header <code class="highlighter-rouge">x-consumer-id</code> with value alice before proxying
+request upstream. Now try sending request with header <code class="highlighter-rouge">x-user-id</code> set</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo <span class="se">\</span>
   -H <span class="s2">"X-User-Id:bob"</span>
-</code></pre></div>
-<p>This time plugin will add a new header <code>x-consumer-id</code> with value sent along
-with header <code>x-user-id</code>, i.e.<code>bob</code></p>
+</code></pre>
+</div>
+
+<p>This time plugin will add a new header <code class="highlighter-rouge">x-consumer-id</code> with value sent along
+with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="highlighter-rouge">bob</code></p>
 
 <h3 id="order-of-execution">Order of Execution</h3>
 
@@ -808,169 +841,214 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 <h3 id="configuration-examples">Configuration Examples</h3>
 
 <p>Add multiple headers by passing each header:value pair separately:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h2: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h2: v1</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Add multiple headers by passing comma separated header:value pair:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h2: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h2: v1</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Add multiple headers passing config as JSON body:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
   --data <span class="s1">'{"name": "request-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h2: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h2: v1</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Add a querystring and a header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.querystring=q1:v2,q2=v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1"</span>
 
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h2: v1</td>
-</tr>
-<tr>
-<td>h3: v1</td>
-<td>h1: v1, h2: v1, h3: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<table><thead>
-<tr>
-<th>Incoming Request Querystring</th>
-<th>Upstream Proxied Querystring</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>?q1=v1</td>
-<td>?q1=v1&amp;q2=v1</td>
-</tr>
-<tr>
-<td></td>
-<td>?q1=v2&amp;q2=v1</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h2: v1</td>
+    </tr>
+    <tr>
+      <td>h3: v1</td>
+      <td>h1: v1, h2: v1, h3: v1</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Querystring</th>
+      <th>Upstream Proxied Querystring</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>?q1=v1</td>
+      <td>?q1=v1&amp;q2=v1</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>?q1=v2&amp;q2=v1</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Append multiple headers and remove a body parameter:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v2,h2:v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.remove.body=p1"</span> <span class="se">\</span>
 
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h1: v2, h2: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<table><thead>
-<tr>
-<th>Incoming URL Encoded Body</th>
-<th>Upstream Proxied URL Encoded Body</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>p1=v1&amp;p2=v1</td>
-<td>p2=v1</td>
-</tr>
-<tr>
-<td>p2=v1</td>
-<td>p2=v1</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h1: v2, h2: v1</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming URL Encoded Body</th>
+      <th>Upstream Proxied URL Encoded Body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>p1=v1&amp;p2=v1</td>
+      <td>p2=v1</td>
+    </tr>
+    <tr>
+      <td>p2=v1</td>
+      <td>p2=v1</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Add multiple headers and querystring parameters if not already set:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1,h2:v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
 
-</code></pre></div>
-<table><thead>
-<tr>
-<th>Incoming Request Headers</th>
-<th>Upstream Proxied Headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td>h1: v1, h2: v1</td>
-</tr>
-<tr>
-<td>h3: v1</td>
-<td>h1: v1, h2: v1, h3: v1</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<table><thead>
-<tr>
-<th>Incoming Request Querystring</th>
-<th>Upstream Proxied Querystring</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>?q1=v1</td>
-<td>?q1=v1&amp;q2=v1</td>
-</tr>
-<tr>
-<td></td>
-<td>?q1=v2&amp;q2=v1</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Headers</th>
+      <th>Upstream Proxied Headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>h1: v1, h2: v1</td>
+    </tr>
+    <tr>
+      <td>h3: v1</td>
+      <td>h1: v1, h2: v1, h3: v1</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Incoming Request Querystring</th>
+      <th>Upstream Proxied Querystring</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>?q1=v1</td>
+      <td>?q1=v1&amp;q2=v1</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>?q1=v2&amp;q2=v1</td>
+    </tr>
+  </tbody>
+</table>
 
 
       
@@ -1136,7 +1214,7 @@ with header <code>x-user-id</code>, i.e.<code>bob</code></p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

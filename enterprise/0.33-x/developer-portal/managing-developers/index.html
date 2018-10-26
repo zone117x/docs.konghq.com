@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,19 +754,22 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#developers-statuses">Developers Statuses</a></li>
-<li> <a href="#approving-developers">Approving Developers</a>
-    -  <a href="#enabling-auto-approval">Enabling Auto Approval</a></li>
-<li> <a href="#viewing-approved-developers">Viewing Approved Developers</a></li>
-<li> <a href="#viewing-revoked-developers">Viewing Revoked Developers</a></li>
-<li> <a href="#viewing-rejected-developers">Viewing Rejected Developers</a></li>
-<li> <a href="#emailing-developers">Emailing Developers</a>
-
-<ul>
-<li> <a href="#inviting-developers-to-register">Inviting Developers to Register</a></li>
-<li> <a href="#sending-approved-email">Sending Approved Email</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#developers-statuses">Developers Statuses</a></li>
+  <li><a href="#approving-developers">Approving Developers</a>
+    <ul>
+      <li><a href="#enabling-auto-approval">Enabling Auto Approval</a></li>
+    </ul>
+  </li>
+  <li><a href="#viewing-approved-developers">Viewing Approved Developers</a></li>
+  <li><a href="#viewing-revoked-developers">Viewing Revoked Developers</a></li>
+  <li><a href="#viewing-rejected-developers">Viewing Rejected Developers</a></li>
+  <li><a href="#emailing-developers">Emailing Developers</a>
+    <ul>
+      <li><a href="#inviting-developers-to-register">Inviting Developers to Register</a></li>
+      <li><a href="#sending-approved-email">Sending Approved Email</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -782,73 +785,82 @@ window['_fs_namespace'] = 'FS';
 <p>A status represents the state of a developer and the access they have to your APIs / Developer Portal.</p>
 
 <ul>
-<li><strong>Approved</strong>
-
-<ul>
-<li>A Developer who can access the Developer Portal. Approved Developers can create credentials &amp; access <strong>all</strong> APIs that allow those credentials.</li>
-<li>In the Admin API, Approved Developers have <code>status = 0</code>.</li>
-</ul></li>
-<li><strong>Requested</strong>
-
-<ul>
-<li>A Developer who has requested access but has not yet been Approved.</li>
-<li>In the Admin API, Requested Developers have <code>status = 1</code>.</li>
-</ul></li>
-<li><strong>Rejected</strong>
-
-<ul>
-<li>A Developer who has had their request denied by a Kong Administrator.</li>
-<li>In the Admin API, Rejected Developers have <code>status = 2</code>.</li>
-</ul></li>
-<li><strong>Revoked</strong>
-
-<ul>
-<li>A Developer who once had access to the Developer Portal but has since had access Revoked.</li>
-<li>In the Admin API, Revoked Developers have <code>status = 3</code>.</li>
-</ul></li>
+  <li><strong>Approved</strong>
+    <ul>
+      <li>A Developer who can access the Developer Portal. Approved Developers can create credentials &amp; access <strong>all</strong> APIs that allow those credentials.</li>
+      <li>In the Admin API, Approved Developers have <code class="highlighter-rouge">status = 0</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Requested</strong>
+    <ul>
+      <li>A Developer who has requested access but has not yet been Approved.</li>
+      <li>In the Admin API, Requested Developers have <code class="highlighter-rouge">status = 1</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Rejected</strong>
+    <ul>
+      <li>A Developer who has had their request denied by a Kong Administrator.</li>
+      <li>In the Admin API, Rejected Developers have <code class="highlighter-rouge">status = 2</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Revoked</strong>
+    <ul>
+      <li>A Developer who once had access to the Developer Portal but has since had access Revoked.</li>
+      <li>In the Admin API, Revoked Developers have <code class="highlighter-rouge">status = 3</code>.</li>
+    </ul>
+  </li>
 </ul>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/05/gui-developer-tabs.png" alt="Managing Developers"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/gui-developer-tabs.png" alt="Managing Developers" /></p>
 
 <h2 id="approving-developers">Approving Developers</h2>
 
 <p>Developers who have requested access to your <strong>Kong Developer Portal</strong> will appear under the <strong>Requested Access</strong> tab.
 From this tab you can choose to <em>Accept</em> or <em>Reject</em> the developer from the actions in the table row. After selecting an action the corresponding tab will update.</p>
 
-<p>In the Admin API, you can approve Developers by changing their <code>status</code> to 0:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -svX PATCH \
+<p>In the Admin API, you can approve Developers by changing their <code class="highlighter-rouge">status</code> to 0:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -svX PATCH \
   --url http://localhost:8001/portal/developers/53ec3f45-2da4-4d38-966a-e98743d85eac \
   --data 'status=0'
-</code></pre></div>
-<h4 id="enabling-auto-approval">Enabling Auto Approval</h4>
+</code></pre>
+</div>
+
+<h3 id="enabling-auto-approval">Enabling Auto Approval</h3>
 
 <p>You can choose to have developers automatically approved and skip the requested state. To enable follow these steps:</p>
 
 <ol>
-<li>Navigate to the <code>DEVELOPER PORTAL AUTHENTICATION</code> section in <code>kong.conf</code></li>
-<li>Find and change the <code>portal_auto_approve</code> configuration option to <code>on</code>. Don&#39;t forget to remove the <code>#</code> from the beginning of the line.
+  <li>Navigate to the <code class="highlighter-rouge">DEVELOPER PORTAL AUTHENTICATION</code> section in <code class="highlighter-rouge">kong.conf</code></li>
+  <li>Find and change the <code class="highlighter-rouge">portal_auto_approve</code> configuration option to <code class="highlighter-rouge">on</code>. Don’t forget to remove the <code class="highlighter-rouge">#</code> from the beginning of the line.
 It should now look like:
-<code>portal_auto_approve = on</code></li>
-<li>Restart kong (<code>kong restart</code>)</li>
+<code class="highlighter-rouge">portal_auto_approve = on</code></li>
+  <li>Restart kong (<code class="highlighter-rouge">kong restart</code>)</li>
 </ol>
 
 <p><em>See <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference">Property References</a> to learn more about configuring the Kong Developer Portal.</em></p>
 
 <h2 id="viewing-approved-developers">Viewing Approved Developers</h2>
 
-<p>To view all currently approved developers choose the <strong>Approved</strong> tab. From here you can choose to <em>Revoke</em> or <em>Delete</em> a particular developer. Additionally you can use this view to send an email to a developer with the <strong>Email Developer</strong> <code>mailto</code> link. See <a href="#emailing-developers">Emailing Developers</a> for more info.</p>
+<p>To view all currently approved developers choose the <strong>Approved</strong> tab. From here you can choose to <em>Revoke</em> or <em>Delete</em> a particular developer. Additionally you can use this view to send an email to a developer with the <strong>Email Developer</strong> <code class="highlighter-rouge">mailto</code> link. See <a href="#emailing-developers">Emailing Developers</a> for more info.</p>
 
 <p>You can also view Developers using the Admin API, optionally filtering by their approval status:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -svX GET http://localhost:8001/portal/developers?status=0
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -svX GET http://localhost:8001/portal/developers?status=0
+</code></pre>
+</div>
+
 <h2 id="viewing-revoked-developers">Viewing Revoked Developers</h2>
 
 <p>To view all currently revoked developers choose the <strong>Revoked</strong> tab. From here you can choose to <em>Re-approve</em> or <em>Delete</em> a developer.</p>
 
 <p>You can also delete Developers using the Admin API:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -svX DELETE \
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -svX DELETE \
   --url http://localhost:8001/portal/developers/53ec3f45-2da4-4d38-966a-e98743d85eac
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="viewing-rejected-developers">Viewing Rejected Developers</h2>
 
 <p>To view all currently rejected developers choose the <strong>Rejected</strong> tab. Rejected developers completed the registration flow on your Developer Portal but were rejected from the <strong>Request Access</strong> tab. You may <em>Approve</em> or <em>Delete</em> a developer from this tab.</p>
@@ -857,17 +869,17 @@ It should now look like:
 
 <h3 id="inviting-developers-to-register">Inviting Developers to Register</h3>
 
-<p>To invite a single or set of developers...</p>
+<p>To invite a single or set of developers…</p>
 
 <ol>
-<li>Click the <strong>Invite Developers</strong> button from the top right corner above the tabs</li>
-<li>Use the popup modal to enter email addresses separated by commas</li>
-<li>After all emails have been added click <strong>Invite</strong>. This will open a pre-filled message in your default email client with a link to the registration page for your Developer Portal</li>
+  <li>Click the <strong>Invite Developers</strong> button from the top right corner above the tabs</li>
+  <li>Use the popup modal to enter email addresses separated by commas</li>
+  <li>After all emails have been added click <strong>Invite</strong>. This will open a pre-filled message in your default email client with a link to the registration page for your Developer Portal</li>
 </ol>
 
-<p>Each developer is bcc&#39;d by default for privacy. You may choose to edit the message or send as is.</p>
+<p>Each developer is bcc’d by default for privacy. You may choose to edit the message or send as is.</p>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/05/invite-developers.png" alt="Invite Developers"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/invite-developers.png" alt="Invite Developers" /></p>
 
 <h3 id="sending-approved-email">Sending Approved Email</h3>
 
@@ -875,7 +887,7 @@ It should now look like:
 
 <p>This link will open a pre-filled email in your default email client with a link to the login page &amp; their login email address for your Developer Portal. You may choose to edit the message or send as is.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/developer-portal/developer-access/">Developer Access &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/developer-portal/developer-access/">Developer Access ›</a></p>
 
 
         </div>
@@ -1032,7 +1044,7 @@ It should now look like:
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

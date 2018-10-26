@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,22 +236,22 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#demonstration">Demonstration</a>
-
-<ul>
-<li> <a href="#limitations">Limitations</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#demonstration">Demonstration</a>
+    <ul>
+      <li><a href="#limitations">Limitations</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -414,63 +414,77 @@ or extend the function.</p>
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
     --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
     --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
     --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
     --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
     --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
     --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -478,15 +492,18 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
     --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
     --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -504,7 +521,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -547,7 +565,7 @@ target.</li>
     
       <tr>
         <td><code>config.hostdomain</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>azurewebsites.net</p>
@@ -558,7 +576,7 @@ target.</li>
     
       <tr>
         <td><code>config.routeprefix</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>/api</p>
@@ -569,27 +587,27 @@ target.</li>
     
       <tr>
         <td><code>config.apikey</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>The apikey to access the Azure resources. If provided it will be injected as the <code>x-functions-key</code> header.</p>
+        <td><p>The apikey to access the Azure resources. If provided it will be injected as the <code class="highlighter-rouge">x-functions-key</code> header.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.clientid</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>The clientid to access the Azure resources. If provided it will be injected as the <code>x-functions-clientid</code> header.</p>
+        <td><p>The clientid to access the Azure resources. If provided it will be injected as the <code class="highlighter-rouge">x-functions-clientid</code> header.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.https_verify</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>false</p>
@@ -600,7 +618,7 @@ target.</li>
     
       <tr>
         <td><code>config.https</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>true</p>
@@ -611,7 +629,7 @@ target.</li>
     
       <tr>
         <td><code>config.timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>600000</p>
@@ -622,7 +640,7 @@ target.</li>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>60000</p>
@@ -637,69 +655,93 @@ target.</li>
 
       
 
-      <p>Note: If <code>config.https_verify</code> is set as <code>true</code> then the server certificate
+      <p>Note: If <code class="highlighter-rouge">config.https_verify</code> is set as <code class="highlighter-rouge">true</code> then the server certificate
 will be verified according to the CA certificates specified by the
-<code>lua_ssl_trusted_certificate</code> directive in your Kong configuration.</p>
+<code class="highlighter-rouge">lua_ssl_trusted_certificate</code> directive in your Kong configuration.</p>
 
 
       <h2 id="demonstration">Demonstration</h2>
 
-<p>To demonstrate the plugin, set up the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-azure-function">Azure Functions &quot;hello world&quot; function</a>.</p>
+<p>To demonstrate the plugin, set up the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-azure-function">Azure Functions “hello world” function</a>.</p>
 
 <ol>
-<li><p>In this example we&#39;ll consider the following settings/placeholders, insert your own values here:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">- `&lt;appname&gt;` for the Functions appname
-- `&lt;functionname&gt;` for the function name
-- `&lt;apikey&gt;` for the api key
-</code></pre></div></li>
-<li><p>Test your function to make sure it works before adding it to Kong</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X GET https://&lt;appname&gt;.azurewebsites.net/api/&lt;functionname&gt;?name<span class="o">=</span>Kong <span class="se">\</span>
-     -H <span class="s2">"x-functions-key:&lt;apikey&gt;"</span>
+  <li>
+    <p>In this example we’ll consider the following settings/placeholders, insert your own values here:</p>
 
-HTTP/1.1 200 OK
-...
-<span class="s2">"Hello Kong!"</span>
-</code></pre></div></li>
-<li><p>Create a Service on Kong</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
-  --data <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
-  --data <span class="s2">"url=http://dead.end.com"</span>
+    <div class="highlighter-rouge"><pre class="highlight"><code> - `&lt;appname&gt;` for the Functions appname
+ - `&lt;functionname&gt;` for the function name
+ - `&lt;apikey&gt;` for the api key
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Test your function to make sure it works before adding it to Kong</p>
 
-HTTP/1.1 201 Created
-...
-</code></pre></div></li>
-<li><p>Add a Route to the Service on Kong</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
-  --data <span class="s2">"paths[]=/mytest"</span>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET https://&lt;appname&gt;.azurewebsites.net/api/&lt;functionname&gt;?name<span class="o">=</span>Kong <span class="se">\</span>
+      -H <span class="s2">"x-functions-key:&lt;apikey&gt;"</span>
 
-HTTP/1.1 201 Created
-...
-</code></pre></div></li>
-<li><p>Apply the Azure-functions plugin</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
-    --data <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
-    --data <span class="s2">"config.appname=&lt;appname&gt;"</span> <span class="se">\</span>
-    --data <span class="s2">"config.functionname=&lt;functionname&gt;"</span> <span class="se">\</span>
-    --data <span class="s2">"config.apikey=&lt;apikey&gt;"</span>
+ HTTP/1.1 200 OK
+ ...
+ <span class="s2">"Hello Kong!"</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Create a Service on Kong</p>
 
-HTTP/1.1 201 Created
-...
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
+   --data <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
+   --data <span class="s2">"url=http://dead.end.com"</span>
 
-</code></pre></div></li>
-<li><p>Test the Azure Function through Kong (same result as step 2)</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X GET http://localhost:8000/mytest?name<span class="o">=</span>Kong
+ HTTP/1.1 201 Created
+ ...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Add a Route to the Service on Kong</p>
 
-HTTP/1.1 200 OK
-...
-<span class="s2">"Hello Kong!"</span>
-</code></pre></div></li>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
+   --data <span class="s2">"paths[]=/mytest"</span>
+
+ HTTP/1.1 201 Created
+ ...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Apply the Azure-functions plugin</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
+     --data <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
+     --data <span class="s2">"config.appname=&lt;appname&gt;"</span> <span class="se">\</span>
+     --data <span class="s2">"config.functionname=&lt;functionname&gt;"</span> <span class="se">\</span>
+     --data <span class="s2">"config.apikey=&lt;apikey&gt;"</span>
+
+ HTTP/1.1 201 Created
+ ...
+
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Test the Azure Function through Kong (same result as step 2)</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET http://localhost:8000/mytest?name<span class="o">=</span>Kong
+
+ HTTP/1.1 200 OK
+ ...
+ <span class="s2">"Hello Kong!"</span>
+</code></pre>
+    </div>
+  </li>
 </ol>
 
-<p>In this example we&#39;re only passing a query parameter <code>name</code> to the Azure
+<p>In this example we’re only passing a query parameter <code class="highlighter-rouge">name</code> to the Azure
 Function. Besides query parameters, also the HTTP method, path parameters,
 headers, and body will be passed to the Azure Function if provided.</p>
 
-<hr>
+<hr />
 
 <h3 id="limitations">Limitations</h3>
 
@@ -707,10 +749,10 @@ headers, and body will be passed to the Azure Function if provided.</p>
 
 <p>When using the this plugin, the response will be returned by the plugin itself
 without proxying the request to any upstream service. This means that whatever
-<code>url</code> has been set on the <a href="https://docs.konghq.com/latest/admin-api/#service-object">Service</a>
-it will never be used. Although <code>url</code> will never be used, it&#39;s
-currently a mandatory field in Kong&#39;s data model, so feel free to set a fake
-value (ie, <code>http://dead.end.com</code> as per the example above) if you are planning to use this plugin.
+<code class="highlighter-rouge">url</code> has been set on the <a href="https://docs.konghq.com/latest/admin-api/#service-object">Service</a>
+it will never be used. Although <code class="highlighter-rouge">url</code> will never be used, it’s
+currently a mandatory field in Kong’s data model, so feel free to set a fake
+value (ie, <code class="highlighter-rouge">http://dead.end.com</code> as per the example above) if you are planning to use this plugin.
 In the future, we will provide a more intuitive way to deal with similar use cases.</p>
 
 <h4 id="response-plugins">Response plugins</h4>
@@ -882,7 +924,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

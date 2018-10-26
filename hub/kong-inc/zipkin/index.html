@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,24 +236,28 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#how-it-works">How it Works</a>
-
-<ul>
-<li> <a href="#extractor-and-injector">Extractor and Injector</a></li>
-<li> <a href="#reporter">Reporter</a></li>
-</ul></li>
-<li> <a href="#faq">FAQ</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-it-works">How it Works</a>
+    <ul>
+      <li><a href="#extractor-and-injector">Extractor and Injector</a></li>
+      <li><a href="#reporter">Reporter</a></li>
+    </ul>
+  </li>
+  <li><a href="#faq">FAQ</a>
+    <ul>
+      <li><a href="#can-i-use-this-plugin-with-other-tracing-systems-like-jaeger">Can I use this plugin with other tracing systems, like Jaeger?</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -437,60 +441,74 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -498,14 +516,17 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=zipkin"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://your.zipkin.collector:9411/api/v2/spans"</span> <span class="se">\</span>
     --data <span class="s2">"config.sample_ratio=0.001"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -523,7 +544,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -549,20 +571,21 @@ target.</li>
           
           
         </td>
-        <td></td>
+        <td>
+</td>
         <td><p>The full HTTP(S) endpoint to which Zipkin spans should be sent by Kong.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.sample_ratio</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>0.001</code></p>
+        <td><p><code class="highlighter-rouge">0.001</code></p>
 </td>
         <td><p>How often to sample requests that do not contain trace ids.
-Set to <code>0</code> to turn sampling off, or to <code>1</code> to sample <strong>all</strong> requests.</p>
+Set to <code class="highlighter-rouge">0</code> to turn sampling off, or to <code class="highlighter-rouge">1</code> to sample <strong>all</strong> requests.</p>
 </td>
       </tr>
     
@@ -574,34 +597,35 @@ Set to <code>0</code> to turn sampling off, or to <code>1</code> to sample <stro
 
       
 
+
       <h2 id="how-it-works">How it Works</h2>
 
 <p>When enabled, <a href="https://github.com/Kong/kong-plugin-zipkin">this plugin</a> traces requests in a way compatible with <a href="https://zipkin.io/">zipkin</a>.</p>
 
-<p>The code is structured around an <a href="http://opentracing.io/">opentracing</a> core using the <a href="https://github.com/Kong/opentracing-lua">opentracing-lua library</a> to collect timing data of a request in each of Kong&#39;s phases.
-The plugin uses opentracing-lua compatible extractor, injector, and reporters to implement Zipkin&#39;s protocols.</p>
+<p>The code is structured around an <a href="http://opentracing.io/">opentracing</a> core using the <a href="https://github.com/Kong/opentracing-lua">opentracing-lua library</a> to collect timing data of a request in each of Kong’s phases.
+The plugin uses opentracing-lua compatible extractor, injector, and reporters to implement Zipkin’s protocols.</p>
 
 <h3 id="extractor-and-injector">Extractor and Injector</h3>
 
-<p>An opentracing &quot;extractor&quot; collects information from an incoming request.
-If no trace ID is present in the incoming request, then one is probabilistically generated based on the <code>sample_ratio</code> configuration value.</p>
+<p>An opentracing “extractor” collects information from an incoming request.
+If no trace ID is present in the incoming request, then one is probabilistically generated based on the <code class="highlighter-rouge">sample_ratio</code> configuration value.</p>
 
-<p>An opentracing &quot;injector&quot; adds trace information to an outgoing request. Currently, the injector is only called for the request proxied by kong; it is <strong>not</strong> yet used for requests to the database or by other plugins (such as the <a href="./http-log/">http-log plugin</a>).</p>
+<p>An opentracing “injector” adds trace information to an outgoing request. Currently, the injector is only called for the request proxied by kong; it is <strong>not</strong> yet used for requests to the database or by other plugins (such as the <a href="./http-log/">http-log plugin</a>).</p>
 
-<p>This plugin follows Zipkin&#39;s <a href="https://github.com/openzipkin/b3-propagation/">&quot;B3&quot; specification</a> as to which HTTP headers to use. Additionally, it supports <a href="http://jaegertracing.io/">Jaegar</a>-style <code>uberctx-</code> headers for propagating <a href="https://github.com/opentracing/specification/blob/master/specification.md#set-a-baggage-item">baggage</a>.</p>
+<p>This plugin follows Zipkin’s <a href="https://github.com/openzipkin/b3-propagation/">“B3” specification</a> as to which HTTP headers to use. Additionally, it supports <a href="http://jaegertracing.io/">Jaegar</a>-style <code class="highlighter-rouge">uberctx-</code> headers for propagating <a href="https://github.com/opentracing/specification/blob/master/specification.md#set-a-baggage-item">baggage</a>.</p>
 
 <h3 id="reporter">Reporter</h3>
 
-<p>An opentracing &quot;reporter&quot; is how tracing data is reported to another system.
+<p>An opentracing “reporter” is how tracing data is reported to another system.
 This plugin records tracing data for a given request, and sends it as a batch to a Zipkin server using <a href="https://zipkin.io/zipkin-api/#/default/post_spans">the Zipkin v2 API</a>. Note that zipkin version 1.31 or higher is required.</p>
 
-<p>The <code>http_endpoint</code> configuration variable must contain the full uri including scheme, host, port and path sections (i.e. your uri likely ends in <code>/api/v2/spans</code>).</p>
+<p>The <code class="highlighter-rouge">http_endpoint</code> configuration variable must contain the full uri including scheme, host, port and path sections (i.e. your uri likely ends in <code class="highlighter-rouge">/api/v2/spans</code>).</p>
 
 <h2 id="faq">FAQ</h2>
 
-<h4 id="can-i-use-this-plugin-with-other-tracing-systems-like-jaeger">Can I use this plugin with other tracing systems, like Jaeger?</h4>
+<h3 id="can-i-use-this-plugin-with-other-tracing-systems-like-jaeger">Can I use this plugin with other tracing systems, like Jaeger?</h3>
 
-<p>Probably! Jaeger accepts spans in Zipkin format - see <a href="https://www.jaegertracing.io/docs/features/#backwards-compatibility-with-zipkin">https://www.jaegertracing.io/docs/features/#backwards-compatibility-with-zipkin</a> for more information.</p>
+<p>Probably! Jaeger accepts spans in Zipkin format - see https://www.jaegertracing.io/docs/features/#backwards-compatibility-with-zipkin for more information.</p>
 
 
       
@@ -767,7 +791,7 @@ This plugin records tracing data for a given request, and sends it as a batch to
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

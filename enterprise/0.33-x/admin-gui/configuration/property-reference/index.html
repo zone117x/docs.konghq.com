@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,17 +754,17 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#admin_api_uri">admin_api_uri</a></li>
-<li> <a href="#proxy_url">proxy_url</a></li>
-<li> <a href="#admin_gui_listen">admin_gui_listen</a></li>
-<li> <a href="#admin_gui_url">admin_gui_url</a></li>
-<li> <a href="#admin_gui_ssl_cert">admin_gui_ssl_cert</a></li>
-<li> <a href="#admin_gui_ssl_cert_key">admin_gui_ssl_cert_key</a></li>
-<li> <a href="#admin_gui_access_log">admin_gui_access_log</a></li>
-<li> <a href="#admin_gui_error_log">admin_gui_error_log</a></li>
-<li> <a href="#admin_gui_auth">admin_gui_auth</a></li>
-<li> <a href="#admin_gui_auth_conf">admin_gui_auth_conf</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#admin_api_uri">admin_api_uri</a></li>
+  <li><a href="#proxy_url">proxy_url</a></li>
+  <li><a href="#admin_gui_listen">admin_gui_listen</a></li>
+  <li><a href="#admin_gui_url">admin_gui_url</a></li>
+  <li><a href="#admin_gui_ssl_cert">admin_gui_ssl_cert</a></li>
+  <li><a href="#admin_gui_ssl_cert_key">admin_gui_ssl_cert_key</a></li>
+  <li><a href="#admin_gui_access_log">admin_gui_access_log</a></li>
+  <li><a href="#admin_gui_error_log">admin_gui_error_log</a></li>
+  <li><a href="#admin_gui_auth">admin_gui_auth</a></li>
+  <li><a href="#admin_gui_auth_conf">admin_gui_auth_conf</a></li>
 </ul>
 
           
@@ -775,127 +775,145 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="admin_api_uri">admin_api_uri</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (auto generated)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (auto generated)</p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 The URL on which the Admin API is accessible. By default the Admin GUI
 assumes the Admin API is on the same host, and will use the window request
 host and resolved listener port depending on the requested protocol. This
-is where the Admin GUI finds the Admin API when <code>admin_gui_auth</code> (see below)
+is where the Admin GUI finds the Admin API when <code class="highlighter-rouge">admin_gui_auth</code> (see below)
 is not enabled.</p>
 
 <p>This property accepts a value with or without protocol. If you
 specify the protocol, be sure that it is the same as the one you set in
-<code>admin_gui_url</code>, to prevent rendering errors due to mixed content.</p>
+<code class="highlighter-rouge">admin_gui_url</code>, to prevent rendering errors due to mixed content.</p>
 
-<p>Note: This property will be renamed <code>admin_url</code> in a future release, to be
-consistent with other URL properties in <code>kong.conf</code>. Protocol will be
+<p>Note: This property will be renamed <code class="highlighter-rouge">admin_url</code> in a future release, to be
+consistent with other URL properties in <code class="highlighter-rouge">kong.conf</code>. Protocol will be
 required at that time. It is strongly recommended that your Admin API be
 on a secure port.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_api_uri = https://127.0.0.1:8444
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_api_uri = https://127.0.0.1:8444
+</code></pre>
+</div>
+
 <h2 id="proxy_url">proxy_url</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (auto generated)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (auto generated)</p>
 
-<p><strong>Description:</strong><br>
-The URL on which Kong is accessible. When <code>admin_gui_auth</code> is enabled, the Admin
+<p><strong>Description:</strong><br />
+The URL on which Kong is accessible. When <code class="highlighter-rouge">admin_gui_auth</code> is enabled, the Admin
 GUI makes Admin API requests via the Kong proxy. With no other configuration
 changes, the Admin GUI assumes the proxy is on the same host, and will use the
 window request host and resolved listener port depending on the requested
 protocol.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">proxy_url = https://127.0.0.1:8443
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>proxy_url = https://127.0.0.1:8443
+</code></pre>
+</div>
+
 <h2 id="admin_gui_listen">admin_gui_listen</h2>
 
-<p><strong>Default:</strong> <code>0.0.0.0:8002, 0.0.0.0:8445 ssl</code></p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">0.0.0.0:8002, 0.0.0.0:8445 ssl</code></p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Comma-separated list of addresses and ports on which
 Kong will expose the Admin GUI. This web application
 lets you configure and manage Kong, and therefore
 should be kept private and secured. Suffixes can be
-specified for each pair, similarly to the <code>admin_listen</code> directive.</p>
+specified for each pair, similarly to the <code class="highlighter-rouge">admin_listen</code> directive.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_listen = 0.0.0.0:8002, 0.0.0.0:8445 ssl
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_listen = 0.0.0.0:8002, 0.0.0.0:8445 ssl
+</code></pre>
+</div>
+
 <h2 id="admin_gui_url">admin_gui_url</h2>
 
-<p><strong>Default:</strong> <code>NONE</code></p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code></p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Here you may provide the lookup, or balancer, address for your admin application.</p>
 
 <p>Accepted format (items in parenthesis are optional):
-<code>&lt;scheme&gt;://&lt;IP / HOSTNAME&gt;(:&lt;PORT&gt;(/&lt;PATH&gt;))</code></p>
+<code class="highlighter-rouge">&lt;scheme&gt;://&lt;IP / HOSTNAME&gt;(:&lt;PORT&gt;(/&lt;PATH&gt;))</code></p>
 
 <p>When not provided, the Kong Admin GUI will attempt to determine the
-<code>port</code>and <code>host</code> based on the browsers <code>window.location</code>, this assumes that the
-accessed <code>host</code>has exposed the ports defined on the <code>admin_gui_listener</code></p>
+<code class="highlighter-rouge">port</code>and <code class="highlighter-rouge">host</code> based on the browsers <code class="highlighter-rouge">window.location</code>, this assumes that the
+accessed <code class="highlighter-rouge">host</code>has exposed the ports defined on the <code class="highlighter-rouge">admin_gui_listener</code></p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_url = https://kong-admin.test
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_url = https://kong-admin.test
+</code></pre>
+</div>
+
 <h2 id="admin_gui_ssl_cert">admin_gui_ssl_cert</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (auto generated)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (auto generated)</p>
 
-<p><strong>Description:</strong><br>
-The absolute path to the SSL certificate for <code>admin_gui_listen</code> values with SSL enabled.</p>
+<p><strong>Description:</strong><br />
+The absolute path to the SSL certificate for <code class="highlighter-rouge">admin_gui_listen</code> values with SSL enabled.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_ssl_cert = /path/to/admin_gui_ssl.cert
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_ssl_cert = /path/to/admin_gui_ssl.cert
+</code></pre>
+</div>
+
 <h2 id="admin_gui_ssl_cert_key">admin_gui_ssl_cert_key</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (auto-generated)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (auto-generated)</p>
 
-<p><strong>Description:</strong><br>
-The absolute path to the SSL key for <code>admin_gui_listen</code> values with SSL
+<p><strong>Description:</strong><br />
+The absolute path to the SSL key for <code class="highlighter-rouge">admin_gui_listen</code> values with SSL
 enabled.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_ssl_key = /path/to/admin_gui_ssl.key
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_ssl_key = /path/to/admin_gui_ssl.key
+</code></pre>
+</div>
+
 <h2 id="admin_gui_access_log">admin_gui_access_log</h2>
 
-<p><strong>Default:</strong> <code>logs/admin_gui_access.log</code></p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">logs/admin_gui_access.log</code></p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Admin GUI Access Logs.</p>
 
 <p>Here you can set an absolute or relative path for the
 Admin GUI access logs. When the path is relative,
-logs are placed in the <code>prefix</code> location.</p>
+logs are placed in the <code class="highlighter-rouge">prefix</code> location.</p>
 
-<p>Setting this value to <code>off</code> disables access logs
+<p>Setting this value to <code class="highlighter-rouge">off</code> disables access logs
 for the Admin GUI.</p>
 
 <h2 id="admin_gui_error_log">admin_gui_error_log</h2>
 
-<p><strong>Default:</strong> <code>logs/admin_gui_error.log</code></p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">logs/admin_gui_error.log</code></p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Admin GUI Error Logs</p>
 
 <p>Here you can set an absolute or relative path for your
 Admin API access logs. When the path is relative,
-logs are placed in the <code>prefix</code> location.</p>
+logs are placed in the <code class="highlighter-rouge">prefix</code> location.</p>
 
-<p>Setting this value to <code>off</code> disables error logs for
-the Admin GUI. Granularity can be adjusted through the <code>log_level</code>
+<p>Setting this value to <code class="highlighter-rouge">off</code> disables error logs for
+the Admin GUI. Granularity can be adjusted through the <code class="highlighter-rouge">log_level</code>
 directive.</p>
 
 <h2 id="admin_gui_auth">admin_gui_auth</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (empty)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (empty)</p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Admin GUI Authentication Plugin Name</p>
 
 <p>Here you may secure access to the Admin GUI by
@@ -903,34 +921,23 @@ specifying an authentication plugin to use.</p>
 
 <p>Supported Plugins:</p>
 
-<table><thead>
-<tr>
-<th>Value to Use</th>
-<th>Authentication Type</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>key-auth</td>
-<td>Key Authentication</td>
-</tr>
-<tr>
-<td>basic-auth</td>
-<td>Basic Authentication</td>
-</tr>
-<tr>
-<td>ldap-auth-advanced</td>
-<td>LDAP Authentication</td>
-</tr>
-</tbody></table>
+<p>Value to Use        | Authentication Type
+———————-+————————–
+key-auth            | Key Authentication
+basic-auth          | Basic Authentication
+ldap-auth-advanced  | LDAP Authentication</p>
 
 <p><strong>example:</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = basic-auth
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth = basic-auth
+</code></pre>
+</div>
+
 <h2 id="admin_gui_auth_conf">admin_gui_auth_conf</h2>
 
-<p><strong>Default:</strong> <code>NONE</code> (empty)</p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">NONE</code> (empty)</p>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 Admin GUI Authentication Plugin Config (JSON)</p>
 
 <p>Here you may specify the configuration for the
@@ -938,8 +945,11 @@ authentication plugin you have chosen. For information
 about Plugin Configuration consult the associated plugin documentation.</p>
 
 <p><strong>Example (Basic Auth):</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth_conf = { "hide_credentials": true }
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth_conf = { "hide_credentials": true }
+</code></pre>
+</div>
+
 
         </div>
       </div>
@@ -1095,7 +1105,7 @@ about Plugin Configuration consult the associated plugin documentation.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

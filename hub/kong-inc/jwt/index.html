@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,34 +236,34 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#documentation">Documentation</a>
-
-<ul>
-<li> <a href="#create-a-consumer">Create a Consumer</a></li>
-<li> <a href="#create-a-jwt-credential">Create a JWT credential</a></li>
-<li> <a href="#delete-a-jwt-credential">Delete a JWT credential</a></li>
-<li> <a href="#list-jwt-credentials">List JWT credentials</a></li>
-<li> <a href="#craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</a></li>
-<li> <a href="#send-a-request-with-the-jwt">Send a request with the JWT</a></li>
-<li> <a href="#optional-verified-claims">(Optional) Verified claims</a></li>
-<li> <a href="#optional-base64-encoded-secret">(Optional) Base64 encoded secret</a></li>
-<li> <a href="#craft-a-jwt-with-public-private-keys-rs256-or-es256">Craft a JWT with public/private keys (RS256 or ES256)</a></li>
-<li> <a href="#generate-public-private-keys">Generate public/private keys</a></li>
-<li> <a href="#using-the-jwt-plugin-with-auth0">Using the JWT plugin with Auth0</a></li>
-<li> <a href="#upstream-headers">Upstream Headers</a></li>
-<li> <a href="#paginate-through-the-jwts">Paginate through the JWTs</a></li>
-<li> <a href="#retrieve-the-consumer-associated-with-a-jwt">Retrieve the Consumer associated with a JWT</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#documentation">Documentation</a>
+    <ul>
+      <li><a href="#create-a-consumer">Create a Consumer</a></li>
+      <li><a href="#create-a-jwt-credential">Create a JWT credential</a></li>
+      <li><a href="#delete-a-jwt-credential">Delete a JWT credential</a></li>
+      <li><a href="#list-jwt-credentials">List JWT credentials</a></li>
+      <li><a href="#craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</a></li>
+      <li><a href="#send-a-request-with-the-jwt">Send a request with the JWT</a></li>
+      <li><a href="#optional-verified-claims">(Optional) Verified claims</a></li>
+      <li><a href="#optional-base64-encoded-secret">(Optional) Base64 encoded secret</a></li>
+      <li><a href="#craft-a-jwt-with-publicprivate-keys-rs256-or-es256">Craft a JWT with public/private keys (RS256 or ES256)</a></li>
+      <li><a href="#generate-publicprivate-keys">Generate public/private keys</a></li>
+      <li><a href="#using-the-jwt-plugin-with-auth0">Using the JWT plugin with Auth0</a></li>
+      <li><a href="#upstream-headers">Upstream Headers</a></li>
+      <li><a href="#paginate-through-the-jwts">Paginate through the JWTs</a></li>
+      <li><a href="#retrieve-the-consumer-associated-with-a-jwt">Retrieve the Consumer associated with a JWT</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -467,12 +467,12 @@ window['_fs_namespace'] = 'FS';
       <p>Verify requests containing HS256 or RS256 signed JSON Web Tokens (as specified in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>). Each of your Consumers will have JWT credentials (public and secret keys) which must be used to sign their JWTs. A token can then be passed through:</p>
 
 <ul>
-<li>a query string parameter,</li>
-<li>a cookie,</li>
-<li>or the Authorization header.</li>
+  <li>a query string parameter,</li>
+  <li>a cookie,</li>
+  <li>or the Authorization header.</li>
 </ul>
 
-<p>Kong will either proxy the request to your upstream services if the token&#39;s signature is verified, or discard the request if not. Kong can also perform verifications on some of the registered claims of RFC 7519 (exp and nbf).</p>
+<p>Kong will either proxy the request to your upstream services if the token’s signature is verified, or discard the request if not. Kong can also perform verifications on some of the registered claims of RFC 7519 (exp and nbf).</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
@@ -508,36 +508,45 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -545,12 +554,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -568,7 +580,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -589,10 +602,10 @@ target.</li>
     
       <tr>
         <td><code>config.uri_param_names</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>jwt</code></p>
+        <td><p><code class="highlighter-rouge">jwt</code></p>
 </td>
         <td><p>A list of querystring parameters that Kong will inspect to retrieve JWTs.</p>
 </td>
@@ -600,7 +613,7 @@ target.</li>
     
       <tr>
         <td><code>config.cookie_names</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -610,65 +623,65 @@ target.</li>
     
       <tr>
         <td><code>config.claims_to_verify</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>A list of registered claims (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) that Kong can verify as well. Accepted values: <code>exp</code>, <code>nbf</code>.</p>
+        <td><p>A list of registered claims (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>) that Kong can verify as well. Accepted values: <code class="highlighter-rouge">exp</code>, <code class="highlighter-rouge">nbf</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.key_claim_name</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>iss</code></p>
+        <td><p><code class="highlighter-rouge">iss</code></p>
 </td>
-        <td><p>The name of the claim in which the <code>key</code> identifying the secret <strong>must</strong> be passed. Starting with version <code>0.13.1</code>, the plugin will attempt to read this claim from the JWT payload and the header, in this order.</p>
+        <td><p>The name of the claim in which the <code class="highlighter-rouge">key</code> identifying the secret <strong>must</strong> be passed. Starting with version <code class="highlighter-rouge">0.13.1</code>, the plugin will attempt to read this claim from the JWT payload and the header, in this order.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.secret_is_base64</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
-        <td><p>If true, the plugin assumes the credential&#39;s <code>secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</p>
+        <td><p>If true, the plugin assumes the credential’s <code class="highlighter-rouge">secret</code> to be base64 encoded. You will need to create a base64 encoded secret for your Consumer, and sign your JWT with the original secret.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.anonymous</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
+        <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="highlighter-rouge">4xx</code>. Please note that this value must refer to the Consumer <code class="highlighter-rouge">id</code> attribute which is internal to Kong, and <strong>not</strong> its <code class="highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.run_on_preflight</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>true</code></p>
+        <td><p><code class="highlighter-rouge">true</code></p>
 </td>
-        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code>OPTIONS</code> preflight requests, if set to <code>false</code> then <code>OPTIONS</code> requests will always be allowed.</p>
+        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests, if set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.maximum_expiration</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>0</p>
 </td>
-        <td><p>An integer limiting the lifetime of the JWT to <code>maximum_expiration</code> seconds in the future. Any JWT that has a longer lifetime will rejected (HTTP 403). If this valeu is specified, <code>exp</code> must be specified as well in the <code>claims_to_verify</code> property. The default value of <code>0</code> represents an indefinite period. Potential clock skew should be considered when configuring this value.</p>
+        <td><p>An integer limiting the lifetime of the JWT to <code class="highlighter-rouge">maximum_expiration</code> seconds in the future. Any JWT that has a longer lifetime will rejected (HTTP 403). If this valeu is specified, <code class="highlighter-rouge">exp</code> must be specified as well in the <code class="highlighter-rouge">claims_to_verify</code> property. The default value of <code class="highlighter-rouge">0</code> represents an indefinite period. Potential clock skew should be considered when configuring this value.</p>
 </td>
       </tr>
     
@@ -690,36 +703,43 @@ target.</li>
 <h3 id="create-a-consumer">Create a Consumer</h3>
 
 <p>You need to associate a credential to an existing <a href="/latest/admin-api/#consumer-object">Consumer</a> object. To create a Consumer, you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 HTTP/1.1 201 Created
-</code></pre></div>
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>username</code><br><em>semi-optional</em></td>
-<td></td>
-<td>The username for this Consumer. Either this field or <code>custom_id</code> must be specified.</td>
-</tr>
-<tr>
-<td><code>custom_id</code><br><em>semi-optional</em></td>
-<td></td>
-<td>A custom identifier used to map the Consumer to an external database. Either this field or <code>username</code> must be specified.</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>form parameter</th>
+      <th>default</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">username</code><br /><em>semi-optional</em></td>
+      <td> </td>
+      <td>The username for this Consumer. Either this field or <code class="highlighter-rouge">custom_id</code> must be specified.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">custom_id</code><br /><em>semi-optional</em></td>
+      <td> </td>
+      <td>A custom identifier used to map the Consumer to an external database. Either this field or <code class="highlighter-rouge">username</code> must be specified.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>A <a href="/latest/admin-api/#consumer-object">Consumer</a> can have many JWT credentials.</p>
 
 <h3 id="create-a-jwt-credential">Create a JWT credential</h3>
 
 <p>You can provision a new HS256 JWT credential by issuing the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt -H <span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt -H <span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -729,64 +749,76 @@ HTTP/1.1 201 Created
     <span class="s2">"key"</span>: <span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span>,
     <span class="s2">"secret"</span>: <span class="s2">"e71829c351aa4242c2719cbfbe671c09"</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
 </ul>
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>default</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>key</code><br><em>optional</em></td>
-<td></td>
-<td>A unique string identifying the credential. If left out, it will be auto-generated.</td>
-</tr>
-<tr>
-<td><code>algorithm</code><br><em>optional</em></td>
-<td><code>HS256</code></td>
-<td>The algorithm used to verify the token&#39;s signature. Can be <code>HS256</code>, <code>HS384</code>, <code>HS512</code>, <code>RS256</code>, or <code>ES256</code>.</td>
-</tr>
-<tr>
-<td><code>rsa_public_key</code><br><em>optional</em></td>
-<td></td>
-<td>If <code>algorithm</code> is <code>RS256</code> or <code>ES256</code>, the public key (in PEM format) to use to verify the token&#39;s signature.</td>
-</tr>
-<tr>
-<td><code>secret</code><br><em>optional</em></td>
-<td></td>
-<td>If <code>algorithm</code> is <code>HS256</code> or <code>ES256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>form parameter</th>
+      <th>default</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">key</code><br /><em>optional</em></td>
+      <td> </td>
+      <td>A unique string identifying the credential. If left out, it will be auto-generated.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">algorithm</code><br /><em>optional</em></td>
+      <td><code class="highlighter-rouge">HS256</code></td>
+      <td>The algorithm used to verify the token’s signature. Can be <code class="highlighter-rouge">HS256</code>, <code class="highlighter-rouge">HS384</code>, <code class="highlighter-rouge">HS512</code>, <code class="highlighter-rouge">RS256</code>, or <code class="highlighter-rouge">ES256</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">rsa_public_key</code><br /><em>optional</em></td>
+      <td> </td>
+      <td>If <code class="highlighter-rouge">algorithm</code> is <code class="highlighter-rouge">RS256</code> or <code class="highlighter-rouge">ES256</code>, the public key (in PEM format) to use to verify the token’s signature.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">secret</code><br /><em>optional</em></td>
+      <td> </td>
+      <td>If <code class="highlighter-rouge">algorithm</code> is <code class="highlighter-rouge">HS256</code> or <code class="highlighter-rouge">ES256</code>, the secret used to sign JWTs for this credential. If left out, will be auto-generated.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="delete-a-jwt-credential">Delete a JWT credential</h3>
 
-<p>You can remove a Consumer&#39;s JWT credential by issuing the following HTTP
+<p>You can remove a Consumer’s JWT credential by issuing the following HTTP
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt/<span class="o">{</span>id<span class="o">}</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt/<span class="o">{</span>id<span class="o">}</span>
 HTTP/1.1 204 No Content
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
-<li><code>id</code>: The <code>id</code> of the JWT credential.</li>
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
+  <li><code class="highlighter-rouge">id</code>: The <code class="highlighter-rouge">id</code> of the JWT credential.</li>
 </ul>
 
 <h3 id="list-jwt-credentials">List JWT credentials</h3>
 
-<p>You can list a Consumer&#39;s JWT credentials by issuing the following HTTP
+<p>You can list a Consumer’s JWT credentials by issuing the following HTTP
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt
 HTTP/1.1 200 OK
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the
 <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to list credentials for.</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
             </span><span class="nt">"rsa_public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgK .... -----END PUBLIC KEY-----"</span><span class="p">,</span><span class="w">
@@ -800,75 +832,98 @@ HTTP/1.1 200 OK
     </span><span class="p">],</span><span class="w">
     </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+</span></code></pre>
+</div>
+
 <h3 id="craft-a-jwt-with-a-secret-hs256">Craft a JWT with a secret (HS256)</h3>
 
-<p>Now that your Consumer has a credential, and assuming we want to sign it using <code>HS256</code>, the JWT should be crafted as follows (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>):</p>
+<p>Now that your Consumer has a credential, and assuming we want to sign it using <code class="highlighter-rouge">HS256</code>, the JWT should be crafted as follows (according to <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>):</p>
 
 <p>First, its header must be:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"typ"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JWT"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HS256"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> in the configured claim (from <code>config.key_claim_name</code>).
-That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>.
-The claims may contain other values. Since Kong <code>0.13.1</code>, the claim is searched in both the JWT payload and header,
+</span></code></pre>
+</div>
+
+<p>Secondly, the claims <strong>must</strong> contain the secret’s <code class="highlighter-rouge">key</code> in the configured claim (from <code class="highlighter-rouge">config.key_claim_name</code>).
+That claim is <code class="highlighter-rouge">iss</code> (issuer field) by default. Set its value to our previously created credential’s <code class="highlighter-rouge">key</code>.
+The claims may contain other values. Since Kong <code class="highlighter-rouge">0.13.1</code>, the claim is searched in both the JWT payload and header,
 in this order.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"iss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a> with the header (HS256), claims (iss, etc), and <code>secret</code> associated with this <code>key</code> (e71829c351aa4242c2719cbfbe671c09), you&#39;ll end up with a JWT token of:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
-</code></pre></div>
+</span></code></pre>
+</div>
+
+<p>Using the JWT debugger at https://jwt.io with the header (HS256), claims (iss, etc), and <code class="highlighter-rouge">secret</code> associated with this <code class="highlighter-rouge">key</code> (e71829c351aa4242c2719cbfbe671c09), you’ll end up with a JWT token of:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
+</code></pre>
+</div>
+
 <h3 id="send-a-request-with-the-jwt">Send a request with the JWT</h3>
 
-<p>The JWT can now be included in a request to Kong by adding it to the <code>Authorization</code> header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
+<p>The JWT can now be included in a request to Kong by adding it to the <code class="highlighter-rouge">Authorization</code> header:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4'</span>
-</code></pre></div>
-<p>as a querystring parameter, if configured in <code>config.uri_param_names</code> (which contains <code>jwt</code> by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>?jwt<span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
-</code></pre></div>
-<p>or as cookie, if the name is configured in <code>config.cookie_names</code> (which is not enabled by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl --cookie <span class="nv">jwt</span><span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4 http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
+<p>as a querystring parameter, if configured in <code class="highlighter-rouge">config.uri_param_names</code> (which contains <code class="highlighter-rouge">jwt</code> by default):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>?jwt<span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4
+</code></pre>
+</div>
+
+<p>or as cookie, if the name is configured in <code class="highlighter-rouge">config.cookie_names</code> (which is not enabled by default):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl --cookie <span class="nv">jwt</span><span class="o">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhMzZjMzA0OWIzNjI0OWEzYzlmODg5MWNiMTI3MjQzYyIsImV4cCI6MTQ0MjQzMDA1NCwibmJmIjoxNDQyNDI2NDU0LCJpYXQiOjE0NDI0MjY0NTR9.AhumfY35GFLuEEjrOXiaADo7Ae6gt_8VLwX7qffhQN4 http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>
+</code></pre>
+</div>
+
 <p>The request will be inspected by Kong, whose behavior depends on the validity of the JWT:</p>
 
-<table><thead>
-<tr>
-<th>request</th>
-<th>proxied to upstream service</th>
-<th>response status code</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>has no JWT</td>
-<td>no</td>
-<td>401</td>
-</tr>
-<tr>
-<td>missing or invalid <code>iss</code> claim</td>
-<td>no</td>
-<td>401</td>
-</tr>
-<tr>
-<td>invalid signature</td>
-<td>no</td>
-<td>403</td>
-</tr>
-<tr>
-<td>valid signature</td>
-<td>yes</td>
-<td>from the upstream service</td>
-</tr>
-<tr>
-<td>valid signature, invalid verified claim (<strong>option</strong>)</td>
-<td>no</td>
-<td>403</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>request</th>
+      <th>proxied to upstream service</th>
+      <th>response status code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>has no JWT</td>
+      <td>no</td>
+      <td>401</td>
+    </tr>
+    <tr>
+      <td>missing or invalid <code class="highlighter-rouge">iss</code> claim</td>
+      <td>no</td>
+      <td>401</td>
+    </tr>
+    <tr>
+      <td>invalid signature</td>
+      <td>no</td>
+      <td>403</td>
+    </tr>
+    <tr>
+      <td>valid signature</td>
+      <td>yes</td>
+      <td>from the upstream service</td>
+    </tr>
+    <tr>
+      <td>valid signature, invalid verified claim (<strong>option</strong>)</td>
+      <td>no</td>
+      <td>403</td>
+    </tr>
+  </tbody>
+</table>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> When the JWT is valid and proxied to the upstream service, Kong makes no modification to the request other than adding headers identifying the Consumer. The JWT will be forwarded to your upstream service, which can assume its validity. It is now the role of your service to base64 decode the JWT claims and make use of them.
@@ -876,54 +931,69 @@ in this order.</p>
 
 <h3 id="optional-verified-claims">(Optional) Verified claims</h3>
 
-<p>Kong can also perform verification on registered claims, as defined in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>. To perform verification on a claim, add it to the <code>config.claims_to_verify</code> property:</p>
+<p>Kong can also perform verification on registered claims, as defined in <a href="https://tools.ietf.org/html/rfc7519">RFC 7519</a>. To perform verification on a claim, add it to the <code class="highlighter-rouge">config.claims_to_verify</code> property:</p>
 
 <p>You can patch an existing jwt plugin:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># This adds verification for both nbf and exp claims:</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># This adds verification for both nbf and exp claims:</span>
 <span class="gp">$ </span>curl -X PATCH http://kong:8001/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.claims_to_verify=exp,nbf"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Supported claims:</p>
 
-<table><thead>
-<tr>
-<th>claim name</th>
-<th>verification</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>exp</code></td>
-<td>identifies the expiration time on or after which the JWT must not be accepted for processing.</td>
-</tr>
-<tr>
-<td><code>nbf</code></td>
-<td>identifies the time before which the JWT must not be accepted for processing.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>claim name</th>
+      <th>verification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">exp</code></td>
+      <td>identifies the expiration time on or after which the JWT must not be accepted for processing.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">nbf</code></td>
+      <td>identifies the time before which the JWT must not be accepted for processing.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="optional-base64-encoded-secret">(Optional) Base64 encoded secret</h3>
 
-<p>If your secret contains binary data, you can store them as base64 encoded in Kong. Enable this option in the plugin&#39;s configuration:</p>
+<p>If your secret contains binary data, you can store them as base64 encoded in Kong. Enable this option in the plugin’s configuration:</p>
 
 <p>You can patch an existing Route:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X PATCH http://kong:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X PATCH http://kong:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.secret_is_base64=true"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>or patch an existing API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
     --data <span class="s2">"config.secret_is_base64=true"</span>
-</code></pre></div>
-<p>Then, base64 encode your consumers&#39; secrets:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># secret is: "blob data"</span>
+</code></pre>
+</div>
+<p>Then, base64 encode your consumers’ secrets:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># secret is: "blob data"</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
   --data <span class="s2">"secret=YmxvYiBkYXRh"</span>
-</code></pre></div>
-<p>And sign your JWT using the original secret (&quot;blob data&quot;).</p>
+</code></pre>
+</div>
 
-<h3 id="craft-a-jwt-with-public-private-keys-rs256-or-es256">Craft a JWT with public/private keys (RS256 or ES256)</h3>
+<p>And sign your JWT using the original secret (“blob data”).</p>
 
-<p>If you wish to use RS256 or ES256 to verify your JWTs, then when creating a JWT credential, select <code>RS256</code> or <code>ES256</code> as the <code>algorithm</code>, and explicitly upload the public key in the <code>rsa_public_key</code> field (including for ES256 signed tokens). For example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
+<h3 id="craft-a-jwt-with-publicprivate-keys-rs256-or-es256">Craft a JWT with public/private keys (RS256 or ES256)</h3>
+
+<p>If you wish to use RS256 or ES256 to verify your JWTs, then when creating a JWT credential, select <code class="highlighter-rouge">RS256</code> or <code class="highlighter-rouge">ES256</code> as the <code class="highlighter-rouge">algorithm</code>, and explicitly upload the public key in the <code class="highlighter-rouge">rsa_public_key</code> field (including for ES256 signed tokens). For example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/jwt <span class="se">\</span>
       -F <span class="s2">"rsa_public_key=@/path/to/public_key.pem"</span> <span class="se">\</span>
 HTTP/1.1 201 Created
 
@@ -934,80 +1004,119 @@ HTTP/1.1 201 Created
     <span class="s2">"key"</span>: <span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span>,
     <span class="s2">"rsa_public_key"</span>: <span class="s2">"-----BEGIN PUBLIC KEY----- ..."</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>When creating the signature, make sure that the header is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"typ"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JWT"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Secondly, the claims <strong>must</strong> contain the secret&#39;s <code>key</code> field (this <strong>isn&#39;t</strong> your private key used to generate
-the token, but just an identifier for this credential) in the configured claim (from <code>config.key_claim_name</code>).
-That claim is <code>iss</code> (issuer field) by default. Set its value to our previously created credential&#39;s <code>key</code>.
-The claims may contain other values. Since Kong <code>0.13.1</code>, the claim is searched in both the JWT payload and header,
+</span></code></pre>
+</div>
+
+<p>Secondly, the claims <strong>must</strong> contain the secret’s <code class="highlighter-rouge">key</code> field (this <strong>isn’t</strong> your private key used to generate
+the token, but just an identifier for this credential) in the configured claim (from <code class="highlighter-rouge">config.key_claim_name</code>).
+That claim is <code class="highlighter-rouge">iss</code> (issuer field) by default. Set its value to our previously created credential’s <code class="highlighter-rouge">key</code>.
+The claims may contain other values. Since Kong <code class="highlighter-rouge">0.13.1</code>, the claim is searched in both the JWT payload and header,
 in this order.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"iss"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a36c3049b36249a3c9f8891cb127243c"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Then create the signature using your private keys. Using the JWT debugger at <a href="https://jwt.io">https://jwt.io</a>, set the right header (RS256), the claims (iss, etc), and the associated public key. Then append the resulting value in the <code>Authorization</code> header, for example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
+</span></code></pre>
+</div>
+
+<p>Then create the signature using your private keys. Using the JWT debugger at https://jwt.io, set the right header (RS256), the claims (iss, etc), and the associated public key. Then append the resulting value in the <code class="highlighter-rouge">Authorization</code> header, for example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIxM2Q1ODE0NTcyZTc0YTIyYjFhOWEwMDJmMmQxN2MzNyJ9.uNPTnDZXVShFYUSiii78Q-IAfhnc2ExjarZr_WVhGrHHBLweOBJxGJlAKZQEKE4rVd7D6hCtWSkvAAOu7BU34OnlxtQqB8ArGX58xhpIqHtFUkj882JQ9QD6_v2S2Ad-EmEx5402ge71VWEJ0-jyH2WvfxZ_pD90n5AG5rAbYNAIlm2Ew78q4w4GVSivpletUhcv31-U3GROsa7dl8rYMqx6gyo9oIIDcGoMh3bu8su5kQc5SQBFp1CcA5H8sHGfYs-Et5rCU2A6yKbyXtpHrd1Y9oMrZpEfQdgpLae0AfWRf6JutA9SPhst9-5rn4o3cdUmto_TBGqHsFmVyob8VQ'</span>
-</code></pre></div>
-<h3 id="generate-public-private-keys">Generate public/private keys</h3>
+</code></pre>
+</div>
+
+<h3 id="generate-publicprivate-keys">Generate public/private keys</h3>
 
 <p>To create a brand new pair of public/private keys, you can run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>openssl genrsa -out private.pem 2048
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>openssl genrsa -out private.pem 2048
+</code></pre>
+</div>
+
 <p>This private key must be kept secret. To generate a public key corresponding to the private key, execute:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>openssl rsa -in private.pem -outform PEM -pubout -out public.pem
-</code></pre></div>
-<p>If you run the commands above, the public key will be written in <code>public.pem</code>, while the private key will be written in <code>private.pem</code>.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+</code></pre>
+</div>
+
+<p>If you run the commands above, the public key will be written in <code class="highlighter-rouge">public.pem</code>, while the private key will be written in <code class="highlighter-rouge">private.pem</code>.</p>
 
 <h3 id="using-the-jwt-plugin-with-auth0">Using the JWT plugin with Auth0</h3>
 
 <p><a href="https://auth0.com/">Auth0</a> is a popular solution for Authorization, and relies
 heavily on JWTs. Auth0 relies on RS256, does not base64 encode, and publicly
 hosts the public key certificate used to sign tokens. Account name is referred
-to &quot;COMPANYNAME&quot; for the sake of the guide.</p>
+to “COMPANYNAME” for the sake of the guide.</p>
 
 <p>To get started, create a Service, a Route that uses that Service, <em>or</em> create
 an API. <em>Note: Auth0 does not use base64 encoded secrets.</em></p>
 
 <p>Create a Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/services <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/services <span class="se">\</span>
     --data <span class="s2">"name=example-service"</span> <span class="se">\</span>
     --data <span class="s2">"=http://httpbin.org"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Then create a Route:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/routes <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -f -X POST http://localhost:8001/routes <span class="se">\</span>
     --data <span class="s2">"service.id={example-service's id}"</span> <span class="se">\</span>
     --data <span class="s2">"paths[]=/example_path"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>or create an API, note these are depreciated:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
     --data <span class="s2">"name={api}"</span> <span class="se">\</span>
     --data <span class="s2">"hosts=example.com"</span> <span class="se">\</span>
     --data <span class="s2">"upstream_url=http://httpbin.org"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Add the JWT Plugin:</p>
 
 <p>Add the plugin to your Route:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/route/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/route/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Add the plugin to your API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span>
-</code></pre></div>
-<p>Download your Auth0 account&#39;s X509 Certificate:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -o <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem https://<span class="o">{</span>COMPANYNAME<span class="o">}</span>.auth0.com/pem
-</code></pre></div>
+</code></pre>
+</div>
+
+<p>Download your Auth0 account’s X509 Certificate:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -o <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem https://<span class="o">{</span>COMPANYNAME<span class="o">}</span>.auth0.com/pem
+</code></pre>
+</div>
+
 <p>Extract the public key from the X509 Certificate:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>openssl x509 -pubkey -noout -in <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem &gt; pubkey.pem
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>openssl x509 -pubkey -noout -in <span class="o">{</span>COMPANYNAME<span class="o">}</span>.pem &gt; pubkey.pem
+</code></pre>
+</div>
+
 <p>Create a Consumer with the Auth0 public key:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 
@@ -1015,18 +1124,23 @@ an API. <em>Note: Auth0 does not use base64 encoded secrets.</em></p>
     -F <span class="s2">"algorithm=RS256"</span> <span class="se">\</span>
     -F <span class="s2">"rsa_public_key=@./pubkey.pem"</span> <span class="se">\</span>
     -F <span class="s2">"key=https://{COMPAYNAME}.auth0.com/"</span> <span class="c"># the `iss` field</span>
-</code></pre></div>
-<p>The JWT plugin by default validates the <code>key_claim_name</code> against the <code>iss</code>
-field in the token. Keys issued by Auth0 have their <code>iss</code> field set to
-<code>http://{COMPANYNAME}.auth0.com/</code>. You can use <a href="https://jwt.io">jwt.io</a> to
-validate the <code>iss</code> field for the <code>key</code> parameter when creating the
+</code></pre>
+</div>
+
+<p>The JWT plugin by default validates the <code class="highlighter-rouge">key_claim_name</code> against the <code class="highlighter-rouge">iss</code>
+field in the token. Keys issued by Auth0 have their <code class="highlighter-rouge">iss</code> field set to
+<code class="highlighter-rouge">http://{COMPANYNAME}.auth0.com/</code>. You can use <a href="https://jwt.io">jwt.io</a> to
+validate the <code class="highlighter-rouge">iss</code> field for the <code class="highlighter-rouge">key</code> parameter when creating the
 Consumer.</p>
 
 <p>Send requests through, only tokens signed by Auth0 will work:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8000 <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8000 <span class="se">\</span>
     -H <span class="s2">"Host:example.com"</span> <span class="se">\</span>
     -H <span class="s2">"Authorization:Bearer "</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Success!</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
@@ -1034,13 +1148,13 @@ Consumer.</p>
 <p>When a JWT is valid, a Consumer has been authenticated, the plugin will append some headers to the request before proxying it to the upstream service, so that you can identify the Consumer in your code:</p>
 
 <ul>
-<li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
-<li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the Consumer (if set)</li>
-<li><code>X-Consumer-Username</code>, the <code>username</code> of the Consumer (if set)</li>
-<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
+  <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the Consumer on Kong</li>
+  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the <code class="highlighter-rouge">custom_id</code> of the Consumer (if set)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the <code class="highlighter-rouge">username</code> of the Consumer (if set)</li>
+  <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to <code class="highlighter-rouge">true</code> when authentication failed, and the ‘anonymous’ consumer was set instead.</li>
 </ul>
 
-<p>You can use this information on your side to implement additional logic. You can use the <code>X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
+<p>You can use this information on your side to implement additional logic. You can use the <code class="highlighter-rouge">X-Consumer-ID</code> value to query the Kong Admin API and retrieve more information about the Consumer.</p>
 
 <h3 id="paginate-through-the-jwts">Paginate through the JWTs</h3>
 
@@ -1050,7 +1164,8 @@ Consumer.</p>
 
 <p>You can paginate through the JWTs for all Consumers using the following
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/jwts
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/jwts
 
 <span class="o">{</span>
     <span class="s2">"total"</span>: 3,
@@ -1081,36 +1196,41 @@ request:</p>
         <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>You can filter the list using the following query parameters:</p>
 
-<table><thead>
-<tr>
-<th style="text-align: right">Attributes</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: right"><code>id</code><br><em>optional</em></td>
-<td>A filter on the list based on the JWT credential <code>id</code> field.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>key</code><br><em>optional</em></td>
-<td>A filter on the list based on the JWT credential <code>key</code> field.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>consumer_id</code><br><em>optional</em></td>
-<td>A filter on the list based on the JWT credential <code>consumer_id</code> field.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>size</code><br><em>optional, default is <strong>100</strong></em></td>
-<td>A limit on the number of objects to be returned.</td>
-</tr>
-<tr>
-<td style="text-align: right"><code>offset</code><br><em>optional</em></td>
-<td>A cursor used for pagination. <code>offset</code> is an object identifier that defines a place in the list.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">id</code><br /><em>optional</em></td>
+      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">id</code> field.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">key</code><br /><em>optional</em></td>
+      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">key</code> field.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">consumer_id</code><br /><em>optional</em></td>
+      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">consumer_id</code> field.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">size</code><br /><em>optional, default is <strong>100</strong></em></td>
+      <td>A limit on the number of objects to be returned.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">offset</code><br /><em>optional</em></td>
+      <td>A cursor used for pagination. <code class="highlighter-rouge">offset</code> is an object identifier that defines a place in the list.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="retrieve-the-consumer-associated-with-a-jwt">Retrieve the Consumer associated with a JWT</h3>
 
@@ -1120,16 +1240,20 @@ request:</p>
 
 <p>It is possible to retrieve a <a href="/latest/admin-api/#consumer-object">Consumer</a> associated with a JWT
 using the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://kong:8001/jwts/<span class="o">{</span>key or id<span class="o">}</span>/consumer
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X GET http://kong:8001/jwts/<span class="o">{</span>key or id<span class="o">}</span>/consumer
 
 <span class="o">{</span>
    <span class="s2">"created_at"</span>:1507936639000,
    <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
    <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
 <span class="o">}</span>
-</code></pre></div>
-<p><code>key or id</code>: The <code>id</code> or <code>key</code> property of the JWT for which to get the
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">key or id</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">key</code> property of the JWT for which to get the
 associated <a href="/latest/admin-api/#consumer-object">Consumer</a>.</p>
+
 
 
       
@@ -1295,7 +1419,7 @@ associated <a href="/latest/admin-api/#consumer-object">Consumer</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

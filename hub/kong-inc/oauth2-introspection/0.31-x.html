@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -267,20 +267,20 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#flow">Flow</a></li>
-<li> <a href="#associate-the-response-to-a-consumer">Associate the response to a Consumer</a></li>
-<li> <a href="#upstream-headers">Upstream Headers</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#flow">Flow</a></li>
+      <li><a href="#associate-the-response-to-a-consumer">Associate the response to a Consumer</a></li>
+      <li><a href="#upstream-headers">Upstream Headers</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -468,54 +468,68 @@ third-party OAuth 2.0 server.</p>
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=oauth2-introspection"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=oauth2-introspection"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=oauth2-introspection"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -523,12 +537,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=oauth2-introspection"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -546,7 +563,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -589,7 +607,7 @@ target.</li>
     
       <tr>
         <td><code>config.token_type_hint</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -599,7 +617,7 @@ target.</li>
     
       <tr>
         <td><code>config.ttl</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>60</p>
@@ -610,7 +628,7 @@ target.</li>
     
       <tr>
         <td><code>config.hide_credentials</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -620,7 +638,7 @@ target.</li>
     
       <tr>
         <td><code>config.timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>10000</p>
@@ -631,7 +649,7 @@ target.</li>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>60000</p>
@@ -642,22 +660,22 @@ target.</li>
     
       <tr>
         <td><code>config.anonymous</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure 4xx.</p>
+        <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure 4xx.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.run_on_preflight</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>true</p>
 </td>
-        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code>OPTIONS</code> preflight requests. If set to <code>false</code> then <code>OPTIONS</code> requests will always be allowed.</p>
+        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests. If set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
       </tr>
     
@@ -669,37 +687,37 @@ target.</li>
 
       
 
-      <h3 id="flow">Flow</h3>
 
+      <h3 id="flow">Flow</h3>
 <p><img src="https://konghq.com/wp-content/uploads/2018/09/oauth-introspection-flow.png" alt="OAuth2 Introspection Flow" /></p>
 
 <h3 id="associate-the-response-to-a-consumer">Associate the response to a Consumer</h3>
 
-<p>To associate the introspection response resolution to a Kong Consumer, you will have to provision a Kong Consumer with the same <code>username</code> returned by the Introspection Endpoint response.</p>
+<p>To associate the introspection response resolution to a Kong Consumer, you will have to provision a Kong Consumer with the same <code class="highlighter-rouge">username</code> returned by the Introspection Endpoint response.</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream API/Microservice, so that you can identify the consumer in your code:</p>
 
 <ul>
-<li><code>X-Consumer-ID</code>, the ID of the Consumer on Kong (if matched)</li>
-<li><code>X-Consumer-Custom-ID</code>, the custom_id of the Consumer (if matched and if existing)</li>
-<li><code>X-Consumer-Username</code>, the username of the Consumer (if matched and if existing)</li>
-<li><code>X-Anonymous-Consumer</code>, will be set to true when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
-<li><code>X-Credential-Scope</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Client-ID</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Username</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Token-Type</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Exp</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Iat</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Nbf</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Sub</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Aud</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Iss</code>, as returned by the Introspection response (if any)</li>
-<li><code>X-Credential-Jti</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the Consumer on Kong (if matched)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the custom_id of the Consumer (if matched and if existing)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the username of the Consumer (if matched and if existing)</li>
+  <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to true when authentication failed, and the ‘anonymous’ consumer was set instead.</li>
+  <li><code class="highlighter-rouge">X-Credential-Scope</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Client-ID</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Username</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Token-Type</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Exp</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Iat</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Nbf</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Sub</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Aud</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Iss</code>, as returned by the Introspection response (if any)</li>
+  <li><code class="highlighter-rouge">X-Credential-Jti</code>, as returned by the Introspection response (if any)</li>
 </ul>
 
-<p>Note: Aforementioned <code>X-Credential-*</code> headers are not set when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</p>
+<p>Note: Aforementioned <code class="highlighter-rouge">X-Credential-*</code> headers are not set when authentication failed, and the ‘anonymous’ consumer was set instead.</p>
 
 
       
@@ -865,7 +883,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

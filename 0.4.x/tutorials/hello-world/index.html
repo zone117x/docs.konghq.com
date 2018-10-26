@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -607,30 +607,36 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#hello-world-proxying-your-first-api">Hello World: Proxying your first API</a></li>
+  <li><a href="#hello-world-proxying-your-first-api">Hello World: Proxying your first API</a></li>
 </ul>
 
           
 
           <h1 id="hello-world-proxying-your-first-api">Hello World: Proxying your first API</h1>
 
-<p>Kong sits in front of any configured API, and it&#39;s the main entry point of any HTTP request. For example, let&#39;s configure Kong to support <a href="http://mockbin.com/">mockbin</a> as an API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<p>Kong sits in front of any configured API, and it’s the main entry point of any HTTP request. For example, let’s configure Kong to support <a href="http://mockbin.com/">mockbin</a> as an API:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://127.0.0.1:8001/apis/ <span class="se">\</span>
   --data <span class="s1">'name=mockbin&amp;target_url=http://mockbin.com&amp;public_dns=api.mockbin.com'</span>
 HTTP/1.1 201 Created
-</code></pre></div>
-<p>We used the <code>8001</code> port, which the RESTful Admin API of Kong listens on.</p>
+</code></pre>
+</div>
 
-<p>We can now make our first HTTP requests through Kong by using the <code>8000</code> port, which is the port that API consumers will use to consume any API behind Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+<p>We used the <code class="highlighter-rouge">8001</code> port, which the RESTful Admin API of Kong listens on.</p>
+
+<p>We can now make our first HTTP requests through Kong by using the <code class="highlighter-rouge">8000</code> port, which is the port that API consumers will use to consume any API behind Kong:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://127.0.0.1:8000/ <span class="se">\</span>
   --header <span class="s1">'Host: api.mockbin.com'</span>
 HTTP/1.1 200 OK
-</code></pre></div>
-<p>Kong accepted the request and proxied it to the <code>target_url</code> property we configured when adding the API, <code>http://mockbin.com</code>, and sent us the response.</p>
+</code></pre>
+</div>
 
-<p>On a side note you will notice a little trick: we are requesting the API on <code>127.0.0.1</code> by manually setting the <code>Host</code> header to match the <code>public_dns</code> of the API. This will fool the system by making it believe the request has been made to <code>api.mockbin.com</code>. In production you want to setup a DNS record that will reference the domain name to your Kong servers through a CNAME or A record, thus avoiding doing this trick. If Kong is sitting behind a load balancer, then the domain should target the load balancer.</p>
+<p>Kong accepted the request and proxied it to the <code class="highlighter-rouge">target_url</code> property we configured when adding the API, <code class="highlighter-rouge">http://mockbin.com</code>, and sent us the response.</p>
+
+<p>On a side note you will notice a little trick: we are requesting the API on <code class="highlighter-rouge">127.0.0.1</code> by manually setting the <code class="highlighter-rouge">Host</code> header to match the <code class="highlighter-rouge">public_dns</code> of the API. This will fool the system by making it believe the request has been made to <code class="highlighter-rouge">api.mockbin.com</code>. In production you want to setup a DNS record that will reference the domain name to your Kong servers through a CNAME or A record, thus avoiding doing this trick. If Kong is sitting behind a load balancer, then the domain should target the load balancer.</p>
 
 <p>Congratulations! The API has been successfully added to Kong and now we can start adding functionalities on top of it.</p>
 
@@ -807,7 +813,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -606,54 +606,58 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#adding-your-api">Adding your API</a>
-
-<ul>
-<li> <a href="#1-add-your-api-using-the-admin-api-or-gui">1. Add your API using the Admin API or GUI</a></li>
-<li> <a href="#2-verify-that-your-api-has-been-added">2. Verify that your API has been added</a></li>
-<li> <a href="#3-forward-your-requests-through-kong-ee">3. Forward your requests through Kong EE</a></li>
-<li> <a href="#next-steps">Next Steps</a></li>
-</ul></li>
+  <li><a href="#adding-your-api">Adding your API</a>
+    <ul>
+      <li><a href="#1-add-your-api-using-the-admin-api-or-gui">1. Add your API using the Admin API or GUI</a></li>
+      <li><a href="#2-verify-that-your-api-has-been-added">2. Verify that your API has been added</a></li>
+      <li><a href="#3-forward-your-requests-through-kong-ee">3. Forward your requests through Kong EE</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="adding-your-api">Adding your API</h1>
 
-<p>In this section, you&#39;ll be adding your API to Kong Enterprise Edition (EE).
+<p>In this section, you’ll be adding your API to Kong Enterprise Edition (EE).
 This is the first
 step to having Kong EE manage your API. For purposes of this Getting Started
 guide, we suggest adding the <a href="https://mockbin.com/">Mockbin API</a> to Kong, as Mockbin is
 helpful for learning how Kong EE proxies your API requests.</p>
 
-<p>Kong exposes a <a href="/latest/admin-api">RESTful Admin API</a> on ports <code>:8001</code> and <code>:8444</code> and an
-Admin GUI on ports <code>:8002</code> and <code>:8445</code> for managing the
+<p>Kong exposes a <a href="/latest/admin-api">RESTful Admin API</a> on ports <code class="highlighter-rouge">:8001</code> and <code class="highlighter-rouge">:8444</code> and an
+Admin GUI on ports <code class="highlighter-rouge">:8002</code> and <code class="highlighter-rouge">:8445</code> for managing the
 configuration of your Kong instance or cluster. The Admin GUI makes
 requests to the Admin API, and you can use either interface for configuring
 and managing Kong EE.</p>
 
 <h2 id="1-add-your-api-using-the-admin-api-or-gui">1. Add your API using the Admin API or GUI</h2>
 
-<p>If you&#39;d like to use the Admin API, issue the following cURL request to add
+<p>If you’d like to use the Admin API, issue the following cURL request to add
 your first API (<a href="https://mockbin.com/">Mockbin</a>) to Kong EE:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/apis/ <span class="se">\</span>
   --data <span class="s1">'name=example-api'</span> <span class="se">\</span>
   --data <span class="s1">'hosts=example.com'</span> <span class="se">\</span>
   --data <span class="s1">'upstream_url=http://mockbin.org'</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Or, add your first API via the Admin GUI:</p>
 
-<video width="100%" autoplay loop controls>
-  <source src="https://konghq.com/wp-content/uploads/2018/03/first-api-ee0.31.mp4" type="video/mp4">
+<video width="100%" autoplay="" loop="" controls="">
+  <source src="https://konghq.com/wp-content/uploads/2018/03/first-api-ee0.31.mp4" type="video/mp4" />
   Your browser does not support the video tag.
 </video>
 
 <h2 id="2-verify-that-your-api-has-been-added">2. Verify that your API has been added</h2>
 
-<p>You&#39;ll get a confirmation message in the Admin GUI, or if you used cURL
+<p>You’ll get a confirmation message in the Admin GUI, or if you used cURL
 you should see a response similar to the following:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+
+<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
@@ -674,30 +678,36 @@ you should see a response similar to the following:</p>
   </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://mockbin.org"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+</span></code></pre>
+</div>
+
 <p>Kong is now aware of your API and ready to proxy requests.</p>
 
 <h2 id="3-forward-your-requests-through-kong-ee">3. Forward your requests through Kong EE</h2>
 
 <p>Issue the following cURL request to verify that Kong is properly forwarding
 requests to your API. Note that <a href="/latest/configuration/#nginx-section">by default</a> Kong handles proxy
-requests on port <code>:8000</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+requests on port <code class="highlighter-rouge">:8000</code>:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ <span class="se">\</span>
   --header <span class="s1">'Host: example.com'</span>
-</code></pre></div>
-<p>A successful response means Kong is now forwarding requests made to
-<code>http://localhost:8000</code> to the <code>upstream_url</code> we configured in step #1,
-and is forwarding the response back to us. Kong knows to do this through
-the header defined in the above cURL request <code>Host: example.com</code></p>
+</code></pre>
+</div>
 
-<hr>
+<p>A successful response means Kong is now forwarding requests made to
+<code class="highlighter-rouge">http://localhost:8000</code> to the <code class="highlighter-rouge">upstream_url</code> we configured in step #1,
+and is forwarding the response back to us. Kong knows to do this through
+the header defined in the above cURL request <code class="highlighter-rouge">Host: example.com</code></p>
+
+<hr />
 
 <h2 id="next-steps">Next Steps</h2>
 
-<p>Now that you&#39;ve added your API to Kong EE, let&#39;s learn how to enable plugins.</p>
+<p>Now that you’ve added your API to Kong EE, let’s learn how to enable plugins.</p>
 
-<p>Go to <a href="/enterprise/0.31-x/getting-started/enabling-plugins">Enabling Plugins &rsaquo;</a></p>
+<p>Go to <a href="/enterprise/0.31-x/getting-started/enabling-plugins">Enabling Plugins ›</a></p>
+
 
 
         </div>
@@ -854,7 +864,7 @@ the header defined in the above cURL request <code>Host: example.com</code></p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

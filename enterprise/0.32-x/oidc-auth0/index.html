@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -638,19 +638,19 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#auth0-idp-configuration">Auth0 IDP configuration</a>
-
-<ul>
-<li> <a href="#api-configuration">API configuration</a></li>
-<li> <a href="#client-configuration">Client configuration</a></li>
-</ul></li>
-<li> <a href="#kong-configuration">Kong configuration</a></li>
-<li> <a href="#downstream-configuration">Downstream configuration</a></li>
+  <li><a href="#auth0-idp-configuration">Auth0 IDP configuration</a>
+    <ul>
+      <li><a href="#api-configuration">API configuration</a></li>
+      <li><a href="#client-configuration">Client configuration</a></li>
+    </ul>
+  </li>
+  <li><a href="#kong-configuration">Kong configuration</a></li>
+  <li><a href="#downstream-configuration">Downstream configuration</a></li>
 </ul>
 
           
 
-          <p>This guide covers an example OpenID Connect plugin configuration to authenticate headless service consumers using Auth0&#39;s identity provider.</p>
+          <p>This guide covers an example OpenID Connect plugin configuration to authenticate headless service consumers using Auth0’s identity provider.</p>
 
 <h1 id="auth0-idp-configuration">Auth0 IDP configuration</h1>
 
@@ -660,29 +660,33 @@ window['_fs_namespace'] = 'FS';
 
 <p>When creating your API, you will need to specify an Identifier. Using the URL that your consumer makes requests to is generally appropriate, so this will typically be the hostname/path combination configured as an API in Kong.</p>
 
-<p>After creating your API, you will also need to add the <code>openid</code> scope at <code>https://manage.auth0.com/#/apis/&lt;API ID&gt;/scopes</code>.</p>
+<p>After creating your API, you will also need to add the <code class="highlighter-rouge">openid</code> scope at <code class="highlighter-rouge">https://manage.auth0.com/#/apis/&lt;API ID&gt;/scopes</code>.</p>
 
 <h2 id="client-configuration">Client configuration</h2>
 
-<p>You will need to authorize your client to access your API. Auth0 will prompt you to do so after client creation if you select the API you created previously from the client&#39;s Quick Start menu. After toggling the client to Authorized, expand its authorization settings and enable the <code>openid</code> scope.</p>
+<p>You will need to authorize your client to access your API. Auth0 will prompt you to do so after client creation if you select the API you created previously from the client’s Quick Start menu. After toggling the client to Authorized, expand its authorization settings and enable the <code class="highlighter-rouge">openid</code> scope.</p>
 
 <h1 id="kong-configuration">Kong configuration</h1>
 
-<p>If you have not done so already, <a href="/latest/admin-api/#add-api">create an API</a> to protect. The <code>url</code> configuration should match the Identifier you used when configuring Auth0.</p>
+<p>If you have not done so already, <a href="/latest/admin-api/#add-api">create an API</a> to protect. The <code class="highlighter-rouge">url</code> configuration should match the Identifier you used when configuring Auth0.</p>
 
-<p>Add an OpenID plugin configuration using the parameters in the example below using an HTTP client or the Admin GUI. Auth0&#39;s token endpoint <a href="https://auth0.com/docs/api/authentication#client-credentials">requires passing the API identifier in the <code>audience</code> parameter</a>, which must be added as a custom argument:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/kong-admin/apis/&lt;API name&gt;/plugins --data <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
+<p>Add an OpenID plugin configuration using the parameters in the example below using an HTTP client or the Admin GUI. Auth0’s token endpoint <a href="https://auth0.com/docs/api/authentication#client-credentials">requires passing the API identifier in the <code class="highlighter-rouge">audience</code> parameter</a>, which must be added as a custom argument:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/kong-admin/apis/&lt;API name&gt;/plugins --data <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
   --data config.auth_methods<span class="o">=</span><span class="s2">"client_credentials"</span> <span class="se">\</span>
   --data config.issuer<span class="o">=</span><span class="s2">"https://&lt;auth0 API name&gt;.auth0.com/.well-known/openid-configuration"</span> <span class="se">\</span>
   --data config.token_post_args_names<span class="o">=</span><span class="s2">"audience"</span> <span class="se">\</span>
   --data config.token_post_args_values<span class="o">=</span><span class="s2">"https://example.com/"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h1 id="downstream-configuration">Downstream configuration</h1>
 
-<p>The service accessing your resource will need to pass its credentials to Kong. It can do so via HTTP basic authentication, query string arguments, or parameters in the request body. Basic authentication is generally preferable, as credentials in a query string will be present in Kong&#39;s access logs (and possibly in other infrastructure&#39;s access logs, if you have HTTP-aware infrastructure in front of Kong) and credentials in request bodies are limited to request methods that expect
+<p>The service accessing your resource will need to pass its credentials to Kong. It can do so via HTTP basic authentication, query string arguments, or parameters in the request body. Basic authentication is generally preferable, as credentials in a query string will be present in Kong’s access logs (and possibly in other infrastructure’s access logs, if you have HTTP-aware infrastructure in front of Kong) and credentials in request bodies are limited to request methods that expect
 client payloads.</p>
 
-<p>For basic authentication, use your client ID as the username and your client secret as the password. For the other methods, pass them as parameters named <code>client_id</code> and <code>client_secret</code>, respectively.</p>
+<p>For basic authentication, use your client ID as the username and your client secret as the password. For the other methods, pass them as parameters named <code class="highlighter-rouge">client_id</code> and <code class="highlighter-rouge">client_secret</code>, respectively.</p>
+
 
 
         </div>
@@ -839,7 +843,7 @@ client payloads.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

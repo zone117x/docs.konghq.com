@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,154 +754,165 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#add-a-user">Add a User</a></li>
-<li> <a href="#retrieve-a-user">Retrieve a User</a></li>
-<li> <a href="#list-users">List Users</a></li>
-<li> <a href="#update-or-create-a-user">Update or Create a User</a></li>
-<li> <a href="#update-a-user">Update a User</a></li>
-<li> <a href="#delete-a-user">Delete a User</a></li>
-<li> <a href="#add-a-role">Add a Role</a></li>
-<li> <a href="#retrieve-a-role">Retrieve a Role</a></li>
-<li> <a href="#list-roles">List Roles</a></li>
-<li> <a href="#update-or-create-a-role">Update or Create a Role</a></li>
-<li> <a href="#update-a-role">Update a Role</a></li>
-<li> <a href="#delete-a-role">Delete a Role</a></li>
-<li> <a href="#add-a-role-endpoint-permission">Add a Role Endpoint Permission</a></li>
-<li> <a href="#retrieve-a-role-endpoint-permission">Retrieve a Role Endpoint Permission</a></li>
-<li> <a href="#list-role-endpoints-permissions">List Role Endpoints Permissions</a></li>
-<li> <a href="#update-a-role-endpoint-permission">Update a Role Endpoint Permission</a></li>
-<li> <a href="#delete-a-role-endpoint-permission">Delete a Role Endpoint Permission</a></li>
-<li> <a href="#add-a-role-entity-permisson">Add a Role Entity Permisson</a></li>
-<li> <a href="#retrieve-a-role-entity-permisson">Retrieve a Role Entity Permisson</a></li>
-<li> <a href="#list-entity-permissons">List Entity Permissons</a></li>
-<li> <a href="#update-an-entity-permission">Update an Entity Permission</a></li>
-<li> <a href="#delete-an-entity-permission">Delete an Entity Permission</a></li>
-<li> <a href="#list-role-permissions">List Role Permissions</a></li>
-<li> <a href="#add-a-user-to-a-role">Add a User to a Role</a></li>
-<li> <a href="#list-a-users-roles">List a User&#39;s Roles</a></li>
-<li> <a href="#delete-a-role-from-a-user">Delete a Role from a User</a>
-
-<ul>
-<li> <a href="#list-a-users-permissions">List a User&#39;s Permissions</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#add-a-user">Add a User</a></li>
+  <li><a href="#retrieve-a-user">Retrieve a User</a></li>
+  <li><a href="#list-users">List Users</a></li>
+  <li><a href="#update-or-create-a-user">Update or Create a User</a></li>
+  <li><a href="#update-a-user">Update a User</a></li>
+  <li><a href="#delete-a-user">Delete a User</a></li>
+  <li><a href="#add-a-role">Add a Role</a></li>
+  <li><a href="#retrieve-a-role">Retrieve a Role</a></li>
+  <li><a href="#list-roles">List Roles</a></li>
+  <li><a href="#update-or-create-a-role">Update or Create a Role</a></li>
+  <li><a href="#update-a-role">Update a Role</a></li>
+  <li><a href="#delete-a-role">Delete a Role</a></li>
+  <li><a href="#add-a-role-endpoint-permission">Add a Role Endpoint Permission</a></li>
+  <li><a href="#retrieve-a-role-endpoint-permission">Retrieve a Role Endpoint Permission</a></li>
+  <li><a href="#list-role-endpoints-permissions">List Role Endpoints Permissions</a></li>
+  <li><a href="#update-a-role-endpoint-permission">Update a Role Endpoint Permission</a></li>
+  <li><a href="#delete-a-role-endpoint-permission">Delete a Role Endpoint Permission</a></li>
+  <li><a href="#add-a-role-entity-permisson">Add a Role Entity Permisson</a></li>
+  <li><a href="#retrieve-a-role-entity-permisson">Retrieve a Role Entity Permisson</a></li>
+  <li><a href="#list-entity-permissons">List Entity Permissons</a></li>
+  <li><a href="#update-an-entity-permission">Update an Entity Permission</a></li>
+  <li><a href="#delete-an-entity-permission">Delete an Entity Permission</a></li>
+  <li><a href="#list-role-permissions">List Role Permissions</a></li>
+  <li><a href="#add-a-user-to-a-role">Add a User to a Role</a></li>
+  <li><a href="#list-a-users-roles">List a User’s Roles</a></li>
+  <li><a href="#delete-a-role-from-a-user">Delete a Role from a User</a>
+    <ul>
+      <li><a href="#list-a-users-permissions">List a User’s Permissions</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Kong Enterprise&#39;s RBAC feature is configurable through Kong&#39;s <a href="/0.33-x/admin-api/">Admin
+<p>Kong Enterprise’s RBAC feature is configurable through Kong’s <a href="/0.33-x/admin-api/">Admin
 API</a> or via the <a href="/0.33-x/api-admin-gui/">Admin GUI</a>.</p>
 
 <p>There are 4 basic entities involving RBAC.</p>
 
 <ul>
-<li><strong>User</strong>: The entity interacting with the system. Can be associated with
-zero, one or more roles. Example: user <code>bob</code> has token <code>1234</code>.</li>
-<li><strong>Role</strong>: Set of permissions (<code>role_endpoint</code> and
-<code>role_entity</code>). Has a name and can be associated with zero, one or
+  <li><strong>User</strong>: The entity interacting with the system. Can be associated with
+zero, one or more roles. Example: user <code class="highlighter-rouge">bob</code> has token <code class="highlighter-rouge">1234</code>.</li>
+  <li><strong>Role</strong>: Set of permissions (<code class="highlighter-rouge">role_endpoint</code> and
+<code class="highlighter-rouge">role_entity</code>). Has a name and can be associated with zero, one or
 more permissions. Example: user bob is associated with role
-<code>developer</code>.</li>
-<li><strong>role_endpoint</strong>: A set of enabled or disabled (see <code>negative</code>
-parameter) actions (<code>read</code>, <code>create</code>, <code>update</code>, <code>delete</code>)
-<code>endpoint</code>. Example: Role <code>developer</code> has 1 role_endpoint: <code>read &amp;
-write</code> to endpoint <code>/routes</code></li>
-<li><strong>role_entity</strong>: A set of enabled or disabled (see <code>negative</code>
-parameter) actions (<code>read</code>, <code>create</code>, <code>update</code>, <code>delete</code>)
-<code>entity</code>. Example: Role <code>developer</code> has 1 role_entity: <code>read &amp; write
-&amp; delete</code> to entity <code>283fccff-2d4f-49a9-8730-dc8b71ec2245</code>.</li>
+<code class="highlighter-rouge">developer</code>.</li>
+  <li><strong>role_endpoint</strong>: A set of enabled or disabled (see <code class="highlighter-rouge">negative</code>
+parameter) actions (<code class="highlighter-rouge">read</code>, <code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, <code class="highlighter-rouge">delete</code>)
+<code class="highlighter-rouge">endpoint</code>. Example: Role <code class="highlighter-rouge">developer</code> has 1 role_endpoint: <code class="highlighter-rouge">read &amp;
+write</code> to endpoint <code class="highlighter-rouge">/routes</code></li>
+  <li><strong>role_entity</strong>: A set of enabled or disabled (see <code class="highlighter-rouge">negative</code>
+parameter) actions (<code class="highlighter-rouge">read</code>, <code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, <code class="highlighter-rouge">delete</code>)
+<code class="highlighter-rouge">entity</code>. Example: Role <code class="highlighter-rouge">developer</code> has 1 role_entity: <code class="highlighter-rouge">read &amp; write
+&amp; delete</code> to entity <code class="highlighter-rouge">283fccff-2d4f-49a9-8730-dc8b71ec2245</code>.</li>
 </ul>
 
 <h2 id="add-a-user">Add a User</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint post">/rbac/users</div>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The RBAC user name.</td>
-</tr>
-<tr>
-<td><code>user_token</code><br>optional</td>
-<td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
-</tr>
-<tr>
-<td><code>enabled</code><br>optional</td>
-<td>A flag to enable or disable the user. By default, users are enabled.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC user object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>The RBAC user name.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">user_token</code><br />optional</td>
+      <td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">enabled</code><br />optional</td>
+      <td>A flag to enable or disable the user. By default, users are enabled.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC user object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 201 Created
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"283fccff-2d4f-49a9-8730-dc8b71ec2245"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"user_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9CiAvvgnqCQmarplngmT3rJImEujOw7m"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="retrieve-a-user">Retrieve a User</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/users/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"283fccff-2d4f-49a9-8730-dc8b71ec2245"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"user_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9CiAvvgnqCQmarplngmT3rJImEujOw7m"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="list-users">List Users</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/users/</div>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524409000</span><span class="p">,</span><span class="w">
@@ -913,203 +924,230 @@ HTTP 200 OK
  </span><span class="p">],</span><span class="w">
  </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="update-or-create-a-user">Update or Create a User</h2>
-
-<p><strong>Endpoint</strong>
+<p><strong>Endpoint</strong></p>
 <div class="endpoint put">/rbac/users</div>
-<strong>Request Body</strong></p>
+<p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The RBAC user name.</td>
-</tr>
-<tr>
-<td><code>user_token</code><br>optional</td>
-<td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
-</tr>
-<tr>
-<td><code>enabled</code><br>optional</td>
-<td>A flag to enable or disable the user. By default, users are enabled.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC user object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>The RBAC user name.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">user_token</code><br />optional</td>
+      <td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">enabled</code><br />optional</td>
+      <td>A flag to enable or disable the user. By default, users are enabled.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC user object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
-not</strong> contain an entity&#39;s primary key (<code>id</code> for Users), the entity will be
+<p>The behavior of <code class="highlighter-rouge">PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity’s primary key (<code class="highlighter-rouge">id</code> for Users), the entity will be
 created with the given payload. If the request payload <strong>does</strong> contain an
-entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
-given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+entity’s primary key, the payload will “replace” the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code class="highlighter-rouge">404
 NOT FOUND</code> will be returned.</p>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
-</code></pre></div>
-<h2 id="update-a-user">Update a User</h2>
 
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre>
+</div>
+
+<h2 id="update-a-user">Update a User</h2>
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint patch">/rbac/users/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>user_token</code><br>optional</td>
-<td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
-</tr>
-<tr>
-<td><code>enabled</code><br>optional</td>
-<td>A flag to enable or disable the user. By default, users are enabled.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC user object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">user_token</code><br />optional</td>
+      <td>The authentication token to be presented to the Admin API. If this value is not present, the token will automatically be generated.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">enabled</code><br />optional</td>
+      <td>A flag to enable or disable the user. By default, users are enabled.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC user object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"283fccff-2d4f-49a9-8730-dc8b71ec2245"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"user_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9CiAvvgnqCQmarplngmT3rJImEujOw7m"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="delete-a-user">Delete a User</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint delete">/rbac/users/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 204 No Content
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre>
+</div>
+<hr />
 
 <h2 id="add-a-role">Add a Role</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint post">/rbac/roles</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The RBAC role name.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC user object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>The RBAC role name.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC user object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 201 Created
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8ddc36ee-dde0-4daa-baae-6868f4514256"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read-only"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="retrieve-a-role">Retrieve a Role</h2>
-
 <p>Endpoint</p>
 
 <div class="endpoint get">/rbac/roles/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8ddc36ee-dde0-4daa-baae-6868f4514256"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read-only"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="list-roles">List Roles</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/roles</div>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524270000</span><span class="p">,</span><span class="w">
@@ -1119,188 +1157,213 @@ HTTP 200 OK
  </span><span class="p">],</span><span class="w">
  </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="update-or-create-a-role">Update or Create a Role</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint put">/rbac/roles</div>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The RBAC role name.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC user object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>The RBAC role name.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC user object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The behavior of <code>PUT</code> endpoints is the following: if the request payload <strong>does
-not</strong> contain an entity&#39;s primary key (<code>id</code> for Users), the entity will be
+<p>The behavior of <code class="highlighter-rouge">PUT</code> endpoints is the following: if the request payload <strong>does
+not</strong> contain an entity’s primary key (<code class="highlighter-rouge">id</code> for Users), the entity will be
 created with the given payload. If the request payload <strong>does</strong> contain an
-entity&#39;s primary key, the payload will &quot;replace&quot; the entity specified by the
-given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code>404
+entity’s primary key, the payload will “replace” the entity specified by the
+given primary key. If the primary key is <strong>not</strong> that of an existing entity, <code class="highlighter-rouge">404
 NOT FOUND</code> will be returned.</p>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created or HTTP 200 OK
-</code></pre></div>
-<h2 id="update-a-role">Update a Role</h2>
 
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre>
+</div>
+
+<h2 id="update-a-role">Update a Role</h2>
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint patch">/rbac/roles/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC role object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC role object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501395904000</span><span class="p">,</span><span class="w">
  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"283fccff-2d4f-49a9-8730-dc8b71ec2245"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+<hr />
 
 <h2 id="delete-a-role">Delete a Role</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint delete">/rbac/role/{name_or_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>The RBAC role name.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>The RBAC role name.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 204 No Content
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre>
+</div>
+<hr />
 
 <h2 id="add-a-role-endpoint-permission">Add a Role Endpoint Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint post">/rbac/roles/{name_or_id}/endpoints</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>workspace</code></td>
-<td>Workspace tied to the endpoint. Defaults to the default permission. Special value of &quot;<em>&quot; means **all</em>* workspaces are affected</td>
-</tr>
-<tr>
-<td><code>endpoint</code></td>
-<td>Endpoint associated with this permission.</td>
-</tr>
-<tr>
-<td><code>negative</code></td>
-<td>If true, explicitly disallow the actions associated with the permissions tied to this endpoint. By default this value is false.</td>
-</tr>
-<tr>
-<td><code>actions</code></td>
-<td>One or more actions associated with this permission. This is a comma separated string (read,create,update,delete)</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC permission object.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">workspace</code></td>
+      <td>Workspace tied to the endpoint. Defaults to the default permission. Special value of “*” means <strong>all</strong> workspaces are affected</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">endpoint</code></td>
+      <td>Endpoint associated with this permission.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">negative</code></td>
+      <td>If true, explicitly disallow the actions associated with the permissions tied to this endpoint. By default this value is false.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">actions</code></td>
+      <td>One or more actions associated with this permission. This is a comma separated string (read,create,update,delete)</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC permission object.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><code>endpoint</code> must be the path of the associated endpoint. They can be
-exact matches, or contain wildcards, represented by <code>*</code>.</p>
-
-<ul>
-<li><p>Exact matches; eg:</p>
-
-<ul>
-<li>/apis/</li>
-<li>/apis/foo</li>
-</ul></li>
-<li><p>Wildcards; eg:</p>
+<p><code class="highlighter-rouge">endpoint</code> must be the path of the associated endpoint. They can be
+exact matches, or contain wildcards, represented by <code class="highlighter-rouge">*</code>.</p>
 
 <ul>
-<li>/apis/*</li>
-<li>/apis/*/plugins</li>
-</ul></li>
+  <li>Exact matches; eg:
+    <ul>
+      <li>/apis/</li>
+      <li>/apis/foo</li>
+    </ul>
+  </li>
+  <li>Wildcards; eg:
+    <ul>
+      <li>/apis/*</li>
+      <li>/apis/*/plugins</li>
+    </ul>
+  </li>
 </ul>
 
-<p>Where <code>*</code> replaces exactly one segment between slashes (or the end of
+<p>Where <code class="highlighter-rouge">*</code> replaces exactly one segment between slashes (or the end of
 the path).</p>
 
-<p>Note that wildcards can be nested (<code>/rbac/*</code>, <code>/rbac/*/*</code>,
-<code>/rbac/*/*/*</code> would refer to all paths under <code>/rbac/</code>)</p>
+<p>Note that wildcards can be nested (<code class="highlighter-rouge">/rbac/*</code>, <code class="highlighter-rouge">/rbac/*/*</code>,
+<code class="highlighter-rouge">/rbac/*/*/*</code> would refer to all paths under <code class="highlighter-rouge">/rbac/</code>)</p>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 201 Created
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
  </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
   </span><span class="s2">"read"</span><span class="w">
  </span><span class="p">],</span><span class="w">
@@ -1310,38 +1373,46 @@ the path).</p>
  </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d881bd36-00ca-404f-b428-427b2eab0184"</span><span class="p">,</span><span class="w">
  </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="retrieve-a-role-endpoint-permission">Retrieve a Role Endpoint Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/roles/{name_or_id}/endpoints/{worspace_name_or_id}/{endpoint}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-<tr>
-<td><code>worspace_name_or_id</code></td>
-<td>The worspace name or UUID.</td>
-</tr>
-<tr>
-<td><code>endpoint</code></td>
-<td>The endpoint associated with this permisson.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">worspace_name_or_id</code></td>
+      <td>The worspace name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">endpoint</code></td>
+      <td>The endpoint associated with this permisson.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/routes"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529052518000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22ffce18-afef-4f19-a1b2-2071f52e2f30"</span><span class="p">,</span><span class="w">
@@ -1352,32 +1423,38 @@ the path).</p>
   </span><span class="nt">"negative"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="list-role-endpoints-permissions">List Role Endpoints Permissions</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/roles/{role_name_or_id}/endpoints</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>role_name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">role_name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -1403,44 +1480,52 @@ HTTP 200 OK
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="update-a-role-endpoint-permission">Update a Role Endpoint Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint patch">/rbac/roles/{name_or_id}/endpoints/{worspace_name_or_id}/{endpoint}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-<tr>
-<td><code>worspace_name_or_id</code></td>
-<td>The worspace name or UUID.</td>
-</tr>
-<tr>
-<td><code>endpoint</code></td>
-<td>The endpoint associated with this permisson.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">worspace_name_or_id</code></td>
+      <td>The worspace name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">endpoint</code></td>
+      <td>The endpoint associated with this permisson.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong>
 | Attribute             | Description                                                                                                                     |
-| ---------             | -----------                                                                                                                     |
-| <code>negative</code>            | If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false. |
-| <code>actions</code>             | One or more actions associated with this permission.                                                                            |</p>
+| ———             | ———–                                                                                                                     |
+| <code class="highlighter-rouge">negative</code>            | If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false. |
+| <code class="highlighter-rouge">actions</code>             | One or more actions associated with this permission.                                                                            |</p>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/routes"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529052518000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22ffce18-afef-4f19-a1b2-2071f52e2f30"</span><span class="p">,</span><span class="w">
@@ -1451,38 +1536,46 @@ HTTP 200 OK
   </span><span class="nt">"negative"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="delete-a-role-endpoint-permission">Delete a Role Endpoint Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint delete">/rbac/roles/{name_or_id}/endpoints/{worspace_name_or_id}/{endpoint}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-<tr>
-<td><code>worspace_name_or_id</code></td>
-<td>The worspace name or UUID.</td>
-</tr>
-<tr>
-<td><code>endpoint</code></td>
-<td>The endpoint associated with this permisson.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">worspace_name_or_id</code></td>
+      <td>The worspace name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">endpoint</code></td>
+      <td>The endpoint associated with this permisson.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/routes"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529052518000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22ffce18-afef-4f19-a1b2-2071f52e2f30"</span><span class="p">,</span><span class="w">
@@ -1493,63 +1586,72 @@ HTTP 200 OK
   </span><span class="nt">"negative"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="add-a-role-entity-permisson">Add a Role Entity Permisson</h2>
+<p><strong>Endpoint</strong></p>
+<div class="endpoint post">/rbac/roles/{name_or_id}/entities</div>
 
-<p><strong>Endpoint</strong>
-<div class="endpoint post">/rbac/roles/{name_or_id}/entities</div></p>
-
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>negative</code></td>
-<td>If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false.</td>
-</tr>
-<tr>
-<td><code>entity_id</code></td>
-<td>id of the entity associated with this permission.</td>
-</tr>
-<tr>
-<td><code>actions</code></td>
-<td>One or more actions associated with this permission.</td>
-</tr>
-<tr>
-<td><code>comment</code><br>optional</td>
-<td>A string describing the RBAC permission object</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">negative</code></td>
+      <td>If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">entity_id</code></td>
+      <td>id of the entity associated with this permission.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">actions</code></td>
+      <td>One or more actions associated with this permission.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">comment</code><br />optional</td>
+      <td>A string describing the RBAC permission object</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><code>entity_id</code> must be the ID of an entity in Kong; if the ID of a
+<p><code class="highlighter-rouge">entity_id</code> must be the ID of an entity in Kong; if the ID of a
 workspace is given, the permission will apply to all entities in that
 workspace. Future entities belonging to that workspace will get the
-same permissions. A wildcard <code>*</code> will be interpreted as <strong>all
+same permissions. A wildcard <code class="highlighter-rouge">*</code> will be interpreted as <strong>all
 entities</strong> in the system.</p>
 
-<p><strong>Response</strong>
-<code>
-HTTP 201 Created
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"delete"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
@@ -1563,35 +1665,41 @@ HTTP 201 Created
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"432d7b69-ab71-4567-8089-a02600cdddf6"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="retrieve-a-role-entity-permisson">Retrieve a Role Entity Permisson</h2>
+<p><strong>Endpoint</strong></p>
+<div class="endpoint get">/rbac/roles/{name_or_id}/entities/{entity_id}</div>
 
-<p><strong>Endpoint</strong>
-<div class="endpoint get">/rbac/roles/{name_or_id}/entities/{entity_id}</div></p>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC permisson name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">entity_id</code></td>
+      <td>id of the entity associated with this permission.</td>
+    </tr>
+  </tbody>
+</table>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC permisson name or UUID.</td>
-</tr>
-<tr>
-<td><code>entity_id</code></td>
-<td>id of the entity associated with this permission.</td>
-</tr>
-</tbody></table>
+<p><strong>Response</strong></p>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 Ok
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 Ok
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"delete"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
@@ -1605,31 +1713,38 @@ HTTP 200 Ok
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"432d7b69-ab71-4567-8089-a02600cdddf6"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="list-entity-permissons">List Entity Permissons</h2>
 
-<p><strong>Endpoint</strong>
-<div class="endpoint get">/rbac/roles/{name_or_id}/entities</div></p>
+<p><strong>Endpoint</strong></p>
+<div class="endpoint get">/rbac/roles/{name_or_id}/entities</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC permisson name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC permisson name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 Ok
-</code></p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+<p><strong>Response</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 Ok
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529005234000</span><span class="p">,</span><span class="w">
@@ -1647,52 +1762,62 @@ HTTP 200 Ok
   </span><span class="p">],</span><span class="w">
   </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
 
+<hr />
 <h2 id="update-an-entity-permission">Update an Entity Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint patch">/rbac/roles/{name_or_id}/entities/{entity_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-<tr>
-<td><code>entity_id</code></td>
-<td>The entity name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">entity_id</code></td>
+      <td>The entity name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong></p>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>negative</code></td>
-<td>If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false.</td>
-</tr>
-<tr>
-<td><code>actions</code></td>
-<td>One or more actions associated with this permission.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">negative</code></td>
+      <td>If true, explicitly disallow the actions associated with the permissions tied to this resource. By default this value is false.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">actions</code></td>
+      <td>One or more actions associated with this permission.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Response</strong></p>
-<div class="highlight"><pre><code class="language-" data-lang="">HTTP 200 OK
-</code></pre></div><div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529052531000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"role_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22ffce18-afef-4f19-a1b2-2071f52e2f30"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"entity_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1d947f65-4879-43f0-ad93-f7cf4f05cc51"</span><span class="p">,</span><span class="w">
@@ -1702,242 +1827,260 @@ HTTP 200 Ok
     </span><span class="s2">"read"</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<hr>
+</span></code></pre>
+</div>
+
+<hr />
 
 <h2 id="delete-an-entity-permission">Delete an Entity Permission</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint delete">/rbac/roles/{name_or_id}/entities/{entity_id}</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-<tr>
-<td><code>entity_id</code></td>
-<td>The entity name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">entity_id</code></td>
+      <td>The entity name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 204 No Content
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre>
+</div>
+
+<hr />
 
 <h2 id="list-role-permissions">List Role Permissions</h2>
+<p><strong>Endpoint</strong></p>
+<div class="endpoint get">/rbac/roles/{name_or_id}/permissions/</div>
 
-<p><strong>Endpoint</strong>
-<div class="endpoint get">/rbac/roles/{name_or_id}/permissions/</div></p>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC role name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC role name or UUID.</td>
-</tr>
-</tbody></table>
+<p><strong>Response</strong></p>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code>
-<code>json
-{
-  &quot;entities&quot;: {
-    &quot;1d947f65-4879-43f0-ad93-f7cf4f05cc51&quot;: [
-      &quot;delete&quot;,
-      &quot;create&quot;,
-      &quot;update&quot;,
-      &quot;read&quot;
-    ]
-  },
-  &quot;endpoints&quot;: {
-    &quot;default&quot;: {
-      &quot;/default/routes&quot;: [
-        &quot;read&quot;
-      ]
-    }
-  }
-}
-</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"1d947f65-4879-43f0-ad93-f7cf4f05cc51"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"delete"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"update"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"read"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"endpoints"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"/default/routes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"read"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
 <h2 id="add-a-user-to-a-role">Add a User to a Role</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint post">/rbac/users/{name_or_id}/roles</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong>
 | Attribute | Description                                               |
-| --------- | -----------                                               |
-| <code>roles</code>   | Comma-separated list of role names to assign to the user. |</p>
+| ——— | ———–                                               |
+| <code class="highlighter-rouge">roles</code>   | Comma-separated list of role names to assign to the user. |</p>
 
-<p><strong>Response</strong>
-<code>
-HTTP 201 Created
-</code>
-<code>json
-{
- &quot;roles&quot;: [
-  {
-   &quot;created_at&quot;: 1501524270000,
-   &quot;id&quot;: &quot;9bd49829-2a8b-41fd-b7fc-28e63c100676&quot;,
-   &quot;name&quot;: &quot;developer&quot;
-  }
- ],
- &quot;user&quot;: {
-  &quot;created_at&quot;: 1501524409000,
-  &quot;enabled&quot;: true,
-  &quot;id&quot;: &quot;11cbd5cf-e4e0-47b6-968b-73b062440a4e&quot;,
-  &quot;name&quot;: &quot;bob&quot;,
-  &quot;user_token&quot;: &quot;1VHzdFqU24GmoeAlsoE7V95gWn1OoPjS&quot;
- }
-}
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
+</code></pre>
+</div>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+ </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524270000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9bd49829-2a8b-41fd-b7fc-28e63c100676"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"developer"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+ </span><span class="p">],</span><span class="w">
+ </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524409000</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11cbd5cf-e4e0-47b6-968b-73b062440a4e"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1VHzdFqU24GmoeAlsoE7V95gWn1OoPjS"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
-<h2 id="list-a-users-roles">List a User&#39;s Roles</h2>
-
+<hr />
+<h2 id="list-a-users-roles">List a User’s Roles</h2>
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/users/{name_or_id}/roles</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code>
-<code>json
-{
- &quot;roles&quot;: [
-  {
-   &quot;created_at&quot;: 1501524270000,
-   &quot;id&quot;: &quot;9bd49829-2a8b-41fd-b7fc-28e63c100676&quot;,
-   &quot;name&quot;: &quot;developer&quot;
-  }
- ],
- &quot;user&quot;: {
-  &quot;created_at&quot;: 1501524409000,
-  &quot;enabled&quot;: true,
-  &quot;id&quot;: &quot;11cbd5cf-e4e0-47b6-968b-73b062440a4e&quot;,
-  &quot;name&quot;: &quot;bob&quot;,
-  &quot;user_token&quot;: &quot;1VHzdFqU24GmoeAlsoE7V95gWn1OoPjS&quot;
- }
-}
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+ </span><span class="nt">"roles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524270000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9bd49829-2a8b-41fd-b7fc-28e63c100676"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"developer"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+ </span><span class="p">],</span><span class="w">
+ </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1501524409000</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11cbd5cf-e4e0-47b6-968b-73b062440a4e"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1VHzdFqU24GmoeAlsoE7V95gWn1OoPjS"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
+<hr />
 <h2 id="delete-a-role-from-a-user">Delete a Role from a User</h2>
-
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint delete">/rbac/users/{name_or_id}/roles</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><strong>Request Body</strong>
 | Attribute | Description                                               |
-| --------- | -----------                                               |
-| <code>roles</code>   | Comma-separated list of role names to assign to the user. |</p>
+| ——— | ———–                                               |
+| <code class="highlighter-rouge">roles</code>   | Comma-separated list of role names to assign to the user. |</p>
 
-<p><strong>Response</strong>
-<code>
-HTTP 204 No Content
-</code></p>
+<p><strong>Response</strong></p>
 
-<hr>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre>
+</div>
 
-<h3 id="list-a-users-permissions">List a User&#39;s Permissions</h3>
+<hr />
 
+<h3 id="list-a-users-permissions">List a User’s Permissions</h3>
 <p><strong>Endpoint</strong></p>
 
 <div class="endpoint get">/rbac/users/{name_or_id}/permissions</div>
 
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name_or_id</code></td>
-<td>The RBAC user name or UUID.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name_or_id</code></td>
+      <td>The RBAC user name or UUID.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Response</strong>
-<code>
-HTTP 200 OK
-</code>
-<code>json
-{
-  &quot;entities&quot;: {
-    &quot;1d947f65-4879-43f0-ad93-f7cf4f05cc51&quot;: [
-      &quot;read&quot;
-    ]
-  },
-  &quot;endpoints&quot;: {
-    &quot;default&quot;: {
-      &quot;/default/routes&quot;: [
-        &quot;read&quot;
-      ]
-    }
-  }
-}
-</code></p>
+<p><strong>Response</strong></p>
 
-<p>Next: <a href="/enterprise/0.33-x/rbac/examples/">RBAC Examples &rsaquo;</a></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+</code></pre>
+</div>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"1d947f65-4879-43f0-ad93-f7cf4f05cc51"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"read"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"endpoints"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"/default/routes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"read"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
-<hr>
+<p>Next: <a href="/enterprise/0.33-x/rbac/examples/">RBAC Examples ›</a></p>
+
+<hr />
 
 
         </div>
@@ -2094,7 +2237,7 @@ HTTP 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

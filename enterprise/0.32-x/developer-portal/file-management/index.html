@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -638,80 +638,79 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#file-management">File Management</a>
-
-<ul>
-<li> <a href="#file-types">File Types</a></li>
-<li> <a href="#example-files">Example Files</a>
-
-<ul>
-<li> <a href="#pages">Pages</a></li>
-<li> <a href="#partials">Partials</a></li>
-<li> <a href="#specifications">Specifications</a></li>
-</ul></li>
-<li> <a href="#file-paths">File Paths</a>
-
-<ul>
-<li> <a href="#virtual-paths-and-the-specification-loader">Virtual Paths and the Specification Loader</a></li>
-</ul></li>
-<li> <a href="#adding-files">Adding Files</a>
-    -  <a href="#file-requirements">File Requirements</a>
-    -  <a href="#uploading-a-new-page-or-partial">Uploading a new page or partial</a>
-
-<ul>
-<li> <a href="#uploading-a-specification-file">Uploading a specification file</a></li>
-</ul></li>
-<li> <a href="#updating-files">Updating Files</a></li>
-</ul></li>
+  <li><a href="#file-management">File Management</a>
+    <ul>
+      <li><a href="#file-types">File Types</a></li>
+      <li><a href="#example-files">Example Files</a>
+        <ul>
+          <li><a href="#pages">Pages</a></li>
+          <li><a href="#partials">Partials</a></li>
+          <li><a href="#specifications">Specifications</a></li>
+        </ul>
+      </li>
+      <li><a href="#file-paths">File Paths</a>
+        <ul>
+          <li><a href="#virtual-paths-and-the-specification-loader">Virtual Paths and the Specification Loader</a></li>
+        </ul>
+      </li>
+      <li><a href="#adding-files">Adding Files</a>
+        <ul>
+          <li><a href="#file-requirements">File Requirements</a></li>
+          <li><a href="#uploading-a-new-page-or-partial">Uploading a new page or partial</a></li>
+          <li><a href="#uploading-a-specification-file">Uploading a specification file</a></li>
+        </ul>
+      </li>
+      <li><a href="#updating-files">Updating Files</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="file-management">File Management</h1>
-
 <ul>
-<li><a href="#file-types">File Types</a></li>
-<li><a href="#example-files">Example Files</a></li>
-<li><a href="#file-paths">File Paths</a></li>
-<li><a href="#adding-files">Adding Files</a></li>
+  <li><a href="#file-types">File Types</a></li>
+  <li><a href="#example-files">Example Files</a></li>
+  <li><a href="#file-paths">File Paths</a></li>
+  <li><a href="#adding-files">Adding Files</a></li>
 </ul>
 
 <h2 id="file-types">File Types</h2>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/03/diagram-partials-02.png" alt="alt text" title="File types diagram"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/03/diagram-partials-02.png" alt="alt text" title="File types diagram" /></p>
 
 <p>Dev Portals served by Kong are comprised of three primary file types; <strong>Pages</strong>, <strong>Partials</strong>, and <strong>Specifications</strong>. The unique look, feel, and content of your Dev Portal is controlled through creating and editing these three file types.</p>
 
 <ul>
-<li><strong>Page</strong>
-
-<ul>
-<li>Handlebars file.</li>
-<li>Pages can be accessed by appending the Page name to your Dev Portal URL: <code>:8003/&lt;page_name&gt;</code></li>
-<li>Pages are indicated by <code>type=page</code> in Dev Portal File API.</li>
-</ul></li>
-<li><strong>Partial</strong> 
-
-<ul>
-<li>Handlebars partial registered by name for use within a Pages and other Partials.</li>
-<li>Partials can be re-used and shared between all pages using the Handlebars import statement:
-
-<ul>
-<li>  <code>{{&gt; partial_name}}</code></li>
-</ul></li>
-<li>Partials are indicated by <code>type=partial</code> in Dev Portal File API.</li>
-</ul></li>
-<li><strong>Specification</strong>
-
-<ul>
-<li>Open API (Swagger) Spec files that are passed to the OpenAPI Spec Renderer and the Pages / Partials.</li>
-<li>Kong Dev Portal is compatible with Swagger version 2.x and OpenAPI Spec version 3.x files.
-
-<ul>
-<li>Specification files <strong>must</strong> be in <em>YAML</em> or <em>JSON</em> format.</li>
-</ul></li>
-<li>Specifications are indicated by <code>type=spec</code> in Dev Portal File API.</li>
-</ul></li>
+  <li><strong>Page</strong>
+    <ul>
+      <li>Handlebars file.</li>
+      <li>Pages can be accessed by appending the Page name to your Dev Portal URL: <code class="highlighter-rouge">:8003/&lt;page_name&gt;</code></li>
+      <li>Pages are indicated by <code class="highlighter-rouge">type=page</code> in Dev Portal File API.</li>
+    </ul>
+  </li>
+  <li><strong>Partial</strong>
+    <ul>
+      <li>Handlebars partial registered by name for use within a Pages and other Partials.</li>
+      <li>Partials can be re-used and shared between all pages using the Handlebars import statement:
+        <ul>
+          <li><code class="highlighter-rouge"><span class="p">{</span><span class="err">{&gt;</span><span class="w"> </span><span class="err">partial_name</span><span class="p">}</span><span class="err">}</span></code></li>
+        </ul>
+      </li>
+      <li>Partials are indicated by <code class="highlighter-rouge">type=partial</code> in Dev Portal File API.</li>
+    </ul>
+  </li>
+  <li><strong>Specification</strong>
+    <ul>
+      <li>Open API (Swagger) Spec files that are passed to the OpenAPI Spec Renderer and the Pages / Partials.</li>
+      <li>Kong Dev Portal is compatible with Swagger version 2.x and OpenAPI Spec version 3.x files.
+        <ul>
+          <li>Specification files <strong>must</strong> be in <em>YAML</em> or <em>JSON</em> format.</li>
+        </ul>
+      </li>
+      <li>Specifications are indicated by <code class="highlighter-rouge">type=spec</code> in Dev Portal File API.</li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="example-files">Example Files</h2>
@@ -721,111 +720,111 @@ window['_fs_namespace'] = 'FS';
 <h3 id="pages">Pages</h3>
 
 <ul>
-<li><strong>pages/index.hbs</strong>
-
-<ul>
-<li>The page that is served when when visitors access the root URL of your Dev Portal.</li>
-</ul></li>
-<li><strong>pages/about.hbs</strong>
-
-<ul>
-<li>Sample &#39;about&#39; page that extends the base <code>layout</code> partial.</li>
-</ul></li>
-<li><strong>pages/guides.hbs</strong>
-
-<ul>
-<li>Sample &#39;guides&#39; page that extends the base <code>layout</code> partial.</li>
-</ul></li>
-<li><strong>pages/404.hbs</strong>
-
-<ul>
-<li>The page that visitors get when they navigate to a non-existent URL of your Dev Portal.</li>
-</ul></li>
-<li><strong>pages/documentation/index.hbs</strong>
-
-<ul>
-<li>See Virtual Paths And The Specification Loader section for more information.</li>
-</ul></li>
-<li><strong>pages/documentation/loader.hbs</strong>
-
-<ul>
-<li>See Virtual Paths And The Specification Loader section for more information.</li>
-</ul></li>
-<li><strong>pages/documentation/api1.hbs</strong>
-
-<ul>
-<li>A static page that renders the <code>files</code> spec using the <code>spec-renderer</code> partial using the <code>spec</code> argument.</li>
-</ul></li>
-<li><strong>pages/documentation/api2.hbs</strong>
-
-<ul>
-<li>A static page that renders the <code>vitals</code> spec using the <code>spec-renderer</code> partial using the <code>spec</code> argument.</li>
-</ul></li>
+  <li><strong>pages/index.hbs</strong>
+    <ul>
+      <li>The page that is served when when visitors access the root URL of your Dev Portal.</li>
+    </ul>
+  </li>
+  <li><strong>pages/about.hbs</strong>
+    <ul>
+      <li>Sample ‘about’ page that extends the base <code class="highlighter-rouge">layout</code> partial.</li>
+    </ul>
+  </li>
+  <li><strong>pages/guides.hbs</strong>
+    <ul>
+      <li>Sample ‘guides’ page that extends the base <code class="highlighter-rouge">layout</code> partial.</li>
+    </ul>
+  </li>
+  <li><strong>pages/404.hbs</strong>
+    <ul>
+      <li>The page that visitors get when they navigate to a non-existent URL of your Dev Portal.</li>
+    </ul>
+  </li>
+  <li><strong>pages/documentation/index.hbs</strong>
+    <ul>
+      <li>See Virtual Paths And The Specification Loader section for more information.</li>
+    </ul>
+  </li>
+  <li><strong>pages/documentation/loader.hbs</strong>
+    <ul>
+      <li>See Virtual Paths And The Specification Loader section for more information.</li>
+    </ul>
+  </li>
+  <li><strong>pages/documentation/api1.hbs</strong>
+    <ul>
+      <li>A static page that renders the <code class="highlighter-rouge">files</code> spec using the <code class="highlighter-rouge">spec-renderer</code> partial using the <code class="highlighter-rouge">spec</code> argument.</li>
+    </ul>
+  </li>
+  <li><strong>pages/documentation/api2.hbs</strong>
+    <ul>
+      <li>A static page that renders the <code class="highlighter-rouge">vitals</code> spec using the <code class="highlighter-rouge">spec-renderer</code> partial using the <code class="highlighter-rouge">spec</code> argument.</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="partials">Partials</h3>
 
 <ul>
-<li><strong>partials/layout.hbs</strong>
-
-<ul>
-<li>Base layout template for the Example Developer Portal which contains references to the <code>header</code>,  <code>footer</code>,  <code>theme-css</code>,  <code>custom-css</code>, and <code>title</code> partials. The base layout can be extended using inline partial references inside of <strong>Pages</strong>. An example is the <code>about.hbs</code> page.</li>
-</ul></li>
-<li><strong>partials/header.hbs</strong>
-
-<ul>
-<li>The default Example Dev Portal header partial for authenticated users.</li>
-</ul></li>
-<li><strong>partials/sidebar.hbs</strong>
-
-<ul>
-<li>The default Example Dev Portal sidebar that is included in the <code>documentation/{api1,api2,loader}</code> pages that includes the <code>sidebar-spec</code> partial and a link to the <code>guides.hbs</code> page.</li>
-</ul></li>
-<li><strong>partials/kong-docs-sidebar.hbs</strong>
-
-<ul>
-<li> Another example sidebar that is included in the guides pages</li>
-</ul></li>
-<li><strong>partials/sidebar-spec.hbs</strong>
-
-<ul>
-<li>This partial renders a list of links to methods found in the specification loaded through the <code>spec-renderer</code> partial.</li>
-</ul></li>
-<li><strong>partials/spec-renderer.hbs</strong>
-
-<ul>
-<li>This partial renders a specification from the Dev Portal Files API. When the <code>spec</code> argument is used it does a direct lookup for either a <code>json</code> or <code>yaml</code> spec file.</li>
-</ul></li>
-<li><strong>partials/spec-dropdown.hbs</strong>
-
-<ul>
-<li>This partial renders a dropdown allowing access to all specs stored in the Dev Portal Files API, as well as illustrates how custom components can be built and utilized.</li>
-</ul></li>
-<li><strong>partials/custom-js.hbs</strong>
-
-<ul>
-<li>This partial defines JavaScript that runs on all pages in the Example Dev Portal - it is “empty” and ready for you to customize</li>
-</ul></li>
+  <li><strong>partials/layout.hbs</strong>
+    <ul>
+      <li>Base layout template for the Example Developer Portal which contains references to the <code class="highlighter-rouge">header</code>,  <code class="highlighter-rouge">footer</code>,  <code class="highlighter-rouge">theme-css</code>,  <code class="highlighter-rouge">custom-css</code>, and <code class="highlighter-rouge">title</code> partials. The base layout can be extended using inline partial references inside of <strong>Pages</strong>. An example is the <code class="highlighter-rouge">about.hbs</code> page.</li>
+    </ul>
+  </li>
+  <li><strong>partials/header.hbs</strong>
+    <ul>
+      <li>The default Example Dev Portal header partial for authenticated users.</li>
+    </ul>
+  </li>
+  <li><strong>partials/sidebar.hbs</strong>
+    <ul>
+      <li>The default Example Dev Portal sidebar that is included in the <code class="highlighter-rouge">documentation/{api1,api2,loader}</code> pages that includes the <code class="highlighter-rouge">sidebar-spec</code> partial and a link to the <code class="highlighter-rouge">guides.hbs</code> page.</li>
+    </ul>
+  </li>
+  <li><strong>partials/kong-docs-sidebar.hbs</strong>
+    <ul>
+      <li>Another example sidebar that is included in the guides pages</li>
+    </ul>
+  </li>
+  <li><strong>partials/sidebar-spec.hbs</strong>
+    <ul>
+      <li>This partial renders a list of links to methods found in the specification loaded through the <code class="highlighter-rouge">spec-renderer</code> partial.</li>
+    </ul>
+  </li>
+  <li><strong>partials/spec-renderer.hbs</strong>
+    <ul>
+      <li>This partial renders a specification from the Dev Portal Files API. When the <code class="highlighter-rouge">spec</code> argument is used it does a direct lookup for either a <code class="highlighter-rouge">json</code> or <code class="highlighter-rouge">yaml</code> spec file.</li>
+    </ul>
+  </li>
+  <li><strong>partials/spec-dropdown.hbs</strong>
+    <ul>
+      <li>This partial renders a dropdown allowing access to all specs stored in the Dev Portal Files API, as well as illustrates how custom components can be built and utilized.</li>
+    </ul>
+  </li>
+  <li><strong>partials/custom-js.hbs</strong>
+    <ul>
+      <li>This partial defines JavaScript that runs on all pages in the Example Dev Portal - it is “empty” and ready for you to customize</li>
+    </ul>
+  </li>
 </ul>
 
 <h3 id="specifications">Specifications</h3>
 
 <ul>
-<li><strong>specs/files.json</strong>
-
-<ul>
-<li>API specification file, in Swagger 2.0 and JSON format.</li>
-</ul></li>
-<li><strong>specs/vitals.yaml</strong>
-
-<ul>
-<li>Another API specification file, in Swagger 2.0 and YAML format.</li>
-</ul></li>
-<li><strong>specs/admin.json</strong>
-
-<ul>
-<li>Another API specification file, in the Swagger 2.0 and JSON format.</li>
-</ul></li>
+  <li><strong>specs/files.json</strong>
+    <ul>
+      <li>API specification file, in Swagger 2.0 and JSON format.</li>
+    </ul>
+  </li>
+  <li><strong>specs/vitals.yaml</strong>
+    <ul>
+      <li>Another API specification file, in Swagger 2.0 and YAML format.</li>
+    </ul>
+  </li>
+  <li><strong>specs/admin.json</strong>
+    <ul>
+      <li>Another API specification file, in the Swagger 2.0 and JSON format.</li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="file-paths">File Paths</h2>
@@ -833,136 +832,152 @@ window['_fs_namespace'] = 'FS';
 <p>Files can be served under nested paths, called <em>namespaces</em>, to allow further control over how your content is organized and served.</p>
 
 <ol>
-<li>To serve a page named <code>api1</code> under the namespace <code>/documentation</code>:
+  <li>To serve a page named <code class="highlighter-rouge">api1</code> under the namespace <code class="highlighter-rouge">/documentation</code>:
+    <ol>
+      <li>Upload a Page with <code class="highlighter-rouge">name=documentation/api1</code> to the Dev Portal File API
+        <ol>
+          <li>We have already done this for you. You can view this file in the Example Dev Portal file archive you downloaded and sync’d earlier, you can also view it from the Dev Portal File API.</li>
+        </ol>
+      </li>
+      <li>Navigate in your browser to <code class="highlighter-rouge">:8003/documentation/api1</code></li>
+      <li>You will see the contents of the Page you just uploaded to the Dev Portal File API. This is how namespaces work.</li>
+    </ol>
+  </li>
+  <li>
+    <p>In order to serve content on the namespace itself (e.g. <code class="highlighter-rouge">/documentation</code>) you can either:</p>
 
-<ol>
-<li>Upload a Page with <code>name=documentation/api1</code> to the Dev Portal File API
+    <ol>
+      <li>Upload a page with <code class="highlighter-rouge">name=documentation</code></li>
+      <li>Upload a Page with <code class="highlighter-rouge">name=documentation/index</code>
+        <ol>
+          <li>We have already uploaded a file with this name to your Dev Portal File API earlier in the Uploading the Example Dev Portal files section. You can view this file in both the archive and inside of your Dev Portal File API.</li>
+        </ol>
+      </li>
+    </ol>
 
-<ol>
-<li>We have already done this for you. You can view this file in the Example Dev Portal file archive you downloaded and sync&#39;d earlier, you can also view it from the Dev Portal File API.</li>
-</ol></li>
-<li>Navigate in your browser to <code>:8003/documentation/api1</code></li>
-<li>You will see the contents of the Page you just uploaded to the Dev Portal File API. This is how namespaces work.</li>
-</ol></li>
-<li><p>In order to serve content on the namespace itself (e.g. <code>/documentation</code>) you can either:</p>
-
-<ol>
-<li>Upload a page with <code>name=documentation</code></li>
-<li>Upload a Page with <code>name=documentation/index</code>
-
-<ol>
-<li>We have already uploaded a file with this name to your Dev Portal File API earlier in the Uploading the Example Dev Portal files section. You can view this file in both the archive and inside of your Dev Portal File API.</li>
-</ol></li>
-</ol></li>
+    <ul>
+      <li>Navigate in your browser to <code class="highlighter-rouge">:8003/documentation</code> in either of these cases to see the pages content.</li>
+    </ul>
+  </li>
 </ol>
-
-<ul>
-<li>Navigate in your browser to <code>:8003/documentation</code> in either of these cases to see the pages content.</li>
-</ul>
 
 <h3 id="virtual-paths-and-the-specification-loader">Virtual Paths and the Specification Loader</h3>
 
 <p><strong>Virtual Paths</strong> allow you the ability to dynamically render Specification files without creating a page for each Specification.</p>
 
 <blockquote>
-<p>You may have noticed the two static Specification file pages as well as the Specification Loader <code>documentation/loader</code> within the Example Dev Portal</p>
+  <p>You may have noticed the two static Specification file pages as well as the Specification Loader <code class="highlighter-rouge">documentation/loader</code> within the Example Dev Portal</p>
 </blockquote>
 
-<p>The inclusion of a <strong>Specification Loader</strong> (a file defined by <code>name=&lt;namespace&gt;/loader</code>),  as well as the inclusion of the <code>spec-renderer</code> partial within the Specification Loader itself, enables the following functionality:</p>
+<p>The inclusion of a <strong>Specification Loader</strong> (a file defined by <code class="highlighter-rouge">name=&lt;namespace&gt;/loader</code>),  as well as the inclusion of the <code class="highlighter-rouge">spec-renderer</code> partial within the Specification Loader itself, enables the following functionality:</p>
 
 <ul>
-<li>When the Specification Loader is present under a namespace (e.g. <code>/documentation/loader</code>) visiting a path such as <code>/documentation/spec-1</code> will attempt to render a Specification file uploaded with the name <code>spec-1</code>.</li>
-<li>If the Specification does not exist in the Dev Portal File API the path visited will return the <strong>404</strong> page.</li>
+  <li>When the Specification Loader is present under a namespace (e.g. <code class="highlighter-rouge">/documentation/loader</code>) visiting a path such as <code class="highlighter-rouge">/documentation/spec-1</code> will attempt to render a Specification file uploaded with the name <code class="highlighter-rouge">spec-1</code>.</li>
+  <li>If the Specification does not exist in the Dev Portal File API the path visited will return the <strong>404</strong> page.</li>
 </ul>
 
 <p>An example Specification Loader is as follows:</p>
 
 <blockquote>
-<p>Note: while layout of the loader page is flexible the inclusion of the <code>spec-renderer</code> partial is required in order to provide spec rendering functionality. Furthermore the Dev Portal needs <strong>all</strong> elements of the <code>spec-renderer</code> partial to remain as is to function as expected.
-<img src="https://konghq.com/wp-content/uploads/2018/03/code-spec-renderer.png" alt="alt text" title="Logo Title Text 1"></p>
+  <p>Note: while layout of the loader page is flexible the inclusion of the <code class="highlighter-rouge">spec-renderer</code> partial is required in order to provide spec rendering functionality. Furthermore the Dev Portal needs <strong>all</strong> elements of the <code class="highlighter-rouge">spec-renderer</code> partial to remain as is to function as expected.
+<img src="https://konghq.com/wp-content/uploads/2018/03/code-spec-renderer.png" alt="alt text" title="Logo Title Text 1" /></p>
 </blockquote>
 
 <h2 id="adding-files">Adding Files</h2>
 
-<h4 id="file-requirements">File Requirements</h4>
+<h3 id="file-requirements">File Requirements</h3>
 
 <ul>
-<li>File names <strong>must not</strong> include the file extension, unless you wish your pages and partials to be referenced with them.
-
-<ul>
-<li>A <strong>Page</strong> with <code>name=guides.hbs</code> would be accessible at: <code>http://127.0.0.1:8003/guides.hbs</code></li>
-<li>A <strong>Page</strong> with <code>name=guides</code> would be accessible at: <code>http://127.0.0.1:8003/guides</code></li>
-</ul></li>
-<li>File names <strong>must</strong> be <em>unique</em>.
-
-<ul>
-<li>You cannot have more than one file with the same name, even if they are of different types.</li>
-</ul></li>
-<li>Files <strong>must</strong> be of the type: <code>partial</code> or <code>page</code> or <code>spec</code>
-
-<ul>
-<li>Other file formats like image and video are not supported by the Files API, and must be served either from another web server or added inline.</li>
-</ul></li>
-<li>Pages and Partials <strong>must</strong> be written in <em><a href="https://handlebarsjs.com/">Handlebars</a></em>
-
-<ul>
-<li>Files with the <code>.hbs</code> extension may contain HTML or <a href="https://handlebarsjs.com/">Handlebars</a> code</li>
-</ul></li>
-<li>Specification files <strong>must</strong> be in <code>yaml</code> or <code>json</code> format</li>
+  <li>File names <strong>must not</strong> include the file extension, unless you wish your pages and partials to be referenced with them.
+    <ul>
+      <li>A <strong>Page</strong> with <code class="highlighter-rouge">name=guides.hbs</code> would be accessible at: <code class="highlighter-rouge">http://127.0.0.1:8003/guides.hbs</code></li>
+      <li>A <strong>Page</strong> with <code class="highlighter-rouge">name=guides</code> would be accessible at: <code class="highlighter-rouge">http://127.0.0.1:8003/guides</code></li>
+    </ul>
+  </li>
+  <li>File names <strong>must</strong> be <em>unique</em>.
+    <ul>
+      <li>You cannot have more than one file with the same name, even if they are of different types.</li>
+    </ul>
+  </li>
+  <li>Files <strong>must</strong> be of the type: <code class="highlighter-rouge">partial</code> or <code class="highlighter-rouge">page</code> or <code class="highlighter-rouge">spec</code>
+    <ul>
+      <li>Other file formats like image and video are not supported by the Files API, and must be served either from another web server or added inline.</li>
+    </ul>
+  </li>
+  <li>Pages and Partials <strong>must</strong> be written in <em><a href="https://handlebarsjs.com/">Handlebars</a></em>
+    <ul>
+      <li>Files with the <code class="highlighter-rouge">.hbs</code> extension may contain HTML or <a href="https://handlebarsjs.com/">Handlebars</a> code</li>
+    </ul>
+  </li>
+  <li>Specification files <strong>must</strong> be in <code class="highlighter-rouge">yaml</code> or <code class="highlighter-rouge">json</code> format</li>
 </ul>
 
-<h4 id="uploading-a-new-page-or-partial">Uploading a new page or partial</h4>
+<h3 id="uploading-a-new-page-or-partial">Uploading a new page or partial</h3>
 
-<p>Create a new file with the name <code>example.hbs</code> in your Example Dev Portal files directory under the <code>pages/</code> directory.</p>
+<p>Create a new file with the name <code class="highlighter-rouge">example.hbs</code> in your Example Dev Portal files directory under the <code class="highlighter-rouge">pages/</code> directory.</p>
 
 <p>Add it to Kong specifying the file as a page:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
         -F <span class="s2">"name=example"</span> <span class="se">\</span>
         -F <span class="s2">"type=page"</span> <span class="se">\</span>
         -F <span class="s2">"contents=@pages/example.hbs"</span> <span class="se">\</span>
         -F <span class="s2">"auth=true"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <blockquote>
-<p>Note that the name must match that used in the handlebars file (example and example.hbs in this sample)</p>
+  <p>Note that the name must match that used in the handlebars file (example and example.hbs in this sample)</p>
 </blockquote>
 
 <h3 id="uploading-a-specification-file">Uploading a specification file</h3>
 
 <ol>
-<li>Select a Swagger <code>json</code> or <code>yaml</code> specification file in your filesystem
-
-<ul>
-<li>Should you not have one, we can use the Swagger Pet Store Example: <a href="http://petstore.swagger.io/v2/swagger.json">Download File</a></li>
-</ul></li>
-<li>Upload the specification with the following curl request in your terminal (relative to the file):</li>
+  <li>Select a Swagger <code class="highlighter-rouge">json</code> or <code class="highlighter-rouge">yaml</code> specification file in your filesystem
+    <ul>
+      <li>Should you not have one, we can use the Swagger Pet Store Example: <a href="http://petstore.swagger.io/v2/swagger.json">Download File</a></li>
+    </ul>
+  </li>
+  <li>Upload the specification with the following curl request in your terminal (relative to the file):</li>
 </ol>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
         -F <span class="s2">"type=spec"</span> <span class="se">\</span>
         -F <span class="s2">"name=swagger"</span> <span class="se">\</span>
         -F <span class="s2">"contents=@swagger.json"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <blockquote>
-<p>Note: The <code>@</code> symbol in the <code>curl</code> command will automatically read the file on disk and place its contents into the <code>contents</code> argument.</p>
+  <p>Note: The <code class="highlighter-rouge">@</code> symbol in the <code class="highlighter-rouge">curl</code> command will automatically read the file on disk and place its contents into the <code class="highlighter-rouge">contents</code> argument.</p>
 </blockquote>
 
 <h2 id="updating-files">Updating Files</h2>
 
-<p>Now let&#39;s update <strong>pages/documentation/api1.hbs</strong> to render our newly added Specification file:</p>
+<p>Now let’s update <strong>pages/documentation/api1.hbs</strong> to render our newly added Specification file:</p>
 
 <ol>
-<li>Find the <code>pages/documentation/api1.hbs</code> file in your Example Dev Portal Archive</li>
-<li><p>Find the following line of code:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars">  <span class="k">{{&gt;</span> <span class="nv">spec-renderer</span> <span class="nv">spec</span><span class="o">=</span><span class="s2">"files"</span><span class="k">}}</span>
-</code></pre></div></li>
-<li><p>Change: <code>files</code>  →  <code>swagger</code></p></li>
-<li><p>Now make a <code>PATCH</code> request to update the page against the Dev Portal File API in your terminal (note, no extension on the filename in the url):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X PATCH http://127.0.0.1:8001/files/documentation/api1 <span class="se">\</span>
-      -F <span class="s2">"contents=@pages/documentation/api1.hbs"</span>
-</code></pre></div></li>
-<li><p>Navigate to <code>:8003/documentation/api1</code> in your browser, you should see that the specification has changed.</p></li>
+  <li>Find the <code class="highlighter-rouge">pages/documentation/api1.hbs</code> file in your Example Dev Portal Archive</li>
+  <li>
+    <p>Find the following line of code:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code>   <span class="k">{{&gt;</span> <span class="nv">spec-renderer</span> <span class="nv">spec</span><span class="o">=</span><span class="s2">"files"</span><span class="k">}}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Change: <code class="highlighter-rouge">files</code>  →  <code class="highlighter-rouge">swagger</code></li>
+  <li>
+    <p>Now make a <code class="highlighter-rouge">PATCH</code> request to update the page against the Dev Portal File API in your terminal (note, no extension on the filename in the url):</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -X PATCH http://127.0.0.1:8001/files/documentation/api1 <span class="se">\</span>
+       -F <span class="s2">"contents=@pages/documentation/api1.hbs"</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Navigate to <code class="highlighter-rouge">:8003/documentation/api1</code> in your browser, you should see that the specification has changed.</li>
 </ol>
 
-<p>Next: <a href="/enterprise/0.32-x/developer-portal/customization/">Learn how to customize the look and feel of your Dev Portal &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.32-x/developer-portal/customization/">Learn how to customize the look and feel of your Dev Portal ›</a></p>
 
 
         </div>
@@ -1119,7 +1134,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

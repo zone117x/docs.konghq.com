@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -868,86 +868,93 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-    -  <a href="#module">Module</a>
-
-<ul>
-<li> <a href="#adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</a></li>
-<li> <a href="#helpers">Helpers</a>
-
-<ul>
-<li> <a href="#crud_helpers">crud_helpers</a></li>
-</ul></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#module">Module</a></li>
+  <li><a href="#adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</a></li>
+  <li><a href="#helpers">Helpers</a>
+    <ul>
+      <li><a href="#crud_helpers">crud_helpers</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<h4 id="module">Module</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.api"
-</code></pre></div>
-<hr>
+<h2 id="module">Module</h2>
 
-<p>The <a href="/0.11.x/admin-api/">Admin API</a> is the interface through which users will configure Kong. If your plugin has custom entities or management requirements, then you will need to extend the Admin API. This allows you to expose your own endpoints and implement your own management logic. A typical example of this is the creation, retrieval and deletion (commonly referred to as &quot;CRUD operations&quot;) of API keys.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.api"
+</code></pre>
+</div>
 
-<p>The Admin API is a <a href="http://leafo.net/lapis/">Lapis</a> application, and Kong&#39;s level of abstraction makes it easy for you to add endpoints.</p>
+<hr />
+
+<p>The <a href="/0.11.x/admin-api/">Admin API</a> is the interface through which users will configure Kong. If your plugin has custom entities or management requirements, then you will need to extend the Admin API. This allows you to expose your own endpoints and implement your own management logic. A typical example of this is the creation, retrieval and deletion (commonly referred to as “CRUD operations”) of API keys.</p>
+
+<p>The Admin API is a <a href="http://leafo.net/lapis/">Lapis</a> application, and Kong’s level of abstraction makes it easy for you to add endpoints.</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> This chapter assumes that you have a relative knowledge of <a href="http://leafo.net/lapis/">Lapis</a>.
 </div>
 
-<hr>
+<hr />
 
-<h3 id="adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</h3>
+<h2 id="adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</h2>
 
 <p>Kong will detect and load your endpoints if they are defined in a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.api"
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.api"
+</code></pre>
+</div>
+
 <p>This module is bound to return a table containing strings describing your routes (See <a href="http://leafo.net/lapis/reference/actions.html#routes--url-patterns">Lapis routes &amp; URL Patterns</a>) and HTTP verbs they support. Routes are then assigned a simple handler function.</p>
 
-<p>This table is then fed to Lapis (See Lapis&#39; <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">handling HTTP verbs documentation</a>). Example:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+<p>This table is then fed to Lapis (See Lapis’ <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">handling HTTP verbs documentation</a>). Example:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"/my-plugin/new/get/endpoint"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
       <span class="c1">-- ...</span>
     <span class="k">end</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>The handler function takes three arguments, which are, in order:</p>
 
 <ul>
-<li><code>self</code>: The request object. See <a href="http://leafo.net/lapis/reference/actions.html#request-object">Lapis request object</a></li>
-<li><code>dao_factory</code>: The DAO Factory. See the <a href="/0.11.x/plugin-development/access-the-datastore/">datastore</a> chapter of this guide.</li>
-<li><code>helpers</code>: A table containing a few helpers, described below.</li>
+  <li><code class="highlighter-rouge">self</code>: The request object. See <a href="http://leafo.net/lapis/reference/actions.html#request-object">Lapis request object</a></li>
+  <li><code class="highlighter-rouge">dao_factory</code>: The DAO Factory. See the <a href="/0.11.x/plugin-development/access-the-datastore/">datastore</a> chapter of this guide.</li>
+  <li><code class="highlighter-rouge">helpers</code>: A table containing a few helpers, described below.</li>
 </ul>
 
 <p>In addition to the HTTPS verbs it supports, a route table can also contain two other keys:</p>
 
 <ul>
-<li><strong>before</strong>: as in <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">Lapis</a>, a before_filter that runs before the executed verb action.</li>
-<li><strong>on_error</strong>: a custom error handler function that overrides the one provided by Kong. See Lapis&#39; <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">capturing recoverable errors</a> documentation.</li>
+  <li><strong>before</strong>: as in <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">Lapis</a>, a before_filter that runs before the executed verb action.</li>
+  <li><strong>on_error</strong>: a custom error handler function that overrides the one provided by Kong. See Lapis’ <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">capturing recoverable errors</a> documentation.</li>
 </ul>
 
-<hr>
+<hr />
 
-<h3 id="helpers">Helpers</h3>
+<h2 id="helpers">Helpers</h2>
 
-<p>When handling a request on the Admin API, there are times when you want to send back responses and handle errors, to help you do so the third parameter <code>helpers</code> is a table with the following properties:</p>
+<p>When handling a request on the Admin API, there are times when you want to send back responses and handle errors, to help you do so the third parameter <code class="highlighter-rouge">helpers</code> is a table with the following properties:</p>
 
 <ul>
-<li><code>responses</code>: a module with helper functions to send HTTP responses.</li>
-<li><code>yield_error</code>: the <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">yield_error</a> function from Lapis. To call when your handler encounters an error (from a DAO, for example). Since all Kong errors are tables with context, it can send the appropriate response code depending on the error (Internal Server Error, Bad Request, etc...).</li>
+  <li><code class="highlighter-rouge">responses</code>: a module with helper functions to send HTTP responses.</li>
+  <li><code class="highlighter-rouge">yield_error</code>: the <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">yield_error</a> function from Lapis. To call when your handler encounters an error (from a DAO, for example). Since all Kong errors are tables with context, it can send the appropriate response code depending on the error (Internal Server Error, Bad Request, etc…).</li>
 </ul>
 
-<h4 id="crud_helpers">crud_helpers</h4>
+<h3 id="crud_helpers">crud_helpers</h3>
 
-<p>Since most of the operations you will perform in your endpoints will be CRUD operations, you can also use the <code>kong.api.crud_helpers</code> module. This module provides you with helpers for any insert, retrieve, update or delete operations and performs the necessary DAO operations and replies with the appropriate HTTP status codes. It also provides you with functions to retrieve parameters from the path, such as an API&#39;s name or id, or a Consumer&#39;s username or id.</p>
+<p>Since most of the operations you will perform in your endpoints will be CRUD operations, you can also use the <code class="highlighter-rouge">kong.api.crud_helpers</code> module. This module provides you with helpers for any insert, retrieve, update or delete operations and performs the necessary DAO operations and replies with the appropriate HTTP status codes. It also provides you with functions to retrieve parameters from the path, such as an API’s name or id, or a Consumer’s username or id.</p>
 
 <p>Example:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.crud_helpers"</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.crud_helpers"</span>
 
 <span class="k">return</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"/consumers/:username_or_id/key-auth/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -969,10 +976,13 @@ window['_fs_namespace'] = 'FS';
     <span class="k">end</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
+
+<hr />
 
 <p>Next: <a href="/0.11.x/plugin-development/tests/">Write tests for your plugin</a></p>
+
 
 
         </div>
@@ -1147,7 +1157,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

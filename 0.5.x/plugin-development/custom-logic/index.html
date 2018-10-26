@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -665,88 +665,92 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-    -  <a href="#module">Module</a>
-
-<ul>
-<li> <a href="#available-request-contexts">Available request contexts</a></li>
-<li> <a href="#handler-lua-specifications">handler.lua specifications</a></li>
-<li> <a href="#plugins-execution-order">Plugins execution order</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#module">Module</a></li>
+  <li><a href="#available-request-contexts">Available request contexts</a></li>
+  <li><a href="#handlerlua-specifications">handler.lua specifications</a></li>
+  <li><a href="#plugins-execution-order">Plugins execution order</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<h4 id="module">Module</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.handler"
-</code></pre></div>
-<hr>
+<h2 id="module">Module</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.handler"
+</code></pre>
+</div>
+
+<hr />
 
 <div class="alert alert-warning">
   <strong>Note:</strong> This chapter assumes that you are familiar with <a href="http://www.lua.org/">Lua</a> and the <a href="https://github.com/openresty/lua-nginx-module">lua-nginx-module API</a>.
 </div>
 
-<p>Kong allows you to execute custom code at different times in the lifecycle of a request. To do so, you have to implement one or several of the methods of the <code>base_plugin.lua</code> interface. Those methods are to be implemented in a module at: <code>&quot;kong.plugins.&lt;plugin_name&gt;.handler&quot;</code></p>
+<p>Kong allows you to execute custom code at different times in the lifecycle of a request. To do so, you have to implement one or several of the methods of the <code class="highlighter-rouge">base_plugin.lua</code> interface. Those methods are to be implemented in a module at: <code class="highlighter-rouge">"kong.plugins.&lt;plugin_name&gt;.handler"</code></p>
 
-<hr>
+<hr />
 
-<h3 id="available-request-contexts">Available request contexts</h3>
+<h2 id="available-request-contexts">Available request contexts</h2>
 
-<p>Kong allows you to write your code in all of the lua-nginx-module contexts. Each function to implement in your <code>handler.lua</code> file will be executed when the context is reached for a request:</p>
+<p>Kong allows you to write your code in all of the lua-nginx-module contexts. Each function to implement in your <code class="highlighter-rouge">handler.lua</code> file will be executed when the context is reached for a request:</p>
 
-<table><thead>
-<tr>
-<th>Function name</th>
-<th>lua-nginx-module context</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>:init_worker()</code></td>
-<td><a href="https://github.com/openresty/lua-nginx-module#init_worker_by_lua">init_worker_by_lua</a></td>
-<td>Executed upon every Nginx worker process&#39;s startup.</td>
-</tr>
-<tr>
-<td><code>:certificate()</code></td>
-<td>ssl_certificate_by_lua (experimental)</td>
-<td>Executed during the SSL certificate serving phase of the SSL handshake. This feature is still experimental and provided when Nginx is patched during Kong&#39;s installation. It should be stabilized soon thanks to the hard work of the lua-nginx-module authors. More information can be found in the related discussion: <a href="https://github.com/openresty/lua-nginx-module/issues/331">openresty/lua-nginx-module#331</a>.</td>
-</tr>
-<tr>
-<td><code>:access()</code></td>
-<td><a href="https://github.com/openresty/lua-nginx-module#access_by_lua">access_by_lua</a></td>
-<td>Executed for every request upon it&#39;s reception from a client and before it is being proxied to the upstream service.</td>
-</tr>
-<tr>
-<td><code>:header_filter()</code></td>
-<td><a href="https://github.com/openresty/lua-nginx-module#header_filter_by_lua">header_filter_by_lua</a></td>
-<td>Executed when all response headers bytes have been received from the upstream service.</td>
-</tr>
-<tr>
-<td><code>:body_filter()</code></td>
-<td><a href="https://github.com/openresty/lua-nginx-module#body_filter_by_lua">body_filter_by_lua</a></td>
-<td>Executed for each chunk of the response body received from the upstream service. Since the response is streamed back to the client, it can exceed the buffer size and be streamed chunk by chunk. hence this method can be called multiple times if the response is large. See the lua-nginx-module documentation for more details.</td>
-</tr>
-<tr>
-<td><code>:log()</code></td>
-<td><a href="https://github.com/openresty/lua-nginx-module#log_by_lua">log_by_lua</a></td>
-<td>Executed when the last response byte has been sent to the client.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Function name</th>
+      <th>lua-nginx-module context</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">:init_worker()</code></td>
+      <td><a href="https://github.com/openresty/lua-nginx-module#init_worker_by_lua">init_worker_by_lua</a></td>
+      <td>Executed upon every Nginx worker process’s startup.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">:certificate()</code></td>
+      <td>ssl_certificate_by_lua (experimental)</td>
+      <td>Executed during the SSL certificate serving phase of the SSL handshake. This feature is still experimental and provided when Nginx is patched during Kong’s installation. It should be stabilized soon thanks to the hard work of the lua-nginx-module authors. More information can be found in the related discussion: <a href="https://github.com/openresty/lua-nginx-module/issues/331">openresty/lua-nginx-module#331</a>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">:access()</code></td>
+      <td><a href="https://github.com/openresty/lua-nginx-module#access_by_lua">access_by_lua</a></td>
+      <td>Executed for every request upon it’s reception from a client and before it is being proxied to the upstream service.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">:header_filter()</code></td>
+      <td><a href="https://github.com/openresty/lua-nginx-module#header_filter_by_lua">header_filter_by_lua</a></td>
+      <td>Executed when all response headers bytes have been received from the upstream service.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">:body_filter()</code></td>
+      <td><a href="https://github.com/openresty/lua-nginx-module#body_filter_by_lua">body_filter_by_lua</a></td>
+      <td>Executed for each chunk of the response body received from the upstream service. Since the response is streamed back to the client, it can exceed the buffer size and be streamed chunk by chunk. hence this method can be called multiple times if the response is large. See the lua-nginx-module documentation for more details.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">:log()</code></td>
+      <td><a href="https://github.com/openresty/lua-nginx-module#log_by_lua">log_by_lua</a></td>
+      <td>Executed when the last response byte has been sent to the client.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>All of those functions take one parameter given by Kong: the configuration of your plugin. This parameter is a simple Lua table, and will contain values defined by your users, according to the schema of your choice. More on that in the <a href="/0.5.x/plugin-development/plugin-configuration/">next chapter</a>.</p>
 
-<hr>
+<hr />
 
-<h3 id="handler-lua-specifications">handler.lua specifications</h3>
+<h2 id="handlerlua-specifications">handler.lua specifications</h2>
 
-<p>The <code>handler.lua</code> file must return a table implementing the functions you wish to be executed. In favor of brevity, here is a commented example module implementing all the available methods:</p>
+<p>The <code class="highlighter-rouge">handler.lua</code> file must return a table implementing the functions you wish to be executed. In favor of brevity, here is a commented example module implementing all the available methods:</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> Kong uses the <a href="https://github.com/rxi/classic">rxi/classic</a> module to simulate classes in Lua and ease the inheritance pattern.
 </div>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Extending the Base Plugin handler is optional, as there is no real</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Extending the Base Plugin handler is optional, as there is no real</span>
 <span class="c1">-- concept of interface in Lua, but the Base Plugin handler's methods</span>
 <span class="c1">-- can be called from your child implementation and will print logs</span>
 <span class="c1">-- in your `error.log` file (where all logs are printed).</span>
@@ -811,9 +815,12 @@ window['_fs_namespace'] = 'FS';
 <span class="c1">-- This module needs to return the created table, so that Kong</span>
 <span class="c1">-- can execute those functions.</span>
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre></div>
-<p>Of course, the logic of your plugin itself can be abstracted away in another module, and called from your <code>handler</code> module. Many existing plugins have already chosen this pattern when there logic is verbose, but it is purely optional:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+</code></pre>
+</div>
+
+<p>Of course, the logic of your plugin itself can be abstracted away in another module, and called from your <code class="highlighter-rouge">handler</code> module. Many existing plugins have already chosen this pattern when there logic is verbose, but it is purely optional:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 
 <span class="c1">-- The actual logic is implemented in those modules</span>
 <span class="kd">local</span> <span class="n">access</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.my-custom-plugin.access"</span>
@@ -842,10 +849,12 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
 
-<h3 id="plugins-execution-order">Plugins execution order</h3>
+<hr />
+
+<h2 id="plugins-execution-order">Plugins execution order</h2>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> This is still a work-in-progress API. For thoughts on how plugins execution order should be configurable in the future, see <a href="https://github.com/Kong/kong/issues/267">Kong/kong#267</a>.
@@ -853,14 +862,18 @@ window['_fs_namespace'] = 'FS';
 
 <p>Some plugins might depend on the execution of others to perform some operations. For example, plugins relying on the identity of the consumer have to run <strong>after</strong> authentication plugins. Considering this, Kong defines <strong>priorities</strong> between plugins execution to ensure that order is respected.</p>
 
-<p>Your plugin&#39;s priority can be configured via a property accepting a number in the returned handler table:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">CustomHandler</span><span class="p">.</span><span class="n">PRIORITY</span> <span class="o">=</span> <span class="mi">10</span>
-</code></pre></div>
-<p>The higher the priority, the sooner your plugin&#39;s phases will be executed in regard to other plugins&#39; phases (such as <code>:access()</code>, <code>:log()</code>, etc...). The current authentication plugins have a priority of <code>1000</code>.</p>
+<p>Your plugin’s priority can be configured via a property accepting a number in the returned handler table:</p>
 
-<hr>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">CustomHandler</span><span class="p">.</span><span class="n">PRIORITY</span> <span class="o">=</span> <span class="mi">10</span>
+</code></pre>
+</div>
 
-<p>Next: <a href="/0.5.x/plugin-development/plugin-configuration/">Store configuration &rsaquo;</a></p>
+<p>The higher the priority, the sooner your plugin’s phases will be executed in regard to other plugins’ phases (such as <code class="highlighter-rouge">:access()</code>, <code class="highlighter-rouge">:log()</code>, etc…). The current authentication plugins have a priority of <code class="highlighter-rouge">1000</code>.</p>
+
+<hr />
+
+<p>Next: <a href="/0.5.x/plugin-development/plugin-configuration/">Store configuration ›</a></p>
+
 
 
         </div>
@@ -1035,7 +1048,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

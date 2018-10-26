@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -665,90 +665,100 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-    -  <a href="#module">Module</a>
-
-<ul>
-<li> <a href="#schema-lua-specifications">schema.lua specifications</a></li>
-<li> <a href="#describing-your-configuration-schema">Describing your configuration schema</a>
-
-<ul>
-<li> <a href="#examples">Examples:</a></li>
-</ul></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#module">Module</a></li>
+  <li><a href="#schemalua-specifications">schema.lua specifications</a></li>
+  <li><a href="#describing-your-configuration-schema">Describing your configuration schema</a>
+    <ul>
+      <li><a href="#examples">Examples:</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<h4 id="module">Module</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema"
-</code></pre></div>
-<hr>
+<h2 id="module">Module</h2>
 
-<p>Most of the time, it makes sense for your plugin to be configurable to answer all of your user&#39;s needs. Your plugin&#39;s configuration is stored in the datastore for Kong to retrieve it and pass it to your <a href="/0.5.x/plugin-development/custom-logic/">handler.lua</a> methods when the plugin is being executed.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema"
+</code></pre>
+</div>
 
-<p>The configuration consists of a Lua table in Kong that we call a <strong>schema</strong>. It contains key/value properties that the user will set when enabling the plugin through the <a href="/0.5.x/admin-api">Admin API</a>. Kong provides you with a way of validating the user&#39;s configuration for your plugin.</p>
+<hr />
 
-<p>Your plugin&#39;s configuration is being verified against your schema when:</p>
+<p>Most of the time, it makes sense for your plugin to be configurable to answer all of your user’s needs. Your plugin’s configuration is stored in the datastore for Kong to retrieve it and pass it to your <a href="/0.5.x/plugin-development/custom-logic/">handler.lua</a> methods when the plugin is being executed.</p>
+
+<p>The configuration consists of a Lua table in Kong that we call a <strong>schema</strong>. It contains key/value properties that the user will set when enabling the plugin through the <a href="/0.5.x/admin-api">Admin API</a>. Kong provides you with a way of validating the user’s configuration for your plugin.</p>
+
+<p>Your plugin’s configuration is being verified against your schema when:</p>
 
 <ul>
-<li>A user makes a request to the <a href="/0.5.x/admin-api">Admin API</a> to enable the plugin on one of his APIs (<code>POST</code> or <code>PUT</code>).</li>
-<li>A user makes a request to the <a href="/0.5.x/admin-api">Admin API</a> to update a plugin on one of his APIs or Consumers (<code>PATCH</code> or <code>PUT</code>).</li>
+  <li>A user makes a request to the <a href="/0.5.x/admin-api">Admin API</a> to enable the plugin on one of his APIs (<code class="highlighter-rouge">POST</code> or <code class="highlighter-rouge">PUT</code>).</li>
+  <li>A user makes a request to the <a href="/0.5.x/admin-api">Admin API</a> to update a plugin on one of his APIs or Consumers (<code class="highlighter-rouge">PATCH</code> or <code class="highlighter-rouge">PUT</code>).</li>
 </ul>
 
 <p>For example, a user performs the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
     -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
     -d <span class="s2">"config.foo=bar"</span>
-</code></pre></div>
-<p>If all properties of the <code>config</code> object are valid according to your schema, then the API would return <code>201 Created</code> and the plugin would be stored in the database along with its configuration (<code>{foo = &quot;bar&quot;}</code> in this case). If the configuration is not valid, the Admin API would return <code>400 Bad Request</code> and the appropriate error messages.</p>
+</code></pre>
+</div>
 
-<hr>
+<p>If all properties of the <code class="highlighter-rouge">config</code> object are valid according to your schema, then the API would return <code class="highlighter-rouge">201 Created</code> and the plugin would be stored in the database along with its configuration (<code class="highlighter-rouge"><span class="p">{</span><span class="err">foo</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nt">"bar"</span><span class="err">}</span></code> in this case). If the configuration is not valid, the Admin API would return <code class="highlighter-rouge">400 Bad Request</code> and the appropriate error messages.</p>
 
-<h3 id="schema-lua-specifications">schema.lua specifications</h3>
+<hr />
+
+<h2 id="schemalua-specifications">schema.lua specifications</h2>
 
 <p>This module is to return a Lua table with properties that will define how your plugins can later be configured by users. Available properties are:</p>
 
-<table><thead>
-<tr>
-<th>Property name</th>
-<th>Lua type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>no_consumer</code></td>
-<td>Boolean</td>
-<td><code>false</code></td>
-<td>If true, it will not be possible to apply this plugin to a specific Consumer. This plugin must be API-wide only. For example: authentication plugins.</td>
-</tr>
-<tr>
-<td><code>fields</code></td>
-<td>Table</td>
-<td><code>{}</code></td>
-<td>Your plugin&#39;s <strong>schema</strong>. A key/value table of available properties and their rules.</td>
-</tr>
-<tr>
-<td><code>self_check</code></td>
-<td>Function</td>
-<td><code>nil</code></td>
-<td>A function to implement if you want to perform any custom validation before accepting the plugin&#39;s configuration.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Property name</th>
+      <th>Lua type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">no_consumer</code></td>
+      <td>Boolean</td>
+      <td><code class="highlighter-rouge">false</code></td>
+      <td>If true, it will not be possible to apply this plugin to a specific Consumer. This plugin must be API-wide only. For example: authentication plugins.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">fields</code></td>
+      <td>Table</td>
+      <td><code class="highlighter-rouge"><span class="p">{}</span></code></td>
+      <td>Your plugin’s <strong>schema</strong>. A key/value table of available properties and their rules.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">self_check</code></td>
+      <td>Function</td>
+      <td><code class="highlighter-rouge">nil</code></td>
+      <td>A function to implement if you want to perform any custom validation before accepting the plugin’s configuration.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The <code>self_check</code> function must be implemented as follows:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
+<p>The <code class="highlighter-rouge">self_check</code> function must be implemented as follows:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
 <span class="c1">-- @param `config` A key/value table of the current plugin's configuration.</span>
 <span class="c1">-- @param `dao` An instance of the DAO (see DAO chapter).</span>
 <span class="c1">-- @param `is_updating` A boolean indicating whether or not this check is performed in the context of an update.</span>
 <span class="c1">-- @return `valid` A boolean indicating if the plugin's configuration is valid or not.</span>
 <span class="c1">-- @return `error` A DAO error (see DAO chapter)</span>
-</code></pre></div>
-<p>Here is an example of a potential <code>schema.lua</code> file:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+</code></pre>
+</div>
+
+<p>Here is an example of a potential <code class="highlighter-rouge">schema.lua</code> file:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">-- this plugin will only be API-wide,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1">-- Describe your plugin's configuration's schema here.</span>
@@ -758,97 +768,106 @@ window['_fs_namespace'] = 'FS';
     <span class="k">return</span> <span class="kc">true</span>
   <span class="k">end</span>
 <span class="p">}</span>
-</code></pre></div>
-<h3 id="describing-your-configuration-schema">Describing your configuration schema</h3>
+</code></pre>
+</div>
 
-<p>The <code>fields</code> property of your <code>schema.lua</code> file described the schema of your plugin&#39;s configuration. It is a flexible key/value table where each key will be a valid configuration property for your plugin, and each value a table describing the rules for that property. For example:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua">  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+<h2 id="describing-your-configuration-schema">Describing your configuration schema</h2>
+
+<p>The <code class="highlighter-rouge">fields</code> property of your <code class="highlighter-rouge">schema.lua</code> file described the schema of your plugin’s configuration. It is a flexible key/value table where each key will be a valid configuration property for your plugin, and each value a table describing the rules for that property. For example:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code>  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">some_string</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
     <span class="n">some_boolean</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span>
     <span class="n">some_array</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">}}</span>
   <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Here is the list of accepted rules for a property:</p>
 
-<table><thead>
-<tr>
-<th>Rule</th>
-<th>Lua type(s)</th>
-<th>Accepted values</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>type</code></td>
-<td>string</td>
-<td>&quot;id&quot;, &quot;number&quot;, &quot;boolean&quot;, &quot;string&quot;, &quot;table&quot;, &quot;array&quot;, &quot;url&quot;, &quot;timestamp&quot;</td>
-<td>Validates the type of a property.</td>
-</tr>
-<tr>
-<td><code>required</code></td>
-<td>boolean</td>
-<td></td>
-<td><strong>Default</strong>: false. If true, the property must be present in the configuration.</td>
-</tr>
-<tr>
-<td><code>default</code></td>
-<td>any</td>
-<td></td>
-<td>If the property is not specified in the configuration, will set the property to the given value.</td>
-</tr>
-<tr>
-<td><code>immutable</code></td>
-<td>boolean</td>
-<td></td>
-<td><strong>Default</strong>: false. If true, the property will not be allowed to be updated once the plugin configuration has been created.</td>
-</tr>
-<tr>
-<td><code>enum</code></td>
-<td>table</td>
-<td>Integer indexed table</td>
-<td>A list of accepted values for a property. Any value not included in this list will not be accepted.</td>
-</tr>
-<tr>
-<td><code>regex</code></td>
-<td>string</td>
-<td>A valid PCRE regular expression</td>
-<td>A regex against which to validate the property&#39;s value.</td>
-</tr>
-<tr>
-<td><code>schema</code></td>
-<td>table</td>
-<td>A nested schema definition</td>
-<td>If the property&#39;s <code>type</code> is table, defines a schema against which to validate those sub-properties.</td>
-</tr>
-<tr>
-<td><code>func</code></td>
-<td>function</td>
-<td></td>
-<td>A function to perform any custom validation on a property. See later examples for its parameters and return values.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Lua type(s)</th>
+      <th>Accepted values</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">type</code></td>
+      <td>string</td>
+      <td>“id”, “number”, “boolean”, “string”, “table”, “array”, “url”, “timestamp”</td>
+      <td>Validates the type of a property.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">required</code></td>
+      <td>boolean</td>
+      <td> </td>
+      <td><strong>Default</strong>: false. If true, the property must be present in the configuration.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">default</code></td>
+      <td>any</td>
+      <td> </td>
+      <td>If the property is not specified in the configuration, will set the property to the given value.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">immutable</code></td>
+      <td>boolean</td>
+      <td> </td>
+      <td><strong>Default</strong>: false. If true, the property will not be allowed to be updated once the plugin configuration has been created.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">enum</code></td>
+      <td>table</td>
+      <td>Integer indexed table</td>
+      <td>A list of accepted values for a property. Any value not included in this list will not be accepted.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">regex</code></td>
+      <td>string</td>
+      <td>A valid PCRE regular expression</td>
+      <td>A regex against which to validate the property’s value.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">schema</code></td>
+      <td>table</td>
+      <td>A nested schema definition</td>
+      <td>If the property’s <code class="highlighter-rouge">type</code> is table, defines a schema against which to validate those sub-properties.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">func</code></td>
+      <td>function</td>
+      <td> </td>
+      <td>A function to perform any custom validation on a property. See later examples for its parameters and return values.</td>
+    </tr>
+  </tbody>
+</table>
 
 <blockquote>
-<ul>
-<li><strong>type</strong>: will cast the value retrieved from the request parameters. If the type is not one of the native Lua types, custom verification is performed against it:
-
-<ul>
-<li>id: must be a string</li>
-<li>timestamp: must be a number</li>
-<li>url: must be a valid URL</li>
-<li>array: must be an integer-indexed table (equivalent of arrays in Lua). In the Admin API, such an array can either be sent by having several times the property&#39;s key with different values in the request&#39;s body, or comma-delimited through a single body parameter. If using the non-comma-delimited form, note that a maximum of only 100 query parameters can be sent to the admin api at a time.</li>
-</ul></li>
-<li><strong>schema</strong>: if you need to perform deepened validation of nested properties, this field allows you to create a nested schema. Schema verification is <strong>recursive</strong>. Any level of nesting is valid, but bear in mind that this will affect the usability of your plugin.</li>
-<li><strong>Any property attached to a configuration object but not present in your schema will also invalidate the said configuration.</strong></li>
-</ul>
+  <ul>
+    <li><strong>type</strong>: will cast the value retrieved from the request parameters. If the type is not one of the native Lua types, custom verification is performed against it:
+      <ul>
+        <li>id: must be a string</li>
+        <li>timestamp: must be a number</li>
+        <li>url: must be a valid URL</li>
+        <li>array: must be an integer-indexed table (equivalent of arrays in Lua). In the Admin API, such an array can either be sent by having several times the property’s key with different values in the request’s body, or comma-delimited through a single body parameter. If using the non-comma-delimited form, note that a maximum of only 100 query parameters can be sent to the admin api at a time.</li>
+      </ul>
+    </li>
+    <li><strong>schema</strong>: if you need to perform deepened validation of nested properties, this field allows you to create a nested schema. Schema verification is <strong>recursive</strong>. Any level of nesting is valid, but bear in mind that this will affect the usability of your plugin.</li>
+    <li><strong>Any property attached to a configuration object but not present in your schema will also invalidate the said configuration.</strong></li>
+  </ul>
 </blockquote>
 
-<hr>
+<hr />
 
-<h4 id="examples">Examples:</h4>
+<h3 id="examples">Examples:</h3>
 
-<p>This <code>schema.lua</code> file for the <a href="/plugins/key-authentication/">key-auth</a> plugin defines a default list of accepted parameter names for an API key, and a boolean whose default is set to <code>false</code>:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- schema.lua</span>
+<p>This <code class="highlighter-rouge">schema.lua</code> file for the <a href="/plugins/key-authentication/">key-auth</a> plugin defines a default list of accepted parameter names for an API key, and a boolean whose default is set to <code class="highlighter-rouge">false</code>:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
@@ -856,9 +875,12 @@ window['_fs_namespace'] = 'FS';
     <span class="n">hide_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p>Hence, when implementing the <code>access()</code> function of your plugin in <a href="/0.5.x/plugin-development/custom-logic/">handler.lua</a> and given that the user enabled the plugin with the default values, you&#39;d have access to:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
+</code></pre>
+</div>
+
+<p>Hence, when implementing the <code class="highlighter-rouge">access()</code> function of your plugin in <a href="/0.5.x/plugin-development/custom-logic/">handler.lua</a> and given that the user enabled the plugin with the default values, you’d have access to:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
@@ -874,11 +896,14 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
+
+<hr />
 
 <p>A more complex example, which could be used for an eventual logging plugin:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- schema.lua</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">server_port</span><span class="p">(</span><span class="n">given_value</span><span class="p">,</span> <span class="n">given_config</span><span class="p">)</span>
   <span class="c1">-- Custom validation</span>
@@ -904,15 +929,21 @@ window['_fs_namespace'] = 'FS';
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Such a configuration will allow a user to post the configuration to your plugin as follows:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
     -d <span class="s2">"name=&lt;my-custom-plugin&gt;"</span> <span class="se">\</span>
     -d <span class="s2">"config.environment=development"</span> <span class="se">\</span>
     -d <span class="s2">"config.server.host=http://localhost"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>And the following will be available in <a href="/0.5.x/plugin-development/custom-logic/">handler.lua</a>:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- handler.lua</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
@@ -929,10 +960,13 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
 
-<p>Next: <a href="/0.5.x/plugin-development/access-the-datastore/">Store custom entities &rsaquo;</a></p>
+<hr />
+
+<p>Next: <a href="/0.5.x/plugin-development/access-the-datastore/">Store custom entities ›</a></p>
+
 
 
         </div>
@@ -1107,7 +1141,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

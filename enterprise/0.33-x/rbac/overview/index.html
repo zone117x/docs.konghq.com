@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,13 +754,19 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#enforcing-rbac">Enforcing RBAC</a>
-    -  <a href="#user">User</a>
-    -  <a href="#role">Role</a>
-    -  <a href="#role-endpoints">Role - Endpoints</a>
-    -  <a href="#role-entities">Role - Entities</a></li>
-<li> <a href="#default-roles-and-permissions">Default Roles and Permissions</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#enforcing-rbac">Enforcing RBAC</a>
+    <ul>
+      <li><a href="#user">User</a></li>
+      <li><a href="#role">Role</a>
+        <ul>
+          <li><a href="#role---endpoints">Role - Endpoints</a></li>
+          <li><a href="#role---entities">Role - Entities</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#default-roles-and-permissions">Default Roles and Permissions</a></li>
 </ul>
 
           
@@ -788,32 +794,39 @@ with the appropriate RBAC configuration. Once RBAC has been configured, enforcin
 authorization and role access requires only a single configuration change via
 the Kong config file.</p>
 
-<p>Previous to Kong Enterprise 0.33, Admin API RBAC was limited to &quot;resources&quot;,
+<p>Previous to Kong Enterprise 0.33, Admin API RBAC was limited to “resources”,
 which mapped to Admin API endpoints. Starting with Kong Enterprise 0.33, RBAC
 also allows Entity-Level permissions. As such, its configuration directive
-<code>enforce_rbac</code>, previously a boolean, is now an enumeration, whose set of
+<code class="highlighter-rouge">enforce_rbac</code>, previously a boolean, is now an enumeration, whose set of
 possible values is:</p>
 
 <ul>
-<li><code>on</code>: similarly to the previous RBAC implementation, applies Endpoint-level
+  <li><code class="highlighter-rouge">on</code>: similarly to the previous RBAC implementation, applies Endpoint-level
 access control</li>
-<li><code>entity</code>: applies <strong>only</strong> Entity-level access control</li>
-<li><code>both</code>: applies <strong>both Endpoint and Entity level access control</strong></li>
-<li><code>off</code>: disables RBAC enforcement</li>
+  <li><code class="highlighter-rouge">entity</code>: applies <strong>only</strong> Entity-level access control</li>
+  <li><code class="highlighter-rouge">both</code>: applies <strong>both Endpoint and Entity level access control</strong></li>
+  <li><code class="highlighter-rouge">off</code>: disables RBAC enforcement</li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">enforce_rbac = on
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>enforce_rbac = on
+</code></pre>
+</div>
+
 <p>Restart Kong:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">kong restart
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kong restart
+</code></pre>
+</div>
+
 <p>RBAC policies are now enforced by Kong, based on the user token presented
 to the request. By default, the user token is sent via the
-<code>Kong-Admin-Token</code> request header; the name of this header is configurable via
+<code class="highlighter-rouge">Kong-Admin-Token</code> request header; the name of this header is configurable via
 the Kong configuration file. To test our setup, we can send a request
 to the Admin API without sending an authentication. Because Kong does not
 recognize a user associated with the requesting client, it rejects the
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/status
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/status
 HTTP/1.1 401 Unauthorized
 Access-Control-Allow-Origin: <span class="k">*</span>
 Connection: keep-alive
@@ -824,10 +837,13 @@ Transfer-Encoding: chunked
 <span class="o">{</span>
     <span class="s2">"message"</span>: <span class="s2">"Invalid RBAC credentials"</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>By sending a request with a valid user token, we are granted read access to
 the resource in question:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
 HTTP/1.1 200 OK
 Date: Fri, 04 Aug 2017 22:09:25 GMT
 Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
@@ -835,11 +851,14 @@ Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.33-enterprise-edition
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Attempting to create a new resource which our RBAC user is also
 not permitted, as it is not assigned any roles that have permissions with
 create access:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alice
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alice
 HTTP/1.1 403 Forbidden
 Access-Control-Allow-Origin: <span class="k">*</span>
 Connection: keep-alive
@@ -850,18 +869,20 @@ Transfer-Encoding: chunked
 <span class="o">{</span>
     <span class="s2">"message"</span>: <span class="s2">"foo, you do not have permissions to create this resource"</span>
 <span class="o">}</span>
-</code></pre></div>
-<h4 id="user">User</h4>
+</code></pre>
+</div>
+
+<h3 id="user">User</h3>
 
 <p>A user identifies the actor sending the current request. Users are identified
-by Kong via the <code>user_token</code> element, sent to the Admin API as a request header.
+by Kong via the <code class="highlighter-rouge">user_token</code> element, sent to the Admin API as a request header.
 A user is assigned one or more Roles, the permissions of which determine what
 resources the user is allowed access. Users can be quickly enabled or disabled via
-the <code>enabled</code> flag on the User entity in the Admin API; this allows Kong
+the <code class="highlighter-rouge">enabled</code> flag on the User entity in the Admin API; this allows Kong
 administrators to quickly enable and disable users without removing their
 tokens or metadata.</p>
 
-<h4 id="role">Role</h4>
+<h3 id="role">Role</h3>
 
 <p>Roles tie together users and permissions, effectively assignment permissions to
 a user based on the assignment of permissions to the roles. Roles have a
@@ -870,52 +891,52 @@ be assigned to any given role, and a user may be assigned to more than one
 role. Likewise, roles also have a many to many relationships with endpoints and
 entities permissions; a role may be associated with more than one endpoint
 or entity permission. Roles are defined by a human-readable name, such as
-&quot;read-only&quot;.</p>
+“read-only”.</p>
 
-<h4 id="role-endpoints">Role - Endpoints</h4>
+<h4 id="role---endpoints">Role - Endpoints</h4>
 
 <p>Roles may have many Endpoint permissions, meaning users in that role will
 effectively be allowed (or explicitly disallowed) access to a set of endpoints.
 Role-Endpoint relationships carry many attributes, describing how the endpoint
 permission apply to the role - e.g., the actions, such as read and write;
 whether or not the permission is negative, meaning the actions are negatives,
-that is, the role is not allowed to perform the actions described in <code>actions</code>,
-and the endpoint itself, for instance, <code>/rbac/users</code>.</p>
+that is, the role is not allowed to perform the actions described in <code class="highlighter-rouge">actions</code>,
+and the endpoint itself, for instance, <code class="highlighter-rouge">/rbac/users</code>.</p>
 
-<p>As concrete examples, let&#39;s say we want to create a role implementing the
+<p>As concrete examples, let’s say we want to create a role implementing the
 following use cases:</p>
 
 <ul>
-<li><p>A permission that allows a Role (or, more precisely, users in that role), to
-perform any action, over any workspace, and any endpoint:</p>
-
-<ul>
-<li><code>endpoint</code>: <code>*</code> - the <code>*</code> matches <strong>any</strong> endpoint</li>
-<li><code>actions</code>: <code>*</code> - the <code>*</code> matches <strong>any</strong> action</li>
-<li><code>workspace</code>: <code>*</code> - the <code>*</code> matches <strong>any</strong> workspace</li>
-<li><code>negative</code>: <code>false</code></li>
-</ul></li>
-<li><p>Now, I want to explicitly <strong>disallow</strong> write access to the <code>/rbac/users</code>
+  <li>A permission that allows a Role (or, more precisely, users in that role), to
+perform any action, over any workspace, and any endpoint:
+    <ul>
+      <li><code class="highlighter-rouge">endpoint</code>: <code class="highlighter-rouge">*</code> - the <code class="highlighter-rouge">*</code> matches <strong>any</strong> endpoint</li>
+      <li><code class="highlighter-rouge">actions</code>: <code class="highlighter-rouge">*</code> - the <code class="highlighter-rouge">*</code> matches <strong>any</strong> action</li>
+      <li><code class="highlighter-rouge">workspace</code>: <code class="highlighter-rouge">*</code> - the <code class="highlighter-rouge">*</code> matches <strong>any</strong> workspace</li>
+      <li><code class="highlighter-rouge">negative</code>: <code class="highlighter-rouge">false</code></li>
+    </ul>
+  </li>
+  <li>Now, I want to explicitly <strong>disallow</strong> write access to the <code class="highlighter-rouge">/rbac/users</code>
 endpoint, so that users in the Role cannot create, update, or delete my RBAC
-users:</p>
-
-<ul>
-<li><code>endpoint</code>: <code>/rbac/users</code></li>
-<li><code>actions</code>: <code>create,update,delete</code></li>
-<li><code>workspace</code>: <code>*</code></li>
-<li><code>negative</code>: <code>true</code></li>
-</ul></li>
+users:
+    <ul>
+      <li><code class="highlighter-rouge">endpoint</code>: <code class="highlighter-rouge">/rbac/users</code></li>
+      <li><code class="highlighter-rouge">actions</code>: <code class="highlighter-rouge">create,update,delete</code></li>
+      <li><code class="highlighter-rouge">workspace</code>: <code class="highlighter-rouge">*</code></li>
+      <li><code class="highlighter-rouge">negative</code>: <code class="highlighter-rouge">true</code></li>
+    </ul>
+  </li>
 </ul>
 
 <p>For more examples, along with API calls, check out the
 <a href="/enterprise/0.33-x/rbac/examples/">RBAC Examples Chapter</a>.</p>
 
-<h4 id="role-entities">Role - Entities</h4>
+<h4 id="role---entities">Role - Entities</h4>
 
 <p>Roles can also associate with particular Kong entities, identified by their
 ID field - a UUID, normally autogenerated by Kong at entity creation time.
 Similarly to Role-Endpoint permissions, Role-Entity permissions have an
-<code>actions</code> field. Additionally, Role-Entity permissions have an <code>entity_id</code>
+<code class="highlighter-rouge">actions</code> field. Additionally, Role-Entity permissions have an <code class="highlighter-rouge">entity_id</code>
 field.</p>
 
 <p>For more examples, along with API calls, check out the
@@ -928,20 +949,21 @@ for quick bootstrapping of RBAC integrations without the need to create many
 boilerplate RBAC entities. The default permissions are:</p>
 
 <ul>
-<li><strong>read-only</strong> This role has read access to all default Kong endpoints</li>
-<li><strong>admin</strong> This role has read, create, update, and delete access to all Kong
+  <li><strong>read-only</strong> This role has read access to all default Kong endpoints</li>
+  <li><strong>admin</strong> This role has read, create, update, and delete access to all Kong
 endpoints, except for the RBAC Admin API</li>
-<li><strong>super-admin</strong> This role has read, create, update, and delete access to all
+  <li><strong>super-admin</strong> This role has read, create, update, and delete access to all
 Kong endpoints, including the RBAC Admin API</li>
 </ul>
 
 <p>Kong does not provide any users by default, as this would be a
-backdoor into Admin API security. As such, it the administrator&#39;s responsibility
+backdoor into Admin API security. As such, it the administrator’s responsibility
 to configure the appropriate RBAC users and user/role relationships.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/rbac/admin-api/">RBAC Admin API &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/rbac/admin-api/">RBAC Admin API ›</a></p>
 
-<hr>
+<hr />
+
 
 
         </div>
@@ -1098,7 +1120,7 @@ to configure the appropriate RBAC users and user/role relationships.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

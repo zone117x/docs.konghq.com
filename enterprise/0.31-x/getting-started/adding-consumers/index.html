@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -606,14 +606,14 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#adding-consumers">Adding Consumers</a>
-
-<ul>
-<li> <a href="#1-create-a-consumer">1. Create a Consumer</a></li>
-<li> <a href="#2-provision-key-credentials-for-your-consumer">2. Provision key credentials for your Consumer</a></li>
-<li> <a href="#3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</a></li>
-</ul></li>
-<li> <a href="#next-steps">Next Steps</a></li>
+  <li><a href="#adding-consumers">Adding Consumers</a>
+    <ul>
+      <li><a href="#1-create-a-consumer">1. Create a Consumer</a></li>
+      <li><a href="#2-provision-key-credentials-for-your-consumer">2. Provision key credentials for your Consumer</a></li>
+      <li><a href="#3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</a></li>
+    </ul>
+  </li>
+  <li><a href="#next-steps">Next Steps</a></li>
 </ul>
 
           
@@ -622,24 +622,28 @@ window['_fs_namespace'] = 'FS';
 
 <p>In the last section, we learned how to add plugins to Kong Enterprise Edition
 (EE) - in this section
-we&#39;re going to learn how to add <a href="/latest/admin-api#consumer-object">Consumers</a> to Kong. Consumers are
+we’re going to learn how to add <a href="/latest/admin-api#consumer-object">Consumers</a> to Kong. Consumers are
 associated to individuals or applications using your API, and can be used
 for tracking, access management, and more.</p>
 
 <p><strong>Note:</strong> This section assumes you have <a href="/0.31-x/getting-started/enabling-plugins">enabled</a> the
-<a href="/plugins/key-authentication">key-auth</a> plugin. If you haven&#39;t, you can either
+<a href="/plugins/key-authentication">key-auth</a> plugin. If you haven’t, you can either
 <a href="/0.31-x/getting-started/enabling-plugins">enable the plugin</a> or skip steps two and three.</p>
 
 <h2 id="1-create-a-consumer">1. Create a Consumer</h2>
 
-<p>If you&#39;d like to use the Admin API, issue the following cURL request to
-create your first Consumer, named <code>Jason</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<p>If you’d like to use the Admin API, issue the following cURL request to
+create your first Consumer, named <code class="highlighter-rouge">Jason</code>:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/consumers/ <span class="se">\</span>
   --data <span class="s2">"username=Jason"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>You should see a response similar to the one below:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+
+<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
@@ -648,49 +652,57 @@ create your first Consumer, named <code>Jason</code>:</p>
   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+</span></code></pre>
+</div>
 <p>Or, add your first Consumer via the Admin GUI:</p>
 
-<video width="100%" autoplay loop controls>
-  <source src="https://konghq.com/wp-content/uploads/2018/03/add-consumer-ee0.31.mp4" type="video/mp4">
+<video width="100%" autoplay="" loop="" controls="">
+  <source src="https://konghq.com/wp-content/uploads/2018/03/add-consumer-ee0.31.mp4" type="video/mp4" />
   Your browser does not support the video tag.
 </video>
 
-<p>Congratulations! You&#39;ve just added your first Consumer to Kong.</p>
+<p>Congratulations! You’ve just added your first Consumer to Kong.</p>
 
-<p><strong>Note:</strong> Kong also accepts a <code>custom_id</code> parameter when
+<p><strong>Note:</strong> Kong also accepts a <code class="highlighter-rouge">custom_id</code> parameter when
 <a href="/latest/admin-api#create-consumer">creating Consumers</a> to associate a Consumer with your existing user
 database.</p>
 
 <h2 id="2-provision-key-credentials-for-your-consumer">2. Provision key credentials for your Consumer</h2>
 
-<p>Now, we can create a key for our recently created Consumer <code>Jason</code> by
+<p>Now, we can create a key for our recently created Consumer <code class="highlighter-rouge">Jason</code> by
 issuing the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/consumers/Jason/key-auth/ <span class="se">\</span>
   --data <span class="s1">'key=ENTER_KEY_HERE'</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</h2>
 
 <p>We can now issue the following request to verify that the credentials of
-our <code>Jason</code> Consumer is valid:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+our <code class="highlighter-rouge">Jason</code> Consumer is valid:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000 <span class="se">\</span>
   --header <span class="s2">"Host: example.com"</span> <span class="se">\</span>
   --header <span class="s2">"apikey: ENTER_KEY_HERE"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h1 id="next-steps">Next Steps</h1>
 
-<p>Now that we&#39;ve covered the basics of adding APIs, Consumers and enabling
+<p>Now that we’ve covered the basics of adding APIs, Consumers and enabling
 Plugins, feel free to read more on Kong in one of the following documents:</p>
 
 <ul>
-<li><a href="/latest/configuration">Configuration file Reference</a></li>
-<li><a href="/latest/cli">CLI Reference</a></li>
-<li><a href="/latest/proxy">Proxy Reference</a></li>
-<li><a href="/latest/admin-api">Admin API Reference</a></li>
-<li><a href="/latest/clustering">Clustering Reference</a></li>
+  <li><a href="/latest/configuration">Configuration file Reference</a></li>
+  <li><a href="/latest/cli">CLI Reference</a></li>
+  <li><a href="/latest/proxy">Proxy Reference</a></li>
+  <li><a href="/latest/admin-api">Admin API Reference</a></li>
+  <li><a href="/latest/clustering">Clustering Reference</a></li>
 </ul>
+
 
 
         </div>
@@ -847,7 +859,7 @@ Plugins, feel free to read more on Kong in one of the following documents:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

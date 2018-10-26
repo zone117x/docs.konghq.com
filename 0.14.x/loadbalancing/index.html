@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,23 +991,23 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
-
-<ul>
-<li> <a href="#a-records">A records</a></li>
-<li> <a href="#srv-records">SRV records</a></li>
-<li> <a href="#dns-priorities">DNS priorities</a></li>
-<li> <a href="#dns-caveats">DNS caveats</a></li>
-</ul></li>
-<li> <a href="#ring-balancer">Ring-balancer</a>
-
-<ul>
-<li> <a href="#upstream">Upstream</a></li>
-<li> <a href="#target">Target</a></li>
-<li> <a href="#balancing-algorithms">Balancing algorithms</a></li>
-<li> <a href="#balancing-caveats">Balancing caveats</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#dns-based-loadbalancing">DNS-based loadbalancing</a>
+    <ul>
+      <li><a href="#a-records">A records</a></li>
+      <li><a href="#srv-records">SRV records</a></li>
+      <li><a href="#dns-priorities">DNS priorities</a></li>
+      <li><a href="#dns-caveats">DNS caveats</a></li>
+    </ul>
+  </li>
+  <li><a href="#ring-balancer">Ring-balancer</a>
+    <ul>
+      <li><a href="#upstream">Upstream</a></li>
+      <li><a href="#target">Target</a></li>
+      <li><a href="#balancing-algorithms">Balancing algorithms</a></li>
+      <li><a href="#balancing-caveats">Balancing caveats</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -1023,13 +1023,13 @@ that also allows for service registry without needing a DNS server.</p>
 <p>When using DNS-based load balancing, the registration of the backend services
 is done outside of Kong, and Kong only receives updates from the DNS server.</p>
 
-<p>Every Service that has been defined with a <code>host</code> containing a hostname
+<p>Every Service that has been defined with a <code class="highlighter-rouge">host</code> containing a hostname
 (instead of an IP address) will automatically use DNS-based load balancing
 if the name resolves to multiple IP addresses, provided the hostname does not
-resolve to an <code>upstream</code> name or a name in your DNS hostsfile.</p>
+resolve to an <code class="highlighter-rouge">upstream</code> name or a name in your DNS hostsfile.</p>
 
-<p>The DNS record <code>ttl</code> setting (time to live) determines how often the information
-is refreshed. When using a <code>ttl</code> of 0, every request will be resolved using its
+<p>The DNS record <code class="highlighter-rouge">ttl</code> setting (time to live) determines how often the information
+is refreshed. When using a <code class="highlighter-rouge">ttl</code> of 0, every request will be resolved using its
 own DNS query. Obviously this will have a performance penalty, but the latency of
 updates/changes will be very low.</p>
 
@@ -1040,7 +1040,7 @@ updates/changes will be very low.</p>
 <p>An A record contains one or more IP addresses. Hence, when a hostname
 resolves to an A record, each backend service must have its own IP address.</p>
 
-<p>Because there is no <code>weight</code> information, all entries will be treated as equally
+<p>Because there is no <code class="highlighter-rouge">weight</code> information, all entries will be treated as equally
 weighted in the load balancer, and the balancer will do a straight forward
 round-robin.</p>
 
@@ -1053,14 +1053,14 @@ A backend service can be identified by a unique combination of IP address
 and port number. Hence, a single IP address can host multiple instances of the
 same service on different ports.</p>
 
-<p>Because the <code>weight</code> information is available, each entry will get its own
+<p>Because the <code class="highlighter-rouge">weight</code> information is available, each entry will get its own
 weight in the load balancer and it will perform a weighted round-robin.</p>
 
 <p>Similarly, any given port information will be overridden by the port information from
-the DNS server. If a Service has attributes <code>host=myhost.com</code> and <code>port=123</code>,
-and <code>myhost.com</code> resolves to an SRV record with <code>127.0.0.1:456</code>, then the request
-will be proxied to <code>http://127.0.0.1:456/somepath</code>, as port <code>123</code> will be
-overridden by <code>456</code>.</p>
+the DNS server. If a Service has attributes <code class="highlighter-rouge">host=myhost.com</code> and <code class="highlighter-rouge">port=123</code>,
+and <code class="highlighter-rouge">myhost.com</code> resolves to an SRV record with <code class="highlighter-rouge">127.0.0.1:456</code>, then the request
+will be proxied to <code class="highlighter-rouge">http://127.0.0.1:456/somepath</code>, as port <code class="highlighter-rouge">123</code> will be
+overridden by <code class="highlighter-rouge">456</code>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1069,40 +1069,50 @@ overridden by <code>456</code>.</p>
 <p>The DNS resolver will start resolving the following record types in order:</p>
 
 <ol>
-<li>The last successful type previously resolved</li>
-<li>SRV record</li>
-<li>A record</li>
-<li>CNAME record</li>
+  <li>The last successful type previously resolved</li>
+  <li>SRV record</li>
+  <li>A record</li>
+  <li>CNAME record</li>
 </ol>
 
-<p>This order is configurable through the <a href="/0.14.x/configuration/#dns_order"><code>dns_order</code> configuration property</a>.</p>
+<p>This order is configurable through the <a href="/0.14.x/configuration/#dns_order"><code class="highlighter-rouge">dns_order</code> configuration property</a>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h3 id="dns-caveats">DNS caveats</h3>
 
 <ul>
-<li><p>Whenever the DNS record is refreshed a list is generated to handle the
+  <li>
+    <p>Whenever the DNS record is refreshed a list is generated to handle the
 weighting properly. Try to keep the weights as multiples of each other to keep
 the algorithm performant, e.g., 2 weights of 17 and 31 would result in a structure
 with 527 entries, whereas weights 16 and 32 (or their smallest relative
 counterparts 1 and 2) would result in a structure with merely 3 entries,
-especially with a very small (or even 0) <code>ttl</code> value.</p></li>
-<li><p>Some nameservers do not return all entries (due to UDP packet size) in those
-cases (for example Consul returns a maximum of 3) a given Kong node will only
+especially with a very small (or even 0) <code class="highlighter-rouge">ttl</code> value.</p>
+  </li>
+  <li>
+    <p>Some nameservers do not return all entries due to UDP packet size
+(for example Consul returns a maximum of 3 DNS entries). In those
+cases, a given Kong worker (by default
+there is 1 Kong worker per CPU core) will only
 use the few upstream service instances provided by the nameserver. In this
 scenario, it is possible that the pool of upstream instances will be loaded
-inconsistently, because the Kong node is effectively unaware of some of the
-instances, due to the limited information provided by the nameserver.
+inconsistently, because each Kong worker is effectively unaware of some of the
+upstream instances, due to the limited information provided by the nameserver.
 To mitigate this use a different nameserver, use IP
-addresses instead of names, or make sure you use enough Kong nodes to still
-have all upstream services being used.</p></li>
-<li><p>When the nameserver returns a <code>3 name error</code>, then that is a valid response
+addresses instead of names, or make sure you use enough Kong workers to still
+have all upstream services being used.</p>
+  </li>
+  <li>
+    <p>When the nameserver returns a <code class="highlighter-rouge">3 name error</code>, then that is a valid response
 for Kong. If this is unexpected, first validate the correct name is being
-queried for, and second check your nameserver configuration.</p></li>
-<li><p>The initial pick of an IP address from a DNS record (A or SRV) is not
-randomized. So when using records with a <code>ttl</code> of 0, the nameserver is
-expected to randomize the record entries.</p></li>
+queried for, and second check your nameserver configuration.</p>
+  </li>
+  <li>
+    <p>The initial pick of an IP address from a DNS record (A or SRV) is not
+randomized. So when using records with a <code class="highlighter-rouge">ttl</code> of 0, the nameserver is
+expected to randomize the record entries.</p>
+  </li>
 </ul>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
@@ -1114,25 +1124,25 @@ be handled by Kong, and no DNS updates will be necessary. Kong will act as the
 service registry. Nodes can be added/deleted with a single HTTP request and
 will instantly start/stop receiving traffic.</p>
 
-<p>Configuring the ring-balancer is done through the <code>upstream</code> and <code>target</code>
+<p>Configuring the ring-balancer is done through the <code class="highlighter-rouge">upstream</code> and <code class="highlighter-rouge">target</code>
 entities.</p>
 
 <ul>
-<li><code>target</code>: an IP address or hostname with a port number where a backend
-service resides, eg. &quot;192.168.100.12:80&quot;. Each target gets an additional
-<code>weight</code> to indicate the relative load it gets. IP addresses can be
+  <li><code class="highlighter-rouge">target</code>: an IP address or hostname with a port number where a backend
+service resides, eg. “192.168.100.12:80”. Each target gets an additional
+<code class="highlighter-rouge">weight</code> to indicate the relative load it gets. IP addresses can be
 in both IPv4 and IPv6 format.</li>
-<li><code>upstream</code>: a &#39;virtual hostname&#39; which can be used in a Route <code>host</code>
-field, e.g., an upstream named <code>weather.v2.service</code> would get all requests
-from a Service with <code>host=weather.v2.service</code>.</li>
+  <li><code class="highlighter-rouge">upstream</code>: a ‘virtual hostname’ which can be used in a Route <code class="highlighter-rouge">host</code>
+field, e.g., an upstream named <code class="highlighter-rouge">weather.v2.service</code> would get all requests
+from a Service with <code class="highlighter-rouge">host=weather.v2.service</code>.</li>
 </ul>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h3 id="upstream">Upstream</h3>
 
-<p>Each upstream gets its own ring-balancer. Each <code>upstream</code> can have many
-<code>target</code> entries attached to it, and requests proxied to the &#39;virtual hostname&#39;
+<p>Each upstream gets its own ring-balancer. Each <code class="highlighter-rouge">upstream</code> can have many
+<code class="highlighter-rouge">target</code> entries attached to it, and requests proxied to the ‘virtual hostname’
 will be load balanced over the targets. A ring-balancer has a pre-defined
 number of slots, and based on the target weights the slots get assigned to the
 targets of the upstream.</p>
@@ -1145,56 +1155,56 @@ number of slots change for example.</p>
 <p>The only occurrence where the balancer will be rebuilt automatically is when
 the target history is cleaned; other than that, it will only rebuild upon changes.</p>
 
-<p>Within the balancer there are the positions (from 1 to <code>slots</code>),
+<p>Within the balancer there are the positions (from 1 to <code class="highlighter-rouge">slots</code>),
 which are <strong>randomly distributed</strong> on the ring.
 The randomness is required to make invoking the ring-balancer cheap at
 runtime. A simple round-robin over the wheel (the positions) will do to
-provide a well distributed weighted round-robin over the <code>targets</code>, whilst
+provide a well distributed weighted round-robin over the <code class="highlighter-rouge">targets</code>, whilst
 also having cheap operations when inserting/deleting targets.</p>
 
 <p>The number of slots to use per target should (at least) be around 100 to make
 sure the slots are properly distributed. Eg. for an expected maximum of 8
-targets, the <code>upstream</code> should be defined with at least <code>slots=800</code>, even if
+targets, the <code class="highlighter-rouge">upstream</code> should be defined with at least <code class="highlighter-rouge">slots=800</code>, even if
 the initial setup only features 2 targets.</p>
 
 <p>The tradeoff here is that the higher the number of slots, the better the random
 distribution, but the more expensive the changes are (add/removing targets)</p>
 
 <p>Detailed information on adding and manipulating
-upstreams is available in the <code>upstream</code> section of the
+upstreams is available in the <code class="highlighter-rouge">upstream</code> section of the
 <a href="/0.14.x/admin-api#upstream-object">Admin API reference</a>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h3 id="target">Target</h3>
 
-<p>Because the <code>upstream</code> maintains a history of changes, targets can only be
+<p>Because the <code class="highlighter-rouge">upstream</code> maintains a history of changes, targets can only be
 added, not modified nor deleted. To change a target, just add a new entry for
-the target, and change the <code>weight</code> value. The last entry is the one that will
-be used. As such setting <code>weight=0</code> will disable a target, effectively
+the target, and change the <code class="highlighter-rouge">weight</code> value. The last entry is the one that will
+be used. As such setting <code class="highlighter-rouge">weight=0</code> will disable a target, effectively
 deleting it from the balancer. Detailed information on adding and manipulating
-targets is available in the <code>target</code> section of the
+targets is available in the <code class="highlighter-rouge">target</code> section of the
 <a href="/0.14.x/admin-api#target-object">Admin API reference</a>.</p>
 
 <p>The targets will be automatically cleaned when there are 10x more inactive
 entries than active ones. Cleaning will involve rebuilding the balancer, and
 hence is more expensive than just adding a target entry.</p>
 
-<p>A <code>target</code> can also have a hostname instead of an IP address. In that case
+<p>A <code class="highlighter-rouge">target</code> can also have a hostname instead of an IP address. In that case
 the name will be resolved and all entries found will individually be added to
-the ring balancer, e.g., adding <code>api.host.com:123</code> with <code>weight=100</code>. The
-name &#39;api.host.com&#39; resolves to an A record with 2 IP addresses. Then both
-ip addresses will be added as target, each getting <code>weight=100</code> and port 123.
+the ring balancer, e.g., adding <code class="highlighter-rouge">api.host.com:123</code> with <code class="highlighter-rouge">weight=100</code>. The
+name ‘api.host.com’ resolves to an A record with 2 IP addresses. Then both
+ip addresses will be added as target, each getting <code class="highlighter-rouge">weight=100</code> and port 123.
 <strong>NOTE</strong>: the weight is used for the individual entries, not for the whole!</p>
 
-<p>Would it resolve to an SRV record, then also the <code>port</code> and <code>weight</code> fields
-from the DNS record would be picked up, and would overrule the given port <code>123</code>
-and <code>weight=100</code>.</p>
+<p>Would it resolve to an SRV record, then also the <code class="highlighter-rouge">port</code> and <code class="highlighter-rouge">weight</code> fields
+from the DNS record would be picked up, and would overrule the given port <code class="highlighter-rouge">123</code>
+and <code class="highlighter-rouge">weight=100</code>.</p>
 
-<p>The balancer will honor the DNS record&#39;s <code>ttl</code> setting and requery and update
+<p>The balancer will honor the DNS record’s <code class="highlighter-rouge">ttl</code> setting and requery and update
 the balancer when it expires.</p>
 
-<p><strong>Exception</strong>: When a DNS record has <code>ttl=0</code>, the hostname will be added
+<p><strong>Exception</strong>: When a DNS record has <code class="highlighter-rouge">ttl=0</code>, the hostname will be added
 as a single target, with the specified weight. Upon every proxied request
 to this target it will query the nameserver again.</p>
 
@@ -1204,37 +1214,47 @@ to this target it will query the nameserver again.</p>
 
 <p>By default a ring-balancer will use a weighted-round-robin scheme. The alternative
 would be to use the hash-based algorithm. The input for the hash can be either
-<code>none</code>, <code>consumer</code>, <code>ip</code>, <code>header</code>, or <code>cookie</code>. When set to <code>none</code> the
+<code class="highlighter-rouge">none</code>, <code class="highlighter-rouge">consumer</code>, <code class="highlighter-rouge">ip</code>, <code class="highlighter-rouge">header</code>, or <code class="highlighter-rouge">cookie</code>. When set to <code class="highlighter-rouge">none</code> the
 weighted-round-robin scheme will be used, and hashing will be disabled.</p>
 
 <p>There are two options, a primary and a fallback in case the primary fails
-(e.g., if the primary is set to <code>consumer</code>, but no consumer is authenticated)</p>
+(e.g., if the primary is set to <code class="highlighter-rouge">consumer</code>, but no consumer is authenticated)</p>
 
 <p>The different hashing options:</p>
 
 <ul>
-<li><p><code>none</code>: Do not use hashing, but use weighted-round-robin instead (default).</p></li>
-<li><p><code>consumer</code>: Use the consumer id as the hash input. This option will fallback
+  <li>
+    <p><code class="highlighter-rouge">none</code>: Do not use hashing, but use weighted-round-robin instead (default).</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">consumer</code>: Use the consumer id as the hash input. This option will fallback
 on the credential id if no consumer id is available (in case of external auth
-like ldap).</p></li>
-<li><p><code>ip</code>: The remote (originating) IP address will be used as input. Review the
+like ldap).</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">ip</code>: The remote (originating) IP address will be used as input. Review the
 configuration settings for <a href="/0.14.x/configuration/#real_ip_header">determining the real IP</a> when
-using this.</p></li>
-<li><p><code>header</code>: Use a specified header (in either <code>hash_on_header</code> or <code>hash_fallback_header</code>
-field) as input for the hash.</p></li>
-<li><p><code>cookie</code>: Use a specified cookie name (in the <code>hash_on_cookie</code> field) with a
-specified path (in the <code>hash_on_cookie_path</code> field, default <code>&quot;/&quot;</code>) as input for
+using this.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">header</code>: Use a specified header (in either <code class="highlighter-rouge">hash_on_header</code> or <code class="highlighter-rouge">hash_fallback_header</code>
+field) as input for the hash.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cookie</code>: Use a specified cookie name (in the <code class="highlighter-rouge">hash_on_cookie</code> field) with a
+specified path (in the <code class="highlighter-rouge">hash_on_cookie_path</code> field, default <code class="highlighter-rouge">"/"</code>) as input for
 the hash. If the cookie is not present in the request, it will be set by the
-response. Hence, the <code>hash_fallback</code> setting is invalid if <code>cookie</code> is the primary
-hashing mechanism.</p></li>
+response. Hence, the <code class="highlighter-rouge">hash_fallback</code> setting is invalid if <code class="highlighter-rouge">cookie</code> is the primary
+hashing mechanism.</p>
+  </li>
 </ul>
 
-<p>The hashing algorithm is based on &#39;consistent-hashing&#39; (or the &#39;ketama principle&#39;)
+<p>The hashing algorithm is based on ‘consistent-hashing’ (or the ‘ketama principle’)
 which makes sure that when the balancer gets modified by changing the targets
 (adding, removing, failing, or changing weights) only the minimum number of
 hashing losses occur. This will maximize upstream cache hits.</p>
 
-<p>For more information on the exact settings see the <code>upstream</code> section of the
+<p>For more information on the exact settings see the <code class="highlighter-rouge">upstream</code> section of the
 <a href="/0.14.x/admin-api#upstream-object">Admin API reference</a>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
@@ -1242,26 +1262,30 @@ hashing losses occur. This will maximize upstream cache hits.</p>
 <h3 id="balancing-caveats">Balancing caveats</h3>
 
 <p>The ring-balancer is designed to work both with a single node as well as in a cluster.
-For the weighted-round-robin algorithm there isn&#39;t much difference, but when using
+For the weighted-round-robin algorithm there isn’t much difference, but when using
 the hash based algorithm it is important that all nodes build the exact same
 ring-balancer to make sure they all work identical. To do this the balancer
 must be build in a deterministic way.</p>
 
 <ul>
-<li><p>Do not use hostnames in the balancer as the
+  <li>
+    <p>Do not use hostnames in the balancer as the
 balancers might/will slowly diverge because the DNS ttl has only second precision
 and renewal is determined by when a name is actually requested. On top of this is
 the issue with some nameservers not returning all entries, which exacerbates
-this problem. So when using the hashing approach in a Kong cluster, add <code>target</code>
-entities only by their IP address, and never by name.</p></li>
-<li><p>When picking your hash input make sure the input has enough variance to get
+this problem. So when using the hashing approach in a Kong cluster, add <code class="highlighter-rouge">target</code>
+entities only by their IP address, and never by name.</p>
+  </li>
+  <li>
+    <p>When picking your hash input make sure the input has enough variance to get
 to a well distributed hash. Hashes will be calculated using the CRC-32 digest.
 So for example, if your system has thousands of users, but only a few consumers, defined
-per platform (eg. 3 consumers: Web, iOS and Android) then picking the <code>consumer</code>
+per platform (eg. 3 consumers: Web, iOS and Android) then picking the <code class="highlighter-rouge">consumer</code>
 hash input will not suffice, using the remote IP address by setting the hash to
-<code>ip</code> would provide more variance in the input and hence a better distribution
+<code class="highlighter-rouge">ip</code> would provide more variance in the input and hence a better distribution
 in the hash output. However, if many clients will be behind the same NAT gateway (e.g. in
-call center), <code>cookie</code> will provide a better distribution than <code>ip</code>.</p></li>
+call center), <code class="highlighter-rouge">cookie</code> will provide a better distribution than <code class="highlighter-rouge">ip</code>.</p>
+  </li>
 </ul>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
@@ -1269,11 +1293,12 @@ call center), <code>cookie</code> will provide a better distribution than <code>
 <h1 id="blue-green-deployments">Blue-Green Deployments</h1>
 
 <p>Using the ring-balancer a <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">blue-green deployment</a> can be easily orchestrated for
-a Service. Switching target infrastructure only requires a <code>PATCH</code> request on a
-Service, to change its <code>host</code> value.</p>
+a Service. Switching target infrastructure only requires a <code class="highlighter-rouge">PATCH</code> request on a
+Service, to change its <code class="highlighter-rouge">host</code> value.</p>
 
-<p>Set up the &quot;Blue&quot; environment, running version 1 of the address service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create an upstream</span>
+<p>Set up the “Blue” environment, running version 1 of the address service:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># create an upstream</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
     --data <span class="s2">"name=address.v1.service"</span>
 
@@ -1294,15 +1319,18 @@ Service, to change its <code>host</code> value.</p>
 <span class="c"># finally, add a Route as an entry-point into the Service</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/services/address-service/routes/ <span class="se">\</span>
     --data <span class="s2">"hosts[]=address.mydomain.com"</span>
-</code></pre></div>
-<p>Requests with host header set to <code>address.mydomain.com</code> will now be proxied
-by Kong to the two defined targets; 2/3 of the requests will go to
-<code>http://192.168.34.15:80/address</code> (<code>weight=100</code>), and 1/3 will go to
-<code>http://192.168.34.16:80/address</code> (<code>weight=50</code>).</p>
+</code></pre>
+</div>
 
-<p>Before deploying version 2 of the address service, set up the &quot;Green&quot;
+<p>Requests with host header set to <code class="highlighter-rouge">address.mydomain.com</code> will now be proxied
+by Kong to the two defined targets; 2/3 of the requests will go to
+<code class="highlighter-rouge">http://192.168.34.15:80/address</code> (<code class="highlighter-rouge">weight=100</code>), and 1/3 will go to
+<code class="highlighter-rouge">http://192.168.34.16:80/address</code> (<code class="highlighter-rouge">weight=50</code>).</p>
+
+<p>Before deploying version 2 of the address service, set up the “Green”
 environment:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create a new Green upstream for address service v2</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># create a new Green upstream for address service v2</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams <span class="se">\</span>
     --data <span class="s2">"name=address.v2.service"</span>
 
@@ -1313,16 +1341,21 @@ environment:</p>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
     --data <span class="s2">"target=192.168.34.18:80"</span>
     --data <span class="s2">"weight=100"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>To activate the Blue/Green switch, we now only need to update the Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Switch the Service from Blue to Green upstream, v1 -&gt; v2</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Switch the Service from Blue to Green upstream, v1 -&gt; v2</span>
 <span class="gp">$ </span>curl -X PATCH http://kong:8001/services/address-service <span class="se">\</span>
     --data <span class="s2">"host=address.v2.service"</span>
-</code></pre></div>
-<p>Incoming requests with host header set to <code>address.mydomain.com</code> will now be
+</code></pre>
+</div>
+
+<p>Incoming requests with host header set to <code class="highlighter-rouge">address.mydomain.com</code> will now be
 proxied by Kong to the new targets; 1/2 of the requests will go to
-<code>http://192.168.34.17:80/address</code> (<code>weight=100</code>), and the other 1/2 will go to
-<code>http://192.168.34.18:80/address</code> (<code>weight=100</code>).</p>
+<code class="highlighter-rouge">http://192.168.34.17:80/address</code> (<code class="highlighter-rouge">weight=100</code>), and the other 1/2 will go to
+<code class="highlighter-rouge">http://192.168.34.18:80/address</code> (<code class="highlighter-rouge">weight=100</code>).</p>
 
 <p>As always, the changes through the Kong Admin API are dynamic and will take
 effect immediately. No reload or restart is required, and no in progress
@@ -1336,7 +1369,8 @@ requests will be dropped.</p>
 for a smooth, controlled <a href="http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/">canary release</a>.</p>
 
 <p>Using a very simple 2 target example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 1000</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># first target at 1000</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
     --data <span class="s2">"target=192.168.34.17:80"</span>
     --data <span class="s2">"weight=1000"</span>
@@ -1345,10 +1379,13 @@ for a smooth, controlled <a href="http://blog.christianposta.com/deploy/blue-gre
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
     --data <span class="s2">"target=192.168.34.18:80"</span>
     --data <span class="s2">"weight=0"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>By repeating the requests, but altering the weights each time, traffic will
 slowly be routed towards the other target. For example, set it at 10%:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># first target at 900</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># first target at 900</span>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
     --data <span class="s2">"target=192.168.34.17:80"</span>
     --data <span class="s2">"weight=900"</span>
@@ -1357,12 +1394,15 @@ slowly be routed towards the other target. For example, set it at 10%:</p>
 <span class="gp">$ </span>curl -X POST http://kong:8001/upstreams/address.v2.service/targets <span class="se">\</span>
     --data <span class="s2">"target=192.168.34.18:80"</span>
     --data <span class="s2">"weight=100"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>The changes through the Kong Admin API are dynamic and will take
 effect immediately. No reload or restart is required, and no in progress
 requests will be dropped.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1537,7 +1577,7 @@ requests will be dropped.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

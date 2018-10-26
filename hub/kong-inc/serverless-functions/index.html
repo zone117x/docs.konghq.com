@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,22 +236,22 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#plugin-names">Plugin Names</a></li>
-<li> <a href="#demonstration">Demonstration</a>
-
-<ul>
-<li> <a href="#notes">Notes</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#plugin-names">Plugin Names</a></li>
+  <li><a href="#demonstration">Demonstration</a>
+    <ul>
+      <li><a href="#notes">Notes</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -424,38 +424,47 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=serverless-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functions=[]"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=serverless-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functions=[]"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -463,13 +472,16 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=serverless-functions"</span>  <span class="se">\</span>
     --data <span class="s2">"config.functions=[]"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -487,7 +499,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -525,80 +538,109 @@ target.</li>
 
       
 
+
       <h2 id="plugin-names">Plugin Names</h2>
 
 <p>Serverless Functions come as two separate plugins. Each one runs with a
 different priority in the plugin chain.</p>
 
 <ul>
-<li><code>pre-function</code>
-
-<ul>
-<li>Runs before other plugins run during access phase.</li>
-</ul></li>
-<li><code>post-function</code>
-
-<ul>
-<li>Runs after other plugins in the access phase.</li>
-</ul></li>
+  <li><code class="highlighter-rouge">pre-function</code>
+    <ul>
+      <li>Runs before other plugins run during access phase.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">post-function</code>
+    <ul>
+      <li>Runs after other plugins in the access phase.</li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="demonstration">Demonstration</h2>
 
 <ol>
-<li><p>Create a Service on Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
-  --data <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
-  --data <span class="s2">"url=http://httpbin.org/headers"</span>
+  <li>
+    <p>Create a Service on Kong:</p>
 
-HTTP/1.1 201 Created
-...
-</code></pre></div></li>
-<li><p>Add a Route to the Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
-  --data <span class="s2">"paths[]=/test"</span>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
+   --data <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
+   --data <span class="s2">"url=http://httpbin.org/headers"</span>
 
-HTTP/1.1 201 Created
-...
-</code></pre></div></li>
-<li><p>Create a file named <code>custom-auth.lua</code> with the following content:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Get list of request headers</span>
-<span class="kd">local</span> <span class="n">custom_auth</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-auth"</span><span class="p">)</span>
+ HTTP/1.1 201 Created
+ ...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Add a Route to the Service:</p>
 
-<span class="c1">-- Terminate request early if our custom authentication header</span>
-<span class="c1">-- does not exist</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">custom_auth</span> <span class="k">then</span>
-  <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">401</span><span class="err">\</span><span class="p">,</span> <span class="s2">"Invalid Credentials"</span><span class="p">)</span>
-<span class="k">end</span>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
+   --data <span class="s2">"paths[]=/test"</span>
 
-<span class="c1">-- Remove custom authentication header from request</span>
-<span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">clear_header</span><span class="p">(</span><span class="s1">'x-custom-auth'</span><span class="p">)</span>
-</code></pre></div></li>
-<li><p>Ensure the file contents:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cat custom-auth.lua
-</code></pre></div></li>
-<li><p>Apply our Lua code using the <code>pre-function</code> plugin using cURL file upload:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
-    -F <span class="s2">"name=pre-function"</span> <span class="se">\</span>
-    -F <span class="s2">"config.functions=@custom-auth.lua"</span>
+ HTTP/1.1 201 Created
+ ...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Create a file named <code class="highlighter-rouge">custom-auth.lua</code> with the following content:</p>
 
-HTTP/1.1 201 Created
-...
-</code></pre></div></li>
-<li><p>Test that our Lua code will terminate the request when no header is passed:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X GET http://localhost:8000/test
+    <div class="language-lua highlighter-rouge"><pre class="highlight"><code> <span class="c1">-- Get list of request headers</span>
+ <span class="kd">local</span> <span class="n">custom_auth</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-auth"</span><span class="p">)</span>
 
-HTTP/1.1 401 Unauthorized
-...
-<span class="s2">"Invalid Credentials"</span>
-</code></pre></div></li>
-<li><p>Test the Lua code we just applied by making a valid request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -i -X GET http://localhost:8000/test <span class="se">\</span>
-  --header <span class="s2">"x-custom-auth: demo"</span>
+ <span class="c1">-- Terminate request early if our custom authentication header</span>
+ <span class="c1">-- does not exist</span>
+ <span class="k">if</span> <span class="ow">not</span> <span class="n">custom_auth</span> <span class="k">then</span>
+   <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">401</span><span class="err">\</span><span class="p">,</span> <span class="s2">"Invalid Credentials"</span><span class="p">)</span>
+ <span class="k">end</span>
 
-HTTP/1.1 200 OK
-...
-</code></pre></div></li>
+ <span class="c1">-- Remove custom authentication header from request</span>
+ <span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">clear_header</span><span class="p">(</span><span class="s1">'x-custom-auth'</span><span class="p">)</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Ensure the file contents:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>cat custom-auth.lua
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Apply our Lua code using the <code class="highlighter-rouge">pre-function</code> plugin using cURL file upload:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
+     -F <span class="s2">"name=pre-function"</span> <span class="se">\</span>
+     -F <span class="s2">"config.functions=@custom-auth.lua"</span>
+
+ HTTP/1.1 201 Created
+ ...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Test that our Lua code will terminate the request when no header is passed:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET http://localhost:8000/test
+
+ HTTP/1.1 401 Unauthorized
+ ...
+ <span class="s2">"Invalid Credentials"</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Test the Lua code we just applied by making a valid request:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET http://localhost:8000/test <span class="se">\</span>
+   --header <span class="s2">"x-custom-auth: demo"</span>
+
+ HTTP/1.1 200 OK
+ ...
+</code></pre>
+    </div>
+  </li>
 </ol>
 
 <p>This is just a small demonstration of the power these plugins grant. We were
@@ -609,7 +651,7 @@ reloading / redeploying Kong.</p>
 <p>In short, serverless functions give you the full capabilities of a custom plugin
 in the access phase without ever redeploying / restarting Kong.</p>
 
-<hr>
+<hr />
 
 <h3 id="notes">Notes</h3>
 
@@ -617,20 +659,21 @@ in the access phase without ever redeploying / restarting Kong.</p>
 
 <p>Since the <a href="https://getkong.org/docs/latest/admin-api/#service-object">Service</a> entity requires defining an upstream you may
 define a fake upstream and take care to terminate the request. See the
-<a href="https://github.com/openresty/lua-nginx-module#ngxexit"><code>lua-ngx-module</code></a>
+<a href="https://github.com/openresty/lua-nginx-module#ngxexit"><code class="highlighter-rouge">lua-ngx-module</code></a>
 documentation for more information.</p>
 
 <h4 id="escaping-commas">Escaping Commas</h4>
 
-<p>Since the Lua code blocks are sent in an Array, when using <code>form-data</code> you might
+<p>Since the Lua code blocks are sent in an Array, when using <code class="highlighter-rouge">form-data</code> you might
 run into an issue with code being split when using commas. To avoid this situation
-escape commas using the backslash character <code>\,</code>.</p>
+escape commas using the backslash character <code class="highlighter-rouge">\,</code>.</p>
 
 <h4 id="minifying-lua">Minifying Lua</h4>
 
 <p>Since we send our code over in a string format, it is advisable to use either
-curl file upload <code>@file.lua</code> (see demonstration) or to minify your Lua code
+curl file upload <code class="highlighter-rouge">@file.lua</code> (see demonstration) or to minify your Lua code
 using a <a href="https://mothereff.in/lua-minifier">minifier</a>.</p>
+
 
 
       
@@ -796,7 +839,7 @@ using a <a href="https://mothereff.in/lua-minifier">minifier</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

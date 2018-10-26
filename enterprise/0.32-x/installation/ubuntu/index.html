@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -638,15 +638,15 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#install-kong-enterprise">Install Kong Enterprise</a></li>
-<li> <a href="#install-postgresql">Install PostgreSQL</a></li>
-<li> <a href="#finish-kong-enterprise-setup-steps">Finish Kong Enterprise setup steps</a>
-
-<ul>
-<li> <a href="#run-migrations-and-start-kong">Run migrations and start kong</a></li>
-<li> <a href="#test-your-kong-installation">Test your Kong installation</a></li>
-<li> <a href="#setup-admin-gui">Setup Admin GUI</a></li>
-</ul></li>
+  <li><a href="#install-kong-enterprise">Install Kong Enterprise</a></li>
+  <li><a href="#install-postgresql">Install PostgreSQL</a></li>
+  <li><a href="#finish-kong-enterprise-setup-steps">Finish Kong Enterprise setup steps</a>
+    <ul>
+      <li><a href="#run-migrations-and-start-kong">Run migrations and start kong</a></li>
+      <li><a href="#test-your-kong-installation">Test your Kong installation</a></li>
+      <li><a href="#setup-admin-gui">Setup Admin GUI</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -656,44 +656,58 @@ window['_fs_namespace'] = 'FS';
 <p>curl the EE binary for Ubuntu (or Debian) from Bintray to your Ubuntu server</p>
 
 <p>Then, with the file local:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt-get update
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo apt-get update
 <span class="gp">$ </span>sudo apt-get install openssl libpcre3 procps perl
 <span class="gp">$ </span>sudo dpkg -i kong-enterprise-edition-0.32.zesty.all.deb
-</code></pre></div>
+</code></pre>
+</div>
 <p>NOTE: EE file may differ in last step above. In addition to Zesty, we currently build for Precise, Trusty, and Xenial.</p>
 
 <h2 id="install-postgresql">Install PostgreSQL</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo apt-get install postgresql
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo apt-get install postgresql
 <span class="gp">$ </span>sudo -i -u postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
-</code></pre></div>
-<p>Create <code>kong</code> user</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>psql
+</code></pre>
+</div>
+
+<p>Create <code class="highlighter-rouge">kong</code> user</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>psql
 <span class="gp">&gt; </span>CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password <span class="s1">'kong'</span>; 
 <span class="gp">&gt; </span><span class="se">\q</span>
 <span class="gp">$ </span><span class="nb">exit</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="finish-kong-enterprise-setup-steps">Finish Kong Enterprise setup steps</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Add contents of your license file (copy &amp; paste)</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Add contents of your license file (copy &amp; paste)</span>
 <span class="gp">$ </span>sudo vi /etc/kong/license.json
 <span class="gp">$ </span>sudo cp /etc/kong/kong.conf.default /etc/kong/kong.conf
 <span class="c"># Uncomment and add 'kong' to pg_password line</span>
 <span class="gp">$ </span>sudo vi /etc/kong/kong.conf
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="run-migrations-and-start-kong">Run migrations and start kong</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo /usr/local/bin/kong migrations up
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo /usr/local/bin/kong migrations up
 <span class="gp">$ </span>sudo /usr/local/bin/kong start
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="test-your-kong-installation">Test your Kong installation</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/apis/ <span class="se">\</span>
   --data <span class="s1">'name=demo'</span> <span class="se">\</span>
   --data <span class="s1">'uris=/'</span> <span class="se">\</span>
   --data <span class="s1">'upstream_url=http://httpbin.org'</span>
 <span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ip
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="setup-admin-gui">Setup Admin GUI</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Get the local IP address</span>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
 <span class="gp">$ </span>ifconfig 
 
 <span class="c"># Uncomment the admin_listen setting, and update to </span>
@@ -703,8 +717,10 @@ window['_fs_namespace'] = 'FS';
 <span class="c"># Restart kong</span>
 <span class="gp">$ </span>sudo /usr/local/bin/kong stop 
 <span class="gp">$ </span>sudo /usr/local/bin/kong start
-</code></pre></div>
-<p>In a browser, load your server on port <code>8002</code></p>
+</code></pre>
+</div>
+
+<p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
 
 
         </div>
@@ -861,7 +877,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

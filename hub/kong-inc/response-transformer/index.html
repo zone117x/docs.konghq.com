@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,19 +236,19 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#order-of-execution">Order of execution</a></li>
-<li> <a href="#examples">Examples</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#order-of-execution">Order of execution</a></li>
+  <li><a href="#examples">Examples</a></li>
 </ul>
 
         </nav>
@@ -484,11 +484,13 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=response-transformer"</span>  <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
@@ -496,18 +498,22 @@ making the following request:</p>
     --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=response-transformer"</span>  <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
@@ -515,18 +521,22 @@ target.</li>
     --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=response-transformer"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
@@ -535,18 +545,22 @@ on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
     --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -554,7 +568,8 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=response-transformer"</span>  <span class="se">\</span>
     --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     --data <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
@@ -562,9 +577,11 @@ can configure this plugin on top of such an API by making the following request:
     --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -582,7 +599,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -605,7 +623,7 @@ target.</li>
     
       <tr>
         <td><code>config.remove.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -615,7 +633,7 @@ target.</li>
     
       <tr>
         <td><code>config.remove.json</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -625,7 +643,7 @@ target.</li>
     
       <tr>
         <td><code>config.replace.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -635,7 +653,7 @@ target.</li>
     
       <tr>
         <td><code>config.replace.json</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -645,7 +663,7 @@ target.</li>
     
       <tr>
         <td><code>config.add.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -655,7 +673,7 @@ target.</li>
     
       <tr>
         <td><code>config.add.json</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -665,7 +683,7 @@ target.</li>
     
       <tr>
         <td><code>config.append.headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -675,7 +693,7 @@ target.</li>
     
       <tr>
         <td><code>config.append.json</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -691,13 +709,14 @@ target.</li>
 
       
 
-      <p>Note: if the value contains a <code>,</code> then the comma separated format for lists cannot be used. The array notation must be used instead.</p>
+
+      <p>Note: if the value contains a <code class="highlighter-rouge">,</code> then the comma separated format for lists cannot be used. The array notation must be used instead.</p>
 
 <h2 id="order-of-execution">Order of execution</h2>
 
 <p>Plugin performs the response transformation in following order</p>
 
-<p>remove --&gt; replace --&gt; add --&gt; append</p>
+<p>remove –&gt; replace –&gt; add –&gt; append</p>
 
 <h2 id="examples">Examples</h2>
 
@@ -705,145 +724,129 @@ target.</li>
 similar for Services, or the depreciated API entity.</p>
 
 <ul>
-<li>Add multiple headers by passing each header:value pair separately:</li>
+  <li>Add multiple headers by passing each header:value pair separately:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
   --data <span class="s2">"name=response-transformer"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>upstream response headers</th>
-<th>proxied response headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
-</tr>
-</tbody></table>
-
-<hr>
+</code></pre>
+</div>
+<p>upstream response headers | proxied response headers
+—           | —        <br />
+h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
+—</p>
 
 <ul>
-<li>Add multiple headers by passing comma separated header:value pair:</li>
+  <li>Add multiple headers by passing comma separated header:value pair:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
   --data <span class="s2">"name=response-transformer"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>upstream response headers</th>
-<th>proxied response headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
-</tr>
-</tbody></table>
-
-<hr>
+</code></pre>
+</div>
+<p>upstream response headers | proxied response headers
+—           | —        <br />
+h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
+—</p>
 
 <ul>
-<li>Add multiple headers passing config as JSON body:</li>
+  <li>Add multiple headers passing config as JSON body:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
   --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
   --data <span class="s1">'{"name": "response-transformer", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>upstream response headers</th>
-<th>proxied response headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td><ul><li>h1: v1</li><li>h2: v1</li></ul></td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<hr>
+<p>upstream response headers | proxied response headers
+—           | —        <br />
+h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
+—</p>
 
 <ul>
-<li>Add a body property and a header:</li>
+  <li>Add a body property and a header:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
   --data <span class="s2">"name=response-transformer"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.json=p1:v1,p2=v2"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1"</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>upstream response headers</th>
-<th>proxied response headers:</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v2</td>
-<td><ul><li>h1: v2</li><li>h2: v1</li></ul></td>
-</tr>
-<tr>
-<td>h3: v1</td>
-<td><ul><li>h1: v1</li><li>h2: v1</li><li>h3: v1</li></ul></td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<table><thead>
-<tr>
-<th>upstream response JSON body</th>
-<th>proxied response body</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>{}</td>
-<td>{&quot;p1&quot; : &quot;v1&quot;, &quot;p2&quot;: &quot;v2&quot;}</td>
-</tr>
-<tr>
-<td>{&quot;p1&quot; : &quot;v2&quot;}</td>
-<td>{&quot;p1&quot; : &quot;v2&quot;, &quot;p2&quot;: &quot;v2&quot;}</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>upstream response headers</th>
+      <th>proxied response headers:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v2</td>
+      <td>&lt;ul&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
+    </tr>
+    <tr>
+      <td>h3: v1</td>
+      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;li&gt;h3: v1&lt;/li&gt;&lt;/ul&gt;</td>
+    </tr>
+  </tbody>
+</table>
 
-<hr>
+<p>upstream response JSON body | proxied response body
+—           | —        <br />
+{}            | {“p1” : “v1”, “p2”: “v2”}
+{“p1” : “v2”}  | {“p1” : “v2”, “p2”: “v2”}
+—</p>
 
 <ul>
-<li>Append multiple headers and remove a body property:</li>
+  <li>Append multiple headers and remove a body property:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/routes/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
   --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
   --data <span class="s1">'{"name": "response-transformer", "config": {"append": {"headers": ["h1:v2", "h2:v1"]}, "remove": {"json": ["p1"]}}}'</span>
-</code></pre></div>
-<table><thead>
-<tr>
-<th>upstream response headers</th>
-<th>proxied response headers</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>h1: v1</td>
-<td><ul><li>h1: v1</li><li>h1: v2</li><li>h2: v1</li></ul></td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
 
-<table><thead>
-<tr>
-<th>upstream response JSON body</th>
-<th>proxied response body</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
-<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
-</tr>
-<tr>
-<td>{&quot;p1&quot; : &quot;v1&quot;, &quot;p2&quot; : &quot;v1&quot;}</td>
-<td>{&quot;p2&quot;: &quot;v2&quot;}</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>upstream response headers</th>
+      <th>proxied response headers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>h1: v1</td>
+      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>upstream response JSON body</th>
+      <th>proxied response body</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{“p2”: “v2”}</td>
+      <td>{“p2”: “v2”}</td>
+    </tr>
+    <tr>
+      <td>{“p1” : “v1”, “p2” : “v1”}</td>
+      <td>{“p2”: “v2”}</td>
+    </tr>
+  </tbody>
+</table>
+
 
 
       
@@ -1009,7 +1012,7 @@ similar for Services, or the depreciated API entity.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

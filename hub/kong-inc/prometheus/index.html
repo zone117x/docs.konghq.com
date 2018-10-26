@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,19 +236,19 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#grafana-dashboard">Grafana dashboard</a></li>
-<li> <a href="#available-metrics">Available metrics</a></li>
-<li> <a href="#accessing-the-metrics">Accessing the metrics</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#grafana-dashboard">Grafana dashboard</a></li>
+      <li><a href="#available-metrics">Available metrics</a></li>
+      <li><a href="#accessing-the-metrics">Accessing the metrics</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -391,36 +391,45 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=prometheus"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=prometheus"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -428,12 +437,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=prometheus"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -451,7 +463,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -478,15 +491,16 @@ target.</li>
 
       
 
-      <p>Metrics are available on the Admin API at the <code>http://localhost:8001/metrics</code>
+
+      <p>Metrics are available on the Admin API at the <code class="highlighter-rouge">http://localhost:8001/metrics</code>
 endpoint. Note that the URL to the Admin API will be specific to your
 installation; see <em>Accessing the metrics</em> below.</p>
 
 <p>This plugin records and exposes metrics at the node-level. Your Prometheus
 server will need to discover all Kong nodes via a service discovery mechanism,
-and consume data from each node&#39;s configured <code>/metric</code> endpoint. Kong nodes
+and consume data from each node’s configured <code class="highlighter-rouge">/metric</code> endpoint. Kong nodes
 that are set to proxy only (that is their Admin API has been disabled by
-specifying <code>admin_listen = off</code>) will need to use a <a href="/latest/configuration/#custom-nginx-configuration">custom Nginx
+specifying <code class="highlighter-rouge">admin_listen = off</code>) will need to use a <a href="/latest/configuration/#custom-nginx-configuration">custom Nginx
 configuration template</a>
 to expose the metrics data.</p>
 
@@ -498,27 +512,28 @@ dashboard: <a href="https://grafana.com/dashboards/7424">https://grafana.com/das
 <h3 id="available-metrics">Available metrics</h3>
 
 <ul>
-<li><strong>Status codes</strong>: HTTP status codes returned by upstream services.
+  <li><strong>Status codes</strong>: HTTP status codes returned by upstream services.
 These are available per service and across all services.</li>
-<li><strong>Latencies Histograms</strong>: Latency as measured at Kong:
-
-<ul>
-<li><strong>Request</strong>: Total time taken by Kong and upstream services to serve
+  <li><strong>Latencies Histograms</strong>: Latency as measured at Kong:
+    <ul>
+      <li><strong>Request</strong>: Total time taken by Kong and upstream services to serve
 requests.</li>
-<li><strong>Kong</strong>: Time taken for Kong to route a request and run all configured
+      <li><strong>Kong</strong>: Time taken for Kong to route a request and run all configured
 plugins.</li>
-<li><strong>Upstream</strong>: Time taken by the upstream service to respond to requests.</li>
-</ul></li>
-<li><strong>Bandwidth</strong>: Total Bandwidth (egress/ingress) flowing through Kong.
+      <li><strong>Upstream</strong>: Time taken by the upstream service to respond to requests.</li>
+    </ul>
+  </li>
+  <li><strong>Bandwidth</strong>: Total Bandwidth (egress/ingress) flowing through Kong.
 This metric is available per service and as a sum across all services.</li>
-<li><strong>DB reachability</strong>: A gauge type with a value of 0 or 1, representing if DB
+  <li><strong>DB reachability</strong>: A gauge type with a value of 0 or 1, representing if DB
 can be reached by a Kong node or not.</li>
-<li><strong>Connections</strong>: Various Nginx connection metrics like active, reading,
+  <li><strong>Connections</strong>: Various Nginx connection metrics like active, reading,
 writing, and number of accepted connections.</li>
 </ul>
 
-<p>Here is an example of output you could expect from the <code>/metrics</code> endpoint:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/metrics
+<p>Here is an example of output you could expect from the <code class="highlighter-rouge">/metrics</code> endpoint:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/metrics
 HTTP/1.1 200 OK
 Server: openresty/1.11.2.5
 Date: Mon, 11 Jun 2018 01:39:38 GMT
@@ -604,50 +619,60 @@ kong_nginx_http_current_connections<span class="o">{</span><span class="nv">stat
 <span class="c"># HELP kong_nginx_metric_errors_total Number of nginx-lua-prometheus errors</span>
 <span class="c"># TYPE kong_nginx_metric_errors_total counter</span>
 kong_nginx_metric_errors_total 0
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="accessing-the-metrics">Accessing the metrics</h3>
 
 <p>In most configurations, the Kong Admin API will be behind a firewall or would
 need to be set up to require authentication, here are a couple of options to
-allow access to the <code>/metrics</code> endpoint to Prometheus.</p>
+allow access to the <code class="highlighter-rouge">/metrics</code> endpoint to Prometheus.</p>
 
 <ol>
-<li><p>Kong Enterprise users can protect the admin <code>/metrics</code> endpoint with an
+  <li>
+    <p>Kong Enterprise users can protect the admin <code class="highlighter-rouge">/metrics</code> endpoint with an
 <a href="/enterprise/latest/setting-up-admin-api-rbac">RBAC user</a> that the
 Prometheus servers use to access the metric data. Access through any
-firewalls would also need to be configured.</p></li>
-<li><p>You can proxy the Admin API through Kong itself then use plugins to limit
-access. For example, you can create a route <code>/metrics</code> endpoint and have
+firewalls would also need to be configured.</p>
+  </li>
+  <li>
+    <p>You can proxy the Admin API through Kong itself then use plugins to limit
+access. For example, you can create a route <code class="highlighter-rouge">/metrics</code> endpoint and have
 Prometheus access this endpoint to slurp in the metrics while preventing
 others from access it. The specifics of how this is configured will depend
 on your specific setup. Read the docs <a href="https://docs.konghq.com/latest/secure-admin-api/#kong-api-loopback">Securing the Admin
 API</a> for
-details.</p></li>
-<li><p>Finally, you could serve the content on a different port with a custom server
+details.</p>
+  </li>
+  <li>
+    <p>Finally, you could serve the content on a different port with a custom server
 block using a <a href="/latest/configuration/#custom-nginx-configuration">custom Nginx
 template</a> with Kong.</p>
 
-<p>The following block is an example custom nginx template which can be used
-by Kong:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">server {
-    server_name kong_prometheus_exporter;
-    listen 0.0.0.0:9542; # can be any other port as well
+    <p>The following block is an example custom nginx template which can be used
+ by Kong:</p>
 
-    location / {
-        default_type text/plain;
-        content_by_lua_block {
-            local serve = require "kong.plugins.prometheus.serve"
-            serve.prometheus_server()
-        }
-    }
+    <div class="highlighter-rouge"><pre class="highlight"><code> server {
+     server_name kong_prometheus_exporter;
+     listen 0.0.0.0:9542; # can be any other port as well
 
-    location /nginx_status {
-        internal;
-        access_log off;
-        stub_status;
-    }
-}
-</code></pre></div></li>
+     location / {
+         default_type text/plain;
+         content_by_lua_block {
+             local serve = require "kong.plugins.prometheus.serve"
+             serve.prometheus_server()
+         }
+     }
+
+     location /nginx_status {
+         internal;
+         access_log off;
+         stub_status;
+     }
+ }
+</code></pre>
+    </div>
+  </li>
 </ol>
 
 
@@ -814,7 +839,7 @@ by Kong:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

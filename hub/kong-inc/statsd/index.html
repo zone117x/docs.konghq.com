@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,24 +236,24 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#metrics">Metrics</a>
-
-<ul>
-<li> <a href="#metric-fields">Metric Fields</a></li>
-<li> <a href="#metric-requirements">Metric Requirements</a></li>
-</ul></li>
-<li> <a href="#kong-process-errors">Kong Process Errors</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#metrics">Metrics</a>
+    <ul>
+      <li><a href="#metric-fields">Metric Fields</a></li>
+      <li><a href="#metric-requirements">Metric Requirements</a></li>
+    </ul>
+  </li>
+  <li><a href="#kong-process-errors">Kong Process Errors</a></li>
 </ul>
 
         </nav>
@@ -476,60 +476,74 @@ plugin</a>.</p>
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=statsd"</span>  <span class="se">\</span>
     --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     --data <span class="s2">"config.port=8125"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=statsd"</span>  <span class="se">\</span>
     --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     --data <span class="s2">"config.port=8125"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=statsd"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     --data <span class="s2">"config.port=8125"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -537,14 +551,17 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=statsd"</span>  <span class="se">\</span>
     --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     --data <span class="s2">"config.port=8125"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -562,7 +579,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -585,10 +603,10 @@ target.</li>
     
       <tr>
         <td><code>config.host</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>127.0.0.1</code></p>
+        <td><p><code class="highlighter-rouge">127.0.0.1</code></p>
 </td>
         <td><p>The IP address or host name to send data to.</p>
 </td>
@@ -596,10 +614,10 @@ target.</li>
     
       <tr>
         <td><code>config.port</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>8125</code></p>
+        <td><p><code class="highlighter-rouge">8125</code></p>
 </td>
         <td><p>The port to send data to on the upstream server</p>
 </td>
@@ -607,10 +625,10 @@ target.</li>
     
       <tr>
         <td><code>config.metrics</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p>All metrics<br>are logged</p>
+        <td><p>All metrics<br />are logged</p>
 </td>
         <td><p>List of Metrics to be logged. Available values are described under <a href="#metrics">Metrics</a>.</p>
 </td>
@@ -618,12 +636,12 @@ target.</li>
     
       <tr>
         <td><code>config.prefix</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>kong</code></p>
+        <td><p><code class="highlighter-rouge">kong</code></p>
 </td>
-        <td><p>String to be prefixed to each metric&#39;s name.</p>
+        <td><p>String to be prefixed to each metric’s name.</p>
 </td>
       </tr>
     
@@ -635,110 +653,117 @@ target.</li>
 
       
 
+
       <h2 id="metrics">Metrics</h2>
 
 <p>Metrics the plugin supports logging into the StatsD server.</p>
 
-<table><thead>
-<tr>
-<th>Metric</th>
-<th>description</th>
-<th>namespace</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>request_count</code></td>
-<td>tracks the request</td>
-<td>kong.&lt;api_name&gt;.request.count</td>
-</tr>
-<tr>
-<td><code>request_size</code></td>
-<td>tracks the request&#39;s body size in bytes</td>
-<td>kong.&lt;api_name&gt;.request.size</td>
-</tr>
-<tr>
-<td><code>response_size</code></td>
-<td>tracks the response&#39;s body size in bytes</td>
-<td>kong.&lt;api_name&gt;.response.size</td>
-</tr>
-<tr>
-<td><code>latency</code></td>
-<td>tracks the time interval between the request started and response received from the upstream server</td>
-<td>kong.&lt;api_name&gt;.latency</td>
-</tr>
-<tr>
-<td><code>status_count</code></td>
-<td>tracks each status code returned in a response</td>
-<td>kong.&lt;api_name&gt;.status.&lt;status&gt;.count and kong.&lt;api_name&gt;.status.&lt;status&gt;.total</td>
-</tr>
-<tr>
-<td><code>unique_users</code></td>
-<td>tracks unique users who made a requests to the underlying Service/Route (or API)</td>
-<td>kong.&lt;api_name&gt;.user.uniques</td>
-</tr>
-<tr>
-<td><code>request_per_user</code></td>
-<td>tracks request/user</td>
-<td>kong.&lt;api_name&gt;.user.&lt;consumer_id&gt;.count</td>
-</tr>
-<tr>
-<td><code>upstream_latency</code></td>
-<td>tracks the time it took for the final service to process the request</td>
-<td>kong.&lt;api_name&gt;.upstream_latency</td>
-</tr>
-<tr>
-<td><code>kong_latency</code></td>
-<td>tracks the internal Kong latency that it took to run all the plugins</td>
-<td>kong.&lt;api_name&gt;.kong_latency</td>
-</tr>
-<tr>
-<td><code>status_count_per_user</code></td>
-<td>tracks request/status/user</td>
-<td>kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.total</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>description</th>
+      <th>namespace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">request_count</code></td>
+      <td>tracks the request</td>
+      <td>kong.&lt;api_name&gt;.request.count</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">request_size</code></td>
+      <td>tracks the request’s body size in bytes</td>
+      <td>kong.&lt;api_name&gt;.request.size</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">response_size</code></td>
+      <td>tracks the response’s body size in bytes</td>
+      <td>kong.&lt;api_name&gt;.response.size</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">latency</code></td>
+      <td>tracks the time interval between the request started and response received from the upstream server</td>
+      <td>kong.&lt;api_name&gt;.latency</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">status_count</code></td>
+      <td>tracks each status code returned in a response</td>
+      <td>kong.&lt;api_name&gt;.status.&lt;status&gt;.count and kong.&lt;api_name&gt;.status.&lt;status&gt;.total</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">unique_users</code></td>
+      <td>tracks unique users who made a requests to the underlying Service/Route (or API)</td>
+      <td>kong.&lt;api_name&gt;.user.uniques</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">request_per_user</code></td>
+      <td>tracks request/user</td>
+      <td>kong.&lt;api_name&gt;.user.&lt;consumer_id&gt;.count</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">upstream_latency</code></td>
+      <td>tracks the time it took for the final service to process the request</td>
+      <td>kong.&lt;api_name&gt;.upstream_latency</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">kong_latency</code></td>
+      <td>tracks the internal Kong latency that it took to run all the plugins</td>
+      <td>kong.&lt;api_name&gt;.kong_latency</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">status_count_per_user</code></td>
+      <td>tracks request/status/user</td>
+      <td>kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.total</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="metric-fields">Metric Fields</h3>
 
 <p>Plugin can be configured with any combination of <a href="#metrics">Metrics</a>, with each entry containing the following fields.</p>
 
-<table><thead>
-<tr>
-<th>Field</th>
-<th>description</th>
-<th>allowed values</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>name</code></td>
-<td>StatsD metric&#39;s name</td>
-<td><a href="#metrics">Metrics</a></td>
-</tr>
-<tr>
-<td><code>stat_type</code></td>
-<td>determines what sort of event the metric represents</td>
-<td><code>gauge</code>, <code>timer</code>, <code>counter</code>, <code>histogram</code>, <code>meter</code> and <code>set</code></td>
-</tr>
-<tr>
-<td><code>sample_rate</code><br><em>conditional</em></td>
-<td>sampling rate</td>
-<td><code>number</code></td>
-</tr>
-<tr>
-<td><code>customer_identifier</code><br><em>conditional</em></td>
-<td>authenticated user detail</td>
-<td><code>consumer_id</code>, <code>custom_id</code>, <code>username</code></td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>description</th>
+      <th>allowed values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">name</code></td>
+      <td>StatsD metric’s name</td>
+      <td><a href="#metrics">Metrics</a></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">stat_type</code></td>
+      <td>determines what sort of event the metric represents</td>
+      <td><code class="highlighter-rouge">gauge</code>, <code class="highlighter-rouge">timer</code>, <code class="highlighter-rouge">counter</code>, <code class="highlighter-rouge">histogram</code>, <code class="highlighter-rouge">meter</code> and <code class="highlighter-rouge">set</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">sample_rate</code><br /><em>conditional</em></td>
+      <td>sampling rate</td>
+      <td><code class="highlighter-rouge">number</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">customer_identifier</code><br /><em>conditional</em></td>
+      <td>authenticated user detail</td>
+      <td><code class="highlighter-rouge">consumer_id</code>, <code class="highlighter-rouge">custom_id</code>, <code class="highlighter-rouge">username</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="metric-requirements">Metric Requirements</h3>
 
 <ol>
-<li> By default all metrics get logged.</li>
-<li> Metric with <code>stat_type</code> set to <code>counter</code> or <code>gauge</code> must have <code>sample_rate</code> defined as well.</li>
-<li> <code>unique_users</code> metric only works with <code>stat_type</code> as <code>set</code>.</li>
-<li> <code>status_count</code>, <code>status_count_per_user</code> and <code>request_per_user</code> work only with <code>stat_type</code>  as <code>counter</code>.</li>
-<li> <code>status_count_per_user</code>, <code>request_per_user</code> and <code>unique_users</code> must have <code>customer_identifier</code> defined.</li>
+  <li>By default all metrics get logged.</li>
+  <li>Metric with <code class="highlighter-rouge">stat_type</code> set to <code class="highlighter-rouge">counter</code> or <code class="highlighter-rouge">gauge</code> must have <code class="highlighter-rouge">sample_rate</code> defined as well.</li>
+  <li><code class="highlighter-rouge">unique_users</code> metric only works with <code class="highlighter-rouge">stat_type</code> as <code class="highlighter-rouge">set</code>.</li>
+  <li><code class="highlighter-rouge">status_count</code>, <code class="highlighter-rouge">status_count_per_user</code> and <code class="highlighter-rouge">request_per_user</code> work only with <code class="highlighter-rouge">stat_type</code>  as <code class="highlighter-rouge">counter</code>.</li>
+  <li><code class="highlighter-rouge">status_count_per_user</code>, <code class="highlighter-rouge">request_per_user</code> and <code class="highlighter-rouge">unique_users</code> must have <code class="highlighter-rouge">customer_identifier</code> defined.</li>
 </ol>
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
@@ -912,7 +937,7 @@ you can find it at the following path:
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

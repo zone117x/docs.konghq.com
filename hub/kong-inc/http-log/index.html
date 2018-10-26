@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,19 +236,19 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#log-format">Log Format</a></li>
-<li> <a href="#kong-process-errors">Kong Process Errors</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#log-format">Log Format</a></li>
+  <li><a href="#kong-process-errors">Kong Process Errors</a></li>
 </ul>
 
         </nav>
@@ -502,47 +502,57 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=http-log"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://mockbin.org/bin/:id"</span> <span class="se">\</span>
     --data <span class="s2">"config.method=POST"</span> <span class="se">\</span>
     --data <span class="s2">"config.timeout=1000"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=1000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=http-log"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://mockbin.org/bin/:id"</span> <span class="se">\</span>
     --data <span class="s2">"config.method=POST"</span> <span class="se">\</span>
     --data <span class="s2">"config.timeout=1000"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=1000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=http-log"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://mockbin.org/bin/:id"</span> <span class="se">\</span>
@@ -550,18 +560,22 @@ on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
     --data <span class="s2">"config.timeout=1000"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=1000"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -569,16 +583,19 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=http-log"</span>  <span class="se">\</span>
     --data <span class="s2">"config.http_endpoint=http://mockbin.org/bin/:id"</span> <span class="se">\</span>
     --data <span class="s2">"config.method=POST"</span> <span class="se">\</span>
     --data <span class="s2">"config.timeout=1000"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=1000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -596,7 +613,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -629,21 +647,21 @@ target.</li>
     
       <tr>
         <td><code>config.method</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>POST</code></p>
+        <td><p><code class="highlighter-rouge">POST</code></p>
 </td>
-        <td><p>An optional method used to send data to the http server, other supported values are <code>PUT</code>, <code>PATCH</code></p>
+        <td><p>An optional method used to send data to the http server, other supported values are <code class="highlighter-rouge">PUT</code>, <code class="highlighter-rouge">PATCH</code></p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>10000</code></p>
+        <td><p><code class="highlighter-rouge">10000</code></p>
 </td>
         <td><p>An optional timeout in milliseconds when sending data to the upstream server</p>
 </td>
@@ -651,10 +669,10 @@ target.</li>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>60000</code></p>
+        <td><p><code class="highlighter-rouge">60000</code></p>
 </td>
         <td><p>An optional value in milliseconds that defines for how long an idle connection will live before being closed</p>
 </td>
@@ -666,15 +684,16 @@ target.</li>
 
       
 
-      <p><strong>NOTE:</strong> If the <code>config.http_endpoint</code> contains a username and password (ex.
-<code>http://bob:password@example.com/logs</code>), then Kong will automatically include
-a basic-auth <code>Authorization</code> header in the log requests.</p>
+      <p><strong>NOTE:</strong> If the <code class="highlighter-rouge">config.http_endpoint</code> contains a username and password (ex.
+<code class="highlighter-rouge">http://bob:password@example.com/logs</code>), then Kong will automatically include
+a basic-auth <code class="highlighter-rouge">Authorization</code> header in the log requests.</p>
 
 
       <h2 id="log-format">Log Format</h2>
 
 <p>Every request will be logged separately in a JSON object, with the following format:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/get"</span><span class="p">,</span><span class="w">
@@ -764,37 +783,39 @@ a basic-auth <code>Authorization</code> header in the log requests.</p>
     </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1433209822425</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+</span></code></pre>
+</div>
+
 <p>A few considerations on the above JSON object:</p>
 
 <ul>
-<li><code>request</code> contains properties about the request sent by the client</li>
-<li><code>response</code> contains properties about the response sent to the client</li>
-<li><code>tries</code> contains the list of (re)tries (successes and failures) made by the load balancer for this request</li>
-<li><code>route</code> contains Kong properties about the specific Route requested</li>
-<li><code>service</code> contains Kong properties about the Service associated with the requested Route</li>
-<li><code>authenticated_entity</code> contains Kong properties about the authenticated credential (if an authentication plugin has been enabled)</li>
-<li><code>consumer</code> contains the authenticated Consumer (if an authentication plugin has been enabled)</li>
-<li><code>latencies</code> contains some data about the latencies involved:
-
-<ul>
-<li><code>proxy</code> is the time it took for the final service to process the request</li>
-<li><code>kong</code> is the internal Kong latency that it took to run all the plugins</li>
-<li><code>request</code> is the time elapsed between the first bytes were read from the client and after the last bytes were sent to the client. Useful for detecting slow clients.</li>
-</ul></li>
-<li><code>client_ip</code> contains the original client IP address</li>
-<li><code>started_at</code> contains the UTC timestamp of when the request has started to be processed.</li>
+  <li><code class="highlighter-rouge">request</code> contains properties about the request sent by the client</li>
+  <li><code class="highlighter-rouge">response</code> contains properties about the response sent to the client</li>
+  <li><code class="highlighter-rouge">tries</code> contains the list of (re)tries (successes and failures) made by the load balancer for this request</li>
+  <li><code class="highlighter-rouge">route</code> contains Kong properties about the specific Route requested</li>
+  <li><code class="highlighter-rouge">service</code> contains Kong properties about the Service associated with the requested Route</li>
+  <li><code class="highlighter-rouge">authenticated_entity</code> contains Kong properties about the authenticated credential (if an authentication plugin has been enabled)</li>
+  <li><code class="highlighter-rouge">consumer</code> contains the authenticated Consumer (if an authentication plugin has been enabled)</li>
+  <li><code class="highlighter-rouge">latencies</code> contains some data about the latencies involved:
+    <ul>
+      <li><code class="highlighter-rouge">proxy</code> is the time it took for the final service to process the request</li>
+      <li><code class="highlighter-rouge">kong</code> is the internal Kong latency that it took to run all the plugins</li>
+      <li><code class="highlighter-rouge">request</code> is the time elapsed between the first bytes were read from the client and after the last bytes were sent to the client. Useful for detecting slow clients.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">client_ip</code> contains the original client IP address</li>
+  <li><code class="highlighter-rouge">started_at</code> contains the UTC timestamp of when the request has started to be processed.</li>
 </ul>
 
-<hr>
+<hr />
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
 <p>This logging plugin will only log HTTP request and response data. If you are
 looking for the Kong process error file (which is the nginx error file), then
 you can find it at the following path:
-<code>$KONG_PREFIX/logs/error.log</code>,
-where <code>$KONG_PREFIX</code> means
+<code class="highlighter-rouge">$KONG_PREFIX/logs/error.log</code>,
+where <code class="highlighter-rouge">$KONG_PREFIX</code> means
 <a href="/0.14.x/configuration/#prefix">prefix in the configuration</a>.</p>
 
 
@@ -961,7 +982,7 @@ where <code>$KONG_PREFIX</code> means
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

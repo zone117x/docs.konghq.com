@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,24 +236,24 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#headers-sent-to-the-client">Headers sent to the client</a></li>
-<li> <a href="#implementation-considerations">Implementation considerations</a>
-
-<ul>
-<li> <a href="#every-transaction-counts">Every transaction counts</a></li>
-<li> <a href="#backend-protection">Backend protection</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#headers-sent-to-the-client">Headers sent to the client</a></li>
+  <li><a href="#implementation-considerations">Implementation considerations</a>
+    <ul>
+      <li><a href="#every-transaction-counts">Every transaction counts</a></li>
+      <li><a href="#backend-protection">Backend protection</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -507,60 +507,74 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
     --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
     --data <span class="s2">"config.hour=10000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
     --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
     --data <span class="s2">"config.hour=10000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
     --data <span class="s2">"config.hour=10000"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -568,14 +582,17 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
     --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
     --data <span class="s2">"config.hour=10000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -593,7 +610,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -617,7 +635,7 @@ target.</li>
       <tr>
         <td><code>config.second</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per second. At least one limit must exist.</p>
@@ -627,7 +645,7 @@ target.</li>
       <tr>
         <td><code>config.minute</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per minute. At least one limit must exist.</p>
@@ -637,7 +655,7 @@ target.</li>
       <tr>
         <td><code>config.hour</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per hour. At least one limit must exist.</p>
@@ -647,7 +665,7 @@ target.</li>
       <tr>
         <td><code>config.day</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per day. At least one limit must exist.</p>
@@ -657,7 +675,7 @@ target.</li>
       <tr>
         <td><code>config.month</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per month. At least one limit must exist.</p>
@@ -667,7 +685,7 @@ target.</li>
       <tr>
         <td><code>config.year</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The amount of HTTP requests the developer can make per year. At least one limit must exist.</p>
@@ -676,43 +694,43 @@ target.</li>
     
       <tr>
         <td><code>config.limit_by</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>consumer</code></p>
+        <td><p><code class="highlighter-rouge">consumer</code></p>
 </td>
-        <td><p>The entity that will be used when aggregating the limits: <code>consumer</code>, <code>credential</code>, <code>ip</code>. If the <code>consumer</code> or the <code>credential</code> cannot be determined, the system will always fallback to <code>ip</code>.</p>
+        <td><p>The entity that will be used when aggregating the limits: <code class="highlighter-rouge">consumer</code>, <code class="highlighter-rouge">credential</code>, <code class="highlighter-rouge">ip</code>. If the <code class="highlighter-rouge">consumer</code> or the <code class="highlighter-rouge">credential</code> cannot be determined, the system will always fallback to <code class="highlighter-rouge">ip</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.policy</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>cluster</code></p>
+        <td><p><code class="highlighter-rouge">cluster</code></p>
 </td>
-        <td><p>The rate-limiting policies to use for retrieving and incrementing the limits. Available values are <code>local</code> (counters will be stored locally in-memory on the node), <code>cluster</code> (counters are stored in the datastore and shared across the nodes) and <code>redis</code> (counters are stored on a Redis server and will be shared across the nodes).</p>
+        <td><p>The rate-limiting policies to use for retrieving and incrementing the limits. Available values are <code class="highlighter-rouge">local</code> (counters will be stored locally in-memory on the node), <code class="highlighter-rouge">cluster</code> (counters are stored in the datastore and shared across the nodes) and <code class="highlighter-rouge">redis</code> (counters are stored on a Redis server and will be shared across the nodes).</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.fault_tolerant</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>true</code></p>
+        <td><p><code class="highlighter-rouge">true</code></p>
 </td>
-        <td><p>A boolean value that determines if the requests should be proxied even if Kong has troubles connecting a third-party datastore. If <code>true</code> requests will be proxied anyways effectively disabling the rate-limiting function until the datastore is working again. If <code>false</code> then the clients will see <code>500</code> errors.</p>
+        <td><p>A boolean value that determines if the requests should be proxied even if Kong has troubles connecting a third-party datastore. If <code class="highlighter-rouge">true</code> requests will be proxied anyways effectively disabling the rate-limiting function until the datastore is working again. If <code class="highlighter-rouge">false</code> then the clients will see <code class="highlighter-rouge">500</code> errors.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.hide_client_headers</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
         <td><p>Optionally hide informative response headers.</p>
 </td>
@@ -721,53 +739,53 @@ target.</li>
       <tr>
         <td><code>config.redis_host</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>When using the <code>redis</code> policy, this property specifies the address to the Redis server.</p>
+        <td><p>When using the <code class="highlighter-rouge">redis</code> policy, this property specifies the address to the Redis server.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis_port</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>6379</code></p>
+        <td><p><code class="highlighter-rouge">6379</code></p>
 </td>
-        <td><p>When using the <code>redis</code> policy, this property specifies the port of the Redis server. By default is <code>6379</code>.</p>
+        <td><p>When using the <code class="highlighter-rouge">redis</code> policy, this property specifies the port of the Redis server. By default is <code class="highlighter-rouge">6379</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis_password</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>When using the <code>redis</code> policy, this property specifies the password to connect to the Redis server.</p>
+        <td><p>When using the <code class="highlighter-rouge">redis</code> policy, this property specifies the password to connect to the Redis server.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis_timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>2000</code></p>
+        <td><p><code class="highlighter-rouge">2000</code></p>
 </td>
-        <td><p>When using the <code>redis</code> policy, this property specifies the timeout in milliseconds of any command submitted to the Redis server.</p>
+        <td><p>When using the <code class="highlighter-rouge">redis</code> policy, this property specifies the timeout in milliseconds of any command submitted to the Redis server.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis_database</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>0</code></p>
+        <td><p><code class="highlighter-rouge">0</code></p>
 </td>
-        <td><p>When using the <code>redis</code> policy, this property specifies Redis database to use.</p>
+        <td><p>When using the <code class="highlighter-rouge">redis</code> policy, this property specifies Redis database to use.</p>
 </td>
       </tr>
     
@@ -779,57 +797,70 @@ target.</li>
 
       
 
+
       <h2 id="headers-sent-to-the-client">Headers sent to the client</h2>
 
 <p>When this plugin is enabled, Kong will send some additional headers back to the client telling how many requests are available and what are the limits allowed, for example:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Minute: 10
+
+<div class="highlighter-rouge"><pre class="highlight"><code>X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>or it will return a combination of more time limits, if more than one is being set:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">X-RateLimit-Limit-Second: 5
+
+<div class="highlighter-rouge"><pre class="highlight"><code>X-RateLimit-Limit-Second: 5
 X-RateLimit-Remaining-Second: 4
 X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
-</code></pre></div>
-<p>If any of the limits configured is being reached, the plugin will return a <code>HTTP/1.1 429</code> status code to the client with the following JSON body:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"API rate limit exceeded"</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
+</code></pre>
+</div>
+
+<p>If any of the limits configured is being reached, the plugin will return a <code class="highlighter-rouge">HTTP/1.1 429</code> status code to the client with the following JSON body:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"API rate limit exceeded"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
 <h2 id="implementation-considerations">Implementation considerations</h2>
 
 <p>The plugin supports 3 policies, which each have their specific pros and cons.</p>
 
-<table><thead>
-<tr>
-<th>policy</th>
-<th>pros</th>
-<th>cons</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>cluster</code></td>
-<td>accurate, no extra components to support</td>
-<td>relatively the biggest performance impact, each request forces a read and a write on the underlying datastore.</td>
-</tr>
-<tr>
-<td><code>redis</code></td>
-<td>accurate, lesser performance impact than a <code>cluster</code> policy</td>
-<td>extra redis installation required, bigger performance impact than a <code>local</code> policy</td>
-</tr>
-<tr>
-<td><code>local</code></td>
-<td>minimal performance impact</td>
-<td>less accurate, and unless a consistent-hashing load balancer is used in front of Kong, it diverges when scaling the number of nodes</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>policy</th>
+      <th>pros</th>
+      <th>cons</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">cluster</code></td>
+      <td>accurate, no extra components to support</td>
+      <td>relatively the biggest performance impact, each request forces a read and a write on the underlying datastore.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">redis</code></td>
+      <td>accurate, lesser performance impact than a <code class="highlighter-rouge">cluster</code> policy</td>
+      <td>extra redis installation required, bigger performance impact than a <code class="highlighter-rouge">local</code> policy</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">local</code></td>
+      <td>minimal performance impact</td>
+      <td>less accurate, and unless a consistent-hashing load balancer is used in front of Kong, it diverges when scaling the number of nodes</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>There are 2 use cases that are most common:</p>
 
 <ol>
-<li><em>every transaction counts</em>. These are for example transactions with financial
-consequences. Here the highest level of accuracy is required.</li>
-<li><em>backend protection</em>. This is where accuracy is not as relevant, but it is
-merely used to protect backend services from overload. Either by specific
-users, or to protect against an attack in general.</li>
+  <li><em>every transaction counts</em>. These are for example transactions with financial
+  consequences. Here the highest level of accuracy is required.</li>
+  <li><em>backend protection</em>. This is where accuracy is not as relevant, but it is
+  merely used to protect backend services from overload. Either by specific
+  users, or to protect against an attack in general.</li>
 </ol>
 
 <p><strong>NOTE</strong>:</p>
@@ -843,11 +874,11 @@ of using Redis Sentinel with Kong Rate Limiting to deliver highly available mast
 
 <h3 id="every-transaction-counts">Every transaction counts</h3>
 
-<p>In this scenario, the <code>local</code> policy is not an option. So here the decision is between
-the extra performance of the <code>redis</code> policy against its extra support effort. Based on that balance,
-the choice should either be <code>cluster</code> or <code>redis</code>.</p>
+<p>In this scenario, the <code class="highlighter-rouge">local</code> policy is not an option. So here the decision is between
+the extra performance of the <code class="highlighter-rouge">redis</code> policy against its extra support effort. Based on that balance,
+the choice should either be <code class="highlighter-rouge">cluster</code> or <code class="highlighter-rouge">redis</code>.</p>
 
-<p>The recommendation is to start with the <code>cluster</code> policy, with the option to move over to <code>redis</code>
+<p>The recommendation is to start with the <code class="highlighter-rouge">cluster</code> policy, with the option to move over to <code class="highlighter-rouge">redis</code>
 if performance reduces drastically. Keep in mind existing usage metrics cannot
 be ported from the datastore to redis. Generally with shortlived metrics (per second or per minute)
 this is not an issue, but with longer lived ones (months) it might be, so you might want to plan
@@ -855,9 +886,9 @@ your switch more carefully.</p>
 
 <h3 id="backend-protection">Backend protection</h3>
 
-<p>As accuracy is of lesser importance, the <code>local</code> policy can be used. It might require some experimenting
+<p>As accuracy is of lesser importance, the <code class="highlighter-rouge">local</code> policy can be used. It might require some experimenting
 to get the proper setting. For example, if the user is bound to 100 requests per second, and you have an
-equally balanced 5 node Kong cluster, setting the <code>local</code> limit to something like 30 requests per second
+equally balanced 5 node Kong cluster, setting the <code class="highlighter-rouge">local</code> limit to something like 30 requests per second
 should work. If you are worried about too many false-negatives, increase the value.</p>
 
 <p>Keep in mind as the cluster scales to more nodes, the users will get more requests granted, and likewise
@@ -868,8 +899,9 @@ limits when scaling.</p>
 Kong, that ensures the same user is always directed to the same Kong node. This will both reduce the
 inaccuracy and prevent the scaling issues.</p>
 
-<p>Most likely the user will be granted more than was agreed when using the <code>local</code> policy, but it will
+<p>Most likely the user will be granted more than was agreed when using the <code class="highlighter-rouge">local</code> policy, but it will
 effectively block any attacks while maintaining the best performance.</p>
+
 
 
       
@@ -1035,7 +1067,7 @@ effectively block any attacks while maintaining the best performance.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

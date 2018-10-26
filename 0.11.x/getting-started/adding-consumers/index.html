@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -868,11 +868,14 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#adding-consumers">Adding Consumers</a>
-    -  <a href="#create-a-consumer-through-the-restful-api">Create a Consumer through the RESTful API</a>
-    -  <a href="#provision-key-credentials-for-your-consumer">Provision key credentials for your Consumer</a>
-    -  <a href="#verify-that-your-consumer-credentials-are-valid">Verify that your Consumer credentials are valid</a>
-    -  <a href="#next-steps">Next Steps</a></li>
+  <li><a href="#adding-consumers">Adding Consumers</a>
+    <ul>
+      <li><a href="#1-create-a-consumer-through-the-restful-api">1. Create a Consumer through the RESTful API</a></li>
+      <li><a href="#2-provision-key-credentials-for-your-consumer">2. Provision key credentials for your Consumer</a></li>
+      <li><a href="#3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -889,72 +892,89 @@ window['_fs_namespace'] = 'FS';
 </div>
 
 <p>In the last section, we learned how to add plugins to Kong, in this section
-we&#39;re going to learn how to add consumers to your Kong instances. Consumers are
+we’re going to learn how to add consumers to your Kong instances. Consumers are
 associated to individuals using your API, and can be used for tracking, access
 management, and more.</p>
 
 <p><strong>Note:</strong> This section assumes you have <a href="/0.11.x/getting-started/enabling-plugins">enabled</a> the
-<a href="/plugins/key-authentication">key-auth</a> plugin. If you haven&#39;t, you can either <a href="/0.11.x/getting-started/enabling-plugins">enable the
+<a href="/plugins/key-authentication">key-auth</a> plugin. If you haven’t, you can either <a href="/0.11.x/getting-started/enabling-plugins">enable the
 plugin</a> or skip steps two and three.</p>
 
-<ol>
-<li><h3 id="create-a-consumer-through-the-restful-api">Create a Consumer through the RESTful API</h3>
+<h2 id="1-create-a-consumer-through-the-restful-api">1. Create a Consumer through the RESTful API</h2>
 
-<p>Lets create a user named <code>Jason</code> by issuing the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/ <span class="se">\</span>
-  --data <span class="s2">"username=Jason"</span>
-</code></pre></div>
-<p>You should see a response similar to the one below:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>Lets create a user named `Jason` by issuing the following request:
 
-<span class="p">{</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jason"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Congratulations! You&#39;ve just added your first consumer to Kong.</p>
+```bash
+$ curl -i -X POST \
+  --url http://localhost:8001/consumers/ \
+  --data "username=Jason"
+```
 
-<p><strong>Note:</strong> Kong also accepts a <code>custom_id</code> parameter when <a href="/0.11.x/admin-api#create-consumer">creating
-consumers</a> to associate a consumer with your existing user
-database.</p></li>
-<li><h3 id="provision-key-credentials-for-your-consumer">Provision key credentials for your Consumer</h3>
+You should see a response similar to the one below:
 
-<p>Now, we can create a key for our recently created consumer <code>Jason</code> by
-issuing the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/Jason/key-auth/ <span class="se">\</span>
-  --data <span class="s1">'key=ENTER_KEY_HERE'</span>
-</code></pre></div></li>
-<li><h3 id="verify-that-your-consumer-credentials-are-valid">Verify that your Consumer credentials are valid</h3>
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+Connection: keep-alive
 
-<p>We can now issue the following request to verify that the credentials of
-our <code>Jason</code> Consumer is valid:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000 <span class="se">\</span>
-  --header <span class="s2">"Host: example.com"</span> <span class="se">\</span>
-  --header <span class="s2">"apikey: ENTER_KEY_HERE"</span>
-</code></pre></div></li>
-</ol>
+{
+  "username": "Jason",
+  "created_at": 1428555626000,
+  "id": "bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"
+}
+```
 
-<h3 id="next-steps">Next Steps</h3>
+Congratulations! You've just added your first consumer to Kong.
 
-<p>Now that we&#39;ve covered the basics of adding APIs, Consumers and enabling
+**Note:** Kong also accepts a `custom_id` parameter when [creating
+consumers][API-consumers] to associate a consumer with your existing user
+database.
+</code></pre>
+</div>
+
+<h2 id="2-provision-key-credentials-for-your-consumer">2. Provision key credentials for your Consumer</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Now, we can create a key for our recently created consumer `Jason` by
+issuing the following request:
+
+```bash
+$ curl -i -X POST \
+  --url http://localhost:8001/consumers/Jason/key-auth/ \
+  --data 'key=ENTER_KEY_HERE'
+```
+</code></pre>
+</div>
+
+<h2 id="3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>We can now issue the following request to verify that the credentials of
+our `Jason` Consumer is valid:
+
+```bash
+$ curl -i -X GET \
+  --url http://localhost:8000 \
+  --header "Host: example.com" \
+  --header "apikey: ENTER_KEY_HERE"
+```
+</code></pre>
+</div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Now that we’ve covered the basics of adding APIs, Consumers and enabling
 Plugins, feel free to read more on Kong in one of the following documents:</p>
 
 <ul>
-<li><a href="/0.11.x/configuration">Configuration file Reference</a></li>
-<li><a href="/0.11.x/cli">CLI Reference</a></li>
-<li><a href="/0.11.x/proxy">Proxy Reference</a></li>
-<li><a href="/0.11.x/admin-api">Admin API Reference</a></li>
-<li><a href="/0.11.x/clustering">Clustering Reference</a></li>
+  <li><a href="/0.11.x/configuration">Configuration file Reference</a></li>
+  <li><a href="/0.11.x/cli">CLI Reference</a></li>
+  <li><a href="/0.11.x/proxy">Proxy Reference</a></li>
+  <li><a href="/0.11.x/admin-api">Admin API Reference</a></li>
+  <li><a href="/0.11.x/clustering">Clustering Reference</a></li>
 </ul>
 
 <p>Questions? Issues? Contact us on one of the <a href="/community">Community Channels</a>
 for help!</p>
+
 
 
         </div>
@@ -1129,7 +1149,7 @@ for help!</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

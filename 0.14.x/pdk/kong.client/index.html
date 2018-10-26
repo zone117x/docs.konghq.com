@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,19 +991,19 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-client">kong.client</a>
-
-<ul>
-<li> <a href="#kong-client-get_ip">kong.client.get_ip()</a></li>
-<li> <a href="#kong-client-get_forwarded_ip">kong.client.get_forwarded_ip()</a></li>
-<li> <a href="#kong-client-get_port">kong.client.get_port()</a></li>
-<li> <a href="#kong-client-get_forwarded_port">kong.client.get_forwarded_port()</a></li>
-</ul></li>
+  <li><a href="#kongclient">kong.client</a>
+    <ul>
+      <li><a href="#kongclientget_ip">kong.client.get_ip()</a></li>
+      <li><a href="#kongclientget_forwarded_ip">kong.client.get_forwarded_ip()</a></li>
+      <li><a href="#kongclientget_port">kong.client.get_port()</a></li>
+      <li><a href="#kongclientget_forwarded_port">kong.client.get_forwarded_port()</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-client">kong.client</h1>
+          <h1 id="kongclient">kong.client</h1>
 
 <p>Client information module
  A set of functions to retrieve information about the client connecting to
@@ -1012,63 +1012,67 @@ window['_fs_namespace'] = 'FS';
 <p>See also:
  <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">nginx.org/en/docs/http/ngx_http_realip_module.html</a></p>
 
-<h2 id="kong-client-get_ip">kong.client.get_ip()</h2>
+<h2 id="kongclientget_ip">kong.client.get_ip()</h2>
 
 <p>Returns the remote address of the client making the request.  This will
  <strong>always</strong> return the address of the client directly connecting to Kong.
  That is, in cases when a load balancer is in front of Kong, this function
- will return the load balancer&#39;s address, and <strong>not</strong> that of the
+ will return the load balancer’s address, and <strong>not</strong> that of the
  downstream client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> ip The remote address of the client making the request</li>
+  <li><code class="highlighter-rouge">string</code> ip The remote address of the client making the request</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a client with IP 127.0.0.1 making connection through</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a client with IP 127.0.0.1 making connection through</span>
 <span class="c1">-- a load balancer with IP 10.0.0.1 to Kong answering the request for</span>
 <span class="c1">-- https://example.com:1234/v1/movies</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_ip</span><span class="p">()</span> <span class="c1">-- "10.0.0.1"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-client-get_forwarded_ip">kong.client.get_forwarded_ip()</h2>
+<h2 id="kongclientget_forwarded_ip">kong.client.get_forwarded_ip()</h2>
 
 <p>Returns the remote address of the client making the request.  Unlike
- <code>kong.client.get_ip</code>, this function will consider forwarded addresses in
+ <code class="highlighter-rouge">kong.client.get_ip</code>, this function will consider forwarded addresses in
  cases when a load balancer is in front of Kong. Whether this function
  returns a forwarded address or not depends on several Kong configuration
  parameters:</p>
 
 <ul>
-<li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
 </ul>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code>  ip The remote address of the client making the request,
-considering forwarded addresses</li>
+  <li><code class="highlighter-rouge">string</code>  ip The remote address of the client making the request,
+ considering forwarded addresses</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a client with IP 127.0.0.1 making connection through</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a client with IP 127.0.0.1 making connection through</span>
 <span class="c1">-- a load balancer with IP 10.0.0.1 to Kong answering the request for</span>
 <span class="c1">-- https://username:password@example.com:1234/v1/movies</span>
 
@@ -1077,68 +1081,77 @@ considering forwarded addresses</li>
 <span class="c1">-- Note: assuming that 10.0.0.1 is one of the trusted IPs, and that</span>
 <span class="c1">-- the load balancer adds the right headers matching with the configuration</span>
 <span class="c1">-- of `real_ip_header`, e.g. `proxy_protocol`.</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-client-get_port">kong.client.get_port()</h2>
+<h2 id="kongclientget_port">kong.client.get_port()</h2>
 
 <p>Returns the remote port of the client making the request.  This will
  <strong>always</strong> return the port of the client directly connecting to Kong. That
  is, in cases when a load balancer is in front of Kong, this function will
- return load balancer&#39;s port, and <strong>not</strong> that of the downstream client.</p>
+ return load balancer’s port, and <strong>not</strong> that of the downstream client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number</code> The remote client port</li>
+  <li><code class="highlighter-rouge">number</code> The remote client port</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- [client]:40000 &lt;-&gt; 80:[balancer]:30000 &lt;-&gt; 80:[kong]:20000 &lt;-&gt; 80:[service]</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- [client]:40000 &lt;-&gt; 80:[balancer]:30000 &lt;-&gt; 80:[kong]:20000 &lt;-&gt; 80:[service]</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_port</span><span class="p">()</span> <span class="c1">-- 30000</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-client-get_forwarded_port">kong.client.get_forwarded_port()</h2>
+<h2 id="kongclientget_forwarded_port">kong.client.get_forwarded_port()</h2>
 
 <p>Returns the remote port of the client making the request.  Unlike
- <code>kong.client.get_port</code>, this function will consider forwarded ports in cases
+ <code class="highlighter-rouge">kong.client.get_port</code>, this function will consider forwarded ports in cases
  when a load balancer is in front of Kong. Whether this function returns a
  forwarded port or not depends on several Kong configuration parameters:</p>
 
 <ul>
-<li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
 </ul>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number</code> The remote client port, considering forwarded ports</li>
+  <li><code class="highlighter-rouge">number</code> The remote client port, considering forwarded ports</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- [client]:40000 &lt;-&gt; 80:[balancer]:30000 &lt;-&gt; 80:[kong]:20000 &lt;-&gt; 80:[service]</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- [client]:40000 &lt;-&gt; 80:[balancer]:30000 &lt;-&gt; 80:[kong]:20000 &lt;-&gt; 80:[service]</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">get_forwarded_port</span><span class="p">()</span> <span class="c1">-- 40000</span>
 
 <span class="c1">-- Note: assuming that [balancer] is one of the trusted IPs, and that</span>
 <span class="c1">-- the load balancer adds the right headers matching with the configuration</span>
 <span class="c1">-- of `real_ip_header`, e.g. `proxy_protocol`.</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1313,7 +1326,7 @@ considering forwarded addresses</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

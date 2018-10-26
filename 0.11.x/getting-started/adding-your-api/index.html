@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -868,14 +868,14 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#adding-your-api">Adding your API</a>
-    -  <a href="#add-your-api-using-the-admin-api">Add your API using the Admin API</a>
-    -  <a href="#verify-that-your-api-has-been-added">Verify that your API has been added</a>
-    -  <a href="#forward-your-requests-through-kong">Forward your requests through Kong</a>
-
-<ul>
-<li> <a href="#next-steps">Next Steps</a></li>
-</ul></li>
+  <li><a href="#adding-your-api">Adding your API</a>
+    <ul>
+      <li><a href="#1-add-your-api-using-the-admin-api">1. Add your API using the Admin API</a></li>
+      <li><a href="#2-verify-that-your-api-has-been-added">2. Verify that your API has been added</a></li>
+      <li><a href="#3-forward-your-requests-through-kong">3. Forward your requests through Kong</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -890,77 +890,92 @@ window['_fs_namespace'] = 'FS';
   </ol>
 </div>
 
-<p>In this section, you&#39;ll be adding your API to the Kong layer. This is the first
+<p>In this section, you’ll be adding your API to the Kong layer. This is the first
 step to having Kong manage your API. For purposes of this Getting Started
 guide, we suggest adding the <a href="https://mockbin.com/">Mockbin API</a> to Kong, as Mockbin is
 helpful for learning how Kong proxies your API requests.</p>
 
-<p>Kong exposes a <a href="/0.11.x/admin-api">RESTful Admin API</a> on port <code>:8001</code> for managing the
+<p>Kong exposes a <a href="/0.11.x/admin-api">RESTful Admin API</a> on port <code class="highlighter-rouge">:8001</code> for managing the
 configuration of your Kong instance or cluster.</p>
 
-<ol>
-<li><h3 id="add-your-api-using-the-admin-api">Add your API using the Admin API</h3>
+<h2 id="1-add-your-api-using-the-admin-api">1. Add your API using the Admin API</h2>
 
-<p>Issue the following cURL request to add your first API (<a href="https://mockbin.com/">Mockbin</a>)
-to Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/apis/ <span class="se">\</span>
-  --data <span class="s1">'name=example-api'</span> <span class="se">\</span>
-  --data <span class="s1">'hosts=example.com'</span> <span class="se">\</span>
-  --data <span class="s1">'upstream_url=http://mockbin.org'</span>
-</code></pre></div></li>
-<li><h3 id="verify-that-your-api-has-been-added">Verify that your API has been added</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following cURL request to add your first API ([Mockbin][mockbin])
+to Kong:
 
-<p>You should see a similar response from that request:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
+```bash
+$ curl -i -X POST \
+  --url http://localhost:8001/apis/ \
+  --data 'name=example-api' \
+  --data 'hosts=example.com' \
+  --data 'upstream_url=http://mockbin.org'
+```
+</code></pre>
+</div>
 
-<span class="p">{</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"example.com"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://mockbin.org"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Kong is now aware of your API and ready to proxy requests.</p></li>
-<li><h3 id="forward-your-requests-through-kong">Forward your requests through Kong</h3>
+<h2 id="2-verify-that-your-api-has-been-added">2. Verify that your API has been added</h2>
 
-<p>Issue the following cURL request to verify that Kong is properly forwarding
-requests to your API. Note that <a href="/0.11.x/configuration/#nginx-section">by default</a> Kong handles proxy
-requests on port <code>:8000</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: example.com'</span>
-</code></pre></div>
-<p>A successful response means Kong is now forwarding requests made to
-<code>http://localhost:8000</code> to the <code>upstream_url</code> we configured in step #1,
+<div class="highlighter-rouge"><pre class="highlight"><code>You should see a similar response from that request:
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+Connection: keep-alive
+
+{
+  "created_at": 1488830759000,
+  "hosts": [
+      "example.com"
+  ],
+  "http_if_terminated": false,
+  "https_only": false,
+  "id": "6378122c-a0a1-438d-a5c6-efabae9fb969",
+  "name": "example-api",
+  "preserve_host": false,
+  "retries": 5,
+  "strip_uri": true,
+  "upstream_connect_timeout": 60000,
+  "upstream_read_timeout": 60000,
+  "upstream_send_timeout": 60000,
+  "upstream_url": "http://mockbin.org"
+}
+```
+
+Kong is now aware of your API and ready to proxy requests.
+</code></pre>
+</div>
+
+<h2 id="3-forward-your-requests-through-kong">3. Forward your requests through Kong</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following cURL request to verify that Kong is properly forwarding
+requests to your API. Note that [by default][proxy-port] Kong handles proxy
+requests on port `:8000`:
+
+```bash
+$ curl -i -X GET \
+  --url http://localhost:8000/ \
+  --header 'Host: example.com'
+```
+
+A successful response means Kong is now forwarding requests made to
+`http://localhost:8000` to the `upstream_url` we configured in step #1,
 and is forwarding the response back to us. Kong knows to do this through
-the header defined in the above cURL request:</p>
+the header defined in the above cURL request:
 
-<ul>
-  <li><strong>Host: &lt;given host></strong></li>
-</ul></li>
-</ol>
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Host: &amp;lt;given host&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+</div>
 
-<p><hr></p>
+<hr />
 
 <h2 id="next-steps">Next Steps</h2>
 
-<p>Now that you&#39;ve added your API to Kong, let&#39;s learn how to enable plugins.</p>
+<p>Now that you’ve added your API to Kong, let’s learn how to enable plugins.</p>
 
-<p>Go to <a href="/0.11.x/getting-started/enabling-plugins">Enabling Plugins &rsaquo;</a></p>
+<p>Go to <a href="/0.11.x/getting-started/enabling-plugins">Enabling Plugins ›</a></p>
+
 
 
         </div>
@@ -1135,7 +1150,7 @@ the header defined in the above cURL request:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

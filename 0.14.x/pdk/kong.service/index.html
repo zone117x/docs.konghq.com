@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,65 +991,72 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-service">kong.service</a>
-
-<ul>
-<li> <a href="#kong-service-set_upstream-host">kong.service.set_upstream(host)</a></li>
-<li> <a href="#kong-service-set_target-host-port">kong.service.set_target(host, port)</a></li>
-</ul></li>
+  <li><a href="#kongservice">kong.service</a>
+    <ul>
+      <li><a href="#kongserviceset_upstreamhost">kong.service.set_upstream(host)</a></li>
+      <li><a href="#kongserviceset_targethost-port">kong.service.set_target(host, port)</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-service">kong.service</h1>
+          <h1 id="kongservice">kong.service</h1>
 
 <p>The service module contains a set of functions to manipulate the connection
  aspect of the request to the Service, such as connecting to a given host, IP
  address/port, or choosing a given Upstream entity for load-balancing and
  healthchecking.</p>
 
-<h2 id="kong-service-set_upstream-host">kong.service.set_upstream(host)</h2>
+<h2 id="kongserviceset_upstreamhost">kong.service.set_upstream(host)</h2>
 
 <p>Sets the desired Upstream entity to handle the load-balancing step for
  this request.  Using this method is equivalent to creating a Service with a
- <code>host</code> property equal to that of an Upstream entity (in which case, the
+ <code class="highlighter-rouge">host</code> property equal to that of an Upstream entity (in which case, the
  request would be proxied to one of the Targets associated with that
  Upstream).</p>
 
-<p>The <code>host</code> argument should receive a string equal to that of one of the
+<p>The <code class="highlighter-rouge">host</code> argument should receive a string equal to that of one of the
  Upstream entities currently configured.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>access</li>
+  <li>access</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>host</strong> (string):</li>
+  <li><strong>host</strong> (string):</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ol>
-<li><p><code>boolean|nil</code> <code>true</code> on success, or <code>nil</code> if no upstream entities
-where found</p></li>
-<li><p><code>string|nil</code>  An error message describing the error if there was
-one.</p></li>
+  <li>
+    <p><code class="highlighter-rouge">boolean|nil</code> <code class="highlighter-rouge">true</code> on success, or <code class="highlighter-rouge">nil</code> if no upstream entities
+ where found</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">string|nil</code>  An error message describing the error if there was
+ one.</p>
+  </li>
 </ol>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">set_upstream</span><span class="p">(</span><span class="s2">"service.prod"</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">set_upstream</span><span class="p">(</span><span class="s2">"service.prod"</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
   <span class="k">return</span>
 <span class="k">end</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-service-set_target-host-port">kong.service.set_target(host, port)</h2>
+<h2 id="kongserviceset_targethost-port">kong.service.set_target(host, port)</h2>
 
 <p>Sets the host and port on which to connect to for proxying the request.  ]]
  Using this method is equivalent to ask Kong to not run the load-balancing
@@ -1057,28 +1064,32 @@ one.</p></li>
  Load-balancing components such as retries and health-checks will also be
  ignored for this request.</p>
 
-<p>The <code>host</code> argument expects a string containing the IP address of the
- upstream server (IPv4/IPv6), and the <code>port</code> argument must contain a number
+<p>The <code class="highlighter-rouge">host</code> argument expects a string containing the IP address of the
+ upstream server (IPv4/IPv6), and the <code class="highlighter-rouge">port</code> argument must contain a number
  representing the port on which to connect to.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>access</li>
+  <li>access</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>host</strong> (string):</li>
-<li><strong>port</strong> (number):</li>
+  <li><strong>host</strong> (string):</li>
+  <li><strong>port</strong> (number):</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">set_target</span><span class="p">(</span><span class="s2">"service.local"</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">set_target</span><span class="p">(</span><span class="s2">"service.local"</span><span class="p">,</span> <span class="mi">443</span><span class="p">)</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">set_target</span><span class="p">(</span><span class="s2">"192.168.130.1"</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1253,7 +1264,7 @@ one.</p></li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

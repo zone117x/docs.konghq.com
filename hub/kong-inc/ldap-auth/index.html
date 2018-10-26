@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,20 +236,20 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#usage">Usage</a>
-
-<ul>
-<li> <a href="#upstream-headers">Upstream Headers</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#usage">Usage</a>
+    <ul>
+      <li><a href="#upstream-headers">Upstream Headers</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -429,7 +429,7 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Add LDAP Bind Authentication to a Route (or the deprecated API entity) with username and password protection. The plugin will check for valid credentials in the <code>Proxy-Authorization</code> and <code>Authorization</code> header (in this order).</p>
+      <p>Add LDAP Bind Authentication to a Route (or the deprecated API entity) with username and password protection. The plugin will check for valid credentials in the <code class="highlighter-rouge">Proxy-Authorization</code> and <code class="highlighter-rouge">Authorization</code> header (in this order).</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
@@ -466,10 +466,12 @@ window['_fs_namespace'] = 'FS';
         <h2 id="configuration">Configuration</h2>
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=ldap-auth"</span>  <span class="se">\</span>
     --data <span class="s2">"config.hide_credentials=true"</span> <span class="se">\</span>
     --data <span class="s2">"config.ldap_host=ldap.example.com"</span> <span class="se">\</span>
@@ -481,15 +483,18 @@ window['_fs_namespace'] = 'FS';
     --data <span class="s2">"config.cache_ttl=60"</span> <span class="se">\</span>
     --data <span class="s2">"config.header_type=ldap"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -497,7 +502,8 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=ldap-auth"</span>  <span class="se">\</span>
     --data <span class="s2">"config.hide_credentials=true"</span> <span class="se">\</span>
     --data <span class="s2">"config.ldap_host=ldap.example.com"</span> <span class="se">\</span>
@@ -509,9 +515,11 @@ can configure this plugin on top of such an API by making the following request:
     --data <span class="s2">"config.cache_ttl=60"</span> <span class="se">\</span>
     --data <span class="s2">"config.header_type=ldap"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -529,7 +537,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -548,10 +557,10 @@ target.</li>
     
       <tr>
         <td><code>config.hide_credentials</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
         <td><p>An optional boolean value telling the plugin to hide the credential to the upstream server. It will be removed by Kong before proxying the request.</p>
 </td>
@@ -582,9 +591,9 @@ target.</li>
           
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
-        <td><p>Set it to <code>true</code> to issue StartTLS (Transport Layer Security) extended operation over <code>ldap</code> connection.</p>
+        <td><p>Set it to <code class="highlighter-rouge">true</code> to issue StartTLS (Transport Layer Security) extended operation over <code class="highlighter-rouge">ldap</code> connection.</p>
 </td>
       </tr>
     
@@ -603,9 +612,9 @@ target.</li>
           
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
-        <td><p>Set it to <code>true</code> to authenticate LDAP server. The server certificate will be verified according to the CA certificates specified by the <code>lua_ssl_trusted_certificate</code> directive.</p>
+        <td><p>Set it to <code class="highlighter-rouge">true</code> to authenticate LDAP server. The server certificate will be verified according to the CA certificates specified by the <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> directive.</p>
 </td>
       </tr>
     
@@ -624,7 +633,7 @@ target.</li>
           
           
         </td>
-        <td><p><code>60</code></p>
+        <td><p><code class="highlighter-rouge">60</code></p>
 </td>
         <td><p>Cache expiry time in seconds.</p>
 </td>
@@ -632,10 +641,10 @@ target.</li>
     
       <tr>
         <td><code>config.timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>10000</code></p>
+        <td><p><code class="highlighter-rouge">10000</code></p>
 </td>
         <td><p>An optional timeout in milliseconds when waiting for connection with LDAP server.</p>
 </td>
@@ -643,10 +652,10 @@ target.</li>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>60000</code></p>
+        <td><p><code class="highlighter-rouge">60000</code></p>
 </td>
         <td><p>An optional value in milliseconds that defines for how long an idle connection to LDAP server will live before being closed.</p>
 </td>
@@ -654,22 +663,22 @@ target.</li>
     
       <tr>
         <td><code>config.anonymous</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
+        <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="highlighter-rouge">4xx</code>. Please note that this value must refer to the Consumer <code class="highlighter-rouge">id</code> attribute which is internal to Kong, and <strong>not</strong> its <code class="highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.header_type</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>ldap</code></p>
+        <td><p><code class="highlighter-rouge">ldap</code></p>
 </td>
-        <td><p>An optional string to use as part of the Authorization header. By default, a valid Authorization header looks like this: <code>Authorization: ldap base64(username:password)</code>. If <code>header_type</code> is set to &quot;basic&quot; then the Authorization header would be <code>Authorization: basic base64(username:password)</code>. Note that <code>header_type</code> can take any string, not just <code>&quot;ldap&quot;</code> and <code>&quot;basic&quot;</code>.</p>
+        <td><p>An optional string to use as part of the Authorization header. By default, a valid Authorization header looks like this: <code class="highlighter-rouge">Authorization: ldap base64(username:password)</code>. If <code class="highlighter-rouge">header_type</code> is set to “basic” then the Authorization header would be <code class="highlighter-rouge">Authorization: basic base64(username:password)</code>. Note that <code class="highlighter-rouge">header_type</code> can take any string, not just <code class="highlighter-rouge">"ldap"</code> and <code class="highlighter-rouge">"basic"</code>.</p>
 </td>
       </tr>
     
@@ -684,23 +693,31 @@ target.</li>
 
       <h2 id="usage">Usage</h2>
 
-<p>In order to authenticate the user, client must set credentials in <code>Proxy-Authorization</code> or <code>Authorization</code> header in following format</p>
+<p>In order to authenticate the user, client must set credentials in <code class="highlighter-rouge">Proxy-Authorization</code> or <code class="highlighter-rouge">Authorization</code> header in following format</p>
 
-<p>credentials := [ldap | LDAP] base64(username:password)</p>
+<table>
+  <tbody>
+    <tr>
+      <td>credentials := [ldap</td>
+      <td>LDAP] base64(username:password)</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>The plugin will validate the user against the LDAP server and cache the credential for future requests for the duration specified in <code>config.cache_ttl</code>.</p>
+<p>The plugin will validate the user against the LDAP server and cache the credential for future requests for the duration specified in <code class="highlighter-rouge">config.cache_ttl</code>.</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
 <p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream service, so that you can identify the consumer in your code:</p>
 
 <ul>
-<li><code>X-Credential-Username</code>, the <code>username</code> of the Credential (only if the consumer is not the &#39;anonymous&#39; consumer)</li>
-<li><code>X-Anonymous-Consumer</code>, will be set to <code>true</code> when authentication failed, and the &#39;anonymous&#39; consumer was set instead.</li>
-<li><code>X-Consumer-ID</code>, the ID of the &#39;anonymous&#39; consumer on Kong (only if authentication failed and &#39;anonymous&#39; was set)</li>
-<li><code>X-Consumer-Custom-ID</code>, the <code>custom_id</code> of the &#39;anonymous&#39; consumer (only if authentication failed and &#39;anonymous&#39; was set)</li>
-<li><code>X-Consumer-Username</code>, the <code>username</code> of the &#39;anonymous&#39; consumer (only if authentication failed and &#39;anonymous&#39; was set)</li>
+  <li><code class="highlighter-rouge">X-Credential-Username</code>, the <code class="highlighter-rouge">username</code> of the Credential (only if the consumer is not the ‘anonymous’ consumer)</li>
+  <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to <code class="highlighter-rouge">true</code> when authentication failed, and the ‘anonymous’ consumer was set instead.</li>
+  <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the ‘anonymous’ consumer on Kong (only if authentication failed and ‘anonymous’ was set)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the <code class="highlighter-rouge">custom_id</code> of the ‘anonymous’ consumer (only if authentication failed and ‘anonymous’ was set)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the <code class="highlighter-rouge">username</code> of the ‘anonymous’ consumer (only if authentication failed and ‘anonymous’ was set)</li>
 </ul>
+
 
 
       
@@ -866,7 +883,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

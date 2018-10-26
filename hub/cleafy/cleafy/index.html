@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,20 +236,20 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#cleafy-stream-kong-plugin">Cleafy-Stream Kong plugin</a></li>
-<li> <a href="#installation">Installation</a></li>
-<li> <a href="#typical-configuration-via-curl">Typical configuration (via curl)</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#cleafy-stream-kong-plugin">Cleafy-Stream Kong plugin</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#typical-configuration-via-curl">Typical configuration (via curl)</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -405,7 +405,7 @@ the user experience nor the endpoint performance. Cleafy is application-transpar
 and does not require any change to the monitored application. Cleafy smoothly
 integrates into any application delivery architecture, typically at ADC or API
 Gateway level. Cleafy plugin for Kong makes possible to leverage Cleafy in any
-Kong-powered architecture. For more details visit <a href="https://cleafy.com/resources">https://cleafy.com/resources</a>.</p>
+Kong-powered architecture. For more details visit https://cleafy.com/resources.</p>
 
 
       
@@ -436,57 +436,71 @@ Kong-powered architecture. For more details visit <a href="https://cleafy.com/re
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
     --data <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
     --data <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=cleafy"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -494,13 +508,16 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
     --data <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -518,7 +535,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -551,7 +569,7 @@ target.</li>
     
       <tr>
         <td><code>config.accept_encoding</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -568,6 +586,7 @@ plugin does not support gzip-encoded requests.</p>
 
       
 
+
       <h3 id="cleafy-stream-kong-plugin">Cleafy-Stream Kong plugin</h3>
 
 <h3 id="installation">Installation</h3>
@@ -575,28 +594,39 @@ plugin does not support gzip-encoded requests.</p>
 <p>Plugin installation mainly depends on where your Kong installation runs:</p>
 
 <h4 id="standalone-installation">Standalone Installation</h4>
-
-<p>Once the .rock file has been obtained from your Cleafy distributor it can be installed using the luarocks package manager.
-<code>
-luarocks install cleafy-plugin-for-kong-VERSION.rock
-</code></p>
+<p>Once the .rock file has been obtained from your Cleafy distributor it can be installed using the luarocks package manager.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>luarocks install cleafy-plugin-for-kong-VERSION.rock
+</code></pre>
+</div>
 
 <h3 id="typical-configuration-via-curl">Typical configuration (via curl)</h3>
 
 <p>Register Cleafy backend as a Kong service:</p>
-<div class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=cleafy'</span>  --data <span class="s1">'url=&lt;url-to-cleafy-api&gt;'</span>
-</code></pre></div>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=cleafy'</span>  --data <span class="s1">'url=&lt;url-to-cleafy-api&gt;'</span>
+</code></pre>
+</div>
+
 <p>Moreover, each application you want to manage via Kong must be registered as a service:</p>
-<div class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=app1'</span>  --data <span class="s1">'url=&lt;url-to-app1-application-server&gt;'</span>
-</code></pre></div>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=app1'</span>  --data <span class="s1">'url=&lt;url-to-app1-application-server&gt;'</span>
+</code></pre>
+</div>
+
 <p>For each application registered (Cleafy excluded) you must define two Kong routes: the first routing traffic to the application server and the second routing traffic to the Cleafy backend:</p>
-<div class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/routes/ --data <span class="s1">'hosts[]=&lt;hostname&gt;'</span> --data <span class="s1">'service.id=&lt;cleafy-service-id&gt;'</span> --data <span class="s1">'paths[]=/&lt;ingestion-prefix&gt;'</span>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/routes/ --data <span class="s1">'hosts[]=&lt;hostname&gt;'</span> --data <span class="s1">'service.id=&lt;cleafy-service-id&gt;'</span> --data <span class="s1">'paths[]=/&lt;ingestion-prefix&gt;'</span>
 
 <span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/routes/ --data <span class="s1">'hosts[]=&lt;hostname&gt;'</span> --data <span class="s1">'service.id=&lt;app-service-id&gt;'</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Then you must activate the <em>stream</em> plugin over <strong>each</strong> app-related route:</p>
-<div class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/plugins/ --data <span class="s1">'name=stream'</span> --data <span class="s1">'route_id=&lt;app-route-id'</span> --data <span class="s1">'config.api_address=&lt;cleafy-api-address&gt;'</span> --data <span class="s1">'config.api_token=&lt;ingestion-token&gt;'</span>
-</code></pre></div>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/plugins/ --data <span class="s1">'name=stream'</span> --data <span class="s1">'route_id=&lt;app-route-id'</span> --data <span class="s1">'config.api_address=&lt;cleafy-api-address&gt;'</span> --data <span class="s1">'config.api_token=&lt;ingestion-token&gt;'</span>
+</code></pre>
+</div>
+
 
       
 
@@ -761,7 +791,7 @@ luarocks install cleafy-plugin-for-kong-VERSION.rock
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

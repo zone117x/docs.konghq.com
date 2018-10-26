@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -965,167 +965,219 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#configuration-reference">Configuration Reference</a>
-    -  <a href="#configuration-loading">Configuration loading</a>
-    -  <a href="#verifying-your-configuration">Verifying your configuration</a>
-    -  <a href="#environment-variables">Environment variables</a>
-    -  <a href="#custom-nginx-configuration-embedding-kong">Custom Nginx configuration &amp; embedding Kong</a>
-        -  <a href="#custom-nginx-configuration">Custom Nginx configuration</a>
-        -  <a href="#embedding-kong-in-openresty">Embedding Kong in OpenResty</a>
-        -  <a href="#serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</a>
-    -  <a href="#properties-reference">Properties reference</a>
-        -  <a href="#general-section">General section</a>
-            -  <a href="#prefix">prefix</a>
-            -  <a href="#log_level">log_level</a>
-            -  <a href="#proxy_access_log">proxy_access_log</a>
-            -  <a href="#proxy_error_log">proxy_error_log</a>
-            -  <a href="#admin_access_log">admin_access_log</a>
-            -  <a href="#admin_error_log">admin_error_log</a>
-            -  <a href="#custom_plugins">custom_plugins</a>
-            -  <a href="#anonymous_reports">anonymous_reports</a>
-        -  <a href="#nginx-section">Nginx section</a>
-            -  <a href="#proxy_listen">proxy_listen</a>
-            -  <a href="#admin_listen">admin_listen</a>
-            -  <a href="#nginx_user">nginx_user</a>
-            -  <a href="#nginx_worker_processes">nginx_worker_processes</a>
-            -  <a href="#nginx_daemon">nginx_daemon</a>
-            -  <a href="#mem_cache_size">mem_cache_size</a>
-            -  <a href="#ssl_cipher_suite">ssl_cipher_suite</a>
-            -  <a href="#ssl_ciphers">ssl_ciphers</a>
-            -  <a href="#ssl_cert">ssl_cert</a>
-            -  <a href="#ssl_cert_key">ssl_cert_key</a>
-            -  <a href="#client_ssl">client_ssl</a>
-            -  <a href="#client_ssl_cert">client_ssl_cert</a>
-            -  <a href="#client_ssl_cert_key">client_ssl_cert_key</a>
-            -  <a href="#admin_ssl_cert">admin_ssl_cert</a>
-            -  <a href="#admin_ssl_cert_key">admin_ssl_cert_key</a>
-            -  <a href="#upstream_keepalive">upstream_keepalive</a>
-            -  <a href="#server_tokens">server_tokens</a>
-            -  <a href="#latency_tokens">latency_tokens</a>
-            -  <a href="#trusted_ips">trusted_ips</a>
-            -  <a href="#real_ip_header">real_ip_header</a>
-            -  <a href="#real_ip_recursive">real_ip_recursive</a>
-            -  <a href="#client_max_body_size">client_max_body_size</a>
-            -  <a href="#client_body_buffer_size">client_body_buffer_size</a>
-            -  <a href="#error_default_type">error_default_type</a>
-        -  <a href="#datastore-section">Datastore section</a>
-            -  <a href="#database">database</a>
-            -  <a href="#postgres-settings">Postgres settings</a>
-            -  <a href="#cassandra-settings">Cassandra settings</a>
-        -  <a href="#datastore-cache-section">Datastore cache section</a>
-            -  <a href="#db_update_frequency">db_update_frequency</a>
-            -  <a href="#db_update_propagation">db_update_propagation</a>
-            -  <a href="#db_cache_ttl">db_cache_ttl</a>
-        -  <a href="#dns-resolver-section">DNS resolver section</a>
-            -  <a href="#dns_resolver">dns_resolver</a>
-            -  <a href="#dns_hostsfile">dns_hostsfile</a>
-            -  <a href="#dns_order">dns_order</a>
-            -  <a href="#dns_stale_ttl">dns_stale_ttl</a>
-            -  <a href="#dns_not_found_ttl">dns_not_found_ttl</a>
-            -  <a href="#dns_error_ttl">dns_error_ttl</a>
-            -  <a href="#dns_no_sync">dns_no_sync</a>
-        -  <a href="#development-miscellaneous-section">Development &amp; miscellaneous section</a>
-            -  <a href="#lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</a>
-            -  <a href="#lua_ssl_verify_depth">lua_ssl_verify_depth</a>
-            -  <a href="#lua_package_path">lua_package_path</a>
-            -  <a href="#lua_package_cpath">lua_package_cpath</a>
-            -  <a href="#lua_socket_pool_size">lua_socket_pool_size</a></li>
+  <li><a href="#configuration-reference">Configuration Reference</a>
+    <ul>
+      <li><a href="#configuration-loading">Configuration loading</a></li>
+      <li><a href="#verifying-your-configuration">Verifying your configuration</a></li>
+      <li><a href="#environment-variables">Environment variables</a></li>
+      <li><a href="#custom-nginx-configuration--embedding-kong">Custom Nginx configuration &amp; embedding Kong</a>
+        <ul>
+          <li><a href="#custom-nginx-configuration">Custom Nginx configuration</a></li>
+          <li><a href="#embedding-kong-in-openresty">Embedding Kong in OpenResty</a></li>
+          <li><a href="#serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</a></li>
+        </ul>
+      </li>
+      <li><a href="#properties-reference">Properties reference</a>
+        <ul>
+          <li><a href="#general-section">General section</a>
+            <ul>
+              <li><a href="#prefix">prefix</a></li>
+              <li><a href="#log_level">log_level</a></li>
+              <li><a href="#proxy_access_log">proxy_access_log</a></li>
+              <li><a href="#proxy_error_log">proxy_error_log</a></li>
+              <li><a href="#admin_access_log">admin_access_log</a></li>
+              <li><a href="#admin_error_log">admin_error_log</a></li>
+              <li><a href="#custom_plugins">custom_plugins</a></li>
+              <li><a href="#anonymous_reports">anonymous_reports</a></li>
+            </ul>
+          </li>
+          <li><a href="#nginx-section">Nginx section</a>
+            <ul>
+              <li><a href="#proxy_listen">proxy_listen</a></li>
+              <li><a href="#admin_listen">admin_listen</a></li>
+              <li><a href="#nginx_user">nginx_user</a></li>
+              <li><a href="#nginx_worker_processes">nginx_worker_processes</a></li>
+              <li><a href="#nginx_daemon">nginx_daemon</a></li>
+              <li><a href="#mem_cache_size">mem_cache_size</a></li>
+              <li><a href="#ssl_cipher_suite">ssl_cipher_suite</a></li>
+              <li><a href="#ssl_ciphers">ssl_ciphers</a></li>
+              <li><a href="#ssl_cert">ssl_cert</a></li>
+              <li><a href="#ssl_cert_key">ssl_cert_key</a></li>
+              <li><a href="#client_ssl">client_ssl</a></li>
+              <li><a href="#client_ssl_cert">client_ssl_cert</a></li>
+              <li><a href="#client_ssl_cert_key">client_ssl_cert_key</a></li>
+              <li><a href="#admin_ssl_cert">admin_ssl_cert</a></li>
+              <li><a href="#admin_ssl_cert_key">admin_ssl_cert_key</a></li>
+              <li><a href="#upstream_keepalive">upstream_keepalive</a></li>
+              <li><a href="#server_tokens">server_tokens</a></li>
+              <li><a href="#latency_tokens">latency_tokens</a></li>
+              <li><a href="#trusted_ips">trusted_ips</a></li>
+              <li><a href="#real_ip_header">real_ip_header</a></li>
+              <li><a href="#real_ip_recursive">real_ip_recursive</a></li>
+              <li><a href="#client_max_body_size">client_max_body_size</a></li>
+              <li><a href="#client_body_buffer_size">client_body_buffer_size</a></li>
+              <li><a href="#error_default_type">error_default_type</a></li>
+            </ul>
+          </li>
+          <li><a href="#datastore-section">Datastore section</a>
+            <ul>
+              <li><a href="#database">database</a></li>
+              <li><a href="#postgres-settings">Postgres settings</a></li>
+              <li><a href="#cassandra-settings">Cassandra settings</a></li>
+            </ul>
+          </li>
+          <li><a href="#datastore-cache-section">Datastore cache section</a>
+            <ul>
+              <li><a href="#db_update_frequency">db_update_frequency</a></li>
+              <li><a href="#db_update_propagation">db_update_propagation</a></li>
+              <li><a href="#db_cache_ttl">db_cache_ttl</a></li>
+            </ul>
+          </li>
+          <li><a href="#dns-resolver-section">DNS resolver section</a>
+            <ul>
+              <li><a href="#dns_resolver">dns_resolver</a></li>
+              <li><a href="#dns_hostsfile">dns_hostsfile</a></li>
+              <li><a href="#dns_order">dns_order</a></li>
+              <li><a href="#dns_stale_ttl">dns_stale_ttl</a></li>
+              <li><a href="#dns_not_found_ttl">dns_not_found_ttl</a></li>
+              <li><a href="#dns_error_ttl">dns_error_ttl</a></li>
+              <li><a href="#dns_no_sync">dns_no_sync</a></li>
+            </ul>
+          </li>
+          <li><a href="#development--miscellaneous-section">Development &amp; miscellaneous section</a>
+            <ul>
+              <li><a href="#lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</a></li>
+              <li><a href="#lua_ssl_verify_depth">lua_ssl_verify_depth</a></li>
+              <li><a href="#lua_package_path">lua_package_path</a></li>
+              <li><a href="#lua_package_cpath">lua_package_cpath</a></li>
+              <li><a href="#lua_socket_pool_size">lua_socket_pool_size</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="configuration-reference">Configuration Reference</h1>
 
-<h3 id="configuration-loading">Configuration loading</h3>
+<h2 id="configuration-loading">Configuration loading</h2>
 
 <p>Kong comes with a default configuration file that can be found at
-<code>/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
+<code class="highlighter-rouge">/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
 packages. To start configuring Kong, you can copy this file:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
+</code></pre>
+</div>
+
 <p>Kong will operate with default settings should all the values in your
 configuration be commented-out. Upon starting, Kong looks for several
 default locations that might contain a configuration file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">/etc/kong/kong.conf
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/etc/kong/kong.conf
 /etc/kong.conf
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>You can override this behavior by specifying a custom path for your
-configuration file using the <code>-c / --conf</code> argument in the CLI:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start --conf /path/to/kong.conf
-</code></pre></div>
+configuration file using the <code class="highlighter-rouge">-c / --conf</code> argument in the CLI:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start --conf /path/to/kong.conf
+</code></pre>
+</div>
+
 <p>The configuration format is straightforward: simply uncomment any property
-(comments are defined by the <code>#</code> character) and modify it to your needs.
-Booleans values can be specified as <code>on/off</code> or <code>true</code>/<code>false</code> for convenience.</p>
+(comments are defined by the <code class="highlighter-rouge">#</code> character) and modify it to your needs.
+Booleans values can be specified as <code class="highlighter-rouge">on/off</code> or <code class="highlighter-rouge">true</code>/<code class="highlighter-rouge">false</code> for convenience.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="verifying-your-configuration">Verifying your configuration</h3>
+<h2 id="verifying-your-configuration">Verifying your configuration</h2>
 
-<p>You can verify the integrity of your settings with the <code>check</code> command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
+<p>You can verify the integrity of your settings with the <code class="highlighter-rouge">check</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
 configuration at &lt;path/to/kong.conf&gt; is valid
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>This command will take into account the environment variables you have
 currently set, and will error out in case your settings are invalid.</p>
 
 <p>Additionally, you can also use the CLI in debug mode to have more insight
 as to what properties Kong is being started with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
 <span class="o">[</span>...]
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="environment-variables">Environment variables</h3>
+<h2 id="environment-variables">Environment variables</h2>
 
 <p>When loading properties out of a configuration file, Kong will also look for
 environment variables of the same name. This allows you to fully configure Kong
 via environment variables, which is very convenient for container-based
 infrastructures, for example.</p>
 
-<p>All environment variables prefixed with <code>KONG_</code>, capitalized and bearing the
+<p>All environment variables prefixed with <code class="highlighter-rouge">KONG_</code>, capitalized and bearing the
 same name as a setting will override it.</p>
 
 <p>Example:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">log_level = debug # in kong.conf
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>log_level = debug # in kong.conf
+</code></pre>
+</div>
+
 <p>Can be overridden with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="custom-nginx-configuration-embedding-kong">Custom Nginx configuration &amp; embedding Kong</h3>
+<h2 id="custom-nginx-configuration--embedding-kong">Custom Nginx configuration &amp; embedding Kong</h2>
 
 <p>Tweaking the Nginx configuration is an essential part of setting up your Kong
 instances since it allows you to optimize its performance for your
 infrastructure, or embed Kong in an already running OpenResty instance.</p>
 
-<h4 id="custom-nginx-configuration">Custom Nginx configuration</h4>
+<h3 id="custom-nginx-configuration">Custom Nginx configuration</h3>
 
-<p>Kong can be started, reloaded and restarted with an <code>--nginx-conf</code> argument,
+<p>Kong can be started, reloaded and restarted with an <code class="highlighter-rouge">--nginx-conf</code> argument,
 which must specify an Nginx configuration template. Such a template uses the
 <a href="http://stevedonovan.github.io/Penlight/api/index.html">Penlight</a> <a href="http://stevedonovan.github.io/Penlight/api/libraries/pl.template.html">templating engine</a>, which is compiled using
 the given Kong configuration, before being dumped in your Kong prefix
 directory, moments before starting Nginx.</p>
 
 <p>The default template can be found at:
-<a href="https://github.com/Kong/kong/tree/master/kong/templates">https://github.com/Kong/kong/tree/master/kong/templates</a>. It is split in two
-Nginx configuration files: <code>nginx.lua</code> and <code>nginx_kong.lua</code>. The former is
+https://github.com/Kong/kong/tree/master/kong/templates. It is split in two
+Nginx configuration files: <code class="highlighter-rouge">nginx.lua</code> and <code class="highlighter-rouge">nginx_kong.lua</code>. The former is
 minimalistic and includes the latter, which contains everything Kong requires
-to run. When <code>kong start</code> runs, right before starting Nginx, it copies these
+to run. When <code class="highlighter-rouge">kong start</code> runs, right before starting Nginx, it copies these
 two files into the prefix directory, which looks like so:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">/usr/local/kong
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/kong
 ├── nginx-kong.conf
 ├── nginx.conf
-</code></pre></div>
-<p>If you wish to include other <code>server</code> blocks in your Nginx configuration, or if
+</code></pre>
+</div>
+
+<p>If you wish to include other <code class="highlighter-rouge">server</code> blocks in your Nginx configuration, or if
 you must tweak global settings that are not exposed by the Kong configuration,
 here is a suggestion:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1154,14 +1206,20 @@ http {
         }
     }
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>You can then start Kong with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
+</code></pre>
+</div>
+
 <p>If you wish to customize the Kong Nginx sub-configuration file to, eventually,
-add other Lua handlers or customize the <code>lua_*</code> directives, you can inline the
-<code>nginx_kong.lua</code> configuration in this <code>custom_nginx.template</code> example file:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+add other Lua handlers or customize the <code class="highlighter-rouge">lua_*</code> directives, you can inline the
+<code class="highlighter-rouge">nginx_kong.lua</code> configuration in this <code class="highlighter-rouge">custom_nginx.template</code> example file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1181,42 +1239,51 @@ http {
 
   ... # etc
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="embedding-kong-in-openresty">Embedding Kong in OpenResty</h4>
+<h3 id="embedding-kong-in-openresty">Embedding Kong in OpenResty</h3>
 
 <p>If you are running your own OpenResty servers, you can also easily embed Kong
-by including the Kong Nginx sub-configuration using the <code>include</code> directive
+by including the Kong Nginx sub-configuration using the <code class="highlighter-rouge">include</code> directive
 (similar to the examples of the previous section). If you have a valid
 top-level NGINX configuration that simply includes the Kong-specific
 configuration:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># my_nginx.conf
+
+<div class="highlighter-rouge"><pre class="highlight"><code># my_nginx.conf
 
 http {
     include 'nginx-kong.conf';
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>you can start your instance like so:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>nginx -p /usr/local/openresty -c my_nginx.conf
-</code></pre></div>
-<p>And Kong will be running in that instance (as configured in <code>nginx-kong.conf</code>).</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>nginx -p /usr/local/openresty -c my_nginx.conf
+</code></pre>
+</div>
+
+<p>And Kong will be running in that instance (as configured in <code class="highlighter-rouge">nginx-kong.conf</code>).</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h4 id="serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</h4>
+<h3 id="serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</h3>
 
 <p>A common use case for API providers is to make Kong serve both a website
-and the APIs themselves over the Proxy port &mdash; <code>80</code> or <code>443</code> in
-production. For example, <code>https://my-api.com</code> (Website) and
-<code>https://my-api.com/api/v1</code> (API).</p>
+and the APIs themselves over the Proxy port — <code class="highlighter-rouge">80</code> or <code class="highlighter-rouge">443</code> in
+production. For example, <code class="highlighter-rouge">https://my-api.com</code> (Website) and
+<code class="highlighter-rouge">https://my-api.com/api/v1</code> (API).</p>
 
 <p>To achieve this, we cannot simply declare a new virtual server block,
 like we did in the previous section. A good solution is to use a custom
-Nginx configuration template which inlines <code>nginx_kong.lua</code> and adds a new
-<code>location</code> block serving the website alongside the Kong Proxy <code>location</code>
+Nginx configuration template which inlines <code class="highlighter-rouge">nginx_kong.lua</code> and adds a new
+<code class="highlighter-rouge">location</code> block serving the website alongside the Kong Proxy <code class="highlighter-rouge">location</code>
 block:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1262,96 +1329,98 @@ http {
 
   # Kong's Admin server block goes below
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="properties-reference">Properties reference</h3>
+<h2 id="properties-reference">Properties reference</h2>
 
-<h4 id="general-section">General section</h4>
+<h3 id="general-section">General section</h3>
 
-<h5 id="prefix">prefix</h5>
+<h4 id="prefix">prefix</h4>
 
-<p>Working directory. Equivalent to Nginx&#39;s prefix path, containing temporary files
+<p>Working directory. Equivalent to Nginx’s prefix path, containing temporary files
 and logs. Each Kong process must have a separate working directory.</p>
 
-<p>Default: <code>/usr/local/kong</code></p>
+<p>Default: <code class="highlighter-rouge">/usr/local/kong</code></p>
 
-<hr>
+<hr />
 
-<h5 id="log_level">log_level</h5>
+<h4 id="log_level">log_level</h4>
 
-<p>Log level of the Nginx server. Logs can be found at <code>&lt;prefix&gt;/logs/error.log</code></p>
+<p>Log level of the Nginx server. Logs can be found at <code class="highlighter-rouge">&lt;prefix&gt;/logs/error.log</code></p>
 
-<p>See <a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">http://nginx.org/en/docs/ngx_core_module.html#error_log</a> for a list of
+<p>See http://nginx.org/en/docs/ngx_core_module.html#error_log for a list of
 accepted values.</p>
 
-<p>Default: <code>notice</code></p>
+<p>Default: <code class="highlighter-rouge">notice</code></p>
 
-<hr>
+<hr />
 
-<h5 id="proxy_access_log">proxy_access_log</h5>
+<h4 id="proxy_access_log">proxy_access_log</h4>
 
-<p>Path for proxy port request access logs. Set this value to <code>off</code> to disable
+<p>Path for proxy port request access logs. Set this value to <code class="highlighter-rouge">off</code> to disable
 logging proxy requests. If this value is a relative path, it will be placed
-under the <code>prefix</code> location.</p>
+under the <code class="highlighter-rouge">prefix</code> location.</p>
 
-<p>Default: <code>logs/access.log</code></p>
+<p>Default: <code class="highlighter-rouge">logs/access.log</code></p>
 
-<hr>
+<hr />
 
-<h5 id="proxy_error_log">proxy_error_log</h5>
+<h4 id="proxy_error_log">proxy_error_log</h4>
 
 <p>Path for proxy port request error logs. Granularity of these logs is adjusted
-by the <code>log_level</code> directive.</p>
+by the <code class="highlighter-rouge">log_level</code> directive.</p>
 
-<p>Default: <code>logs/error.log</code></p>
+<p>Default: <code class="highlighter-rouge">logs/error.log</code></p>
 
-<hr>
+<hr />
 
-<h5 id="admin_access_log">admin_access_log</h5>
+<h4 id="admin_access_log">admin_access_log</h4>
 
-<p>Path for Admin API request access logs. Set this value to <code>off</code> to disable
+<p>Path for Admin API request access logs. Set this value to <code class="highlighter-rouge">off</code> to disable
 logging Admin API requests. If this value is a relative path, it will be placed
-under the <code>prefix</code> location.</p>
+under the <code class="highlighter-rouge">prefix</code> location.</p>
 
-<p>Default: <code>logs/admin_access.log</code></p>
+<p>Default: <code class="highlighter-rouge">logs/admin_access.log</code></p>
 
-<hr>
+<hr />
 
-<h5 id="admin_error_log">admin_error_log</h5>
+<h4 id="admin_error_log">admin_error_log</h4>
 
 <p>Path for Admin API request error logs. Granularity of these logs is adjusted by
-the <code>log_level</code> directive.</p>
+the <code class="highlighter-rouge">log_level</code> directive.</p>
 
-<p>Default: <code>logs/error.log</code></p>
+<p>Default: <code class="highlighter-rouge">logs/error.log</code></p>
 
-<hr>
+<hr />
 
-<h5 id="custom_plugins">custom_plugins</h5>
+<h4 id="custom_plugins">custom_plugins</h4>
 
 <p>Comma-separated list of additional plugins this node should load. Use this
 property to load custom plugins that are not bundled with Kong. Plugins will
-be loaded from the <code>kong.plugins.{name}.*</code> namespace.</p>
+be loaded from the <code class="highlighter-rouge">kong.plugins.{name}.*</code> namespace.</p>
 
 <p>Default: none</p>
 
-<p>Example: <code>my-plugin,hello-world,custom-rate-limiting</code></p>
+<p>Example: <code class="highlighter-rouge">my-plugin,hello-world,custom-rate-limiting</code></p>
 
-<hr>
+<hr />
 
-<h5 id="anonymous_reports">anonymous_reports</h5>
+<h4 id="anonymous_reports">anonymous_reports</h4>
 
 <p>Send anonymous usage data such as error stack traces to help improve Kong.</p>
 
-<p>Default: <code>on</code></p>
+<p>Default: <code class="highlighter-rouge">on</code></p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<hr>
+<hr />
 
-<h4 id="nginx-section">Nginx section</h4>
+<h3 id="nginx-section">Nginx section</h3>
 
-<h5 id="proxy_listen">proxy_listen</h5>
+<h4 id="proxy_listen">proxy_listen</h4>
 
 <p>Comma-separated list of addresses and ports on which the proxy server should
 listen. The proxy server is the public entrypoint of Kong, which proxies
@@ -1361,28 +1430,28 @@ IPv6, and hostnames.</p>
 <p>Some suffixes can be specified for each pair:</p>
 
 <ul>
-<li><code>ssl</code> will require that all connections made through a particular
+  <li><code class="highlighter-rouge">ssl</code> will require that all connections made through a particular
 address/port be made with TLS enabled.</li>
-<li><code>http2</code> will allow for clients to open HTTP/2 connections to Kong&#39;s proxy
+  <li><code class="highlighter-rouge">http2</code> will allow for clients to open HTTP/2 connections to Kong’s proxy
 server.</li>
-<li>Finally, <code>proxy_protocol</code> will enable usage of the PROXY protocol for a
+  <li>Finally, <code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a
 given address/port.</li>
 </ul>
 
-<p>the proxy port for this node, enabling a &#39;control-plane&#39; mode (without traffic
+<p>the proxy port for this node, enabling a ‘control-plane’ mode (without traffic
 proxying capabilities) which can configure a cluster of nodes connected to the
 same database.</p>
 
-<p>See <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">http://nginx.org/en/docs/http/ngx_http_core_module.html#listen</a> for
-a description of the accepted formats for this and other <code>*_listen</code> values.</p>
+<p>See http://nginx.org/en/docs/http/ngx_http_core_module.html#listen for
+a description of the accepted formats for this and other <code class="highlighter-rouge">*_listen</code> values.</p>
 
-<p>Default: <code>0.0.0.0:8000, 0.0.0.0:8443 ssl</code></p>
+<p>Default: <code class="highlighter-rouge">0.0.0.0:8000, 0.0.0.0:8443 ssl</code></p>
 
-<p>Example: <code>0.0.0.0:80, 0.0.0.0:81 http2, 0.0.0.0:443 ssl, 0.0.0.0:444 http2 ssl</code></p>
+<p>Example: <code class="highlighter-rouge">0.0.0.0:80, 0.0.0.0:81 http2, 0.0.0.0:443 ssl, 0.0.0.0:444 http2 ssl</code></p>
 
-<hr>
+<hr />
 
-<h5 id="admin_listen">admin_listen</h5>
+<h4 id="admin_listen">admin_listen</h4>
 
 <p>Comma-separated list of addresses and ports on which the Admin interface
 should listen. The Admin interface is the API allowing you to configure and
@@ -1391,215 +1460,215 @@ administrators <em>only</em>. This value accepts IPv4, IPv6, and hostnames. Some
 suffixes can be specified for each pair:</p>
 
 <ul>
-<li><code>ssl</code> will require that all connections made through a particular
+  <li><code class="highlighter-rouge">ssl</code> will require that all connections made through a particular
 address/port be made with TLS enabled.</li>
-<li><code>http2</code> will allow for clients to open HTTP/2 connections to Kong&#39;s
+  <li><code class="highlighter-rouge">http2</code> will allow for clients to open HTTP/2 connections to Kong’s
 proxy server.</li>
-<li>Finally, <code>proxy_protocol</code> will enable usage of the PROXY protocol for a
+  <li>Finally, <code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a
 given address/port.</li>
 </ul>
 
-<p>This value can be set to <code>off</code>, thus disabling the Admin interface for this
-node, enabling a &#39;data-plane&#39; mode (without configuration capabilities)
+<p>This value can be set to <code class="highlighter-rouge">off</code>, thus disabling the Admin interface for this
+node, enabling a ‘data-plane’ mode (without configuration capabilities)
 pulling its configuration changes from the database.</p>
 
-<p>Default: <code>127.0.0.1:8001, 127.0.0.1:8444 ssl</code></p>
+<p>Default: <code class="highlighter-rouge">127.0.0.1:8001, 127.0.0.1:8444 ssl</code></p>
 
-<p>Example: <code>127.0.0.1:8444 http2 ssl</code></p>
+<p>Example: <code class="highlighter-rouge">127.0.0.1:8444 http2 ssl</code></p>
 
-<hr>
+<hr />
 
-<h5 id="nginx_user">nginx_user</h5>
+<h4 id="nginx_user">nginx_user</h4>
 
 <p>Defines user and group credentials used by worker processes. If group is omitted, a
 group whose name equals that of user is used.</p>
 
-<p>Default: <code>nobody nobody</code></p>
+<p>Default: <code class="highlighter-rouge">nobody nobody</code></p>
 
-<p>Example: <code>nginx www</code></p>
+<p>Example: <code class="highlighter-rouge">nginx www</code></p>
 
-<hr>
+<hr />
 
-<h5 id="nginx_worker_processes">nginx_worker_processes</h5>
+<h4 id="nginx_worker_processes">nginx_worker_processes</h4>
 
 <p>Determines the number of worker processes spawned by Nginx.
-See <a href="http://nginx.org/en/docs/ngx_core_module.html#worker_processes">http://nginx.org/en/docs/ngx_core_module.html#worker_processes</a> for detailed
+See http://nginx.org/en/docs/ngx_core_module.html#worker_processes for detailed
 usage of this directive and a description of accepted values.</p>
 
-<p>Default: <code>auto</code></p>
+<p>Default: <code class="highlighter-rouge">auto</code></p>
 
-<hr>
+<hr />
 
-<h5 id="nginx_daemon">nginx_daemon</h5>
+<h4 id="nginx_daemon">nginx_daemon</h4>
 
 <p>Determines whether Nginx will run as a daemon or as a foreground process.
 Mainly useful for development or when running Kong inside a Docker environment.</p>
 
-<p>See <a href="http://nginx.org/en/docs/ngx_core_module.html#daemon">http://nginx.org/en/docs/ngx_core_module.html#daemon</a>.</p>
+<p>See http://nginx.org/en/docs/ngx_core_module.html#daemon.</p>
 
-<p>Default: <code>on</code></p>
+<p>Default: <code class="highlighter-rouge">on</code></p>
 
-<hr>
+<hr />
 
-<h5 id="mem_cache_size">mem_cache_size</h5>
+<h4 id="mem_cache_size">mem_cache_size</h4>
 
-<p>Size of the in-memory cache for database entities. The accepted units are <code>k</code> and
-<code>m</code>, with a minimum recommended value of a few MBs.</p>
+<p>Size of the in-memory cache for database entities. The accepted units are <code class="highlighter-rouge">k</code> and
+<code class="highlighter-rouge">m</code>, with a minimum recommended value of a few MBs.</p>
 
-<p>Default: <code>128m</code></p>
+<p>Default: <code class="highlighter-rouge">128m</code></p>
 
-<hr>
+<hr />
 
-<h5 id="ssl_cipher_suite">ssl_cipher_suite</h5>
+<h4 id="ssl_cipher_suite">ssl_cipher_suite</h4>
 
-<p>Defines the TLS ciphers served by Nginx. Accepted values are <code>modern</code>,
-<code>intermediate</code>, <code>old</code>, or <code>custom</code>.
-See <a href="https://wiki.mozilla.org/Security/Server_Side_TLS">https://wiki.mozilla.org/Security/Server_Side_TLS</a> for detailed
+<p>Defines the TLS ciphers served by Nginx. Accepted values are <code class="highlighter-rouge">modern</code>,
+<code class="highlighter-rouge">intermediate</code>, <code class="highlighter-rouge">old</code>, or <code class="highlighter-rouge">custom</code>.
+See https://wiki.mozilla.org/Security/Server_Side_TLS for detailed
 descriptions of each cipher suite.</p>
 
-<p>Default: <code>modern</code></p>
+<p>Default: <code class="highlighter-rouge">modern</code></p>
 
-<hr>
+<hr />
 
-<h5 id="ssl_ciphers">ssl_ciphers</h5>
+<h4 id="ssl_ciphers">ssl_ciphers</h4>
 
 <p>Defines a custom list of TLS ciphers to be served by Nginx. This list must
-conform to the pattern defined by <code>openssl ciphers</code>. This value is ignored if
-<code>ssl_cipher_suite</code> is not <code>custom</code>.</p>
+conform to the pattern defined by <code class="highlighter-rouge">openssl ciphers</code>. This value is ignored if
+<code class="highlighter-rouge">ssl_cipher_suite</code> is not <code class="highlighter-rouge">custom</code>.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="ssl_cert">ssl_cert</h5>
+<h4 id="ssl_cert">ssl_cert</h4>
 
-<p>The absolute path to the SSL certificate for <code>proxy_listen</code> values with SSL enabled.</p>
-
-<p>Default: none</p>
-
-<hr>
-
-<h5 id="ssl_cert_key">ssl_cert_key</h5>
-
-<p>The absolute path to the SSL key for <code>proxy_listen</code> values with SSL enabled.</p>
+<p>The absolute path to the SSL certificate for <code class="highlighter-rouge">proxy_listen</code> values with SSL enabled.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="client_ssl">client_ssl</h5>
+<h4 id="ssl_cert_key">ssl_cert_key</h4>
+
+<p>The absolute path to the SSL key for <code class="highlighter-rouge">proxy_listen</code> values with SSL enabled.</p>
+
+<p>Default: none</p>
+
+<hr />
+
+<h4 id="client_ssl">client_ssl</h4>
 
 <p>Determines if Nginx should send client-side SSL certificates when proxying
 requests.</p>
 
-<p>Default: <code>off</code></p>
+<p>Default: <code class="highlighter-rouge">off</code></p>
 
-<hr>
+<hr />
 
-<h5 id="client_ssl_cert">client_ssl_cert</h5>
+<h4 id="client_ssl_cert">client_ssl_cert</h4>
 
-<p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL certificate for
-the <code>proxy_ssl_certificate</code> directive. Note that this value is statically
+<p>If <code class="highlighter-rouge">client_ssl</code> is enabled, the absolute path to the client SSL certificate for
+the <code class="highlighter-rouge">proxy_ssl_certificate</code> directive. Note that this value is statically
 defined on the node, and currently cannot be configured on a per-API basis.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="client_ssl_cert_key">client_ssl_cert_key</h5>
+<h4 id="client_ssl_cert_key">client_ssl_cert_key</h4>
 
-<p>If <code>client_ssl</code> is enabled, the absolute path to the client SSL key for the
-<code>proxy_ssl_certificate_key</code> address. Note this value is statically defined on
+<p>If <code class="highlighter-rouge">client_ssl</code> is enabled, the absolute path to the client SSL key for the
+<code class="highlighter-rouge">proxy_ssl_certificate_key</code> address. Note this value is statically defined on
 the node, and currently cannot be configured on a per-API basis.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="admin_ssl_cert">admin_ssl_cert</h5>
+<h4 id="admin_ssl_cert">admin_ssl_cert</h4>
 
-<p>The absolute path to the SSL certificate for <code>admin_listen</code> values with SSL enabled.</p>
-
-<p>Default: none</p>
-
-<hr>
-
-<h5 id="admin_ssl_cert_key">admin_ssl_cert_key</h5>
-
-<p>The absolute path to the SSL key for <code>admin_listen</code> values with SSL enabled.</p>
+<p>The absolute path to the SSL certificate for <code class="highlighter-rouge">admin_listen</code> values with SSL enabled.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="upstream_keepalive">upstream_keepalive</h5>
+<h4 id="admin_ssl_cert_key">admin_ssl_cert_key</h4>
+
+<p>The absolute path to the SSL key for <code class="highlighter-rouge">admin_listen</code> values with SSL enabled.</p>
+
+<p>Default: none</p>
+
+<hr />
+
+<h4 id="upstream_keepalive">upstream_keepalive</h4>
 
 <p>Sets the maximum number of idle keepalive connections to upstream servers that
 are preserved in the cache of each worker process. When this number is
 exceeded, the least recently used connections are closed.</p>
 
-<p>Default: <code>60</code></p>
+<p>Default: <code class="highlighter-rouge">60</code></p>
 
-<hr>
+<hr />
 
-<h5 id="server_tokens">server_tokens</h5>
+<h4 id="server_tokens">server_tokens</h4>
 
-<p>Enables or disables emitting Kong version on error pages and in the <code>Server</code>
-or <code>Via</code> (in case the request was proxied) response header field.</p>
+<p>Enables or disables emitting Kong version on error pages and in the <code class="highlighter-rouge">Server</code>
+or <code class="highlighter-rouge">Via</code> (in case the request was proxied) response header field.</p>
 
-<p>Default: <code>on</code></p>
+<p>Default: <code class="highlighter-rouge">on</code></p>
 
-<hr>
+<hr />
 
-<h5 id="latency_tokens">latency_tokens</h5>
+<h4 id="latency_tokens">latency_tokens</h4>
 
-<p>Enables or disables emitting Kong latency information in the <code>X-Kong-Proxy-Latency</code>
-and <code>X-Kong-Upstream-Latency</code> response header fields.</p>
+<p>Enables or disables emitting Kong latency information in the <code class="highlighter-rouge">X-Kong-Proxy-Latency</code>
+and <code class="highlighter-rouge">X-Kong-Upstream-Latency</code> response header fields.</p>
 
-<p>Default: <code>on</code></p>
+<p>Default: <code class="highlighter-rouge">on</code></p>
 
-<hr>
+<hr />
 
-<h5 id="trusted_ips">trusted_ips</h5>
+<h4 id="trusted_ips">trusted_ips</h4>
 
 <p>Defines trusted IP address blocks that are known to send correct
-<code>X-Forwarded-*</code> headers. Requests from trusted IPs make Kong forward their
-<code>X-Forwarded-*</code> headers upstream. Non-trusted requests make Kong insert its own
-<code>X-Forwarded-*</code> headers.</p>
+<code class="highlighter-rouge">X-Forwarded-*</code> headers. Requests from trusted IPs make Kong forward their
+<code class="highlighter-rouge">X-Forwarded-*</code> headers upstream. Non-trusted requests make Kong insert its own
+<code class="highlighter-rouge">X-Forwarded-*</code> headers.</p>
 
-<p>This property also sets the <code>set_real_ip_from</code> directive(s) in the Nginx
+<p>This property also sets the <code class="highlighter-rouge">set_real_ip_from</code> directive(s) in the Nginx
 configuration. It accepts the same type of values (CIDR blocks) but as a
 comma-separated list.</p>
 
-<p>To trust <em>all</em> /!\ IPs, set this value to <code>0.0.0.0/0,::/0</code>.</p>
+<p>To trust <em>all</em> /!\ IPs, set this value to <code class="highlighter-rouge">0.0.0.0/0,::/0</code>.</p>
 
-<p>If the special value <code>unix:</code> is specified, all UNIX-domain sockets will be
+<p>If the special value <code class="highlighter-rouge">unix:</code> is specified, all UNIX-domain sockets will be
 trusted.</p>
 
 <p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#set_real_ip_from">the Nginx docs</a>
-for more details on the <code>set_real_ip_from</code> directive.</p>
+for more details on the <code class="highlighter-rouge">set_real_ip_from</code> directive.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="real_ip_header">real_ip_header</h5>
+<h4 id="real_ip_header">real_ip_header</h4>
 
 <p>Defines the request header field whose value will be used to replace the client
 address. This value sets the <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">ngx_http_realip_module</a>
 directive of the same name in the Nginx configuration.</p>
 
-<p>If this value receives <code>proxy_protocol</code>, the <code>proxy_protocol</code> parameter will be
-appended to the <code>listen</code> directive of the Nginx template.</p>
+<p>If this value receives <code class="highlighter-rouge">proxy_protocol</code>, the <code class="highlighter-rouge">proxy_protocol</code> parameter will be
+appended to the <code class="highlighter-rouge">listen</code> directive of the Nginx template.</p>
 
 <p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header">the Nginx docs</a>
 for a description of this directive.</p>
 
-<p>Default: <code>X-Real-IP</code></p>
+<p>Default: <code class="highlighter-rouge">X-Real-IP</code></p>
 
-<hr>
+<hr />
 
-<h5 id="real_ip_recursive">real_ip_recursive</h5>
+<h4 id="real_ip_recursive">real_ip_recursive</h4>
 
 <p>This value sets the <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">ngx_http_realip_module</a> directive
 of the same name in the Nginx configuration.</p>
@@ -1607,11 +1676,11 @@ of the same name in the Nginx configuration.</p>
 <p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_recursive">the Nginx docs</a>
 for a description of this directive.</p>
 
-<p>Default: <code>off</code></p>
+<p>Default: <code class="highlighter-rouge">off</code></p>
 
-<hr>
+<hr />
 
-<h5 id="client_max_body_size">client_max_body_size</h5>
+<h4 id="client_max_body_size">client_max_body_size</h4>
 
 <p>Defines the maximum request body size allowed by requests proxied by Kong, specified in the
 Content-Length request header. If a request exceeds this limit, Kong will respond with a
@@ -1620,43 +1689,43 @@ size.</p>
 
 <p>Note: See <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size">the Nginx docs</a>
 for further description of this parameter. Numeric values may be suffixed with
-<code>k</code> or <code>m</code> to denote limits in terms of kilobytes or megabytes.</p>
+<code class="highlighter-rouge">k</code> or <code class="highlighter-rouge">m</code> to denote limits in terms of kilobytes or megabytes.</p>
 
-<p>Default: <code>0</code></p>
+<p>Default: <code class="highlighter-rouge">0</code></p>
 
-<hr>
+<hr />
 
-<h5 id="client_body_buffer_size">client_body_buffer_size</h5>
+<h4 id="client_body_buffer_size">client_body_buffer_size</h4>
 
 <p>Defines the buffer size for reading the request body. If the client request body is
 larger than this value, the body will be buffered to disk. Note that when the body is
 buffered to disk Kong plugins that access or manipulate the request body may not work, so
 it is advisable to set this value as high as possible (e.g., set it as high as
-<code>client_max_body_size</code> to force request bodies to be kept in memory). Do note that
+<code class="highlighter-rouge">client_max_body_size</code> to force request bodies to be kept in memory). Do note that
 high-concurrency environments will require significant memory allocations to process
 many concurrent large request bodies.</p>
 
 <p>Note: See <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size">the Nginx docs</a>
 for further description of this parameter. Numeric values may be suffixed with
-<code>k</code> or <code>m</code> to denote limits in terms of kilobytes or megabytes.</p>
+<code class="highlighter-rouge">k</code> or <code class="highlighter-rouge">m</code> to denote limits in terms of kilobytes or megabytes.</p>
 
-<p>Default: <code>8k</code></p>
+<p>Default: <code class="highlighter-rouge">8k</code></p>
 
-<hr>
+<hr />
 
-<h5 id="error_default_type">error_default_type</h5>
+<h4 id="error_default_type">error_default_type</h4>
 
-<p>Default MIME type to use when the request <code>Accept</code> header is missing and Nginx is
-returning an error for the request. Accepted values are <code>text/plain</code>,
-<code>text/html</code>, <code>application/json</code>, and <code>application/xml</code>.</p>
+<p>Default MIME type to use when the request <code class="highlighter-rouge">Accept</code> header is missing and Nginx is
+returning an error for the request. Accepted values are <code class="highlighter-rouge">text/plain</code>,
+<code class="highlighter-rouge">text/html</code>, <code class="highlighter-rouge">application/json</code>, and <code class="highlighter-rouge">application/xml</code>.</p>
 
-<p>Default: <code>text/plain</code></p>
+<p>Default: <code class="highlighter-rouge">text/plain</code></p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<hr>
+<hr />
 
-<h4 id="datastore-section">Datastore section</h4>
+<h3 id="datastore-section">Datastore section</h3>
 
 <p>Kong will store all of its data (such as APIs, Consumers and Plugins) in
 either Cassandra or PostgreSQL.</p>
@@ -1672,147 +1741,153 @@ same database.</p>
   </ul>
 </div>
 
-<hr>
+<hr />
 
-<h5 id="database">database</h5>
+<h4 id="database">database</h4>
 
 <p>Determines which of PostgreSQL or Cassandra this node will use as its
-datastore. Accepted values are <code>postgres</code> and <code>cassandra</code>.</p>
+datastore. Accepted values are <code class="highlighter-rouge">postgres</code> and <code class="highlighter-rouge">cassandra</code>.</p>
 
-<p>Default: <code>postgres</code></p>
+<p>Default: <code class="highlighter-rouge">postgres</code></p>
 
-<hr>
+<hr />
 
-<h5 id="postgres-settings">Postgres settings</h5>
+<h4 id="postgres-settings">Postgres settings</h4>
 
-<table><thead>
-<tr>
-<th>name</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>pg_host</strong></td>
-<td>Host of the Postgres server</td>
-</tr>
-<tr>
-<td><strong>pg_port</strong></td>
-<td>Port of the Postgres server</td>
-</tr>
-<tr>
-<td><strong>pg_user</strong></td>
-<td>Postgres user</td>
-</tr>
-<tr>
-<td><strong>pg_password</strong></td>
-<td>Postgres user&#39;s password</td>
-</tr>
-<tr>
-<td><strong>pg_database</strong></td>
-<td>Database to connect to. <strong>must exist</strong></td>
-</tr>
-<tr>
-<td><strong>pg_ssl</strong></td>
-<td>Enable SSL connections to the server</td>
-</tr>
-<tr>
-<td><strong>pg_ssl_verify</strong></td>
-<td>If <code>pg_ssl</code> is enabled, toggle server certificate verification. See <code>lua_ssl_trusted_certificate</code> setting.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>pg_host</strong></td>
+      <td>Host of the Postgres server</td>
+    </tr>
+    <tr>
+      <td><strong>pg_port</strong></td>
+      <td>Port of the Postgres server</td>
+    </tr>
+    <tr>
+      <td><strong>pg_user</strong></td>
+      <td>Postgres user</td>
+    </tr>
+    <tr>
+      <td><strong>pg_password</strong></td>
+      <td>Postgres user’s password</td>
+    </tr>
+    <tr>
+      <td><strong>pg_database</strong></td>
+      <td>Database to connect to. <strong>must exist</strong></td>
+    </tr>
+    <tr>
+      <td><strong>pg_ssl</strong></td>
+      <td>Enable SSL connections to the server</td>
+    </tr>
+    <tr>
+      <td><strong>pg_ssl_verify</strong></td>
+      <td>If <code class="highlighter-rouge">pg_ssl</code> is enabled, toggle server certificate verification. See <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> setting.</td>
+    </tr>
+  </tbody>
+</table>
 
-<hr>
+<hr />
 
-<h5 id="cassandra-settings">Cassandra settings</h5>
+<h4 id="cassandra-settings">Cassandra settings</h4>
 
-<table><thead>
-<tr>
-<th>name</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>cassandra_contact_points</strong></td>
-<td>Comma-separated list of contacts points to your Cassandra cluster.</td>
-</tr>
-<tr>
-<td><strong>cassandra_port</strong></td>
-<td>Port on which your nodes are listening.</td>
-</tr>
-<tr>
-<td><strong>cassandra_keyspace</strong></td>
-<td>Keyspace to use in your cluster. Will be created if doesn&#39;t exist.</td>
-</tr>
-<tr>
-<td><strong>cassandra_consistency</strong></td>
-<td>Consistency setting to use when reading/writing.</td>
-</tr>
-<tr>
-<td><strong>cassandra_timeout</strong></td>
-<td>Timeout (in ms) for reading/writing.</td>
-</tr>
-<tr>
-<td><strong>cassandra_ssl</strong></td>
-<td>Enable SSL connections to the nodes.</td>
-</tr>
-<tr>
-<td><strong>cassandra_ssl_verify</strong></td>
-<td>If <code>cassandra_ssl</code> is enabled, toggle server certificate verification. See <code>lua_ssl_trusted_certificate</code> setting.</td>
-</tr>
-<tr>
-<td><strong>cassandra_username</strong></td>
-<td>Username when using the PasswordAuthenticator scheme.</td>
-</tr>
-<tr>
-<td><strong>cassandra_password</strong></td>
-<td>Password when using the PasswordAuthenticator scheme.</td>
-</tr>
-<tr>
-<td><strong>cassandra_consistency</strong></td>
-<td>Consistency setting to use when reading/writing to the Cassandra cluster.</td>
-</tr>
-<tr>
-<td><strong>cassandra_lb_policy</strong></td>
-<td>Load balancing policy to use when distributing queries across your Cassandra cluster. Accepted values are <code>RoundRobin</code> and <code>DCAwareRoundRobin</code>. Prefer the later if and only if you are using a multi-datacenter cluster, and set the <code>cassandra_local_datacenter</code> if so.</td>
-</tr>
-<tr>
-<td><strong>cassandra_local_datacenter</strong></td>
-<td>When using the <code>DCAwareRoundRobin</code> policy, you must specify the name of the cluster local (closest) to this Kong node.</td>
-</tr>
-<tr>
-<td><strong>cassandra_repl_strategy</strong></td>
-<td>If creating the keyspace for the first time, specify a replication strategy.</td>
-</tr>
-<tr>
-<td><strong>cassandra_repl_factor</strong></td>
-<td>Specify a replication factor for the <code>SimpleStrategy</code>.</td>
-</tr>
-<tr>
-<td><strong>cassandra_data_centers</strong></td>
-<td>Specify data centers for the <code>NetworkTopologyStrategy</code>.</td>
-</tr>
-<tr>
-<td><strong>cassandra_schema_consensus_timeout</strong></td>
-<td>Define the timeout (in ms) for the waiting period to each a schema consensus between your Cassandra nodes. This value is only used during migrations.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>cassandra_contact_points</strong></td>
+      <td>Comma-separated list of contacts points to your Cassandra cluster.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_port</strong></td>
+      <td>Port on which your nodes are listening.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_keyspace</strong></td>
+      <td>Keyspace to use in your cluster. Will be created if doesn’t exist.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_consistency</strong></td>
+      <td>Consistency setting to use when reading/writing.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_timeout</strong></td>
+      <td>Timeout (in ms) for reading/writing.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_ssl</strong></td>
+      <td>Enable SSL connections to the nodes.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_ssl_verify</strong></td>
+      <td>If <code class="highlighter-rouge">cassandra_ssl</code> is enabled, toggle server certificate verification. See <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> setting.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_username</strong></td>
+      <td>Username when using the PasswordAuthenticator scheme.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_password</strong></td>
+      <td>Password when using the PasswordAuthenticator scheme.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_consistency</strong></td>
+      <td>Consistency setting to use when reading/writing to the Cassandra cluster.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_lb_policy</strong></td>
+      <td>Load balancing policy to use when distributing queries across your Cassandra cluster. Accepted values are <code class="highlighter-rouge">RoundRobin</code> and <code class="highlighter-rouge">DCAwareRoundRobin</code>. Prefer the later if and only if you are using a multi-datacenter cluster, and set the <code class="highlighter-rouge">cassandra_local_datacenter</code> if so.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_local_datacenter</strong></td>
+      <td>When using the <code class="highlighter-rouge">DCAwareRoundRobin</code> policy, you must specify the name of the cluster local (closest) to this Kong node.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_repl_strategy</strong></td>
+      <td>If creating the keyspace for the first time, specify a replication strategy.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_repl_factor</strong></td>
+      <td>Specify a replication factor for the <code class="highlighter-rouge">SimpleStrategy</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_data_centers</strong></td>
+      <td>Specify data centers for the <code class="highlighter-rouge">NetworkTopologyStrategy</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>cassandra_schema_consensus_timeout</strong></td>
+      <td>Define the timeout (in ms) for the waiting period to each a schema consensus between your Cassandra nodes. This value is only used during migrations.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<hr>
+<hr />
 
-<h4 id="datastore-cache-section">Datastore cache section</h4>
+<h3 id="datastore-cache-section">Datastore cache section</h3>
 
 <p>In order to avoid unnecessary communication with the datastore, Kong caches
-entities (such as APIs, Consumers, Credentials, etc...) for a configurable
+entities (such as APIs, Consumers, Credentials, etc…) for a configurable
 period of time. It also handles invalidations if such an entity is updated.</p>
 
 <p>This section allows for configuring the behavior of Kong regarding the
 caching of such configuration entities.</p>
 
-<hr>
+<hr />
 
-<h5 id="db_update_frequency">db_update_frequency</h5>
+<h4 id="db_update_frequency">db_update_frequency</h4>
 
 <p>Frequency (in seconds) at which to check for
 updated entities with the datastore.
@@ -1824,9 +1899,9 @@ cached entity and start using the new one.</p>
 
 <p>Default: 5 seconds</p>
 
-<hr>
+<hr />
 
-<h5 id="db_update_propagation">db_update_propagation</h5>
+<h4 id="db_update_propagation">db_update_propagation</h4>
 
 <p>Time (in seconds) taken for an entity in the
 datastore to be propagated to replica nodes
@@ -1845,9 +1920,9 @@ this value can be safely set to 0.</p>
 
 <p>Default: 0 seconds</p>
 
-<hr>
+<hr />
 
-<h5 id="db_cache_ttl">db_cache_ttl</h5>
+<h4 id="db_cache_ttl">db_cache_ttl</h4>
 
 <p>Time-to-live (in seconds) of an entity from
 the datastore when cached by this node.
@@ -1860,62 +1935,62 @@ never expire.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<hr>
+<hr />
 
-<h4 id="dns-resolver-section">DNS resolver section</h4>
+<h3 id="dns-resolver-section">DNS resolver section</h3>
 
-<p>Kong will resolve hostnames as either <code>SRV</code> or <code>A</code> records (in that order, and
-<code>CNAME</code> records will be dereferenced in the process).
-In case a name was resolved as an <code>SRV</code> record it will also override any given
-port number by the <code>port</code> field contents received from the DNS server.</p>
+<p>Kong will resolve hostnames as either <code class="highlighter-rouge">SRV</code> or <code class="highlighter-rouge">A</code> records (in that order, and
+<code class="highlighter-rouge">CNAME</code> records will be dereferenced in the process).
+In case a name was resolved as an <code class="highlighter-rouge">SRV</code> record it will also override any given
+port number by the <code class="highlighter-rouge">port</code> field contents received from the DNS server.</p>
 
-<p>The DNS options <code>SEARCH</code> and <code>NDOTS</code> (from the <code>/etc/resolv.conf</code> file) will
+<p>The DNS options <code class="highlighter-rouge">SEARCH</code> and <code class="highlighter-rouge">NDOTS</code> (from the <code class="highlighter-rouge">/etc/resolv.conf</code> file) will
 be used to expand short names to fully qualified ones. So it will first try the
-entire <code>SEARCH</code> list for the <code>SRV</code> type, if that fails it will try the <code>SEARCH</code>
-list for <code>A</code>, etc.</p>
+entire <code class="highlighter-rouge">SEARCH</code> list for the <code class="highlighter-rouge">SRV</code> type, if that fails it will try the <code class="highlighter-rouge">SEARCH</code>
+list for <code class="highlighter-rouge">A</code>, etc.</p>
 
-<p>For the duration of the <code>ttl</code>, the internal DNS resolver will loadbalance each
-request it gets over the entries in the DNS record. For <code>SRV</code> records the
-<code>weight</code> fields will be honored, but it will only use the lowest <code>priority</code>
+<p>For the duration of the <code class="highlighter-rouge">ttl</code>, the internal DNS resolver will loadbalance each
+request it gets over the entries in the DNS record. For <code class="highlighter-rouge">SRV</code> records the
+<code class="highlighter-rouge">weight</code> fields will be honored, but it will only use the lowest <code class="highlighter-rouge">priority</code>
 field entries in the record.</p>
 
-<hr>
+<hr />
 
-<h5 id="dns_resolver">dns_resolver</h5>
+<h4 id="dns_resolver">dns_resolver</h4>
 
 <p>Comma separated list of nameservers, each
-entry in <code>ip[:port]</code> format to be used by
+entry in <code class="highlighter-rouge">ip[:port]</code> format to be used by
 Kong. If not specified the nameservers in
-the local <code>resolv.conf</code> file will be used.
+the local <code class="highlighter-rouge">resolv.conf</code> file will be used.
 Port defaults to 53 if omitted. Accepts
 both IPv4 and IPv6 addresses.</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="dns_hostsfile">dns_hostsfile</h5>
+<h4 id="dns_hostsfile">dns_hostsfile</h4>
 
 <p>The hosts file to use. This file is read once and its content is static
 in memory. To read the file again after modifying it, Kong must be reloaded.</p>
 
-<p>Default: <code>/etc/hosts</code></p>
+<p>Default: <code class="highlighter-rouge">/etc/hosts</code></p>
 
-<hr>
+<hr />
 
-<h5 id="dns_order">dns_order</h5>
+<h4 id="dns_order">dns_order</h4>
 
 <p>The order in which to resolve different
-record types. The <code>LAST</code> type means the
+record types. The <code class="highlighter-rouge">LAST</code> type means the
 type of the last successful lookup (for the
 specified name). The format is a (case
 insensitive) comma separated list.</p>
 
-<p>Default: <code>LAST,SRV,A,CNAME</code></p>
+<p>Default: <code class="highlighter-rouge">LAST,SRV,A,CNAME</code></p>
 
-<hr>
+<hr />
 
-<h5 id="dns_stale_ttl">dns_stale_ttl</h5>
+<h4 id="dns_stale_ttl">dns_stale_ttl</h4>
 
 <p>Defines, in seconds, how long a record will
 remain in cache past its TTL. This value
@@ -1923,31 +1998,31 @@ will be used while the new DNS record is
 fetched in the background.
 Stale data will be used from expiry of a
 record until either the refresh query
-completes, or the <code>dns_stale_ttl</code> number of
+completes, or the <code class="highlighter-rouge">dns_stale_ttl</code> number of
 seconds have passed.</p>
 
-<p>Default: <code>4</code></p>
+<p>Default: <code class="highlighter-rouge">4</code></p>
 
-<hr>
+<hr />
 
-<h5 id="dns_not_found_ttl">dns_not_found_ttl</h5>
+<h4 id="dns_not_found_ttl">dns_not_found_ttl</h4>
 
 <p>TTL in seconds for empty DNS responses and
-&quot;(3) name error&quot; responses.</p>
+“(3) name error” responses.</p>
 
-<p>Default: <code>30</code></p>
+<p>Default: <code class="highlighter-rouge">30</code></p>
 
-<hr>
+<hr />
 
-<h5 id="dns_error_ttl">dns_error_ttl</h5>
+<h4 id="dns_error_ttl">dns_error_ttl</h4>
 
 <p>TTL in seconds for error responses.</p>
 
-<p>Default: <code>1</code></p>
+<p>Default: <code class="highlighter-rouge">1</code></p>
 
-<hr>
+<hr />
 
-<h5 id="dns_no_sync">dns_no_sync</h5>
+<h4 id="dns_no_sync">dns_no_sync</h4>
 
 <p>If enabled, then upon a cache-miss every
 request will trigger its own dns query.
@@ -1959,74 +2034,75 @@ single query.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<hr>
+<hr />
 
-<h4 id="development-miscellaneous-section">Development &amp; miscellaneous section</h4>
+<h3 id="development--miscellaneous-section">Development &amp; miscellaneous section</h3>
 
 <p>Additional settings inherited from lua-nginx-module allowing for more
 flexibility and advanced usage.</p>
 
 <p>See the lua-nginx-module documentation for more information:
-<a href="https://github.com/openresty/lua-nginx-module">https://github.com/openresty/lua-nginx-module</a></p>
+https://github.com/openresty/lua-nginx-module</p>
 
-<hr>
+<hr />
 
-<h5 id="lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</h5>
+<h4 id="lua_ssl_trusted_certificate">lua_ssl_trusted_certificate</h4>
 
 <p>Absolute path to the certificate authority file for Lua cosockets in PEM
-format. This certificate will be the one used for verifying Kong&#39;s database
-connections, when <code>pg_ssl_verify</code> or <code>cassandra_ssl_verify</code> are enabled.</p>
+format. This certificate will be the one used for verifying Kong’s database
+connections, when <code class="highlighter-rouge">pg_ssl_verify</code> or <code class="highlighter-rouge">cassandra_ssl_verify</code> are enabled.</p>
 
-<p>See <a href="https://github.com/openresty/lua-nginx-module#lua_ssl_trusted_certificate">https://github.com/openresty/lua-nginx-module#lua_ssl_trusted_certificate</a></p>
+<p>See https://github.com/openresty/lua-nginx-module#lua_ssl_trusted_certificate</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="lua_ssl_verify_depth">lua_ssl_verify_depth</h5>
+<h4 id="lua_ssl_verify_depth">lua_ssl_verify_depth</h4>
 
 <p>Sets the verification depth in the server certificates chain used by Lua
-cosockets, set by <code>lua_ssl_trusted_certificate</code>.</p>
+cosockets, set by <code class="highlighter-rouge">lua_ssl_trusted_certificate</code>.</p>
 
-<p>This includes the certificates configured for Kong&#39;s database connections.</p>
+<p>This includes the certificates configured for Kong’s database connections.</p>
 
-<p>See <a href="https://github.com/openresty/lua-nginx-module#lua_ssl_verify_depth">https://github.com/openresty/lua-nginx-module#lua_ssl_verify_depth</a></p>
+<p>See https://github.com/openresty/lua-nginx-module#lua_ssl_verify_depth</p>
 
-<p>Default: <code>1</code></p>
+<p>Default: <code class="highlighter-rouge">1</code></p>
 
-<hr>
+<hr />
 
-<h5 id="lua_package_path">lua_package_path</h5>
+<h4 id="lua_package_path">lua_package_path</h4>
 
 <p>Sets the Lua module search path (LUA_PATH). Useful when developing or using
 custom plugins not stored in the default search path.</p>
 
-<p>See <a href="https://github.com/openresty/lua-nginx-module#lua_package_path">https://github.com/openresty/lua-nginx-module#lua_package_path</a></p>
+<p>See https://github.com/openresty/lua-nginx-module#lua_package_path</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="lua_package_cpath">lua_package_cpath</h5>
+<h4 id="lua_package_cpath">lua_package_cpath</h4>
 
 <p>Sets the Lua C module search path (LUA_CPATH).</p>
 
-<p>See <a href="https://github.com/openresty/lua-nginx-module#lua_package_cpath">https://github.com/openresty/lua-nginx-module#lua_package_cpath</a></p>
+<p>See https://github.com/openresty/lua-nginx-module#lua_package_cpath</p>
 
 <p>Default: none</p>
 
-<hr>
+<hr />
 
-<h5 id="lua_socket_pool_size">lua_socket_pool_size</h5>
+<h4 id="lua_socket_pool_size">lua_socket_pool_size</h4>
 
 <p>Specifies the size limit for every cosocket connection pool associated with
 every remote server.</p>
 
-<p>See <a href="https://github.com/openresty/lua-nginx-module#lua_socket_pool_size">https://github.com/openresty/lua-nginx-module#lua_socket_pool_size</a></p>
+<p>See https://github.com/openresty/lua-nginx-module#lua_socket_pool_size</p>
 
-<p>Default: <code>30</code></p>
+<p>Default: <code class="highlighter-rouge">30</code></p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -2201,7 +2277,7 @@ every remote server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

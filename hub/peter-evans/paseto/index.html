@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,18 +236,31 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#installation">Installation</a></li>
-<li> <a href="#usage">Usage</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#installation">Installation</a>
+    <ul>
+      <li><a href="#sodium-crypto-library">Sodium Crypto Library</a></li>
+      <li><a href="#paseto-kong-plugin">PASETO Kong Plugin</a></li>
+    </ul>
+  </li>
+  <li><a href="#usage">Usage</a>
+    <ul>
+      <li><a href="#create-a-consumer">Create a Consumer</a></li>
+      <li><a href="#create-a-paseto-credential">Create a PASETO credential</a></li>
+      <li><a href="#delete-a-paseto-credential">Delete a PASETO credential</a></li>
+      <li><a href="#list-paseto-credentials">List PASETO credentials</a></li>
+      <li><a href="#send-a-request-with-a-paseto">Send a request with a PASETO</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -418,20 +431,20 @@ Each of your Consumers will have PASETO credentials (public and secret keys) whi
 A token can then be passed through:</p>
 
 <ul>
-<li>a query string parameter,</li>
-<li>a cookie,</li>
-<li>or the Authorization header.</li>
+  <li>a query string parameter,</li>
+  <li>a cookie,</li>
+  <li>or the Authorization header.</li>
 </ul>
 
-<p>The plugin will either proxy the request to your upstream services if the token&#39;s signature is verified, or discard the request if not.
+<p>The plugin will either proxy the request to your upstream services if the token’s signature is verified, or discard the request if not.
 The plugin can also perform verifications on registered claims and custom claims.</p>
 
 <p><strong>Feature Support</strong></p>
 
 <ul>
-<li>v2.public JSON payload PASETOs</li>
-<li>Registered claims validation</li>
-<li>Custom claims validation</li>
+  <li>v2.public JSON payload PASETOs</li>
+  <li>Registered claims validation</li>
+  <li>Custom claims validation</li>
 </ul>
 
 
@@ -460,36 +473,45 @@ The plugin can also perform verifications on registered claims and custom claims
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=paseto"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=paseto"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -497,12 +519,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=paseto"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -520,7 +545,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -541,10 +567,10 @@ target.</li>
     
       <tr>
         <td><code>config.uri_param_names</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>paseto</code></p>
+        <td><p><code class="highlighter-rouge">paseto</code></p>
 </td>
         <td><p>A list of querystring parameters that the plugin will inspect to retrieve PASETOs.</p>
 </td>
@@ -552,7 +578,7 @@ target.</li>
     
       <tr>
         <td><code>config.cookie_names</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
@@ -561,19 +587,19 @@ target.</li>
       </tr>
     
       <tr>
-        <td><code>config.claims_to_verify<br/>.{claim_name}</code>
-          <br><em>optional</em>
+        <td><code>config.claims_to_verify<br />.{claim_name}</code>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>This is a list of custom objects that you can set, with arbitrary names set in the <code>{claim_name}</code> placeholder, like <code>claims_to_verify.claim_1.claim=ForAudience</code> if your object is called &quot;claim_1&quot;.</p>
+        <td><p>This is a list of custom objects that you can set, with arbitrary names set in the <code class="highlighter-rouge"><span class="p">{</span><span class="err">claim_name</span><span class="p">}</span></code> placeholder, like <code class="highlighter-rouge">claims_to_verify.claim_1.claim=ForAudience</code> if your object is called “claim_1”.</p>
 </td>
       </tr>
     
       <tr>
-        <td><code>config.claims_to_verify.<br/>{claim_name}.claim</code>
+        <td><code>config.claims_to_verify.<br />{claim_name}.claim</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The claim rule or name of your custom claim. See below for a description of the claim rules.</p>
@@ -581,9 +607,9 @@ target.</li>
       </tr>
     
       <tr>
-        <td><code>config.claims_to_verify.<br/>{claim_name}.value</code>
+        <td><code>config.claims_to_verify.<br />{claim_name}.value</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
         <td><p>The value to verify against.</p>
@@ -592,10 +618,10 @@ target.</li>
     
       <tr>
         <td><code>config.kid_claim_name</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>kid</code></p>
+        <td><p><code class="highlighter-rouge">kid</code></p>
 </td>
         <td><p>The name of the claim in which the kid identifying the PASETO key pair <strong>must</strong> be passed. The plugin will attempt to read this claim from the PASETO footer.</p>
 </td>
@@ -603,22 +629,22 @@ target.</li>
     
       <tr>
         <td><code>config.anonymous</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td></td>
-        <td><p>An optional string (consumer uuid) value to use as an &quot;anonymous&quot; consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code>4xx</code>. Please note that this value must refer to the Consumer <code>id</code> attribute which is internal to Kong, and <strong>not</strong> its <code>custom_id</code>.</p>
+        <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="highlighter-rouge">4xx</code>. Please note that this value must refer to the Consumer <code class="highlighter-rouge">id</code> attribute which is internal to Kong, and <strong>not</strong> its <code class="highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.run_on_preflight</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>true</code></p>
+        <td><p><code class="highlighter-rouge">true</code></p>
 </td>
-        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code>OPTIONS</code> preflight requests, if set to <code>false</code> then <code>OPTIONS</code> requests will always be allowed.</p>
+        <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests, if set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
       </tr>
     
@@ -631,82 +657,97 @@ target.</li>
       <p><strong>Claim Rules</strong></p>
 
 <ul>
-<li><code>ForAudience</code> which compares the payload-provided <code>aud</code> claim with an expected value.</li>
-<li><code>IdentifiedBy</code> which compares the payload-provided <code>jti</code> claim with an expected value.</li>
-<li><code>IssuedBy</code> which compares the payload-provided <code>iss</code> claim with an expected value.</li>
-<li><code>NotExpired</code> which verifies that the current time is less than or equal to the DateTime stored in the <code>exp</code> claim.</li>
-<li><code>Subject</code> which compares the payload-provided <code>sub</code> claim with an expected value.</li>
-<li><code>ValidAt</code> which verifies all of the following:
-
-<ul>
-<li>The current time is less than or equal to the DateTime stored in the <code>exp</code> claim.</li>
-<li>The current time is greater than or equal to the DateTime stored in the <code>iat</code> claim.</li>
-<li>The current time is greater than or equal to the DateTime stored in the <code>nbf</code> claim.</li>
-</ul></li>
-<li><code>ContainsClaim</code> which verifies that the payload contains a claim with the specified name.</li>
-<li><code>{custom_claim}</code> which verifies that the payload contains a claim with the name set in the <code>{claim_name}</code> placeholder and with an expected value.</li>
+  <li><code class="highlighter-rouge">ForAudience</code> which compares the payload-provided <code class="highlighter-rouge">aud</code> claim with an expected value.</li>
+  <li><code class="highlighter-rouge">IdentifiedBy</code> which compares the payload-provided <code class="highlighter-rouge">jti</code> claim with an expected value.</li>
+  <li><code class="highlighter-rouge">IssuedBy</code> which compares the payload-provided <code class="highlighter-rouge">iss</code> claim with an expected value.</li>
+  <li><code class="highlighter-rouge">NotExpired</code> which verifies that the current time is less than or equal to the DateTime stored in the <code class="highlighter-rouge">exp</code> claim.</li>
+  <li><code class="highlighter-rouge">Subject</code> which compares the payload-provided <code class="highlighter-rouge">sub</code> claim with an expected value.</li>
+  <li><code class="highlighter-rouge">ValidAt</code> which verifies all of the following:
+    <ul>
+      <li>The current time is less than or equal to the DateTime stored in the <code class="highlighter-rouge">exp</code> claim.</li>
+      <li>The current time is greater than or equal to the DateTime stored in the <code class="highlighter-rouge">iat</code> claim.</li>
+      <li>The current time is greater than or equal to the DateTime stored in the <code class="highlighter-rouge">nbf</code> claim.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">ContainsClaim</code> which verifies that the payload contains a claim with the specified name.</li>
+  <li><code class="highlighter-rouge"><span class="p">{</span><span class="err">custom_claim</span><span class="p">}</span></code> which verifies that the payload contains a claim with the name set in the <code class="highlighter-rouge"><span class="p">{</span><span class="err">claim_name</span><span class="p">}</span></code> placeholder and with an expected value.</li>
 </ul>
 
 
       <h2 id="installation">Installation</h2>
 
-<h4 id="sodium-crypto-library">Sodium Crypto Library</h4>
+<h3 id="sodium-crypto-library">Sodium Crypto Library</h3>
 
 <p>This plugin uses the <a href="https://github.com/peter-evans/paseto-lua">PASETO for Lua</a> library, which in turn depends on the <a href="https://github.com/jedisct1/libsodium">Sodium crypto library (libsodium)</a>.
 The following is a convenient way to install libsodium via LuaRocks.
-Alternatively, see <a href="https://download.libsodium.org/doc/installation/">libsodium&#39;s documentation</a> for full installation instructions.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">luarocks install libsodium
-</code></pre></div>
+Alternatively, see <a href="https://download.libsodium.org/doc/installation/">libsodium’s documentation</a> for full installation instructions.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>luarocks install libsodium
+</code></pre>
+</div>
+
 <p>Note: The Sodium Crypto Library must be installed on each node in your Kong cluster.</p>
 
-<h4 id="paseto-kong-plugin">PASETO Kong Plugin</h4>
-
+<h3 id="paseto-kong-plugin">PASETO Kong Plugin</h3>
 <p>Install the plugin on each node in your Kong cluster via luarocks:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">luarocks install kong-plugin-paseto
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>luarocks install kong-plugin-paseto
+</code></pre>
+</div>
+
 <p>Add to the custom_plugins list in your Kong configuration (on each Kong node):</p>
-<div class="highlight"><pre><code class="language-" data-lang="">custom_plugins = paseto
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>custom_plugins = paseto
+</code></pre>
+</div>
+
 <h2 id="usage">Usage</h2>
 
 <p>In order to use the plugin, you first need to create a Consumer and associate one or more PASETO credentials (holding the public key used to verify the token) to it. The Consumer represents a developer using the final service.</p>
 
-<h4 id="create-a-consumer">Create a Consumer</h4>
+<h3 id="create-a-consumer">Create a Consumer</h3>
 
 <p>You need to associate a credential to an existing Consumer object. To create a Consumer, you can execute the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 HTTP/1.1 201 Created
-</code></pre></div>
-<table><thead>
-<tr>
-<th style="text-align: center">Parameter</th>
-<th style="text-align: center"></th>
-<th style="text-align: center">Default</th>
-<th style="text-align: center">Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center"><code>username</code></td>
-<td style="text-align: center">semi-optional</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">The username for this Consumer. Either this field or <code>custom_id</code> must be specified.</td>
-</tr>
-<tr>
-<td style="text-align: center"><code>custom_id</code></td>
-<td style="text-align: center">semi-optional</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">A custom identifier used to map the Consumer to an external database. Either this field or <code>username</code> must be specified.</td>
-</tr>
-</tbody></table>
+</code></pre>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Parameter</th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">username</code></td>
+      <td style="text-align: center">semi-optional</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">The username for this Consumer. Either this field or <code class="highlighter-rouge">custom_id</code> must be specified.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">custom_id</code></td>
+      <td style="text-align: center">semi-optional</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">A custom identifier used to map the Consumer to an external database. Either this field or <code class="highlighter-rouge">username</code> must be specified.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>A Consumer can have many PASETO credentials.</p>
 
-<h4 id="create-a-paseto-credential">Create a PASETO credential</h4>
+<h3 id="create-a-paseto-credential">Create a PASETO credential</h3>
 
 <p>You can provision a new PASETO credential by issuing the following HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto -H <span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto -H <span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -717,64 +758,76 @@ HTTP/1.1 201 Created
    <span class="s2">"public_key"</span>: <span class="s2">"8SQDqtA5yx4atQEg0uH3Rit3nLq+EAQF4A1Zkvwh5TU="</span>,
    <span class="s2">"secret_key"</span>: <span class="s2">"hbJbxFK3xFL1YlrcqodKqt0FvVyZjmPXQqOIexzxsVbxJAOq0DnLHhq1ASDS4fdGK3ecur4QBAXgDVmS/CHlNQ=="</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the Consumer entity to associate the credentials to.</li>
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the Consumer entity to associate the credentials to.</li>
 </ul>
 
-<table><thead>
-<tr>
-<th style="text-align: center">Parameter</th>
-<th style="text-align: center"></th>
-<th style="text-align: center">Default</th>
-<th style="text-align: center">Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: center"><code>kid</code></td>
-<td style="text-align: center">optional</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">A unique string identifying the credential. If left out, it will be auto-generated.</td>
-</tr>
-<tr>
-<td style="text-align: center"><code>secret_key</code></td>
-<td style="text-align: center">optional</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">The 64 byte secret key base64 encoded.</td>
-</tr>
-<tr>
-<td style="text-align: center"><code>public_key</code></td>
-<td style="text-align: center">optional</td>
-<td style="text-align: center"></td>
-<td style="text-align: center">The 32 byte public key base64 encoded. If left out and a <code>secret_key</code> is supplied, the <code>public_key</code> is assumed to be the last 32 bytes of the <code>secret_key</code>.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Parameter</th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">kid</code></td>
+      <td style="text-align: center">optional</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">A unique string identifying the credential. If left out, it will be auto-generated.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">secret_key</code></td>
+      <td style="text-align: center">optional</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">The 64 byte secret key base64 encoded.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">public_key</code></td>
+      <td style="text-align: center">optional</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center">The 32 byte public key base64 encoded. If left out and a <code class="highlighter-rouge">secret_key</code> is supplied, the <code class="highlighter-rouge">public_key</code> is assumed to be the last 32 bytes of the <code class="highlighter-rouge">secret_key</code>.</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>If neither <code>secret_key</code> or <code>public_key</code> are supplied the plugin will generate a new key pair.</p>
+<p>If neither <code class="highlighter-rouge">secret_key</code> or <code class="highlighter-rouge">public_key</code> are supplied the plugin will generate a new key pair.</p>
 
-<h4 id="delete-a-paseto-credential">Delete a PASETO credential</h4>
+<h3 id="delete-a-paseto-credential">Delete a PASETO credential</h3>
 
-<p>You can remove a Consumer&#39;s PASETO credential by issuing the following HTTP
+<p>You can remove a Consumer’s PASETO credential by issuing the following HTTP
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto/<span class="o">{</span>id<span class="o">}</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto/<span class="o">{</span>id<span class="o">}</span>
 HTTP/1.1 204 No Content
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the Consumer entity to associate the credentials to.</li>
-<li><code>id</code>: The <code>id</code> of the PASETO credential.</li>
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the Consumer entity to associate the credentials to.</li>
+  <li><code class="highlighter-rouge">id</code>: The <code class="highlighter-rouge">id</code> of the PASETO credential.</li>
 </ul>
 
-<h4 id="list-paseto-credentials">List PASETO credentials</h4>
+<h3 id="list-paseto-credentials">List PASETO credentials</h3>
 
-<p>You can list a Consumer&#39;s PASETO credentials by issuing the following HTTP
+<p>You can list a Consumer’s PASETO credentials by issuing the following HTTP
 request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/paseto
 HTTP/1.1 200 OK
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>consumer</code>: The <code>id</code> or <code>username</code> property of the Consumer entity to list credentials for.</li>
+  <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the Consumer entity to list credentials for.</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
            </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"94c058d0-f5f1-4afc-ab18-eab487492a03"</span><span class="p">,</span><span class="w">
@@ -787,19 +840,30 @@ HTTP/1.1 200 OK
     </span><span class="p">],</span><span class="w">
     </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<h4 id="send-a-request-with-a-paseto">Send a request with a PASETO</h4>
+</span></code></pre>
+</div>
 
-<p>PASETOs can now be included in a request to Kong by adding it to the <code>Authorization</code> header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
+<h3 id="send-a-request-with-a-paseto">Send a request with a PASETO</h3>
+
+<p>PASETOs can now be included in a request to Kong by adding it to the <code class="highlighter-rouge">Authorization</code> header:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span> <span class="se">\</span>
     -H <span class="s1">'Authorization: Bearer v2.public.eyJuYmYiOiIyMDE4LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwiaWF0IjoiMjAxOC0wMS0wMVQwMDowMDowMCswMDowMCIsImlzcyI6InBhcmFnb25pZS5jb20iLCJhdWQiOiJzb21lLWF1ZGllbmNlLmNvbSIsImRhdGEiOiJ0aGlzIGlzIGEgc2lnbmVkIG1lc3NhZ2UiLCJleHAiOiIyMDk5LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwianRpIjoiODdJRlNHRmdQTnRRTk51dzBBdHVMdHRQIiwic3ViIjoidGVzdCIsIm15Y2xhaW0iOiJyZXF1aXJlZCB2YWx1ZSJ9-8bFBx9Z5665JK3Rfwl3v2rx-etZ0H-EAkmbOdt1VI4h3gDzMsqUR2pRRdBvzPiv5cPDQqmaJ1gcqnXR3P0BDQ.eyJraWQiOiJzaWduYXR1cmVfdmVyaWZpY2F0aW9uX3N1Y2Nlc3MifQ'</span>
-</code></pre></div>
-<p>as a querystring parameter, if configured in <code>config.uri_param_names</code> (which contains <code>paseto</code> by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>?paseto<span class="o">=</span>v2.public.eyJuYmYiOiIyMDE4LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwiaWF0IjoiMjAxOC0wMS0wMVQwMDowMDowMCswMDowMCIsImlzcyI6InBhcmFnb25pZS5jb20iLCJhdWQiOiJzb21lLWF1ZGllbmNlLmNvbSIsImRhdGEiOiJ0aGlzIGlzIGEgc2lnbmVkIG1lc3NhZ2UiLCJleHAiOiIyMDk5LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwianRpIjoiODdJRlNHRmdQTnRRTk51dzBBdHVMdHRQIiwic3ViIjoidGVzdCIsIm15Y2xhaW0iOiJyZXF1aXJlZCB2YWx1ZSJ9-8bFBx9Z5665JK3Rfwl3v2rx-etZ0H-EAkmbOdt1VI4h3gDzMsqUR2pRRdBvzPiv5cPDQqmaJ1gcqnXR3P0BDQ.eyJraWQiOiJzaWduYXR1cmVfdmVyaWZpY2F0aW9uX3N1Y2Nlc3MifQ
-</code></pre></div>
-<p>or as cookie, if the name is configured in <code>config.cookie_names</code> (which is not enabled by default):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl --cookie <span class="nv">paseto</span><span class="o">=</span>v2.public.eyJuYmYiOiIyMDE4LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwiaWF0IjoiMjAxOC0wMS0wMVQwMDowMDowMCswMDowMCIsImlzcyI6InBhcmFnb25pZS5jb20iLCJhdWQiOiJzb21lLWF1ZGllbmNlLmNvbSIsImRhdGEiOiJ0aGlzIGlzIGEgc2lnbmVkIG1lc3NhZ2UiLCJleHAiOiIyMDk5LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwianRpIjoiODdJRlNHRmdQTnRRTk51dzBBdHVMdHRQIiwic3ViIjoidGVzdCIsIm15Y2xhaW0iOiJyZXF1aXJlZCB2YWx1ZSJ9-8bFBx9Z5665JK3Rfwl3v2rx-etZ0H-EAkmbOdt1VI4h3gDzMsqUR2pRRdBvzPiv5cPDQqmaJ1gcqnXR3P0BDQ.eyJraWQiOiJzaWduYXR1cmVfdmVyaWZpY2F0aW9uX3N1Y2Nlc3MifQ http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
+<p>as a querystring parameter, if configured in <code class="highlighter-rouge">config.uri_param_names</code> (which contains <code class="highlighter-rouge">paseto</code> by default):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>?paseto<span class="o">=</span>v2.public.eyJuYmYiOiIyMDE4LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwiaWF0IjoiMjAxOC0wMS0wMVQwMDowMDowMCswMDowMCIsImlzcyI6InBhcmFnb25pZS5jb20iLCJhdWQiOiJzb21lLWF1ZGllbmNlLmNvbSIsImRhdGEiOiJ0aGlzIGlzIGEgc2lnbmVkIG1lc3NhZ2UiLCJleHAiOiIyMDk5LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwianRpIjoiODdJRlNHRmdQTnRRTk51dzBBdHVMdHRQIiwic3ViIjoidGVzdCIsIm15Y2xhaW0iOiJyZXF1aXJlZCB2YWx1ZSJ9-8bFBx9Z5665JK3Rfwl3v2rx-etZ0H-EAkmbOdt1VI4h3gDzMsqUR2pRRdBvzPiv5cPDQqmaJ1gcqnXR3P0BDQ.eyJraWQiOiJzaWduYXR1cmVfdmVyaWZpY2F0aW9uX3N1Y2Nlc3MifQ
+</code></pre>
+</div>
+
+<p>or as cookie, if the name is configured in <code class="highlighter-rouge">config.cookie_names</code> (which is not enabled by default):</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl --cookie <span class="nv">paseto</span><span class="o">=</span>v2.public.eyJuYmYiOiIyMDE4LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwiaWF0IjoiMjAxOC0wMS0wMVQwMDowMDowMCswMDowMCIsImlzcyI6InBhcmFnb25pZS5jb20iLCJhdWQiOiJzb21lLWF1ZGllbmNlLmNvbSIsImRhdGEiOiJ0aGlzIGlzIGEgc2lnbmVkIG1lc3NhZ2UiLCJleHAiOiIyMDk5LTAxLTAxVDAwOjAwOjAwKzAwOjAwIiwianRpIjoiODdJRlNHRmdQTnRRTk51dzBBdHVMdHRQIiwic3ViIjoidGVzdCIsIm15Y2xhaW0iOiJyZXF1aXJlZCB2YWx1ZSJ9-8bFBx9Z5665JK3Rfwl3v2rx-etZ0H-EAkmbOdt1VI4h3gDzMsqUR2pRRdBvzPiv5cPDQqmaJ1gcqnXR3P0BDQ.eyJraWQiOiJzaWduYXR1cmVfdmVyaWZpY2F0aW9uX3N1Y2Nlc3MifQ http://kong:8000/<span class="o">{</span>route path<span class="o">}</span>
+</code></pre>
+</div>
+
 <p>Note: When the PASETO is valid and proxied to the upstream service, Kong makes no modification to the request other than adding headers identifying the Consumer. The PASETO will be forwarded to your upstream service, which can assume its validity. It is now the role of your service to base64 decode the PASETO claims and make use of them.</p>
 
 
@@ -966,7 +1030,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

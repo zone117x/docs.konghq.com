@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -891,12 +891,9 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-
-<ul>
-<li> <a href="#basic-plugin-modules">Basic plugin modules</a></li>
-<li> <a href="#advanced-plugin-modules">Advanced plugin modules</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#basic-plugin-modules">Basic plugin modules</a></li>
+  <li><a href="#advanced-plugin-modules">Advanced plugin modules</a></li>
 </ul>
 
           
@@ -911,11 +908,14 @@ window['_fs_namespace'] = 'FS';
 <p>Consider your plugin as a set of <a href="http://www.lua.org/manual/5.1/manual.html#6.3">Lua
 modules</a>. Each file described in
 this chapter is to be considered as a separate module. Kong will detect and
-load your plugin&#39;s modules if their names follow this convention:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;"
-</code></pre></div>
+load your plugin’s modules if their names follow this convention:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;"
+</code></pre>
+</div>
+
 <blockquote>
-<p>Your modules of course need to be accessible through your
+  <p>Your modules of course need to be accessible through your
 <a href="http://www.lua.org/manual/5.1/manual.html#pdf-package.path">package.path</a>
 variable, which can be tweaked to your needs by the
 <a href="https://github.com/openresty/lua-nginx-module#lua_package_path">lua-package-path</a>
@@ -924,47 +924,56 @@ installing plugins is through <a href="https://luarocks.org/">Luarocks</a>. More
 later in this guide.</p>
 </blockquote>
 
-<p>To make Kong aware that it has to look for your plugin&#39;s modules, you&#39;ll have
-to add it to the <code>custom_plugins</code> property in your configuration file, which
+<p>To make Kong aware that it has to look for your plugin’s modules, you’ll have
+to add it to the <code class="highlighter-rouge">custom_plugins</code> property in your configuration file, which
 is a comma-separated list. For example:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">custom_plugins = my-custom-plugin</span> <span class="c1"># your plugin name here</span>
-</code></pre></div>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">custom_plugins = my-custom-plugin</span> <span class="c1"># your plugin name here</span>
+</code></pre>
+</div>
+
 <p>Now, Kong will try to load the modules described in this chapter. Some of them
 are mandatory, but the ones that are not will be ignored and Kong will consider
 you do not make use of it. For example, Kong will load
-<code>&quot;kong.plugins.my-custom-plugin.handler&quot;</code> to retrieve and execute your plugin&#39;s
+<code class="highlighter-rouge">"kong.plugins.my-custom-plugin.handler"</code> to retrieve and execute your plugin’s
 logic.</p>
 
-<p>Now let&#39;s describe what are the modules you can implement and what their
+<p>Now let’s describe what are the modules you can implement and what their
 purpose is.</p>
 
-<hr>
+<hr />
 
-<h3 id="basic-plugin-modules">Basic plugin modules</h3>
+<h2 id="basic-plugin-modules">Basic plugin modules</h2>
 
 <p>In its purest form, a plugin consists of two mandatory modules:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">simple-plugin
+
+<div class="highlighter-rouge"><pre class="highlight"><code>simple-plugin
 ├── handler.lua
 └── schema.lua
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><a href="/0.12.x/plugin-development/custom-logic/">handler.lua</a>: the core of your plugin. It is an interface to implement, in
-which each function will be run at the desired moment in the lifecycle of a
-request.</li>
-<li><a href="/0.12.x/plugin-development/plugin-configuration/">schema.lua</a>: your plugin probably has to retain some configuration entered
-by the user. This module holds the <em>schema</em> of that configuration and defines
-rules on it, so that the user can only enter valid configuration values.</li>
+  <li>
+    <p>which each function will be run at the desired moment in the lifecycle of a
+request.</p>
+  </li>
+  <li>
+    <p>by the user. This module holds the <em>schema</em> of that configuration and defines
+rules on it, so that the user can only enter valid configuration values.</p>
+  </li>
 </ul>
 
-<hr>
+<hr />
 
-<h3 id="advanced-plugin-modules">Advanced plugin modules</h3>
+<h2 id="advanced-plugin-modules">Advanced plugin modules</h2>
 
 <p>Some plugins might have to integrate deeper with Kong: have their own table in
-the database, expose endpoints in the Admin API, etc... Each of those can be
+the database, expose endpoints in the Admin API, etc… Each of those can be
 done by adding a new module to your plugin. Here is what the structure of a
 plugin would look like if it was implementing all of the optional modules:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">complete-plugin
+
+<div class="highlighter-rouge"><pre class="highlight"><code>complete-plugin
 ├── api.lua
 ├── daos.lua
 ├── handler.lua
@@ -972,48 +981,54 @@ plugin would look like if it was implementing all of the optional modules:</p>
 │   ├── cassandra.lua
 │   └── postgres.lua
 └── schema.lua
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Here is the complete list of possible modules to implement and a brief
 description of what their purpose is. This guide will go in details to let you
 master each one of them.</p>
 
-<table><thead>
-<tr>
-<th style="text-align: left">Module name</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td style="text-align: left"><a href="/0.12.x/plugin-development/admin-api/">api.lua</a></td>
-<td>No</td>
-<td>Defines a list of endpoints to be available in the Admin API to interact with entities custom entities handled by your plugin.</td>
-</tr>
-<tr>
-<td style="text-align: left"><a href="/0.12.x/plugin-development/custom-entities/">daos.lua</a></td>
-<td>No</td>
-<td>Defines a list of DAOs (Database Access Objects) that are abstractions of custom entities needed by your plugin and stored in the datastore.</td>
-</tr>
-<tr>
-<td style="text-align: left"><a href="/0.12.x/plugin-development/custom-logic/">handler.lua</a></td>
-<td>Yes</td>
-<td>An interface to implement. Each function is to be run by Kong at the desired moment in the lifecycle of a request.</td>
-</tr>
-<tr>
-<td style="text-align: left"><a href="/0.12.x/plugin-development/custom-entities/">migrations/*.lua</a></td>
-<td>No</td>
-<td>The corresponding migrations for a given datastore. Migrations are only necessary when your plugin has to store custom entities in the database and interact with them through one of the DAOs defined by <a href="/0.12.x/plugin-development/custom-entities/">daos.lua</a>.</td>
-</tr>
-<tr>
-<td style="text-align: left"><a href="/0.12.x/plugin-development/plugin-configuration/">schema.lua</a></td>
-<td>Yes</td>
-<td>Holds the schema of your plugin&#39;s configuration, so that the user can only enter valid configuration values.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Module name</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="/0.12.x/plugin-development/admin-api/">api.lua</a></td>
+      <td>No</td>
+      <td>Defines a list of endpoints to be available in the Admin API to interact with entities custom entities handled by your plugin.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="/0.12.x/plugin-development/custom-entities/">daos.lua</a></td>
+      <td>No</td>
+      <td>Defines a list of DAOs (Database Access Objects) that are abstractions of custom entities needed by your plugin and stored in the datastore.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="/0.12.x/plugin-development/custom-logic/">handler.lua</a></td>
+      <td>Yes</td>
+      <td>An interface to implement. Each function is to be run by Kong at the desired moment in the lifecycle of a request.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="/0.12.x/plugin-development/custom-entities/">migrations/*.lua</a></td>
+      <td>No</td>
+      <td>The corresponding migrations for a given datastore. Migrations are only necessary when your plugin has to store custom entities in the database and interact with them through one of the DAOs defined by <a href="/0.12.x/plugin-development/custom-entities/">daos.lua</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="/0.12.x/plugin-development/plugin-configuration/">schema.lua</a></td>
+      <td>Yes</td>
+      <td>Holds the schema of your plugin’s configuration, so that the user can only enter valid configuration values.</td>
+    </tr>
+  </tbody>
+</table>
 
-<hr>
+<hr />
 
-<p>Next: <a href="/0.12.x/plugin-development/custom-logic/">Write custom logic &rsaquo;</a></p>
+<p>Next: <a href="/0.12.x/plugin-development/custom-logic/">Write custom logic ›</a></p>
+
 
 
         </div>
@@ -1188,7 +1203,7 @@ master each one of them.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,90 +754,99 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#overview">Overview</a></li>
-<li> <a href="#deploying-the-license-file">Deploying the License File</a></li>
-<li> <a href="#examining-the-license-data-on-a-kong-node">Examining the License Data on a Kong Node</a></li>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#deploying-the-license-file">Deploying the License File</a></li>
+  <li><a href="#examining-the-license-data-on-a-kong-node">Examining the License Data on a Kong Node</a></li>
 </ul>
 
           
 
           <h2 id="overview">Overview</h2>
-
 <p>Kong Enterprise Edition enforces the presence and validity of a license file.</p>
 
 <p>License files must be deployed to each node running Kong EE. License file checking is done independently by each node as the Kong process starts; no network connectivity is necessary to execute the license validation process.</p>
 
 <h2 id="deploying-the-license-file">Deploying the License File</h2>
-
 <p>There are three possible ways to configure a license file on a Kong node. These are defined below, in the order in which they are checked by Kong:</p>
 
 <ol>
-<li>If present, the contents of the environmental variable <code>KONG_LICENSE_DATA</code> are used.</li>
-<li>Kong will search in the default location <code>/etc/kong/license.json</code></li>
-<li>If present, the contents of the file defined by the environmental variable <code>KONG_LICENSE_PATH</code> is used.</li>
+  <li>If present, the contents of the environmental variable <code class="highlighter-rouge">KONG_LICENSE_DATA</code> are used.</li>
+  <li>Kong will search in the default location <code class="highlighter-rouge">/etc/kong/license.json</code></li>
+  <li>If present, the contents of the file defined by the environmental variable <code class="highlighter-rouge">KONG_LICENSE_PATH</code> is used.</li>
 </ol>
 
 <p>In this manner, the license file can be deployed either as a file on the node filesystem, or as an environmental variable.</p>
 
-<p>Note that unlike most other <code>KONG_*</code> environmental variables, the <code>KONG_LICENSE_DATA</code> and <code>KONG_LICENSE_PATH</code> cannot be defined in-line as part of any <code>kong</code> CLI commands. The reason for this is that the <code>kong</code> CLI tool is a wrapper script to generate an Nginx config and launch the Nginx process via the existing shell. That is, the Nginx process that accepts proxy traffic is spawned as a child of the shell in which the <code>kong</code> CLI process is run, not as a child of the <code>kong</code> CLI process itself, and thus in-line environmental variables are not made available to the Nginx process. Thus, license file environmental variables must be exported to the shell in which the Nginx process will run, ahead of the <code>kong</code> CLI tool.</p>
+<p>Note that unlike most other <code class="highlighter-rouge">KONG_*</code> environmental variables, the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> and <code class="highlighter-rouge">KONG_LICENSE_PATH</code> cannot be defined in-line as part of any <code class="highlighter-rouge">kong</code> CLI commands. The reason for this is that the <code class="highlighter-rouge">kong</code> CLI tool is a wrapper script to generate an Nginx config and launch the Nginx process via the existing shell. That is, the Nginx process that accepts proxy traffic is spawned as a child of the shell in which the <code class="highlighter-rouge">kong</code> CLI process is run, not as a child of the <code class="highlighter-rouge">kong</code> CLI process itself, and thus in-line environmental variables are not made available to the Nginx process. Thus, license file environmental variables must be exported to the shell in which the Nginx process will run, ahead of the <code class="highlighter-rouge">kong</code> CLI tool.</p>
 
 <h2 id="examining-the-license-data-on-a-kong-node">Examining the License Data on a Kong Node</h2>
-
-<p>License data is displayed as part of the root (<code>&quot;/&quot;</code>) Admin API endpoint, under the <code>license</code> JSON key. It is also visible in the Admin GUI.</p>
+<p>License data is displayed as part of the root (<code class="highlighter-rouge">"/"</code>) Admin API endpoint, under the <code class="highlighter-rouge">license</code> JSON key. It is also visible in the Admin GUI.</p>
 
 <p>Troubleshooting
 When a valid license file is properly deployed, license file validation is a transparent operation; no additional output or logging data is written or provided. If an error occurs when attempting to validate the license, or the license data is not valid, an error message will be written to the console and logged to the Kong error log, followed by the process quitting. Below are possible error messages and troubleshooting steps to take:</p>
 
 <ul>
-<li>&quot;license path environment variable not set&quot;
-
-<ul>
-<li>Neither the <code>KONG_LICENSE_DATA</code> nor the <code>KONG_LICENSE_PATH</code> environmental variables were defined, and no license file could be opened at the default license location (<code>/etc/kong/license.json</code>)</li>
-</ul></li>
-<li>&quot;internal error&quot;
-
-<ul>
-<li>An internal error has occurred while attempting to validate the license. Such cases are extremely unlikely; contact Kong support to further troubleshoot.</li>
-</ul></li>
-<li>&quot;error opening license file&quot;
-
-<ul>
-<li>The license file defined either in the default location, or via the <code>KONG_LICENSE_PATH</code> env variable, could not be opened. Check that the user executing the Nginx process (e.g., the user executing the Kong CLI utility) has permissions to read this file.</li>
-</ul></li>
-<li>&quot;error reading license file&quot;
-
-<ul>
-<li>The license file defined either in the default location, or via the <code>KONG_LICENSE_PATH</code> env variable, could be opened, but an error occurred while reading. Confirm that the file is not corrupt, that there are no kernel error messages reported (e.g., out of memory conditions, etc). This is a generic error and is extremely unlikely to occur if the file could be opened.</li>
-</ul></li>
-<li>&quot;could not decode license json&quot;
-
-<ul>
-<li>The license file data could not be decoded as valid JSON. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.</li>
-<li>if you still receive this error, contact Kong support.</li>
-</ul></li>
-<li>&quot;invalid license format&quot;
-
-<ul>
-<li>The license file data is missing one or more key/value pairs. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.</li>
-<li>if you still receive this error, contact Kong support.</li>
-</ul></li>
-<li>&quot;validation failed&quot;
-
-<ul>
-<li>The attempt to verify the payload of the license with the license&#39;s signature failed. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.</li>
-<li>if you still receive this error, contact Kong support.</li>
-</ul></li>
-<li>&quot;license expired&quot;
-
-<ul>
-<li>The system time is past the license&#39;s license_expiration_date. Note that Kong EE provides 1-2 days worth of slack time past the license expiration date before failing to validate with this error, to account for timezone discrepancies, human error, etc.</li>
-</ul></li>
-<li>&quot;invalid license expiration date&quot;
-
-<ul>
-<li>The data in the license_expiration_date field is incorrectly formatted. Try re-downloading and installing your license file from Kong Inc.</li>
-<li>if you still receive this error, contact Kong support.</li>
-</ul></li>
+  <li>“license path environment variable not set”
+    <ul>
+      <li>Neither the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> nor the <code class="highlighter-rouge">KONG_LICENSE_PATH</code> environmental variables were defined, and no license file could be opened at the default license location (<code class="highlighter-rouge">/etc/kong/license.json</code>)</li>
+    </ul>
+  </li>
+  <li>“internal error”
+    <ul>
+      <li>An internal error has occurred while attempting to validate the license. Such cases are extremely unlikely; contact Kong support to further troubleshoot.</li>
+    </ul>
+  </li>
+  <li>“error opening license file”
+    <ul>
+      <li>The license file defined either in the default location, or via the <code class="highlighter-rouge">KONG_LICENSE_PATH</code> env variable, could not be opened. Check that the user executing the Nginx process (e.g., the user executing the Kong CLI utility) has permissions to read this file.</li>
+    </ul>
+  </li>
+  <li>“error reading license file”
+    <ul>
+      <li>The license file defined either in the default location, or via the <code class="highlighter-rouge">KONG_LICENSE_PATH</code> env variable, could be opened, but an error occurred while reading. Confirm that the file is not corrupt, that there are no kernel error messages reported (e.g., out of memory conditions, etc). This is a generic error and is extremely unlikely to occur if the file could be opened.</li>
+    </ul>
+  </li>
+  <li>“could not decode license json”
+    <ul>
+      <li>The license file data could not be decoded as valid JSON. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.
+        <ul>
+          <li>if you still receive this error, contact Kong support.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>“invalid license format”
+    <ul>
+      <li>The license file data is missing one or more key/value pairs. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.
+        <ul>
+          <li>if you still receive this error, contact Kong support.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>“validation failed”
+    <ul>
+      <li>The attempt to verify the payload of the license with the license’s signature failed. Confirm that the file is not corrupt and has not been altered since you received it from Kong Inc. Try re-downloading and installing your license file from Kong Inc.
+        <ul>
+          <li>if you still receive this error, contact Kong support.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>“license expired”
+    <ul>
+      <li>The system time is past the license’s license_expiration_date. Note that Kong EE provides 1-2 days worth of slack time past the license expiration date before failing to validate with this error, to account for timezone discrepancies, human error, etc.</li>
+    </ul>
+  </li>
+  <li>“invalid license expiration date”
+    <ul>
+      <li>The data in the license_expiration_date field is incorrectly formatted. Try re-downloading and installing your license file from Kong Inc.
+        <ul>
+          <li>if you still receive this error, contact Kong support.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 
@@ -995,7 +1004,7 @@ When a valid license file is properly deployed, license file validation is a tra
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

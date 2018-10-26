@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -700,43 +700,47 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-
-<ul>
-<li> <a href="#distribute-your-modules">Distribute your modules</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#distribute-your-modules">Distribute your modules</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>As mentioned many times in this guide, Kong heavily relies on your modules being available in your <code>LUA_PATH</code> under specific names.</p>
+<p>As mentioned many times in this guide, Kong heavily relies on your modules being available in your <code class="highlighter-rouge">LUA_PATH</code> under specific names.</p>
 
-<p>As already mentioned in the [file structure] chapter, we make Kong aware that it has to look for your plugin&#39;s modules by adding it to the <code>custom_plugins</code> property in your configuration file. Example:</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">custom_plugins</span><span class="pi">:</span>
+<p>As already mentioned in the [file structure] chapter, we make Kong aware that it has to look for your plugin’s modules by adding it to the <code class="highlighter-rouge">custom_plugins</code> property in your configuration file. Example:</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">custom_plugins</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">my-custom-plugin</span> <span class="c1"># your plugin name here</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Kong will now look for modules named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.my-custom-plugin.api"
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.my-custom-plugin.api"
 "kong.plugins.my-custom-plugin.daos"
 "kong.plugins.my-custom-plugin.handler"
 "kong.plugins.my-custom-plugin.schema.migrations"
 "kong.plugins.my-custom-plugin.schema"
 "kong.plugins.my-custom-plugin.hooks"
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>You need to make these modules available in your LUA_PATH.</p>
 
-<hr>
+<hr />
 
-<h3 id="distribute-your-modules">Distribute your modules</h3>
+<h2 id="distribute-your-modules">Distribute your modules</h2>
 
-<p>The preferred way to do so is to use <a href="https://luarocks.org/">Luarocks</a>, a package manager for Lua modules. It calls such modules &quot;rocks&quot;. <strong>Your module does not have to live inside the Kong repository!</strong>, but it can be if that&#39;s how you&#39;d like to maintain your Kong setup.</p>
+<p>The preferred way to do so is to use <a href="https://luarocks.org/">Luarocks</a>, a package manager for Lua modules. It calls such modules “rocks”. <strong>Your module does not have to live inside the Kong repository!</strong>, but it can be if that’s how you’d like to maintain your Kong setup.</p>
 
 <p>By defining your modules (and their eventual dependencies) in a <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">rockspec</a> file, you can install those modules on your platform via Luarocks. You can also upload your module on Luarocks and make it available to everyone!</p>
 
-<p>Here is an example rockspec which would use the &quot;builtin&quot; build type to define modules in Lua notation and their corresponding file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">package = "my-kong-plugin"
+<p>Here is an example rockspec which would use the “builtin” build type to define modules in Lua notation and their corresponding file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>package = "my-kong-plugin"
 version = "1.0-1"
 source = {
   url = "..."
@@ -760,10 +764,13 @@ build = {
     ["kong.plugins.my-kong-plugin.hooks"] = "/path/to/hooks.lua"
   }
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Learn more about creating your rockspec <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">here</a>.</p>
 
-<hr>
+<hr />
+
 
 
         </div>
@@ -938,7 +945,7 @@ build = {
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

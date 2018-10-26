@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,121 +991,130 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-request">kong.request</a>
-
-<ul>
-<li> <a href="#kong-request-get_scheme">kong.request.get_scheme()</a></li>
-<li> <a href="#kong-request-get_host">kong.request.get_host()</a></li>
-<li> <a href="#kong-request-get_port">kong.request.get_port()</a></li>
-<li> <a href="#kong-request-get_forwarded_scheme">kong.request.get_forwarded_scheme()</a></li>
-<li> <a href="#kong-request-get_forwarded_host">kong.request.get_forwarded_host()</a></li>
-<li> <a href="#kong-request-get_forwareded_port">kong.request.get_forwareded_port()</a></li>
-<li> <a href="#kong-request-get_http_version">kong.request.get_http_version()</a></li>
-<li> <a href="#kong-request-get_method">kong.request.get_method()</a></li>
-<li> <a href="#kong-request-get_path">kong.request.get_path()</a></li>
-<li> <a href="#kong-request-get_raw_query">kong.request.get_raw_query()</a></li>
-<li> <a href="#kong-request-get_query_arg">kong.request.get_query_arg()</a></li>
-<li> <a href="#kong-request-get_query-max_args">kong.request.get_query([max_args])</a></li>
-<li> <a href="#kong-request-get_header-name">kong.request.get_header(name)</a></li>
-<li> <a href="#kong-request-get_headers-max_headers">kong.request.get_headers([max_headers])</a></li>
-<li> <a href="#kong-request-get_raw_body">kong.request.get_raw_body()</a></li>
-<li> <a href="#kong-request-get_body-mimetype-max_args">kong.request.get_body([mimetype[, max_args]])</a></li>
-</ul></li>
+  <li><a href="#kongrequest">kong.request</a>
+    <ul>
+      <li><a href="#kongrequestget_scheme">kong.request.get_scheme()</a></li>
+      <li><a href="#kongrequestget_host">kong.request.get_host()</a></li>
+      <li><a href="#kongrequestget_port">kong.request.get_port()</a></li>
+      <li><a href="#kongrequestget_forwarded_scheme">kong.request.get_forwarded_scheme()</a></li>
+      <li><a href="#kongrequestget_forwarded_host">kong.request.get_forwarded_host()</a></li>
+      <li><a href="#kongrequestget_forwareded_port">kong.request.get_forwareded_port()</a></li>
+      <li><a href="#kongrequestget_http_version">kong.request.get_http_version()</a></li>
+      <li><a href="#kongrequestget_method">kong.request.get_method()</a></li>
+      <li><a href="#kongrequestget_path">kong.request.get_path()</a></li>
+      <li><a href="#kongrequestget_raw_query">kong.request.get_raw_query()</a></li>
+      <li><a href="#kongrequestget_query_arg">kong.request.get_query_arg()</a></li>
+      <li><a href="#kongrequestget_querymax_args">kong.request.get_query([max_args])</a></li>
+      <li><a href="#kongrequestget_headername">kong.request.get_header(name)</a></li>
+      <li><a href="#kongrequestget_headersmax_headers">kong.request.get_headers([max_headers])</a></li>
+      <li><a href="#kongrequestget_raw_body">kong.request.get_raw_body()</a></li>
+      <li><a href="#kongrequestget_bodymimetype-max_args">kong.request.get_body([mimetype[, max_args]])</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-request">kong.request</h1>
+          <h1 id="kongrequest">kong.request</h1>
 
 <p>Client request module
  A set of functions to retrieve information about the incoming requests made
  by clients.</p>
 
-<h2 id="kong-request-get_scheme">kong.request.get_scheme()</h2>
+<h2 id="kongrequestget_scheme">kong.request.get_scheme()</h2>
 
-<p>Returns the scheme component of the request&#39;s URL.  The returned value is
+<p>Returns the scheme component of the request’s URL.  The returned value is
  normalized to lower-case form.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> a string like <code>&quot;http&quot;</code> or <code>&quot;https&quot;</code></li>
+  <li><code class="highlighter-rouge">string</code> a string like <code class="highlighter-rouge">"http"</code> or <code class="highlighter-rouge">"https"</code></li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_scheme</span><span class="p">()</span> <span class="c1">-- "https"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_host">kong.request.get_host()</h2>
+<h2 id="kongrequestget_host">kong.request.get_host()</h2>
 
-<p>Returns the host component of the request&#39;s URL, or the value of the
- &quot;Host&quot; header.  The returned value is normalized to lower-case form.</p>
+<p>Returns the host component of the request’s URL, or the value of the
+ “Host” header.  The returned value is normalized to lower-case form.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the host</li>
+  <li><code class="highlighter-rouge">string</code> the host</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_host</span><span class="p">()</span> <span class="c1">-- "example.com"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_port">kong.request.get_port()</h2>
+<h2 id="kongrequestget_port">kong.request.get_port()</h2>
 
-<p>Returns the port component of the request&#39;s URL.  The value is returned
+<p>Returns the port component of the request’s URL.  The value is returned
  as a Lua number.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>certificate, rewrite, access, header_filter, body_filter, log</li>
+  <li>certificate, rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number</code> the port</li>
+  <li><code class="highlighter-rouge">number</code> the port</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request to https://example.com:1234/v1/movies</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_port</span><span class="p">()</span> <span class="c1">-- 1234</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_forwarded_scheme">kong.request.get_forwarded_scheme()</h2>
+<h2 id="kongrequestget_forwarded_scheme">kong.request.get_forwarded_scheme()</h2>
 
-<p>Returns the scheme component of the request&#39;s URL, but also considers
- <code>X-Forwarded-Proto</code> if it comes from a trusted source.  The returned
+<p>Returns the scheme component of the request’s URL, but also considers
+ <code class="highlighter-rouge">X-Forwarded-Proto</code> if it comes from a trusted source.  The returned
  value is normalized to lower-case.</p>
 
-<p>Whether this function considers <code>X-Forwarded-Proto</code> or not depends on
+<p>Whether this function considers <code class="highlighter-rouge">X-Forwarded-Proto</code> or not depends on
  several Kong configuration parameters:</p>
 
 <ul>
-<li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
 </ul>
 
 <p><strong>Note</strong>: support for the Forwarded HTTP Extension (RFC 7239) is not
@@ -1114,34 +1123,37 @@ window['_fs_namespace'] = 'FS';
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the forwarded scheme</li>
+  <li><code class="highlighter-rouge">string</code> the forwarded scheme</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_scheme</span><span class="p">()</span> <span class="c1">-- "https"</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_scheme</span><span class="p">()</span> <span class="c1">-- "https"</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_forwarded_host">kong.request.get_forwarded_host()</h2>
+<h2 id="kongrequestget_forwarded_host">kong.request.get_forwarded_host()</h2>
 
-<p>Returns the host component of the request&#39;s URL or the value of the &quot;host&quot;
- header.  Unlike <code>kong.request.get_host()</code>, this function will also consider
- <code>X-Forwarded-Host</code> if it comes from a trusted source. The returned value
+<p>Returns the host component of the request’s URL or the value of the “host”
+ header.  Unlike <code class="highlighter-rouge">kong.request.get_host()</code>, this function will also consider
+ <code class="highlighter-rouge">X-Forwarded-Host</code> if it comes from a trusted source. The returned value
  is normalized to lower-case.</p>
 
-<p>Whether this function considers <code>X-Forwarded-Proto</code> or not depends on
+<p>Whether this function considers <code class="highlighter-rouge">X-Forwarded-Proto</code> or not depends on
  several Kong configuration parameters:</p>
 
 <ul>
-<li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
 </ul>
 
 <p><strong>Note</strong>: we do not currently offer support for Forwarded HTTP Extension
@@ -1150,33 +1162,36 @@ window['_fs_namespace'] = 'FS';
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the forwarded host</li>
+  <li><code class="highlighter-rouge">string</code> the forwarded host</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_host</span><span class="p">()</span> <span class="c1">-- "example.com"</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_host</span><span class="p">()</span> <span class="c1">-- "example.com"</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_forwareded_port">kong.request.get_forwareded_port()</h2>
+<h2 id="kongrequestget_forwareded_port">kong.request.get_forwareded_port()</h2>
 
-<p>Returns the port component of the request&#39;s URL, but also considers
- <code>X-Forwarded-Host</code> if it comes from a trusted source.  The value
+<p>Returns the port component of the request’s URL, but also considers
+ <code class="highlighter-rouge">X-Forwarded-Host</code> if it comes from a trusted source.  The value
  is returned as a Lua number.</p>
 
-<p>Whether this function considers <code>X-Forwarded-Proto</code> or not depends on
+<p>Whether this function considers <code class="highlighter-rouge">X-Forwarded-Proto</code> or not depends on
  several Kong configuration parameters:</p>
 
 <ul>
-<li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
-<li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#trusted_ips">trusted_ips</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_header">real_ip_header</a></li>
+  <li><a href="https://getkong.org/docs/latest/configuration/#real_ip_recursive">real_ip_recursive</a></li>
 </ul>
 
 <p><strong>Note</strong>: we do not currently offer support for Forwarded HTTP Extension
@@ -1185,44 +1200,50 @@ window['_fs_namespace'] = 'FS';
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number</code> the forwarded port</li>
+  <li><code class="highlighter-rouge">number</code> the forwarded port</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_port</span><span class="p">()</span> <span class="c1">-- 1234</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_forwarded_port</span><span class="p">()</span> <span class="c1">-- 1234</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_http_version">kong.request.get_http_version()</h2>
+<h2 id="kongrequestget_http_version">kong.request.get_http_version()</h2>
 
 <p>Returns the HTTP version used by the client in the request as a Lua
- number, returning values such as <code>&quot;1.1&quot;</code> and <code>&quot;2.0.&quot;</code>, or <code>nil</code> for
+ number, returning values such as <code class="highlighter-rouge">"1.1"</code> and <code class="highlighter-rouge">"2.0."</code>, or <code class="highlighter-rouge">nil</code> for
  unrecognized values.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string|nil</code> the http version</li>
+  <li><code class="highlighter-rouge">string|nil</code> the http version</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_http_version</span><span class="p">()</span> <span class="c1">-- "1.1"</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_http_version</span><span class="p">()</span> <span class="c1">-- "1.1"</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_method">kong.request.get_method()</h2>
+<h2 id="kongrequestget_method">kong.request.get_method()</h2>
 
 <p>Returns the HTTP method of the request.  The value is normalized to
  upper-case.</p>
@@ -1230,76 +1251,85 @@ window['_fs_namespace'] = 'FS';
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the request method</li>
+  <li><code class="highlighter-rouge">string</code> the request method</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_method</span><span class="p">()</span> <span class="c1">-- "GET"</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_method</span><span class="p">()</span> <span class="c1">-- "GET"</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_path">kong.request.get_path()</h2>
+<h2 id="kongrequestget_path">kong.request.get_path()</h2>
 
-<p>Returns the path component of the request&#39;s URL.  It is not normalized in
+<p>Returns the path component of the request’s URL.  It is not normalized in
  any way and does not include the querystring.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the path</li>
+  <li><code class="highlighter-rouge">string</code> the path</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request to https://example.com:1234/v1/movies?movie=foo</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request to https://example.com:1234/v1/movies?movie=foo</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_path</span><span class="p">()</span> <span class="c1">-- "/v1/movies"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_raw_query">kong.request.get_raw_query()</h2>
+<h2 id="kongrequestget_raw_query">kong.request.get_raw_query()</h2>
 
-<p>Returns the query component of the request&#39;s URL.  It is not normalized in
+<p>Returns the query component of the request’s URL.  It is not normalized in
  any way (not even URL-decoding of special characters) and does not
- include the leading <code>?</code> character.</p>
+ include the leading <code class="highlighter-rouge">?</code> character.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> string the query component of the request&#39;s URL</li>
+  <li>string the query component of the request’s URL</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request to https://example.com/foo?msg=hello%20world&amp;bla=&amp;bar</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request to https://example.com/foo?msg=hello%20world&amp;bla=&amp;bar</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_raw_query</span><span class="p">()</span> <span class="c1">-- "msg=hello%20world&amp;bla=&amp;bar"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_query_arg">kong.request.get_query_arg()</h2>
+<h2 id="kongrequestget_query_arg">kong.request.get_query_arg()</h2>
 
 <p>Returns the value of the specified argument, obtained from the query
  arguments of the current request.</p>
 
-<p>The returned value is either a <code>string</code>, a boolean <code>true</code> if an
- argument was not given a value, or <code>nil</code> if no argument with <code>name</code> was
+<p>The returned value is either a <code class="highlighter-rouge">string</code>, a boolean <code class="highlighter-rouge">true</code> if an
+ argument was not given a value, or <code class="highlighter-rouge">nil</code> if no argument with <code class="highlighter-rouge">name</code> was
  found.</p>
 
 <p>If an argument with the same name is present multiple times in the
@@ -1308,62 +1338,66 @@ window['_fs_namespace'] = 'FS';
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string|boolean|nil</code> the value of the argument</li>
+  <li><code class="highlighter-rouge">string|boolean|nil</code> the value of the argument</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request GET /test?foo=hello%20world&amp;bar=baz&amp;zzz&amp;blo=&amp;bar=bla&amp;bar</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request GET /test?foo=hello%20world&amp;bar=baz&amp;zzz&amp;blo=&amp;bar=bla&amp;bar</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query_arg</span><span class="p">(</span><span class="s2">"foo"</span><span class="p">)</span> <span class="c1">-- "hello world"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query_arg</span><span class="p">(</span><span class="s2">"bar"</span><span class="p">)</span> <span class="c1">-- "baz"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query_arg</span><span class="p">(</span><span class="s2">"zzz"</span><span class="p">)</span> <span class="c1">-- true</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query_arg</span><span class="p">(</span><span class="s2">"blo"</span><span class="p">)</span> <span class="c1">-- ""</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_query-max_args">kong.request.get_query([max_args])</h2>
+<h2 id="kongrequestget_querymax_args">kong.request.get_query([max_args])</h2>
 
 <p>Returns the table of query arguments obtained from the querystring.  Keys
  are query argument names. Values are either a string with the argument
- value, a boolean <code>true</code> if an argument was not given a value, or an array
+ value, a boolean <code class="highlighter-rouge">true</code> if an argument was not given a value, or an array
  if an argument was given in the query string multiple times. Keys and
  values are unescaped according to URL-encoded escaping rules.</p>
 
-<p>Note that a query string <code>?foo&amp;bar</code> translates to two boolean <code>true</code>
- arguments, and <code>?foo=&amp;bar=</code> translates to two string arguments containing
+<p>Note that a query string <code class="highlighter-rouge">?foo&amp;bar</code> translates to two boolean <code class="highlighter-rouge">true</code>
+ arguments, and <code class="highlighter-rouge">?foo=&amp;bar=</code> translates to two string arguments containing
  empty strings.</p>
 
 <p>By default, this function returns up to <strong>100</strong> arguments. The optional
- <code>max_args</code> argument can be specified to customize this limit, but must be
+ <code class="highlighter-rouge">max_args</code> argument can be specified to customize this limit, but must be
  greater than <strong>1</strong> and not greater than <strong>1000</strong>.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>max_args</strong> (number, <em>optional</em>):  set a limit on the maximum number of parsed
-arguments</li>
+  <li><strong>max_args</strong> (number, <em>optional</em>):  set a limit on the maximum number of parsed
+ arguments</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>table</code> A table representation of the query string</li>
+  <li><code class="highlighter-rouge">table</code> A table representation of the query string</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request GET /test?foo=hello%20world&amp;bar=baz&amp;zzz&amp;blo=&amp;bar=bla&amp;bar</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request GET /test?foo=hello%20world&amp;bar=baz&amp;zzz&amp;blo=&amp;bar=bla&amp;bar</span>
 
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="k">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query</span><span class="p">())</span> <span class="k">do</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">inspect</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
@@ -1374,42 +1408,45 @@ arguments</li>
 <span class="c1">-- "bar" {"baz", "bla", true}</span>
 <span class="c1">-- "zzz" true</span>
 <span class="c1">-- "blo" ""</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_header-name">kong.request.get_header(name)</h2>
+<h2 id="kongrequestget_headername">kong.request.get_header(name)</h2>
 
 <p>Returns the value of the specified request header.</p>
 
-<p>The returned value is either a <code>string</code>, or can be <code>nil</code> if a header with
- <code>name</code> was not found in the request. If a header with the same name is
+<p>The returned value is either a <code class="highlighter-rouge">string</code>, or can be <code class="highlighter-rouge">nil</code> if a header with
+ <code class="highlighter-rouge">name</code> was not found in the request. If a header with the same name is
  present multiple times in the request, this function will return the value
  of the first occurrence of this header.</p>
 
 <p>Header names in are case-insensitive and are normalized to lowercase, and
- dashes (<code>-</code>) can be written as underscores (<code>_</code>); that is, the header
- <code>X-Custom-Header</code> can also be retrieved as <code>x_custom_header</code>.</p>
+ dashes (<code class="highlighter-rouge">-</code>) can be written as underscores (<code class="highlighter-rouge">_</code>); that is, the header
+ <code class="highlighter-rouge">X-Custom-Header</code> can also be retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  the name of the header to be returned</li>
+  <li><strong>name</strong> (string):  the name of the header to be returned</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the value of the header</li>
+  <li><code class="highlighter-rouge">string</code> the value of the header</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request with the following headers:</span>
 
 <span class="c1">-- Host: foo.com</span>
 <span class="c1">-- X-Custom-Header: bla</span>
@@ -1419,43 +1456,46 @@ arguments</li>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"Host"</span><span class="p">)</span>            <span class="c1">-- "foo.com"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-header"</span><span class="p">)</span> <span class="c1">-- "bla"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"X-Another"</span><span class="p">)</span>       <span class="c1">-- "foo bar"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_headers-max_headers">kong.request.get_headers([max_headers])</h2>
+<h2 id="kongrequestget_headersmax_headers">kong.request.get_headers([max_headers])</h2>
 
 <p>Returns a Lua table holding the request headers.  Keys are header names.
  Values are either a string with the header value, or an array of strings
  if a header was sent multiple times. Header names in this table are
- case-insensitive and are normalized to lowercase, and dashes (<code>-</code>) can be
- written as underscores (<code>_</code>); that is, the header <code>X-Custom-Header</code> can
- also be retrieved as <code>x_custom_header</code>.</p>
+ case-insensitive and are normalized to lowercase, and dashes (<code class="highlighter-rouge">-</code>) can be
+ written as underscores (<code class="highlighter-rouge">_</code>); that is, the header <code class="highlighter-rouge">X-Custom-Header</code> can
+ also be retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
 <p>By default, this function returns up to <strong>100</strong> headers. The optional
- <code>max_headers</code> argument can be specified to customize this limit, but must
+ <code class="highlighter-rouge">max_headers</code> argument can be specified to customize this limit, but must
  be greater than <strong>1</strong> and not greater than <strong>1000</strong>.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter, body_filter, log</li>
+  <li>rewrite, access, header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>max_headers</strong> (number, <em>optional</em>):  set a limit on the maximum number of
-parsed headers</li>
+  <li><strong>max_headers</strong> (number, <em>optional</em>):  set a limit on the maximum number of
+ parsed headers</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>table</code> the request headers in table form</li>
+  <li><code class="highlighter-rouge">table</code> the request headers in table form</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a request with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a request with the following headers:</span>
 
 <span class="c1">-- Host: foo.com</span>
 <span class="c1">-- X-Custom-Header: bla</span>
@@ -1467,116 +1507,131 @@ parsed headers</li>
 <span class="n">headers</span><span class="p">.</span><span class="n">x_custom_header</span> <span class="c1">-- "bla"</span>
 <span class="n">headers</span><span class="p">.</span><span class="n">x_another</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>    <span class="c1">-- "foo bar"</span>
 <span class="n">headers</span><span class="p">[</span><span class="s2">"X-Another"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="c1">-- "baz"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_raw_body">kong.request.get_raw_body()</h2>
+<h2 id="kongrequestget_raw_body">kong.request.get_raw_body()</h2>
 
 <p>Returns the plain request body.</p>
 
 <p>If the body has no size (empty), this function returns an empty string.</p>
 
 <p>If the size of the body is greater than the Nginx buffer size (set by
- <code>client_body_buffer_size</code>), this function will fail and return an error
+ <code class="highlighter-rouge">client_body_buffer_size</code>), this function will fail and return an error
  message explaining this limitation.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access</li>
+  <li>rewrite, access</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the plain request body</li>
+  <li><code class="highlighter-rouge">string</code> the plain request body</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a body with payload "Hello, Earth!":</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a body with payload "Hello, Earth!":</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_raw_body</span><span class="p">():</span><span class="n">gsub</span><span class="p">(</span><span class="s2">"Earth"</span><span class="p">,</span> <span class="s2">"Mars"</span><span class="p">)</span> <span class="c1">-- "Hello, Mars!"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-request-get_body-mimetype-max_args">kong.request.get_body([mimetype[, max_args]])</h2>
+<h2 id="kongrequestget_bodymimetype-max_args">kong.request.get_body([mimetype[, max_args]])</h2>
 
 <p>Returns the request data as a key/value table.
  A high-level convenience function.
  The body is parsed with the most appropriate format:</p>
 
 <ul>
-<li>If <code>mimetype</code> is specified:
-
-<ul>
-<li>Decodes the body with the requested content type (if supported).</li>
-</ul></li>
-<li>If the request content type is <code>application/x-www-form-urlencoded</code>:
-
-<ul>
-<li>Returns the body as form-encoded.</li>
-</ul></li>
-<li>If the request content type is <code>multipart/form-data</code>:
-
-<ul>
-<li>Decodes the body as multipart form data
-(same as <code>multipart(kong.request.get_raw_body(),
-kong.request.get_header(&quot;Content-Type&quot;)):get_all()</code> ).</li>
-</ul></li>
-<li>If the request content type is <code>application/json</code>:
-
-<ul>
-<li>Decodes the body as JSON
-(same as <code>json.decode(kong.request.get_raw_body())</code>).</li>
-<li>JSON types are converted to matching Lua types.</li>
-</ul></li>
-<li>If none of the above, returns <code>nil</code> and an error message indicating the
+  <li>If <code class="highlighter-rouge">mimetype</code> is specified:
+    <ul>
+      <li>Decodes the body with the requested content type (if supported).</li>
+    </ul>
+  </li>
+  <li>If the request content type is <code class="highlighter-rouge">application/x-www-form-urlencoded</code>:
+    <ul>
+      <li>Returns the body as form-encoded.</li>
+    </ul>
+  </li>
+  <li>If the request content type is <code class="highlighter-rouge">multipart/form-data</code>:
+    <ul>
+      <li>Decodes the body as multipart form data
+(same as <code class="highlighter-rouge">multipart(kong.request.get_raw_body(),
+kong.request.get_header("Content-Type")):get_all()</code> ).</li>
+    </ul>
+  </li>
+  <li>If the request content type is <code class="highlighter-rouge">application/json</code>:
+    <ul>
+      <li>Decodes the body as JSON
+(same as <code class="highlighter-rouge">json.decode(kong.request.get_raw_body())</code>).</li>
+      <li>JSON types are converted to matching Lua types.</li>
+    </ul>
+  </li>
+  <li>If none of the above, returns <code class="highlighter-rouge">nil</code> and an error message indicating the
 body could not be parsed.</li>
 </ul>
 
-<p>The optional argument <code>mimetype</code> can be one of the following strings:</p>
+<p>The optional argument <code class="highlighter-rouge">mimetype</code> can be one of the following strings:</p>
 
 <ul>
-<li><code>application/x-www-form-urlencoded</code></li>
-<li><code>application/json</code></li>
-<li><code>multipart/form-data</code></li>
+  <li><code class="highlighter-rouge">application/x-www-form-urlencoded</code></li>
+  <li><code class="highlighter-rouge">application/json</code></li>
+  <li><code class="highlighter-rouge">multipart/form-data</code></li>
 </ul>
 
-<p>The optional argument <code>max_args</code> can be used to set a limit on the number
- of form arguments parsed for <code>application/x-www-form-urlencoded</code> payloads.</p>
+<p>The optional argument <code class="highlighter-rouge">max_args</code> can be used to set a limit on the number
+ of form arguments parsed for <code class="highlighter-rouge">application/x-www-form-urlencoded</code> payloads.</p>
 
 <p>The third return value is string containing the mimetype used to parsed
- the body (as per the <code>mimetype</code> argument), allowing the caller to identify
+ the body (as per the <code class="highlighter-rouge">mimetype</code> argument), allowing the caller to identify
  what MIME type the body was parsed as.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access</li>
+  <li>rewrite, access</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>mimetype</strong> (string, <em>optional</em>):  the MIME type</li>
-<li><strong>max_args</strong> (number, <em>optional</em>):  set a limit on the maximum number of parsed
-arguments</li>
+  <li><strong>mimetype</strong> (string, <em>optional</em>):  the MIME type</li>
+  <li><strong>max_args</strong> (number, <em>optional</em>):  set a limit on the maximum number of parsed
+ arguments</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ol>
-<li><p><code>table|nil</code> a table representation of the body</p></li>
-<li><p><code>string|nil</code> an error message</p></li>
-<li><p><code>string|nil</code> mimetype the MIME type used</p></li>
+  <li>
+    <p><code class="highlighter-rouge">table|nil</code> a table representation of the body</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">string|nil</code> an error message</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">string|nil</code> mimetype the MIME type used</p>
+  </li>
 </ol>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">body</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">mimetype</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_body</span><span class="p">()</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">body</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">mimetype</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_body</span><span class="p">()</span>
 <span class="n">body</span><span class="p">.</span><span class="n">name</span> <span class="c1">-- "John Doe"</span>
 <span class="n">body</span><span class="p">.</span><span class="n">age</span>  <span class="c1">-- "42"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1751,7 +1806,7 @@ arguments</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

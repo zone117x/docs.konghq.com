@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -965,39 +965,37 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-
-<ul>
-<li> <a href="#write-integration-tests">Write integration tests</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#write-integration-tests">Write integration tests</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<hr>
+<hr />
 
 <p>If you are serious about your plugins, you probably want to write tests for it. Unit testing Lua is easy, and <a href="http://lua-users.org/wiki/UnitTesting">many testing frameworks</a> are available. However, you might also want to write integration tests. Again, Kong has your back.</p>
 
-<hr>
+<hr />
 
-<h3 id="write-integration-tests">Write integration tests</h3>
+<h2 id="write-integration-tests">Write integration tests</h2>
 
-<p>The preferred testing framework for Kong is <a href="http://olivinelabs.com/busted/">busted</a> running with the <a href="https://github.com/openresty/resty-cli">resty-cli</a> interpreter, though you are free to use another one if you wish. In the Kong repository, the busted executable can be found at <code>bin/busted</code>.</p>
+<p>The preferred testing framework for Kong is <a href="http://olivinelabs.com/busted/">busted</a> running with the <a href="https://github.com/openresty/resty-cli">resty-cli</a> interpreter, though you are free to use another one if you wish. In the Kong repository, the busted executable can be found at <code class="highlighter-rouge">bin/busted</code>.</p>
 
-<p>Kong provides you with a helper to start and stop it from Lua in your test suite: <code>spec.helpers</code>. This helper also provides you with ways to insert fixtures in your datastore before running your tests, as well as dropping it, and various other helpers.</p>
+<p>Kong provides you with a helper to start and stop it from Lua in your test suite: <code class="highlighter-rouge">spec.helpers</code>. This helper also provides you with ways to insert fixtures in your datastore before running your tests, as well as dropping it, and various other helpers.</p>
 
 <p>If you are writing your plugin in your own repository, you will need to copy the following files until the Kong testing framework is released:</p>
 
 <ul>
-<li><code>bin/busted</code>: the busted executable running with the resty-cli interpreter</li>
-<li><code>spec/helpers.lua</code>: helper functions to start/stop Kong from busted</li>
-<li><code>spec/kong_tests.conf</code>: a configuration file for your running your test Kong instances with the helpers module</li>
+  <li><code class="highlighter-rouge">bin/busted</code>: the busted executable running with the resty-cli interpreter</li>
+  <li><code class="highlighter-rouge">spec/helpers.lua</code>: helper functions to start/stop Kong from busted</li>
+  <li><code class="highlighter-rouge">spec/kong_tests.conf</code>: a configuration file for your running your test Kong instances with the helpers module</li>
 </ul>
 
-<p>Assuming that the <code>spec.helpers</code> module is available in your <code>LUA_PATH</code>, you can use the following Lua code in busted to start and stop Kong:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">helpers</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"spec.helpers"</span>
+<p>Assuming that the <code class="highlighter-rouge">spec.helpers</code> module is available in your <code class="highlighter-rouge">LUA_PATH</code>, you can use the following Lua code in busted to start and stop Kong:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">helpers</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"spec.helpers"</span>
 
 <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">strategy</span> <span class="k">in</span> <span class="n">helpers</span><span class="p">.</span><span class="n">each_strategy</span><span class="p">()</span> <span class="k">do</span>
   <span class="n">describe</span><span class="p">(</span><span class="s2">"my plugin"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span>
@@ -1055,16 +1053,18 @@ window['_fs_namespace'] = 'FS';
     <span class="k">end</span><span class="p">)</span>
   <span class="k">end</span><span class="p">)</span>
 <span class="k">end</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <blockquote>
-<p>Reminder: With the test Kong configuration file, Kong is running with
+  <p>Reminder: With the test Kong configuration file, Kong is running with
 its proxy listening on port 9000 (HTTP), 9443 (HTTPS)
 and Admin API on port 9001.</p>
 </blockquote>
 
-<hr>
+<hr />
 
-<p>Next: <a href="/0.13.x/plugin-development/distribution/">Distribute your plugin &rsaquo;</a></p>
+<p>Next: <a href="/0.13.x/plugin-development/distribution/">Distribute your plugin ›</a></p>
 
 
         </div>
@@ -1239,7 +1239,7 @@ and Admin API on port 9001.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

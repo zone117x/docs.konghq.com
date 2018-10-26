@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -965,23 +965,23 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#authentication-reference">Authentication Reference</a>
-
-<ul>
-<li> <a href="#generic-authentication">Generic authentication</a></li>
-<li> <a href="#consumers">Consumers</a></li>
-<li> <a href="#anonymous-access">Anonymous Access</a>
-
-<ul>
-<li> <a href="#create-an-example-service-and-a-route">Create an example Service and a Route</a></li>
-<li> <a href="#configure-the-key-auth-plugin-for-your-service">Configure the key-auth Plugin for your Service</a></li>
-<li> <a href="#verify-that-the-key-auth-plugin-is-properly-configured">Verify that the key-auth plugin is properly configured</a></li>
-<li> <a href="#create-an-anonymous-consumer">Create an anonymous Consumer</a></li>
-<li> <a href="#enable-anonymous-access">Enable anonymous access</a></li>
-<li> <a href="#check-anonymous-access">Check anonymous access</a></li>
-</ul></li>
-<li> <a href="#multiple-authentication">Multiple Authentication</a></li>
-</ul></li>
+  <li><a href="#authentication-reference">Authentication Reference</a>
+    <ul>
+      <li><a href="#generic-authentication">Generic authentication</a></li>
+      <li><a href="#consumers">Consumers</a></li>
+      <li><a href="#anonymous-access">Anonymous Access</a>
+        <ul>
+          <li><a href="#create-an-example-service-and-a-route">Create an example Service and a Route</a></li>
+          <li><a href="#configure-the-key-auth-plugin-for-your-service">Configure the key-auth Plugin for your Service</a></li>
+          <li><a href="#verify-that-the-key-auth-plugin-is-properly-configured">Verify that the key-auth plugin is properly configured</a></li>
+          <li><a href="#create-an-anonymous-consumer">Create an anonymous Consumer</a></li>
+          <li><a href="#enable-anonymous-access">Enable anonymous access</a></li>
+          <li><a href="#check-anonymous-access">Check anonymous access</a></li>
+        </ul>
+      </li>
+      <li><a href="#multiple-authentication">Multiple Authentication</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -989,7 +989,7 @@ window['_fs_namespace'] = 'FS';
           <h1 id="authentication-reference">Authentication Reference</h1>
 
 <p>Traffic to your upstream services (APIs or microservices) is typically controlled by the application and
-configuration of various Kong <a href="https://konghq.com/plugins/">authentication plugins</a>. Since Kong&#39;s Service entity represents
+configuration of various Kong <a href="https://konghq.com/plugins/">authentication plugins</a>. Since Kong’s Service entity represents
 a 1-to-1 mapping of your own upstream services, the simplest scenario is to configure authentication
 plugins on the Services of your choosing.</p>
 
@@ -1000,10 +1000,10 @@ To achieve this any of the authentication plugins can be used. The generic schem
 works as follows:</p>
 
 <ol>
-<li>Apply an auth plugin to a Service, or globally (you cannot apply one on consumers)</li>
-<li>Create a <code>consumer</code> entity</li>
-<li>Provide the consumer with authentication credentials for the specific authentication method</li>
-<li>Now whenever a request comes in Kong will check the provided credentials (depends on the auth type) and
+  <li>Apply an auth plugin to a Service, or globally (you cannot apply one on consumers)</li>
+  <li>Create a <code class="highlighter-rouge">consumer</code> entity</li>
+  <li>Provide the consumer with authentication credentials for the specific authentication method</li>
+  <li>Now whenever a request comes in Kong will check the provided credentials (depends on the auth type) and
 it will either block the request if it cannot validate, or add consumer and credential details
 in the headers and forward the request</li>
 </ol>
@@ -1011,7 +1011,7 @@ in the headers and forward the request</li>
 <p>The generic flow above does not always apply, for example when using external authentication like LDAP,
 then there is no consumer to be identified, and only the credentials will be added in the forwarded headers.</p>
 
-<p>The authentication method specific elements and examples can be found in each <a href="https://konghq.com/plugins/">plugin&#39;s documentation</a>.</p>
+<p>The authentication method specific elements and examples can be found in each <a href="https://konghq.com/plugins/">plugin’s documentation</a>.</p>
 
 <h2 id="consumers">Consumers</h2>
 
@@ -1020,7 +1020,7 @@ The core principle for consumers is that you can attach plugins to them, and hen
 So you might have mobile apps, and define one consumer for each app, or version of it. Or have a consumer per
 platform, e.g. an android consumer, an iOS consumer, etc.</p>
 
-<p>It is an opaque concept to Kong and hence they are called &quot;consumers&quot; and not &quot;users&quot;.</p>
+<p>It is an opaque concept to Kong and hence they are called “consumers” and not “users”.</p>
 
 <h2 id="anonymous-access">Anonymous Access</h2>
 
@@ -1030,106 +1030,147 @@ to authenticated users with a higher rate limit.</p>
 
 <p>To configure a Service like this, you first apply your selected authentication plugin, then create a new
 consumer to represent anonymous users, then configure your authentication plugin to allow anonymous
-access. Here is an example, which assumes you have already configured a Service named <code>example-service</code> and
+access. Here is an example, which assumes you have already configured a Service named <code class="highlighter-rouge">example-service</code> and
 the corresponding route:</p>
 
 <ol>
-<li><h3 id="create-an-example-service-and-a-route">Create an example Service and a Route</h3>
+  <li>
+    <h3 id="create-an-example-service-and-a-route">Create an example Service and a Route</h3>
 
-<p>Issue the following cURL request to create <code>example-service</code> pointing to mockbin.org, which will echo
-the request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/services/ <span class="se">\</span>
-  --data <span class="s1">'name=example-service'</span> <span class="se">\</span>
-  --data <span class="s1">'url=http://mockbin.org/request'</span>
-</code></pre></div>
-<p>Add a route to the Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/services/example-service/routes <span class="se">\</span>
-  --data <span class="s1">'paths[]=/auth-sample'</span>
-</code></pre></div>
-<p>The url <code>http://localhost:8000/auth-sample</code> will now echo whatever is being requested.</p></li>
-<li><h3 id="configure-the-key-auth-plugin-for-your-service">Configure the key-auth Plugin for your Service</h3>
+    <p>Issue the following cURL request to create <code class="highlighter-rouge">example-service</code> pointing to mockbin.org, which will echo
+ the request:</p>
 
-<p>Issue the following cURL request to add a plugin to a Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
-  --data <span class="s1">'name=key-auth'</span>
-</code></pre></div>
-<p>Be sure to note the created Plugin <code>id</code> - you&#39;ll need it in step 5.</p></li>
-<li><h3 id="verify-that-the-key-auth-plugin-is-properly-configured">Verify that the key-auth plugin is properly configured</h3>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
+   --url http://localhost:8001/services/ <span class="se">\</span>
+   --data <span class="s1">'name=example-service'</span> <span class="se">\</span>
+   --data <span class="s1">'url=http://mockbin.org/request'</span>
+</code></pre>
+    </div>
 
-<p>Issue the following cURL request to verify that the <a href="/plugins/key-authentication">key-auth</a>
-plugin was properly configured on the Service:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/auth-sample
-</code></pre></div>
-<p>Since you did not specify the required <code>apikey</code> header or parameter, and you have not yet
-enabled anonymous access, the response should be <code>403 Forbidden</code>:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
-<span class="s">...</span>
+    <p>Add a route to the Service:</p>
 
-{
-  "message": "No API key found in headers or querystring"
-}
-</code></pre></div></li>
-<li><h3 id="create-an-anonymous-consumer">Create an anonymous Consumer</h3>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
+   --url http://localhost:8001/services/example-service/routes <span class="se">\</span>
+   --data <span class="s1">'paths[]=/auth-sample'</span>
+</code></pre>
+    </div>
 
-<p>Every request proxied by Kong must be associated with a Consumer. You&#39;ll now create a Consumer
-named <code>anonymous_users</code> (that Kong will utilize when proxying anonymous access) by issuing the
-following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/ <span class="se">\</span>
-  --data <span class="s2">"username=anonymous_users"</span>
-</code></pre></div>
-<p>You should see a response similar to the one below:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
+    <p>The url <code class="highlighter-rouge">http://localhost:8000/auth-sample</code> will now echo whatever is being requested.</p>
+  </li>
+  <li>
+    <h3 id="configure-the-key-auth-plugin-for-your-service">Configure the key-auth Plugin for your Service</h3>
 
-<span class="p">{</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anonymous_users"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>Be sure to note the Consumer <code>id</code> - you&#39;ll need it in the next step.</p></li>
-<li><h3 id="enable-anonymous-access">Enable anonymous access</h3>
+    <p>Issue the following cURL request to add a plugin to a Service:</p>
 
-<p>You&#39;ll now re-configure the key-auth plugin to permit anonymous access by issuing the following
-request (<strong>replace the sample uuids below by the <code>id</code> values from step 2 and 4</strong>):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X PATCH <span class="se">\</span>
-  --url http://localhost:8001/plugins/&lt;your-plugin-id&gt; <span class="se">\</span>
-  --data <span class="s2">"config.anonymous=&lt;your-consumer-id&gt;"</span>
-</code></pre></div>
-<p>The <code>config.anonymous=&lt;your-consumer-id&gt;</code> parameter instructs the key-auth plugin on this Service to permit
-anonymous access, and to associate such access with the Consumer <code>id</code> we received in the previous step. It is
-required that you provide a valid and pre-existing Consumer <code>id</code> in this step - validity of the Consumer <code>id</code>
-is not currently checked when configuring anonymous access, and provisioning of a Consumer <code>id</code> that doesn&#39;t already
-exist will result in an incorrect configuration.</p></li>
-<li><h3 id="check-anonymous-access">Check anonymous access</h3>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
+   --url http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
+   --data <span class="s1">'name=key-auth'</span>
+</code></pre>
+    </div>
 
-<p>Confirm that your Service now permits anonymous access by issuing the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/auth-sample
-</code></pre></div>
-<p>This is the same request you made in step #3, however this time the request should succeed, because you
-enabled anonymous access in step #5.</p>
+    <p>Be sure to note the created Plugin <code class="highlighter-rouge">id</code> - you’ll need it in step 5.</p>
+  </li>
+  <li>
+    <h3 id="verify-that-the-key-auth-plugin-is-properly-configured">Verify that the key-auth plugin is properly configured</h3>
 
-<p>The response (which is the request as Mockbin received it) should have these elements:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
-  </span><span class="err">...</span><span class="w">
-  </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="err">...</span><span class="w">
-    </span><span class="nt">"x-consumer-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"713c592c-38b8-4f5b-976f-1bd2b8069494"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"x-consumer-username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anonymous_users"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"x-anonymous-consumer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-    </span><span class="err">...</span><span class="w">
-  </span><span class="err">}</span><span class="p">,</span><span class="w">
-  </span><span class="err">...</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre></div>
-<p>It shows the request was successful, but anonymous.</p></li>
+    <p>Issue the following cURL request to verify that the <a href="/plugins/key-authentication">key-auth</a>
+ plugin was properly configured on the Service:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+   --url http://localhost:8000/auth-sample
+</code></pre>
+    </div>
+
+    <p>Since you did not specify the required <code class="highlighter-rouge">apikey</code> header or parameter, and you have not yet
+ enabled anonymous access, the response should be <code class="highlighter-rouge">403 Forbidden</code>:</p>
+
+    <div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
+<span class="s"> ...</span>
+
+ {
+   "message": "No API key found in headers or querystring"
+ }
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h3 id="create-an-anonymous-consumer">Create an anonymous Consumer</h3>
+
+    <p>Every request proxied by Kong must be associated with a Consumer. You’ll now create a Consumer
+ named <code class="highlighter-rouge">anonymous_users</code> (that Kong will utilize when proxying anonymous access) by issuing the
+ following request:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
+   --url http://localhost:8001/consumers/ <span class="se">\</span>
+   --data <span class="s2">"username=anonymous_users"</span>
+</code></pre>
+    </div>
+
+    <p>You should see a response similar to the one below:</p>
+
+    <div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<span class="s"> Content-Type: application/json</span>
+<span class="s"> Connection: keep-alive</span>
+
+ {
+   "username": "anonymous_users",
+   "created_at": 1428555626000,
+   "id": "bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"
+ }
+</code></pre>
+    </div>
+
+    <p>Be sure to note the Consumer <code class="highlighter-rouge">id</code> - you’ll need it in the next step.</p>
+  </li>
+  <li>
+    <h3 id="enable-anonymous-access">Enable anonymous access</h3>
+
+    <p>You’ll now re-configure the key-auth plugin to permit anonymous access by issuing the following
+ request (<strong>replace the sample uuids below by the <code class="highlighter-rouge">id</code> values from step 2 and 4</strong>):</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X PATCH <span class="se">\</span>
+   --url http://localhost:8001/plugins/&lt;your-plugin-id&gt; <span class="se">\</span>
+   --data <span class="s2">"config.anonymous=&lt;your-consumer-id&gt;"</span>
+</code></pre>
+    </div>
+
+    <p>The <code class="highlighter-rouge">config.anonymous=&lt;your-consumer-id&gt;</code> parameter instructs the key-auth plugin on this Service to permit
+ anonymous access, and to associate such access with the Consumer <code class="highlighter-rouge">id</code> we received in the previous step. It is
+ required that you provide a valid and pre-existing Consumer <code class="highlighter-rouge">id</code> in this step - validity of the Consumer <code class="highlighter-rouge">id</code>
+ is not currently checked when configuring anonymous access, and provisioning of a Consumer <code class="highlighter-rouge">id</code> that doesn’t already
+ exist will result in an incorrect configuration.</p>
+  </li>
+  <li>
+    <h3 id="check-anonymous-access">Check anonymous access</h3>
+
+    <p>Confirm that your Service now permits anonymous access by issuing the following request:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
+   --url http://localhost:8000/auth-sample
+</code></pre>
+    </div>
+
+    <p>This is the same request you made in step #3, however this time the request should succeed, because you
+ enabled anonymous access in step #5.</p>
+
+    <p>The response (which is the request as Mockbin received it) should have these elements:</p>
+
+    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="err">...</span><span class="w">
+   </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="err">...</span><span class="w">
+     </span><span class="nt">"x-consumer-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"713c592c-38b8-4f5b-976f-1bd2b8069494"</span><span class="p">,</span><span class="w">
+     </span><span class="nt">"x-consumer-username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anonymous_users"</span><span class="p">,</span><span class="w">
+     </span><span class="nt">"x-anonymous-consumer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+     </span><span class="err">...</span><span class="w">
+   </span><span class="err">}</span><span class="p">,</span><span class="w">
+   </span><span class="err">...</span><span class="w">
+ </span><span class="err">}</span><span class="w">
+</span></code></pre>
+    </div>
+
+    <p>It shows the request was successful, but anonymous.</p>
+  </li>
 </ol>
 
 <h2 id="multiple-authentication">Multiple Authentication</h2>
@@ -1137,28 +1178,28 @@ enabled anonymous access in step #5.</p>
 <p>Kong supports multiple authentication plugins for a given Service, allowing
 different clients to utilize different authentication methods to access a given Service or Route.</p>
 
-<p>The behaviour of the auth plugins can be set to do either a logical <code>AND</code>, or a logical <code>OR</code> when evaluating
-multiple authentication credentials. The key to the behaviour is the <code>config.anonymous</code> property.</p>
+<p>The behaviour of the auth plugins can be set to do either a logical <code class="highlighter-rouge">AND</code>, or a logical <code class="highlighter-rouge">OR</code> when evaluating
+multiple authentication credentials. The key to the behaviour is the <code class="highlighter-rouge">config.anonymous</code> property.</p>
 
 <ul>
-<li><code>config.anonymous</code> not set <br/>
+  <li><code class="highlighter-rouge">config.anonymous</code> not set <br />
 If this property is not set (empty) then the auth plugins will always perform authentication and return
-a <code>40x</code> response if not validated. This results in a logical <code>AND</code> when multiple auth plugins are being
+a <code class="highlighter-rouge">40x</code> response if not validated. This results in a logical <code class="highlighter-rouge">AND</code> when multiple auth plugins are being
 invoked.</li>
-<li><code>config.anonymous</code> set to a valid consumer id <br/>
+  <li><code class="highlighter-rouge">config.anonymous</code> set to a valid consumer id <br />
 In this case the auth plugin will only perform authentication if it was not already authenticated. When
-authentication fails, it will not return a <code>40x</code> response, but set the anonymous consumer as the consumer. This
-results in a logical <code>OR</code> + &#39;anonymous access&#39; when multiple auth plugins are being invoked.</li>
+authentication fails, it will not return a <code class="highlighter-rouge">40x</code> response, but set the anonymous consumer as the consumer. This
+results in a logical <code class="highlighter-rouge">OR</code> + ‘anonymous access’ when multiple auth plugins are being invoked.</li>
 </ul>
 
 <p><strong>NOTE 1</strong>: Either all or none of the auth plugins must be configured for anonymous access. The behaviour is
 undefined if they are mixed.</p>
 
-<p><strong>NOTE 2</strong>: When using the <code>AND</code> method, the last plugin executed will be the one setting the credentials
-passed to the upstream service. With the <code>OR</code> method, it will be the first plugin that successfully authenticates
+<p><strong>NOTE 2</strong>: When using the <code class="highlighter-rouge">AND</code> method, the last plugin executed will be the one setting the credentials
+passed to the upstream service. With the <code class="highlighter-rouge">OR</code> method, it will be the first plugin that successfully authenticates
 the consumer, or the last plugin that will set its configured anonymous consumer.</p>
 
-<p><strong>NOTE 3</strong>: When using the OAuth2 plugin in an <code>AND</code> fashion, then also the OAuth2 endpoints for requesting
+<p><strong>NOTE 3</strong>: When using the OAuth2 plugin in an <code class="highlighter-rouge">AND</code> fashion, then also the OAuth2 endpoints for requesting
 tokens etc. will require authentication by the other configured auth plugins.</p>
 
 <div class="alert alert-warning">
@@ -1166,6 +1207,7 @@ tokens etc. will require authentication by the other configured auth plugins.</p
   anonymous access be forbidden, then the <a href="/plugins/request-termination"><tt>request-termination</tt> plugin</a> should be
   configured on the anonymous consumer. Failure to do so will allow unauthorized requests.
 </div>
+
 
 
         </div>
@@ -1340,7 +1382,7 @@ tokens etc. will require authentication by the other configured auth plugins.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

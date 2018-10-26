@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,24 +754,24 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#enable-authentication">Enable Authentication</a></li>
-<li> <a href="#add-a-credential">Add a Credential</a></li>
-<li> <a href="#example-configurations">Example configurations</a>
-
-<ul>
-<li> <a href="#key-authentication">Key Authentication</a></li>
-<li> <a href="#ldap-authentication">LDAP Authentication</a></li>
-<li> <a href="#basic-authentication">Basic Authentication</a></li>
-</ul></li>
-<li> <a href="#logging-in">Logging In</a></li>
-<li> <a href="#logging-out">Logging Out 👋🏻</a></li>
-<li> <a href="#how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</a></li>
+  <li><a href="#enable-authentication">Enable Authentication</a></li>
+  <li><a href="#add-a-credential">Add a Credential</a></li>
+  <li><a href="#example-configurations">Example configurations</a>
+    <ul>
+      <li><a href="#key-authentication">Key Authentication</a></li>
+      <li><a href="#ldap-authentication">LDAP Authentication</a></li>
+      <li><a href="#basic-authentication">Basic Authentication</a></li>
+    </ul>
+  </li>
+  <li><a href="#logging-in">Logging In</a></li>
+  <li><a href="#logging-out-">Logging Out 👋🏻</a></li>
+  <li><a href="#how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</a></li>
 </ul>
 
           
 
           <blockquote>
-<p>Before you begin, make sure you have gone through the
+  <p>Before you begin, make sure you have gone through the
 <a href="https://getkong.org/enterprise/0.33-x/admin-gui/configuration/getting-started">Getting Started with the Admin GUI</a></p>
 </blockquote>
 
@@ -780,30 +780,31 @@ window['_fs_namespace'] = 'FS';
 <p>There are a couple of pieces of information that are important to understand when using authentication for the Admin GUI:</p>
 
 <ul>
-<li>The Admin GUI is a JavaScript application that runs in the browser, and makes calls to the Admin API</li>
-<li>For locking down the GUI, a private endpoint is configured on the proxy side, and an auth plugin is enabled</li>
-<li>The Admin GUI JavaScript application uses this proxy side endpoint to talk to the Admin API</li>
-<li>Two pieces of authentication need to be enabled in order for the Admin GUI to talk to the Admin API in this setup</li>
-<li>The &quot;Admin user&quot; is a combination of a rbac user and a consumer of type &#39;admin&#39; that only appears on the <code>/admins</code> endpoint and is filtered out from <code>/consumers</code> endpoints. Admins as consumers allows Kong to use plugins on an admin to authenticate</li>
-<li>This Admin needs to be in an RBAC group with access to the Admin API</li>
-<li>This Admin needs to have access to the <code>admin_gui_auth</code> specified plugin</li>
+  <li>The Admin GUI is a JavaScript application that runs in the browser, and makes calls to the Admin API</li>
+  <li>For locking down the GUI, a private endpoint is configured on the proxy side, and an auth plugin is enabled</li>
+  <li>The Admin GUI JavaScript application uses this proxy side endpoint to talk to the Admin API</li>
+  <li>Two pieces of authentication need to be enabled in order for the Admin GUI to talk to the Admin API in this setup</li>
+  <li>The “Admin user” is a combination of a rbac user and a consumer of type ‘admin’ that only appears on the <code class="highlighter-rouge">/admins</code> endpoint and is filtered out from <code class="highlighter-rouge">/consumers</code> endpoints. Admins as consumers allows Kong to use plugins on an admin to authenticate</li>
+  <li>This Admin needs to be in an RBAC group with access to the Admin API</li>
+  <li>This Admin needs to have access to the <code class="highlighter-rouge">admin_gui_auth</code> specified plugin</li>
 </ul>
 
 <p>Knowing that we will follow these steps:</p>
 
 <ol>
-<li><a href="#first">Create a new Admin user</a></li>
-<li><a href="#second">Add the Admin user&#39;s &quot;rbac user&quot; to the rbac <code>super-user</code> group</a></li>
-<li><a href="#third">Add a key-auth key to the Admin user&#39;s &quot;hidden consumer&quot;</a></li>
-<li><a href="#fourth">Enable RBAC and the Admin GUI Auth method in the config</a></li>
-<li><a href="#fifth">Restart Kong</a></li>
+  <li><a href="#first">Create a new Admin user</a></li>
+  <li><a href="#second">Add the Admin user’s “rbac user” to the rbac <code class="highlighter-rouge">super-user</code> group</a></li>
+  <li><a href="#third">Add a key-auth key to the Admin user’s “hidden consumer”</a></li>
+  <li><a href="#fourth">Enable RBAC and the Admin GUI Auth method in the config</a></li>
+  <li><a href="#fifth">Restart Kong</a></li>
 </ol>
 
 <p>In this example we will configure authentication on the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>.</p>
 
 <p><a name="first"></a>
 <strong>First, we will add an Admin entity using the Admin API:</strong></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/admins -d <span class="s1">'username=myadmin'</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/admins -d <span class="s1">'username=myadmin'</span>
 
 <span class="o">{</span>
   <span class="s2">"rbac_user"</span>: <span class="o">{</span>
@@ -822,27 +823,33 @@ window['_fs_namespace'] = 'FS';
     <span class="s2">"type"</span>: 2
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
-<p>Save the generated rbac user&#39;s <code>user_token</code> (<code>406ee936-4a10-41c0-a9e5-7b9f7b6fc106</code> in the
-example above) for use later. It must be sent in the <code>Kong-Admin-Token</code> header
+</code></pre>
+</div>
+
+<p>Save the generated rbac user’s <code class="highlighter-rouge">user_token</code> (<code class="highlighter-rouge">406ee936-4a10-41c0-a9e5-7b9f7b6fc106</code> in the
+example above) for use later. It must be sent in the <code class="highlighter-rouge">Kong-Admin-Token</code> header
 when RBAC is enabled if using a client (e.g. cURL or HTTPie) other than the
 Admin GUI.</p>
 
-<p>We can test that the consumer that was created (id <code>94110df6-211a-4f89-b4f3-0a994753ddf9</code>) is in fact filtered from the <code>/consumers</code> endpoint.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X GET http://localhost:8001/consumers/
+<p>We can test that the consumer that was created (id <code class="highlighter-rouge">94110df6-211a-4f89-b4f3-0a994753ddf9</code>) is in fact filtered from the <code class="highlighter-rouge">/consumers</code> endpoint.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X GET http://localhost:8001/consumers/
 
 <span class="o">{</span>
   <span class="s2">"total"</span>: 0,
   <span class="s2">"data"</span>: <span class="o">[]</span>
 <span class="o">}</span>
-</code></pre></div>
-<p><a name="second"></a>
-<strong>Second, we will add the Admin user&#39;s &quot;rbac user&quot; to the super-admin group:</strong></p>
+</code></pre>
+</div>
 
-<p>In this example we are using the <code>super-admin</code> group for simplicity, however
+<p><a name="second"></a>
+<strong>Second, we will add the Admin user’s “rbac user” to the super-admin group:</strong></p>
+
+<p>In this example we are using the <code class="highlighter-rouge">super-admin</code> group for simplicity, however
 you may want to use a different group that you have configured with limited
 RBAC permissions. Read <a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">Bootstrapping the first RBAC user - the Super Admin</a> for more information.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/rbac/users/98af4bda-8525-44a6-a745-0c503b146639/roles -d <span class="s1">'roles=super-admin'</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/98af4bda-8525-44a6-a745-0c503b146639/roles -d <span class="s1">'roles=super-admin'</span>
 
 <span class="o">{</span>
   <span class="s2">"roles"</span>: <span class="o">[</span>
@@ -868,13 +875,16 @@ RBAC permissions. Read <a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-
     <span class="s2">"created_at"</span>: 1537966410000
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a name="third"></a>
-<strong>Third, you must provision a Key-Auth api key for the Admin user&#39;s &quot;hidden consumer&quot;:</strong></p>
+<strong>Third, you must provision a Key-Auth api key for the Admin user’s “hidden consumer”:</strong></p>
 
 <p>Note, in this example we are using key-auth; for other auth methods you will
 need to provisions the approprate key/password needed for that method.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://localhost:8001/consumers/94110df6-211a-4f89-b4f3-0a994753ddf9/key-auth -d <span class="s1">''</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/consumers/94110df6-211a-4f89-b4f3-0a994753ddf9/key-auth -d <span class="s1">''</span>
 
 <span class="o">{</span>
   <span class="s2">"created_at"</span>: 1537966734000,
@@ -882,37 +892,45 @@ need to provisions the approprate key/password needed for that method.</p>
   <span class="s2">"key"</span>: <span class="s2">"Au5sciJOadbGyDAk6ZqndKH8IQFzKZ5x"</span>,
   <span class="s2">"consumer_id"</span>: <span class="s2">"94110df6-211a-4f89-b4f3-0a994753ddf9"</span>
 <span class="o">}</span>
-</code></pre></div>
-<p>Save this key <code>Au5sciJOadbGyDAk6ZqndKH8IQFzKZ5x</code> for later, it is used at the
+</code></pre>
+</div>
+
+<p>Save this key <code class="highlighter-rouge">Au5sciJOadbGyDAk6ZqndKH8IQFzKZ5x</code> for later, it is used at the
 Admin GUI login prompt. Note that this key is separate and distinct from the
-admin&#39;s RBAC token.</p>
+admin’s RBAC token.</p>
 
 <p><a name="fourth"></a>
 <strong>Fourth, update the config to enable RBAC and the Admin GUI auth method:</strong></p>
 
 <p>Using the kong.conf file:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">enforce_rbac <span class="o">=</span> on
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>enforce_rbac <span class="o">=</span> on
 admin_gui_auth <span class="o">=</span> key-auth
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Using environmental variables:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">KONG_ENFORCE_RBAC <span class="o">=</span> on
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>KONG_ENFORCE_RBAC <span class="o">=</span> on
 KONG_ADMIN_GUI_AUTH <span class="o">=</span> key-auth
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a name="fifth"></a>
 <strong>Fifth, restart Kong.</strong></p>
 
 <p>The Admin GUI is now aware that authentication is enabled and will restrict
 access so that only the Admin users with an api key and in the RBAC
-<code>super-admin</code> group can log in. Browse to the Admin GUI and you will be
+<code class="highlighter-rouge">super-admin</code> group can log in. Browse to the Admin GUI and you will be
 prompted with a <a href="#logging-in">Login</a> form. Enter in the api key saved from
 before to gain access to the Admin GUI. You should be able to access all
 resources.</p>
 
 <blockquote>
-<p>Note: Once Kong starts, you will notice that your
-<a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code>cors</code> and <code>key-auth</code>
+  <p>Note: Once Kong starts, you will notice that your
+<a href="https://127.0.0.1:8001/">Admin API configuration</a> now shows <code class="highlighter-rouge">cors</code> and <code class="highlighter-rouge">key-auth</code>
 plugins are enabled. This is because Kong sets up an internal proxy to the Admin
-API (i.e., <code>:8001</code> -&gt; <code>:8000/_kong/admin</code>) and configures the Key Authentication
+API (i.e., <code class="highlighter-rouge">:8001</code> -&gt; <code class="highlighter-rouge">:8000/_kong/admin</code>) and configures the Key Authentication
 plugin applied only to all routes. These routes &amp; services will not be
 tracked by Kong Vitals, they will not appear in your proxy traffic, and the
 internal plugins will not be applied to any other routes or services or be
@@ -923,8 +941,8 @@ configurable in your Kong instance.</p>
 under <a href="#example-configs">Example configurations</a>:</p>
 
 <ul>
-<li><a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced</a></li>
-<li><a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a></li>
+  <li><a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced</a></li>
+  <li><a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a></li>
 </ul>
 
 <h2 id="add-a-credential">Add a Credential</h2>
@@ -934,9 +952,9 @@ to add a credential.</p>
 
 <h2 id="example-configurations">Example configurations</h2>
 
-<p>Set <code>enforce_rbac = on</code> in your Kong configuration.</p>
+<p>Set <code class="highlighter-rouge">enforce_rbac = on</code> in your Kong configuration.</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: When RBAC is <code>off</code>, any consumer with a valid credential can
+<p>⚠️ <strong>IMPORTANT</strong>: When RBAC is <code class="highlighter-rouge">off</code>, any consumer with a valid credential can
 log in to the Admin GUI, so you must enable RBAC if you want to restrict access
 only to admins.</p>
 
@@ -951,12 +969,16 @@ step by step guide on setting up
 <p>The <a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced plugin</a>
 allows Admins to use their own LDAP server
 to bind authentication to the Admin API with username and password protection.
-Note: You must use <code>Basic</code> as your <code>header_type</code> in the <code>admin_gui_auth_config</code>
+Note: You must use <code class="highlighter-rouge">Basic</code> as your <code class="highlighter-rouge">header_type</code> in the <code class="highlighter-rouge">admin_gui_auth_config</code>
 Kong configuration. Here is an example configuration (update the following in your
 Kong Configuration, then restart Kong):</p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = ldap-auth-advanced
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth = ldap-auth-advanced
 enforce_rbac = on
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth_conf={                                     \
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth_conf={                                     \
 "anonymous":"",                                           \
 "attribute":"uid",                                        \
 "base_dn":"&lt;ENTER_YOUR_BASE_DN_HERE&gt;",                    \
@@ -969,15 +991,17 @@ enforce_rbac = on
 "timeout":10000,                                          \
 "verify_ldap_host":true                                   \
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>The values above can be replaced with their corresponding values for your custom
 LDAP configuration:</p>
 
 <ul>
-<li><code>&lt;ENTER_YOUR_BASE_DN_HERE&gt;</code> - Your LDAP Base DN (Distinguished Name)
-    * For Example, <code>ou=scientists,dc=ldap,dc=kong,dc=com</code></li>
-<li><code>&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;</code> - LDAP Host domain
-    * For Example, <code>ec2&quot;-XX-XXX-XX-XXX.compute-1.amazonaws.com</code></li>
+  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_BASE_DN_HERE&gt;</code> - Your LDAP Base DN (Distinguished Name)
+    * For Example, <code class="highlighter-rouge">ou=scientists,dc=ldap,dc=kong,dc=com</code></li>
+  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;</code> - LDAP Host domain
+    * For Example, <code class="highlighter-rouge">ec2"-XX-XXX-XX-XXX.compute-1.amazonaws.com</code></li>
 </ul>
 
 <p>After you have updated your configuration and restarted Kong, you will now be
@@ -991,7 +1015,8 @@ allows Admins to use username and password to authenticate requests, and can be
 used to authenticate the Admin GUI.</p>
 
 <p>Create an Admin and Basic Auth Credential:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/admins/    <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://kong:8001/admins/    <span class="se">\</span>
     --data <span class="s2">"username=&lt;USERNAME&gt;"</span>         <span class="se">\</span>
     --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 HTTP/1.1 201 Created
@@ -1014,9 +1039,12 @@ HTTP/1.1 201 Created
     <span class="s2">"type"</span>: 2
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Create the credential:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
     --data <span class="s2">"username=Aladdin"</span> <span class="se">\</span>
     --data <span class="s2">"password=OpenSesame"</span>
 HTTP/1.1 201 Created
@@ -1028,14 +1056,19 @@ HTTP/1.1 201 Created
   <span class="s2">"password"</span>: <span class="s2">"80b9fa1953449090eeaa7842283f18115195af41"</span>,
   <span class="s2">"consumer_id"</span>: <span class="s2">"01a8d15a-4117-437b-be8b-debf52380bc4"</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Update the following in your Kong Configuration, then restart Kong:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_gui_auth = basic-auth
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth = basic-auth
 enforce_rbac = on
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Browse to the Admin GUI and you should now see <a href="#logging-in">Login</a>. The form
 will reflect that admins now need a username and password to login and administer
-Kong. Login with the username password created <code>Aladdin:OpenSesame</code>.</p>
+Kong. Login with the username password created <code class="highlighter-rouge">Aladdin:OpenSesame</code>.</p>
 
 <h2 id="logging-in">Logging In</h2>
 
@@ -1043,15 +1076,15 @@ Kong. Login with the username password created <code>Aladdin:OpenSesame</code>.<
 Admin GUI, where you will be prompted with a login form.</p>
 
 <p>When you submit the login form, the Admin GUI will make a request against the Admin
-API using the specified <code>admin_gui_auth</code> with the data in the form. For instance,
-if you have <code>basic-auth</code> enabled, then the form will submit with the Authorization
-header e.g. <code>Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If successful,
+API using the specified <code class="highlighter-rouge">admin_gui_auth</code> with the data in the form. For instance,
+if you have <code class="highlighter-rouge">basic-auth</code> enabled, then the form will submit with the Authorization
+header e.g. <code class="highlighter-rouge">Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>. If successful,
 credentials will be <a href="#how-authentication-is-stored-in-local-storage">stored in the browser</a>
 and used for subsequent browser requests.</p>
 
-<h2 id="logging-out">Logging Out 👋🏻</h2>
+<h2 id="logging-out-">Logging Out 👋🏻</h2>
 
-<p>Click the &quot;Logout&quot; button in the top right. This will clear the Local Storage
+<p>Click the “Logout” button in the top right. This will clear the Local Storage
 authentication data (if exists) and redirect to the login page.</p>
 
 <h2 id="how-authentication-is-stored-in-local-storage">How Authentication is Stored in Local Storage</h2>
@@ -1059,14 +1092,14 @@ authentication data (if exists) and redirect to the login page.</p>
 <p>The Admin GUI uses the <a href="https://developer.mozilla.org/en-US/Web/API/Window/localStorage">Local Storage API</a>
 to store and retrieve Authentication credentials, parameters, and headers. Local
 Storage is saved on every successful login, and it is retrieved on every Admin
-GUI API XHR request based on the <code>auth-store-types</code> value, until you
+GUI API XHR request based on the <code class="highlighter-rouge">auth-store-types</code> value, until you
 <a href="#logging-out">logout</a>.</p>
 
 <p>⚠️ <strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the
 browser via base64-encoding, but are not encrypted. Therefore, it advised that
 you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/managing-admins/">Managing Admins &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/managing-admins/">Managing Admins ›</a></p>
 
 
         </div>
@@ -1223,7 +1256,7 @@ you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

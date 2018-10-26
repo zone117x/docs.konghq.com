@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,84 +754,102 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#basic-system-requirements-and-initial-configuration">Basic System Requirements and Initial Configuration</a></li>
-<li> <a href="#customizing-the-portal-design-with-css">Customizing The Portal Design with CSS</a></li>
-<li> <a href="#customizing-front-end-behavior-with-javascript">Customizing Front End Behavior with JavaScript</a></li>
-<li> <a href="#using-source-control-with-git">Using Source Control with Git</a></li>
-<li> <a href="#effective-partial-usage">Effective Partial Usage</a></li>
-<li> <a href="#practices-to-avoid">Practices to Avoid</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#basic-system-requirements-and-initial-configuration">Basic System Requirements and Initial Configuration</a></li>
+  <li><a href="#customizing-the-portal-design-with-css">Customizing The Portal Design with CSS</a></li>
+  <li><a href="#customizing-front-end-behavior-with-javascript">Customizing Front End Behavior with JavaScript</a></li>
+  <li><a href="#using-source-control-with-git">Using Source Control with Git</a></li>
+  <li><a href="#effective-partial-usage">Effective Partial Usage</a></li>
+  <li><a href="#practices-to-avoid">Practices to Avoid</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>The Kong Developer Portal is a powerful tool. It&#39;s part static website and part interactive API. With a tool of this magnitude, there are countless ways to configure and host that will vary greatly depending on your needs. The following article is a group of recommendations we have found which lead to  easy administration and top performance. This list is not exhaustive, so if you have a trick you like to use and want to share it with others, please feel free to make a PR on the page, or send us an email at <a href="mailto:support@konghq.com">support@konghq.com</a> and we can add it for you.</p>
+<p>The Kong Developer Portal is a powerful tool. It’s part static website and part interactive API. With a tool of this magnitude, there are countless ways to configure and host that will vary greatly depending on your needs. The following article is a group of recommendations we have found which lead to  easy administration and top performance. This list is not exhaustive, so if you have a trick you like to use and want to share it with others, please feel free to make a PR on the page, or send us an email at <a href="mailto:support@konghq.com">support@konghq.com</a> and we can add it for you.</p>
 
-<hr>
+<hr />
 
 <ul>
-<li><a href="#basic-system-requirements-and-initial-configuration">Basic System Requirements and Initial Configuration</a></li>
-<li><a href="#customizing-the-portal-design-with-css">Customizing The Portal Design with CSS</a></li>
-<li><a href="#customizing-front-end-behavior-with-javascript">Customizing Front End Behavior with JavaScript</a></li>
-<li><a href="#using-source-control-with-git">Using Source Control with Git</a></li>
-<li><a href="#effective-partial-usage">Effective Partial Usage</a></li>
-<li><a href="#practices-to-avoid">Practices to Avoid</a></li>
+  <li><a href="#basic-system-requirements-and-initial-configuration">Basic System Requirements and Initial Configuration</a></li>
+  <li><a href="#customizing-the-portal-design-with-css">Customizing The Portal Design with CSS</a></li>
+  <li><a href="#customizing-front-end-behavior-with-javascript">Customizing Front End Behavior with JavaScript</a></li>
+  <li><a href="#using-source-control-with-git">Using Source Control with Git</a></li>
+  <li><a href="#effective-partial-usage">Effective Partial Usage</a></li>
+  <li><a href="#practices-to-avoid">Practices to Avoid</a></li>
 </ul>
 
 <h2 id="basic-system-requirements-and-initial-configuration">Basic System Requirements and Initial Configuration</h2>
 
-<p>When deciding what type of system to host Kong on, you should take into consideration into the amount of traffic you expect the portal to see. If you are using your portal only for internal APIs shared between 2 teams, you&#39;ll need a much smaller instance than someone with a public facing, heavily trafficked API. By default, I suggest starting with a more powerful machine than you need and scaling back. If you have a bit more power than you need, none of your end users will notice a difference. However, if you start too small, it could potentially lead to slower performance of the portal. This section is going to assume your portal gets about 1000 concurrent visitors on average.</p>
+<p>When deciding what type of system to host Kong on, you should take into consideration into the amount of traffic you expect the portal to see. If you are using your portal only for internal APIs shared between 2 teams, you’ll need a much smaller instance than someone with a public facing, heavily trafficked API. By default, I suggest starting with a more powerful machine than you need and scaling back. If you have a bit more power than you need, none of your end users will notice a difference. However, if you start too small, it could potentially lead to slower performance of the portal. This section is going to assume your portal gets about 1000 concurrent visitors on average.</p>
 
 <p>If you are using AWS for your hosting, a <a href="https://aws.amazon.com/ec2/instance-types/t2/">t2.large</a> is a starting place. This is a solid base and should be able to handle expectations without any issue. If you use Google Cloud (GCE), try starting with a <a href="https://cloud.google.com/compute/pricing#standard_machine_types">n1-standard-2</a> and if you are using the Azure cloud, start with a <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes-general#dv3-series-sup1sup">Standard_D2_v3</a>.</p>
 
-<p>If you look at those recommendations, you&#39;ll see they all have similar starts:
-  - At least 2 CPUs
-  - Around 8 GiB System memory</p>
+<p>If you look at those recommendations, you’ll see they all have similar starts:</p>
+<ul>
+  <li>At least 2 CPUs</li>
+  <li>Around 8 GiB System memory</li>
+</ul>
 
-<p>If possible, it&#39;s best practice to have this Kong instance be used to only serve the dev portal, and not do any Kong administrative work. To do this, in your kong.conf file, set the following values</p>
-<div class="highlight"><pre><code class="language-" data-lang="">admin_listen=off
+<p>If possible, it’s best practice to have this Kong instance be used to only serve the dev portal, and not do any Kong administrative work. To do this, in your kong.conf file, set the following values</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>admin_listen=off
 portal=on
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>We will also want to ensure all other instances of Kong have the portal boolean set to off. This ensures your portal is only being served by a single Kong instance.</p>
 
 <h2 id="customizing-the-portal-design-with-css">Customizing The Portal Design with CSS</h2>
 
-<p>The Developer Portal has two files that contain CSS and are used to control the design. The main CSS file is <code>unauthenticated/theme-css</code> which contains the bulk of the CSS styles for the default layout. The second file is <code>unauthenticated/custom-css</code> where owners add and edit their own custom css. Both of these files can be accessed by non authenticated pages. You can access the custom-css file by using the Admin API</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl http://localhost:8001/files/unauthenticated/custom-css
-</code></pre></div>
-<p>This will return a JSON object that represents the custom-css file. It contains metadata about the file, and the <code>contents</code> field contains the actual CSS data. You should save the <code>contents</code> to a file, and edit it to your liking. Edit the CSS to customize the look of your portal.</p>
+<p>The Developer Portal has two files that contain CSS and are used to control the design. The main CSS file is <code class="highlighter-rouge">unauthenticated/theme-css</code> which contains the bulk of the CSS styles for the default layout. The second file is <code class="highlighter-rouge">unauthenticated/custom-css</code> where owners add and edit their own custom css. Both of these files can be accessed by non authenticated pages. You can access the custom-css file by using the Admin API</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl http://localhost:8001/files/unauthenticated/custom-css
+</code></pre>
+</div>
+
+<p>This will return a JSON object that represents the custom-css file. It contains metadata about the file, and the <code class="highlighter-rouge">contents</code> field contains the actual CSS data. You should save the <code class="highlighter-rouge">contents</code> to a file, and edit it to your liking. Edit the CSS to customize the look of your portal.</p>
 
 <p>When you have customized the CSS, you will then upload it to the Files API. This will make the Dev Portal use the CSS for when it serves content, and show your custom design.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -X PATCH \
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -X PATCH \
    -- url http://localhost:8001/files/unauthenticated/custom-css \
    -F contents=@custom.css
-</code></pre></div>
-<p>In this example the name of the file on disk is <code>custom.css</code>. You are free to name this whatever you like, so long as you send your changes to the <code>unauthenticated/custom-css</code> file. This specific place is where the Kong Dev Portal will look for custom CSS.</p>
+</code></pre>
+</div>
+
+<p>In this example the name of the file on disk is <code class="highlighter-rouge">custom.css</code>. You are free to name this whatever you like, so long as you send your changes to the <code class="highlighter-rouge">unauthenticated/custom-css</code> file. This specific place is where the Kong Dev Portal will look for custom CSS.</p>
 
 <h2 id="customizing-front-end-behavior-with-javascript">Customizing Front End Behavior with JavaScript</h2>
 
 <p>Including custom JavaScript is similar to customizing CSS.</p>
 
-<p>To use custom JavaScript we need to download the <code>custom-js</code> file, make our custom changes, and then upload those changes to the <code>custom-js</code> file.</p>
+<p>To use custom JavaScript we need to download the <code class="highlighter-rouge">custom-js</code> file, make our custom changes, and then upload those changes to the <code class="highlighter-rouge">custom-js</code> file.</p>
 
-<p>Use this command to get the JSON object that represents the <code>custom-js</code> file</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl http://localhost:8001/files/custom-js
-</code></pre></div>
-<p>Once you have this, save the value of the <code>contents</code> field to a file. This is the file we will use to add custom JavaScript. Once the file has been edited it will need to be uploaded to the <code>custom-js</code> file. Use this command to upload your changes. This command assumes the name of the file is <code>custom-js</code><br /></p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -X PATCH \
+<p>Use this command to get the JSON object that represents the <code class="highlighter-rouge">custom-js</code> file</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl http://localhost:8001/files/custom-js
+</code></pre>
+</div>
+
+<p>Once you have this, save the value of the <code class="highlighter-rouge">contents</code> field to a file. This is the file we will use to add custom JavaScript. Once the file has been edited it will need to be uploaded to the <code class="highlighter-rouge">custom-js</code> file. Use this command to upload your changes. This command assumes the name of the file is <code class="highlighter-rouge">custom-js</code><br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -X PATCH \
    -- url http://localhost:8001/files/custom-js \
    -F contents=@custom-js
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Once uploaded your changes will be served on each page request.</p>
 
 <h2 id="using-source-control-with-git">Using Source Control with Git</h2>
 
-<p>Kong gives you the ability to edit files directly in the Kong GUI. While this may be easy, it will not maintain a history of the changes you&#39;ve made. Each file will only exist in it&#39;s most current form. We have found the best approach is to have a dedicated repo for your portal.</p>
+<p>Kong gives you the ability to edit files directly in the Kong GUI. While this may be easy, it will not maintain a history of the changes you’ve made. Each file will only exist in it’s most current form. We have found the best approach is to have a dedicated repo for your portal.</p>
 
 <p>In a new repository, recreate all of the files in your portal there. The general layout of files (pages, partials and specs). The default structure is:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">├── assets
+
+<div class="highlighter-rouge"><pre class="highlight"><code>├── assets
 │   ├── fonts
 │   │   ├── MaterialIcons-Regular.ttf
 │   │   ├── Roboto-Bold.ttf
@@ -948,7 +966,9 @@ portal=on
         ├── admin.json
         ├── files.yaml
         └── vitals.yaml
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>When the file structure is setup, you can make use of <a href="https://developer.github.com/webhooks/creating/">GitHub Webhooks</a> and every time you merge a change into the Master branch, it triggers a push of files to the portal. This allows your developers to work in an environment they are familiar with, and maintain a history of changes to your portal. It also means you can easily roll back to a previous version.</p>
 
 <h2 id="effective-partial-usage">Effective Partial Usage</h2>
@@ -1118,7 +1138,7 @@ portal=on
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

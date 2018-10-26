@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -601,12 +601,15 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#5-minute-quickstart">5-minute Quickstart</a>
-    -  <a href="#start-kong">Start Kong.</a>
-    -  <a href="#verify-that-kong-has-started-successfully">Verify that Kong has started successfully</a>
-    -  <a href="#stop-kong">Stop Kong.</a>
-    -  <a href="#reload-kong">Reload Kong.</a>
-    -  <a href="#next-steps">Next Steps</a></li>
+  <li><a href="#5-minute-quickstart">5-minute Quickstart</a>
+    <ul>
+      <li><a href="#1-start-kong">1. Start Kong.</a></li>
+      <li><a href="#2-verify-that-kong-has-started-successfully">2. Verify that Kong has started successfully</a></li>
+      <li><a href="#3-stop-kong">3. Stop Kong.</a></li>
+      <li><a href="#4-reload-kong">4. Reload Kong.</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -617,44 +620,61 @@ window['_fs_namespace'] = 'FS';
   <strong>Before you start:</strong> Make sure you've <a href="https://konghq.com/install/">installed Kong</a> &mdash; It should only take a minute!
 </div>
 
-<p>In this section, you&#39;ll learn how to manage your Kong instance. First we&#39;ll have you start Kong giving you access to the RESTful interface to manage your APIs, consumers, and more. Data sent through the RESTful interface is stored in your Cassandra instance or cluster, meaning you <strong>must</strong> have Cassandra running <strong>before</strong> starting Kong.</p>
+<p>In this section, you’ll learn how to manage your Kong instance. First we’ll have you start Kong giving you access to the RESTful interface to manage your APIs, consumers, and more. Data sent through the RESTful interface is stored in your Cassandra instance or cluster, meaning you <strong>must</strong> have Cassandra running <strong>before</strong> starting Kong.</p>
 
-<p><strong>Note:</strong> If you haven&#39;t already, go ahead and make sure that you have a Kong configuration file located under <code>/etc/kong/kong.yml</code> and points to your Cassandra instance or cluster. If you haven&#39;t, consult the <a href="/0.3.x/configuration">configuration reference</a> before starting.</p>
+<p><strong>Note:</strong> If you haven’t already, go ahead and make sure that you have a Kong configuration file located under <code class="highlighter-rouge">/etc/kong/kong.yml</code> and points to your Cassandra instance or cluster. If you haven’t, consult the <a href="/0.3.x/configuration">configuration reference</a> before starting.</p>
 
-<ol>
-<li><h3 id="start-kong">Start Kong.</h3>
+<h2 id="1-start-kong">1. Start Kong.</h2>
 
-<p>Issue the following command to start <a href="/0.3.x/cli">kong</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start
-</code></pre></div>
-<p><strong>Note:</strong> The CLI also accepts a configuration (<code>-c &lt;path_to_config&gt;</code>) option allowing you to point to different configurations.</p></li>
-<li><h3 id="verify-that-kong-has-started-successfully">Verify that Kong has started successfully</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following command to start [kong][CLI]:
 
-<p>The previous step runs migrations to prepare the Cassandra keyspace.
-Once these have finished you should see a message (<code>[OK] Started</code>) informing you that Kong is running.</p>
+```bash
+$ kong start
+```
 
-<p>By default Kong listens on the following ports:</p>
+**Note:** The CLI also accepts a configuration (`-c &lt;path_to_config&gt;`) option allowing you to point to different configurations.
+</code></pre>
+</div>
 
-<p><code>:8000</code> - Proxy layer for API requests</p>
+<h2 id="2-verify-that-kong-has-started-successfully">2. Verify that Kong has started successfully</h2>
 
-<p><code>:8001</code> - <a href="/0.3.x/admin-api">RESTful Admin API</a> for configuration</p></li>
-<li><h3 id="stop-kong">Stop Kong.</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>The previous step runs migrations to prepare the Cassandra keyspace.
+Once these have finished you should see a message (`[OK] Started`) informing you that Kong is running.
 
-<p>As needed you can stop the <a href="/0.3.x/cli">kong</a> process by issuing the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong stop
-</code></pre></div></li>
-<li><h3 id="reload-kong">Reload Kong.</h3>
+By default Kong listens on the following ports:
 
-<p>Issue the following command to reload <a href="/0.3.x/cli">kong</a> without downtime:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong reload
-</code></pre></div></li>
-</ol>
+`:8000` - Proxy layer for API requests
 
-<h3 id="next-steps">Next Steps</h3>
+`:8001` - [RESTful Admin API][API] for configuration
+</code></pre>
+</div>
+
+<h2 id="3-stop-kong">3. Stop Kong.</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>As needed you can stop the [kong][CLI] process by issuing the following command:
+
+```bash
+$ kong stop
+```
+</code></pre>
+</div>
+
+<h2 id="4-reload-kong">4. Reload Kong.</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following command to reload [kong][CLI] without downtime:
+
+```bash
+$ kong reload
+```
+</code></pre>
+</div>
+
+<h2 id="next-steps">Next Steps</h2>
 
 <p>Now that you have Kong running you can interact with the RESTful API.</p>
 
-<p>To begin, go to <a href="/0.3.x/getting-started/adding-your-api">Adding your API &rsaquo;</a></p>
+<p>To begin, go to <a href="/0.3.x/getting-started/adding-your-api">Adding your API ›</a></p>
+
 
 
         </div>
@@ -829,7 +849,7 @@ Once these have finished you should see a message (<code>[OK] Started</code>) in
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

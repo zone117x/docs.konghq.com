@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,20 +236,30 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-</ul></li>
-<li> <a href="#how-it-works">How it works</a></li>
-<li> <a href="#generators">Generators</a></li>
-<li> <a href="#faq">FAQ</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-it-works">How it works</a></li>
+  <li><a href="#generators">Generators</a>
+    <ul>
+      <li><a href="#uuid">uuid</a></li>
+      <li><a href="#uuidcounter">uuid#counter</a></li>
+      <li><a href="#tracker">tracker</a></li>
+    </ul>
+  </li>
+  <li><a href="#faq">FAQ</a>
+    <ul>
+      <li><a href="#can-i-see-my-correlation-ids-in-my-kong-logs">Can I see my correlation ids in my Kong logs?</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -460,63 +470,77 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
     --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
     --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
     --data <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
     --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
     --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
     --data <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=correlation-id"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
     --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
     --data <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -524,15 +548,18 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
     --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
     --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
     --data <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -550,7 +577,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -573,10 +601,10 @@ target.</li>
     
       <tr>
         <td><code>config.header_name</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>Kong-Request-ID</code></p>
+        <td><p><code class="highlighter-rouge">Kong-Request-ID</code></p>
 </td>
         <td><p>The HTTP header name to use for the correlation ID.</p>
 </td>
@@ -584,21 +612,21 @@ target.</li>
     
       <tr>
         <td><code>config.generator</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>uuid#counter</code></p>
+        <td><p><code class="highlighter-rouge">uuid#counter</code></p>
 </td>
-        <td><p>The generator to use for the correlation ID. Accepted values are <code>uuid</code>, <code>uuid#counter</code> and <code>tracker</code> See <a href="#generators">Generators</a>.</p>
+        <td><p>The generator to use for the correlation ID. Accepted values are <code class="highlighter-rouge">uuid</code>, <code class="highlighter-rouge">uuid#counter</code> and <code class="highlighter-rouge">tracker</code> See <a href="#generators">Generators</a>.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.echo_downstream</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
         <td><p>Whether to echo the header back to downstream (the client).</p>
 </td>
@@ -612,82 +640,86 @@ target.</li>
 
       
 
+
       <h2 id="how-it-works">How it works</h2>
 
-<p>When enabled, this plugin will add a new header to all of the requests processed by Kong. This header bears the name configured in <code>config.header_name</code>, and a unique value generated according to <code>config.generator</code>.</p>
+<p>When enabled, this plugin will add a new header to all of the requests processed by Kong. This header bears the name configured in <code class="highlighter-rouge">config.header_name</code>, and a unique value generated according to <code class="highlighter-rouge">config.generator</code>.</p>
 
-<p>This header is always added to calls to your upstream services, and optionally echoed back to your clients according to the <code>config.echo_downstream</code> setting.</p>
+<p>This header is always added to calls to your upstream services, and optionally echoed back to your clients according to the <code class="highlighter-rouge">config.echo_downstream</code> setting.</p>
 
 <p>If a header bearing the same name is already present in the client request, it is honored and this plugin will <strong>not</strong> temper with it.</p>
 
 <h2 id="generators">Generators</h2>
 
-<h4 id="uuid">uuid</h4>
+<h3 id="uuid">uuid</h3>
 
-<p>Format:
-<code>
-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-</code></p>
+<p>Format:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+</code></pre>
+</div>
 
 <p>Using this format, a UUID is generated in its hexadecimal form for each request.</p>
 
-<h4 id="uuid-counter">uuid#counter</h4>
+<h3 id="uuidcounter">uuid#counter</h3>
 
-<p>Format:
-<code>
-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx#counter
-</code></p>
+<p>Format:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx#counter
+</code></pre>
+</div>
 
-<p>In this format, a single UUID is generated on a per-worker basis, and further requests simply append a counter to the UUID after a <code>#</code> character. The <code>counter</code> value starts at <code>0</code> for each worker, and gets incremented independently of the others.</p>
+<p>In this format, a single UUID is generated on a per-worker basis, and further requests simply append a counter to the UUID after a <code class="highlighter-rouge">#</code> character. The <code class="highlighter-rouge">counter</code> value starts at <code class="highlighter-rouge">0</code> for each worker, and gets incremented independently of the others.</p>
 
 <p>This format provides a better performance, but might be harder to store or process for analyzing (due to its format and low cardinality).</p>
 
-<h4 id="tracker">tracker</h4>
+<h3 id="tracker">tracker</h3>
 
-<p>Format:
-<code>
-ip-port-pid-connection-connection_requests-timestamp
-</code></p>
+<p>Format:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>ip-port-pid-connection-connection_requests-timestamp
+</code></pre>
+</div>
 
 <p>In this format, the correlation id contains more practical implications for each request.</p>
 
 <p>The following is a detailed description of the field</p>
 
-<table><thead>
-<tr>
-<th>form parameter</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>ip</code></td>
-<td>an address of the server which accepted a request</td>
-</tr>
-<tr>
-<td><code>port</code></td>
-<td>port of the server which accepted a request</td>
-</tr>
-<tr>
-<td><code>pid</code></td>
-<td>pid of the nginx worker process</td>
-</tr>
-<tr>
-<td><code>connection</code></td>
-<td>connection serial number</td>
-</tr>
-<tr>
-<td><code>connection_requests</code></td>
-<td>current number of requests made through a connection</td>
-</tr>
-<tr>
-<td><code>timestamp</code></td>
-<td>a floating-point number for the elapsed time in seconds (including milliseconds as the decimal part) from the epoch for the current time stamp from the nginx cached time</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>form parameter</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">ip</code></td>
+      <td>an address of the server which accepted a request</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">port</code></td>
+      <td>port of the server which accepted a request</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">pid</code></td>
+      <td>pid of the nginx worker process</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">connection</code></td>
+      <td>connection serial number</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">connection_requests</code></td>
+      <td>current number of requests made through a connection</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">timestamp</code></td>
+      <td>a floating-point number for the elapsed time in seconds (including milliseconds as the decimal part) from the epoch for the current time stamp from the nginx cached time</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="faq">FAQ</h2>
 
-<h4 id="can-i-see-my-correlation-ids-in-my-kong-logs">Can I see my correlation ids in my Kong logs?</h4>
+<h3 id="can-i-see-my-correlation-ids-in-my-kong-logs">Can I see my correlation ids in my Kong logs?</h3>
 
 <p>The correlation id will not show up in the Nginx access or error logs. As such, we suggest you use this plugin alongside one of the Logging plugins, or store this id on your backend-side.</p>
 
@@ -855,7 +887,7 @@ ip-port-pid-connection-connection_requests-timestamp
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

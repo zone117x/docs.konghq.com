@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -700,49 +700,53 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-    -  <a href="#modules">Modules</a>
-
-<ul>
-<li> <a href="#create-a-migration-file">Create a migration file</a></li>
-<li> <a href="#extending-the-base-dao">Extending the Base DAO</a></li>
-<li> <a href="#caching-custom-entities">Caching custom entities</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#modules">Modules</a></li>
+  <li><a href="#create-a-migration-file">Create a migration file</a></li>
+  <li><a href="#extending-the-base-dao">Extending the Base DAO</a></li>
+  <li><a href="#caching-custom-entities">Caching custom entities</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
+<h2 id="modules">Modules</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
 "kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
+
+<hr />
 
 <p>Your plugin might need to store more than its configuration in the database. In that case, Kong provides you with an abstraction on top of Cassandra (and future supported datastores) which allows you to store custom entities.</p>
 
-<p>As explained in the <a href="/0.6.x/plugin-development/access-the-datastore/">previous chapter</a>, Kong interacts with the model layer through classes we refer to as &quot;DAOs&quot;, and available on a global variable called the &quot;DAO Factory&quot;. This chapter will explain how to inherit from the Kong <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao">kong.dao.cassandra.base_dao</a> module to provide an abstraction for your own entities.</p>
+<p>As explained in the <a href="/0.6.x/plugin-development/access-the-datastore/">previous chapter</a>, Kong interacts with the model layer through classes we refer to as “DAOs”, and available on a global variable called the “DAO Factory”. This chapter will explain how to inherit from the Kong <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao">kong.dao.cassandra.base_dao</a> module to provide an abstraction for your own entities.</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> Currently, Kong only supports <a href="http://cassandra.apache.org/">Cassandra</a> as its datastore. This guide assumes that you are already familiar with it and sometimes describes concepts only related to Cassandra, such as indexes and clustering keys.
 </div>
 
-<hr>
+<hr />
 
-<h3 id="create-a-migration-file">Create a migration file</h3>
+<h2 id="create-a-migration-file">Create a migration file</h2>
 
 <p>Once you have defined your model, you must create a migration file which will be executed by Kong to create your column family. A migration file simply holds an array of migrations, and returns them.</p>
 
-<p>Each migration has a unique name, and two functions which can execute <a href="https://cassandra.apache.org/doc/cql/CQL.html">CQL</a> statements: <code>up</code> and <code>down</code>. The up function is executed when Kong migrates your database (when starting or using the <a href="/0.6.x/cli#migrations">kong migrations</a> command).</p>
+<p>Each migration has a unique name, and two functions which can execute <a href="https://cassandra.apache.org/doc/cql/CQL.html">CQL</a> statements: <code class="highlighter-rouge">up</code> and <code class="highlighter-rouge">down</code>. The up function is executed when Kong migrates your database (when starting or using the <a href="/0.6.x/cli#migrations">kong migrations</a> command).</p>
 
 <p>One of the main benefits of this approach is should you need to release a new version of your plugin that modifies a model, you can simply add new migrations to the array before releasing your plugin. Another benefit is that it is also possible to revert such migrations.</p>
 
 <p>As described in the <a href="/0.6.x/plugin-development/file-structure/">file structure</a> chapter, your file must be a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
+</code></pre>
+</div>
+
 <p>Here is an example of how one would define a migration file to store API keys:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">Migrations</span> <span class="o">=</span> <span class="p">{</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">Migrations</span> <span class="o">=</span> <span class="p">{</span>
   <span class="p">{</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
     <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
@@ -768,36 +772,42 @@ window['_fs_namespace'] = 'FS';
 <span class="p">}</span>
 
 <span class="k">return</span> <span class="n">Migrations</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>name</code>: Must be a unique string. The format does not matter but can help you debug issues while developing your plugin, so make sure to name it in a relevant way.</li>
-<li><code>up</code>: Executed when Kong migrates <strong>forward</strong>. The first parameter, <code>options</code>, is a table containing the Cassandra properties defined in your configuration file, the second, <code>dao_factory</code>, is the instantiated DAO factory.</li>
-<li><code>down</code>: Executed when Kong migrates <strong>backward</strong>. Its parameters and return values are the same as <code>up</code>.</li>
-<li><code>dao_factory:execute_queries()</code>: Execute multiple CQL statements separated by a semicolon. It returns an error if any, which is why if you call it multiple times in the migration function, you must ensure to test its return value, and return it (interrupting the migration) if it is non-nil.</li>
+  <li><code class="highlighter-rouge">name</code>: Must be a unique string. The format does not matter but can help you debug issues while developing your plugin, so make sure to name it in a relevant way.</li>
+  <li><code class="highlighter-rouge">up</code>: Executed when Kong migrates <strong>forward</strong>. The first parameter, <code class="highlighter-rouge">options</code>, is a table containing the Cassandra properties defined in your configuration file, the second, <code class="highlighter-rouge">dao_factory</code>, is the instantiated DAO factory.</li>
+  <li><code class="highlighter-rouge">down</code>: Executed when Kong migrates <strong>backward</strong>. Its parameters and return values are the same as <code class="highlighter-rouge">up</code>.</li>
+  <li><code class="highlighter-rouge">dao_factory:execute_queries()</code>: Execute multiple CQL statements separated by a semicolon. It returns an error if any, which is why if you call it multiple times in the migration function, you must ensure to test its return value, and return it (interrupting the migration) if it is non-nil.</li>
 </ul>
 
-<p>Cassandra does not support constraints such as &quot;must be unique&quot; or &quot;is a foreign key to that table&#39;s primary key&quot;, but Kong provides you with such features when you extend the Base DAO and define your model&#39;s schema.</p>
+<p>Cassandra does not support constraints such as “must be unique” or “is a foreign key to that table’s primary key”, but Kong provides you with such features when you extend the Base DAO and define your model’s schema.</p>
 
-<hr>
+<hr />
 
-<h3 id="extending-the-base-dao">Extending the Base DAO</h3>
+<h2 id="extending-the-base-dao">Extending the Base DAO</h2>
 
 <p>To make the DAO Factory load your custom DAO(s), you will need:</p>
 
 <ul>
-<li>A schema (just like the schemas describing your <a href="/0.6.x/plugin-development/plugin-configuration/">plugin configuration</a>) that describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints and such.</li>
-<li>A child implementation of <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao">kong.dao.cassandra.base_dao</a>, which consumes the schema and exposes methods to create, update, find and delete entities of that type. See the <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao/#Children_DAOs_interface">children DAOs interface</a>.</li>
+  <li>A schema (just like the schemas describing your <a href="/0.6.x/plugin-development/plugin-configuration/">plugin configuration</a>) that describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints and such.</li>
+  <li>A child implementation of <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao">kong.dao.cassandra.base_dao</a>, which consumes the schema and exposes methods to create, update, find and delete entities of that type. See the <a href="/0.6.x/lua-reference/modules/kong.dao.cassandra.base_dao/#Children_DAOs_interface">children DAOs interface</a>.</li>
 </ul>
 
 <p>This DAO is to be implemented in a module named:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.daos.lua"
-</code></pre></div>
-<p>Here is an example of how one would define a schema to inherit from the base_dao module and store API keys in a new table (&quot;column family&quot; in Cassandra):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos.lua"
+</code></pre>
+</div>
+
+<p>Here is an example of how one would define a schema to inherit from the base_dao module and store API keys in a new table (“column family” in Cassandra):</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> Kong uses the <a href="https://github.com/rxi/classic">rxi/classic</a> module to simulate classes in Lua and ease the inheritance pattern.
 </div>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- daos.lua</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
 
 <span class="kd">local</span> <span class="n">BaseDao</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.dao.cassandra.base_dao"</span>
 
@@ -826,61 +836,69 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="p">{</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">KeyAuth</span><span class="p">}</span> <span class="c1">-- this plugin only defines one custom DAO, named `keyauth_credentials`</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Once you have defined your schema, overriding the :new() method provides the Base DAO the schema and the name of the associated column family in your Cassandra instance (according to your own migration file).</p>
 
 <p>Since your plugin might have to deal with multiple custom DAOs (in the case when you want to store several entities), this module is bound to return a key/value table where keys are the name on which the custom DAO will be available in the DAO Factory.</p>
 
 <p>You will have noticed a few new properties in the schema definition (compared to your <a href="/0.6.x/plugin-development/plugin-configuration/">schema.lua</a> file):</p>
 
-<table><thead>
-<tr>
-<th>Property name</th>
-<th>Lua type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>primary_key</code></td>
-<td>Integer indexed table</td>
-<td>An array of each part of your column family&#39;s primary key. It also supports <strong>composite keys</strong>, even if all Kong entities currently use a simple <code>id</code> for usability of the Admin API. If your primary key is composite, only include what makes your <strong>partition key</strong>.</td>
-</tr>
-<tr>
-<td><code>clustering_key</code></td>
-<td>Integer indexed table</td>
-<td>In the case when your primary key is composite, an array of each field determining your <strong>clustering key</strong>.</td>
-</tr>
-<tr>
-<td><code>fields.*.dao_insert_value</code></td>
-<td>Boolean</td>
-<td>If true, specifies that this field is to be automatically populated by the DAO (in the base_dao implementation) depending on it&#39;s type. A property of type <code>id</code> will be a generated uuid, and <code>timestamp</code> a timestamp with second-precision.</td>
-</tr>
-<tr>
-<td><code>fields.*.queryable</code></td>
-<td>Boolean</td>
-<td>If true, specifies that Cassandra maintains an index on the specified column. This allows for querying the column family filtered by this column.</td>
-</tr>
-<tr>
-<td><code>fields.*.foreign</code></td>
-<td>String</td>
-<td>Specifies that this column is a foreign key to another entity&#39;s column. The format is: <code>dao_name:column_name</code>. This makes it up for Cassandra not supporting foreign keys. When the parent row will be deleted, Kong will also delete rows containing the parent&#39;s column value.</td>
-</tr>
-<tr>
-<td><code>marshall_event</code></td>
-<td>Function</td>
-<td>A function that returns a table representing the entity fields to be used by the invalidation hooks. Only the bare minimum fields required by the invalidation hook should be returned, and its JSON representation should not exceed the size of a UDP packet.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Property name</th>
+      <th>Lua type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">primary_key</code></td>
+      <td>Integer indexed table</td>
+      <td>An array of each part of your column family’s primary key. It also supports <strong>composite keys</strong>, even if all Kong entities currently use a simple <code class="highlighter-rouge">id</code> for usability of the Admin API. If your primary key is composite, only include what makes your <strong>partition key</strong>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">clustering_key</code></td>
+      <td>Integer indexed table</td>
+      <td>In the case when your primary key is composite, an array of each field determining your <strong>clustering key</strong>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">fields.*.dao_insert_value</code></td>
+      <td>Boolean</td>
+      <td>If true, specifies that this field is to be automatically populated by the DAO (in the base_dao implementation) depending on it’s type. A property of type <code class="highlighter-rouge">id</code> will be a generated uuid, and <code class="highlighter-rouge">timestamp</code> a timestamp with second-precision.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">fields.*.queryable</code></td>
+      <td>Boolean</td>
+      <td>If true, specifies that Cassandra maintains an index on the specified column. This allows for querying the column family filtered by this column.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">fields.*.foreign</code></td>
+      <td>String</td>
+      <td>Specifies that this column is a foreign key to another entity’s column. The format is: <code class="highlighter-rouge">dao_name:column_name</code>. This makes it up for Cassandra not supporting foreign keys. When the parent row will be deleted, Kong will also delete rows containing the parent’s column value.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">marshall_event</code></td>
+      <td>Function</td>
+      <td>A function that returns a table representing the entity fields to be used by the invalidation hooks. Only the bare minimum fields required by the invalidation hook should be returned, and its JSON representation should not exceed the size of a UDP packet.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Your DAO will now be loaded by the DAO Factory and available as one of its properties:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">dao</span> <span class="c1">-- get the global DAO factory</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">dao</span> <span class="c1">-- get the global DAO factory</span>
 <span class="kd">local</span> <span class="n">keys_dao</span> <span class="o">=</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span>
-</code></pre></div>
-<p>The property name (<code>keyauth_credentials</code>) depends on the key with which you exported your DAO in the returned table of <code>daos.lua</code>.</p>
+</code></pre>
+</div>
 
-<hr>
+<p>The property name (<code class="highlighter-rouge">keyauth_credentials</code>) depends on the key with which you exported your DAO in the returned table of <code class="highlighter-rouge">daos.lua</code>.</p>
 
-<h3 id="caching-custom-entities">Caching custom entities</h3>
+<hr />
+
+<h2 id="caching-custom-entities">Caching custom entities</h2>
 
 <p>Sometimes custom entities are required on every request/response, which in turn triggers a query on the datastore every time. This is very inefficient because querying the datastore adds latency and slows the request/response down, and the resulting increased load on the datastore could affect the datastore performance itself and, in turn, other Kong nodes.</p>
 
@@ -888,9 +906,10 @@ window['_fs_namespace'] = 'FS';
 
 <p>The next chapter will focus on caching custom entities, and invalidating them when they change in the datastore: <a href="/0.6.x/plugin-development/entities-cache/">Caching custom entities</a>.</p>
 
-<hr>
+<hr />
 
-<p>Next: <a href="/0.6.x/plugin-development/entities-cache/">Caching custom entities &rsaquo;</a></p>
+<p>Next: <a href="/0.6.x/plugin-development/entities-cache/">Caching custom entities ›</a></p>
+
 
 
         </div>
@@ -1065,7 +1084,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

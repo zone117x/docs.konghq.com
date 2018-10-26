@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -895,26 +895,26 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#securing-the-admin-api">Securing the Admin API</a>
-
-<ul>
-<li> <a href="#network-layer-access-restrictions">Network Layer Access Restrictions</a>
-
-<ul>
-<li> <a href="#reduce-listening-footprint">Reduce Listening Footprint</a></li>
-<li> <a href="#layer-3-4-network-controls">Layer 3/4 Network Controls</a></li>
-</ul></li>
-<li> <a href="#kong-api-loopback">Kong API Loopback</a></li>
-<li> <a href="#custom-nginx-configuration">Custom Nginx Configuration</a></li>
-<li> <a href="#role-based-access-control">Role Based Access Control</a></li>
-</ul></li>
+  <li><a href="#securing-the-admin-api">Securing the Admin API</a>
+    <ul>
+      <li><a href="#network-layer-access-restrictions">Network Layer Access Restrictions</a>
+        <ul>
+          <li><a href="#reduce-listening-footprint">Reduce Listening Footprint</a></li>
+          <li><a href="#layer-34-network-controls">Layer 3/4 Network Controls</a></li>
+        </ul>
+      </li>
+      <li><a href="#kong-api-loopback">Kong API Loopback</a></li>
+      <li><a href="#custom-nginx-configuration">Custom Nginx Configuration</a></li>
+      <li><a href="#role-based-access-control">Role Based Access Control</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="securing-the-admin-api">Securing the Admin API</h1>
 
-<p>Kong&#39;s Admin API provides a RESTful interface for administration and
+<p>Kong’s Admin API provides a RESTful interface for administration and
 configuration of APIs, plugins, consumers, and credentials. Because this
 API allows full control of Kong, it is important to secure this API against
 unwanted access. This document describes a few possible approaches to securing
@@ -925,20 +925,20 @@ the Admin API.</p>
 <h3 id="reduce-listening-footprint">Reduce Listening Footprint</h3>
 
 <p>By default, Kong will accept requests for both the public-facing entrypoint, and
-the Admin API, on <code>0.0.0.0</code>, which will bind to all available interfaces on the
+the Admin API, on <code class="highlighter-rouge">0.0.0.0</code>, which will bind to all available interfaces on the
 host. Reducing this exposure footprint by limiting the interfaces by which the
 Admin API can be accessed is a foundational step. This setting can be adjusted
-via the <code>admin_listen</code> Kong configuration directive. For example:</p>
+via the <code class="highlighter-rouge">admin_listen</code> Kong configuration directive. For example:</p>
 
-<p><code>admin_listen 127.0.0.1:8001</code></p>
+<p><code class="highlighter-rouge">admin_listen 127.0.0.1:8001</code></p>
 
-<p>This will define the Nginx <code>listen</code> directive used by Kong to the prescribed
+<p>This will define the Nginx <code class="highlighter-rouge">listen</code> directive used by Kong to the prescribed
 value, instructing Kong to only respond to requests received on the localhost
 interface.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h3 id="layer-3-4-network-controls">Layer 3/4 Network Controls</h3>
+<h3 id="layer-34-network-controls">Layer 3/4 Network Controls</h3>
 
 <p>In cases where the Admin API must be exposed beyond a localhost interface,
 network security best practices dictate that network-layer access be restricted
@@ -946,7 +946,8 @@ as much as possible. Consider an environment in which Kong listens on a private
 network interface, but should only be accessed by a small subset of an IP range.
 In such a case, host-based firewalls (e.g. iptables) are useful in limiting
 input traffic ranges. For example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># assume that Kong is listening on the address defined below, as defined as a</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># assume that Kong is listening on the address defined below, as defined as a</span>
 <span class="c"># /24 CIDR block, and only a select few hosts in this range should have access</span>
 
 <span class="gp">$ </span>grep admin_listen /etc/kong/kong.conf
@@ -963,7 +964,9 @@ admin_listen 10.10.10.3:8001
 <span class="c"># drop all TCP packets on port 8001 not in the above IP list</span>
 <span class="gp">$ </span>iptables -A INPUT -m tcp -p tcp --dport 8001 -j DROP
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Additional controls, such as similar ACLs applied at a network device level, are
 encouraged, but fall outside the scope of this document.</p>
 
@@ -971,11 +974,12 @@ encouraged, but fall outside the scope of this document.</p>
 
 <h2 id="kong-api-loopback">Kong API Loopback</h2>
 
-<p>Kong&#39;s routing design allows it to serve as a proxy for the Admin API itself. In
+<p>Kong’s routing design allows it to serve as a proxy for the Admin API itself. In
 this manner, Kong itself can be used to provide fine-grained access control to
 the Admin API. Such an environment requires bootstrapping a new API that defines
-the <code>admin_listen</code> address as the API&#39;s <code>upstream_url</code>. For example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># assume that Kong has defined admin_listen as 127.0.0.1:8001, and we want to</span>
+the <code class="highlighter-rouge">admin_listen</code> address as the API’s <code class="highlighter-rouge">upstream_url</code>. For example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># assume that Kong has defined admin_listen as 127.0.0.1:8001, and we want to</span>
 <span class="c"># reach the Admin API via the url `/admin-api`</span>
 
 <span class="gp">$ </span>curl http://localhost:8001/apis <span class="se">\</span>
@@ -1007,7 +1011,9 @@ the <code>admin_listen</code> address as the API&#39;s <code>upstream_url</code>
    <span class="o">]</span>,
    <span class="s2">"total"</span>:1
 <span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>From here, simply apply desired Kong-specific security controls (such as
 <a href="/plugins/basic-authentication/">basic</a> or <a href="/plugins/key-authentication">key authentication</a>,
 <a href="/plugins/ip-restriction">IP restrictions</a>, or <a href="/plugins/acl">access control lists</a>) as you would
@@ -1049,6 +1055,7 @@ uses.</p>
 Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1223,7 +1230,7 @@ Enterprise offering by <a href="/enterprise">contacting us</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

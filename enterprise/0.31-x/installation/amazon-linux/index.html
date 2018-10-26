@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -606,21 +606,27 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#how-to-install-kong-enterprise-and-postgresql-onto-amazon-linux">How to Install Kong Enterprise and PostgreSQL onto Amazon Linux</a>
-    -  <a href="#install-kong">Install Kong</a>
-    -  <a href="#install-postgres">Install Postgres</a>
-        -  <a href="#create-kong-user">Create <code>kong</code> user</a>
-        -  <a href="#add-required-db-and-kong-settings">Add required DB and Kong settings</a>
-        -  <a href="#test-your-kong-installation">Test your Kong installation</a>
-        -  <a href="#setup-admin-gui">Setup Admin GUI</a></li>
+  <li><a href="#how-to-install-kong-enterprise-and-postgresql-onto-amazon-linux">How to Install Kong Enterprise and PostgreSQL onto Amazon Linux</a>
+    <ul>
+      <li><a href="#install-kong">Install Kong</a></li>
+      <li><a href="#install-postgres">Install Postgres</a>
+        <ul>
+          <li><a href="#create-kong-user">Create <code class="highlighter-rouge">kong</code> user</a></li>
+          <li><a href="#add-required-db-and-kong-settings">Add required DB and Kong settings</a></li>
+          <li><a href="#test-your-kong-installation">Test your Kong installation</a></li>
+          <li><a href="#setup-admin-gui">Setup Admin GUI</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="how-to-install-kong-enterprise-and-postgresql-onto-amazon-linux">How to Install Kong Enterprise and PostgreSQL onto Amazon Linux</h1>
 
-<h3 id="install-kong">Install Kong</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">EITHER <span class="o">(</span>assuming free trial .rpm loaded locally<span class="o">)</span>
+<h2 id="install-kong">Install Kong</h2>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>EITHER <span class="o">(</span>assuming free trial .rpm loaded locally<span class="o">)</span>
 <span class="gp">$ </span>sudo yum install kong-free-trials-enterprise-edition-0.31-1.aws.rpm
 OR <span class="o">(</span>non-free trial method<span class="o">)</span>
 <span class="gp">$ </span>sudo yum update
@@ -632,21 +638,27 @@ OR <span class="o">(</span>non-free trial method<span class="o">)</span>
 <span class="c"># Ensure `baseurl` is correct</span>
 <span class="nv">baseurl</span><span class="o">=</span>https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
 <span class="gp">$ </span>sudo yum install kong-enterprise-edition
-</code></pre></div>
-<h3 id="install-postgres">Install Postgres</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sudo yum install postgresql95 postgresql95-server
+</code></pre>
+</div>
+
+<h2 id="install-postgres">Install Postgres</h2>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo yum install postgresql95 postgresql95-server
 <span class="gp">$ </span>sudo service postgresql95 initdb
 <span class="gp">$ </span>sudo service postgresql95 start
 <span class="gp">$ </span>sudo -i -u postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
-</code></pre></div>
-<h4 id="create-kong-user">Create <code>kong</code> user</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>psql
+</code></pre>
+</div>
+
+<h3 id="create-kong-user">Create <code class="highlighter-rouge">kong</code> user</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>psql
 <span class="gp">&gt; </span>CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password <span class="s1">'kong'</span>; 
 <span class="gp">&gt; </span><span class="se">\q</span>
 <span class="gp">$ </span><span class="nb">exit</span>
-</code></pre></div>
-<h4 id="add-required-db-and-kong-settings">Add required DB and Kong settings</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Change entries from ident to md5</span>
+</code></pre>
+</div>
+
+<h3 id="add-required-db-and-kong-settings">Add required DB and Kong settings</h3>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
 <span class="gp">$ </span>sudo vi /var/lib/pgsql95/data/pg_hba.conf
 <span class="gp">$ </span>sudo service postgresql95 restart
 
@@ -659,17 +671,25 @@ OR <span class="o">(</span>non-free trial method<span class="o">)</span>
 <span class="c"># Run migrations and start kong</span>
 <span class="gp">$ </span>kong migrations up -c /etc/kong/kong.conf.default
 <span class="gp">$ </span>sudo /usr/local/bin/kong start -c /etc/kong/kong.conf.default
-</code></pre></div>
-<h4 id="test-your-kong-installation">Test your Kong installation</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST <span class="se">\</span>
+</code></pre>
+</div>
+
+<h3 id="test-your-kong-installation">Test your Kong installation</h3>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST <span class="se">\</span>
 --url <span class="s1">'http://localhost:8001/apis'</span> <span class="se">\</span>
 --data <span class="s1">'name=demo'</span> <span class="se">\</span>
 --data <span class="s1">'uris=/'</span> <span class="se">\</span>
 --data <span class="s1">'upstream_url=http://httpbin.org'</span>
-</code></pre></div><div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X GET --url <span class="s1">'http://localhost:8000/ip'</span>
-</code></pre></div>
-<h4 id="setup-admin-gui">Setup Admin GUI</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Get the local IP address</span>
+</code></pre>
+</div>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET --url <span class="s1">'http://localhost:8000/ip'</span>
+</code></pre>
+</div>
+
+<h3 id="setup-admin-gui">Setup Admin GUI</h3>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
 <span class="gp">$ </span>ifconfig 
 
 <span class="c"># Uncomment the admin_listen setting, and update to </span>
@@ -679,8 +699,10 @@ OR <span class="o">(</span>non-free trial method<span class="o">)</span>
 <span class="c"># Restart kong</span>
 <span class="gp">$ </span>sudo /usr/local/bin/kong stop 
 <span class="gp">$ </span>sudo /usr/local/bin/kong start -c /etc/kong/kong.conf.default
-</code></pre></div>
-<p>In a browser, load your server on port <code>8002</code></p>
+</code></pre>
+</div>
+
+<p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
 
 
         </div>
@@ -837,7 +859,7 @@ OR <span class="o">(</span>non-free trial method<span class="o">)</span>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

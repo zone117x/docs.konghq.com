@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -251,82 +251,86 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#0-33-2-2018-10-09">0.33-2 - 2018/10/09</a></li>
-<li> <a href="#0-33-1-2018-09-05">0.33-1 - 2018/09/05</a></li>
-<li> <a href="#0-33-2018-07-24">0.33 - 2018/07/24</a></li>
-<li> <a href="#0-32-2018-05-24">0.32 - 2018/05/24</a></li>
-<li> <a href="#0-31-1-2018-04-25">0.31-1 - 2018/04/25</a></li>
-<li> <a href="#0-31-2018-03-16">0.31 - 2018/03/16</a></li>
-<li> <a href="#0-30-2018-01-24">0.30 - 2018/01/24</a></li>
+  <li><a href="#033-2---20181009">0.33-2 - 2018/10/09</a></li>
+  <li><a href="#033-1---20180905">0.33-1 - 2018/09/05</a></li>
+  <li><a href="#033---20180724">0.33 - 2018/07/24</a></li>
+  <li><a href="#032---20180524">0.32 - 2018/05/24</a></li>
+  <li><a href="#031-1---20180425">0.31-1 - 2018/04/25</a></li>
+  <li><a href="#031---20180316">0.31 - 2018/03/16</a></li>
+  <li><a href="#030---20180124">0.30 - 2018/01/24</a></li>
 </ul>
 
           
 
-          <h2 id="0-33-2-2018-10-09">0.33-2 - 2018/10/09</h2>
+          <h2 id="033-2---20181009">0.33-2 - 2018/10/09</h2>
 
 <p><strong>Notifications</strong></p>
 
 <ul>
-<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
-
-<ul>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
-</ul></li>
-<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
-
-<ul>
-<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
-<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
-
-<ul>
-<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
-</ul></li>
-<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
-</ul></li>
-<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+  <li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+    <ul>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+    </ul>
+  </li>
+  <li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+    <ul>
+      <li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+      <li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
+        <ul>
+          <li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+        </ul>
+      </li>
+      <li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+    </ul>
+  </li>
+  <li><strong>Breaking</strong>: Since 0.32, the <code class="highlighter-rouge">latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code class="highlighter-rouge">latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
 </ul>
 
 <p><strong>Fixes</strong></p>
 
 <ul>
-<li><p><strong>Core</strong></p>
-
-<ul>
-<li><strong>DB</strong>
-
-<ul>
-<li><a href="https://github.com/thibaultcha/lua-cassandra/blob/master/CHANGELOG.md#132">lua-cassandra</a> version bumped to 1.3.2
-
-<ul>
-<li>Fix an issue encountered in environments with DNS load-balancing in effect for contact_points provided as hostnames (e.g.Kubernetes with <code>contact_points = { &quot;cassandra&quot; }</code>).</li>
-</ul></li>
-</ul></li>
-<li><strong>Plugin Runloop</strong>
-
-<ul>
-<li>Plugin runloop performance optimizations</li>
-<li>Reduce the number of invocations of the plugins iterator by attempting to load configurations only for plugins we know are configured on the cluster</li>
-<li>Pre-calculate plugins cache key</li>
-<li>Avoid unnecessary L2 cache deserialization</li>
-</ul></li>
-<li><strong>Balancer</strong>
-
-<ul>
-<li>Fix issue where Upstream for different workspace getting cached to same key</li>
-<li>Fix an issue where Balancer are not run into limited workspace scope</li>
-</ul></li>
-<li><strong>Dev Portal</strong>
-
-<ul>
-<li>Fix an issue which may expose information on the URL query string</li>
-<li><strong>Breaking</strong>: If you are updating from a previous version (not a clean install), you will need to update the files below in order to take advantage of security and performance updates.</li>
-</ul></li>
-</ul></li>
+  <li><strong>Core</strong>
+    <ul>
+      <li><strong>DB</strong>
+        <ul>
+          <li><a href="https://github.com/thibaultcha/lua-cassandra/blob/master/CHANGELOG.md#132">lua-cassandra</a> version bumped to 1.3.2
+            <ul>
+              <li>Fix an issue encountered in environments with DNS load-balancing in effect for contact_points provided as hostnames (e.g.Kubernetes with <code class="highlighter-rouge">contact_points = { "cassandra" }</code>).</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Plugin Runloop</strong>
+        <ul>
+          <li>Plugin runloop performance optimizations
+            <ul>
+              <li>Reduce the number of invocations of the plugins iterator by attempting to load configurations only for plugins we know are configured on the cluster</li>
+              <li>Pre-calculate plugins cache key</li>
+              <li>Avoid unnecessary L2 cache deserialization</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Balancer</strong>
+        <ul>
+          <li>Fix issue where Upstream for different workspace getting cached to same key</li>
+          <li>Fix an issue where Balancer are not run into limited workspace scope</li>
+        </ul>
+      </li>
+      <li><strong>Dev Portal</strong>
+        <ul>
+          <li>Fix an issue which may expose information on the URL query string</li>
+          <li><strong>Breaking</strong>: If you are updating from a previous version (not a clean install), you will need to update the files below in order to take advantage of security and performance updates.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>unauthenticated/login (page)</strong></p>
-<div class="highlight"><pre><code class="language-html" data-lang="html">{{#&gt; unauthenticated/layout pageTitle="Login" }}
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Login" }}
 
   {{#*inline "content-block"}}
 
@@ -363,9 +367,12 @@ window['_fs_namespace'] = 'FS';
   {{/inline}}
 
 {{/unauthenticated/layout}}
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><strong>unauthenticated/register (page)</strong></p>
-<div class="highlight"><pre><code class="language-html" data-lang="html">{{#&gt; unauthenticated/layout pageTitle="Register" }}
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Register" }}
 
     {{#*inline "content-block"}}
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"authentication"</span><span class="nt">&gt;</span>
@@ -398,9 +405,12 @@ window['_fs_namespace'] = 'FS';
     {{/inline}}
 
 {{/unauthenticated/layout}}
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><strong>unauthenticated/custom-css (partial)</strong></p>
-<div class="highlight"><pre><code class="language-html" data-lang="html">{{!--
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{!--
     |--------------------------------------------------------------------------
     | Here's where the magic happens. This is where you can add your own
     | custom CSS as well as override any default styling we've provided.
@@ -542,575 +552,597 @@ window['_fs_namespace'] = 'FS';
     <span class="p">}</span>
 
 <span class="nt">&lt;/style&gt;</span>
-</code></pre></div>
-<ul>
-<li><strong>Plugins</strong>
+</code></pre>
+</div>
 
 <ul>
-<li><strong>LDAP Auth Advanced</strong>
-
-<ul>
-<li>Fix an issue where the plugin fails to authenticate a user when the LDAP server doesn&#39;t return the user&#39;s password as part of the search result</li>
-<li>Fix issue where the username field wasn&#39;t allowed to contain non-alaphanumeric characters</li>
-</ul></li>
-</ul></li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>LDAP Auth Advanced</strong>
+        <ul>
+          <li>Fix an issue where the plugin fails to authenticate a user when the LDAP server doesn’t return the user’s password as part of the search result</li>
+          <li>Fix issue where the username field wasn’t allowed to contain non-alaphanumeric characters</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="0-33-1-2018-09-05">0.33-1 - 2018/09/05</h2>
+<h2 id="033-1---20180905">0.33-1 - 2018/09/05</h2>
 
 <p><strong>Notifications</strong></p>
 
 <ul>
-<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
-
-<ul>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
-</ul></li>
-<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
-
-<ul>
-<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
-<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
-
-<ul>
-<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
-</ul></li>
-<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
-</ul></li>
-<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+  <li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+    <ul>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+    </ul>
+  </li>
+  <li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+    <ul>
+      <li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+      <li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
+        <ul>
+          <li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+        </ul>
+      </li>
+      <li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+    </ul>
+  </li>
+  <li><strong>Breaking</strong>: Since 0.32, the <code class="highlighter-rouge">latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code class="highlighter-rouge">latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
 </ul>
 
 <p><strong>Changes</strong></p>
 
 <ul>
-<li><strong>Plugins</strong>
-
-<ul>
-<li><strong>HMAC Auth</strong>
-
-<ul>
-<li>Attempt signature generation without querystring arguments if the newer signature verification, that includes querystring, fails</li>
-</ul></li>
-<li><strong>StatsD Advanced</strong>
-
-<ul>
-<li>Improve performance when constructing the metrics key</li>
-<li>Allow hostname to be written into the key prefix, based on a boolean plugin config flag</li>
-</ul></li>
-</ul></li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>HMAC Auth</strong>
+        <ul>
+          <li>Attempt signature generation without querystring arguments if the newer signature verification, that includes querystring, fails</li>
+        </ul>
+      </li>
+      <li><strong>StatsD Advanced</strong>
+        <ul>
+          <li>Improve performance when constructing the metrics key</li>
+          <li>Allow hostname to be written into the key prefix, based on a boolean plugin config flag</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Fixes</strong></p>
 
 <ul>
-<li><p><strong>Core</strong></p>
-
-<ul>
-<li><strong>RBAC</strong>
-
-<ul>
-<li>Fix an issue where entities are not added to the role-entities table when id is not the primary key</li>
-<li>Fix an issue where role-entities and role-endpoints relationships are not deleted when role is removed</li>
-<li>Fix issue leading to SNI creation failure when RBAC is on</li>
-</ul></li>
-<li><strong>Workspaces</strong>
-
-<ul>
-<li>Fix an issue where authentication keys prefixed with a workspace name would be considered valid</li>
-</ul></li>
-<li><strong>DB</strong>
-
-<ul>
-<li>Cassandra</li>
-<li>Fix Cassandra unique violation check on update</li>
-</ul></li>
-<li><strong>Migrations</strong>
-
-<ul>
-<li>Remove dependency on &quot;public&quot; schema or &quot;pg_default&quot; tablespaces in Postgres - such a dependency would cause migrations to fail if such tablespaces weren&#39;t being used</li>
-</ul></li>
-<li><strong>Healthchecks</strong>
-
-<ul>
-<li>Fix Host header in active healthchecks</li>
-<li>Fix for connection timeouts on passive healthchecks</li>
-</ul></li>
-<li><strong>Dev Portal</strong>
-
-<ul>
-<li>Fix issue leading migrations <code>2018-04-10-094800_dev_portal_consumer_types_statuses</code> and <code>2018-05-08-143700_consumer_dev_portal_columns</code> to fail</li>
-<li>Automatically log users in after registering when auto-approve is on</li>
-<li>Reduce the size of the mobile breakpoint</li>
-<li>Improve performance and file sizes of bundled code</li>
-<li>Fix issue causing Portal to list spec files twice</li>
-<li>Swagger Improvements:
-
-<ul>
-<li>Fix for rendering OAS 3.0 spec files</li>
-<li>Ensure that page loading isn&#39;t blocked by Swagger UI rendering</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li><p><strong>Plugins</strong></p>
-
-<ul>
-<li><strong>LDAP Auth &amp; LDAP Auth Advanced</strong>
-
-<ul>
-<li>Fix an issue where a request would fail when the password field had more than 128 characters in length</li>
-<li>Make the password part of the cache key, so that an invalid credential can be cached without blocking valid credentials</li>
-</ul></li>
-<li><strong>Zipkin</strong>
-
-<ul>
-<li>Fix operation when service and/or route are missing</li>
-<li>Fix cause of missing kong.credential field</li>
-<li>Support for deprecated Kong &quot;api&quot; entity via kong.api tag</li>
-</ul></li>
-<li><strong>Rate Limiting Advanced Plugin</strong>
-
-<ul>
-<li>Fix issue preventing the plugin to correctly propagate configuration changes across Kong Nginx workers</li>
-<li>Fix issue preventing the plugin to load configuration and create sync timers</li>
-<li>Fix plugin name in log messages</li>
-</ul></li>
-<li><strong>Canary</strong>
-
-<ul>
-<li>Fixed the type attribute for port configuration setting</li>
-</ul></li>
-<li><strong>Forward Proxy</strong>
-
-<ul>
-<li>Fix Kong core dependency causing the access phase handle to fail</li>
-</ul></li>
-<li><strong>Proxy Cache</strong>
-
-<ul>
-<li>Fix issue leading to cache key collision in some scenarios - e.g., for requests issued by the same consumer</li>
-<li>Fix cache key for Routes and Services: previously, distinct routes/services entities would be given the same cache key</li>
-</ul></li>
-</ul></li>
+  <li><strong>Core</strong>
+    <ul>
+      <li><strong>RBAC</strong>
+        <ul>
+          <li>Fix an issue where entities are not added to the role-entities table when id is not the primary key</li>
+          <li>Fix an issue where role-entities and role-endpoints relationships are not deleted when role is removed</li>
+          <li>Fix issue leading to SNI creation failure when RBAC is on</li>
+        </ul>
+      </li>
+      <li><strong>Workspaces</strong>
+        <ul>
+          <li>Fix an issue where authentication keys prefixed with a workspace name would be considered valid</li>
+          <li><strong>DB</strong>
+            <ul>
+              <li>Cassandra
+                <ul>
+                  <li>Fix Cassandra unique violation check on update</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><strong>Migrations</strong>
+            <ul>
+              <li>Remove dependency on “public” schema or “pg_default” tablespaces in Postgres - such a dependency would cause migrations to fail if such tablespaces weren’t being used</li>
+            </ul>
+          </li>
+          <li><strong>Healthchecks</strong>
+            <ul>
+              <li>Fix Host header in active healthchecks</li>
+              <li>Fix for connection timeouts on passive healthchecks</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Dev Portal</strong>
+        <ul>
+          <li>Fix issue leading migrations <code class="highlighter-rouge">2018-04-10-094800_dev_portal_consumer_types_statuses</code> and <code class="highlighter-rouge">2018-05-08-143700_consumer_dev_portal_columns</code> to fail</li>
+          <li>Automatically log users in after registering when auto-approve is on</li>
+          <li>Reduce the size of the mobile breakpoint</li>
+          <li>Improve performance and file sizes of bundled code</li>
+          <li>Fix issue causing Portal to list spec files twice</li>
+          <li>Swagger Improvements:
+            <ul>
+              <li>Fix for rendering OAS 3.0 spec files</li>
+              <li>Ensure that page loading isn’t blocked by Swagger UI rendering</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>LDAP Auth &amp; LDAP Auth Advanced</strong>
+        <ul>
+          <li>Fix an issue where a request would fail when the password field had more than 128 characters in length</li>
+          <li>Make the password part of the cache key, so that an invalid credential can be cached without blocking valid credentials</li>
+        </ul>
+      </li>
+      <li><strong>Zipkin</strong>
+        <ul>
+          <li>Fix operation when service and/or route are missing</li>
+          <li>Fix cause of missing kong.credential field</li>
+          <li>Support for deprecated Kong “api” entity via kong.api tag</li>
+        </ul>
+      </li>
+      <li><strong>Rate Limiting Advanced Plugin</strong>
+        <ul>
+          <li>Fix issue preventing the plugin to correctly propagate configuration changes across Kong Nginx workers</li>
+          <li>Fix issue preventing the plugin to load configuration and create sync timers</li>
+          <li>Fix plugin name in log messages</li>
+        </ul>
+      </li>
+      <li><strong>Canary</strong>
+        <ul>
+          <li>Fixed the type attribute for port configuration setting</li>
+        </ul>
+      </li>
+      <li><strong>Forward Proxy</strong>
+        <ul>
+          <li>Fix Kong core dependency causing the access phase handle to fail</li>
+        </ul>
+      </li>
+      <li><strong>Proxy Cache</strong>
+        <ul>
+          <li>Fix issue leading to cache key collision in some scenarios - e.g., for requests issued by the same consumer</li>
+          <li>Fix cache key for Routes and Services: previously, distinct routes/services entities would be given the same cache key</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="0-33-2018-07-24">0.33 - 2018/07/24</h2>
+<h2 id="033---20180724">0.33 - 2018/07/24</h2>
 
 <p><strong>Notifications</strong></p>
 
 <ul>
-<li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
-
-<ul>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
-</ul></li>
-<li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
-
-<ul>
-<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
-<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior</li>
-<li>Additional requirements:
-
-<ul>
-<li><strong>Vitals</strong> requires Postgres 9.5+</li>
-<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
-</ul></li>
-<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
-</ul></li>
-<li><strong>Breaking</strong>: Since 0.32, the <code>latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code>latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
+  <li><strong>Kong EE 0.33</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+    <ul>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+    </ul>
+  </li>
+  <li><strong>Kong EE 0.33</strong> has these notices from <strong>Kong CE 0.13</strong>:
+    <ul>
+      <li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+      <li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior</li>
+      <li>Additional requirements:
+        <ul>
+          <li><strong>Vitals</strong> requires Postgres 9.5+</li>
+          <li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+        </ul>
+      </li>
+      <li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+    </ul>
+  </li>
+  <li><strong>Breaking</strong>: Since 0.32, the <code class="highlighter-rouge">latest</code> tag in Kong Enterprise Docker repository <strong>changed from CentOS to Alpine</strong> - which might result in breakage if additional packages are assumed to be in the image pointed to by <code class="highlighter-rouge">latest</code>, as the Alpine image only contains a minimal set of packages installed by default</li>
 </ul>
 
 <p><strong>Changes</strong></p>
 
 <ul>
-<li><strong>Vitals</strong>
+  <li><strong>Vitals</strong>
+    <ul>
+      <li>Internal proxies are no longer tracked</li>
+      <li>Admin API endpoint <code class="highlighter-rouge">/vitals/consumers/:username_or_id/nodes</code>, deprecated in 0.32, has been removed</li>
+    </ul>
+  </li>
+  <li><strong>Prometheus Plugin</strong>
+    <ul>
+      <li>
+        <p>The plugin uses a dedicated shared dictionary. If you use a custom template, define the following for Prometheus:</p>
 
-<ul>
-<li>Internal proxies are no longer tracked</li>
-<li>Admin API endpoint <code>/vitals/consumers/:username_or_id/nodes</code>, deprecated in 0.32, has been removed</li>
-</ul></li>
-<li><p><strong>Prometheus Plugin</strong></p>
-
-<ul>
-<li>The plugin uses a dedicated shared dictionary. If you use a custom template, define the following for Prometheus:</li>
-</ul>
-<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict prometheus_metrics 5m;
-</code></pre></div></li>
-<li><p><strong>OpenID Connect Plugin</strong></p>
-
-<ul>
-<li>Change <code>config_consumer_claim</code> from string to array</li>
-</ul></li>
+        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict prometheus_metrics 5m;
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect Plugin</strong>
+    <ul>
+      <li>Change <code class="highlighter-rouge">config_consumer_claim</code> from string to array</li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Features</strong></p>
 
 <ul>
-<li><strong>Core</strong>
-
-<ul>
-<li><strong>New RBAC implementation</strong>, supporting both endpoint and entity-level
+  <li><strong>Core</strong>
+    <ul>
+      <li><strong>New RBAC implementation</strong>, supporting both endpoint and entity-level
 access control - read the docs <a href="/enterprise/0.33-x/rbac/overview">here</a></li>
-<li><strong>Workspaces</strong>, allowing segmentation of Admin API entities - read the docs
+      <li><strong>Workspaces</strong>, allowing segmentation of Admin API entities - read the docs
 <a href="/enterprise/0.33-x/workspaces/overview">here</a>. Note that workspaces are available in the API only,
 and not in the Admin GUI</li>
-</ul></li>
-<li><strong>Admin GUI</strong>
-
-<ul>
-<li>Log in to the Admin GUI using Kong&#39;s own authentication plugins; supported
+    </ul>
+  </li>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>Log in to the Admin GUI using Kong’s own authentication plugins; supported
 plugins are key-auth, basic-auth, and ldap-auth-advanced.  Use of other
 authentication plugins has not been tested.</li>
-<li>Add ability to see what plugins are configured on a consumer</li>
-</ul></li>
-<li><strong>Dev Portal</strong>
-
-<ul>
-<li>Revoked Dev Portal Users/Consumers are blocked at proxy</li>
-<li>Files API Improvements</li>
-<li>File editor in Admin GUI</li>
-<li>Consumer API usage on Dev Portal user area</li>
-</ul></li>
-<li><strong>OpenID Connect Plugin</strong>
-
-<ul>
-<li>Add <code>config.consumer_optional</code></li>
-<li>Add <code>config.token_endpoint_auth_method</code></li>
-<li>Add <code>consumer.status</code> check for internal authentication</li>
-</ul></li>
-<li><strong>Forward Proxy Plugin</strong>
-
-<ul>
-<li>Add support for delayed response</li>
-<li>Add <code>via</code> header</li>
-</ul></li>
-<li><strong>Canary Plugin</strong>
-
-<ul>
-<li>Added whitelist and blacklist options to be able to select consumers instead of having random consumers</li>
-<li>Added a port parameter to be able to be set a new port for the alternate upstream</li>
-</ul></li>
-<li><strong>LDAP Auth Advanced</strong>
-
-<ul>
-<li>Find consumers by <code>consumer_by</code> fields and map to ldap-auth user. This will set the authenticated consumer so that <code>X-Consumer-{ID, USERNAME, CUSTOM_ID}</code> headers are set and consumer functionality is available</li>
-<li>Add fields
-
-<ul>
-<li><code>consumer_by</code>: optional, default: <code>{username, custom_id}</code></li>
-<li><code>consumer_optional</code>: optional, default: <code>false</code></li>
-</ul></li>
-</ul></li>
-<li><strong>StatsD Plugin</strong>
-
-<ul>
-<li>New plugin; see documentation <a href="/enterprise/0.33-x/plugins/statsd-advanced">here</a></li>
-</ul></li>
-<li><strong>Prometheus Plugin</strong>
-
-<ul>
-<li>New plugin; see documentation <a href="/plugins/prometheus">here</a></li>
-</ul></li>
+      <li>Add ability to see what plugins are configured on a consumer</li>
+    </ul>
+  </li>
+  <li><strong>Dev Portal</strong>
+    <ul>
+      <li>Revoked Dev Portal Users/Consumers are blocked at proxy</li>
+      <li>Files API Improvements</li>
+      <li>File editor in Admin GUI</li>
+      <li>Consumer API usage on Dev Portal user area</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect Plugin</strong>
+    <ul>
+      <li>Add <code class="highlighter-rouge">config.consumer_optional</code></li>
+      <li>Add <code class="highlighter-rouge">config.token_endpoint_auth_method</code></li>
+      <li>Add <code class="highlighter-rouge">consumer.status</code> check for internal authentication</li>
+    </ul>
+  </li>
+  <li><strong>Forward Proxy Plugin</strong>
+    <ul>
+      <li>Add support for delayed response</li>
+      <li>Add <code class="highlighter-rouge">via</code> header</li>
+    </ul>
+  </li>
+  <li><strong>Canary Plugin</strong>
+    <ul>
+      <li>Added whitelist and blacklist options to be able to select consumers instead of having random consumers</li>
+      <li>Added a port parameter to be able to be set a new port for the alternate upstream</li>
+    </ul>
+  </li>
+  <li><strong>LDAP Auth Advanced</strong>
+    <ul>
+      <li>Find consumers by <code class="highlighter-rouge">consumer_by</code> fields and map to ldap-auth user. This will set the authenticated consumer so that <code class="highlighter-rouge">X-Consumer-{ID, USERNAME, CUSTOM_ID}</code> headers are set and consumer functionality is available</li>
+      <li>Add fields
+        <ul>
+          <li><code class="highlighter-rouge">consumer_by</code>: optional, default: <code class="highlighter-rouge"><span class="p">{</span><span class="err">username,</span><span class="w"> </span><span class="err">custom_id</span><span class="p">}</span></code></li>
+          <li><code class="highlighter-rouge">consumer_optional</code>: optional, default: <code class="highlighter-rouge">false</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>StatsD Plugin</strong>
+    <ul>
+      <li>New plugin; see documentation <a href="/enterprise/0.33-x/plugins/statsd-advanced">here</a></li>
+    </ul>
+  </li>
+  <li><strong>Prometheus Plugin</strong>
+    <ul>
+      <li>New plugin; see documentation <a href="/plugins/prometheus">here</a></li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Fixes</strong></p>
 
 <ul>
-<li><strong>Core</strong>
+  <li><strong>Core</strong>
+    <ul>
+      <li><strong>Healthchecks</strong>: health status no longer resets when a Target is added to an Upstream</li>
+      <li><strong>Runloop</strong>: properly throw errors from plugins fetch</li>
+      <li><strong>DB</strong>: fix double-wraping of <code class="highlighter-rouge">err_t</code> strategy error</li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li>Azure delayed response</li>
+      <li>Lambda delayed response</li>
+      <li>Request Termination delayed response</li>
+    </ul>
+  </li>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>Fix a problem where a plugin value cannot be unset</li>
+      <li>Fix a problem where error messages on the login screen fail to display</li>
+    </ul>
+  </li>
+  <li><strong>Portal</strong>
+    <ul>
+      <li>Auto-approve messaging</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect Plugin</strong>
+    <ul>
+      <li>Fix <code class="highlighter-rouge">kong_oauth2</code> <code class="highlighter-rouge">auth_method</code> so that it works without having to also add bearer or introspection to <code class="highlighter-rouge">config.auth_method</code></li>
+      <li>Fix <code class="highlighter-rouge">ngx.ctx.authenticated_credential</code> so that it isn’t set when a value with <code class="highlighter-rouge">config.credential_claim</code> isn’t found</li>
+    </ul>
+  </li>
+  <li><strong>Zipkin Plugin</strong>
+    <ul>
+      <li>Fix an issue with how timestamps can sometimes be encoded with scientific notation, causing the Zipkin collector to refuse some traces</li>
+    </ul>
+  </li>
+  <li><strong>LDAP Auth Advanced Plugin</strong>
+    <ul>
+      <li>Fix require statements pointing to Kong CE’s version of the plugin</li>
+      <li>Fix usage of the LuaJIT FFI, where an external symbol was not accessed properly, resulting in an Internal Server Error</li>
+    </ul>
+  </li>
+  <li><strong>Rate Limiting Advanced Plugin</strong>
+    <ul>
+      <li>Fix an issue in Cassandra migrations that would stop the migration process</li>
+      <li>Allow existing plugin configurations without a value for the recently-introduced introduced <code class="highlighter-rouge">dictionary_name</code> field to use the default dictionary for the plugin - <code class="highlighter-rouge">kong_rate_limiting_counters</code>.</li>
+      <li>
+        <p>Customers using a custom Nginx template are advised to check if such a dictionary is defined in their template:</p>
 
-<ul>
-<li><strong>Healthchecks</strong>: health status no longer resets when a Target is added to an Upstream</li>
-<li><strong>Runloop</strong>: properly throw errors from plugins fetch</li>
-<li><strong>DB</strong>: fix double-wraping of <code>err_t</code> strategy error</li>
-</ul></li>
-<li><strong>Plugins</strong>
-
-<ul>
-<li>Azure delayed response</li>
-<li>Lambda delayed response</li>
-<li>Request Termination delayed response</li>
-</ul></li>
-<li><strong>Admin GUI</strong>
-
-<ul>
-<li>Fix a problem where a plugin value cannot be unset</li>
-<li>Fix a problem where error messages on the login screen fail to display</li>
-</ul></li>
-<li><strong>Portal</strong>
-
-<ul>
-<li>Auto-approve messaging</li>
-</ul></li>
-<li><strong>OpenID Connect Plugin</strong>
-
-<ul>
-<li>Fix <code>kong_oauth2</code> <code>auth_method</code> so that it works without having to also add bearer or introspection to <code>config.auth_method</code></li>
-<li>Fix <code>ngx.ctx.authenticated_credential</code> so that it isn&#39;t set when a value with <code>config.credential_claim</code> isn&#39;t found</li>
-</ul></li>
-<li><strong>Zipkin Plugin</strong>
-
-<ul>
-<li>Fix an issue with how timestamps can sometimes be encoded with scientific notation, causing the Zipkin collector to refuse some traces</li>
-</ul></li>
-<li><strong>LDAP Auth Advanced Plugin</strong>
-
-<ul>
-<li>Fix require statements pointing to Kong CE&#39;s version of the plugin</li>
-<li>Fix usage of the LuaJIT FFI, where an external symbol was not accessed properly, resulting in an Internal Server Error</li>
-</ul></li>
-<li><p><strong>Rate Limiting Advanced Plugin</strong></p>
-
-<ul>
-<li>Fix an issue in Cassandra migrations that would stop the migration process</li>
-<li>Allow existing plugin configurations without a value for the recently-introduced introduced <code>dictionary_name</code> field to use the default dictionary for the plugin - <code>kong_rate_limiting_counters</code>.</li>
-<li>Customers using a custom Nginx template are advised to check if such a dictionary is defined in their template:</li>
+        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
 </ul>
-<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_rate_limiting_counters 12m;
-</code></pre></div></li>
-</ul>
 
-<h2 id="0-32-2018-05-24">0.32 - 2018/05/24</h2>
+<h2 id="032---20180524">0.32 - 2018/05/24</h2>
 
 <p><strong>Notifications</strong></p>
 
 <ul>
-<li><strong>Kong EE 0.32</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
-
-<ul>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
-<li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
-</ul></li>
-<li><strong>Kong EE 0.32</strong> has these notices from <strong>Kong CE 0.13</strong>:
-
-<ul>
-<li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise will not start with Postgres 9.4 or prior</li>
-<li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior</li>
-<li>Additional requirements:
-
-<ul>
-<li><strong>Vitals</strong> requires Postgres 9.5+</li>
-<li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
-</ul></li>
-<li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
-</ul></li>
-<li><strong>Breaking</strong>: The <code>latest</code> tag in Kong Enterprise Docker repository changed from CentOS to Alpine - which might result in breakage if additional packages are assumed to be in the image, as the Alpine image only contains a minimal set of packages installed</li>
-<li><strong>OpenID Connect</strong>
-
-<ul>
-<li>The plugins listed below were deprecated in favor of the all-in-one openid-connect plugin:
-
-<ul>
-<li><code>openid-connect-authentication</code></li>
-<li><code>openid-connect-protection</code></li>
-<li><code>openid-connect-verification</code></li>
-</ul></li>
-</ul></li>
+  <li><strong>Kong EE 0.32</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+    <ul>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+    </ul>
+  </li>
+  <li><strong>Kong EE 0.32</strong> has these notices from <strong>Kong CE 0.13</strong>:
+    <ul>
+      <li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise will not start with Postgres 9.4 or prior</li>
+      <li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior</li>
+      <li>Additional requirements:
+        <ul>
+          <li><strong>Vitals</strong> requires Postgres 9.5+</li>
+          <li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+        </ul>
+      </li>
+      <li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+    </ul>
+  </li>
+  <li><strong>Breaking</strong>: The <code class="highlighter-rouge">latest</code> tag in Kong Enterprise Docker repository changed from CentOS to Alpine - which might result in breakage if additional packages are assumed to be in the image, as the Alpine image only contains a minimal set of packages installed</li>
+  <li><strong>OpenID Connect</strong>
+    <ul>
+      <li>The plugins listed below were deprecated in favor of the all-in-one openid-connect plugin:
+        <ul>
+          <li><code class="highlighter-rouge">openid-connect-authentication</code></li>
+          <li><code class="highlighter-rouge">openid-connect-protection</code></li>
+          <li><code class="highlighter-rouge">openid-connect-verification</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Changes</strong></p>
 
 <ul>
-<li><strong>New Data Model</strong> - Kong EE 0.32 is the first Enterprise version including the <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#core-2"><strong>new model</strong></a>, released with Kong CE 0.13, which includes Routes and Services</li>
-<li><p><strong>Rate Limiting Advanced</strong></p>
+  <li><strong>New Data Model</strong> - Kong EE 0.32 is the first Enterprise version including the <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#core-2"><strong>new model</strong></a>, released with Kong CE 0.13, which includes Routes and Services</li>
+  <li><strong>Rate Limiting Advanced</strong>
+    <ul>
+      <li><strong>Breaking</strong> - the Enterprise Rate Limiting plugin, named <code class="highlighter-rouge">rate-limiting</code> up to EE 0.31, was renamed <code class="highlighter-rouge">rate-limiting-advanced</code> and CE Rate Limiting was imported as <code class="highlighter-rouge">rate-limiting</code>. Any Admin API calls that were previously targeting the Enterprise Rate Limiting plugin in Kong EE up to 0.31 need to be updated to target <code class="highlighter-rouge">rate-limiting-advanced</code></li>
+      <li>
+        <p>Rate Limiting Advanced, similarly to CE rate-limiting, now uses a dedicated shared dictionary named <code class="highlighter-rouge">kong_rate_limiting_counters</code> for its counters; if you are using a custom template, make sure to define the following shared memory zones:</p>
 
-<ul>
-<li><strong>Breaking</strong> - the Enterprise Rate Limiting plugin, named <code>rate-limiting</code> up to EE 0.31, was renamed <code>rate-limiting-advanced</code> and CE Rate Limiting was imported as <code>rate-limiting</code>. Any Admin API calls that were previously targeting the Enterprise Rate Limiting plugin in Kong EE up to 0.31 need to be updated to target <code>rate-limiting-advanced</code></li>
-<li>Rate Limiting Advanced, similarly to CE rate-limiting, now uses a dedicated shared dictionary named <code>kong_rate_limiting_counters</code> for its counters; if you are using a custom template, make sure to define the following shared memory zones:</li>
-</ul>
-<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_rate_limiting_counters 12m;
-</code></pre></div></li>
-<li><p><strong>Vitals</strong></p>
+        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Vitals</strong>
+    <ul>
+      <li>
+        <p>Vitals uses two dedicated shared dictionaries. If you use a custom template, define the following shared memory zones for Vitals:</p>
 
-<ul>
-<li>Vitals uses two dedicated shared dictionaries. If you use a custom template, define the following shared memory zones for Vitals:</li>
-</ul>
-<div class="highlight"><pre><code class="language-" data-lang="">lua_shared_dict kong_vitals_counters 50m;
+        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_vitals_counters 50m;
 lua_shared_dict kong_vitals_lists     1m;
-</code></pre></div>
-<p>You can remove any existing shared dictionaries that begin with <code>kong_vitals_</code>, e.g., <code>kong_vitals_requests_consumers</code></p></li>
-<li><p><strong>OpenID Connect</strong></p>
-
-<ul>
-<li>Remove multipart parsing of ID tokens - they were not proxy safe</li>
-<li>Change expired or non-active access tokens to give <code>401</code> instead of <code>403</code></li>
-</ul></li>
+</code></pre>
+        </div>
+        <p>You can remove any existing shared dictionaries that begin with <code class="highlighter-rouge">kong_vitals_</code>, e.g., <code class="highlighter-rouge">kong_vitals_requests_consumers</code></p>
+      </li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect</strong>
+    <ul>
+      <li>Remove multipart parsing of ID tokens - they were not proxy safe</li>
+      <li>Change expired or non-active access tokens to give <code class="highlighter-rouge">401</code> instead of <code class="highlighter-rouge">403</code></li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Features</strong></p>
 
 <ul>
-<li><strong>Admin GUI</strong>
-
-<ul>
-<li>New Listeners (Admin GUI + Developer Portal)</li>
-<li>Routes and Services GUI</li>
-<li>New Plugins thumbnail view</li>
-<li>Healthchecks GUI</li>
-<li>Syntax for form-encoded array elements</li>
-<li>Dev Portal Overview tab</li>
-<li>Developers management tab</li>
-</ul></li>
-<li><strong>Vitals</strong>
-
-<ul>
-<li><strong>Status Code</strong> tracking - GUI and API
-
-<ul>
-<li>Status Code groups per Cluster - counts of <code>1xx</code>, <code>2xx</code>, <code>3xx</code>, <code>4xx</code>, <code>5xx</code> groups across the cluster over time. Visible in the Admin GUI at <code>ADMIN_URL/vitals/status-codes</code></li>
-<li>Status Codes per Service - count of individual status codes correlated to a particular service. Visible in the Admin GUI at <code>ADMIN_URL/services/{service_id}</code></li>
-<li>Status Codes per Route - count of individual status codes correlated to a particular route. Visible in the Admin GUI at <code>ADMIN_URL/routes/{route_id}</code></li>
-<li>Status Codes per Consumer and Route - count of individual status codes returned to a given consumer on a given route.  Visible in the Admin GUI at <code>ADMIN_URL/consumers/{consumer_id}</code></li>
-</ul></li>
-</ul></li>
-<li><strong>Dev Portal</strong>
-
-<ul>
-<li>Code Snippets</li>
-<li>Developer &quot;request access&quot; full life-cycle</li>
-<li>Default Dev Portal included in Kong distributions (with default theme)</li>
-<li>Authentication on Dev Portal out of box (uncomment in Kong.conf)</li>
-<li>Docs for Routes/Services for Dev Portal</li>
-<li>Docs for Admin API</li>
-<li><strong>Requires Migration</strong> - <code>/files</code> endpoint is now protected by RBAC</li>
-</ul></li>
-<li><strong>Plugins</strong>
-
-<ul>
-<li><strong>Rate Limiting Advanced</strong>: add a <code>dictionary_name</code> configuration, to allow using a custom dictionary for storing counters</li>
-<li><strong>Requires Migration - Rate Limiting CE</strong> is now included in EE</li>
-<li><strong>Request Transformer CE</strong> is now included in EE</li>
-<li><strong>Edge Compute</strong>: plugin-based, Lua-only preview</li>
-<li><strong>Proxy Cache</strong>: Customize the cache key, selecting specific headers or query params to be included</li>
-<li><strong>Opentracing Plugin</strong>: Kong now adds detailed spans to Zipkin and Jaeger distributed tracing tools</li>
-<li><strong>Azure Functions Plugin</strong>: Invoke Azure functions from Kong</li>
-<li><strong>LDAP Advanced</strong>: LDAP plugin with augmented ability to search by LDAP fields</li>
-</ul></li>
-<li><strong>OpenID Connect</strong>
-
-<ul>
-<li>Add <code>self_check</code> function to validate that OIDC discovery information can be downloaded</li>
-<li>Bearer token is now looked up on <code>Access-Token</code> and <code>X-Access-Token</code> headers in addition to Authorization Bearer header (query and body args are supported as before)</li>
-<li>JWKs are rediscovered and the new keys are cached cluster wide (works better with keys rotation schemes)</li>
-<li>Admin API does self-check for discovery endpoint when the plugin is added and reports possible errors back</li>
-<li>Add configuration directives
-
-<ul>
-<li><code>config.extra_jwks_uris</code></li>
-<li><code>config.credential_claim</code></li>
-<li><code>config.session_storage</code></li>
-<li><code>config.session_memcache_prefix</code></li>
-<li><code>config.session_memcache_socket</code></li>
-<li><code>config.session_memcache_host</code></li>
-<li><code>config.session_memcache_port</code></li>
-<li><code>config.session_redis_prefix</code></li>
-<li><code>config.session_redis_socket</code></li>
-<li><code>config.session_redis_host</code></li>
-<li><code>config.session_redis_port</code></li>
-<li><code>config.session_redis_auth</code></li>
-<li><code>config.session_cookie_lifetime</code></li>
-<li><code>config.authorization_cookie_lifetime</code></li>
-<li><code>config.forbidden_destroy_session</code></li>
-<li><code>config.forbidden_redirect_uri</code></li>
-<li><code>config.unauthorized_redirect_uri</code></li>
-<li><code>config.unexpected_redirect_uri</code></li>
-<li><code>config.scopes_required</code></li>
-<li><code>config.scopes_claim</code></li>
-<li><code>config.audience_required</code></li>
-<li><code>config.audience_claim</code></li>
-<li><code>config.discovery_headers_names</code></li>
-<li><code>config.discovery_headers_values</code></li>
-<li><code>config.introspect_jwt_tokens</code></li>
-<li><code>config.introspection_hint</code></li>
-<li><code>config.introspection_headers_names</code></li>
-<li><code>config.introspection_headers_values</code></li>
-<li><code>config.token_exchange_endpoint</code></li>
-<li><code>config.cache_token_exchange</code></li>
-<li><code>config.bearer_token_param_type</code></li>
-<li><code>config.client_credentials_param_type</code></li>
-<li><code>config.password_param_type</code></li>
-<li><code>config.hide_credentials</code></li>
-<li><code>config.cache_ttl</code></li>
-<li><code>config.run_on_preflight</code></li>
-<li><code>config.upstream_headers_claims</code></li>
-<li><code>config.upstream_headers_names</code></li>
-<li><code>config.downstream_headers_claims</code></li>
-<li><code>config.downstream_headers_names</code></li>
-</ul></li>
-</ul></li>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>New Listeners (Admin GUI + Developer Portal)</li>
+      <li>Routes and Services GUI</li>
+      <li>New Plugins thumbnail view</li>
+      <li>Healthchecks GUI</li>
+      <li>Syntax for form-encoded array elements</li>
+      <li>Dev Portal Overview tab</li>
+      <li>Developers management tab</li>
+    </ul>
+  </li>
+  <li><strong>Vitals</strong>
+    <ul>
+      <li><strong>Status Code</strong> tracking - GUI and API
+        <ul>
+          <li>Status Code groups per Cluster - counts of <code class="highlighter-rouge">1xx</code>, <code class="highlighter-rouge">2xx</code>, <code class="highlighter-rouge">3xx</code>, <code class="highlighter-rouge">4xx</code>, <code class="highlighter-rouge">5xx</code> groups across the cluster over time. Visible in the Admin GUI at <code class="highlighter-rouge">ADMIN_URL/vitals/status-codes</code></li>
+          <li>Status Codes per Service - count of individual status codes correlated to a particular service. Visible in the Admin GUI at <code class="highlighter-rouge">ADMIN_URL/services/{service_id}</code></li>
+          <li>Status Codes per Route - count of individual status codes correlated to a particular route. Visible in the Admin GUI at <code class="highlighter-rouge">ADMIN_URL/routes/{route_id}</code></li>
+          <li>Status Codes per Consumer and Route - count of individual status codes returned to a given consumer on a given route.  Visible in the Admin GUI at <code class="highlighter-rouge">ADMIN_URL/consumers/{consumer_id}</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Dev Portal</strong>
+    <ul>
+      <li>Code Snippets</li>
+      <li>Developer “request access” full life-cycle</li>
+      <li>Default Dev Portal included in Kong distributions (with default theme)</li>
+      <li>Authentication on Dev Portal out of box (uncomment in Kong.conf)</li>
+      <li>Docs for Routes/Services for Dev Portal</li>
+      <li>Docs for Admin API</li>
+      <li><strong>Requires Migration</strong> - <code class="highlighter-rouge">/files</code> endpoint is now protected by RBAC</li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>Rate Limiting Advanced</strong>: add a <code class="highlighter-rouge">dictionary_name</code> configuration, to allow using a custom dictionary for storing counters</li>
+      <li><strong>Requires Migration - Rate Limiting CE</strong> is now included in EE</li>
+      <li><strong>Request Transformer CE</strong> is now included in EE</li>
+      <li><strong>Edge Compute</strong>: plugin-based, Lua-only preview</li>
+      <li><strong>Proxy Cache</strong>: Customize the cache key, selecting specific headers or query params to be included</li>
+      <li><strong>Opentracing Plugin</strong>: Kong now adds detailed spans to Zipkin and Jaeger distributed tracing tools</li>
+      <li><strong>Azure Functions Plugin</strong>: Invoke Azure functions from Kong</li>
+      <li><strong>LDAP Advanced</strong>: LDAP plugin with augmented ability to search by LDAP fields</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect</strong>
+    <ul>
+      <li>Add <code class="highlighter-rouge">self_check</code> function to validate that OIDC discovery information can be downloaded</li>
+      <li>Bearer token is now looked up on <code class="highlighter-rouge">Access-Token</code> and <code class="highlighter-rouge">X-Access-Token</code> headers in addition to Authorization Bearer header (query and body args are supported as before)</li>
+      <li>JWKs are rediscovered and the new keys are cached cluster wide (works better with keys rotation schemes)</li>
+      <li>Admin API does self-check for discovery endpoint when the plugin is added and reports possible errors back</li>
+      <li>Add configuration directives
+        <ul>
+          <li><code class="highlighter-rouge">config.extra_jwks_uris</code></li>
+          <li><code class="highlighter-rouge">config.credential_claim</code></li>
+          <li><code class="highlighter-rouge">config.session_storage</code></li>
+          <li><code class="highlighter-rouge">config.session_memcache_prefix</code></li>
+          <li><code class="highlighter-rouge">config.session_memcache_socket</code></li>
+          <li><code class="highlighter-rouge">config.session_memcache_host</code></li>
+          <li><code class="highlighter-rouge">config.session_memcache_port</code></li>
+          <li><code class="highlighter-rouge">config.session_redis_prefix</code></li>
+          <li><code class="highlighter-rouge">config.session_redis_socket</code></li>
+          <li><code class="highlighter-rouge">config.session_redis_host</code></li>
+          <li><code class="highlighter-rouge">config.session_redis_port</code></li>
+          <li><code class="highlighter-rouge">config.session_redis_auth</code></li>
+          <li><code class="highlighter-rouge">config.session_cookie_lifetime</code></li>
+          <li><code class="highlighter-rouge">config.authorization_cookie_lifetime</code></li>
+          <li><code class="highlighter-rouge">config.forbidden_destroy_session</code></li>
+          <li><code class="highlighter-rouge">config.forbidden_redirect_uri</code></li>
+          <li><code class="highlighter-rouge">config.unauthorized_redirect_uri</code></li>
+          <li><code class="highlighter-rouge">config.unexpected_redirect_uri</code></li>
+          <li><code class="highlighter-rouge">config.scopes_required</code></li>
+          <li><code class="highlighter-rouge">config.scopes_claim</code></li>
+          <li><code class="highlighter-rouge">config.audience_required</code></li>
+          <li><code class="highlighter-rouge">config.audience_claim</code></li>
+          <li><code class="highlighter-rouge">config.discovery_headers_names</code></li>
+          <li><code class="highlighter-rouge">config.discovery_headers_values</code></li>
+          <li><code class="highlighter-rouge">config.introspect_jwt_tokens</code></li>
+          <li><code class="highlighter-rouge">config.introspection_hint</code></li>
+          <li><code class="highlighter-rouge">config.introspection_headers_names</code></li>
+          <li><code class="highlighter-rouge">config.introspection_headers_values</code></li>
+          <li><code class="highlighter-rouge">config.token_exchange_endpoint</code></li>
+          <li><code class="highlighter-rouge">config.cache_token_exchange</code></li>
+          <li><code class="highlighter-rouge">config.bearer_token_param_type</code></li>
+          <li><code class="highlighter-rouge">config.client_credentials_param_type</code></li>
+          <li><code class="highlighter-rouge">config.password_param_type</code></li>
+          <li><code class="highlighter-rouge">config.hide_credentials</code></li>
+          <li><code class="highlighter-rouge">config.cache_ttl</code></li>
+          <li><code class="highlighter-rouge">config.run_on_preflight</code></li>
+          <li><code class="highlighter-rouge">config.upstream_headers_claims</code></li>
+          <li><code class="highlighter-rouge">config.upstream_headers_names</code></li>
+          <li><code class="highlighter-rouge">config.downstream_headers_claims</code></li>
+          <li><code class="highlighter-rouge">config.downstream_headers_names</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Fixes</strong></p>
 
 <ul>
-<li><strong>Core</strong>
-
-<ul>
-<li><strong>Healthchecks</strong>
-
-<ul>
-<li>Fix an issue where updates made through <code>/health</code> or <code>/unhealth</code> wouldn&#39;t be propagated to other Kong nodes</li>
-<li>Fix internal management of healthcheck counters, which corrects detection of state flapping</li>
-</ul></li>
-<li><strong>DNS</strong>: a number of fixes and improvements were made to Kong&#39;s DNS client library, including:
-
-<ul>
-<li>The ring-balancer now supports <code>targets</code> resolving to an SRV record without port information (<code>port=0</code>)</li>
-<li>IPv6 nameservers with a scope in their address (eg. <code>nameserver fe80::1%wlan0</code>) will now be skipped instead of throwing errors</li>
-</ul></li>
-</ul></li>
-<li><strong>Rate Limiting Advanced</strong>
-
-<ul>
-<li>Fix <code>failed to upsert counters</code> error</li>
-<li>Fix issue where an attempt to acquire a lock would result in an error</li>
-<li>Mitigate issue where lock acquisitions would lead to RL counters being lost</li>
-</ul></li>
-<li><strong>Proxy Cache</strong>
-
-<ul>
-<li>Fix issue where proxy-cache would shortcircuit requests that resulted in a cache hit, not allowing subsequent plugins - e.g., logging plugins - to run</li>
-<li>Fix issue where PATCH requests would result in a 500 response</li>
-<li>Fix issue where Proxy Cache would overwrite X-RateLimit headers</li>
-</ul></li>
-<li><strong>Request Transformer</strong>
-
-<ul>
-<li>Fix issue leading to an Internal Server Error in cases where the Rate Limiting plugin returned a 429 Too Many Requests response</li>
-</ul></li>
-<li><strong>AWS Lambda</strong>
-
-<ul>
-<li>Fix issue where an empty array <code>[]</code> was returned as an empty object <code>{}</code></li>
-</ul></li>
-<li><strong>Galileo - DEPRECATED</strong>
-
-<ul>
-<li>Fix issue that prevented Galileo from reporting requests that were cached by proxy-cache</li>
-<li>Fix issue that prevented Galileo from showing request/response bodies of requests served by proxy-cache</li>
-</ul></li>
-<li><strong>OpenID Connect</strong>
-
-<ul>
-<li>Fix <code>exp</code> retrieval</li>
-<li>Fix <code>jwt_session_cookie</code> verification</li>
-<li>Fix consumer mapping using introspection where the claim was searched in an inexistent location</li>
-<li>Fix header values when their callbacks fail to get the value - instead of setting their values as <code>function ...</code></li>
-<li>Fix <code>config.scopes</code> when set to <code>null</code> or <code>&quot;&quot;</code> so that it doesn&#39;t add an OpenID scope forcibly, as the plugin is not only OpenID Connect only, but also OAuth2</li>
-</ul></li>
+  <li><strong>Core</strong>
+    <ul>
+      <li><strong>Healthchecks</strong>
+        <ul>
+          <li>Fix an issue where updates made through <code class="highlighter-rouge">/health</code> or <code class="highlighter-rouge">/unhealth</code> wouldn’t be propagated to other Kong nodes</li>
+          <li>Fix internal management of healthcheck counters, which corrects detection of state flapping</li>
+        </ul>
+      </li>
+      <li><strong>DNS</strong>: a number of fixes and improvements were made to Kong’s DNS client library, including:
+        <ul>
+          <li>The ring-balancer now supports <code class="highlighter-rouge">targets</code> resolving to an SRV record without port information (<code class="highlighter-rouge">port=0</code>)</li>
+          <li>IPv6 nameservers with a scope in their address (eg. <code class="highlighter-rouge">nameserver fe80::1%wlan0</code>) will now be skipped instead of throwing errors</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Rate Limiting Advanced</strong>
+    <ul>
+      <li>Fix <code class="highlighter-rouge">failed to upsert counters</code> error</li>
+      <li>Fix issue where an attempt to acquire a lock would result in an error</li>
+      <li>Mitigate issue where lock acquisitions would lead to RL counters being lost</li>
+    </ul>
+  </li>
+  <li><strong>Proxy Cache</strong>
+    <ul>
+      <li>Fix issue where proxy-cache would shortcircuit requests that resulted in a cache hit, not allowing subsequent plugins - e.g., logging plugins - to run</li>
+      <li>Fix issue where PATCH requests would result in a 500 response</li>
+      <li>Fix issue where Proxy Cache would overwrite X-RateLimit headers</li>
+    </ul>
+  </li>
+  <li><strong>Request Transformer</strong>
+    <ul>
+      <li>Fix issue leading to an Internal Server Error in cases where the Rate Limiting plugin returned a 429 Too Many Requests response</li>
+    </ul>
+  </li>
+  <li><strong>AWS Lambda</strong>
+    <ul>
+      <li>Fix issue where an empty array <code class="highlighter-rouge">[]</code> was returned as an empty object <code class="highlighter-rouge"><span class="p">{}</span></code></li>
+    </ul>
+  </li>
+  <li><strong>Galileo - DEPRECATED</strong>
+    <ul>
+      <li>Fix issue that prevented Galileo from reporting requests that were cached by proxy-cache</li>
+      <li>Fix issue that prevented Galileo from showing request/response bodies of requests served by proxy-cache</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect</strong>
+    <ul>
+      <li>Fix <code class="highlighter-rouge">exp</code> retrieval</li>
+      <li>Fix <code class="highlighter-rouge">jwt_session_cookie</code> verification</li>
+      <li>Fix consumer mapping using introspection where the claim was searched in an inexistent location</li>
+      <li>Fix header values when their callbacks fail to get the value - instead of setting their values as <code class="highlighter-rouge">function ...</code></li>
+      <li>Fix <code class="highlighter-rouge">config.scopes</code> when set to <code class="highlighter-rouge">null</code> or <code class="highlighter-rouge">""</code> so that it doesn’t add an OpenID scope forcibly, as the plugin is not only OpenID Connect only, but also OAuth2</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="0-31-1-2018-04-25">0.31-1 - 2018/04/25</h2>
+<h2 id="031-1---20180425">0.31-1 - 2018/04/25</h2>
 
 <p><strong>Changes</strong></p>
 
 <ul>
-<li>New shared dictionaries named <code>kong_rl_counters</code> and <code>kong_db_cache_miss</code> were defined in Kong’s default template - customers using custom templates are encouraged to update them to include those, as they avoid the reuse of the <code>kong_cache</code> shared dict; such a reuse is known to be one of the culprits behind <code>no memory</code> errors - see diff below</li>
-<li>The rate-limiting plugin now accepts a <code>dictionary_name</code> argument, which is used for temporarily storing rate-limiting counters</li>
+  <li>New shared dictionaries named <code class="highlighter-rouge">kong_rl_counters</code> and <code class="highlighter-rouge">kong_db_cache_miss</code> were defined in Kong’s default template - customers using custom templates are encouraged to update them to include those, as they avoid the reuse of the <code class="highlighter-rouge">kong_cache</code> shared dict; such a reuse is known to be one of the culprits behind <code class="highlighter-rouge">no memory</code> errors - see diff below</li>
+  <li>The rate-limiting plugin now accepts a <code class="highlighter-rouge">dictionary_name</code> argument, which is used for temporarily storing rate-limiting counters</li>
 </ul>
 
 <p><em>NOTE</em>: if you use a custom Nginx configuration template, apply the following patch to your template:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
 index 15682975..653a7ddd 100644
 </span><span class="gd">--- a/kong/templates/nginx_kong.lua
 </span><span class="gi">+++ b/kong/templates/nginx_kong.lua
@@ -1124,217 +1156,270 @@ index 15682975..653a7ddd 100644
 </span> lua_shared_dict kong_process_events 5m;
  lua_shared_dict kong_cluster_events 5m;
  lua_shared_dict kong_vitals_requests_consumers 50m;
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><strong>Fixes</strong></p>
 
 <ul>
-<li>Bump mlcache to 2.0.2 and mitigates a number of issues known to be causing <code>no memory</code> errors</li>
-<li>Fixes an issue where boolean values (and boolean values as strings) were not correctly marshalled when using Cassandra</li>
-<li>Fixes an issue in Redis Sentinel configuration parsing</li>
+  <li>Bump mlcache to 2.0.2 and mitigates a number of issues known to be causing <code class="highlighter-rouge">no memory</code> errors</li>
+  <li>Fixes an issue where boolean values (and boolean values as strings) were not correctly marshalled when using Cassandra</li>
+  <li>Fixes an issue in Redis Sentinel configuration parsing</li>
 </ul>
 
-<h2 id="0-31-2018-03-16">0.31 - 2018/03/16</h2>
+<h2 id="031---20180316">0.31 - 2018/03/16</h2>
 
 <p>Kong Enterprise 0.31 is shipped with all the changes present in Kong Community Edition 0.12.3, as well as with the following additions:</p>
 
-<p><strong>Changes</strong>
-- Galileo plugin is disabled by default in this version, needing to be explicitly enabled via the custom_plugins configuration
-  - <em>NOTE</em>: If a user had the Galileo plugin applied in an older version and migrate to 0.31, Kong will fail to restart unless the user enables it via the <a href="/latest/configuration/#custom_plugins">custom_plugins</a> configuration; however, it is still possible to enable the plugin per API or globally without adding it to custom_plugins
-- OpenID Connect plugin:
-  - Change <code>config.client_secret</code> from <code>required</code> to <code>optional</code>
-- Change <code>config.client_id</code> from <code>required</code> to <code>optional</code>
-- If <code>anonymous</code> consumer is not found Internal Server Error is returned instead of Forbidden
-- <strong>Breaking Change</strong> - <code>config.anonymous</code> now behaves similarly to other plugins and doesn&#39;t halt execution or proxying (previously it was used just as a fallback for consumer mapping) and the plugin always needed valid credentials to be allowed to proxy if the client wasn&#39;t already authenticated by higher priority auth plugin
-- Anonymous consumer now uses a simple cache key that is used in other plugins
-- In case of auth plugins concatenation, the OpenID Connect plugin now removes remnants of anonymous</p>
-
-<p><strong>Fixes</strong>
-- <strong>Admin GUI</strong>
-  - Remove deprecated orderlist field from Admin GUI Upstreams entity settings
-  - Fix issue where Admin GUI would break when running Kong in a custom prefix
-  - Fix issue where Healthchecks had a field typed as number instead of string.
-  - Fix issue where Healthchecks form had incorrect default values.
-  - Fix issue where table row text was overflowing and expanding the page.
-  - Fix issue where notification bar in mobile view could have text overflow beyond the container.
-  - Fix issue where deleting multiple entities in a list would cause the delete modal to not show.
-  - Fix issue where cards on the dashboard were not evenly sized and spaced.
-  - Fix issue where cards on the dashboard in certain widths could have text overflow beyond their container.
-  - Fix issue where Array&#39;s on Plugin Entities were not being processed and sent to the Admin API.
-  - Fix issue where Models were improperly handled when not updated and not sending default values properly.
-  - Fix issue where Plugin lists were not displaying config object.
-  - Fix issue where Kong was not processing SSL configuration for Admin GUI</p>
-
+<p><strong>Changes</strong></p>
 <ul>
-<li><p><strong>OpenID Connect plugin</strong></p>
-
-<ul>
-<li>Fixed anonymous consumer mapping</li>
-</ul></li>
-<li><p><strong>Vitals</strong></p>
-
-<ul>
-<li>Correct the stats returned in the &quot;metadata&quot; attribute of the /vitals/consumers/:consumer_id/* endpoints</li>
-<li>Correct a problem where workers get out of sync when adding their data to cache</li>
-<li>Correct inconsistencies in chart axes when toggling between views or when Kong has no traffic</li>
-</ul></li>
-<li><p><strong>Proxy Cache</strong></p>
-
-<ul>
-<li>Fix issue that prevented cached requests from showing up in Vitals or Total Requests graphs</li>
-<li>Fixes inherited from Kong Community Edition 0.12.3.</li>
-</ul></li>
+  <li>Galileo plugin is disabled by default in this version, needing to be explicitly enabled via the custom_plugins configuration
+    <ul>
+      <li><em>NOTE</em>: If a user had the Galileo plugin applied in an older version and migrate to 0.31, Kong will fail to restart unless the user enables it via the <a href="/latest/configuration/#custom_plugins">custom_plugins</a> configuration; however, it is still possible to enable the plugin per API or globally without adding it to custom_plugins</li>
+    </ul>
+  </li>
+  <li>OpenID Connect plugin:
+    <ul>
+      <li>Change <code class="highlighter-rouge">config.client_secret</code> from <code class="highlighter-rouge">required</code> to <code class="highlighter-rouge">optional</code></li>
+    </ul>
+  </li>
+  <li>Change <code class="highlighter-rouge">config.client_id</code> from <code class="highlighter-rouge">required</code> to <code class="highlighter-rouge">optional</code></li>
+  <li>If <code class="highlighter-rouge">anonymous</code> consumer is not found Internal Server Error is returned instead of Forbidden</li>
+  <li><strong>Breaking Change</strong> - <code class="highlighter-rouge">config.anonymous</code> now behaves similarly to other plugins and doesn’t halt execution or proxying (previously it was used just as a fallback for consumer mapping) and the plugin always needed valid credentials to be allowed to proxy if the client wasn’t already authenticated by higher priority auth plugin</li>
+  <li>Anonymous consumer now uses a simple cache key that is used in other plugins</li>
+  <li>In case of auth plugins concatenation, the OpenID Connect plugin now removes remnants of anonymous</li>
 </ul>
 
-<p><strong>Features</strong>
-- Admin GUI
-  - Add notification bar alerting users that their license is about to expire, and has expired.
-  - Add new design to vitals overview, table breakdown, and a new tabbed chart interface.
-  - Add top-level vitals section to the sidebar.</p>
-
+<p><strong>Fixes</strong></p>
 <ul>
-<li><p>Requires migration - Vitals</p>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>Remove deprecated orderlist field from Admin GUI Upstreams entity settings</li>
+      <li>Fix issue where Admin GUI would break when running Kong in a custom prefix</li>
+      <li>Fix issue where Healthchecks had a field typed as number instead of string.</li>
+      <li>Fix issue where Healthchecks form had incorrect default values.</li>
+      <li>Fix issue where table row text was overflowing and expanding the page.</li>
+      <li>Fix issue where notification bar in mobile view could have text overflow beyond the container.</li>
+      <li>Fix issue where deleting multiple entities in a list would cause the delete modal to not show.</li>
+      <li>Fix issue where cards on the dashboard were not evenly sized and spaced.</li>
+      <li>Fix issue where cards on the dashboard in certain widths could have text overflow beyond their container.</li>
+      <li>Fix issue where Array’s on Plugin Entities were not being processed and sent to the Admin API.</li>
+      <li>Fix issue where Models were improperly handled when not updated and not sending default values properly.</li>
+      <li>Fix issue where Plugin lists were not displaying config object.</li>
+      <li>Fix issue where Kong was not processing SSL configuration for Admin GUI</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect plugin</strong>
+    <ul>
+      <li>Fixed anonymous consumer mapping</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Vitals</strong></p>
 
-<ul>
-<li>New datastore support: Cassandra 2.1+</li>
-<li>Support for averages for Proxy Request Latency and Upstream Latency</li>
-</ul></li>
-<li><p>Requires migration - Dev Portal</p>
-
-<ul>
-<li>Not-production-ready feature preview of:</li>
-<li>&quot;Public only&quot; Portal - no authentication (eg. the portal is fully accessible to anyone who can access it)</li>
-<li>Authenticated Portal - Developers must log in, and then they can see what they are entitled to see</li>
-</ul></li>
+    <ul>
+      <li>Correct the stats returned in the “metadata” attribute of the /vitals/consumers/:consumer_id/* endpoints</li>
+      <li>Correct a problem where workers get out of sync when adding their data to cache</li>
+      <li>Correct inconsistencies in chart axes when toggling between views or when Kong has no traffic</li>
+    </ul>
+  </li>
+  <li><strong>Proxy Cache</strong>
+    <ul>
+      <li>Fix issue that prevented cached requests from showing up in Vitals or Total Requests graphs</li>
+      <li>Fixes inherited from Kong Community Edition 0.12.3.</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="0-30-2018-01-24">0.30 - 2018/01/24</h2>
+<p><strong>Features</strong></p>
+<ul>
+  <li>Admin GUI
+    <ul>
+      <li>Add notification bar alerting users that their license is about to expire, and has expired.</li>
+      <li>Add new design to vitals overview, table breakdown, and a new tabbed chart interface.</li>
+      <li>Add top-level vitals section to the sidebar.</li>
+    </ul>
+  </li>
+  <li>Requires migration - Vitals
+    <ul>
+      <li>New datastore support: Cassandra 2.1+</li>
+      <li>Support for averages for Proxy Request Latency and Upstream Latency</li>
+    </ul>
+  </li>
+  <li>Requires migration - Dev Portal
+    <ul>
+      <li>Not-production-ready feature preview of:
+        <ul>
+          <li>“Public only” Portal - no authentication (eg. the portal is fully accessible to anyone who can access it)</li>
+          <li>Authenticated Portal - Developers must log in, and then they can see what they are entitled to see</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="030---20180124">0.30 - 2018/01/24</h2>
 
 <p>Kong Enterprise 0.30 is shipped with all the changes present in <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0121---20180118">Kong Community Edition 0.12.1</a>, as well as with the following additions:</p>
 
 <p><strong>Notifications</strong></p>
 
 <ul>
-<li>EE 0.30 inherits dependency <strong>deprecation</strong> notices from CE 0.12. See the &quot;Deprecation Notes&quot; section of Kong 0.12.0 changelog</li>
-<li><p>⚠️ By default, the Admin API now only listens on the local interface. We consider this change to be an improvement in the default security policy of Kong. If you are already using Kong, and your Admin API still binds to all interfaces, consider updating it as well. You can do so by updating the <code>admin_listen</code> configuration value, like so: <code>admin_listen = 127.0.0.1:8001</code>.</p></li>
-<li><p>🔴 Note to Docker users: Beware of this change as you may have to ensure that your Admin API is reachable via the host&#39;s interface. You can use the <code>-e KONG_ADMIN_LISTEN</code> argument when provisioning your container(s) to update this value; for example, <code>-e KONG_ADMIN_LISTEN=0.0.0.0:8001</code>.</p></li>
+  <li>EE 0.30 inherits dependency <strong>deprecation</strong> notices from CE 0.12. See the “Deprecation Notes” section of Kong 0.12.0 changelog</li>
+  <li>
+    <p>⚠️ By default, the Admin API now only listens on the local interface. We consider this change to be an improvement in the default security policy of Kong. If you are already using Kong, and your Admin API still binds to all interfaces, consider updating it as well. You can do so by updating the <code class="highlighter-rouge">admin_listen</code> configuration value, like so: <code class="highlighter-rouge">admin_listen = 127.0.0.1:8001</code>.</p>
+  </li>
+  <li>🔴 Note to Docker users: Beware of this change as you may have to ensure that your Admin API is reachable via the host’s interface. You can use the <code class="highlighter-rouge">-e KONG_ADMIN_LISTEN</code> argument when provisioning your container(s) to update this value; for example, <code class="highlighter-rouge">-e KONG_ADMIN_LISTEN=0.0.0.0:8001</code>.</li>
 </ul>
 
-<p><strong>Changes</strong>
-- <strong>Renaming of Enterprise plugin</strong>
-  - <code>request-transformer</code> becomes <code>request-transformer-advanced</code></p>
-
+<p><strong>Changes</strong></p>
 <ul>
-<li><p><strong>Rate-limiting</strong> plugin</p>
-
-<ul>
-<li>Change default <code>config.identifier</code> in EE&#39;s from <code>ip</code> to <code>consumer</code></li>
-</ul></li>
-<li><p><strong>Vitals</strong></p>
-
-<ul>
-<li>Aggregate minutes data at the same time as seconds data</li>
-<li><strong>Breaking Change:</strong> Replace previous Vitals API (part of the Admin API) with new version. <strong>Not backwards compatible.</strong></li>
-<li><strong>Upgrading from Kong EE (0.29) will result in the loss of previous Vitals data</strong></li>
-</ul></li>
-<li><p><strong>Admin GUI</strong></p>
-
-<ul>
-<li>Vitals chart settings stored in local storage</li>
-<li>Improve vital chart legends</li>
-<li>Change Make A Wish email to <a href="mailto:wish@konghq.com`><a href="mailto:wish@konghq.com">wish@konghq.com</a></a></li>
-</ul></li>
-<li><p><strong>OpenID Connect Plugins</strong></p>
-
-<ul>
-<li>Change <code>config.login_redirect_uri</code> from <code>string</code> to <code>array</code></li>
-<li>Add new configuration parameters</li>
-<li>config.authorization_query_args_client</li>
-<li>config.client_arg</li>
-<li>config.logout_redirect_uri</li>
-<li>config.logout_query_arg</li>
-<li>config.logout_post_arg</li>
-<li>config.logout_uri_suffix</li>
-<li>config.logout_methods</li>
-<li>config.logout_revoke</li>
-<li>config.revocation_endpoint</li>
-<li>config.end_session_endpoint</li>
-</ul></li>
-<li><p><strong>OpenID Connect Library</strong></p>
-
-<ul>
-<li>Function <code>authorization:basic</code> now return as a third parameter, the grant type if one was found - previously, it returned parameter location in HTTP request</li>
-<li>Issuer is no longer verified on discovery as some IdPs report different value (it is still verified with claims verification)</li>
-</ul></li>
+  <li><strong>Renaming of Enterprise plugin</strong>
+    <ul>
+      <li><code class="highlighter-rouge">request-transformer</code> becomes <code class="highlighter-rouge">request-transformer-advanced</code></li>
+    </ul>
+  </li>
+  <li><strong>Rate-limiting</strong> plugin
+    <ul>
+      <li>Change default <code class="highlighter-rouge">config.identifier</code> in EE’s from <code class="highlighter-rouge">ip</code> to <code class="highlighter-rouge">consumer</code></li>
+    </ul>
+  </li>
+  <li><strong>Vitals</strong>
+    <ul>
+      <li>Aggregate minutes data at the same time as seconds data</li>
+      <li><strong>Breaking Change:</strong> Replace previous Vitals API (part of the Admin API) with new version. <strong>Not backwards compatible.</strong></li>
+      <li><strong>Upgrading from Kong EE (0.29) will result in the loss of previous Vitals data</strong></li>
+    </ul>
+  </li>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>Vitals chart settings stored in local storage</li>
+      <li>Improve vital chart legends</li>
+      <li>Change Make A Wish email to &lt;a href=”mailto:wish@konghq.com`&gt;wish@konghq.com&lt;/a&gt;</li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect Plugins</strong>
+    <ul>
+      <li>Change <code class="highlighter-rouge">config.login_redirect_uri</code> from <code class="highlighter-rouge">string</code> to <code class="highlighter-rouge">array</code></li>
+      <li>Add new configuration parameters
+        <ul>
+          <li>config.authorization_query_args_client</li>
+          <li>config.client_arg</li>
+          <li>config.logout_redirect_uri</li>
+          <li>config.logout_query_arg</li>
+          <li>config.logout_post_arg</li>
+          <li>config.logout_uri_suffix</li>
+          <li>config.logout_methods</li>
+          <li>config.logout_revoke</li>
+          <li>config.revocation_endpoint</li>
+          <li>config.end_session_endpoint</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>OpenID Connect Library</strong>
+    <ul>
+      <li>Function <code class="highlighter-rouge">authorization:basic</code> now return as a third parameter, the grant type if one was found - previously, it returned parameter location in HTTP request</li>
+      <li>Issuer is no longer verified on discovery as some IdPs report different value (it is still verified with claims verification)</li>
+    </ul>
+  </li>
 </ul>
 
 <p><strong>Added</strong></p>
 
 <ul>
-<li><p>New <strong>Canary Release plugin</strong></p></li>
-<li><p>Vitals</p>
-
-<ul>
-<li>Addition of &quot;node-specific&quot; dimension for previously-released metrics (Kong Request Latency and Datastore Cache)</li>
-<li>New metrics and dimensions:</li>
-<li><strong>Request Count per Consumer</strong>, by Node or Cluster</li>
-<li><strong>Total Request Count</strong>, by Node or Cluster</li>
-<li><strong>Upstream Latency</strong> (the time between a request being sent upstream by Kong, and the response being received by Kong), by Node or Cluster</li>
-<li>All new metrics and dimensions accessible in <strong>Admin GUI and API</strong></li>
-<li><strong>Important limitations and notifications:</strong></li>
-<li>PostgreSQL 9.5+ only - no Cassandra support yet</li>
-<li>Upgrading from the previous version of Kong EE will result in all historic Vitals data being dropped</li>
-<li>The previous Vitals API (which is part of the Admin API) is replaced with a new, better one (the old API disappears, and there is no backwards compatibility)</li>
-<li><strong>Proxy Cache</strong></li>
-<li>Implement Redis (stand-alone and Sentinel) caching of proxy cache entities</li>
-<li><strong>Enterprise Rate Limiting</strong></li>
-<li>Provide <strong>fixed-window</strong> quota rate limiting (which is essentially what the CE rate-limiting plugin does) in addition to the current sliding window rate limiting</li>
-<li>Add <em>hide_client_headers</em> configuration to disable response headers returned by the rate limiting plugin</li>
-<li><strong>Admin GUI</strong></li>
-<li>Addition of <strong>&quot;Form Control Grouping&quot;</strong> for the new Upstream health-check configuration options.</li>
-<li>Add <strong>Healthy</strong> or <strong>Unhealthy</strong> buttons for the new health-check functionality on Upstream Targets table.</li>
-<li>Add <strong>Hostname</strong> and <strong>Hostname + Id</strong> reporting and labeling functionality to Vitals components.</li>
-<li>Add <strong>Total Requests per Consumer</strong> chart to individual consumer pages.</li>
-<li>Add <strong>Total Requests</strong> and <strong>Upstream Latency</strong> charts to the Vitals page.</li>
-<li>Add information dialogs for vital charts next to chart titles.</li>
-<li>Introduced <strong>Total Requests</strong> chart on Dashboard.</li>
-<li>Automatically saves chart preferences and restores on reload.</li>
-<li><strong>OpenID Connect plugins</strong></li>
-<li>Support passing dynamic arguments to authorization endpoint from client</li>
-<li>Support logout with optional revocation and RP-initiated logout</li>
-<li>Features inherited from <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#added">Kong Community Edition 0.12.0</a> - includes:</li>
-<li>Health checks</li>
-<li>Hash-based load balancing</li>
-<li>Logging plugins track unauthorized and rate-limited requests</li>
-<li>And more...</li>
-</ul></li>
+  <li>
+    <p>New <strong>Canary Release plugin</strong></p>
+  </li>
+  <li>
+    <p>Vitals</p>
+    <ul>
+      <li>Addition of “node-specific” dimension for previously-released metrics (Kong Request Latency and Datastore Cache)</li>
+      <li>New metrics and dimensions:
+        <ul>
+          <li><strong>Request Count per Consumer</strong>, by Node or Cluster</li>
+          <li><strong>Total Request Count</strong>, by Node or Cluster</li>
+          <li><strong>Upstream Latency</strong> (the time between a request being sent upstream by Kong, and the response being received by Kong), by Node or Cluster</li>
+        </ul>
+      </li>
+      <li>All new metrics and dimensions accessible in <strong>Admin GUI and API</strong></li>
+      <li><strong>Important limitations and notifications:</strong>
+        <ul>
+          <li>PostgreSQL 9.5+ only - no Cassandra support yet</li>
+          <li>Upgrading from the previous version of Kong EE will result in all historic Vitals data being dropped</li>
+          <li>The previous Vitals API (which is part of the Admin API) is replaced with a new, better one (the old API disappears, and there is no backwards compatibility)</li>
+        </ul>
+      </li>
+      <li><strong>Proxy Cache</strong>
+        <ul>
+          <li>Implement Redis (stand-alone and Sentinel) caching of proxy cache entities</li>
+        </ul>
+      </li>
+      <li><strong>Enterprise Rate Limiting</strong>
+        <ul>
+          <li>Provide <strong>fixed-window</strong> quota rate limiting (which is essentially what the CE rate-limiting plugin does) in addition to the current sliding window rate limiting</li>
+          <li>Add <em>hide_client_headers</em> configuration to disable response headers returned by the rate limiting plugin</li>
+        </ul>
+      </li>
+      <li><strong>Admin GUI</strong>
+        <ul>
+          <li>Addition of <strong>“Form Control Grouping”</strong> for the new Upstream health-check configuration options.</li>
+          <li>Add <strong>Healthy</strong> or <strong>Unhealthy</strong> buttons for the new health-check functionality on Upstream Targets table.</li>
+          <li>Add <strong>Hostname</strong> and <strong>Hostname + Id</strong> reporting and labeling functionality to Vitals components.</li>
+          <li>Add <strong>Total Requests per Consumer</strong> chart to individual consumer pages.</li>
+          <li>Add <strong>Total Requests</strong> and <strong>Upstream Latency</strong> charts to the Vitals page.</li>
+          <li>Add information dialogs for vital charts next to chart titles.</li>
+          <li>Introduced <strong>Total Requests</strong> chart on Dashboard.</li>
+          <li>Automatically saves chart preferences and restores on reload.</li>
+        </ul>
+      </li>
+      <li><strong>OpenID Connect plugins</strong>
+        <ul>
+          <li>Support passing dynamic arguments to authorization endpoint from client</li>
+          <li>Support logout with optional revocation and RP-initiated logout</li>
+        </ul>
+      </li>
+      <li>Features inherited from <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#added">Kong Community Edition 0.12.0</a> - includes:
+        <ul>
+          <li>Health checks</li>
+          <li>Hash-based load balancing</li>
+          <li>Logging plugins track unauthorized and rate-limited requests</li>
+          <li>And more…</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<p><strong>Fixes</strong>
-- <strong>Proxy Cache</strong>
-  - Better handling of input configuration data types. In some cases configuration sent from the GUI would case requests to be bypassed when they should have been cached.</p>
-
+<p><strong>Fixes</strong></p>
 <ul>
-<li><p><strong>OAuth2 Introspection</strong></p>
-
-<ul>
-<li>Improved error handling in TCP/HTTP connections to the introspection server.</li>
-</ul></li>
-<li><p><strong>Vitals</strong></p>
-
-<ul>
-<li>Aggregating minutes at the same time as seconds are being written.</li>
-<li>Returning more than one minute&#39;s worth of seconds data.</li>
-</ul></li>
-<li><p><strong>Admin GUI</strong></p>
-
-<ul>
-<li>Input type for Certificates is now a text area box.</li>
-<li>Infer types based on default values and object type from the API Schema for Plugins.</li>
-</ul></li>
-<li><p>Fixes inherited from Kong Community Edition 0.12.0.</p></li>
+  <li><strong>Proxy Cache</strong>
+    <ul>
+      <li>Better handling of input configuration data types. In some cases configuration sent from the GUI would case requests to be bypassed when they should have been cached.</li>
+    </ul>
+  </li>
+  <li><strong>OAuth2 Introspection</strong>
+    <ul>
+      <li>Improved error handling in TCP/HTTP connections to the introspection server.</li>
+    </ul>
+  </li>
+  <li><strong>Vitals</strong>
+    <ul>
+      <li>Aggregating minutes at the same time as seconds are being written.</li>
+      <li>Returning more than one minute’s worth of seconds data.</li>
+    </ul>
+  </li>
+  <li><strong>Admin GUI</strong>
+    <ul>
+      <li>Input type for Certificates is now a text area box.</li>
+      <li>Infer types based on default values and object type from the API Schema for Plugins.</li>
+    </ul>
+  </li>
+  <li>Fixes inherited from Kong Community Edition 0.12.0.</li>
 </ul>
 
-<hr>
+<hr />
+
 
 
         </div>
@@ -1491,7 +1576,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

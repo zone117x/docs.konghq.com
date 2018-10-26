@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -606,13 +606,13 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#getting-started-with-the-kong-developer-portal">Getting Started with the Kong Developer Portal</a>
-
-<ul>
-<li> <a href="#enable-the-dev-portal">Enable the Dev Portal</a></li>
-<li> <a href="#uploading-the-example-dev-portal-files">Uploading the Example Dev Portal files</a></li>
-<li> <a href="#visit-the-example-dev-portal">Visit the Example Dev Portal</a></li>
-</ul></li>
+  <li><a href="#getting-started-with-the-kong-developer-portal">Getting Started with the Kong Developer Portal</a>
+    <ul>
+      <li><a href="#enable-the-dev-portal">Enable the Dev Portal</a></li>
+      <li><a href="#uploading-the-example-dev-portal-files">Uploading the Example Dev Portal files</a></li>
+      <li><a href="#visit-the-example-dev-portal">Visit the Example Dev Portal</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -622,27 +622,27 @@ window['_fs_namespace'] = 'FS';
 <h2 id="enable-the-dev-portal">Enable the Dev Portal</h2>
 
 <ol>
-<li>Open the Kong configuration file in your editor of choice (<code>kong.conf</code>)</li>
-<li>Find and change the <code>portal</code> configuration option to <code>on</code> and remove the <code>#</code> from the beginning of the line, it should now look like:
-
-<ul>
-<li><strong><code>portal = on</code></strong>
-
-<ol>
-<li>Enables the <strong>Dev Portal File API</strong> which can be accessed at: <code>:8001/files</code></li>
-<li>Serves the <strong>Dev Portal</strong> <strong>Loader</strong> on port  <code>:8003</code></li>
-<li>Enables the <strong>Public Dev Portal API</strong> on port  <code>:8004</code>
-
-<ul>
-<li>The <strong>Public Dev Portal File API</strong> can be accessed at <code>:8004/file</code></li>
-</ul></li>
-</ol></li>
-</ul></li>
-<li>Restart Kong (<code>kong restart</code>)</li>
+  <li>Open the Kong configuration file in your editor of choice (<code class="highlighter-rouge">kong.conf</code>)</li>
+  <li>Find and change the <code class="highlighter-rouge">portal</code> configuration option to <code class="highlighter-rouge">on</code> and remove the <code class="highlighter-rouge">#</code> from the beginning of the line, it should now look like:
+    <ul>
+      <li><strong><code class="highlighter-rouge">portal = on</code></strong>
+        <ol>
+          <li>Enables the <strong>Dev Portal File API</strong> which can be accessed at: <code class="highlighter-rouge">:8001/files</code></li>
+          <li>Serves the <strong>Dev Portal</strong> <strong>Loader</strong> on port  <code class="highlighter-rouge">:8003</code></li>
+          <li>Enables the <strong>Public Dev Portal API</strong> on port  <code class="highlighter-rouge">:8004</code>
+            <ul>
+              <li>The <strong>Public Dev Portal File API</strong> can be accessed at <code class="highlighter-rouge">:8004/file</code></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>Restart Kong (<code class="highlighter-rouge">kong restart</code>)</li>
 </ol>
 
 <blockquote>
-<p>Note: Not all deployments of Kong utilize a configuration file, if this describes you (or you are unsure) please reference the <a href="/0.31-x/configuration/">Kong configuration docs</a> in order to implement this step.</p>
+  <p>Note: Not all deployments of Kong utilize a configuration file, if this describes you (or you are unsure) please reference the <a href="/0.31-x/configuration/">Kong configuration docs</a> in order to implement this step.</p>
 </blockquote>
 
 <h2 id="uploading-the-example-dev-portal-files">Uploading the Example Dev Portal files</h2>
@@ -650,24 +650,24 @@ window['_fs_namespace'] = 'FS';
 <p>Now that we have enabled the Dev Portal, it is time to download the Example Dev Portal Files archive, (made of Pages, Partials, and Specifications) so that the Dev Portal Loader will have something to render (more on that later).</p>
 
 <ul>
-<li>Login to Bintray and download the <a href="https://bintray.com/kong/kong-dev-portal/download_file?file_path=v0.0.2_theme.tar.gz">Example Dev Portal files</a> archive.</li>
-<li>Unarchive the Example Dev Portal files archive and navigate to it in your terminal</li>
-<li>Run the following commands in your terminal to upload the Example Dev Portal files to Kong:
-
-<ul>
-<li><code>chmod +x sync.sh</code></li>
-<li><code>./sync.sh</code>
-
-<ul>
-<li>If you open this file in your text editor you will see that it is making basic <code>curl</code> requests to the Dev Portal File API. We will be making similar requests later.</li>
-</ul></li>
-</ul></li>
-<li>Navigate in your browser to <code>http://127.0.0.1:8001/files</code>
-
-<ul>
-<li>You should see a list of files, with types, and contents. These are the Example Dev Portal files that we have uploaded via the Dev Portal File API.</li>
-</ul></li>
-<li>If you are enabling Authentication, jump to the <strong>Authentication</strong> section before moving forward.</li>
+  <li>Login to Bintray and download the <a href="https://bintray.com/kong/kong-dev-portal/download_file?file_path=v0.0.2_theme.tar.gz">Example Dev Portal files</a> archive.</li>
+  <li>Unarchive the Example Dev Portal files archive and navigate to it in your terminal</li>
+  <li>Run the following commands in your terminal to upload the Example Dev Portal files to Kong:
+    <ul>
+      <li><code class="highlighter-rouge">chmod +x sync.sh</code></li>
+      <li><code class="highlighter-rouge">./sync.sh</code>
+        <ul>
+          <li>If you open this file in your text editor you will see that it is making basic <code class="highlighter-rouge">curl</code> requests to the Dev Portal File API. We will be making similar requests later.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Navigate in your browser to <code class="highlighter-rouge">http://127.0.0.1:8001/files</code>
+    <ul>
+      <li>You should see a list of files, with types, and contents. These are the Example Dev Portal files that we have uploaded via the Dev Portal File API.</li>
+    </ul>
+  </li>
+  <li>If you are enabling Authentication, jump to the <strong>Authentication</strong> section before moving forward.</li>
 </ul>
 
 <h2 id="visit-the-example-dev-portal">Visit the Example Dev Portal</h2>
@@ -675,7 +675,7 @@ window['_fs_namespace'] = 'FS';
 <p>Now that you have enabled the Dev Portal in Kong, and uploaded the Example Dev Portal files using the Dev Portal File API we can visit the Example Dev Portal:</p>
 
 <ul>
-<li>Navigate your browser to <code>http://127.0.0.1:8003</code></li>
+  <li>Navigate your browser to <code class="highlighter-rouge">http://127.0.0.1:8003</code></li>
 </ul>
 
 <p>You should now see the Default Dev Portal Homepage, and be able to navigate through the example pages.</p>
@@ -835,7 +835,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

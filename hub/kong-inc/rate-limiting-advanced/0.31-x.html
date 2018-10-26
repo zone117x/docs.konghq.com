@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -267,16 +267,16 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#notes">Notes</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#notes">Notes</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -434,10 +434,10 @@ re-engineered version of the incredibly popular Kong Rate Limiting plugin,
 with greatly enhanced configuration options and performance.</p>
 
 <p>Note that in Kong (EE) 0.31 only, this plugin was referred to
-as <code>rate-limiting</code> - and the same-named Kong Community Edition (CE) plugin was
+as <code class="highlighter-rouge">rate-limiting</code> - and the same-named Kong Community Edition (CE) plugin was
 not included in Kong EE 0.31. Later versions of Kong EE included both this
-plugin (named <code>rate-limiting-advanced</code> in those later versions) and the
-<code>rate-limiting</code> plugin from Kong CE.</p>
+plugin (named <code class="highlighter-rouge">rate-limiting-advanced</code> in those later versions) and the
+<code class="highlighter-rouge">rate-limiting</code> plugin from Kong CE.</p>
 
 
       
@@ -466,26 +466,32 @@ plugin (named <code>rate-limiting-advanced</code> in those later versions) and t
         
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>api_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">api_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
 
+
         
         
-          <h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
+          
+<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
 
 <p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
 entity</a> (<strong>deprecated</strong> in favor of Services
@@ -493,12 +499,15 @@ since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---2018
 CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=rate-limiting"</span> 
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>api</code>: either id or name of the API that this plugin configuration will
+  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
 target.</li>
 </ul>
 
@@ -516,7 +525,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -560,7 +570,7 @@ target.</li>
         </td>
         <td><p>consumer</p>
 </td>
-        <td><p>How to define the rate limit key. Can be <code>ip</code>, <code>credential</code>, or <code>consumer</code>.</p>
+        <td><p>How to define the rate limit key. Can be <code class="highlighter-rouge">ip</code>, <code class="highlighter-rouge">credential</code>, or <code class="highlighter-rouge">consumer</code>.</p>
 </td>
       </tr>
     
@@ -579,7 +589,7 @@ entirely and only stores counters in node memory. A value greater than
     
       <tr>
         <td><code>config.namespace</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
         <td><p>random string</p>
@@ -596,47 +606,47 @@ Counter data and sync configuration is shared in a namespace.</p>
         </td>
         <td><p>cluster</p>
 </td>
-        <td><p>The sync strategy to use; <code>cluster</code> and <code>redis</code> are supported</p>
+        <td><p>The sync strategy to use; <code class="highlighter-rouge">cluster</code> and <code class="highlighter-rouge">redis</code> are supported</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis.host</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Host to use for Redis connection when the <code>redis</code> strategy is defined</p>
+        <td><p>Host to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis.port</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Port to use for Redis connection when the <code>redis</code> strategy is defined</p>
+        <td><p>Port to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis.timeout</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Connection timeout to use for Redis connection when the <code>redis</code> strategy is defined</p>
+        <td><p>Connection timeout to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis.password</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Password to use for Redis connection when the <code>redis</code> strategy is defined.
+        <td><p>Password to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined.
 If undefined, no AUTH commands are sent to Redis.</p>
 </td>
       </tr>
@@ -644,21 +654,21 @@ If undefined, no AUTH commands are sent to Redis.</p>
       <tr>
         <td><code>config.redis.database</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
-        <td><p><code>0</code></p>
+        <td><p><code class="highlighter-rouge">0</code></p>
 </td>
-        <td><p>Database to use for Redis connection when the <code>redis</code> strategy is defined</p>
+        <td><p>Database to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.redis.sentinel_master</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Sentinel master to use for Redis connection when the <code>redis</code> strategy
+        <td><p>Sentinel master to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy
 is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
       </tr>
@@ -666,10 +676,10 @@ is defined. Defining this value implies using Redis Sentinel.</p>
       <tr>
         <td><code>config.redis.sentinel_role</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Sentinel role to use for Redis connection when the <code>redis</code> strategy
+        <td><p>Sentinel role to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy
 is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
       </tr>
@@ -677,10 +687,10 @@ is defined. Defining this value implies using Redis Sentinel.</p>
       <tr>
         <td><code>config.redis.sentinel_addresses</code>
           
-          <br><em>semi-optional</em>
+          <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Sentinel addresses to use for Redis connection when the <code>redis</code>
+        <td><p>Sentinel addresses to use for Redis connection when the <code class="highlighter-rouge">redis</code>
 strategy is defined. Defining this value implies using Redis Sentinel.</p>
 </td>
       </tr>
@@ -690,10 +700,11 @@ strategy is defined. Defining this value implies using Redis Sentinel.</p>
           
           
         </td>
-        <td><p><code>sliding</code></p>
+        <td><p><code class="highlighter-rouge">sliding</code></p>
 </td>
-        <td><p>This sets the time window to either <code>sliding</code> or <code>fixed</code>.
-Sliding windows <a href="/enterprise/0.31-x/rate-limiting/">factor in weighted request counts from previous time segments</a> when determining whether a client has
+        <td><p>This sets the time window to either <code class="highlighter-rouge">sliding</code> or <code class="highlighter-rouge">fixed</code>.
+Sliding windows [factor in weighted request counts from previous time segments]
+(/enterprise/0.31-x/rate-limiting/) when determining whether a client has
 exceeded its limit, whereas fixed windows only count requests during
 the current time segment.</p>
 </td>
@@ -704,10 +715,10 @@ the current time segment.</p>
           
           
         </td>
-        <td><p><code>false</code></p>
+        <td><p><code class="highlighter-rouge">false</code></p>
 </td>
-        <td><p>Controls whether <code>X-Ratelimit-Remaining</code> and <code>X-Ratelimit-Limit</code>
-headers are sent to clients. When set to <code>true</code>, headers are not
+        <td><p>Controls whether <code class="highlighter-rouge">X-Ratelimit-Remaining</code> and <code class="highlighter-rouge">X-Ratelimit-Limit</code>
+headers are sent to clients. When set to <code class="highlighter-rouge">true</code>, headers are not
 sent/are hidden.</p>
 </td>
       </tr>
@@ -718,23 +729,25 @@ sent/are hidden.</p>
 
       
 
-      <p><strong>Note:  Redis configuration values are ignored if the <code>cluster</code> strategy is used.</strong></p>
+      <p><strong>Note:  Redis configuration values are ignored if the <code class="highlighter-rouge">cluster</code> strategy is used.</strong></p>
 
-<p><strong>Note: PostgreSQL 9.5+ is required when using the <code>cluster</code> strategy with
-<code>postgres</code> as the backing Kong cluster data store. This requirement varies
+<p><strong>Note: PostgreSQL 9.5+ is required when using the <code class="highlighter-rouge">cluster</code> strategy with
+<code class="highlighter-rouge">postgres</code> as the backing Kong cluster data store. This requirement varies
 from the PostgreSQL 9.4+ requirement as described in the
 <a href="/install/source">Kong Community Edition documentation</a>.</strong></p>
 
 
       <h3 id="notes">Notes</h3>
 
-<p>An arbitrary number of limits/window sizes can be applied per plugin instance. This allows users to create multiple rate limiting windows (e.g., rate limit per minute and per hour, and/or per any arbitrary window size); because of limitation with Kong&#39;s plugin configuration interface, each <em>nth</em> limit will apply to each <em>nth</em> window size. For example:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+<p>An arbitrary number of limits/window sizes can be applied per plugin instance. This allows users to create multiple rate limiting windows (e.g., rate limit per minute and per hour, and/or per any arbitrary window size); because of limitation with Kong’s plugin configuration interface, each <em>nth</em> limit will apply to each <em>nth</em> window size. For example:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
   --data <span class="nv">name</span><span class="o">=</span>rate-limiting <span class="se">\</span>
   --data config.limit<span class="o">=</span>10,100 <span class="se">\</span>
   --data config.window_size<span class="o">=</span>60,3600 <span class="se">\</span>
   --data config.sync_rate<span class="o">=</span>10
-</code></pre></div>
+</code></pre>
+</div>
 <p>This will apply rate limiting policies, one of which will trip when 10 hits have been counted in 60 seconds, or when 100 hits have been counted in 3600 seconds.</p>
 
 
@@ -901,7 +914,7 @@ from the PostgreSQL 9.4+ requirement as described in the
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

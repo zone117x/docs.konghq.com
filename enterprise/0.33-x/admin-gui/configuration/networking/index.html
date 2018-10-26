@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,13 +754,13 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#default-configuration">Default Configuration</a></li>
-<li> <a href="#custom-configuration">Custom Configuration</a>
-
-<ul>
-<li> <a href="#the-admin-api-proxy">The Admin API Proxy</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#default-configuration">Default Configuration</a></li>
+  <li><a href="#custom-configuration">Custom Configuration</a>
+    <ul>
+      <li><a href="#the-admin-api-proxy">The Admin API Proxy</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -771,8 +771,8 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="default-configuration">Default Configuration</h2>
 
-<p>By default, the Admin GUI starts up without authentication (<code>admin_gui_auth</code>),
-and it assumes that the Admin API is available on port 8001 (<code>admin_api_port</code>)
+<p>By default, the Admin GUI starts up without authentication (<code class="highlighter-rouge">admin_gui_auth</code>),
+and it assumes that the Admin API is available on port 8001 (<code class="highlighter-rouge">admin_api_port</code>)
 of the same host that serves the Admin GUI.</p>
 
 <h2 id="custom-configuration">Custom Configuration</h2>
@@ -780,54 +780,37 @@ of the same host that serves the Admin GUI.</p>
 <p>Common configurations to enable are</p>
 
 <ol>
-<li>serving the Admin GUI from a dedicated Kong node</li>
-<li>securing the Admin GUI via a Kong authentication plugin</li>
-<li>securing the Admin GUI and serving it from a dedicated node</li>
+  <li>serving the Admin GUI from a dedicated Kong node</li>
+  <li>securing the Admin GUI via a Kong authentication plugin</li>
+  <li>securing the Admin GUI and serving it from a dedicated node</li>
 </ol>
 
 <p>When (1) <strong>the Admin GUI is on a dedicated Kong node</strong>, it must make external
-calls to the Admin API. Set <code>admin_api_uri</code> to the location of your Admin API.</p>
+calls to the Admin API. Set <code class="highlighter-rouge">admin_api_uri</code> to the location of your Admin API.</p>
 
 <p>When (2) <strong>the Admin GUI is secured via an authentication plugin and <em>not</em> on
 a dedicated node</strong>, it makes calls to the Admin API via the Kong proxy (which
 executes the plugin). By default, the proxy listens on ports 8000 and 8443 on
-localhost. Change <code>proxy_listen</code> if necessary, or set <code>proxy_url</code>.</p>
+localhost. Change <code class="highlighter-rouge">proxy_listen</code> if necessary, or set <code class="highlighter-rouge">proxy_url</code>.</p>
 
 <p>When (3) <strong>the Admin GUI is secured and served from a dedicated node</strong>, set
-<code>proxy_url</code> to the location of the Kong proxy. The Admin API is not used
+<code class="highlighter-rouge">proxy_url</code> to the location of the Kong proxy. The Admin API is not used
 directly in this case.</p>
 
 <p>The table below summarizes which properties to set (or defaults to verify)
 when configuring the Admin GUI connectivity to the Admin API.</p>
 
-<table><thead>
-<tr>
-<th>authentication enabled</th>
-<th>local API</th>
-<th>remote API</th>
-<th>auth settings</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>yes</td>
-<td>proxy_listen</td>
-<td>proxy_url</td>
-<td>admin_gui_auth, enforce_rbac, admin_gui_auth_conf</td>
-</tr>
-<tr>
-<td>no</td>
-<td>admin_listen</td>
-<td>admin_api_uri</td>
-<td>n/a</td>
-</tr>
-</tbody></table>
+<p>authentication enabled | local API    | remote API     | auth settings
+———————–+————–+—————-+————–
+yes                    | proxy_listen | proxy_url      | admin_gui_auth, enforce_rbac, admin_gui_auth_conf
+no                     | admin_listen | admin_api_uri  | n/a</p>
 
 <p>To enable authentication, configure the following properties:</p>
 
 <ul>
-<li><code>admin_gui_auth</code> - to indicate which Kong auth plugin to use</li>
-<li><code>admin_gui_auth_conf</code> (optional) - to configure the auth plugin</li>
-<li><code>enforce_rbac</code> - to <code>on</code> or <code>both</code></li>
+  <li><code class="highlighter-rouge">admin_gui_auth</code> - to indicate which Kong auth plugin to use</li>
+  <li><code class="highlighter-rouge">admin_gui_auth_conf</code> (optional) - to configure the auth plugin</li>
+  <li><code class="highlighter-rouge">enforce_rbac</code> - to <code class="highlighter-rouge">on</code> or <code class="highlighter-rouge">both</code></li>
 </ul>
 
 <p>⚠️ When Admin GUI authentication is enabled, RBAC must be turned on to enforce
@@ -837,15 +820,15 @@ API.</p>
 
 <h3 id="the-admin-api-proxy">The Admin API Proxy</h3>
 
-<p>When you enable <code>admin_gui_auth</code> Kong creates a service that routes to
-<code>/_kong/admin</code>. This route is accessible on the proxy to which the Admin
+<p>When you enable <code class="highlighter-rouge">admin_gui_auth</code> Kong creates a service that routes to
+<code class="highlighter-rouge">/_kong/admin</code>. This route is accessible on the proxy to which the Admin
 GUI connects to make API requests, and it is secured by the authentication
 plugin that you specified. <em>This route is intended for the Admin GUI
 application only and is subject to change</em>. It should not be used in any
 scripts or external tools that connect to Kong. For these purposes, use
 the Admin API on its regular host and port, secured with RBAC.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/property-reference/">Property Reference &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/property-reference/">Property Reference ›</a></p>
 
 
         </div>
@@ -1002,7 +985,7 @@ the Admin API on its regular host and port, secured with RBAC.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

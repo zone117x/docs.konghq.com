@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -868,33 +868,33 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-    -  <a href="#modules">Modules</a>
-
-<ul>
-<li> <a href="#caching-custom-entities">Caching custom entities</a>
-
-<ul>
-<li> <a href="#updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</a></li>
-</ul></li>
-<li> <a href="#cache-invalidation-for-your-entities">Cache invalidation for your entities</a>
-
-<ul>
-<li> <a href="#automatic-cache-invalidation">Automatic cache invalidation</a></li>
-<li> <a href="#manual-cache-invalidation">Manual cache invalidation</a></li>
-</ul></li>
-<li> <a href="#extending-the-admin-api">Extending the Admin API</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#modules">Modules</a></li>
+  <li><a href="#caching-custom-entities">Caching custom entities</a>
+    <ul>
+      <li><a href="#updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</a></li>
+    </ul>
+  </li>
+  <li><a href="#cache-invalidation-for-your-entities">Cache invalidation for your entities</a>
+    <ul>
+      <li><a href="#automatic-cache-invalidation">Automatic cache invalidation</a></li>
+      <li><a href="#manual-cache-invalidation">Manual cache invalidation</a></li>
+    </ul>
+  </li>
+  <li><a href="#extending-the-admin-api">Extending the Admin API</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<h4 id="modules">Modules</h4>
-<div class="highlight"><pre><code class="language-" data-lang="">"kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre></div>
-<hr>
+<h2 id="modules">Modules</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
+</code></pre>
+</div>
+
+<hr />
 
 <p>Your plugin may need to frequently access custom entities (explained in the
 <a href="/0.11.x/plugin-development/custom-entities/">previous chapter</a>) on every request and/or response.
@@ -910,34 +910,37 @@ either block the request or retrieve the Consumer ID to identify the user. This
 would happen on every request, and it would be very inefficient:</p>
 
 <ul>
-<li>Querying the datastore adds latency on every request, making the request
+  <li>Querying the datastore adds latency on every request, making the request
 processing slower.</li>
-<li>The datastore would also be affected by an increase of load, potentially
+  <li>The datastore would also be affected by an increase of load, potentially
 crashing or slowing down, which in turn would affect every Kong
 node.</li>
 </ul>
 
 <p>To avoid querying the datastore every time, we can cache custom entities
-in-memory on the node, so that frequent entity lookups don&#39;t trigger a
+in-memory on the node, so that frequent entity lookups don’t trigger a
 datastore query every time (only the first time), but happen in-memory, which
 is much faster and reliable that querying it from the datastore (especially
 under heavy load).</p>
 
-<hr>
+<hr />
 
-<h3 id="caching-custom-entities">Caching custom entities</h3>
+<h2 id="caching-custom-entities">Caching custom entities</h2>
 
 <p>Once you have defined your custom entities, you can cache them in-memory in
-your code by using the <code>singletons.cache</code> module provided by Kong:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">local singletons = require "kong.singletons"
+your code by using the <code class="highlighter-rouge">singletons.cache</code> module provided by Kong:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>local singletons = require "kong.singletons"
 local cache = singletons.cache
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>There are 2 levels of cache:</p>
 
 <ol>
-<li>L1: Lua memory cache - local to an nginx worker
+  <li>L1: Lua memory cache - local to an nginx worker
 This can hold any type of Lua value.</li>
-<li>L2: Shared memory cache (SHM) - local to an nginx node, but shared between
+  <li>L2: Shared memory cache (SHM) - local to an nginx node, but shared between
 all workers. This can only hold scalar values, and hence requires
 (de)serialization.</li>
 </ol>
@@ -951,37 +954,41 @@ then return it.</p>
 
 <p>This module exposes the following functions:</p>
 
-<table><thead>
-<tr>
-<th>Function name</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>value, err = cache:get(key, opts?, cb, ...)</code></td>
-<td>Retrieves the value from the cache. If the cache does not have value (miss), invokes <code>cb</code> in protected mode. <code>cb</code> must return one (and only one) value that will be cached. It <em>can</em> throw errors, as those will be caught and properly logged by Kong, at the <code>ngx.ERR</code> level. This function <strong>does</strong> cache negative results (<code>nil</code>). As such, one must rely on its second argument <code>err</code> when checking for errors.</td>
-</tr>
-<tr>
-<td><code>ttl, err, value = cache:probe(key)</code></td>
-<td>Checks if a value is cached. If it is, returns its remaining TTL. It not, returns <code>nil</code>. The value being cached can also be a negative caching. The third return value is the value being cached itself.</td>
-</tr>
-<tr>
-<td><code>cache:invalidate_local(key)</code></td>
-<td>Evicts a value from the node&#39;s cache.</td>
-</tr>
-<tr>
-<td><code>cache:invalidate(key)</code></td>
-<td>Evicts a value from the node&#39;s cache <strong>and</strong> propagates the eviction events to all other nodes in the cluster.</td>
-</tr>
-<tr>
-<td><code>cache:purge()</code></td>
-<td>Evicts <strong>all</strong> values from the node&#39;s cache.</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th>Function name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">value, err = cache:get(key, opts?, cb, ...)</code></td>
+      <td>Retrieves the value from the cache. If the cache does not have value (miss), invokes <code class="highlighter-rouge">cb</code> in protected mode. <code class="highlighter-rouge">cb</code> must return one (and only one) value that will be cached. It <em>can</em> throw errors, as those will be caught and properly logged by Kong, at the <code class="highlighter-rouge">ngx.ERR</code> level. This function <strong>does</strong> cache negative results (<code class="highlighter-rouge">nil</code>). As such, one must rely on its second argument <code class="highlighter-rouge">err</code> when checking for errors.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">ttl, err, value = cache:probe(key)</code></td>
+      <td>Checks if a value is cached. If it is, returns its remaining TTL. It not, returns <code class="highlighter-rouge">nil</code>. The value being cached can also be a negative caching. The third return value is the value being cached itself.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">cache:invalidate_local(key)</code></td>
+      <td>Evicts a value from the node’s cache.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">cache:invalidate(key)</code></td>
+      <td>Evicts a value from the node’s cache <strong>and</strong> propagates the eviction events to all other nodes in the cluster.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">cache:purge()</code></td>
+      <td>Evicts <strong>all</strong> values from the node’s cache.</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Bringing back our authentication plugin example, to lookup a credential with a
 specific api-key, we would write something like:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- access.lua</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- access.lua</span>
 <span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">load_entity_key</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
@@ -1021,23 +1028,25 @@ specific api-key, we would write something like:</p>
 
 <span class="c1">-- set an upstream header if the credential exists and is valid</span>
 <span class="n">ngx</span><span class="p">.</span><span class="n">req</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-API-Key"</span><span class="p">,</span> <span class="n">credential</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>With the above mechanism in place, once a Consumer has made a request with
 their API key, the cache will be considered warm and subsequent requests
-won&#39;t result in a database query.</p>
+won’t result in a database query.</p>
 
-<h4 id="updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</h4>
+<h3 id="updating-or-deleting-a-custom-entity">Updating or deleting a custom entity</h3>
 
 <p>Every time a cached custom entity is updated or deleted in the datastore (i.e.
 using the Admin API), it creates an inconsistency between the data in
-the datastore, and the data cached in the Kong nodes&#39; memory. To avoid this
+the datastore, and the data cached in the Kong nodes’ memory. To avoid this
 inconsistency, we need to evict the cached entity from the in-memory store and
 force Kong to request it again from the datastore. We refer to this process as
 cache invalidation.</p>
 
-<hr>
+<hr />
 
-<h3 id="cache-invalidation-for-your-entities">Cache invalidation for your entities</h3>
+<h2 id="cache-invalidation-for-your-entities">Cache invalidation for your entities</h2>
 
 <p>If you wish that your cached entities be invalidated upon a CRUD operation
 rather than having to wait for them to reach their TTL, you have to follow
@@ -1045,12 +1054,13 @@ a few steps. This process can be automated since 0.11.0 for most entities,
 but manually subscribing to some CRUD events might be required to invalidate
 some entities with more complex relationships.</p>
 
-<h4 id="automatic-cache-invalidation">Automatic cache invalidation</h4>
+<h3 id="automatic-cache-invalidation">Automatic cache invalidation</h3>
 
 <p>Cache invalidation can be provided out of the box for your entities if you
-rely on the <code>cache_key</code> property of your entity&#39;s schema. For example, in the
+rely on the <code class="highlighter-rouge">cache_key</code> property of your entity’s schema. For example, in the
 following schema:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
   <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"id"</span> <span class="p">},</span>
   <span class="n">table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span>
   <span class="n">cache_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"key"</span> <span class="p">},</span> <span class="c1">-- cache key for this entity</span>
@@ -1063,27 +1073,36 @@ following schema:</p>
 <span class="p">}</span>
 
 <span class="k">return</span> <span class="p">{</span> <span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">SCHEMA</span> <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>We can see that we declare the cache key of this API key entity to be its
-<code>key</code> attribute. We use <code>key</code> here because it has a unique constraints
-applied to it. Hence, the attributes added to <code>cache_key</code> should result in
+<code class="highlighter-rouge">key</code> attribute. We use <code class="highlighter-rouge">key</code> here because it has a unique constraints
+applied to it. Hence, the attributes added to <code class="highlighter-rouge">cache_key</code> should result in
 a unique combination, so that no two entities could yield the same cache key.</p>
 
 <p>Adding this value allows you to use the following function on the DAO of that
 entity:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">cache_key</span> <span class="o">=</span> <span class="n">dao</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-</code></pre></div>
-<p>Where the arguments must be the attributes specified in your schema&#39;s
-<code>cache_key</code> property, in the order they were specified. This function then
-computes a string value <code>cache_key</code> that is ensured to be unique.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">cache_key</span> <span class="o">=</span> <span class="n">dao</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Where the arguments must be the attributes specified in your schema’s
+<code class="highlighter-rouge">cache_key</code> property, in the order they were specified. This function then
+computes a string value <code class="highlighter-rouge">cache_key</code> that is ensured to be unique.</p>
 
 <p>For example, if we were to generate the cache_key of an API key:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
-</code></pre></div>
-<p>This would produce a cache_key for the API key <code>&quot;abcd&quot;</code> (retrieved from one
-of the query&#39;s arguments) that we can the use to retrieve the key from the
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This would produce a cache_key for the API key <code class="highlighter-rouge">"abcd"</code> (retrieved from one
+of the query’s arguments) that we can the use to retrieve the key from the
 cache (or fetch from the database if the cache is a miss):</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_uri_args</span><span class="p">().</span><span class="n">apikey</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_uri_args</span><span class="p">().</span><span class="n">apikey</span>
 <span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">apikey</span><span class="p">)</span>
 
 <span class="kd">local</span> <span class="n">credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cache</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">load_entity_key</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
@@ -1092,45 +1111,48 @@ cache (or fetch from the database if the cache is a miss):</p>
 <span class="k">end</span>
 
 <span class="c1">-- do something with the credential</span>
-</code></pre></div>
-<p>If the <code>cache_key</code> is generated like so and specified in an entity&#39;s schema,
+</code></pre>
+</div>
+
+<p>If the <code class="highlighter-rouge">cache_key</code> is generated like so and specified in an entity’s schema,
 cache invalidation will be an automatic process: every CRUD operation that
-affects this API key will be make Kong generate the affected <code>cache_key</code>, and
+affects this API key will be make Kong generate the affected <code class="highlighter-rouge">cache_key</code>, and
 broadcast it to all of the other nodes on the cluster so they can evict
 that particular value from their cache, and fetch the fresh value from the
 datastore on the next request.</p>
 
 <p>When a parent entity is receiving a CRUD operation (e.g. the Consumer owning
-this API key, as per our schema&#39;s <code>consumer_id</code> attribute), Kong performs the
+this API key, as per our schema’s <code class="highlighter-rouge">consumer_id</code> attribute), Kong performs the
 cache invalidation mechanism for both the parent and the child entity.</p>
 
 <p><strong>Note</strong>: Be aware of the negative caching that Kong provides. In the above
 example, if there is no API key in the datastore for a given key, the cache
 module will store the miss just as if it was a hit. This means that a
-&quot;Create&quot; event (one that would create an API key with this given key) is also
+“Create” event (one that would create an API key with this given key) is also
 propagated by Kong so that all nodes that stored the miss can evict it, and
 properly fetch the newly created API key from the datastore.</p>
 
 <p>See the <a href="/0.11.x/clustering/">Clustering Guide</a> to ensure
 that you have properly configured your cluster for such invalidation events.</p>
 
-<h4 id="manual-cache-invalidation">Manual cache invalidation</h4>
+<h3 id="manual-cache-invalidation">Manual cache invalidation</h3>
 
-<p>In some cases, the <code>cache_key</code> property of an entity&#39;s schema is not flexible
+<p>In some cases, the <code class="highlighter-rouge">cache_key</code> property of an entity’s schema is not flexible
 enough, and one must manually invalidate its cache. Reasons for this could be
 that the plugin is not defining a relationship with another entity via the
-traditional <code>foreign = &quot;parent_entity:parent_attribute&quot;</code> syntax, or because
-it is not using the <code>cache_key</code> method from its DAO, or even because it is
+traditional <code class="highlighter-rouge">foreign = "parent_entity:parent_attribute"</code> syntax, or because
+it is not using the <code class="highlighter-rouge">cache_key</code> method from its DAO, or even because it is
 somehow abusing the caching mechanism.</p>
 
 <p>In those cases, you can manually setup your own subscriber to the same
 invalidation channels Kong is listening to, and perform your own, custom
-invalidation work. This process is similar to the old <code>hooks.lua</code> module that
+invalidation work. This process is similar to the old <code class="highlighter-rouge">hooks.lua</code> module that
 was required in &lt; 0.11.0 for cache invalidations.</p>
 
 <p>To listen on invalidation channels inside of Kong, implement the following in
-your plugin&#39;s <code>init_worker</code> handler:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">function</span> <span class="nf">MyCustomHandler</span><span class="p">:</span><span class="n">init_worker</span><span class="p">()</span>
+your plugin’s <code class="highlighter-rouge">init_worker</code> handler:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="nf">MyCustomHandler</span><span class="p">:</span><span class="n">init_worker</span><span class="p">()</span>
   <span class="kd">local</span> <span class="n">worker_events</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span>
 
   <span class="c1">-- listen to all CRUD operations made on Consumers</span>
@@ -1146,18 +1168,23 @@ your plugin&#39;s <code>init_worker</code> handler:</p>
     <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">schema</span><span class="p">)</span>     <span class="c1">-- entity's schema</span>
   <span class="k">end</span><span class="p">,</span> <span class="s2">"crud"</span><span class="p">,</span> <span class="s2">"consumers:update"</span><span class="p">)</span>
 <span class="k">end</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Once the above listeners are in place for the desired entities, you can perform
 manual invalidations of any entity that your plugin has cached as you wish so.
 For instance:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">data</span><span class="p">.</span><span class="n">operation</span> <span class="o">==</span> <span class="s2">"delete"</span> <span class="k">then</span>
     <span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">id</span>
     <span class="n">singletons</span><span class="p">.</span><span class="n">cache</span><span class="p">:</span><span class="n">invalidate</span><span class="p">(</span><span class="s2">"prefix:"</span> <span class="o">..</span> <span class="n">cache_key</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span><span class="p">,</span> <span class="s2">"crud"</span><span class="p">,</span> <span class="s2">"consumers"</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="extending-the-admin-api">Extending the Admin API</h3>
+</code></pre>
+</div>
+
+<h2 id="extending-the-admin-api">Extending the Admin API</h2>
 
 <p>As you are probably aware, the <a href="/0.11.x/admin-api/">Admin API</a> is where Kong users communicate with
 Kong to setup their APIs and plugins. It is likely that they also need to be
@@ -1166,9 +1193,10 @@ example, creating and deleting API keys). The way you would do this is by
 extending the Admin API, which we will detail in the next chapter: <a href="/0.11.x/plugin-development/admin-api/">Extending
 the Admin API</a>.</p>
 
-<hr>
+<hr />
 
-<p>Next: <a href="/0.11.x/plugin-development/admin-api/">Extending the Admin API &rsaquo;</a></p>
+<p>Next: <a href="/0.11.x/plugin-development/admin-api/">Extending the Admin API ›</a></p>
+
 
 
         </div>
@@ -1343,7 +1371,7 @@ the Admin API</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

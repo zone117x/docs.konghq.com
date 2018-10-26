@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,53 +754,56 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#create-rbac-roles-for-your-admin">Create RBAC Roles for Your Admin</a></li>
-<li> <a href="#create-an-admin">Create an Admin</a></li>
-<li> <a href="#grant-admin-access">Grant Admin Access</a>
-
-<ul>
-<li> <a href="#create-credentials">Create Credentials</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#create-rbac-roles-for-your-admin">Create RBAC Roles for Your Admin</a></li>
+  <li><a href="#create-an-admin">Create an Admin</a></li>
+  <li><a href="#grant-admin-access">Grant Admin Access</a>
+    <ul>
+      <li><a href="#create-credentials">Create Credentials</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/07/admins1.png" alt="Managing Admins in the Kong Admin GUI"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/07/admins1.png" alt="Managing Admins in the Kong Admin GUI" /></p>
 
 <p>In this section you will learn how to manage Kong Admins in the Kong Admin GUI.</p>
 
-<p>Prerequisites:
-* You have enabled authentication, following the <a href="/enterprise/0.33-x/admin-gui/configuration/getting-started/">Getting Started</a> guide.
-* You have <a href="/enterprise/0.33-x/rbac/overview/#enforcing-rbac">enabled RBAC</a>
-* You have <a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">setup the Super Admin RBAC Role</a> or you are able to login with a user that has <code>/admins</code> and <code>/rbac</code> read/write access, with all associated endpoints for permission creation. We will refer to this user as the <em>Authorized Admin</em> in this guide.</p>
+<p>Prerequisites:</p>
+<ul>
+  <li>You have enabled authentication, following the <a href="/enterprise/0.33-x/admin-gui/configuration/getting-started/">Getting Started</a> guide.</li>
+  <li>You have <a href="/enterprise/0.33-x/rbac/overview/#enforcing-rbac">enabled RBAC</a></li>
+  <li>You have <a href="/enterprise/0.33-x/rbac/examples/#bootstrapping-the-first-rbac-user-the-super-admin">setup the Super Admin RBAC Role</a> or you are able to login with a user that has <code class="highlighter-rouge">/admins</code> and <code class="highlighter-rouge">/rbac</code> read/write access, with all associated endpoints for permission creation. We will refer to this user as the <em>Authorized Admin</em> in this guide.</li>
+</ul>
 
 <h2 id="create-rbac-roles-for-your-admin">Create RBAC Roles for Your Admin</h2>
 
 <p>For every Admin that is using the Kong Admin GUI, they will need roles assigned to them based on which resources they can access.</p>
 
-<p>Login as the Authorized Admin and click &quot;Admins&quot; in the sidebar. Next, click &quot;Add Role&quot;. Fill out the form, and add the endpoint permissions. Name the role accordingly (e.g. &quot;read-only&quot;, &quot;read-services&quot;).</p>
+<p>Login as the Authorized Admin and click “Admins” in the sidebar. Next, click “Add Role”. Fill out the form, and add the endpoint permissions. Name the role accordingly (e.g. “read-only”, “read-services”).</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: Every Admin that needs access to the Admin GUI will need at least <code>read</code> access to the home &quot;<code>/</code>&quot; endpoint.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: Every Admin that needs access to the Admin GUI will need at least <code class="highlighter-rouge">read</code> access to the home “<code class="highlighter-rouge">/</code>” endpoint.</p>
 
 <h2 id="create-an-admin">Create an Admin</h2>
 
-<p>Login to the Kong Admin GUI as the Super Admin. Click &quot;Admins&quot; in the sidebar. Click &quot;Add Admin&quot;. Fill out the form with a username and associated Role.</p>
+<p>Login to the Kong Admin GUI as the Super Admin. Click “Admins” in the sidebar. Click “Add Admin”. Fill out the form with a username and associated Role.</p>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/07/admins2.png" alt="Create an Admin in the Kong Admin GUI"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/07/admins2.png" alt="Create an Admin in the Kong Admin GUI" /></p>
 
 <h2 id="grant-admin-access">Grant Admin Access</h2>
 
-<p>Now that you have created an Admin and assigned them roles, you will need to give them access to login to the Admin GUI. If not using the <a href="/enterprise/%7B%22release%22=%3E%220.31-x%22,%20%22version%22=%3E%220.31%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.31.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.32-x%22,%20%22version%22=%3E%220.32%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.32.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.33-x%22,%20%22version%22=%3E%220.33%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.33.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D/admin-gui/configuration/authentication/#ldap-authentication">LDAP Auth Advanced plugin</a>, you will need to create Credentials via the API, as it is not currently supported in the Admin GUI.</p>
+<p>Now that you have created an Admin and assigned them roles, you will need to give them access to login to the Admin GUI. If not using the [LDAP Auth Advanced plugin](/enterprise/{“release”=&gt;”0.31-x”, “version”=&gt;”0.31”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.31.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.32-x”, “version”=&gt;”0.32”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.32.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.33-x”, “version”=&gt;”0.33”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.33.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}/admin-gui/configuration/authentication/#ldap-authentication), you will need to create Credentials via the API, as it is not currently supported in the Admin GUI.</p>
 
-<p>If you are using LDAP Auth Advanced Plugin, then you can skip credential creation and utilize the Consumer mapping feature, which allows you to map a LDAP user&#39;s <code>username</code> to a consumer&#39;s <code>username</code> or <code>custom_id</code>.</p>
+<p>If you are using LDAP Auth Advanced Plugin, then you can skip credential creation and utilize the Consumer mapping feature, which allows you to map a LDAP user’s <code class="highlighter-rouge">username</code> to a consumer’s <code class="highlighter-rouge">username</code> or <code class="highlighter-rouge">custom_id</code>.</p>
 
 <h3 id="create-credentials">Create Credentials</h3>
 
-<p>Admins are a type of Kong <a href="/0.13.x/admin-api/#consumer-object">Consumer</a>, and therefore can be given Kong Plugin Authentication Credentials. Find the value of your Kong configuration directive <code>admin_gui_auth</code>. You will need to create credentials based on that plugin. Ensure that you have the Admin entity data:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl <span class="s1">'http://kong:8001/admins/&lt;username&gt;'</span>
+<p>Admins are a type of Kong <a href="/0.13.x/admin-api/#consumer-object">Consumer</a>, and therefore can be given Kong Plugin Authentication Credentials. Find the value of your Kong configuration directive <code class="highlighter-rouge">admin_gui_auth</code>. You will need to create credentials based on that plugin. Ensure that you have the Admin entity data:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl <span class="s1">'http://kong:8001/admins/&lt;username&gt;'</span>
 HTTP/1.1 200 OK
 
 <span class="o">{</span>
@@ -818,17 +821,19 @@ HTTP/1.1 200 OK
   <span class="s2">"username"</span>: <span class="s2">"&lt;username&gt;"</span>,
   <span class="s2">"type"</span>: 2
 <span class="o">}</span>
-</code></pre></div>
-<p>Now that you have the <code>&lt;CONSUMER_ID&gt;</code>, you can use this to create a credential with your associated <code>admin_gui_auth</code> plugin:</p>
+</code></pre>
+</div>
+
+<p>Now that you have the <code class="highlighter-rouge">&lt;CONSUMER_ID&gt;</code>, you can use this to create a credential with your associated <code class="highlighter-rouge">admin_gui_auth</code> plugin:</p>
 
 <ul>
-<li><a href="/enterprise/%7B%22release%22=%3E%220.31-x%22,%20%22version%22=%3E%220.31%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.31.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.32-x%22,%20%22version%22=%3E%220.32%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.32.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.33-x%22,%20%22version%22=%3E%220.33%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.33.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D/admin-gui/configuration/authentication/#enable-authentication">Create a Basic Authentication Credential Username/Password</a></li>
-<li><a href="/enterprise/%7B%22release%22=%3E%220.31-x%22,%20%22version%22=%3E%220.31%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.31.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.32-x%22,%20%22version%22=%3E%220.32%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.32.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.33-x%22,%20%22version%22=%3E%220.33%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.33.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D/admin-gui/configuration/authentication/#basic-authentication">Create a Key Authentication Credential Key</a></li>
+  <li>[Create a Basic Authentication Credential Username/Password](/enterprise/{“release”=&gt;”0.31-x”, “version”=&gt;”0.31”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.31.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.32-x”, “version”=&gt;”0.32”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.32.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.33-x”, “version”=&gt;”0.33”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.33.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}/admin-gui/configuration/authentication/#enable-authentication)</li>
+  <li>[Create a Key Authentication Credential Key](/enterprise/{“release”=&gt;”0.31-x”, “version”=&gt;”0.31”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.31.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.32-x”, “version”=&gt;”0.32”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.32.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.33-x”, “version”=&gt;”0.33”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.33.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}/admin-gui/configuration/authentication/#basic-authentication)</li>
 </ul>
 
-<p>Once a user has a credential, they can use the credential to <a href="/enterprise/%7B%22release%22=%3E%220.31-x%22,%20%22version%22=%3E%220.31%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.31.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.32-x%22,%20%22version%22=%3E%220.32%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.32.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D%7B%22release%22=%3E%220.33-x%22,%20%22version%22=%3E%220.33%22,%20%22edition%22=%3E%22enterprise%22,%20%22luarocks_version%22=%3E%220.33.x%22,%20%22dependencies%22=%3E%7B%22luajit%22=%3E%222.1.0-beta2%22,%20%22luarocks%22=%3E%222.4.3%22,%20%22cassandra%22=%3E%223.x.x%22,%20%22postgres%22=%3E%229.5+%22,%20%22openresty%22=%3E%221.11.2.5%22%7D,%20%22lua_doc%22=%3Etrue%7D/admin-gui/configuration/authentication/#logging-in">log in</a>.</p>
+<p>Once a user has a credential, they can use the credential to [log in](/enterprise/{“release”=&gt;”0.31-x”, “version”=&gt;”0.31”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.31.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.32-x”, “version”=&gt;”0.32”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.32.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}{“release”=&gt;”0.33-x”, “version”=&gt;”0.33”, “edition”=&gt;”enterprise”, “luarocks_version”=&gt;”0.33.x”, “dependencies”=&gt;{“luajit”=&gt;”2.1.0-beta2”, “luarocks”=&gt;”2.4.3”, “cassandra”=&gt;”3.x.x”, “postgres”=&gt;”9.5+”, “openresty”=&gt;”1.11.2.5”}, “lua_doc”=&gt;true}/admin-gui/configuration/authentication/#logging-in).</p>
 
-<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/networking/">Networking &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/admin-gui/configuration/networking/">Networking ›</a></p>
 
 
         </div>
@@ -985,7 +990,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

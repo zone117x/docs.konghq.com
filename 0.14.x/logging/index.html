@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -992,12 +992,13 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="removing-certain-elements-from-your-kong-logs">Removing Certain Elements From Your Kong Logs</h2>
 
-<p>With new regulations surrounding protecting private data like GDPR, there is a chance you may need to change your logging habits. If you use Kong as your API Gateway, this can be done in a single location to take effect on all of your APIs. This guide will walk you through one approach to accomplishing this, but there are always different approaches for different needs. Please note, these changes will effect the output of the NGINX access logs. This will not have any effect on Kong&#39;s logging plugins.</p>
+<p>With new regulations surrounding protecting private data like GDPR, there is a chance you may need to change your logging habits. If you use Kong as your API Gateway, this can be done in a single location to take effect on all of your APIs. This guide will walk you through one approach to accomplishing this, but there are always different approaches for different needs. Please note, these changes will effect the output of the NGINX access logs. This will not have any effect on Kong’s logging plugins.</p>
 
-<p>For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code>/apiname/v2/verify/alice@example.com</code> or <code>/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</p>
+<p>For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code class="highlighter-rouge">/apiname/v2/verify/alice@example.com</code> or <code class="highlighter-rouge">/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</p>
 
 <p>To start using a custom NGINX template, first get a copy of our template. This can be found <a href="https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong">https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong</a> or copied from below</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1026,39 +1027,53 @@ http {
         }
     }
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>In order to control what is placed in the logs, we will be using the NGINX map module in our template. For more detailed information abut using the map directive, please see <a href="http://nginx.org/en/docs/http/ngx_http_map_module.html">this guide</a>. This will create a new variable whose value depends on values of one or more of the source variables specified in the first parameter. The format is:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
 map $paramater_to_look_at $variable_name {
     pattern_to_look_for 0;
     second_pattern_to_look_for 0;
 
     default 1;
 }
-</code></pre></div>
-<p>For this example, we will be mapping a new variable called <code>keeplog</code> which is dependent on certain values appearing in the <code>$request_uri</code>. We will be placing our map directive right at the start of the http block, this must be before <code>include &#39;nginx-kong.conf&#39;;</code>. So, for our example, we will add something along the lines of:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">map $request_uri $keeplog {
+</code></pre>
+</div>
+
+<p>For this example, we will be mapping a new variable called <code class="highlighter-rouge">keeplog</code> which is dependent on certain values appearing in the <code class="highlighter-rouge">$request_uri</code>. We will be placing our map directive right at the start of the http block, this must be before <code class="highlighter-rouge">include 'nginx-kong.conf';</code>. So, for our example, we will add something along the lines of:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>map $request_uri $keeplog {
     ~.+\@.+\..+ 0;
     ~/apiname/v2/verify 0;
     ~/v3/verify 0;
 
     default 1;
 }
-</code></pre></div>
-<p>You’ll probably notice that each of those lines start with a tilde. This is what tells NGINX to use RegEx when evaluating the line. We have three things to look for in this example:
-- The first line uses regex to look for any email address in the <a href="mailto:x@y.z">x@y.z</a> format
-- The second line looks for any part of the URI which is /apiname/v2/verify
-- The third line looks at any part of the URI which contains /v3/verify</p>
+</code></pre>
+</div>
+
+<p>You’ll probably notice that each of those lines start with a tilde. This is what tells NGINX to use RegEx when evaluating the line. We have three things to look for in this example:</p>
+<ul>
+  <li>The first line uses regex to look for any email address in the x@y.z format</li>
+  <li>The second line looks for any part of the URI which is /apiname/v2/verify</li>
+  <li>The third line looks at any part of the URI which contains /v3/verify</li>
+</ul>
 
 <p>Because all of those have a value of something other than 0, if a request has one of those elements, it will not be added to the log.</p>
 
-<p>Now, we need to set the log format for what we will keep in the logs. We will use the <code>log_format</code> module and assign our new logs a name of show_everything. The contents of the log can be customized for you needs, but for this example, I will simply change everything back to the Kong standards. To see the full list of options you can use, please refer to <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#variables">this guide</a>.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">log_format show_everything '$remote_addr - $remote_user [$time_local] '
+<p>Now, we need to set the log format for what we will keep in the logs. We will use the <code class="highlighter-rouge">log_format</code> module and assign our new logs a name of show_everything. The contents of the log can be customized for you needs, but for this example, I will simply change everything back to the Kong standards. To see the full list of options you can use, please refer to <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#variables">this guide</a>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>log_format show_everything '$remote_addr - $remote_user [$time_local] '
     '$request_uri $status $body_bytes_sent '
     '"$http_referer" "$http_user_agent"';
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Now, our custom NGINX template is all ready to be used. If you have been following along, your file should now be look like this:</p>
-<div class="highlight"><pre><code class="language-" data-lang=""># ---------------------
+
+<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1092,11 +1107,16 @@ http {
 
     include 'nginx-kong.conf';  
 }
-</code></pre></div>
-<p>The last thing we need to do is tell Kong to use the newly created log, <code>show_everything</code>. To do this, we will be altering the Kong variable <code>prpxy_access_log</code>. Either by opening and editing <code>etc/kong/kong.conf</code> or by using an environmental variable <code>KONG_PROXY_ACCESS_LOG=</code> you will want to mend the default location to show</p>
-<div class="highlight"><pre><code class="language-" data-lang="">proxy_access_log=logs/access.log show_everything if=$keeplog
-</code></pre></div>
-<p>The final step in the process to make all the changes take effect is to restart kong. you can use the <code>kong restart</code> command to do so.</p>
+</code></pre>
+</div>
+
+<p>The last thing we need to do is tell Kong to use the newly created log, <code class="highlighter-rouge">show_everything</code>. To do this, we will be altering the Kong variable <code class="highlighter-rouge">prpxy_access_log</code>. Either by opening and editing <code class="highlighter-rouge">etc/kong/kong.conf</code> or by using an environmental variable <code class="highlighter-rouge">KONG_PROXY_ACCESS_LOG=</code> you will want to mend the default location to show</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>proxy_access_log=logs/access.log show_everything if=$keeplog
+</code></pre>
+</div>
+
+<p>The final step in the process to make all the changes take effect is to restart kong. you can use the <code class="highlighter-rouge">kong restart</code> command to do so.</p>
 
 <p>Now, any requests made with an email address in it will no longer be logged. Of course, we can use this logic to remove anything we want from the logs on a conditional manner.</p>
 
@@ -1273,7 +1293,7 @@ http {
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,19 +236,19 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#caveat">Caveat</a></li>
-<li> <a href="#installation">Installation</a></li>
-<li> <a href="#maintainers">Maintainers</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#caveat">Caveat</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#maintainers">Maintainers</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -482,9 +482,10 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Block upstream responses whose body is greater than a specific size in megabytes.</p>
+      
+<p>Block upstream responses whose body is greater than a specific size in megabytes.</p>
 
-<p>Proxy consumers will receive an HTTP Status of 413 and message body &quot;Response size limit exceeded&quot; in the event the body is greater than configured size.</p>
+<p>Proxy consumers will receive an HTTP Status of 413 and message body “Response size limit exceeded” in the event the body is greater than configured size.</p>
 
 
       
@@ -513,53 +514,66 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-response-size-limiting"</span>  <span class="se">\</span>
     --data <span class="s2">"config.allowed_payload_size=128"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-response-size-limiting"</span>  <span class="se">\</span>
     --data <span class="s2">"config.allowed_payload_size=128"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
+          
+<h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code>http://localhost:8001/plugins</code> endpoint to enable this plugin
+<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-response-size-limiting"</span> <span class="se">\</span>
     --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
     --data <span class="s2">"config.allowed_payload_size=128"</span>
 
-</code></pre></div>
-<p>Where <code>consumer_id</code> is the id of the Consumer we want to associate with this
+</code></pre>
+</div>
+
+<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
 
-<p>You can combine <code>consumer_id</code> and 
-    <code>service_id</code></p>
+<p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
+    <code class="highlighter-rouge">service_id</code></p>
 
 <p>in the same request, to furthermore narrow the scope of the plugin.</p>
+
 
         
         
@@ -576,7 +590,8 @@ plugin.</p>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -600,9 +615,9 @@ plugin.</p>
           
           
         </td>
-        <td><p><code>128</code></p>
+        <td><p><code class="highlighter-rouge">128</code></p>
 </td>
-        <td><p>Allowed upstream response payload size in megabytes, default is <code>128</code> (128000000 Bytes)</p>
+        <td><p>Allowed upstream response payload size in megabytes, default is <code class="highlighter-rouge">128</code> (128000000 Bytes)</p>
 </td>
       </tr>
     
@@ -614,25 +629,29 @@ plugin.</p>
 
       
 
-      <h3 id="caveat">Caveat</h3>
 
+      <h3 id="caveat">Caveat</h3>
 <p>This plugin currently accomplishes response limiting by validating the Content-Length header on upstream responses.
 If the upstream lacks the response header, then this plugin will allow the response to pass.</p>
 
 <h3 id="installation">Installation</h3>
-
 <p>Recommended:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>luarocks install kong-response-size-limiting
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>luarocks install kong-response-size-limiting
+</code></pre>
+</div>
+
 <p>Other:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone https://github.com/Optum/kong-response-size-limiting.git /path/to/kong/plugins/kong-response-size-limiting
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git clone https://github.com/Optum/kong-response-size-limiting.git /path/to/kong/plugins/kong-response-size-limiting
 <span class="gp">$ </span><span class="nb">cd</span> /path/to/kong/plugins/kong-response-size-limiting
 <span class="gp">$ </span>luarocks make <span class="k">*</span>.rockspec
-</code></pre></div>
-<h3 id="maintainers">Maintainers</h3>
+</code></pre>
+</div>
 
-<p><a href="https://github.com/jeremyjpj0916">jeremyjpj0916</a><br>
-<a href="https://github.com/rsbrisci">rsbrisci</a>  </p>
+<h3 id="maintainers">Maintainers</h3>
+<p><a href="https://github.com/jeremyjpj0916">jeremyjpj0916</a><br />
+<a href="https://github.com/rsbrisci">rsbrisci</a></p>
 
 <p>Feel free to <a href="https://github.com/Optum/kong-response-size-limiting/issues">open issues</a>, or refer to our <a href="https://github.com/Optum/kong-response-size-limiting/blob/master/CONTRIBUTING.md">Contribution Guidelines</a> if you have any questions.</p>
 
@@ -800,7 +819,7 @@ If the upstream lacks the response header, then this plugin will allow the respo
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

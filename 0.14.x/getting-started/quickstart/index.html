@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,11 +991,11 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#1-start-kong">1. Start Kong</a></li>
-<li> <a href="#2-verify-that-kong-has-started-successfully">2. Verify that Kong has started successfully</a></li>
-<li> <a href="#3-stop-kong">3. Stop Kong</a></li>
-<li> <a href="#4-reload-kong">4. Reload Kong</a></li>
-<li> <a href="#next-steps">Next Steps</a></li>
+  <li><a href="#1-start-kong">1. Start Kong</a></li>
+  <li><a href="#2-verify-that-kong-has-started-successfully">2. Verify that Kong has started successfully</a></li>
+  <li><a href="#3-stop-kong">3. Stop Kong</a></li>
+  <li><a href="#4-reload-kong">4. Reload Kong</a></li>
+  <li><a href="#next-steps">Next Steps</a></li>
 </ul>
 
           
@@ -1005,61 +1005,74 @@ window['_fs_namespace'] = 'FS';
   <a href="https://konghq.com/install/">installed Kong</a> &mdash; It should only take a minute!
 </div>
 
-<p>In this section, you&#39;ll learn how to manage your Kong instance. First we&#39;ll
+<p>In this section, you’ll learn how to manage your Kong instance. First we’ll
 have you start Kong giving in order to give you access to the RESTful Admin
 interface, through which you manage your Services, Routes, Consumers, and more. Data sent
-through the Admin API is stored in Kong&#39;s <a href="/0.14.x/configuration/#datastore-section">datastore</a> (Kong
+through the Admin API is stored in Kong’s <a href="/0.14.x/configuration/#datastore-section">datastore</a> (Kong
 supports PostgreSQL and Cassandra).</p>
 
 <h2 id="1-start-kong">1. Start Kong</h2>
 
 <p>Issue the following command to prepare your datastore by running the Kong
 migrations:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong migrations up <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong migrations up <span class="o">[</span>-c /path/to/kong.conf]
+</code></pre>
+</div>
+
 <p>You should see a message that tells you Kong has successfully migrated your
 database. If not, you probably incorrectly configured your database
 connection settings in your configuration file.</p>
 
-<p>Now let&#39;s <a href="/0.14.x/cli">start</a> Kong:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre></div>
-<p><strong>Note:</strong> the CLI accepts a configuration option (<code>-c /path/to/kong.conf</code>)
+<p>Now let’s <a href="/0.14.x/cli">start</a> Kong:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
+</code></pre>
+</div>
+
+<p><strong>Note:</strong> the CLI accepts a configuration option (<code class="highlighter-rouge">-c /path/to/kong.conf</code>)
 allowing you to point to your own configuration.</p>
 
 <h2 id="2-verify-that-kong-has-started-successfully">2. Verify that Kong has started successfully</h2>
 
-<p>If everything went well, you should see a message (<code>Kong started</code>)
+<p>If everything went well, you should see a message (<code class="highlighter-rouge">Kong started</code>)
 informing you that Kong is running.</p>
 
 <p>By default Kong listens on the following ports:</p>
 
 <ul>
-<li><code>:8000</code> on which Kong listens for incoming HTTP traffic from your
+  <li><code class="highlighter-rouge">:8000</code> on which Kong listens for incoming HTTP traffic from your
 clients, and forwards it to your upstream services.</li>
-<li><code>:8443</code> on which Kong listens for incoming HTTPS traffic. This port has a
-similar behavior as the <code>:8000</code> port, except that it expects HTTPS
+  <li><code class="highlighter-rouge">:8443</code> on which Kong listens for incoming HTTPS traffic. This port has a
+similar behavior as the <code class="highlighter-rouge">:8000</code> port, except that it expects HTTPS
 traffic only. This port can be disabled via the configuration file.</li>
-<li><code>:8001</code> on which the <a href="/0.14.x/admin-api">Admin API</a> used to configure Kong listens.</li>
-<li><code>:8444</code> on which the Admin API listens for HTTPS traffic.</li>
+  <li><code class="highlighter-rouge">:8001</code> on which the <a href="/0.14.x/admin-api">Admin API</a> used to configure Kong listens.</li>
+  <li><code class="highlighter-rouge">:8444</code> on which the Admin API listens for HTTPS traffic.</li>
 </ul>
 
 <h2 id="3-stop-kong">3. Stop Kong</h2>
 
 <p>As needed you can stop the Kong process by issuing the following
 <a href="/0.14.x/cli">command</a>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong stop
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong stop
+</code></pre>
+</div>
+
 <h2 id="4-reload-kong">4. Reload Kong</h2>
 
 <p>Issue the following command to <a href="/0.14.x/cli">reload</a> Kong without downtime:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>kong reload
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong reload
+</code></pre>
+</div>
+
 <h2 id="next-steps">Next Steps</h2>
 
 <p>Now that you have Kong running you can interact with the Admin API.</p>
 
-<p>To begin, go to <a href="/0.14.x/getting-started/configuring-a-service">Configuring a Service &rsaquo;</a></p>
+<p>To begin, go to <a href="/0.14.x/getting-started/configuring-a-service">Configuring a Service ›</a></p>
+
 
 
         </div>
@@ -1234,7 +1247,7 @@ traffic only. This port can be disabled via the configuration file.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,13 +754,13 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#important-note-conflicting-apis-or-routes-in-workspaces">Important Note: Conflicting APIs or Routes in workspaces</a></li>
-<li> <a href="#the-default-workspace">The Default workspace</a></li>
-<li> <a href="#listing-workspaces-and-its-entities">Listing workspaces and its entities</a></li>
-<li> <a href="#list-entities-in-the-default-workspace">List entities in the default workspace</a></li>
-<li> <a href="#creating-a-workspace-and-adding-entities-to-it">Creating a workspace and adding entities to it</a></li>
-<li> <a href="#entities-in-different-workspaces-can-have-the-same-name">Entities in different workspaces can have the same name!</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#important-note-conflicting-apis-or-routes-in-workspaces">Important Note: Conflicting APIs or Routes in workspaces</a></li>
+  <li><a href="#the-default-workspace">The Default workspace</a></li>
+  <li><a href="#listing-workspaces-and-its-entities">Listing workspaces and its entities</a></li>
+  <li><a href="#list-entities-in-the-default-workspace">List entities in the default workspace</a></li>
+  <li><a href="#creating-a-workspace-and-adding-entities-to-it">Creating a workspace and adding entities to it</a></li>
+  <li><a href="#entities-in-different-workspaces-can-have-the-same-name">Entities in different workspaces can have the same name!</a></li>
 </ul>
 
           
@@ -774,7 +774,7 @@ workspaces, entities, and see it in action.</p>
 
 <p>Workspaces provide a way to segment Kong entities - entities in a workspace
 are isolated from those in other workspaces. That said, entities
-such as APIs and Routes have &quot;routing rules&quot;, which are pieces of info
+such as APIs and Routes have “routing rules”, which are pieces of info
 attached to APIs or Routes - such as HTTP method, URI, or host - that allow a
 given proxy-side request to be routed to its corresponding upstream service.</p>
 
@@ -785,45 +785,51 @@ certain measures are taken. Below we outline the conflict detection algorithm
 used by Kong to determine if a conflict occurs.</p>
 
 <ul>
-<li>At API or Route <strong>creation or modification</strong> time, Kong runs its internal
+  <li>At API or Route <strong>creation or modification</strong> time, Kong runs its internal
 router:
-
-<ul>
-<li>If no APIs or Routes are found with matching routing rules, the creation
+    <ul>
+      <li>If no APIs or Routes are found with matching routing rules, the creation
 or modification proceeds</li>
-<li>If APIs or Routes with matching routing rules are found <strong>within the same
+      <li>If APIs or Routes with matching routing rules are found <strong>within the same
 workspace</strong>, proceed</li>
-<li>If APIs or Routes are found <strong>in a different workspace</strong>:</li>
-<li>If the matching API or Route <strong>does not have an associated <code>host</code> value</strong>,
+      <li>If APIs or Routes are found <strong>in a different workspace</strong>:
+        <ul>
+          <li>If the matching API or Route <strong>does not have an associated <code class="highlighter-rouge">host</code> value</strong>,
 proceed</li>
-<li>If the matching API or Route <strong>has an associated <code>host</code> value</strong>:
-
-<ul>
-<li>If the <code>host</code> is a wildcard</li>
-<li>If they are the same, a conflict is reported - <code>409 Conflict</code></li>
-<li>If they are not equal, proceed</li>
-<li>If the <code>host</code> is an absolute value, a conflict is reported - <code>409 Conflict</code></li>
-</ul></li>
-</ul></li>
+          <li>If the matching API or Route <strong>has an associated <code class="highlighter-rouge">host</code> value</strong>:
+            <ul>
+              <li>If the <code class="highlighter-rouge">host</code> is a wildcard
+                <ul>
+                  <li>If they are the same, a conflict is reported - <code class="highlighter-rouge">409 Conflict</code></li>
+                  <li>If they are not equal, proceed</li>
+                </ul>
+              </li>
+              <li>If the <code class="highlighter-rouge">host</code> is an absolute value, a conflict is reported - <code class="highlighter-rouge">409 Conflict</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
 <h2 id="the-default-workspace">The Default workspace</h2>
 
-<p>Kong creates a default workspace - unsurprisingly named <code>default</code> - whose goal
-is to group all existing entities in Kong, where &quot;existing entities&quot; refers to:</p>
+<p>Kong creates a default workspace - unsurprisingly named <code class="highlighter-rouge">default</code> - whose goal
+is to group all existing entities in Kong, where “existing entities” refers to:</p>
 
 <ul>
-<li>Entities that were created in operation in previous versions &amp; in case
+  <li>Entities that were created in operation in previous versions &amp; in case
 one is migrating from an older Kong version;</li>
-<li>Entities that Kong creates at migration time - e.g., RBAC credentials, which
+  <li>Entities that Kong creates at migration time - e.g., RBAC credentials, which
 are provisioned at migration time as a convenience</li>
 </ul>
 
 <p>It will also hold entities that are created without being explicitly assigned to
 a specific workspace.</p>
 
-<p>That said, it&#39;s worth noting that the default workspace is a workspace as any
-other, the only difference being that it&#39;s created by Kong, at migration time.</p>
+<p>That said, it’s worth noting that the default workspace is a workspace as any
+other, the only difference being that it’s created by Kong, at migration time.</p>
 
 <p>(Examples will be shown using the httpie HTTP command line client.)</p>
 
@@ -831,7 +837,8 @@ other, the only difference being that it&#39;s created by Kong, at migration tim
 
 <p>In a fresh Kong Enterprise install - or one just migrated to 0.33 - submit the
 following request:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http GET :8001/workspaces
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http GET :8001/workspaces
 {
   "total": 1,
   "data": [
@@ -842,12 +849,15 @@ following request:</p>
     }
   ]
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="list-entities-in-the-default-workspace">List entities in the default workspace</h2>
 
 <p>To get a list of entities contained in - or referenced by - the default workspace,
-let&#39;s issue the following request:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http GET :8001/workspaces/default/entities
+let’s issue the following request:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http GET :8001/workspaces/default/entities
 {
   "data": [
     {
@@ -874,41 +884,53 @@ let&#39;s issue the following request:</p>
   ],
   "total": 42
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>As can be seen, a total of 42 entities were part of the default workspace - for
 brevity, most of them were redacted here.</p>
 
 <h2 id="creating-a-workspace-and-adding-entities-to-it">Creating a workspace and adding entities to it</h2>
 
 <p>A more interesting example would be segmenting entities by teams; for the sake of
-example, let&#39;s say they are teamA, teamB, and teamC.</p>
+example, let’s say they are teamA, teamB, and teamC.</p>
 
 <p>Each of these teams has its own set of entities - say, upstream services and
 routes - and want to segregate their configurations and traffic; they can
 achieve that with workspaces.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/workspaces name=teamA
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamA
 {
     "created_at": 1528843468000,
     "id": "735af96e-206f-43f7-88f0-b930d5fd4b7e",
     "name": "teamA"
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/workspaces name=teamB
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamB
 {
   "name": "teamB",
   "created_at": 1529628574000,
   "id": "a25728ac-6036-497c-82ee-524d4c22fcae"
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/workspaces name=teamC
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamC
 {
   "name": "teamC",
   "created_at": 1529628622000,
   "id": "34b28f10-e1ec-4dad-9ac0-74780baee182"
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>At this point, if we list workspaces, we will get a total of 4 - remember,
-Kong provisions a &quot;default&quot; workspace and, on top of that, we created other
+Kong provisions a “default” workspace and, on top of that, we created other
 3.</p>
-<div class="highlight"><pre><code class="language-" data-lang=""><span class="p">{</span><span class="w">
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529627841000</span><span class="p">,</span><span class="w">
@@ -934,13 +956,16 @@ Kong provisions a &quot;default&quot; workspace and, on top of that, we created 
   </span><span class="s2">"total"</span><span class="err">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
 </span><span class="err">}</span><span class="w">
 
-</span></code></pre></div>
-<p>Having our teams&#39; workspaces set up, let&#39;s add some entities to them. Say
+</span></code></pre>
+</div>
+
+<p>Having our teams’ workspaces set up, let’s add some entities to them. Say
 they have a shared service - represented by the <a href="/0.33-x/admin-api/#service-object">Service</a> Kong
 entity - and different routes associated with this upstream service.</p>
 
 <p>Creating the shared service:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/services url=http://httpbin.org/ name=shared-service
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/services url=http://httpbin.org/ name=shared-service
 {
   "host": "httpbin.org",
   "created_at": 1529699798,
@@ -955,12 +980,15 @@ entity - and different routes associated with this upstream service.</p>
   "retries": 5,
   "write_timeout": 60000
 }
-</code></pre></div>
-<p>Notice the endpoint <code>/services</code> does not include a workspace prefix - which
+</code></pre>
+</div>
+
+<p>Notice the endpoint <code class="highlighter-rouge">/services</code> does not include a workspace prefix - which
 is how one specifies the workspace under which a given API call applies to.
-In such cases, the call applies to the <code>default</code> workspace. Let&#39;s confirm that
-by listing all entities under the <code>default</code> workspace:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/workspaces/default/entities
+In such cases, the call applies to the <code class="highlighter-rouge">default</code> workspace. Let’s confirm that
+by listing all entities under the <code class="highlighter-rouge">default</code> workspace:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces/default/entities
 {
   "data": [
     ...
@@ -974,18 +1002,24 @@ by listing all entities under the <code>default</code> workspace:</p>
   ],
   "total": 43
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Again, entities not relevant for this example were redacted; notice, though,
 that our shared service is on the list.</p>
 
-<p>The next step is to add the shared service to our teams&#39; workspaces. This can be
+<p>The next step is to add the shared service to our teams’ workspaces. This can be
 done as follows:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/workspaces/teamA/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces/teamA/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
 http :8001/workspaces/teamB/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
 http :8001/workspaces/teamC/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>To confirm the shared service was added,</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamA/services
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/services
 {
   "next": null,
   "data": [
@@ -1005,12 +1039,15 @@ http :8001/workspaces/teamC/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d4
     }
   ]
 }
-</code></pre></div>
-<p>The next step is to set up each team&#39;s routes to the shared service. Let&#39;s say
-Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>/user-agent</code>, respectively.</p>
+</code></pre>
+</div>
+
+<p>The next step is to set up each team’s routes to the shared service. Let’s say
+Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <code class="highlighter-rouge">/ip</code>, and <code class="highlighter-rouge">/user-agent</code>, respectively.</p>
 
 <p>Putting into action, we have:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/teamA/routes paths[]=/headers service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamA/routes paths[]=/headers service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702016,
     "hosts": null,
@@ -1031,7 +1068,10 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     "strip_path": false,
     "updated_at": 1529702016
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/teamB/routes paths[]=/ip service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamB/routes paths[]=/ip service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702211,
     "hosts": null,
@@ -1052,7 +1092,10 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     "strip_path": false,
     "updated_at": 1529702211
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http POST :8001/teamC/routes paths[]=/user-agent service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamC/routes paths[]=/user-agent service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702339,
     "hosts": null,
@@ -1073,11 +1116,14 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     "strip_path": false,
     "updated_at": 1529702339
 }
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Ready - now we have all teams with their routes sharing the same service!</p>
 
-<p>To make sure it&#39;s set up correctly, let&#39;s list the routes in each workspace.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamA/routes
+<p>To make sure it’s set up correctly, let’s list the routes in each workspace.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes
 {
   "next": null,
   "data": [
@@ -1103,9 +1149,12 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     }
   ]
 }
-</code></pre></div>
-<p>As we wanted, Team A has a <code>/headers</code> route pointing to the shared service.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamB/routes
+</code></pre>
+</div>
+
+<p>As we wanted, Team A has a <code class="highlighter-rouge">/headers</code> route pointing to the shared service.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/routes
 {
   "next": null,
   "data": [
@@ -1131,9 +1180,12 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     }
   ]
 }
-</code></pre></div>
-<p>Team B has its <code>/ip</code> route.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamC/routes
+</code></pre>
+</div>
+
+<p>Team B has its <code class="highlighter-rouge">/ip</code> route.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/routes
 {
   "next": null,
   "data": [
@@ -1159,49 +1211,61 @@ Team A, B, and C have routes <code>/headers</code>, <code>/ip</code>, and <code>
     }
   ]
 }
-</code></pre></div>
-<p>and Team C has its <code>/user-agent</code> route.</p>
+</code></pre>
+</div>
+
+<p>and Team C has its <code class="highlighter-rouge">/user-agent</code> route.</p>
 
 <p>With this setup, Teams A, B, and C only have access to their own Routes
-entities through the Admin API. (Additionally, with RBAC&#39;s additional control,
+entities through the Admin API. (Additionally, with RBAC’s additional control,
 granular read/write/delete/update rights can be further assigned to workspaces,
 allowing flexible intra and inter-team permissioning schemes.)</p>
 
 <h2 id="entities-in-different-workspaces-can-have-the-same-name">Entities in different workspaces can have the same name!</h2>
 
 <p>Different teams - belonging to different workspaces - are allowed to give any
-name to their entities. To provide an example of that, let&#39;s say that Teams A, B,
-and C want a particular consumer named <code>guest</code> - a different consumer for each
+name to their entities. To provide an example of that, let’s say that Teams A, B,
+and C want a particular consumer named <code class="highlighter-rouge">guest</code> - a different consumer for each
 team, sharing the same username.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamA/consumers username=guest
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/consumers username=guest
 {
     "created_at": 1529703386000,
     "id": "2e230275-2a4a-41fd-b06b-bae37008aed2",
     "type": 0,
     "username": "guest"
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamB/consumers username=guest
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/consumers username=guest
 {
     "created_at": 1529703390000,
     "id": "8533e404-8d56-4481-a919-0ee35b8a768c",
     "type": 0,
     "username": "guest"
 }
-</code></pre></div><div class="highlight"><pre><code class="language-" data-lang="">http :8001/teamC/consumers username=guest
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/consumers username=guest
 {
     "created_at": 1529703393000,
     "id": "5fb180b0-0cd0-42e1-8d75-ce42a54b2909",
     "type": 0,
     "username": "guest"
 }
-</code></pre></div>
-<p>With this, Teams A, B, and C will have the freedom to operate their <code>guest</code>
+</code></pre>
+</div>
+
+<p>With this, Teams A, B, and C will have the freedom to operate their <code class="highlighter-rouge">guest</code>
 consumer independently, choosing authentication plugins or doing any other
 operation that is allowed in the non-workspaced Kong world.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/rbac/overview">RBAC Overview &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/rbac/overview">RBAC Overview ›</a></p>
 
-<hr>
+<hr />
+
 
 
         </div>
@@ -1358,7 +1422,7 @@ operation that is allowed in the non-workspaced Kong world.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

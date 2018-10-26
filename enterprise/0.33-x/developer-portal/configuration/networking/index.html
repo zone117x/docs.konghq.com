@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,98 +754,114 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#summary">Summary</a>
-
-<ul>
-<li> <a href="#proxy_url">proxy_url</a></li>
-<li> <a href="#portal_gui_url">portal_gui_url</a></li>
-</ul></li>
-<li> <a href="#default-configuration">Default Configuration</a></li>
-<li> <a href="#custom-configuration">Custom Configuration</a>
-
-<ul>
-<li> <a href="#proxy_url-configuration">proxy_url configuration</a></li>
-<li> <a href="#portal_gui_url-configuration">portal_gui_url configuration</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#summary">Summary</a>
+    <ul>
+      <li><a href="#proxy_url">proxy_url</a></li>
+      <li><a href="#portal_gui_url">portal_gui_url</a></li>
+    </ul>
+  </li>
+  <li><a href="#default-configuration">Default Configuration</a></li>
+  <li><a href="#custom-configuration">Custom Configuration</a>
+    <ul>
+      <li><a href="#proxy_url-configuration">proxy_url configuration</a></li>
+      <li><a href="#portal_gui_url-configuration">portal_gui_url configuration</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>This document reviews how the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a>
-and <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> config variables are utilized within the Kong proxy, Dev Portal, and Admin GUI. Below you find a summary of these config variables and their default settings.</p>
+<p>This document reviews how the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a>
+and <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> config variables are utilized within the Kong proxy, Dev Portal, and Admin GUI. Below you find a summary of these config variables and their default settings.</p>
 
 <h2 id="summary">Summary</h2>
 
 <h3 id="proxy_url">proxy_url</h3>
 
-<p><strong>Description:</strong><br>
+<p><strong>Description:</strong><br />
 The Dev Portal will use this information to build the API endpoint for requests to Kong. By default, the Kong Portal will use the window request host and append the resolved listener port depending on the requested protocol.</p>
 
 <h3 id="portal_gui_url">portal_gui_url</h3>
 
-<p><strong>Description:</strong><br>
-Sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> Access Origin in regards to requests related to the developer portal (set to <code>*</code> by default). Acts as Dev Portal location reference for Kong, the Admin GUI, and the Dev Portal itself. By default, the Kong Portal will use the window request host and append the resolved listener port depending on the requested protocol.</p>
+<p><strong>Description:</strong><br />
+Sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> Access Origin in regards to requests related to the developer portal (set to <code class="highlighter-rouge">*</code> by default). Acts as Dev Portal location reference for Kong, the Admin GUI, and the Dev Portal itself. By default, the Kong Portal will use the window request host and append the resolved listener port depending on the requested protocol.</p>
 
 <h2 id="default-configuration">Default Configuration</h2>
 
 <p>The Kong Dev Portal works out of the box:</p>
 
 <ol>
-<li>Start Kong without custom configuration:</li>
+  <li>Start Kong without custom configuration:</li>
 </ol>
-<div class="highlight"><pre><code class="language-" data-lang="">kong start
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kong start
+</code></pre>
+</div>
+
 <ol>
-<li><p>Navigate to <code>127.0.0.1:8003</code> (default <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> location).  You should see the Default Dev Portal.</p></li>
-<li><p>Open your developer tools in your browser and click on the <code>network</code> tab.</p></li>
-<li><p>Refresh the Dev Portal window and inspect the network tab again.  Notice that the Kong Portal is making requests to the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a> default value: <code>http://127.0.0.1:8000</code>.</p></li>
+  <li>
+    <p>Navigate to <code class="highlighter-rouge">127.0.0.1:8003</code> (default <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> location).  You should see the Default Dev Portal.</p>
+  </li>
+  <li>
+    <p>Open your developer tools in your browser and click on the <code class="highlighter-rouge">network</code> tab.</p>
+  </li>
+  <li>
+    <p>Refresh the Dev Portal window and inspect the network tab again.  Notice that the Kong Portal is making requests to the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a> default value: <code class="highlighter-rouge">http://127.0.0.1:8000</code>.</p>
+  </li>
 </ol>
 
 <h2 id="custom-configuration">Custom Configuration</h2>
 
-<p>There <em>are</em> cases in which <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a> and <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> need to be set to accommodate your network setup.  Below you will find an example for a common use case where the Kong proxy and Dev Portal are served via different URLs.</p>
+<p>There <em>are</em> cases in which <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a> and <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> need to be set to accommodate your network setup.  Below you will find an example for a common use case where the Kong proxy and Dev Portal are served via different URLs.</p>
 
 <p>Consider this domain setup:</p>
 
 <ul>
-<li><a href="http://company.com">http://company.com</a> (public facing website)</li>
-<li><a href="http://proxy.company.com">http://proxy.company.com</a> -&gt; (Kong Proxy)</li>
-<li><a href="http://dev-portal.company.com">http://dev-portal.company.com</a> -&gt; (public Dev Portal)</li>
-<li><a href="http://admin-gui.company.com">http://admin-gui.company.com</a> -&gt; (internal Admin GUI)</li>
+  <li>http://company.com (public facing website)</li>
+  <li>http://proxy.company.com -&gt; (Kong Proxy)</li>
+  <li>http://dev-portal.company.com -&gt; (public Dev Portal)</li>
+  <li>http://admin-gui.company.com -&gt; (internal Admin GUI)</li>
 </ul>
 
 <h3 id="proxy_url-configuration">proxy_url configuration</h3>
 
-<p>With <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a> set to it&#39;s default value the Dev Portal will make requests to <code>http://dev-portal.company.com:8000</code>, as <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a> defaults to <code>window.location</code> when no value is set.  As a result the Dev Portal incorrectly requests files from <code>http://dev-portal.company.com</code> rather than <code>http://proxy.company.com</code>, resulting in an error.</p>
+<p>With <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a> set to it’s default value the Dev Portal will make requests to <code class="highlighter-rouge">http://dev-portal.company.com:8000</code>, as <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a> defaults to <code class="highlighter-rouge">window.location</code> when no value is set.  As a result the Dev Portal incorrectly requests files from <code class="highlighter-rouge">http://dev-portal.company.com</code> rather than <code class="highlighter-rouge">http://proxy.company.com</code>, resulting in an error.</p>
 
-<p>Setting <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code>proxy_url</code></a> to <code>http://proxy.company.com</code> in <code>kong.config</code> will allow the Dev Portal to make requests to the correct location.  </p>
-<div class="highlight"><pre><code class="language-" data-lang="">proxy_url = http://proxy.company.com
-</code></pre></div>
-<p>Visiting <code>http://dev-portal.company.com</code> will now result in a successful render.</p>
+<p>Setting <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#proxy_url"><code class="highlighter-rouge">proxy_url</code></a> to <code class="highlighter-rouge">http://proxy.company.com</code> in <code class="highlighter-rouge">kong.config</code> will allow the Dev Portal to make requests to the correct location.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>proxy_url = http://proxy.company.com
+</code></pre>
+</div>
+
+<p>Visiting <code class="highlighter-rouge">http://dev-portal.company.com</code> will now result in a successful render.</p>
 
 <h3 id="portal_gui_url-configuration">portal_gui_url configuration</h3>
 
-<p><a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> has a value of <code>NONE</code> by default. It will appear as empty and commented out in <code>kong.conf</code>:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">#portal_gui_url =
-</code></pre></div>
-<p>When <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> is not defined:  </p>
+<p><a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> has a value of <code class="highlighter-rouge">NONE</code> by default. It will appear as empty and commented out in <code class="highlighter-rouge">kong.conf</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#portal_gui_url =
+</code></pre>
+</div>
+
+<p>When <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> is not defined:</p>
 
 <ul>
-<li>Kong Proxy will set <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> to <code>*</code>, allowing any origin to make requests to the Dev Portal.</li>
-<li>Admin GUI and Dev Portal use <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> to reference Dev Portal location. As a result the Admin GUI will reference <code>window.location</code> by default when linking out to the Dev Portal resulting in a redirect to <code>http://admin-gui.company.com</code> rather than <code>http://dev-portal.company.com</code>.</li>
+  <li>Kong Proxy will set <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> to <code class="highlighter-rouge">*</code>, allowing any origin to make requests to the Dev Portal.</li>
+  <li>Admin GUI and Dev Portal use <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> to reference Dev Portal location. As a result the Admin GUI will reference <code class="highlighter-rouge">window.location</code> by default when linking out to the Dev Portal resulting in a redirect to <code class="highlighter-rouge">http://admin-gui.company.com</code> rather than <code class="highlighter-rouge">http://dev-portal.company.com</code>.</li>
 </ul>
 
-<p>Setting <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a> to <code>http://dev-portal.company.com</code> will:  </p>
+<p>Setting <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a> to <code class="highlighter-rouge">http://dev-portal.company.com</code> will:</p>
 
 <ul>
-<li>Give context to Admin GUI and Dev Portal.</li>
-<li>Update <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> in the Kong Proxy to only accept Dev Portal requests from the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code>portal_gui_url</code></a>.</li>
+  <li>Give context to Admin GUI and Dev Portal.</li>
+  <li>Update <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> in the Kong Proxy to only accept Dev Portal requests from the <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/#portal_gui_url"><code class="highlighter-rouge">portal_gui_url</code></a>.</li>
 </ul>
 
-<p>Next: Learn more about our <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/">Property References &rsaquo;</a></p>
+<p>Next: Learn more about our <a href="/enterprise/0.33-x/developer-portal/configuration/property-reference/">Property References ›</a></p>
+
 
 
         </div>
@@ -1002,7 +1018,7 @@ Sets <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">CORS</a> A
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -606,36 +606,34 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#setting-up-admin-api-rbac">Setting Up Admin API RBAC</a>
-
-<ul>
-<li> <a href="#overview">Overview</a></li>
-<li> <a href="#terms-and-concepts">Terms and Concepts</a>
-
-<ul>
-<li> <a href="#resource">Resource</a>
-
-<ul>
-<li> <a href="#user">User</a></li>
-<li> <a href="#role">Role</a></li>
-<li> <a href="#permissions">Permissions</a></li>
-</ul></li>
-</ul></li>
-<li> <a href="#default-roles-and-permissions">Default Roles and Permissions</a></li>
-<li> <a href="#adding-a-user">Adding A User</a></li>
-<li> <a href="#assigning-roles-to-the-user">Assigning Roles to the User</a></li>
-<li> <a href="#enforcing-rbac">Enforcing RBAC</a></li>
-<li> <a href="#extending-rbac">Extending RBAC</a></li>
-<li> <a href="#rbac-and-the-gui">RBAC and the GUI</a></li>
-</ul></li>
+  <li><a href="#setting-up-admin-api-rbac">Setting Up Admin API RBAC</a>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#terms-and-concepts">Terms and Concepts</a>
+        <ul>
+          <li><a href="#resource">Resource</a>
+            <ul>
+              <li><a href="#user">User</a></li>
+              <li><a href="#role">Role</a></li>
+              <li><a href="#permissions">Permissions</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#default-roles-and-permissions">Default Roles and Permissions</a></li>
+      <li><a href="#adding-a-user">Adding A User</a></li>
+      <li><a href="#assigning-roles-to-the-user">Assigning Roles to the User</a></li>
+      <li><a href="#enforcing-rbac">Enforcing RBAC</a></li>
+      <li><a href="#extending-rbac">Extending RBAC</a></li>
+      <li><a href="#rbac-and-the-gui">RBAC and the GUI</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
           <h1 id="setting-up-admin-api-rbac">Setting Up Admin API RBAC</h1>
-
 <h2 id="overview">Overview</h2>
-
 <p>Kong Enterprise provides an additional layer of security for the Admin API in the form of role-based access control (RBAC). RBAC allows for fine-grained control over resource access based on a model of user roles and permissions. Users are assigned to one or more roles, which each in turn possess one or more permissions granting or denying access to a particular resource. In this way, fine-grained control over specific Admin API resources can be enforced, while scaling to allow complex, case-specific uses.</p>
 
 <h2 id="terms-and-concepts">Terms and Concepts</h2>
@@ -644,10 +642,11 @@ window['_fs_namespace'] = 'FS';
 
 <h3 id="resource">Resource</h3>
 
-<p>A resource defines a logical grouping of one or more Admin API endpoints. These are human-readable terms, such as &quot;apis&quot; or &quot;plugins&quot;, and form the basis for which endpoints in the Admin API a given user will have access to. Third-party plugin developers have the option to register their own RBAC resources as part of their plugin&#39;s Admin API extension (details on this noted below). The Admin API following endpoint provides a full list of RBAC resources available for the current running configuration:</p>
+<p>A resource defines a logical grouping of one or more Admin API endpoints. These are human-readable terms, such as “apis” or “plugins”, and form the basis for which endpoints in the Admin API a given user will have access to. Third-party plugin developers have the option to register their own RBAC resources as part of their plugin’s Admin API extension (details on this noted below). The Admin API following endpoint provides a full list of RBAC resources available for the current running configuration:</p>
 
 <div class="endpoint get">/rbac/resources</div>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">[</span><span class="w">
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
  </span><span class="s2">"kong"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"snis"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"acls"</span><span class="p">,</span><span class="w"> 
@@ -666,61 +665,76 @@ window['_fs_namespace'] = 'FS';
  </span><span class="s2">"targets"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"jwt"</span><span class="w">
 </span><span class="p">]</span><span class="w"> 
-</span></code></pre></div>
+</span></code></pre>
+</div>
+
 <h4 id="user">User</h4>
 
-<p>A user identifies the actor sending the current request. Users are identified by Kong via the user_token element, sent to the Admin API as a request header. A user is assigned one or more roles, the permissions of which determine what resources the user has access to. Users can be quickly enabled or disabled via the &quot;enabled&quot; flag on the User object in the Admin API. This allows Kong administrators to quickly enable and disable users without removing their tokens or metadata.</p>
+<p>A user identifies the actor sending the current request. Users are identified by Kong via the user_token element, sent to the Admin API as a request header. A user is assigned one or more roles, the permissions of which determine what resources the user has access to. Users can be quickly enabled or disabled via the “enabled” flag on the User object in the Admin API. This allows Kong administrators to quickly enable and disable users without removing their tokens or metadata.</p>
 
 <h4 id="role">Role</h4>
 
-<p>Roles tie together users and permissions, effectively assignment permissions to a user based on the assignment of permissions to the roles. Roles have a many-to-many relationship with both users, meaning that more than one user may be assigned to any given role, and a user may be assigned to more than one role. Likewise, roles also have a many to many relationship with permissions; a role may be associated with more than one permission, and a permission may have many roles associated with it. Roles are defined by a human-readable name, such as &quot;read-only&quot;.</p>
+<p>Roles tie together users and permissions, effectively assignment permissions to a user based on the assignment of permissions to the roles. Roles have a many-to-many relationship with both users, meaning that more than one user may be assigned to any given role, and a user may be assigned to more than one role. Likewise, roles also have a many to many relationship with permissions; a role may be associated with more than one permission, and a permission may have many roles associated with it. Roles are defined by a human-readable name, such as “read-only”.</p>
 
 <h4 id="permissions">Permissions</h4>
 
-<p>The final piece of the puzzle, permissions determine what portions of the Admin API (resources) a role, and therefore a user, has access to. Permissions contain two elements: resources (the same resources defined above), and actions (one or more of &quot;read&quot;, &quot;create&quot;, &quot;update&quot;, or &quot;delete&quot;). A permission may contain one or more actions, and one or more resources, allowing for granular control of resources. For example, a permission may assign only the &quot;read&quot; action to one, several, or all resources, or it could allow all actions to only a single resource (or any permutation thereof). Permissions may also be &quot;negative&quot;, in which case the associated roles are explicitly disallowed from accessing the assigned permissions. This can be used to override resource access granted from another role/permission. An example of this is noted below in the discussion of default roles and permissions.</p>
+<p>The final piece of the puzzle, permissions determine what portions of the Admin API (resources) a role, and therefore a user, has access to. Permissions contain two elements: resources (the same resources defined above), and actions (one or more of “read”, “create”, “update”, or “delete”). A permission may contain one or more actions, and one or more resources, allowing for granular control of resources. For example, a permission may assign only the “read” action to one, several, or all resources, or it could allow all actions to only a single resource (or any permutation thereof). Permissions may also be “negative”, in which case the associated roles are explicitly disallowed from accessing the assigned permissions. This can be used to override resource access granted from another role/permission. An example of this is noted below in the discussion of default roles and permissions.</p>
 
 <h2 id="default-roles-and-permissions">Default Roles and Permissions</h2>
 
 <p>For convenience, Kong Enterprise is shipped with several roles and permissions built-in. This allows for quick bootstrapping of RBAC integrations without the need to create many boilerplate RBAC entities. The default permissions are:</p>
 
 <ul>
-<li><strong>read-only.</strong> This permission has read access to all default Kong resources (that is, resources not exposed by a third-party plugin).</li>
-<li><strong>full-access.</strong> This permission has read, create, update, and delete access to all default Kong resources.</li>
-<li><strong>no-rbac.</strong> This is a negative permission with read, create, update, and delete actions, and the rbac resource. Assigning this permission to a role will explicitly disallow access to rbac resources, even if the role (or another role assigned to the user in question) has a role enabling rbac resource access.</li>
+  <li><strong>read-only.</strong> This permission has read access to all default Kong resources (that is, resources not exposed by a third-party plugin).</li>
+  <li><strong>full-access.</strong> This permission has read, create, update, and delete access to all default Kong resources.</li>
+  <li><strong>no-rbac.</strong> This is a negative permission with read, create, update, and delete actions, and the rbac resource. Assigning this permission to a role will explicitly disallow access to rbac resources, even if the role (or another role assigned to the user in question) has a role enabling rbac resource access.</li>
 </ul>
 
 <p>Kong also provides several out-of-the-box roles that leverage these permissions:</p>
 
 <ul>
-<li><strong>read-only.</strong> This role is assigned the read-only permission, and as such as read access to all default Kong resources.</li>
-<li><strong>admin.</strong> This role is assigned the full-access and no-rbac role, meaning that it has read, create, update, and delete access to all default Kong resources, except for the rbac resource.</li>
-<li><strong>super-admin.</strong> This role is assigned the full-access role. It has complete access to every default Kong resource.</li>
+  <li><strong>read-only.</strong> This role is assigned the read-only permission, and as such as read access to all default Kong resources.</li>
+  <li><strong>admin.</strong> This role is assigned the full-access and no-rbac role, meaning that it has read, create, update, and delete access to all default Kong resources, except for the rbac resource.</li>
+  <li><strong>super-admin.</strong> This role is assigned the full-access role. It has complete access to every default Kong resource.</li>
 </ul>
 
-<p>Kong does not provide any users by default, as this would essentially be a backdoor into Admin API security. As such, it the administrator&#39;s responsibility to configure the appropriate RBAC users and user/role relationships.</p>
+<p>Kong does not provide any users by default, as this would essentially be a backdoor into Admin API security. As such, it the administrator’s responsibility to configure the appropriate RBAC users and user/role relationships.</p>
 
 <h2 id="adding-a-user">Adding A User</h2>
 
-<p>In order to authenticate with Kong&#39;s RBAC implementation, we must first create a user (and their associated token). Note that if the user_token param is not provided, Kong will automatically create the token on your behalf. Each token must be unique:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -X POST http://localhost:8001/rbac/users/ -d name=bob -d user_token=12345
-</code></pre></div>
+<p>In order to authenticate with Kong’s RBAC implementation, we must first create a user (and their associated token). Note that if the user_token param is not provided, Kong will automatically create the token on your behalf. Each token must be unique:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/ -d name=bob -d user_token=12345
+</code></pre>
+</div>
+
 <h2 id="assigning-roles-to-the-user">Assigning Roles to the User</h2>
 
 <p>Once the user has been created, we can assign them to a role. We can use the default roles to quickly enforce a basic security policy for our user.</p>
-<div class="highlight"><pre><code class="language-" data-lang="">curl -X POST http://localhost:8001/rbac/users/bob/roles -d roles=read-only
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/bob/roles -d roles=read-only
+</code></pre>
+</div>
+
 <p>Our user has now been assigned the read-only role, giving them read access to all Kong RBAC resources.</p>
 
 <h2 id="enforcing-rbac">Enforcing RBAC</h2>
 
 <p>RBAC policies are of little use without enforcement. By default, RBAC policies are not enforced by Kong, meaning that the Admin API access is available without requiring any authorization. This allows new Kong clusters to be bootstrapped with the appropriate RBAC configuration. Once the appropriate RBAC relationships have been defined, enforcing authorization and role access requires only a single configuration change via the Kong config file:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">enforce_rbac = on
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>enforce_rbac = on
+</code></pre>
+</div>
+
 <p>Once this is done, simply restart Kong</p>
-<div class="highlight"><pre><code class="language-" data-lang="">kong restart
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kong restart
+</code></pre>
+</div>
+
 <p>RBAC policies will now be enforced by Kong, based on the user token presented to the request. By default, this user token should be presented via the Kong-Admin-Token request header; the name of this header is configurable via the Kong configuration file. In order to test our setup, we can send a request to the Admin API without sending an authentication. Because Kong does not recognize a user associated with the requesting client, it will reject the request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i http://localhost:8001/status
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/status
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:06:00 GMT
 Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
@@ -730,9 +744,12 @@ Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
 
 <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
-</code></pre></div>
-<p>By sending a request with our user&#39;s token, we will be granted read access to the resource in question.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
+</code></pre>
+</div>
+
+<p>By sending a request with our user’s token, we will be granted read access to the resource in question.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
 HTTP/1.1 200 OK
 Date: Fri, 04 Aug 2017 22:09:25 GMT
 Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
@@ -740,9 +757,12 @@ Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>We can also see that attempting to create a new resource with our RBAC user is not permitted, as they are not assigned any roles that have permissions with create access:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alic
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alic
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:15:47 GMT
 Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
@@ -752,13 +772,16 @@ Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0rc2
 
 <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="extending-rbac">Extending RBAC</h2>
 
 <p>The default RBAC roles and permissions shipped with Kong are a great starting point for shaping a basic enforcement policy, but they may not fit all use cases. <a href="/enterprise/0.31-x/plugins/rbac-api">The Admin API</a> provides a comprehensive set of endpoints to create, edit, and delete RBAC users, roles, and permissions.</p>
 
-<p>Additionally, third-party plugin developers can register their own Admin API RBAC resources as part of the <a href="/latest/plugin-development/admin-api">Admin API extension</a>. This is done by defining a &quot;resource&quot; value associated with each API endpoint, like so:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="p">{</span>
+<p>Additionally, third-party plugin developers can register their own Admin API RBAC resources as part of the <a href="/latest/plugin-development/admin-api">Admin API extension</a>. This is done by defining a “resource” value associated with each API endpoint, like so:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"/mock/api/endpoint/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">resource</span> <span class="o">=</span> <span class="s2">"mock"</span><span class="p">,</span>
 
@@ -766,25 +789,30 @@ Server: kong/0.11.0rc2
       <span class="n">crud</span><span class="p">.</span><span class="n">paginated_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">mock</span><span class="p">)</span>
     <span class="k">end</span><span class="p">,</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Additionally, a custom migration is needed to register this resource with Kong. This would look something like the following:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="p">{</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2017-07-23-100000_rbac_mock_resources"</span><span class="p">,</span>
    <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dao</span><span class="p">)</span>
      <span class="kd">local</span> <span class="n">rbac</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.core.rbac"</span>
-
+    
      <span class="kd">local</span> <span class="n">resource</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">rbac</span><span class="p">.</span><span class="n">register_resource</span><span class="p">(</span><span class="s2">"mock"</span><span class="p">,</span> <span class="n">dao</span><span class="p">)</span>
      <span class="k">if</span> <span class="ow">not</span> <span class="n">resource</span> <span class="k">then</span>
        <span class="k">return</span> <span class="n">err</span> 
      <span class="k">end</span> 
   <span class="k">end</span><span class="p">,</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <h2 id="rbac-and-the-gui">RBAC and the GUI</h2>
 
-<p>There are no specific rules in RBAC for limiting access to the GUI. If RBAC is enabled, when people go to the GUI <Kong>:8002, they will be presented with a login screen:</p>
+<p>There are no specific rules in RBAC for limiting access to the GUI. If RBAC is enabled, when people go to the GUI <Kong>:8002, they will be presented with a login screen:</Kong></p>
 
-<p><img src="/assets/images/docs/ee/rbac_gui.png" alt="RBAC & the GUI" /></p>
+<p><img src="/assets/images/docs/ee/rbac_gui.png" alt="RBAC &amp; the GUI" /></p>
 
 <p>After using your RBAC credentials to log in, you will only be able to see what the super-admin has given you access to see. You will be able to see only the resources you have read access to and will only be able to make changes to the resources you have write access to.</p>
 
@@ -943,7 +971,7 @@ Server: kong/0.11.0rc2
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

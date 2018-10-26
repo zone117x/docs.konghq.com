@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -708,19 +708,25 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#proxy-reference">Proxy Reference</a>
-
-<ul>
-<li> <a href="#1-how-does-kong-route-a-request-to-an-api">1. How does Kong route a request to an API</a></li>
-<li> <a href="#2-reminder-how-to-add-an-api-to-kong">2. Reminder: how to add an API to Kong</a></li>
-<li> <a href="#3-proxy-an-api-by-its-dns-value">3. Proxy an API by its DNS value</a>
-    -  <a href="#using-the-host-header">Using the &quot;<strong>Host</strong>&quot; header</a>
-    -  <a href="#using-the-x-host-override-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</a>
-    -  <a href="#using-a-wildcard-dns">Using a wildcard DNS</a></li>
-<li> <a href="#4-proxy-an-api-by-its-request_path-value">4. Proxy an API by its request_path value</a>
-    -  <a href="#using-the-strip_request_path-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</a></li>
-<li> <a href="#5-plugins-execution">5. Plugins execution</a></li>
-</ul></li>
+  <li><a href="#proxy-reference">Proxy Reference</a>
+    <ul>
+      <li><a href="#1-how-does-kong-route-a-request-to-an-api">1. How does Kong route a request to an API</a></li>
+      <li><a href="#2-reminder-how-to-add-an-api-to-kong">2. Reminder: how to add an API to Kong</a></li>
+      <li><a href="#3-proxy-an-api-by-its-dns-value">3. Proxy an API by its DNS value</a>
+        <ul>
+          <li><a href="#using-the-host-header">Using the “<strong>Host</strong>” header</a></li>
+          <li><a href="#using-the-x-host-override-header">Using the “<strong>X-Host-Override</strong>” header</a></li>
+          <li><a href="#using-a-wildcard-dns">Using a wildcard DNS</a></li>
+        </ul>
+      </li>
+      <li><a href="#4-proxy-an-api-by-its-request_path-value">4. Proxy an API by its request_path value</a>
+        <ul>
+          <li><a href="#using-the-strip_request_path-property">Using the “<strong>strip_request_path</strong>” property</a></li>
+        </ul>
+      </li>
+      <li><a href="#5-plugins-execution">5. Plugins execution</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -729,185 +735,228 @@ window['_fs_namespace'] = 'FS';
 
 <p>As you might already know, Kong uses two ports to communicate. By default they are:</p>
 
-<p><code>:8001</code> - The one on which the <a href="/0.7.x/admin-api">Admin API</a> listens.</p>
+<p><code class="highlighter-rouge">:8001</code> - The one on which the <a href="/0.7.x/admin-api">Admin API</a> listens.</p>
 
-<p><code>:8000</code> - Where Kong listens for incoming requests to proxy to your upstream services. This is the port that interests us; here is a typical request workflow on this port:</p>
-
-<p><br /></p>
-
-<p><img src="/assets/images/docs/kong-simple.png" alt=""></p>
+<p><code class="highlighter-rouge">:8000</code> - Where Kong listens for incoming requests to proxy to your upstream services. This is the port that interests us; here is a typical request workflow on this port:</p>
 
 <p><br /></p>
 
-<p>This guide will cover all proxying capabilities of Kong by explaining in detail how the proxying (<code>8000</code>) port works under the hood.</p>
+<p><img src="/assets/images/docs/kong-simple.png" alt="" /></p>
 
-<hr>
+<p><br /></p>
+
+<p>This guide will cover all proxying capabilities of Kong by explaining in detail how the proxying (<code class="highlighter-rouge">8000</code>) port works under the hood.</p>
+
+<hr />
 
 <h2 id="1-how-does-kong-route-a-request-to-an-api">1. How does Kong route a request to an API</h2>
 
 <p>When receiving a request, Kong will inspect it and try to route it to the correct API. In order to do so, it supports different routing mechanisms depending on your needs. A request can be routed by:</p>
 
 <ul>
-<li>A <strong>DNS</strong> value contained in the <strong>Host</strong> header of the request.</li>
-<li>The path (<strong>URI</strong>) of the request.</li>
+  <li>A <strong>DNS</strong> value contained in the <strong>Host</strong> header of the request.</li>
+  <li>The path (<strong>URI</strong>) of the request.</li>
 </ul>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> For performance reasons, Kong keeps a cache of the APIs from your Cassandra cluster in memory for up to 60 seconds. As cache invalidation has not been implemented yet, Kong might take up to <strong>60 seconds</strong> to notice a new API and proxy incoming requests to it.
 </div>
 
-<hr>
+<hr />
 
 <h2 id="2-reminder-how-to-add-an-api-to-kong">2. Reminder: how to add an API to Kong</h2>
 
-<p>Before going any further, let&#39;s take a few moments to make sure you know how to add an API to Kong. This will also help clarify the difference between the two ports.</p>
+<p>Before going any further, let’s take a few moments to make sure you know how to add an API to Kong. This will also help clarify the difference between the two ports.</p>
 
-<p>As explained in the <a href="/0.7.x/getting-started/adding-your-api">Adding your API</a> quickstart guide, Kong is configured via its internal <a href="/0.7.x/admin-api">Admin API</a> running by default on port <code>8001</code>. Adding an API to Kong is as easy as an HTTP request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
+<p>As explained in the <a href="/0.7.x/getting-started/adding-your-api">Adding your API</a> quickstart guide, Kong is configured via its internal <a href="/0.7.x/admin-api">Admin API</a> running by default on port <code class="highlighter-rouge">8001</code>. Adding an API to Kong is as easy as an HTTP request:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
   --url http://localhost:8001/apis/ <span class="se">\</span>
   -d <span class="s1">'name=mockbin'</span> <span class="se">\</span>
   -d <span class="s1">'upstream_url=http://mockbin.com/'</span> <span class="se">\</span>
   -d <span class="s1">'request_host=mockbin.com'</span> <span class="se">\</span>
   -d <span class="s1">'request_path=/status'</span>
-</code></pre></div>
-<p>This request tells Kong to add an API named &quot;<strong>mockbin</strong>&quot;, with its upstream resource being located at &quot;<strong><a href="http://mockbin.com">http://mockbin.com</a></strong>&quot;. The <code>request_host</code> and <code>request_path</code> properties are the ones used by Kong to route a request to that API. Both properties are not required but at least one must be specified.</p>
+</code></pre>
+</div>
 
-<p>Once this request is processed by Kong, the API is stored in your Cassandra cluster and a request to the <strong>Proxy port</strong> will trigger a query to Cassandra and put your API in Kong&#39;s proxying cache.</p>
+<p>This request tells Kong to add an API named “<strong>mockbin</strong>”, with its upstream resource being located at “<strong>http://mockbin.com</strong>”. The <code class="highlighter-rouge">request_host</code> and <code class="highlighter-rouge">request_path</code> properties are the ones used by Kong to route a request to that API. Both properties are not required but at least one must be specified.</p>
 
-<hr>
+<p>Once this request is processed by Kong, the API is stored in your Cassandra cluster and a request to the <strong>Proxy port</strong> will trigger a query to Cassandra and put your API in Kong’s proxying cache.</p>
+
+<hr />
 
 <h2 id="3-proxy-an-api-by-its-dns-value">3. Proxy an API by its DNS value</h2>
 
-<h4 id="using-the-host-header">Using the &quot;<strong>Host</strong>&quot; header</h4>
+<h3 id="using-the-host-header">Using the “<strong>Host</strong>” header</h3>
 
-<p>Now that we added an API to Kong (via the Admin API), Kong can proxy it via the <code>8000</code> port. One way to do so is to specify the API&#39;s <code>request_host</code> value in the <code>Host</code> header of your request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+<p>Now that we added an API to Kong (via the Admin API), Kong can proxy it via the <code class="highlighter-rouge">8000</code> port. One way to do so is to specify the API’s <code class="highlighter-rouge">request_host</code> value in the <code class="highlighter-rouge">Host</code> header of your request:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ <span class="se">\</span>
   --header <span class="s1">'Host: mockbin.com'</span>
-</code></pre></div>
-<p>By doing so, Kong recognizes the <code>Host</code> value as being the <code>request_host</code> of the &quot;mockbin&quot; API. The request will be routed to the upstream API and Kong will execute any configured <a href="/plugins/">plugin</a> for that API.</p>
+</code></pre>
+</div>
+
+<p>By doing so, Kong recognizes the <code class="highlighter-rouge">Host</code> value as being the <code class="highlighter-rouge">request_host</code> of the “mockbin” API. The request will be routed to the upstream API and Kong will execute any configured <a href="/plugins/">plugin</a> for that API.</p>
 
 <div class="alert alert-warning">
   <strong>Going to production:</strong> If you're planning to go into production with your setup, you'll most likely not want your consumers to manually set the "<strong>Host</strong>" header on each request. You can let Kong and DNS take care of it by simply setting an A or CNAME record on your domain pointing to your Kong installation. Hence, any request made to `example.org` will already contain a `Host: example.org` header.
 </div>
 
-<h4 id="using-the-x-host-override-header">Using the &quot;<strong>X-Host-Override</strong>&quot; header</h4>
+<h3 id="using-the-x-host-override-header">Using the “<strong>X-Host-Override</strong>” header</h3>
 
-<p>When performing a request from a browser, you might not be able to set the <code>Host</code> header. Thus, Kong also checks a request for a header named <code>X-Host-Override</code> and treats it exactly like the <code>Host</code> header:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+<p>When performing a request from a browser, you might not be able to set the <code class="highlighter-rouge">Host</code> header. Thus, Kong also checks a request for a header named <code class="highlighter-rouge">X-Host-Override</code> and treats it exactly like the <code class="highlighter-rouge">Host</code> header:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/ <span class="se">\</span>
   --header <span class="s1">'X-Host-Override: mockbin.com'</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>This request will be proxied just as well by Kong.</p>
 
-<h4 id="using-a-wildcard-dns">Using a wildcard DNS</h4>
+<h3 id="using-a-wildcard-dns">Using a wildcard DNS</h3>
 
-<p>Sometimes you might want to route all requests matching a wildcard DNS to your upstream services. A &quot;<strong>request_host</strong>&quot; wildcard name may contain an asterisk only on the name’s start or end, and only on a dot border.</p>
+<p>Sometimes you might want to route all requests matching a wildcard DNS to your upstream services. A “<strong>request_host</strong>” wildcard name may contain an asterisk only on the name’s start or end, and only on a dot border.</p>
 
-<p>A &quot;<strong>request_host</strong>&quot; of form <code>*.example.org</code> will route requests with &quot;<strong>Host</strong>&quot; values such as <code>a.example.org</code> or <code>x.y.example.org</code>.</p>
+<p>A “<strong>request_host</strong>” of form <code class="highlighter-rouge">*.example.org</code> will route requests with “<strong>Host</strong>” values such as <code class="highlighter-rouge">a.example.org</code> or <code class="highlighter-rouge">x.y.example.org</code>.</p>
 
-<p>A &quot;<strong>request_host</strong>&quot; of form <code>example.*</code> will route requests with &quot;<strong>Host</strong>&quot; values such as <code>example.com</code> or <code>example.org</code>.</p>
+<p>A “<strong>request_host</strong>” of form <code class="highlighter-rouge">example.*</code> will route requests with “<strong>Host</strong>” values such as <code class="highlighter-rouge">example.com</code> or <code class="highlighter-rouge">example.org</code>.</p>
 
-<hr>
+<hr />
 
 <h2 id="4-proxy-an-api-by-its-request_path-value">4. Proxy an API by its request_path value</h2>
 
-<p>If you&#39;d rather configure your APIs so that Kong routes incoming requests according to the request&#39;s URI, Kong can also perform this function. This allows your consumers to seamlessly consume APIs sparing the headache of setting DNS records for your domains.</p>
+<p>If you’d rather configure your APIs so that Kong routes incoming requests according to the request’s URI, Kong can also perform this function. This allows your consumers to seamlessly consume APIs sparing the headache of setting DNS records for your domains.</p>
 
-<p>Because the API we previously configured has a <code>request_path</code> property, the following request will <strong>also</strong> be proxied to the upstream &quot;mockbin&quot; API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
+<p>Because the API we previously configured has a <code class="highlighter-rouge">request_path</code> property, the following request will <strong>also</strong> be proxied to the upstream “mockbin” API:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
   --url http://localhost:8000/status/200
-</code></pre></div>
-<p>You will notice this command makes a request to <code>KONG_URL:PROXY_PORT/status/200</code>. Since the configured <code>upstream_url</code> is <code>http://mockbin.com/</code>, the request will hit the upstream service at <code>http://mockbin.com/status/200</code>.</p>
+</code></pre>
+</div>
 
-<h4 id="using-the-strip_request_path-property">Using the &quot;<strong>strip_request_path</strong>&quot; property</h4>
+<p>You will notice this command makes a request to <code class="highlighter-rouge">KONG_URL:PROXY_PORT/status/200</code>. Since the configured <code class="highlighter-rouge">upstream_url</code> is <code class="highlighter-rouge">http://mockbin.com/</code>, the request will hit the upstream service at <code class="highlighter-rouge">http://mockbin.com/status/200</code>.</p>
 
-<p>By enabling the <code>strip_request_path</code> property on an API, the requests will be proxied without the <code>request_path</code> property being included in the upstream request. Let&#39;s enable this option by making a request to the Admin API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X PATCH <span class="se">\</span>
+<h3 id="using-the-strip_request_path-property">Using the “<strong>strip_request_path</strong>” property</h3>
+
+<p>By enabling the <code class="highlighter-rouge">strip_request_path</code> property on an API, the requests will be proxied without the <code class="highlighter-rouge">request_path</code> property being included in the upstream request. Let’s enable this option by making a request to the Admin API:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X PATCH <span class="se">\</span>
   --url http://localhost:8001/apis/mockbin <span class="se">\</span>
   -d <span class="s1">'strip_request_path=true'</span> <span class="se">\</span>
   -d <span class="s1">'request_path=/mockbin'</span>
-</code></pre></div>
-<p>Now that we slightly updated our API (you might have to wait a few seconds for Kong&#39;s proxying cache to be updated), Kong will proxy requests made to <code>KONG_URL:PROXY_PORT/mockbin</code> but will not include the <code>/mockbin</code> part when performing the upstream request.</p>
+</code></pre>
+</div>
 
-<p>Here is a table documenting the behaviour of the path routing depending on your API&#39;s configuration:</p>
+<p>Now that we slightly updated our API (you might have to wait a few seconds for Kong’s proxying cache to be updated), Kong will proxy requests made to <code class="highlighter-rouge">KONG_URL:PROXY_PORT/mockbin</code> but will not include the <code class="highlighter-rouge">/mockbin</code> part when performing the upstream request.</p>
 
-<table><thead>
-<tr>
-<th><code>request_path</code></th>
-<th><code>strip_request_path</code></th>
-<th>incoming request</th>
-<th>upstream request</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>false</strong></td>
-<td><code>/some_path</code></td>
-<td><strong>not proxied</strong></td>
-</tr>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>false</strong></td>
-<td><code>/mockbin</code></td>
-<td><code>/mockbin</code></td>
-</tr>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>false</strong></td>
-<td><code>/mockbin/some_path</code></td>
-<td><code>/mockbin/some_path</code></td>
-</tr>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>true</strong></td>
-<td><code>/some_path</code></td>
-<td><strong>not proxied</strong></td>
-</tr>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>true</strong></td>
-<td><code>/mockbin</code></td>
-<td><code>/</code></td>
-</tr>
-<tr>
-<td><code>/mockbin</code></td>
-<td><strong>true</strong></td>
-<td><code>/mockbin/some_path</code></td>
-<td><code>/some_path</code></td>
-</tr>
-</tbody></table>
+<p>Here is a table documenting the behaviour of the path routing depending on your API’s configuration:</p>
 
-<hr>
+<table>
+  <thead>
+    <tr>
+      <th><code class="highlighter-rouge">request_path</code></th>
+      <th><code class="highlighter-rouge">strip_request_path</code></th>
+      <th>incoming request</th>
+      <th>upstream request</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>false</strong></td>
+      <td><code class="highlighter-rouge">/some_path</code></td>
+      <td><strong>not proxied</strong></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>false</strong></td>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>false</strong></td>
+      <td><code class="highlighter-rouge">/mockbin/some_path</code></td>
+      <td><code class="highlighter-rouge">/mockbin/some_path</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>true</strong></td>
+      <td><code class="highlighter-rouge">/some_path</code></td>
+      <td><strong>not proxied</strong></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>true</strong></td>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><code class="highlighter-rouge">/</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/mockbin</code></td>
+      <td><strong>true</strong></td>
+      <td><code class="highlighter-rouge">/mockbin/some_path</code></td>
+      <td><code class="highlighter-rouge">/some_path</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
 
 <h2 id="5-plugins-execution">5. Plugins execution</h2>
 
 <p>Once Kong has recognized which API an incoming request should be proxied to, it will look into your Cassandra cluster for any record of a <a href="/0.7.x/admin-api#plugin-configuration-object">Plugin Configuration</a> for that particular API. This is done according to the following steps:</p>
 
 <ul>
-<li>1. Kong recognized the API (according to one of the previously explained methods)</li>
-<li>2. It looks into the datastore for Plugin Configurations for that API</li>
-<li>3. Some Plugin Configurations were found, for example:
-
-<ul>
-<li>a. A key authentication Plugin Configuration</li>
-<li>b. A rate-limiting Plugin Configuration (that also has a <code>consumer_id</code> property)</li>
-</ul></li>
-<li>4. Kong executes the highest priority plugin (key authentication in this case)
-
-<ul>
-<li>a. User is now authenticated</li>
-</ul></li>
-<li>5. Kong tries to execute the rate-limiting plugin
-
-<ul>
-<li>a. If the user is the one in the <code>consumer_id</code>, rate-limiting is applied</li>
-<li>b. If the user is not the one configured, rate-limiting is not applied</li>
-</ul></li>
-<li>6. Request is proxied</li>
+  <li>
+    <ol>
+      <li>Kong recognized the API (according to one of the previously explained methods)</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>It looks into the datastore for Plugin Configurations for that API</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>Some Plugin Configurations were found, for example:
+        <ul>
+          <li>a. A key authentication Plugin Configuration</li>
+          <li>b. A rate-limiting Plugin Configuration (that also has a <code class="highlighter-rouge">consumer_id</code> property)</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>Kong executes the highest priority plugin (key authentication in this case)
+        <ul>
+          <li>a. User is now authenticated</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>Kong tries to execute the rate-limiting plugin
+        <ul>
+          <li>a. If the user is the one in the <code class="highlighter-rouge">consumer_id</code>, rate-limiting is applied</li>
+          <li>b. If the user is not the one configured, rate-limiting is not applied</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>Request is proxied</li>
+    </ol>
+  </li>
 </ul>
 
 <p><strong>Note</strong>: The proxying of a request might happen before or after plugins execution, since each plugin can hook itself anywhere in the lifecycle of a request. In this case (authentication + rate-limiting) it is of course mandatory those plugins be executed <strong>before</strong> proxying happens.</p>
+
 
 
         </div>
@@ -1082,7 +1131,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

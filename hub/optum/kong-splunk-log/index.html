@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -236,19 +236,19 @@ window['_fs_namespace'] = 'FS';
       
         <nav>
           <ul>
-<li> <a href="#terminology">Terminology</a></li>
-<li> <a href="#configuration">Configuration</a>
-
-<ul>
-<li> <a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
-<li> <a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-<li> <a href="#">Global plugins</a></li>
-<li> <a href="#">Parameters</a></li>
-<li> <a href="#example-log-in-splunk-ui">Example Log in Splunk UI</a></li>
-<li> <a href="#installation">Installation</a></li>
-<li> <a href="#configuration">Configuration</a></li>
-<li> <a href="#maintainers">Maintainers</a></li>
-</ul></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
+      <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
+      <li><a href="#">Global plugins</a></li>
+      <li><a href="#">Parameters</a></li>
+      <li><a href="#example-log-in-splunk-ui">Example Log in Splunk UI</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#configuration">Configuration</a></li>
+      <li><a href="#maintainers">Maintainers</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -508,11 +508,13 @@ window['_fs_namespace'] = 'FS';
       
         <h2 id="configuration">Configuration</h2>
         
-          <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
+          
+<h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-splunk-log"</span>  <span class="se">\</span>
     --data <span class="s2">"config.splunk_access_token=aaaaaaaa-bbbb-cccc-dddd-ffffffffffff"</span> <span class="se">\</span>
     --data <span class="s2">"config.method=POST"</span> <span class="se">\</span>
@@ -523,18 +525,22 @@ making the following request:</p>
     --data <span class="s2">"config.flush_timeout=30"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=60000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>service</code>: the id or name of the Service that this plugin configuration will
+  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
 target.</li>
 </ul>
 
         
         
-          <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
+          
+<h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=kong-splunk-log"</span>  <span class="se">\</span>
     --data <span class="s2">"config.splunk_access_token=aaaaaaaa-bbbb-cccc-dddd-ffffffffffff"</span> <span class="se">\</span>
     --data <span class="s2">"config.method=POST"</span> <span class="se">\</span>
@@ -545,9 +551,11 @@ target.</li>
     --data <span class="s2">"config.flush_timeout=30"</span> <span class="se">\</span>
     --data <span class="s2">"config.keepalive=60000"</span>
 
-</code></pre></div>
+</code></pre>
+</div>
+
 <ul>
-<li><code>route_id</code>: the id of the Route that this plugin configuration will target.</li>
+  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
 </ul>
 
         
@@ -566,7 +574,8 @@ target.</li>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-        <table>
+        
+<table>
   <thead>
     <tr><th>form parameter</th><th>default</th><th>description</th></tr>
   </thead>
@@ -589,17 +598,17 @@ target.</li>
           
         </td>
         <td></td>
-        <td><p>Passes required Splunk header <code>Authorization Splunk:</code>
-<code>aaaaaaaa-bbbb-cccc-dddd-ffffffffffff</code></p>
+        <td><p>Passes required Splunk header <code class="highlighter-rouge">Authorization Splunk:</code>
+<code class="highlighter-rouge">aaaaaaaa-bbbb-cccc-dddd-ffffffffffff</code></p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.method</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>POST</code></p>
+        <td><p><code class="highlighter-rouge">POST</code></p>
 </td>
         <td><p>HTTP Method to send to Splunk</p>
 </td>
@@ -607,10 +616,10 @@ target.</li>
     
       <tr>
         <td><code>config.content_type</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>application/json</code></p>
+        <td><p><code class="highlighter-rouge">application/json</code></p>
 </td>
         <td><p>Defines the Content-Type header to send to Splunk</p>
 </td>
@@ -618,10 +627,10 @@ target.</li>
     
       <tr>
         <td><code>config.timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>10000</code></p>
+        <td><p><code class="highlighter-rouge">10000</code></p>
 </td>
         <td><p>The amount of time to wait on a Splunk transaction before timing out</p>
 </td>
@@ -629,10 +638,10 @@ target.</li>
     
       <tr>
         <td><code>config.retry_count</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>5</code></p>
+        <td><p><code class="highlighter-rouge">5</code></p>
 </td>
         <td><p>The number of attempts to retry logging an event on splunk connection errors</p>
 </td>
@@ -640,10 +649,10 @@ target.</li>
     
       <tr>
         <td><code>config.queue_size</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>20</code></p>
+        <td><p><code class="highlighter-rouge">20</code></p>
 </td>
         <td><p>The max number of event logs the plugin may send in a single request</p>
 </td>
@@ -651,21 +660,21 @@ target.</li>
     
       <tr>
         <td><code>config.flush_timeout</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>30</code></p>
+        <td><p><code class="highlighter-rouge">30</code></p>
 </td>
-        <td><p>The time taken in seconds before flushing a queue of transactions to splunk that has not reached its max <code>queue_size</code></p>
+        <td><p>The time taken in seconds before flushing a queue of transactions to splunk that has not reached its max <code class="highlighter-rouge">queue_size</code></p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br><em>optional</em>
+          <br /><em>optional</em>
           
         </td>
-        <td><p><code>60000</code></p>
+        <td><p><code class="highlighter-rouge">60000</code></p>
 </td>
         <td><p>The amount of time to keep plugin connections with Splunk active</p>
 </td>
@@ -682,36 +691,48 @@ target.</li>
 
       <h3 id="example-log-in-splunk-ui">Example Log in Splunk UI</h3>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/09/SplunkLogSample.png" alt="Splunk UI screen shot"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/09/SplunkLogSample.png" alt="Splunk UI screen shot" /></p>
 
 <h3 id="installation">Installation</h3>
 
 <p>Recommended:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>luarocks install kong-splunk-log
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>luarocks install kong-splunk-log
+</code></pre>
+</div>
+
 <p>Other:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone https://github.com/Optum/kong-splunk-log.git /path/to/kong/plugins/kong-splunk-log
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git clone https://github.com/Optum/kong-splunk-log.git /path/to/kong/plugins/kong-splunk-log
 <span class="gp">$ </span><span class="nb">cd</span> /path/to/kong/plugins/kong-splunk-log
 <span class="gp">$ </span>luarocks make <span class="k">*</span>.rockspec
-</code></pre></div>
+</code></pre>
+</div>
+
 <h3 id="configuration">Configuration</h3>
 
-<p>The plugin requires an environment variable <code>SPLUNK_HOST</code>. This is how we define the <code>host=&quot;&quot;</code> Splunk field in the example log picture embedded above in our README.</p>
+<p>The plugin requires an environment variable <code class="highlighter-rouge">SPLUNK_HOST</code>. This is how we define the <code class="highlighter-rouge">host=""</code> Splunk field in the example log picture embedded above in our README.</p>
 
 <h4 id="example-plugin-configuration">Example Plugin Configuration</h4>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/09/SplunkConfig.png" alt="Splunk Config"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/09/SplunkConfig.png" alt="Splunk Config" /></p>
 
 <p>If not already set, it can be done so as follows:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">export </span><span class="nv">SPLUNK_HOST</span><span class="o">=</span><span class="s2">"gateway.company.com"</span>
-</code></pre></div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">SPLUNK_HOST</span><span class="o">=</span><span class="s2">"gateway.company.com"</span>
+</code></pre>
+</div>
+
 <p><strong>One last step</strong> is to make the environment variable accessible by an nginx worker. To do this, simply add this line to your <em>nginx.conf</em></p>
-<div class="highlight"><pre><code class="language-" data-lang="">env SPLUNK_HOST;
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>env SPLUNK_HOST;
+</code></pre>
+</div>
+
 <h3 id="maintainers">Maintainers</h3>
 
-<p><a href="https://github.com/jeremyjpj0916">jeremyjpj0916</a><br>
-<a href="https://github.com/rsbrisci">rsbrisci</a>  </p>
+<p><a href="https://github.com/jeremyjpj0916">jeremyjpj0916</a><br />
+<a href="https://github.com/rsbrisci">rsbrisci</a></p>
 
 <p>Feel free to <a href="https://github.com/Optum/kong-splunk-log/issues">open issues</a>, or refer to our <a href="https://github.com/Optum/kong-splunk-log/blob/master/CONTRIBUTING.md">Contribution Guidelines</a> if you have any questions.</p>
 
@@ -879,7 +900,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

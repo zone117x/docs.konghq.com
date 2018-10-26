@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -991,105 +991,109 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#kong-response">kong.response</a>
-
-<ul>
-<li> <a href="#kong-response-get_status">kong.response.get_status()</a></li>
-<li> <a href="#kong-response-get_header-name">kong.response.get_header(name)</a></li>
-<li> <a href="#kong-response-get_headers-max_headers">kong.response.get_headers([max_headers])</a></li>
-<li> <a href="#kong-response-get_source">kong.response.get_source()</a></li>
-<li> <a href="#kong-response-set_status-status">kong.response.set_status(status)</a></li>
-<li> <a href="#kong-response-set_header-name-value">kong.response.set_header(name, value)</a></li>
-<li> <a href="#kong-response-add_header-name-value">kong.response.add_header(name, value)</a></li>
-<li> <a href="#kong-response-clear_header-name">kong.response.clear_header(name)</a></li>
-<li> <a href="#kong-response-set_headers-headers">kong.response.set_headers(headers)</a></li>
-<li> <a href="#kong-response-exit-status-body-headers">kong.response.exit(status[, body[, headers]])</a></li>
-</ul></li>
+  <li><a href="#kongresponse">kong.response</a>
+    <ul>
+      <li><a href="#kongresponseget_status">kong.response.get_status()</a></li>
+      <li><a href="#kongresponseget_headername">kong.response.get_header(name)</a></li>
+      <li><a href="#kongresponseget_headersmax_headers">kong.response.get_headers([max_headers])</a></li>
+      <li><a href="#kongresponseget_source">kong.response.get_source()</a></li>
+      <li><a href="#kongresponseset_statusstatus">kong.response.set_status(status)</a></li>
+      <li><a href="#kongresponseset_headername-value">kong.response.set_header(name, value)</a></li>
+      <li><a href="#kongresponseadd_headername-value">kong.response.add_header(name, value)</a></li>
+      <li><a href="#kongresponseclear_headername">kong.response.clear_header(name)</a></li>
+      <li><a href="#kongresponseset_headersheaders">kong.response.set_headers(headers)</a></li>
+      <li><a href="#kongresponseexitstatus-body-headers">kong.response.exit(status[, body[, headers]])</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <h1 id="kong-response">kong.response</h1>
+          <h1 id="kongresponse">kong.response</h1>
 
 <p>Client response module</p>
 
 <p>The downstream response module contains a set of functions for producing and
- manipulating responses sent back to the client (&quot;downstream&quot;).  Responses can
+ manipulating responses sent back to the client (“downstream”).  Responses can
  be produced by Kong (e.g. an authentication plugin rejecting a request), or
- proxied back from an Service&#39;s response body.</p>
+ proxied back from an Service’s response body.</p>
 
-<p>Unlike <code>kong.service.response</code>, this module allows mutating the response
+<p>Unlike <code class="highlighter-rouge">kong.service.response</code>, this module allows mutating the response
  before sending it back to the client.</p>
 
-<h2 id="kong-response-get_status">kong.response.get_status()</h2>
+<h2 id="kongresponseget_status">kong.response.get_status()</h2>
 
 <p>Returns the HTTP status code currently set for the downstream response (as
  a Lua number).</p>
 
-<p>If the request was proxied (as per <code>kong.service.get_source()</code>), the
+<p>If the request was proxied (as per <code class="highlighter-rouge">kong.service.get_source()</code>), the
  return value will be that of the response from the Service (identical to
- <code>kong.service.response.get_status()</code>).</p>
+ <code class="highlighter-rouge">kong.service.response.get_status()</code>).</p>
 
 <p>If the request was <em>not</em> proxied, and the response was produced by Kong
- itself (i.e. via <code>kong.response.exit()</code>), the return value will be
+ itself (i.e. via <code class="highlighter-rouge">kong.response.exit()</code>), the return value will be
  returned as-is.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>header_filter, body_filter, log</li>
+  <li>header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>number</code> status The HTTP status code currently set for the
-downstream response</li>
+  <li><code class="highlighter-rouge">number</code> status The HTTP status code currently set for the
+ downstream response</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_status</span><span class="p">()</span> <span class="c1">-- 200</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_status</span><span class="p">()</span> <span class="c1">-- 200</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-get_header-name">kong.response.get_header(name)</h2>
+<h2 id="kongresponseget_headername">kong.response.get_header(name)</h2>
 
 <p>Returns the value of the specified response header, as would be seen by
  the client once received.</p>
 
 <p>The list of headers returned by this function can consist of both response
  headers from the proxied Service <em>and</em> headers added by Kong (e.g. via
- <code>kong.response.add_header()</code>).</p>
+ <code class="highlighter-rouge">kong.response.add_header()</code>).</p>
 
-<p>The return value is either a <code>string</code>, or can be <code>nil</code> if a header with
- <code>name</code> was not found in the response. If a header with the same name is
+<p>The return value is either a <code class="highlighter-rouge">string</code>, or can be <code class="highlighter-rouge">nil</code> if a header with
+ <code class="highlighter-rouge">name</code> was not found in the response. If a header with the same name is
  present multiple times in the request, this function will return the value
  of the first occurrence of this header.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>header_filter, body_filter, log</li>
+  <li>header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  The name of the header</li>
+  <li><strong>name</strong> (string):  The name of the header</li>
 </ul>
 
-<p>Header names are case-insensitive and dashes (<code>-</code>) can be written as
- underscores (<code>_</code>); that is, the header <code>X-Custom-Header</code> can also be
- retrieved as <code>x_custom_header</code>.</p>
+<p>Header names are case-insensitive and dashes (<code class="highlighter-rouge">-</code>) can be written as
+ underscores (<code class="highlighter-rouge">_</code>); that is, the header <code class="highlighter-rouge">X-Custom-Header</code> can also be
+ retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string|nil</code> The value of the header</li>
+  <li><code class="highlighter-rouge">string|nil</code> The value of the header</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given a response with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given a response with the following headers:</span>
 <span class="c1">-- X-Custom-Header: bla</span>
 <span class="c1">-- X-Another: foo bar</span>
 <span class="c1">-- X-Another: baz</span>
@@ -1097,54 +1101,61 @@ downstream response</li>
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-header"</span><span class="p">)</span> <span class="c1">-- "bla"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"X-Another"</span><span class="p">)</span>       <span class="c1">-- "foo bar"</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"X-None"</span><span class="p">)</span>          <span class="c1">-- nil</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-get_headers-max_headers">kong.response.get_headers([max_headers])</h2>
+<h2 id="kongresponseget_headersmax_headers">kong.response.get_headers([max_headers])</h2>
 
 <p>Returns a Lua table holding the response headers.  Keys are header names.
  Values are either a string with the header value, or an array of strings
  if a header was sent multiple times. Header names in this table are
- case-insensitive and are normalized to lowercase, and dashes (<code>-</code>) can be
- written as underscores (<code>_</code>); that is, the header <code>X-Custom-Header</code> can
- also be retrieved as <code>x_custom_header</code>.</p>
+ case-insensitive and are normalized to lowercase, and dashes (<code class="highlighter-rouge">-</code>) can be
+ written as underscores (<code class="highlighter-rouge">_</code>); that is, the header <code class="highlighter-rouge">X-Custom-Header</code> can
+ also be retrieved as <code class="highlighter-rouge">x_custom_header</code>.</p>
 
 <p>A response initially has no headers until a plugin short-circuits the
  proxying by producing one (e.g. an authentication plugin rejecting a
  request), or the request has been proxied, and one of the latter execution
  phases is currently running.</p>
 
-<p>Unlike <code>kong.service.response.get_headers()</code>, this function returns <em>all</em>
+<p>Unlike <code class="highlighter-rouge">kong.service.response.get_headers()</code>, this function returns <em>all</em>
  headers as the client would see them upon reception, including headers
  added by Kong itself.</p>
 
 <p>By default, this function returns up to <strong>100</strong> headers. The optional
- <code>max_headers</code> argument can be specified to customize this limit, but must
+ <code class="highlighter-rouge">max_headers</code> argument can be specified to customize this limit, but must
  be greater than <strong>1</strong> and not greater than <strong>1000</strong>.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>header_filter, body_filter, log</li>
+  <li>header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>max_headers</strong> (number, <em>optional</em>):  Limits how many headers are parsed</li>
+  <li><strong>max_headers</strong> (number, <em>optional</em>):  Limits how many headers are parsed</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ol>
-<li><p><code>table</code>  headers A table representation of the headers in the
-response</p></li>
-<li><p><code>string</code> err If more headers than <code>max_headers</code> were present, a
-string with the error <code>&quot;truncated&quot;</code>.</p></li>
+  <li>
+    <p><code class="highlighter-rouge">table</code>  headers A table representation of the headers in the
+ response</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">string</code> err If more headers than <code class="highlighter-rouge">max_headers</code> were present, a
+ string with the error <code class="highlighter-rouge">"truncated"</code>.</p>
+  </li>
 </ol>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="c1">-- Given an response from the Service with the following headers:</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Given an response from the Service with the following headers:</span>
 <span class="c1">-- X-Custom-Header: bla</span>
 <span class="c1">-- X-Another: foo bar</span>
 <span class="c1">-- X-Another: baz</span>
@@ -1154,10 +1165,12 @@ string with the error <code>&quot;truncated&quot;</code>.</p></li>
 <span class="n">headers</span><span class="p">.</span><span class="n">x_custom_header</span> <span class="c1">-- "bla"</span>
 <span class="n">headers</span><span class="p">.</span><span class="n">x_another</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>    <span class="c1">-- "foo bar"</span>
 <span class="n">headers</span><span class="p">[</span><span class="s2">"X-Another"</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="c1">-- "baz"</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-get_source">kong.response.get_source()</h2>
+<h2 id="kongresponseget_source">kong.response.get_source()</h2>
 
 <p>This function helps determining where the current response originated
  from.   Kong being a reverse proxy, it can short-circuit a request and
@@ -1167,183 +1180,218 @@ string with the error <code>&quot;truncated&quot;</code>.</p></li>
 <p>Returns a string with three possible values:</p>
 
 <ul>
-<li>&quot;exit&quot; is returned when, at some point during the processing of the
-request, there has been a call to <code>kong.response.exit()</code>. In other
+  <li>“exit” is returned when, at some point during the processing of the
+request, there has been a call to <code class="highlighter-rouge">kong.response.exit()</code>. In other
 words, when the request was short-circuited by a plugin or by Kong
 itself (e.g.  invalid credentials)</li>
-<li>&quot;error&quot; is returned when an error has happened while processing the
+  <li>“error” is returned when an error has happened while processing the
 request - for example, a timeout while connecting to the upstream
 service.</li>
-<li>&quot;service&quot; is returned when the response was originated by successfully
+  <li>“service” is returned when the response was originated by successfully
 contacting the proxied Service.</li>
 </ul>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>header_filter, body_filter, log</li>
+  <li>header_filter, body_filter, log</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li><code>string</code> the source.</li>
+  <li><code class="highlighter-rouge">string</code> the source.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">if</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_source</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"service"</span> <span class="k">then</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_source</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"service"</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"The response comes from the Service"</span><span class="p">)</span>
 <span class="k">elseif</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_source</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"error"</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"There was an error while processing the request"</span><span class="p">)</span>
 <span class="k">elseif</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">get_source</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"exit"</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"There was an early exit while processing the request"</span><span class="p">)</span>
 <span class="k">end</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-set_status-status">kong.response.set_status(status)</h2>
+<h2 id="kongresponseset_statusstatus">kong.response.set_status(status)</h2>
 
 <p>Allows changing the downstream response HTTP status code before sending it
  to the client.</p>
 
-<p>This function should be used in the <code>header_filter</code> phase, as Kong is
+<p>This function should be used in the <code class="highlighter-rouge">header_filter</code> phase, as Kong is
  preparing headers to be sent back to the client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter</li>
+  <li>rewrite, access, header_filter</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>status</strong> (number):  The new status</li>
+  <li><strong>status</strong> (number):  The new status</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-set_header-name-value">kong.response.set_header(name, value)</h2>
+<h2 id="kongresponseset_headername-value">kong.response.set_header(name, value)</h2>
 
 <p>Sets a response header with the given value.  This function overrides any
  existing header with the same name.</p>
 
-<p>This function should be used in the <code>header_filter</code> phase, as Kong is
+<p>This function should be used in the <code class="highlighter-rouge">header_filter</code> phase, as Kong is
  preparing headers to be sent back to the client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter</li>
+  <li>rewrite, access, header_filter</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  The name of the header</li>
-<li><strong>value</strong> (string|number|boolean):  The new value for the header</li>
+  <li><strong>name</strong> (string):  The name of the header</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>value</strong> (string</td>
+          <td>number</td>
+          <td>boolean):  The new value for the header</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">)</span>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-add_header-name-value">kong.response.add_header(name, value)</h2>
+<h2 id="kongresponseadd_headername-value">kong.response.add_header(name, value)</h2>
 
 <p>Adds a response header with the given value.  Unlike
- <code>kong.response.set_header()</code>, this function does not remove any existing
+ <code class="highlighter-rouge">kong.response.set_header()</code>, this function does not remove any existing
  header with the same name. Instead, another header with the same name will
  be added to the response. If no header with this name already exists on
  the response, then it is added with the given value, similarly to
- <code>kong.response.set_header().</code></p>
+ <code class="highlighter-rouge">kong.response.set_header().</code></p>
 
-<p>This function should be used in the <code>header_filter</code> phase, as Kong is
+<p>This function should be used in the <code class="highlighter-rouge">header_filter</code> phase, as Kong is
  preparing headers to be sent back to the client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter</li>
+  <li>rewrite, access, header_filter</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  The header name</li>
-<li><strong>value</strong> (string|number|boolean):  The header value</li>
+  <li><strong>name</strong> (string):  The header name</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>value</strong> (string</td>
+          <td>number</td>
+          <td>boolean):  The header value</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">"Cache-Control"</span><span class="p">,</span> <span class="s2">"no-cache"</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">"Cache-Control"</span><span class="p">,</span> <span class="s2">"no-cache"</span><span class="p">)</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">"Cache-Control"</span><span class="p">,</span> <span class="s2">"no-store"</span><span class="p">)</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-clear_header-name">kong.response.clear_header(name)</h2>
+<h2 id="kongresponseclear_headername">kong.response.clear_header(name)</h2>
 
 <p>Removes all occurrences of the specified header in the response sent to
  the client.</p>
 
-<p>This function should be used in the <code>header_filter</code> phase, as Kong is
+<p>This function should be used in the <code class="highlighter-rouge">header_filter</code> phase, as Kong is
  preparing headers to be sent back to the client.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter</li>
+  <li>rewrite, access, header_filter</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>name</strong> (string):  The name of the header to be cleared</li>
+  <li><strong>name</strong> (string):  The name of the header to be cleared</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">,</span> <span class="s2">"foo"</span><span class="p">)</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">,</span> <span class="s2">"foo"</span><span class="p">)</span>
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">add_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span>
 
 <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">clear_header</span><span class="p">(</span><span class="s2">"X-Foo"</span><span class="p">)</span>
 <span class="c1">-- from here onwards, no X-Foo headers will exist in the response</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-set_headers-headers">kong.response.set_headers(headers)</h2>
+<h2 id="kongresponseset_headersheaders">kong.response.set_headers(headers)</h2>
 
-<p>Sets the headers for the response.  Unlike <code>kong.response.set_header()</code>,
- the <code>headers</code> argument must be a table in which each key is a string
- (corresponding to a header&#39;s name), and each value is a string, or an
+<p>Sets the headers for the response.  Unlike <code class="highlighter-rouge">kong.response.set_header()</code>,
+ the <code class="highlighter-rouge">headers</code> argument must be a table in which each key is a string
+ (corresponding to a header’s name), and each value is a string, or an
  array of strings.</p>
 
-<p>This function should be used in the <code>header_filter</code> phase, as Kong is
+<p>This function should be used in the <code class="highlighter-rouge">header_filter</code> phase, as Kong is
  preparing headers to be sent back to the client.</p>
 
 <p>The resulting headers are produced in lexicographical order. The order of
@@ -1351,28 +1399,29 @@ contacting the proxied Service.</li>
  retained.</p>
 
 <p>This function overrides any existing header bearing the same name as those
- specified in the <code>headers</code> argument. Other headers remain unchanged.</p>
+ specified in the <code class="highlighter-rouge">headers</code> argument. Other headers remain unchanged.</p>
 
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access, header_filter</li>
+  <li>rewrite, access, header_filter</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>headers</strong> (table):</li>
+  <li><strong>headers</strong> (table):</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_headers</span><span class="p">({</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">set_headers</span><span class="p">({</span>
   <span class="p">[</span><span class="s2">"Bla"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"boo"</span><span class="p">,</span>
   <span class="p">[</span><span class="s2">"X-Foo"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"foo3"</span><span class="p">,</span>
   <span class="p">[</span><span class="s2">"Cache-Control"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"no-store"</span><span class="p">,</span> <span class="s2">"no-cache"</span> <span class="p">}</span>
@@ -1384,42 +1433,47 @@ contacting the proxied Service.</li>
 <span class="c1">-- Cache-Control: no-store</span>
 <span class="c1">-- Cache-Control: no-cache</span>
 <span class="c1">-- X-Foo: foo3</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
-<h2 id="kong-response-exit-status-body-headers">kong.response.exit(status[, body[, headers]])</h2>
+<h2 id="kongresponseexitstatus-body-headers">kong.response.exit(status[, body[, headers]])</h2>
 
 <p>This function interrupts the current processing and produces a response.
  It is typical to see plugins using it to produce a response before Kong
  has a chance to proxy the request (e.g. an authentication plugin rejecting
  a request, or a caching plugin serving a cached response).</p>
 
-<p>It is recommended to use this function in conjunction with the <code>return</code>
+<p>It is recommended to use this function in conjunction with the <code class="highlighter-rouge">return</code>
  operator, to better reflect its meaning:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"> <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">"Success"</span><span class="p">)</span>
-</code></pre></div>
-<p>Calling <code>kong.response.exit()</code> will interrupt the execution flow of
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code> <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">"Success"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Calling <code class="highlighter-rouge">kong.response.exit()</code> will interrupt the execution flow of
  plugins in the current phase. Subsequent phases will still be invoked.
- E.g. if a plugin called <code>kong.response.exit()</code> in the <code>access</code> phase, no
- other plugin will be executed in that phase, but the <code>header_filter</code>,
- <code>body_filter</code>, and <code>log</code> phases will still be executed, along with their
+ E.g. if a plugin called <code class="highlighter-rouge">kong.response.exit()</code> in the <code class="highlighter-rouge">access</code> phase, no
+ other plugin will be executed in that phase, but the <code class="highlighter-rouge">header_filter</code>,
+ <code class="highlighter-rouge">body_filter</code>, and <code class="highlighter-rouge">log</code> phases will still be executed, along with their
  plugins. Plugins should thus be programmed defensively against cases when
  a request was <strong>not</strong> proxied to the Service, but instead was produced by
  Kong itself.</p>
 
-<p>The first argument <code>status</code> will set the status code of the response that
+<p>The first argument <code class="highlighter-rouge">status</code> will set the status code of the response that
  will be seen by the client.</p>
 
-<p>The second, optional, <code>body</code> argument will set the response body. If it is
+<p>The second, optional, <code class="highlighter-rouge">body</code> argument will set the response body. If it is
  a string, no special processing will be done, and the body will be sent
- as-is.  It is the caller&#39;s responsibility to set the appropriate
- Content-Type header via the third argument.  As a convenience, <code>body</code> can
+ as-is.  It is the caller’s responsibility to set the appropriate
+ Content-Type header via the third argument.  As a convenience, <code class="highlighter-rouge">body</code> can
  be specified as a table; in which case, it will be JSON-encoded and the
- <code>application/json</code> Content-Type header will be set.</p>
+ <code class="highlighter-rouge">application/json</code> Content-Type header will be set.</p>
 
-<p>The third, optional, <code>headers</code> argument can be a table specifying response
+<p>The third, optional, <code class="highlighter-rouge">headers</code> argument can be a table specifying response
  headers to send. If specified, its behavior is similar to
- <code>kong.response.set_headers()</code>.</p>
+ <code class="highlighter-rouge">kong.response.set_headers()</code>.</p>
 
 <p>Unless manually specified, this method will automatically set the
  Content-Length header in the produced response for convenience.</p>
@@ -1427,25 +1481,35 @@ contacting the proxied Service.</li>
 <p><strong>Phases</strong></p>
 
 <ul>
-<li>rewrite, access</li>
+  <li>rewrite, access</li>
 </ul>
 
 <p><strong>Parameters</strong></p>
 
 <ul>
-<li><strong>status</strong> (number):  The status to be used</li>
-<li><strong>body</strong> (table|string, <em>optional</em>):  The body to be used</li>
-<li><strong>headers</strong> (table, <em>optional</em>):  The headers to be used</li>
+  <li><strong>status</strong> (number):  The status to be used</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>body</strong> (table</td>
+          <td>string, <em>optional</em>):  The body to be used</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><strong>headers</strong> (table, <em>optional</em>):  The headers to be used</li>
 </ul>
 
 <p><strong>Returns</strong></p>
 
 <ul>
-<li> Nothing; throws an error on invalid input.</li>
+  <li>Nothing; throws an error on invalid input.</li>
 </ul>
 
 <p><strong>Usage</strong></p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="s2">"Access Forbidden"</span><span class="p">,</span> <span class="p">{</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="s2">"Access Forbidden"</span><span class="p">,</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"Content-Type"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"text/plain"</span><span class="p">,</span>
   <span class="p">[</span><span class="s2">"WWW-Authenticate"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Basic"</span>
 <span class="p">})</span>
@@ -1462,8 +1526,11 @@ contacting the proxied Service.</li>
 <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="p">{</span> <span class="n">message</span> <span class="o">=</span> <span class="s2">"Access Forbidden"</span> <span class="p">},</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"WWW-Authenticate"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Basic"</span>
 <span class="p">})</span>
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="#table-of-contents">Back to TOC</a></p>
+
 
 
         </div>
@@ -1638,7 +1705,7 @@ contacting the proxied Service.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -754,12 +754,12 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a></li>
-<li> <a href="#working-with-page-layouts">Working with Page Layouts</a></li>
-<li> <a href="#creating-a-new-page">Creating a New Page</a></li>
-<li> <a href="#add-new-page-to-the-nav">Add New Page to the Nav</a></li>
-<li> <a href="#link-from-one-dev-portal-page-to-another">Link From One Dev Portal Page to Another</a></li>
-<li> <a href="#adding-image-video-or-other-file-types-to-a-page">Adding Image, Video, or other file types to a Page</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#working-with-page-layouts">Working with Page Layouts</a></li>
+  <li><a href="#creating-a-new-page">Creating a New Page</a></li>
+  <li><a href="#add-new-page-to-the-nav">Add New Page to the Nav</a></li>
+  <li><a href="#link-from-one-dev-portal-page-to-another">Link From One Dev Portal Page to Another</a></li>
+  <li><a href="#adding-image-video-or-other-file-types-to-a-page">Adding Image, Video, or other file types to a Page</a></li>
 </ul>
 
           
@@ -768,22 +768,23 @@ window['_fs_namespace'] = 'FS';
 
 <p>The Dev Portal default theme is shipped with two CSS file partials:</p>
 
-<p><code>partials/unauthenticated/theme-css.hbs</code></p>
+<p><code class="highlighter-rouge">partials/unauthenticated/theme-css.hbs</code></p>
 
 <p>Default styles for all theme specific elements across the Example Dev Portal.</p>
 
-<p><code>partials/unauthenticated/custom-css.hbs</code></p>
+<p><code class="highlighter-rouge">partials/unauthenticated/custom-css.hbs</code></p>
 
 <p>Partial describing how to change specific parts of the portal without modifying the default theme CSS.</p>
 
-<p>We strongly encourage you to use the <code>custom-css</code> over modifying <code>theme-css</code> for small changes so you don&#39;t affect the original styles.</p>
+<p>We strongly encourage you to use the <code class="highlighter-rouge">custom-css</code> over modifying <code class="highlighter-rouge">theme-css</code> for small changes so you don’t affect the original styles.</p>
 
 <h2 id="working-with-page-layouts">Working with Page Layouts</h2>
 
 <p>To avoid duplicating code in pages and partials, layout partials can be created and used on multiple pages that share common layout.</p>
 
-<p>The Example Dev Portal includes one basic layout: <code>partials/layout.hbs</code></p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="k">{{#if</span> <span class="nv">pageTitle</span><span class="k">}}</span>
+<p>The Example Dev Portal includes one basic layout: <code class="highlighter-rouge">partials/layout.hbs</code></p>
+
+<div class="language-handlebars highlighter-rouge"><pre class="highlight"><code><span class="k">{{#if</span> <span class="nv">pageTitle</span><span class="k">}}</span>
   <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">title</span> <span class="k">}}</span>
 <span class="k">{{/if}}</span>
 
@@ -819,139 +820,195 @@ window['_fs_namespace'] = 'FS';
    --}}</span>
   <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">auth-js</span> <span class="nv">auth</span><span class="o">=</span><span class="kc">false</span><span class="k">}}</span>
 <span class="k">{{/</span><span class="nn">scripts-block</span><span class="k">}}</span>
-</code></pre></div>
-<p>Let&#39;s create a new page using this template.</p>
+</code></pre>
+</div>
+
+<p>Let’s create a new page using this template.</p>
 
 <h2 id="creating-a-new-page">Creating a New Page</h2>
 
-<p>We&#39;re going to create something super simple, a Hello World page using the <code>layout</code> template described above:</p>
+<p>We’re going to create something super simple, a Hello World page using the <code class="highlighter-rouge">layout</code> template described above:</p>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/05/Hello-World-Example.png" alt="alt text" title="Hello World 2"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/Hello-World-Example.png" alt="alt text" title="Hello World 2" /></p>
 
 <ol>
-<li>Create a new file with the name <code>example.hbs</code> in your Example Dev Portal files directory under the <code>pages/</code> directory.</li>
-<li><p>In the file we just created, let&#39;s add the following code (the handlebars syntax for opening a partial block):</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="k">{{#</span><span class="err">&gt;</span> <span class="nv">layout</span> <span class="nv">pageTitle</span><span class="o">=</span><span class="s2">"Hello World"</span> <span class="k">}}</span>
-</code></pre></div>
-<p>Note: The <code>pageTitle</code> attribute allows you to easily change the title of the page displayed in the browser. Here we have set it to <code>Hello World</code>.</p></li>
-<li><p>Now let&#39;s add the actual content. When using the layout template, content on the page must be placed <strong>inside</strong> an <a href="http://handlebarsjs.com/partials.html">inline partial block</a> named <code>content-block</code> like so:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="k">{{#</span><span class="err">*</span><span class="nv">inline</span> <span class="s2">"content-block"</span><span class="k">}}</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-container"</span><span class="nt">&gt;</span>
-      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-wrapper indent"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
-        <span class="nt">&lt;p&gt;</span>This is a Sample Page<span class="nt">&lt;/p&gt;</span>
-      <span class="nt">&lt;/div&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="k">{{/</span><span class="nn">inline</span><span class="k">}}</span>
-</code></pre></div></li>
-<li><p>Now let&#39;s close out the layout block:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="k">{{/</span><span class="nn">layout</span><span class="k">}}</span>
-</code></pre></div></li>
-<li><p>Your file should now look like:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="k">{{#</span><span class="err">&gt;</span> <span class="nv">layout</span> <span class="nv">pageTitle</span><span class="o">=</span><span class="s2">"Hello World"</span> <span class="k">}}</span>
-  <span class="k">{{#</span><span class="err">*</span><span class="nv">inline</span> <span class="s2">"content-block"</span><span class="k">}}</span>
-      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-container"</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-wrapper indent"</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
-            <span class="nt">&lt;p&gt;</span>This is a sample page.<span class="nt">&lt;/p&gt;</span>
-        <span class="nt">&lt;/div&gt;</span>
-      <span class="nt">&lt;/div&gt;</span>
-  <span class="k">{{/</span><span class="nn">inline</span><span class="k">}}</span>
-<span class="k">{{/</span><span class="nn">layout</span><span class="k">}}</span>
-</code></pre></div></li>
-<li><p>Add it to Kong specifying the file as a page:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
-      -F <span class="s2">"name=example"</span> <span class="se">\</span>
-      -F <span class="s2">"type=page"</span> <span class="se">\</span>
-      -F <span class="s2">"contents=@pages/example.hbs"</span> <span class="se">\</span>
-      -F <span class="s2">"auth=true"</span>
-</code></pre></div></li>
-</ol>
-<div class="highlight"><pre><code class="language-" data-lang="">- To learn about the `auth` flag see the **Adding Authentication** section.
-- Note that the name must match that used in the handlebars file (example and example.hbs in this sample)
-</code></pre></div>
-<p>...We&#39;re done, this is how our page should look:</p>
+  <li>Create a new file with the name <code class="highlighter-rouge">example.hbs</code> in your Example Dev Portal files directory under the <code class="highlighter-rouge">pages/</code> directory.</li>
+  <li>
+    <p>In the file we just created, let’s add the following code (the handlebars syntax for opening a partial block):</p>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/05/Hello-World-Example.png" alt="alt text" title="Dev Portal Hello World"></p>
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="k">{{#</span><span class="err">&gt;</span> <span class="nv">layout</span> <span class="nv">pageTitle</span><span class="o">=</span><span class="s2">"Hello World"</span> <span class="k">}}</span>
+</code></pre>
+    </div>
+
+    <p>Note: The <code class="highlighter-rouge">pageTitle</code> attribute allows you to easily change the title of the page displayed in the browser. Here we have set it to <code class="highlighter-rouge">Hello World</code>.</p>
+  </li>
+  <li>
+    <p>Now let’s add the actual content. When using the layout template, content on the page must be placed <strong>inside</strong> an <a href="http://handlebarsjs.com/partials.html">inline partial block</a> named <code class="highlighter-rouge">content-block</code> like so:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="k">{{#</span><span class="err">*</span><span class="nv">inline</span> <span class="s2">"content-block"</span><span class="k">}}</span>
+   <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-container"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-wrapper indent"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
+         <span class="nt">&lt;p&gt;</span>This is a Sample Page<span class="nt">&lt;/p&gt;</span>
+       <span class="nt">&lt;/div&gt;</span>
+   <span class="nt">&lt;/div&gt;</span>
+ <span class="k">{{/</span><span class="nn">inline</span><span class="k">}}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Now let’s close out the layout block:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="k">{{/</span><span class="nn">layout</span><span class="k">}}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Your file should now look like:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="k">{{#</span><span class="err">&gt;</span> <span class="nv">layout</span> <span class="nv">pageTitle</span><span class="o">=</span><span class="s2">"Hello World"</span> <span class="k">}}</span>
+   <span class="k">{{#</span><span class="err">*</span><span class="nv">inline</span> <span class="s2">"content-block"</span><span class="k">}}</span>
+       <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"app-container"</span><span class="nt">&gt;</span>
+         <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-wrapper indent"</span><span class="nt">&gt;</span>
+             <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
+             <span class="nt">&lt;p&gt;</span>This is a sample page.<span class="nt">&lt;/p&gt;</span>
+         <span class="nt">&lt;/div&gt;</span>
+       <span class="nt">&lt;/div&gt;</span>
+   <span class="k">{{/</span><span class="nn">inline</span><span class="k">}}</span>
+ <span class="k">{{/</span><span class="nn">layout</span><span class="k">}}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Add it to Kong specifying the file as a page:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -X POST http://127.0.0.1:8001/files <span class="se">\</span>
+       -F <span class="s2">"name=example"</span> <span class="se">\</span>
+       -F <span class="s2">"type=page"</span> <span class="se">\</span>
+       -F <span class="s2">"contents=@pages/example.hbs"</span> <span class="se">\</span>
+       -F <span class="s2">"auth=true"</span>
+</code></pre>
+    </div>
+
+    <ul>
+      <li>To learn about the <code class="highlighter-rouge">auth</code> flag see the <strong>Adding Authentication</strong> section.</li>
+      <li>Note that the name must match that used in the handlebars file (example and example.hbs in this sample)</li>
+    </ul>
+  </li>
+</ol>
+
+<p>…We’re done, this is how our page should look:</p>
+
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/Hello-World-Example.png" alt="alt text" title="Dev Portal Hello World" /></p>
 
 <h2 id="add-new-page-to-the-nav">Add New Page to the Nav</h2>
 
-<p>Previously we created <code>example.hbs</code>, let&#39;s add it to the Developer Portal navigation so its accessible to everyone:</p>
+<p>Previously we created <code class="highlighter-rouge">example.hbs</code>, let’s add it to the Developer Portal navigation so its accessible to everyone:</p>
 
 <ol>
-<li>Find and open <code>partials/header.hbs</code> in the Example Dev Portal file directory.</li>
-<li><p>Open it in your favorite text editor and find the <code>nav</code> container, it should look like:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"header-nav-container"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
-     <span class="k">{{&gt;</span> <span class="nv">spec-dropdown</span> <span class="nv">url</span><span class="o">=</span><span class="s2">"/documentation/"</span><span class="k">}}</span>
-     <span class="nt">&lt;li&gt;</span>
-        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
-     <span class="nt">&lt;/li&gt;</span>
-     <span class="nt">&lt;li&gt;</span>
-        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/guides"</span><span class="nt">&gt;</span>Guides<span class="nt">&lt;/a&gt;</span>
-     <span class="nt">&lt;/li&gt;</span>
-     <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">login-actions</span> <span class="nv">auth</span><span class="o">=</span><span class="kc">false</span><span class="k">}}</span>
-  <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/nav&gt;</span>
-</code></pre></div></li>
-<li><p>Let&#39;s add the following line:</p>
-<div class="highlight"><pre><code class="language-" data-lang="">&lt;li&gt;
-  &lt;a href="/example"&gt;Example&lt;/a&gt;
-&lt;/li&gt;
-</code></pre></div></li>
-<li><p>Your <code>nav</code> block should now look like:</p>
-<div class="highlight"><pre><code class="language-handlebars" data-lang="handlebars"><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"header-nav-container"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
-     <span class="k">{{&gt;</span> <span class="nv">spec-dropdown</span> <span class="nv">url</span><span class="o">=</span><span class="s2">"/documentation/"</span><span class="k">}}</span>
-     <span class="nt">&lt;li&gt;</span>
-       <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
-     <span class="nt">&lt;/li&gt;</span>
-     <span class="nt">&lt;li&gt;</span>
-       <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/guides"</span><span class="nt">&gt;</span>Guides<span class="nt">&lt;/a&gt;</span>
-     <span class="nt">&lt;/li&gt;</span>
-     <span class="nt">&lt;li&gt;</span>
-       <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
-     <span class="nt">&lt;/li&gt;</span>
-     <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">login-actions</span> <span class="nv">auth</span><span class="o">=</span><span class="kc">false</span><span class="k">}}</span>
+  <li>Find and open <code class="highlighter-rouge">partials/header.hbs</code> in the Example Dev Portal file directory.</li>
+  <li>
+    <p>Open it in your favorite text editor and find the <code class="highlighter-rouge">nav</code> container, it should look like:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"header-nav-container"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
+      <span class="k">{{&gt;</span> <span class="nv">spec-dropdown</span> <span class="nv">url</span><span class="o">=</span><span class="s2">"/documentation/"</span><span class="k">}}</span>
+      <span class="nt">&lt;li&gt;</span>
+         <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+         <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/guides"</span><span class="nt">&gt;</span>Guides<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">login-actions</span> <span class="nv">auth</span><span class="o">=</span><span class="kc">false</span><span class="k">}}</span>
    <span class="nt">&lt;/ul&gt;</span>
-<span class="nt">&lt;/nav&gt;</span>
-</code></pre></div></li>
-<li><p>Finally let&#39;s update it using the Dev Portal File API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X PATCH http://127.0.0.1:8001/files/header <span class="se">\</span>
-     -F <span class="s2">"contents=@partials/header.hbs"</span>
-</code></pre></div></li>
-<li><p>Once uploaded, refresh your Dev Portal and you should see the change:</p></li>
+ <span class="nt">&lt;/nav&gt;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Let’s add the following line:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> &lt;li&gt;
+   &lt;a href="/example"&gt;Example&lt;/a&gt;
+ &lt;/li&gt;
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Your <code class="highlighter-rouge">nav</code> block should now look like:</p>
+
+    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code> <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"header-nav-container"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>
+      <span class="k">{{&gt;</span> <span class="nv">spec-dropdown</span> <span class="nv">url</span><span class="o">=</span><span class="s2">"/documentation/"</span><span class="k">}}</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/guides"</span><span class="nt">&gt;</span>Guides<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="k">{{&gt;</span> <span class="nv">unauthenticated</span><span class="p">/</span><span class="nv">login-actions</span> <span class="nv">auth</span><span class="o">=</span><span class="kc">false</span><span class="k">}}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+ <span class="nt">&lt;/nav&gt;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Finally let’s update it using the Dev Portal File API:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -X PATCH http://127.0.0.1:8001/files/header <span class="se">\</span>
+      -F <span class="s2">"contents=@partials/header.hbs"</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Once uploaded, refresh your Dev Portal and you should see the change:</li>
 </ol>
 
-<p><img src="https://konghq.com/wp-content/uploads/2018/05/example-header-dev-portal.png" alt="alt text" title="Edited Nav"></p>
+<p><img src="https://konghq.com/wp-content/uploads/2018/05/example-header-dev-portal.png" alt="alt text" title="Edited Nav" /></p>
 
 <h2 id="link-from-one-dev-portal-page-to-another">Link From One Dev Portal Page to Another</h2>
 
 <ol>
-<li><p>Add a link in the code of a page or partial like:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
-</code></pre></div></li>
+  <li>
+    <p>Add a link in the code of a page or partial like:</p>
+
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code>  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+    </div>
+  </li>
 </ol>
 
 <ul>
-<li>This will link to a Page with <code>name=example</code></li>
+  <li>This will link to a Page with <code class="highlighter-rouge">name=example</code></li>
 </ul>
 
 <ol>
-<li><p>To link to an anchor or section within <code>/example</code>, ensure the target includes an unique id:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"details"</span><span class="nt">&gt;</span>Details Here<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></li>
-<li><p>Your link should look like:</p>
-<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example#details"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
-</code></pre></div></li>
-<li><p>Update the page you edited via the Dev Portal File API and reload that page - you should see the link you added, and when you click it, it will take you to the linked page, and, if you coded it, to the anchor.</p></li>
+  <li>
+    <p>To link to an anchor or section within <code class="highlighter-rouge">/example</code>, ensure the target includes an unique id:</p>
+
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code> <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"details"</span><span class="nt">&gt;</span>Details Here<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Your link should look like:</p>
+
+    <div class="language-html highlighter-rouge"><pre class="highlight"><code> <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/example#details"</span><span class="nt">&gt;</span>Example<span class="nt">&lt;/a&gt;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Update the page you edited via the Dev Portal File API and reload that page - you should see the link you added, and when you click it, it will take you to the linked page, and, if you coded it, to the anchor.</p>
+  </li>
 </ol>
 
 <h2 id="adding-image-video-or-other-file-types-to-a-page">Adding Image, Video, or other file types to a Page</h2>
 
 <p>The Dev Portal File API serves only <strong>Pages</strong>, <strong>Partials</strong>, and <strong>Specifications</strong>. To add images, videos, and other file types to your pages, you must either add them inline (e.g. inline SVG) or link to the files being served by some other web server.</p>
 
-<p>Next: <a href="/enterprise/0.33-x/developer-portal/faq/">Frequently Asked Questions &rsaquo;</a></p>
+<p>Next: <a href="/enterprise/0.33-x/developer-portal/faq/">Frequently Asked Questions ›</a></p>
 
 
         </div>
@@ -1108,7 +1165,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -638,27 +638,27 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#prerequisites">Prerequisites</a></li>
-<li> <a href="#google-idp-configuration">Google IDP configuration</a></li>
-<li> <a href="#kong-configuration">Kong configuration</a>
-
-<ul>
-<li> <a href="#basic-plugin-configuration">Basic plugin configuration</a></li>
-<li> <a href="#consumer-mapping">Consumer mapping</a></li>
-</ul></li>
+  <li><a href="#prerequisites">Prerequisites</a></li>
+  <li><a href="#google-idp-configuration">Google IDP configuration</a></li>
+  <li><a href="#kong-configuration">Kong configuration</a>
+    <ul>
+      <li><a href="#basic-plugin-configuration">Basic plugin configuration</a></li>
+      <li><a href="#consumer-mapping">Consumer mapping</a></li>
+    </ul>
+  </li>
 </ul>
 
           
 
-          <p>This guide covers an example OpenID Connect plugin configuration to authenticate browser clients using Google&#39;s identity provider.</p>
+          <p>This guide covers an example OpenID Connect plugin configuration to authenticate browser clients using Google’s identity provider.</p>
 
 <h1 id="prerequisites">Prerequisites</h1>
 
-<p>Because OpenID Connect deals with user credentials, all transactions should take place over HTTPS. Although user passwords for third party identity providers are only submitted to those providers and not Kong, authentication tokens do grant access to a subset of user account data and protected APIs, and should be secured. As such, you should make Kong&#39;s proxy available via a fully-qualified domain name and <a href="/latest/admin-api/#add-certificate">add a certificate</a> for it.</p>
+<p>Because OpenID Connect deals with user credentials, all transactions should take place over HTTPS. Although user passwords for third party identity providers are only submitted to those providers and not Kong, authentication tokens do grant access to a subset of user account data and protected APIs, and should be secured. As such, you should make Kong’s proxy available via a fully-qualified domain name and <a href="/latest/admin-api/#add-certificate">add a certificate</a> for it.</p>
 
 <h1 id="google-idp-configuration">Google IDP configuration</h1>
 
-<p>Before configuring Kong, you&#39;ll need to set up a Google APIs project and create a credential set. Following <a href="https://developers.google.com/identity/protocols/OpenIDConnect">Google&#39;s instructions</a>, <a href="https://console.developers.google.com/apis/credentials">create a new set of OAuth client ID credentials</a> with the Web application class. Add an authorized redirect URI for part of the API you wish to protect (more complex applications may redirect to a resource that sets additional
+<p>Before configuring Kong, you’ll need to set up a Google APIs project and create a credential set. Following <a href="https://developers.google.com/identity/protocols/OpenIDConnect">Google’s instructions</a>, <a href="https://console.developers.google.com/apis/credentials">create a new set of OAuth client ID credentials</a> with the Web application class. Add an authorized redirect URI for part of the API you wish to protect (more complex applications may redirect to a resource that sets additional
 application-specific state on the client, but for our purposes, any protected URI will work). Authorized JavaScript origins can be left blank.</p>
 
 <p>You can optionally customize the consent screen to inform clients who/what application is requesting authentication, but this is not required for testing. All steps after can be ignored, as Kong handles the server-side authentication request and token validation.</p>
@@ -670,33 +670,40 @@ application-specific state on the client, but for our purposes, any protected UR
 <h2 id="basic-plugin-configuration">Basic plugin configuration</h2>
 
 <p>Add a plugin with the configuration below to your API using an HTTP client or the Admin GUI. Make sure to use the same redirect URI as configured earlier:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/apis/example/plugins --data <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/apis/example/plugins --data <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
   --data config.issuer<span class="o">=</span><span class="s2">"https://accounts.google.com/.well-known/openid-configuration"</span> <span class="se">\</span>
   --data config.client_id<span class="o">=</span><span class="s2">"YOUR_CLIENT_ID"</span> <span class="se">\</span>
   --data config.client_secret<span class="o">=</span><span class="s2">"YOUR_CLIENT_SECRET"</span> <span class="se">\</span>
   --data config.redirect_uri<span class="o">=</span><span class="s2">"https://example.com/api"</span> <span class="se">\</span>
   --data config.scopes<span class="o">=</span><span class="s2">"openid,email"</span>
-</code></pre></div>
-<p>Visiting a URL matched by that API in a browser will now redirect to Google&#39;s authentication site and return you to the redirect URI after authenticating. You&#39;ll note, however, that we did not configure anything to map authentication to consumers and that no consumer is associated with the subsequent request. Indeed, if you have configured other plugins that rely on consumer information, such as the ACL plugin, you will not have access. At present, the plugin configuration confirms that
-users have a Google account, but doesn&#39;t do anything with that information.</p>
+</code></pre>
+</div>
 
-<p>Depending on your needs, it may not be necessary to associate clients with a consumer. You can, for example, configure the <code>domains</code> parameter to limit access to a internal users if you have a G Suite hosted domain, or configure <code>upstream_headers_claims</code> to send information about the user upstream (e.g. their email, a profile picture, their name, etc.) for use in your applications or for analytics.</p>
+<p>Visiting a URL matched by that API in a browser will now redirect to Google’s authentication site and return you to the redirect URI after authenticating. You’ll note, however, that we did not configure anything to map authentication to consumers and that no consumer is associated with the subsequent request. Indeed, if you have configured other plugins that rely on consumer information, such as the ACL plugin, you will not have access. At present, the plugin configuration confirms that
+users have a Google account, but doesn’t do anything with that information.</p>
+
+<p>Depending on your needs, it may not be necessary to associate clients with a consumer. You can, for example, configure the <code class="highlighter-rouge">domains</code> parameter to limit access to a internal users if you have a G Suite hosted domain, or configure <code class="highlighter-rouge">upstream_headers_claims</code> to send information about the user upstream (e.g. their email, a profile picture, their name, etc.) for use in your applications or for analytics.</p>
 
 <h2 id="consumer-mapping">Consumer mapping</h2>
 
-<p>If you need to interact with other Kong plugins using consumer information, you must add configuration that maps account data received from the identity provider to a Kong consumer. For this example, we&#39;ll map the user&#39;s Google account email by setting a <code>custom_id</code> on their consumer, e.g.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers/ <span class="se">\</span>
+<p>If you need to interact with other Kong plugins using consumer information, you must add configuration that maps account data received from the identity provider to a Kong consumer. For this example, we’ll map the user’s Google account email by setting a <code class="highlighter-rouge">custom_id</code> on their consumer, e.g.</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers/ <span class="se">\</span>
   --data <span class="nv">username</span><span class="o">=</span><span class="s2">"Yoda"</span> <span class="se">\</span>
   --data <span class="nv">custom_id</span><span class="o">=</span><span class="s2">"user@example.com"</span>
 
 <span class="gp">$ </span>curl -i -X PATCH http://kong:8001/apis/example/plugins/&lt;OIDC plugin ID&gt; <span class="se">\</span>
   --data config.consumer_by<span class="o">=</span><span class="s2">"custom_id"</span> <span class="se">\</span>
   --data config.consumer_claim<span class="o">=</span><span class="s2">"email"</span>
-</code></pre></div>
-<p>Now, if a user logs into a Google account with the email <code>user@example.com</code>, Kong will apply configuration associated with the consumer <code>Yoda</code> to their requests. Note that while Google provides account emails, not all identity providers will. OpenID Connect does not have many required claims--the <a href="http://openid.net/specs/openid-connect-core-1_0.html#IDToken">only required user identity claim</a> is <code>sub</code>, a unique subscriber ID. Many optional claims <a href="http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">are
-standardized</a>, however--if a provider returns an <code>email</code> claim, the contents will always be an email address.</p>
+</code></pre>
+</div>
 
-<p>This also requires that clients login using an account mapped to some consumer, which may not be desirable (e.g. you apply OpenID Connect to a service, but only use plugins requiring a consumer on some routes). To deal with this, you can set the <code>anonymous</code> parameter in your OIDC plugin configuration to the ID of a generic consumer, which will then be used for all authenticated users that cannot be mapped to some other consumer.</p>
+<p>Now, if a user logs into a Google account with the email <code class="highlighter-rouge">user@example.com</code>, Kong will apply configuration associated with the consumer <code class="highlighter-rouge">Yoda</code> to their requests. Note that while Google provides account emails, not all identity providers will. OpenID Connect does not have many required claims–the <a href="http://openid.net/specs/openid-connect-core-1_0.html#IDToken">only required user identity claim</a> is <code class="highlighter-rouge">sub</code>, a unique subscriber ID. Many optional claims <a href="http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">are
+standardized</a>, however–if a provider returns an <code class="highlighter-rouge">email</code> claim, the contents will always be an email address.</p>
+
+<p>This also requires that clients login using an account mapped to some consumer, which may not be desirable (e.g. you apply OpenID Connect to a service, but only use plugins requiring a consumer on some routes). To deal with this, you can set the <code class="highlighter-rouge">anonymous</code> parameter in your OIDC plugin configuration to the ID of a generic consumer, which will then be used for all authenticated users that cannot be mapped to some other consumer.</p>
+
 
 
         </div>
@@ -853,7 +860,7 @@ standardized</a>, however--if a provider returns an <code>email</code> claim, th
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -700,10 +700,13 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#enabling-plugins">Enabling Plugins</a>
-    -  <a href="#configure-the-plugin-for-your-api">Configure the plugin for your API</a>
-    -  <a href="#verify-that-the-plugin-is-properly-configured">Verify that the plugin is properly configured</a>
-    -  <a href="#next-steps">Next Steps</a></li>
+  <li><a href="#enabling-plugins">Enabling Plugins</a>
+    <ul>
+      <li><a href="#1-configure-the-plugin-for-your-api">1. Configure the plugin for your API</a></li>
+      <li><a href="#2-verify-that-the-plugin-is-properly-configured">2. Verify that the plugin is properly configured</a></li>
+      <li><a href="#next-steps">Next Steps</a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -719,41 +722,53 @@ window['_fs_namespace'] = 'FS';
   </ol>
 </div>
 
-<p>In this section, you&#39;ll learn how to configure plugins. One of the core principals of Kong is its extensibility through <a href="/plugins">plugins</a>. Plugins allow you to easily add new features to your API or make your API easier to manage.</p>
+<p>In this section, you’ll learn how to configure plugins. One of the core principals of Kong is its extensibility through <a href="/plugins">plugins</a>. Plugins allow you to easily add new features to your API or make your API easier to manage.</p>
 
-<p>As an example, we&#39;ll have you configure the <a href="/plugins/key-authentication">key-auth</a> plugin to add authentication to your API.</p>
+<p>As an example, we’ll have you configure the <a href="/plugins/key-authentication">key-auth</a> plugin to add authentication to your API.</p>
 
-<ol>
-<li><h3 id="configure-the-plugin-for-your-api">Configure the plugin for your API</h3>
+<h2 id="1-configure-the-plugin-for-your-api">1. Configure the plugin for your API</h2>
 
-<p>Issue the following cURL request on the previously created API named <code>mockbin</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/apis/mockbin/plugins/ <span class="se">\</span>
-  --data <span class="s1">'name=key-auth'</span>
-</code></pre></div>
-<p><strong>Note:</strong> This plugin also accepts a <code>config.key_names</code> parameter, which defaults to <code>[apikey]</code>. It is a list of headers and parameters names (both are supported) that are supposed to contain the API key during a request.</p></li>
-<li><h3 id="verify-that-the-plugin-is-properly-configured">Verify that the plugin is properly configured</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following cURL request on the previously created API named `mockbin`:
 
-<p>Issue the following cURL request to verify that the <a href="/plugins/key-authentication">key-auth</a> plugin was properly configured on the API:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: mockbin.com'</span>
-</code></pre></div>
-<p>Since you did not specify the required <code>apikey</code> header or parameter, the response should be <code>403 Forbidden</code>:</p>
-<div class="highlight"><pre><code class="language-http" data-lang="http"><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
-<span class="s">...</span>
+```bash
+$ curl -i -X POST \
+  --url http://localhost:8001/apis/mockbin/plugins/ \
+  --data 'name=key-auth'
+```
+
+**Note:** This plugin also accepts a `config.key_names` parameter, which defaults to `[apikey]`. It is a list of headers and parameters names (both are supported) that are supposed to contain the API key during a request.
+</code></pre>
+</div>
+
+<h2 id="2-verify-that-the-plugin-is-properly-configured">2. Verify that the plugin is properly configured</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Issue the following cURL request to verify that the [key-auth][key-auth] plugin was properly configured on the API:
+
+```bash
+$ curl -i -X GET \
+  --url http://localhost:8000/ \
+  --header 'Host: mockbin.com'
+```
+
+Since you did not specify the required `apikey` header or parameter, the response should be `403 Forbidden`:
+
+```http
+HTTP/1.1 403 Forbidden
+...
 
 {
   "message": "Your authentication credentials are invalid"
 }
-</code></pre></div></li>
-</ol>
+```
+</code></pre>
+</div>
 
-<h3 id="next-steps">Next Steps</h3>
+<h2 id="next-steps">Next Steps</h2>
 
-<p>Now that you&#39;ve configured the <strong>key-auth</strong> plugin lets learn how to add consumers to your API so we can continue proxying requests through Kong.</p>
+<p>Now that you’ve configured the <strong>key-auth</strong> plugin lets learn how to add consumers to your API so we can continue proxying requests through Kong.</p>
 
-<p>Go to <a href="/0.6.x/getting-started/adding-consumers">Adding Consumers &rsaquo;</a></p>
+<p>Go to <a href="/0.6.x/getting-started/adding-consumers">Adding Consumers ›</a></p>
+
 
 
         </div>
@@ -928,7 +943,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 

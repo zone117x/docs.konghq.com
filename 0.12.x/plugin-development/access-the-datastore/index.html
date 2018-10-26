@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1540499341"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1540585076"/>
   
 </head>
 
@@ -891,51 +891,52 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul>
-<li> <a href="#introduction">Introduction</a>
-
-<ul>
-<li> <a href="#the-dao-factory">The DAO Factory</a></li>
-<li> <a href="#the-dao-lua-api">The DAO Lua API</a></li>
-</ul></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#the-dao-factory">The DAO Factory</a></li>
+  <li><a href="#the-dao-lua-api">The DAO Lua API</a></li>
 </ul>
 
           
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Kong interacts with the model layer through classes we refer to as &quot;DAOs&quot;. This chapter will detail the available API to interact with the datastore.</p>
+<p>Kong interacts with the model layer through classes we refer to as “DAOs”. This chapter will detail the available API to interact with the datastore.</p>
 
-<p>As of <code>0.8.0</code>, Kong supports two primary datastores: <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> and <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a>.</p>
+<p>As of <code class="highlighter-rouge">0.8.0</code>, Kong supports two primary datastores: <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> and <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a>.</p>
 
-<hr>
+<hr />
 
-<h3 id="the-dao-factory">The DAO Factory</h3>
+<h2 id="the-dao-factory">The DAO Factory</h2>
 
 <p>All entities in Kong are represented by:</p>
 
 <ul>
-<li>A schema that describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints etc... This schema is a table described in the <a href="/0.12.x/plugin-development/plugin-configuration/">plugin configuration</a> chapter.</li>
-<li>An instance of the <code>DAO</code> class mapping to the database currently in use (Cassandra or PostgreSQL). This class&#39; methods consume the schema and expose methods to insert, update, find and delete entities of that type.</li>
+  <li>A schema that describes which table the entity relates to in the datastore, constraints on its fields such as foreign keys, non-null constraints etc… This schema is a table described in the <a href="/0.12.x/plugin-development/plugin-configuration/">plugin configuration</a> chapter.</li>
+  <li>An instance of the <code class="highlighter-rouge">DAO</code> class mapping to the database currently in use (Cassandra or PostgreSQL). This class’ methods consume the schema and expose methods to insert, update, find and delete entities of that type.</li>
 </ul>
 
-<p>The core entities in Kong are: Apis, Consumers and Plugins. Each of these entities can be interacted with through their corresponding DAO instance, available through the <strong>DAO Factory</strong> instance. The DAO Factory is responsible for loading these core entities&#39; DAOs as well as any additional entities, provided for example by plugins.</p>
+<p>The core entities in Kong are: Apis, Consumers and Plugins. Each of these entities can be interacted with through their corresponding DAO instance, available through the <strong>DAO Factory</strong> instance. The DAO Factory is responsible for loading these core entities’ DAOs as well as any additional entities, provided for example by plugins.</p>
 
-<p>The DAO Factory is a singleton instance in Kong and thus, is accessible through the <code>singletons</code> module:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
+<p>The DAO Factory is a singleton instance in Kong and thus, is accessible through the <code class="highlighter-rouge">singletons</code> module:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 
 <span class="c1">-- Core DAOs</span>
 <span class="kd">local</span> <span class="n">apis_dao</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">apis</span>
 <span class="kd">local</span> <span class="n">consumers_dao</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">consumers</span>
 <span class="kd">local</span> <span class="n">plugins_dao</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">plugins</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
 
-<h3 id="the-dao-lua-api">The DAO Lua API</h3>
+<hr />
+
+<h2 id="the-dao-lua-api">The DAO Lua API</h2>
 
 <p>The DAO class is responsible for the operations executed on a given table in the datastore, generally mapping to an entity in Kong. All the underlying supported databases (currently Cassandra and PostgreSQL) comply to the same interface, thus making the DAO compatible with all of them.</p>
 
 <p>For example, inserting an API is as easy as:</p>
-<div class="highlight"><pre><code class="language-lua" data-lang="lua"><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 <span class="kd">local</span> <span class="n">dao</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span>
 
 <span class="kd">local</span> <span class="n">inserted_api</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">dao</span><span class="p">.</span><span class="n">apis</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
@@ -943,10 +944,12 @@ window['_fs_namespace'] = 'FS';
   <span class="n">hosts</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"mockbin.com"</span> <span class="p">},</span>
   <span class="n">upstream_url</span> <span class="o">=</span> <span class="s2">"http://mockbin.com"</span>
 <span class="p">})</span>
-</code></pre></div>
-<hr>
+</code></pre>
+</div>
 
-<p>Next: <a href="/0.12.x/plugin-development/custom-entities/">Custom Entities &rsaquo;</a></p>
+<hr />
+
+<p>Next: <a href="/0.12.x/plugin-development/custom-entities/">Custom Entities ›</a></p>
 
 
         </div>
@@ -1121,7 +1124,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1540499341"></script>
+    <script src="/assets/app.js?v=1540585076"></script>
 
     <div id="fb-root"></div>
 
