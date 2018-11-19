@@ -3,6 +3,7 @@
   
 
 <head>
+  <meta name="robots" content="nofollow">
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -89,7 +90,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1542408087"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1542667706"/>
   
 </head>
 
@@ -231,7 +232,7 @@ window['_fs_namespace'] = 'FS';
       <div class="versions-dropdown dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-          Plugin Version 0.33-x
+          Plugin Version 0.34-x
           <em>(latest)</em>
           <span class="caret"></span>
         </button>
@@ -240,7 +241,14 @@ window['_fs_namespace'] = 'FS';
             
             <li  class="active" >
               <a href="/hub/kong-inc/openid-connect/">
-                0.33-x <em>(latest)</em>
+                0.34-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/openid-connect/0.33-x.html">
+                0.33-x 
               </a>
             </li>
           
@@ -274,14 +282,37 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
-      <li><a href="#kong-openid-connect-plugin">Kong OpenID Connect Plugin</a></li>
-      <li><a href="#contents">Contents</a></li>
-      <li><a href="#terminology">Terminology</a></li>
-      <li><a href="#use-cases">Use Cases</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#openid-connect-plugin">OpenID Connect Plugin</a></li>
+    </ul>
+  </li>
+  <li><a href="#kong-openid-connect-plugin">Kong OpenID Connect Plugin</a></li>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#use-cases">Use Cases</a>
+    <ul>
+      <li><a href="#protecting-server-to-server-api-access">Protecting Server to Server API Access</a></li>
+      <li><a href="#protecting-interactive-browser-based-api--web-site-access">Protecting Interactive Browser based API / Web Site Access</a></li>
+      <li><a href="#protecting-access-to-apis-from-1st-party-client">Protecting Access to APIs from 1st Party Client</a></li>
+      <li><a href="#protecting-access-to-apis-with-stateless-jwt-tokens">Protecting Access to APIs with Stateless JWT Tokens</a></li>
+      <li><a href="#accessing-apis-from-basic-authentication-aware-client">Accessing APIs from Basic Authentication Aware Client</a></li>
+    </ul>
+  </li>
+  <li><a href="#features">Features</a>
+    <ul>
+      <li><a href="#openid-connect-discovery">OpenID Connect Discovery</a></li>
+      <li><a href="#jwa-signing-algorithms">JWA Signing Algorithms</a></li>
+      <li><a href="#jwt-serialization-formats">JWT Serialization Formats</a></li>
+    </ul>
+  </li>
+  <li><a href="#openid-connect-plugin">OpenID Connect Plugin</a>
+    <ul>
+      <li><a href="#configuration-parameters">Configuration Parameters</a></li>
+      <li><a href="#authorization">Authorization</a></li>
       <li><a href="#usage">Usage</a></li>
-      <li><a href="#compatibility">Compatibility</a></li>
+    </ul>
+  </li>
+  <li><a href="#compatibility">Compatibility</a>
+    <ul>
+      <li><a href="#cloud-providers">Cloud Providers</a></li>
+      <li><a href="#on-premises">On Premises</a></li>
     </ul>
   </li>
 </ul>
@@ -345,8 +376,10 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
-                  0.33-x
+                  0.34-x
                   </li>
+                
+              
                 
               
                 
@@ -398,6 +431,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <li>
+                    <a href="/hub/kong-inc/openid-connect/0.33-x.html">
+                      0.33-x </a>
+                      
+                  </li>
+                
+              
+                
+                  
+                  <li>
                     <a href="/hub/kong-inc/openid-connect/0.32-x.html">
                       0.32-x </a>
                       
@@ -429,10 +471,10 @@ window['_fs_namespace'] = 'FS';
 
       
         <div class="alert alert-warning">
-          <strong>Kong Enterprise Edition (EE) only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong EE subscription</a>.
+          <strong>Kong Enterprise only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong Enterprise subscription</a>.
         </div>
 
-        Please inquire about Kong EE by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
+        Please inquire about Kong Enterprise by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
         <hr>
       
 
@@ -485,6 +527,7 @@ the OpenID Connect plugin (or you can do both).</p>
 
 <ul>
   <li><a href="https://auth0.com/docs/protocols/oidc">Auth0</a></li>
+  <li><a href="https://aws.amazon.com/cognito/">Amazon AWS Cognito</a></li>
   <li><a href="https://connect2id.com/products/server">Connect2id</a></li>
   <li><a href="https://github.com/coreos/dex/blob/master/Documentation/openid-connect.md">Dex</a></li>
   <li><a href="https://gluu.org/docs/ce/api-guide/openid-connect-api/">Gluu</a></li>
@@ -571,27 +614,11 @@ blacklist groups of users.</p>
       
 
 
-      <h3 id="kong-openid-connect-plugin">Kong OpenID Connect Plugin</h3>
+      <h2 id="kong-openid-connect-plugin">Kong OpenID Connect Plugin</h2>
 
 <p>The Kong OpenID Connect plugin provides a general-purpose OpenID Connect and OAuth toolkit.</p>
 
-<h3 id="contents">Contents</h3>
-
-<ul>
-  <li><a href="#terminology">Terminology</a></li>
-  <li><a href="#use-cases">Use Cases</a></li>
-  <li><a href="#features">Features</a></li>
-  <li><a href="#openid-connect-plugin">OpenID Connect Plugin</a>
-    <ul>
-      <li><a href="#configuration-parameters">Configuration Parameters</a></li>
-      <li><a href="#authorization">Authorization</a></li>
-      <li><a href="#usage">Usage</a></li>
-    </ul>
-  </li>
-  <li><a href="#compatibility">Compatibility</a></li>
-</ul>
-
-<h3 id="terminology">Terminology</h3>
+<h2 id="terminology">Terminology</h2>
 
 <table>
   <thead>
@@ -644,16 +671,16 @@ blacklist groups of users.</p>
   </tbody>
 </table>
 
-<h3 id="use-cases">Use Cases</h3>
+<h2 id="use-cases">Use Cases</h2>
 
-<h4 id="protecting-server-to-server-api-access">Protecting Server to Server API Access</h4>
+<h3 id="protecting-server-to-server-api-access">Protecting Server to Server API Access</h3>
 
 <p>For server-to-server we recommend you to use OAuth 2.0 <strong>client credentials</strong> grant
 that is enhanced with OpenID Connect features (such as standardized security
 feature, and automatic discovery). Client credentials are easier to revoke than
 say password credentials without affecting too many things.</p>
 
-<h4 id="protecting-interactive-browser-based-api--web-site-access">Protecting Interactive Browser based API / Web Site Access</h4>
+<h3 id="protecting-interactive-browser-based-api--web-site-access">Protecting Interactive Browser based API / Web Site Access</h3>
 
 <p>The best method to use here is to use OpenID Connect Authentication using
 *authorization code** flow. Kong sets up a session with the browser. After
@@ -662,12 +689,12 @@ even when making API requests using JavaScript. With authorization code
 flow you can usually utilize stronger authentication methods such as
 two-factor authentication on your identity provider.</p>
 
-<h4 id="protecting-access-to-apis-from-1st-party-client">Protecting Access to APIs from 1st Party Client</h4>
+<h3 id="protecting-access-to-apis-from-1st-party-client">Protecting Access to APIs from 1st Party Client</h3>
 
 <p>Here you can use OAuth 2.0 <strong>password grant</strong> that is enhanced with OpenID
 Connect features.</p>
 
-<h4 id="protecting-access-to-apis-with-stateless-jwt-tokens">Protecting Access to APIs with Stateless JWT Tokens</h4>
+<h3 id="protecting-access-to-apis-with-stateless-jwt-tokens">Protecting Access to APIs with Stateless JWT Tokens</h3>
 
 <p>When you have JWT (or JWS to be more specific) available for your client,
 that is possibly issued directly from the identity provider (e.g. by using
@@ -675,23 +702,23 @@ implicit flow), and want you to use that token to access API protected by
 Kong, you should use a plugin that provides you OpenID Connect aware
 stateless verification.</p>
 
-<h4 id="accessing-apis-from-basic-authentication-aware-client">Accessing APIs from Basic Authentication Aware Client</h4>
+<h3 id="accessing-apis-from-basic-authentication-aware-client">Accessing APIs from Basic Authentication Aware Client</h3>
 
 <p>Basic authentication is supported in many 3rd party clients. One such client
 is Microsoft Excel. The <code class="highlighter-rouge">openid-connect</code> plugin allows you to supply username
 and password or client id and client secret using normal basic authentication
 headers.</p>
 
-<h3 id="features">Features</h3>
+<h2 id="features">Features</h2>
 
-<h4 id="openid-connect-discovery">OpenID Connect Discovery</h4>
+<h3 id="openid-connect-discovery">OpenID Connect Discovery</h3>
 
 <p>The plugin does support OpenID Connect Discovery as defined in
 <a href="http://openid.net/specs/openid-connect-discovery-1_0.html">the specification</a>.</p>
 
 <p><img src="/assets/images/docs/ee/plugins/openid-connect-discovery.png" alt="OpenID Connect Discovery Sequence Diagram" title="OpenID Connect Discovery Sequence Diagram" /></p>
 
-<h4 id="jwa-signing-algorithms">JWA Signing Algorithms</h4>
+<h3 id="jwa-signing-algorithms">JWA Signing Algorithms</h3>
 
 <table>
   <thead>
@@ -719,17 +746,17 @@ headers.</p>
     </tr>
     <tr>
       <td style="text-align: center"><code class="highlighter-rouge">RS256</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
     </tr>
     <tr>
       <td style="text-align: center"><code class="highlighter-rouge">RS384</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code> ¹</td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code> ¹</td>
     </tr>
     <tr>
       <td style="text-align: center"><code class="highlighter-rouge">RS512</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
     </tr>
     <tr>
@@ -782,7 +809,7 @@ Connect, and that’s why we have not bothered with signing algorithms
 as none of our plugins do use them. The signature verification support
 is rather complete.</p>
 
-<h4 id="jwt-serialization-formats">JWT Serialization Formats</h4>
+<h3 id="jwt-serialization-formats">JWT Serialization Formats</h3>
 
 <p>This is what the plugins currently support for <code class="highlighter-rouge">JWT</code> serializations.
 The table may change in a future as further features get implemented.</p>
@@ -809,7 +836,7 @@ The table may change in a future as further features get implemented.</p>
   </tbody>
 </table>
 
-<h3 id="openid-connect-plugin">OpenID Connect Plugin</h3>
+<h2 id="openid-connect-plugin">OpenID Connect Plugin</h2>
 
 <p>The OpenID Connect plugin supports a variety of authentication and authorization methods:</p>
 
@@ -827,13 +854,13 @@ The table may change in a future as further features get implemented.</p>
 <p>This plugin <strong>exchanges</strong> credentials and injects <strong>access token</strong> as a <strong>bearer</strong>
 token into <code class="highlighter-rouge">Authorization</code> HTTP header.</p>
 
-<h4 id="configuration-parameters">Configuration Parameters</h4>
+<h3 id="configuration-parameters">Configuration Parameters</h3>
 
 <p>As OpenID Connect can be used in many ways, the plugin has many parameters. Some of the settings
 are used only in some flows, and others are used more broadly. Generally speaking, while parameters are optional,
 requirements will vary depending on your use case and identity provider.</p>
 
-<h5 id="descriptions">Descriptions</h5>
+<h4 id="descriptions">Descriptions</h4>
 
 <table>
   <thead>
@@ -876,16 +903,24 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>Instead of responding with HTTP status code 403, send a 302 redirect with the defined uri.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">forbidden_destroy_session</code></td>
+      <td>Whether or not the session is also destroyed on forbidden.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">forbidden_error_message</code></td>
+      <td>Error message to return with forbidden response.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">unauthorized_redirect_uri</code></td>
       <td>Instead of responding with HTTP status code 401, send a 302 redirect with the defined uri.</td>
     </tr>
     <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">unexpected_redirect_uri</code></td>
-      <td>Instead of responding with HTTP status code 500, send a 302 redirect with the defined uri.</td>
+      <td style="text-align: right"><code class="highlighter-rouge">unauthorized_error_message</code></td>
+      <td>Error message to return with unauthorized response.</td>
     </tr>
     <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">forbidden_destroy_session</code></td>
-      <td>Whether or not the session is also destroyed on forbidden.</td>
+      <td style="text-align: right"><code class="highlighter-rouge">unexpected_redirect_uri</code></td>
+      <td>Instead of responding with HTTP status code 500, send a 302 redirect with the defined uri.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">scopes</code></td>
@@ -894,6 +929,10 @@ requirements will vary depending on your use case and identity provider.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">scopes_required</code></td>
       <td>The scopes required to be present in access token (or introspection results) for successful authorization.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">scopes_claim</code></td>
+      <td>The Name of the claim (or a path) where the scopes can be found.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">response_mode</code></td>
@@ -912,6 +951,10 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>The audience required to be present in access token (or introspection results) for successful authorization.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">audience_claim</code></td>
+      <td>The Name of the claim (or a path) where the audience can be found.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">domains</code></td>
       <td>The domains to be verified against the <code class="highlighter-rouge">hd</code> claim.</td>
     </tr>
@@ -928,12 +971,52 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>Authorization cookie lifetime in seconds.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_path</code></td>
+      <td>The <code class="highlighter-rouge">Path</code> parameter of the authorization cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_domain</code></td>
+      <td>The <code class="highlighter-rouge">Domain</code> parameter of the authorization cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_samesite</code></td>
+      <td>The <code class="highlighter-rouge">Same-Site</code> parameter of the authorization cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_httponly</code></td>
+      <td>The <code class="highlighter-rouge">HTTP Only</code> flag of the authorization cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_secure</code></td>
+      <td>The <code class="highlighter-rouge">Secure</code> flag of the authorization cookie.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">session_cookie_name</code></td>
       <td>The name of session cookie when session authentication is enabled.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">session_cookie_lifetime</code></td>
       <td>Session cookie lifetime in seconds.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_path</code></td>
+      <td>The <code class="highlighter-rouge">Path</code> parameter of the session cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_domain</code></td>
+      <td>The <code class="highlighter-rouge">Domain</code> parameter of the session cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_samesite</code></td>
+      <td>The <code class="highlighter-rouge">Same-Site</code> parameter of the session cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_httponly</code></td>
+      <td>The <code class="highlighter-rouge">HTTP Only</code> flag of the session cookie.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_secure</code></td>
+      <td>The <code class="highlighter-rouge">Secure</code> flag of the session cookie.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">session_storage</code></td>
@@ -986,6 +1069,10 @@ requirements will vary depending on your use case and identity provider.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">jwt_session_claim</code></td>
       <td>Name of the claim that is checked against the <code class="highlighter-rouge">session_cookie</code> (used only for additional JWT verification).</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">rediscovery_lifetime</code></td>
+      <td>When JWKS have been rotated, the plugin tries to automatically fetch a new ones when needed. With this parameter you can limit the plugin to only do re-discovery on evert n seconds.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">reverify</code></td>
@@ -1054,6 +1141,10 @@ requirements will vary depending on your use case and identity provider.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">token_headers_grants</code></td>
       <td>You can limit the grants for which the token headers are replayed.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">token_endpoint_auth_method</code></td>
+      <td>Used to override any defaults or <code class="highlighter-rouge">token_endpoint_auth_methods_supported</code> from discovery when authenticating on token endpoint.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">upstream_headers_claims</code></td>
@@ -1204,6 +1295,10 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>Search consumer by this (or these) fields.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">consumer_optional</code></td>
+      <td>When you enable consumer mapping with <code class="highlighter-rouge">consumer_claim</code>, <code class="highlighter-rouge">consumer_optional</code> can be used to make that mapping optional.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">credential_claim</code></td>
       <td>Name of the claim that is used to set arbitrary credential (can be used with e.g. rate-limiting).</td>
     </tr>
@@ -1264,6 +1359,18 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>The HTTP version to use between Kong and OP.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">http_proxy</code></td>
+      <td>The proxy URL for HTTP communications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">https_proxy</code></td>
+      <td>The proxy URL for HTTPS communications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">keepalive</code></td>
+      <td>Whether or not should Kong keepalive connections with IdP.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">ssl_verify</code></td>
       <td>Whether or not should Kong verify SSL Certificates when communicating to OP.</td>
     </tr>
@@ -1274,7 +1381,7 @@ requirements will vary depending on your use case and identity provider.</p>
   </tbody>
 </table>
 
-<h5 id="types-optionality-and-defaults">Types, Optionality and Defaults</h5>
+<h4 id="types-optionality-and-defaults">Types, Optionality and Defaults</h4>
 
 <p>While there are a lot of parameters, most of them are optional
 as you can see below.</p>
@@ -1340,22 +1447,34 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">forbidden_destroy_session</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">forbidden_error_message</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"forbidden"</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">unauthorized_redirect_uri</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">unauthorized_error_message</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"unauthorized"</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">unexpected_redirect_uri</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">forbidden_destroy_session</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
-      <td><code class="highlighter-rouge">true</code></td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">scopes</code></td>
@@ -1368,6 +1487,12 @@ as you can see below.</p>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">scopes_claim</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"scope"</code></td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">response_mode</code></td>
@@ -1394,6 +1519,12 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">audience_claim</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"aud"</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">domains</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
@@ -1402,6 +1533,12 @@ as you can see below.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">max_age</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">number</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authenticated_groups_claim</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
@@ -1418,6 +1555,36 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">600</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_path</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"/"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_domain</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_samesite</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">off</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_httponly</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_secure</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td>(From Original Request)</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">session_cookie_name</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
@@ -1428,6 +1595,36 @@ as you can see below.</p>
       <td style="text-align: center"><code class="highlighter-rouge">number</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">3600</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_path</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"/"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_domain</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_samesite</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">Lax</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_httponly</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">session_cookie_secure</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td>(From Original Request)</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">session_storage</code></td>
@@ -1506,6 +1703,12 @@ as you can see below.</p>
       <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">"sid"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">rediscovery_lifetime</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">number</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">300</code></td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">reverify</code></td>
@@ -1606,6 +1809,12 @@ as you can see below.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">token_headers_grants</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">token_endpoint_auth_method</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
@@ -1821,7 +2030,7 @@ as you can see below.</p>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">consumer_claim</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
@@ -1830,6 +2039,12 @@ as you can see below.</p>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">"username"</code>, <code class="highlighter-rouge">"custom_id"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">consumer_optional</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">false</code></td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">credential_claim</code></td>
@@ -1922,10 +2137,28 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">1.1</code></td>
     </tr>
     <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">ssl_verify</code></td>
+      <td style="text-align: right"><code class="highlighter-rouge">http_proxy</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">url</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">https_proxy</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">url</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">keepalive</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">ssl_verify</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">false</code></td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">timeout</code></td>
@@ -1938,7 +2171,7 @@ as you can see below.</p>
 
 <p>¹⁾ all the config parameters should be prefixed with <code class="highlighter-rouge">config.</code>.</p>
 
-<h5 id="configissuer">config.issuer</h5>
+<h4 id="configissuer">config.issuer</h4>
 
 <p>The OpenID Provider configuration and JWKS are discovered using the
 <code class="highlighter-rouge">config.issuer</code> configuration parameter. Set this to a location where
@@ -1967,7 +2200,7 @@ endpoint. This parameter accepts only URLs.</p>
   <li><code class="highlighter-rouge">https://accounts.google.com/.well-known/openid-configuration</code></li>
 </ul>
 
-<h5 id="configclient_arg">config.client_arg</h5>
+<h4 id="configclient_arg">config.client_arg</h4>
 
 <p>Sometimes you need to use different client or client parameters,
 e.g. when you use this plugin in front of multiple services.</p>
@@ -2038,7 +2271,7 @@ is used. You can also you the actual <code class="highlighter-rouge">client_id</
 of the <code class="highlighter-rouge">config.client_id</code> to rest of the parameters (and fallback to <code class="highlighter-rouge">1</code> if
 not found in specified index).</p>
 
-<h5 id="configclient_id">config.client_id</h5>
+<h4 id="configclient_id">config.client_id</h4>
 
 <p>With this parameter specify the <code class="highlighter-rouge">client_id</code> of your client
 that you have registered in OpenID Connect Provider. This
@@ -2067,7 +2300,7 @@ by matching to a request parameter (defined with <code class="highlighter-rouge"
 to work as a trusted client. If you only do e.g. JWT bearer token
 verification, you won’t need to configure this.</p>
 
-<h5 id="configclient_secret">config.client_secret</h5>
+<h4 id="configclient_secret">config.client_secret</h4>
 
 <p>With this parameter specify the <code class="highlighter-rouge">client_secret</code> of your client
 that you have registered in OpenID Connect Provider. As mentioned
@@ -2092,7 +2325,7 @@ above, also this can be an array of client secrets.</p>
 to work as a trusted client. If you only do e.g. JWT bearer token
 verification, you won’t need to configure this.</p>
 
-<h5 id="configredirect_uri">config.redirect_uri</h5>
+<h4 id="configredirect_uri">config.redirect_uri</h4>
 
 <p>Specify where you want the browser to be redirected (from IdP) in
 case of a successful login. The ID Token will be appended
@@ -2108,14 +2341,14 @@ redirect uris.</p>
   <li><code class="highlighter-rouge">"https://example.com/"</code></li>
 </ul>
 
-<h5 id="configlogin_redirect_uri">config.login_redirect_uri</h5>
+<h4 id="configlogin_redirect_uri">config.login_redirect_uri</h4>
 
 <p>When <code class="highlighter-rouge">config.login_action</code> is set to <code class="highlighter-rouge">redirect</code>, this configuration parameter
 contains the url for the redirection. It can also be an array,
 so that you can pick up different <code class="highlighter-rouge">login_redirect_uri</code> depending
 on the selected <code class="highlighter-rouge">client</code>.</p>
 
-<h5 id="configlogout_redirect_uri">config.logout_redirect_uri</h5>
+<h4 id="configlogout_redirect_uri">config.logout_redirect_uri</h4>
 
 <p>When logout is requested you can use this configuration parameter
 to define url to be redirected after a successful logout. If relying
@@ -2124,25 +2357,13 @@ as <code class="highlighter-rouge">post_logout_redirect_uri</code> passed to IdP
 so that you can pick up different <code class="highlighter-rouge">logout_redirect_uri</code> depending
 on the selected <code class="highlighter-rouge">client</code>.</p>
 
-<h5 id="configforbidden_redirect_uri">config.forbidden_redirect_uri</h5>
+<h4 id="configforbidden_redirect_uri">config.forbidden_redirect_uri</h4>
 
 <p>Instead of responding with HTTP status code of 403, with this parameter
 you can instead send 302 redirect. Nice to have if you are trying to
 protect web sites (instead of say individual APIs) with this plugin.</p>
 
-<h5 id="configunauthorized_redirect_uri">config.unauthorized_redirect_uri</h5>
-
-<p>Instead of responding with HTTP status code of 401, with this parameter
-you can instead send 302 redirect. Nice to have if you are trying to
-protect web sites (instead of say individual APIs) with this plugin.</p>
-
-<h5 id="configunexpected_redirect_uri">config.unexpected_redirect_uri</h5>
-
-<p>Instead of responding with HTTP status code of 500, with this parameter
-you can instead send 302 redirect. Nice to have if you are trying to
-protect web sites (instead of say individual APIs) with this plugin.</p>
-
-<h5 id="configforbidden_destroy_session">config.forbidden_destroy_session</h5>
+<h4 id="configforbidden_destroy_session">config.forbidden_destroy_session</h4>
 
 <p>Whether or not to destroy session cookie when the request was forbidden.</p>
 
@@ -2164,7 +2385,45 @@ protect web sites (instead of say individual APIs) with this plugin.</p>
 <p>You may want to turn this off in case you want to keep users logged in
 in case they try to do something forbidden.</p>
 
-<h5 id="configscopes">config.scopes</h5>
+<h4 id="configforbidden_error_message">config.forbidden_error_message</h4>
+
+<p>Default response for forbidden request from this plugin is:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Forbidden"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>With this configuration parameter you can change the default <code class="highlighter-rouge">"Forbidden"</code>
+message to something else.</p>
+
+<h4 id="configunauthorized_redirect_uri">config.unauthorized_redirect_uri</h4>
+
+<p>Instead of responding with HTTP status code of 401, with this parameter
+you can instead send 302 redirect. Nice to have if you are trying to
+protect web sites (instead of say individual APIs) with this plugin.</p>
+
+<h4 id="configunauthorized_error_message">config.unauthorized_error_message</h4>
+
+<p>Default response for unauthorized request from this plugin is:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unauthorized"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>With this configuration parameter you can change the default <code class="highlighter-rouge">"Unauthorized"</code>
+message to something else.</p>
+
+<h4 id="configunexpected_redirect_uri">config.unexpected_redirect_uri</h4>
+
+<p>Instead of responding with HTTP status code of 500, with this parameter
+you can instead send 302 redirect. Nice to have if you are trying to
+protect web sites (instead of say individual APIs) with this plugin.</p>
+
+<h4 id="configscopes">config.scopes</h4>
 
 <p>Scopes requested when authenticating.</p>
 
@@ -2191,9 +2450,11 @@ in case they try to do something forbidden.</p>
   <li><code class="highlighter-rouge">"openid,profile,email,offline_access"</code></li>
 </ul>
 
-<h5 id="configscopes_required">config.scopes_required</h5>
+<h4 id="configscopes_required">config.scopes_required</h4>
 
-<p>Scopes required to be present in access token (<code class="highlighter-rouge">scope</code> claim) or introspection results (<code class="highlighter-rouge">scope</code> claim) for authorization.</p>
+<p>Scopes required to be present in access token (<code class="highlighter-rouge">scope</code> claim) or
+introspection results (<code class="highlighter-rouge">scope</code> claim) for authorization or
+in claim specified with <code class="highlighter-rouge">config.scopes_claim</code>.</p>
 
 <table>
   <thead>
@@ -2219,7 +2480,34 @@ in case they try to do something forbidden.</p>
   <li><code class="highlighter-rouge">"scope1,scope2"</code> – either <code class="highlighter-rouge">scope1</code> OR <code class="highlighter-rouge">scope2</code> need to be present in access token (or introspection results)</li>
 </ul>
 
-<h5 id="configresponse_mode">config.response_mode</h5>
+<h4 id="configscopes_claim">config.scopes_claim</h4>
+
+<p>The name of the claim where the scopes are picked for <code class="highlighter-rouge">config.scopes_required</code>
+authorization.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">scope</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">"scope"</code> – top level claim</li>
+  <li><code class="highlighter-rouge">"realm_access,roles"</code> – top level <code class="highlighter-rouge">realm_access</code> claim (a JSON object) that has a sub-claim <code class="highlighter-rouge">roles</code>.</li>
+</ul>
+
+<h4 id="configresponse_mode">config.response_mode</h4>
 
 <p>When Kong talks to authorization endpoint this value instructs
 OP to respond in a specific way (if OP supports different response modes):</p>
@@ -2239,7 +2527,7 @@ OP to respond in a specific way (if OP supports different response modes):</p>
   <li><code class="highlighter-rouge">"fragment"</code></li>
 </ul>
 
-<h5 id="configauth_methods">config.auth_methods</h5>
+<h4 id="configauth_methods">config.auth_methods</h4>
 
 <p>This so called all-in-one plugin supports many different methods to
 authenticate the request using 3rd party OP. This parameter is an
@@ -2311,7 +2599,7 @@ especially nice when used together with authorization code flow.</p>
 <p>If refresh token is available for Kong, this authentication method enables
 Kong to automatically refresh the access token using the refresh token.</p>
 
-<h5 id="configaudience">config.audience</h5>
+<h4 id="configaudience">config.audience</h4>
 
 <p>Used to send <code class="highlighter-rouge">audience</code> argument to authorization endpoint in case that is
 needed. Also verifies <code class="highlighter-rouge">aud</code> claim of JWT tokens.</p>
@@ -2340,9 +2628,10 @@ needed. Also verifies <code class="highlighter-rouge">aud</code> claim of JWT to
 
 <p>See <code class="highlighter-rouge">config.audience_required</code> for a more flexible option to be used for strictly <code class="highlighter-rouge">aud</code> claim verification.</p>
 
-<h5 id="configaudience_required">config.audience_required</h5>
+<h4 id="configaudience_required">config.audience_required</h4>
 
-<p>Audience required to be present in access token (<code class="highlighter-rouge">aud</code> claim) or introspection results (<code class="highlighter-rouge">aud</code> claim) for authorization.</p>
+<p>Audience required to be present in access token (<code class="highlighter-rouge">aud</code> claim) or introspection results (<code class="highlighter-rouge">aud</code> claim) for authorization,
+or in claim specified with <code class="highlighter-rouge">config.audience_claim</code>.</p>
 
 <table>
   <thead>
@@ -2368,7 +2657,34 @@ needed. Also verifies <code class="highlighter-rouge">aud</code> claim of JWT to
   <li><code class="highlighter-rouge">"audience1,audience2"</code> – either <code class="highlighter-rouge">audience1</code> OR <code class="highlighter-rouge">audience2</code> need to be present in access token (or introspection results)</li>
 </ul>
 
-<h5 id="configdomains">config.domains</h5>
+<h4 id="configaudience_claim">config.audience_claim</h4>
+
+<p>The name of the claim where the audiences are picked for <code class="highlighter-rouge">config.audience_required</code>
+authorization.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">aud</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">"aud"</code> – top level claim</li>
+  <li><code class="highlighter-rouge">"user,groups"</code> – top level <code class="highlighter-rouge">user</code> claim (a JSON object) that has a sub-claim <code class="highlighter-rouge">groups</code>.</li>
+</ul>
+
+<h4 id="configdomains">config.domains</h4>
 
 <p>With this config parameter you may specify the domains that are allowed
 to use the API. The token’s <code class="highlighter-rouge">hd</code> claim (hosted domain) is verified
@@ -2396,7 +2712,7 @@ against the <code class="highlighter-rouge">config.domains</code>.</p>
   <li><code class="highlighter-rouge">"example.com,company.com"</code></li>
 </ul>
 
-<h5 id="configmax_age">config.max_age</h5>
+<h4 id="configmax_age">config.max_age</h4>
 
 <p>This configuration parameter is used to configure <code class="highlighter-rouge">auth_time</code> claim
 verification. With this parameter you may restrict the use of the API
@@ -2426,7 +2742,7 @@ with too old id tokens. The <code class="highlighter-rouge">max_age</code> is sp
   <li><code class="highlighter-rouge">1800</code></li>
 </ul>
 
-<h5 id="configauthorization_cookie_name">config.authorization_cookie_name</h5>
+<h4 id="configauthorization_cookie_name">config.authorization_cookie_name</h4>
 
 <p>When this plugin initiates authorization code flow, it will store
 some state information (for verification etc.) to a cookie that is
@@ -2451,7 +2767,7 @@ endpoint.</p>
 <p>If you want to use different name for the cookie, you can use this
 parameter to define one.</p>
 
-<h5 id="configauthorization_cookie_lifetime">config.authorization_cookie_lifetime</h5>
+<h4 id="configauthorization_cookie_lifetime">config.authorization_cookie_lifetime</h4>
 
 <p>Session cookie lifetime in seconds.</p>
 
@@ -2470,7 +2786,115 @@ parameter to define one.</p>
   </tbody>
 </table>
 
-<h5 id="configsession_cookie_name">config.session_cookie_name</h5>
+<h4 id="configauthorization_cookie_path">config.authorization_cookie_path</h4>
+
+<p>With this parameter you can set the value for authorization cookie
+<code class="highlighter-rouge">Path</code> property.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"/"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configauthorization_cookie_domain">config.authorization_cookie_domain</h4>
+
+<p>With this parameter you can set the value for authorization cookie
+<code class="highlighter-rouge">Domain</code> property.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">—</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configauthorization_cookie_samesite">config.authorization_cookie_samesite</h4>
+
+<p>With this parameter you can set the value for authorization cookie
+<code class="highlighter-rouge">Same-Site</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"off"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The plugin accepts these values for this parameter:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">"Strict"</code></li>
+  <li><code class="highlighter-rouge">"Lax"</code></li>
+  <li><code class="highlighter-rouge">"off"</code></li>
+</ul>
+
+<h4 id="configsession_cookie_httponly">config.session_cookie_httponly</h4>
+
+<p>With this parameter you can set the value for authorization cookie
+<code class="highlighter-rouge">HTTP Only</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">true</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configauthorization_cookie_secure">config.authorization_cookie_secure</h4>
+
+<p>With this parameter you can set the value for authorization cookie
+<code class="highlighter-rouge">Secure</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">(from requerst)</td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configsession_cookie_name">config.session_cookie_name</h4>
 
 <p>When this plugin initiates a session (on successful login) with
 the client it will send a cookie to a client. With this parameter
@@ -2491,7 +2915,7 @@ you can specify the name of the cookie that client receives.</p>
   </tbody>
 </table>
 
-<h5 id="configsession_cookie_lifetime">config.session_cookie_lifetime</h5>
+<h4 id="configsession_cookie_lifetime">config.session_cookie_lifetime</h4>
 
 <p>Session cookie lifetime in seconds.</p>
 
@@ -2510,7 +2934,115 @@ you can specify the name of the cookie that client receives.</p>
   </tbody>
 </table>
 
-<h5 id="configsession_storage">config.session_storage</h5>
+<h4 id="configsession_cookie_path">config.session_cookie_path</h4>
+
+<p>With this parameter you can set the value for session cookie
+<code class="highlighter-rouge">Path</code> property.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"/"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configsession_cookie_domain">config.session_cookie_domain</h4>
+
+<p>With this parameter you can set the value for session cookie
+<code class="highlighter-rouge">Domain</code> property.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">—</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configsession_cookie_samesite">config.session_cookie_samesite</h4>
+
+<p>With this parameter you can set the value for session cookie
+<code class="highlighter-rouge">Same-Site</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"Lax"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The plugin accepts these values for this parameter:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">"Strict"</code></li>
+  <li><code class="highlighter-rouge">"Lax"</code></li>
+  <li><code class="highlighter-rouge">"off"</code></li>
+</ul>
+
+<h4 id="configsession_cookie_httponly-1">config.session_cookie_httponly</h4>
+
+<p>With this parameter you can set the value for session cookie
+<code class="highlighter-rouge">HTTP Only</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">true</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configsession_cookie_secure">config.session_cookie_secure</h4>
+
+<p>With this parameter you can set the value for session cookie
+<code class="highlighter-rouge">Secure</code> flag.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">(from request)</td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configsession_storage">config.session_storage</h4>
 
 <p>With this configuration parameter you can select where the plugin
 stores the data part or the session cookie. Possible values are:</p>
@@ -2555,7 +3087,7 @@ kilobytes.</p>
 <p>Below are listed the configuration parameters for <code class="highlighter-rouge">memcache</code> and
 <code class="highlighter-rouge">redis</code> storage backends.</p>
 
-<h5 id="configsession_memcache_prefix">config.session_memcache_prefix</h5>
+<h4 id="configsession_memcache_prefix">config.session_memcache_prefix</h4>
 
 <p>Memcache session key prefix (all session keys will use this prefix).</p>
 
@@ -2577,12 +3109,12 @@ kilobytes.</p>
 <p>E.g. if the value is <code class="highlighter-rouge">sessions</code> then all the sessions will be stored
 in keys prefixed with <code class="highlighter-rouge">sessions:&lt;session-id&gt;</code>.</p>
 
-<h5 id="configsession_memcache_socket">config.session_memcache_socket</h5>
+<h4 id="configsession_memcache_socket">config.session_memcache_socket</h4>
 
 <p>Redis <code class="highlighter-rouge">unix</code> socket path. If this is defined, it will override whatever
 is put in <code class="highlighter-rouge">config.session_redis_host</code> or <code class="highlighter-rouge">config.session_redis_port</code>.</p>
 
-<h5 id="configsession_memcache_host">config.session_memcache_host</h5>
+<h4 id="configsession_memcache_host">config.session_memcache_host</h4>
 
 <p>Memcache <code class="highlighter-rouge">host</code>.</p>
 
@@ -2601,7 +3133,7 @@ is put in <code class="highlighter-rouge">config.session_redis_host</code> or <c
   </tbody>
 </table>
 
-<h5 id="configsession_memcache_port">config.session_memcache_port</h5>
+<h4 id="configsession_memcache_port">config.session_memcache_port</h4>
 
 <p>Memcache <code class="highlighter-rouge">port</code>.</p>
 
@@ -2620,7 +3152,7 @@ is put in <code class="highlighter-rouge">config.session_redis_host</code> or <c
   </tbody>
 </table>
 
-<h5 id="configsession_redis_prefix">config.session_redis_prefix</h5>
+<h4 id="configsession_redis_prefix">config.session_redis_prefix</h4>
 
 <p>Redis session key prefix (all session keys will use this prefix).</p>
 
@@ -2642,12 +3174,12 @@ is put in <code class="highlighter-rouge">config.session_redis_host</code> or <c
 <p>E.g. if the value is <code class="highlighter-rouge">sessions</code> then all the sessions will be stored
 in keys prefixed with <code class="highlighter-rouge">sessions:&lt;session-id&gt;</code>.</p>
 
-<h5 id="configsession_redis_socket">config.session_redis_socket</h5>
+<h4 id="configsession_redis_socket">config.session_redis_socket</h4>
 
 <p>Redis <code class="highlighter-rouge">unix</code> socket path. If this is defined, it will override whatever
 is put in <code class="highlighter-rouge">config.session_redis_host</code> or <code class="highlighter-rouge">config.session_redis_port</code>.</p>
 
-<h5 id="configsession_redis_host">config.session_redis_host</h5>
+<h4 id="configsession_redis_host">config.session_redis_host</h4>
 
 <p>Redis <code class="highlighter-rouge">host</code>.</p>
 
@@ -2666,7 +3198,7 @@ is put in <code class="highlighter-rouge">config.session_redis_host</code> or <c
   </tbody>
 </table>
 
-<h5 id="configsession_redis_port">config.session_redis_port</h5>
+<h4 id="configsession_redis_port">config.session_redis_port</h4>
 
 <p>Redis <code class="highlighter-rouge">port</code>.</p>
 
@@ -2685,11 +3217,11 @@ is put in <code class="highlighter-rouge">config.session_redis_host</code> or <c
   </tbody>
 </table>
 
-<h5 id="configsession_redis_auth">config.session_redis_auth</h5>
+<h4 id="configsession_redis_auth">config.session_redis_auth</h4>
 
 <p>Redis authentication password.</p>
 
-<h5 id="configextra_jwks_uris">config.extra_jwks_uris</h5>
+<h4 id="configextra_jwks_uris">config.extra_jwks_uris</h4>
 
 <p>Some identity providers sign access tokens with different JWK-keys than
 what they use to sign id tokens, and they don’t necessarily reveal the
@@ -2703,7 +3235,7 @@ used to verify signatures.</p>
   <li><code class="highlighter-rouge">"https://pingfederate.com:9031/ext/jwks"</code></li>
 </ul>
 
-<h5 id="configjwt_session_cookie">config.jwt_session_cookie</h5>
+<h4 id="configjwt_session_cookie">config.jwt_session_cookie</h4>
 
 <p>Defines a name of the cookie that contains a value for a claim that is
 specified with <code class="highlighter-rouge">config.jwt_session_claim</code> (and which is by default <code class="highlighter-rouge">sid</code>)
@@ -2742,7 +3274,7 @@ ignore this).</p>
   <li><code class="highlighter-rouge">"session_state"</code></li>
 </ul>
 
-<h5 id="configjwt_session_claim">config.jwt_session_claim</h5>
+<h4 id="configjwt_session_claim">config.jwt_session_claim</h4>
 
 <p>With this you can configure a claim in JWT access token that is verified
 against a cookie with a name that is configured with <code class="highlighter-rouge">config.jwt_session_cookie</code>
@@ -2775,14 +3307,49 @@ ignore this).</p>
   <li><code class="highlighter-rouge">"session_state"</code></li>
 </ul>
 
-<h5 id="configreverify">config.reverify</h5>
+<h4 id="configrediscovery_lifetime">config.rediscovery_lifetime</h4>
+
+<p>With this parameter you can configure how often (in seconds) you
+want to allow the plugin to do re-discovery (OpenID Connect Discovery)
+and load extra JWKS (<code class="highlighter-rouge">config.extra_jwks_uris</code>). This parameter is
+there to prevent plugin from hitting your IdPs discovery endpoints
+too often. The plugin only re-discovers when it sees a need for that.
+E.g. when you have rotated keys on IdP and you try to access a service
+with a token that has been signed with a JWK using a <code class="highlighter-rouge">kid</code> that
+is not known to Kong. Then the plugin tries to reload the JWKS,
+and tries to do find the right <code class="highlighter-rouge">kid</code> again. Setting this to <code class="highlighter-rouge">0</code>
+will make the plugin always re-discover when needed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">300</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">300</code></li>
+  <li><code class="highlighter-rouge">0</code></li>
+</ul>
+
+<h4 id="configreverify">config.reverify</h4>
 
 <p>If you are utilizing session based authentication method. Then by
 default we trust that alone and do not do further verifications.
 If you enable re-verification, then Kong will recheck the possible
 signature and the claims on each request.</p>
 
-<h5 id="configbearer_token_param_type">config.bearer_token_param_type</h5>
+<h4 id="configbearer_token_param_type">config.bearer_token_param_type</h4>
 
 <p>With this parameter you can define where the bearer tokens are searched
 in request. On header we seek it from <code class="highlighter-rouge">Authorization: Bearer</code>, <code class="highlighter-rouge">Access-Token</code>,
@@ -2833,7 +3400,7 @@ and <code class="highlighter-rouge">X-Access-Token</code> headers and in query a
   </tbody>
 </table>
 
-<h5 id="configclient_credentials_param_type">config.client_credentials_param_type</h5>
+<h4 id="configclient_credentials_param_type">config.client_credentials_param_type</h4>
 
 <p>With this parameter you can define where the client credentials are searched
 in request. On header we seek it from <code class="highlighter-rouge">Authorization: Basic</code> header and in query
@@ -2883,7 +3450,7 @@ and body we seek for arguments named <code class="highlighter-rouge">client_id</
   </tbody>
 </table>
 
-<h5 id="configpassword_param_type">config.password_param_type</h5>
+<h4 id="configpassword_param_type">config.password_param_type</h4>
 
 <p>With this parameter you can define where the password grant credentials are searched
 in request. On header we seek it from <code class="highlighter-rouge">Authorization: Basic</code> header and in query
@@ -2933,7 +3500,7 @@ and body we seek for arguments named <code class="highlighter-rouge">username</c
   </tbody>
 </table>
 
-<h5 id="configid_token_param_name">config.id_token_param_name</h5>
+<h4 id="configid_token_param_name">config.id_token_param_name</h4>
 
 <p>Because there is no such standard that defines how the id token should
 be send to a server for verification this parameter solves one half of
@@ -2963,7 +3530,7 @@ for the id token.</p>
   <li><code class="highlighter-rouge">"X-ID-Token"</code></li>
 </ul>
 
-<h5 id="configid_token_param_type">config.id_token_param_type</h5>
+<h4 id="configid_token_param_type">config.id_token_param_type</h4>
 
 <p>This parameter is the another half of the puzzle of how the id token
 is delivered for verification (another one being <code class="highlighter-rouge">config.id_token_param_name</code>).
@@ -3035,60 +3602,60 @@ are (or any combination of them):</p>
   </tbody>
 </table>
 
-<h5 id="configdiscovery_headers_names">config.discovery_headers_names</h5>
+<h4 id="configdiscovery_headers_names">config.discovery_headers_names</h4>
 
 <p>Extra arguments names that you want to include in discovery
 request headers (such as <code class="highlighter-rouge">Authorization</code>).</p>
 
-<h5 id="configdiscovery_headers_values">config.discovery_headers_values</h5>
+<h4 id="configdiscovery_headers_values">config.discovery_headers_values</h4>
 
 <p>Values for the extra arguments that you want to include in
 discovery request headers.</p>
 
-<h5 id="configauthorization_query_args_names">config.authorization_query_args_names</h5>
+<h4 id="configauthorization_query_args_names">config.authorization_query_args_names</h4>
 
 <p>Extra arguments names that you want to include in authorization
 endpoint query string.</p>
 
-<h5 id="configauthorization_query_args_values">config.authorization_query_args_values</h5>
+<h4 id="configauthorization_query_args_values">config.authorization_query_args_values</h4>
 
 <p>Values for the extra arguments that you want to include in
 authorization endpoint query string.</p>
 
-<h5 id="configauthorization_query_args_client">config.authorization_query_args_client</h5>
+<h4 id="configauthorization_query_args_client">config.authorization_query_args_client</h4>
 
 <p>Extra dynamic arguments that are passed from client to authorization
 endpoint. E.g. specify arguments such as <code class="highlighter-rouge">login_hint</code> with this config
 parameter.</p>
 
-<h5 id="configtoken_post_args_names">config.token_post_args_names</h5>
+<h4 id="configtoken_post_args_names">config.token_post_args_names</h4>
 
 <p>Extra arguments names that you want to include in token
 endpoint post args.</p>
 
-<h5 id="configtoken_post_args_values">config.token_post_args_values</h5>
+<h4 id="configtoken_post_args_values">config.token_post_args_values</h4>
 
 <p>Values for the extra arguments that you want to include
 in token endpoint post args.</p>
 
-<h5 id="configtoken_headers_client">config.token_headers_client</h5>
+<h4 id="configtoken_headers_client">config.token_headers_client</h4>
 
 <p>When Kong calls token endpoint, you can specify the headers
 that Kong will pass to token endpoint from client request
 headers.</p>
 
-<h5 id="configtoken_headers_replay">config.token_headers_replay</h5>
+<h4 id="configtoken_headers_replay">config.token_headers_replay</h4>
 
 <p>When Kong calls token endpoint, you can specify the headers
 (from the token endpoint response) that you want the Kong
 to send back to the client.</p>
 
-<h5 id="configtoken_headers_prefix">config.token_headers_prefix</h5>
+<h4 id="configtoken_headers_prefix">config.token_headers_prefix</h4>
 
 <p>If you want you can prefix the token endpoint headers with
 a string to differentiate them from other headers.</p>
 
-<h5 id="configtoken_headers_grants">config.token_headers_grants</h5>
+<h4 id="configtoken_headers_grants">config.token_headers_grants</h4>
 
 <p>You can limit the grants for which the token headers are replayed:</p>
 
@@ -3098,97 +3665,119 @@ a string to differentiate them from other headers.</p>
   <li><code class="highlighter-rouge">"authorization_code"</code></li>
 </ul>
 
-<h5 id="configupstream_headers_claims">config.upstream_headers_claims</h5>
+<h4 id="configtoken_endpoint_auth_method">config.token_endpoint_auth_method</h4>
+
+<p>If you want to override defaults or information coming from OpenID
+Connect Discovery claim <code class="highlighter-rouge">token_endpoint_auth_methods_supported</code>,
+you can use this parameter override the authentication method
+we use to authenticate on <code class="highlighter-rouge">token_endpoint</code> as a confidential
+client. Possible values are:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">"none"</code></li>
+  <li><code class="highlighter-rouge">"client_secret_basic"</code></li>
+  <li><code class="highlighter-rouge">"client_secret_post"</code></li>
+</ul>
+
+<p>If none is specified, we use either one of the method found in
+<code class="highlighter-rouge">token_endpoint_auth_methods_supported</code> or <code class="highlighter-rouge">"client_secret_basic"</code>.</p>
+
+<p>For client credentials grant we don’t support <code class="highlighter-rouge">"none"</code> as it
+does not make any sense as there got to be those credentials
+to be present. You can still configure this to <code class="highlighter-rouge">"none"</code> it is
+just that for client credentials grant it is ignored.</p>
+
+<h4 id="configupstream_headers_claims">config.upstream_headers_claims</h4>
 
 <p>Claims to look from which to create upstream headers.</p>
 
-<h5 id="configupstream_headers_names">config.upstream_headers_names</h5>
+<h4 id="configupstream_headers_names">config.upstream_headers_names</h4>
 
 <p>Upstream headers to create for the matching claims.</p>
 
-<h5 id="configupstream_access_token_header">config.upstream_access_token_header</h5>
+<h4 id="configupstream_access_token_header">config.upstream_access_token_header</h4>
 
 <p>Specify a name of the <code class="highlighter-rouge">upstream</code> header where the access token is
 injected. By default this is set to a special value
 <code class="highlighter-rouge">authorization:bearer</code> which means that the access token is injected
 as <code class="highlighter-rouge">Authorization</code> header and the values is set as a <code class="highlighter-rouge">bearer</code> token.</p>
 
-<h5 id="configdownstream_access_token_header">config.downstream_access_token_header</h5>
+<h4 id="configdownstream_access_token_header">config.downstream_access_token_header</h4>
 
 <p>If you want to inject access token in downstream headers (response),
 you can use this configuration parameter to specify the name of the header
 where the access token is injected. By default we don’t inject access token
 in response headers.</p>
 
-<h5 id="configupstream_access_token_jwk_header">config.upstream_access_token_jwk_header</h5>
+<h4 id="configupstream_access_token_jwk_header">config.upstream_access_token_jwk_header</h4>
 
 <p>With this configuration parameter you can specify the name of the
 header that Kong will inject to a request before proxying to upstream
 service. The value will be set to a JWK that was used to verify the
 access token. This is used when the JWT access token is available.</p>
 
-<h5 id="configdownstream_access_token_jwk_header">config.downstream_access_token_jwk_header</h5>
+<h4 id="configdownstream_access_token_jwk_header">config.downstream_access_token_jwk_header</h4>
 
 <p>Similar to above, but this time for downstream (response).</p>
 
-<h5 id="configupstream_id_token_header">config.upstream_id_token_header</h5>
+<h4 id="configupstream_id_token_header">config.upstream_id_token_header</h4>
 
 <p>Specify a name of the <code class="highlighter-rouge">upstream</code> header where the id token is
 injected (if any). By default we don’t inject id tokens to
 upstream headers.</p>
 
-<h5 id="configdownstream_id_token_header">config.downstream_id_token_header</h5>
+<h4 id="configdownstream_id_token_header">config.downstream_id_token_header</h4>
 
 <p>Specify a name of the <code class="highlighter-rouge">downstream</code> (response) header where the
 id token is injected (if any). By default we don’t inject
 id tokens to downstream headers.</p>
 
-<h5 id="configupstream_id_token_jwk_header">config.upstream_id_token_jwk_header</h5>
+<h4 id="configupstream_id_token_jwk_header">config.upstream_id_token_jwk_header</h4>
 
 <p>With this configuration parameter you can specify the name of the
 header that Kong will inject to a request before proxying to upstream
 service. The value will be set to a JWK that was used to verify the
 id token. This is used when the JWT id token is available.</p>
 
-<h5 id="configdownstream_id_token_jwk_header">config.downstream_id_token_jwk_header</h5>
+<h4 id="configdownstream_id_token_jwk_header">config.downstream_id_token_jwk_header</h4>
 
 <p>Similar to above, but this time for downstream (response).</p>
 
-<h5 id="configupstream_refresh_token_header">config.upstream_refresh_token_header</h5>
+<h4 id="configupstream_refresh_token_header">config.upstream_refresh_token_header</h4>
 
 <p>Specify a name of the <code class="highlighter-rouge">upstream</code> header where the refresh token is
 injected (if any). By default we don’t inject refresh tokens to
 upstream headers.</p>
 
-<h5 id="configdownstream_refresh_token_header">config.downstream_refresh_token_header</h5>
+<h4 id="configdownstream_refresh_token_header">config.downstream_refresh_token_header</h4>
 
 <p>Specify a name of the <code class="highlighter-rouge">downstream</code> (response) header where the
 refresh token is injected (if any). By default we don’t inject
 refresh tokens to downstream headers.</p>
 
-<h5 id="configupstream_user_info_header">config.upstream_user_info_header</h5>
+<h4 id="configupstream_user_info_header">config.upstream_user_info_header</h4>
 
 <p>With this configuration parameter you can specify the name of the
 header that Kong will inject to a request before proxying to upstream
 service. The value will be set to a OpenID Connect standard User Info
 (JSON document), if the plugin is able to retrieve that.</p>
 
-<h5 id="configdownstream_user_info_header">config.downstream_user_info_header</h5>
+<h4 id="configdownstream_user_info_header">config.downstream_user_info_header</h4>
 
 <p>Similar to above, but this time for downstream (response).</p>
 
-<h5 id="configupstream_introspection_header">config.upstream_introspection_header</h5>
+<h4 id="configupstream_introspection_header">config.upstream_introspection_header</h4>
 
 <p>When you try to login with opaque access token, Kong tries to
 authenticate the request using standard OAuth 2.0 Introspection.
 If that succeeds and you want to pass the introspection results
 to upstream, you can do so by setting this parameter.</p>
 
-<h5 id="configdownstream_introspection_header">config.downstream_introspection_header</h5>
+<h4 id="configdownstream_introspection_header">config.downstream_introspection_header</h4>
 
 <p>Similar to above, but this time for downstream (response).</p>
 
-<h5 id="configintrospect_jwt_tokens">config.introspect_jwt_tokens</h5>
+<h4 id="configintrospect_jwt_tokens">config.introspect_jwt_tokens</h4>
 
 <p>You can turn this option on (<code class="highlighter-rouge">true</code>) to enable introspection of
 JWT Bearer tokens. This enables checking of revoked JWT tokens,
@@ -3216,7 +3805,7 @@ ultimately proxying to upstream service.</p>
   </tbody>
 </table>
 
-<h5 id="configintrospection_endpoint">config.introspection_endpoint</h5>
+<h4 id="configintrospection_endpoint">config.introspection_endpoint</h4>
 
 <p>OAuth 2.0 introspection endpoint is not defined in OpenID Connect
 standards or OpenID Connect Discovery. Still some OpenID providers
@@ -3226,7 +3815,7 @@ it is not possible through automation. With this configuration
 parameter you can specify a URL for your issuer’s introspection
 endpoint.</p>
 
-<h5 id="configintrospection_hint">config.introspection_hint</h5>
+<h4 id="configintrospection_hint">config.introspection_hint</h4>
 
 <p>Some providers such as <code class="highlighter-rouge">WSO2</code> don’t implement OAuth 2.0 introspection
 standard correctly, and they want to have <code class="highlighter-rouge">token_type_hint</code> argument
@@ -3235,17 +3824,17 @@ access tokens. With this parameter you can change the value of the
 <code class="highlighter-rouge">token_type_hint</code> argument that the plugin will pass to introspection
 endpoint when introspecting access tokens.</p>
 
-<h5 id="configintrospection_headers_names">config.introspection_headers_names</h5>
+<h4 id="configintrospection_headers_names">config.introspection_headers_names</h4>
 
 <p>Extra arguments names that you want to include in introspection
 request headers (e.g. use this to override <code class="highlighter-rouge">Authorization</code> header).</p>
 
-<h5 id="configintrospection_headers_values">config.introspection_headers_values</h5>
+<h4 id="configintrospection_headers_values">config.introspection_headers_values</h4>
 
 <p>Values for the extra arguments that you want to include in
 introspection request headers.</p>
 
-<h5 id="configlogin_methods">config.login_methods</h5>
+<h4 id="configlogin_methods">config.login_methods</h4>
 
 <p>With this configuration parameter you can adjust plugin to only
 use other <code class="highlighter-rouge">config.login_*</code> parameters when there is a matching
@@ -3265,7 +3854,7 @@ authentication method used. Possible values:</p>
 Non matching grants will be proxied to upstream regardless of
 <code class="highlighter-rouge">config.login_action</code>.</p>
 
-<h5 id="configlogin_action">config.login_action</h5>
+<h4 id="configlogin_action">config.login_action</h4>
 
 <p>When the authentication is done with a method specified with
 <code class="highlighter-rouge">config.login_methods</code>, this configuration parameter enables
@@ -3277,12 +3866,12 @@ you to decide what Kong does next. The possible actions are:</p>
   <li><code class="highlighter-rouge">"redirect"</code> — after authentication, Kong sends a redirect response to client with redirection uri taken from <code class="highlighter-rouge">config.login.redirect_uri</code></li>
 </ol>
 
-<h5 id="configlogin_tokens">config.login_tokens</h5>
+<h4 id="configlogin_tokens">config.login_tokens</h4>
 
 <p>If the <code class="highlighter-rouge">login_action</code> is set to <code class="highlighter-rouge">response</code> or <code class="highlighter-rouge">redirect</code>, you can specify
 the tokens to be returned (if available) or added to redirection uri’s hash.</p>
 
-<h5 id="configlogin_redirect_mode">config.login_redirect_mode</h5>
+<h4 id="configlogin_redirect_mode">config.login_redirect_mode</h4>
 
 <p>When <code class="highlighter-rouge">config.login_action</code> is set to <code class="highlighter-rouge">redirect</code>, this configuration parameter
 is used to define how you want to pass <code class="highlighter-rouge">login_tokens with </code>login_redirect_uri`.
@@ -3302,22 +3891,22 @@ going to enable third option <code class="highlighter-rouge">form_post</code> wh
 redirect will make a HTTP POST to <code class="highlighter-rouge">login_redirect_uri</code> with the tokens as
 HTTP POST arguments in HTTP POST request’s body.</p>
 
-<h5 id="configlogout_query_arg">config.logout_query_arg</h5>
+<h4 id="configlogout_query_arg">config.logout_query_arg</h4>
 
 <p>If you want to enable logout by query argument, use this parameter to
 define name of the query argument.</p>
 
-<h5 id="configlogout_post_arg">config.logout_post_arg</h5>
+<h4 id="configlogout_post_arg">config.logout_post_arg</h4>
 
 <p>If you want to enable logout by post argument, use this parameter to
 define name of the post argument.</p>
 
-<h5 id="configlogout_uri_suffix">config.logout_uri_suffix</h5>
+<h4 id="configlogout_uri_suffix">config.logout_uri_suffix</h4>
 
 <p>If you want to enable logout by uri suffix, use this parameter to
 define the suffix.</p>
 
-<h5 id="configlogout_methods">config.logout_methods</h5>
+<h4 id="configlogout_methods">config.logout_methods</h4>
 
 <p>Specify HTTP methods that are allowed for logout. You can use these
 methods:</p>
@@ -3330,25 +3919,25 @@ methods:</p>
 
 <p>By default <code class="highlighter-rouge">"POST"</code> and <code class="highlighter-rouge">"DELETE"</code> are enabled.</p>
 
-<h5 id="configlogout_revoke">config.logout_revoke</h5>
+<h4 id="configlogout_revoke">config.logout_revoke</h4>
 
 <p>If you want also try to revoke the tokens on logout by calling IdP’s
 revocation endpoint, you can use this parameter to enable it. By default
 the plugin does not call revocation endpoint.</p>
 
-<h5 id="configrevocation_endpoint">config.revocation_endpoint</h5>
+<h4 id="configrevocation_endpoint">config.revocation_endpoint</h4>
 
 <p>If revocation endpoint is not defined in OpenID Connect discovery document,
 you can use this parameter to define one manually.</p>
 
-<h5 id="configend_session_endpoint">config.end_session_endpoint</h5>
+<h4 id="configend_session_endpoint">config.end_session_endpoint</h4>
 
 <p>Usually this is defined in OpenID Connect discovery document, but you can
 use this parameter to define one manually. If either this parameter is specified
 or end session endpoint is found in discovery document, this plugin will,
 on logout, redirect client to here.</p>
 
-<h5 id="configtoken_exchange_endpoint">config.token_exchange_endpoint</h5>
+<h4 id="configtoken_exchange_endpoint">config.token_exchange_endpoint</h4>
 
 <p>When you specify this parameter, the plugin will call the token exchange
 endpoint to exchange the access token with a new one before proxying to
@@ -3361,7 +3950,7 @@ and the new access token needs to be in the response body. Please make it sure
 that the access token is correctly encoded (e.g. use JWT Compact Encoding),
 so that the token can be used e.g. in upstream service request headers.</p>
 
-<h5 id="configconsumer_claim">config.consumer_claim</h5>
+<h4 id="configconsumer_claim">config.consumer_claim</h4>
 
 <p>Define the name of the claim that you want to use for consumer mapping.
 Setting this value will also make it possible to limit access to only
@@ -3370,7 +3959,9 @@ this setting is <code class="highlighter-rouge">"sub"</code>. The claim value wi
 if provided or access token or introspection results. If no match is
 found a <code class="highlighter-rouge">403</code> error is returned. In case you have defined <code class="highlighter-rouge">config.anonymous</code>
 the anonymous consumer will be searched as well, and will be used as a
-fallback if found.</p>
+fallback if found. If you also set <code class="highlighter-rouge">config.consumer_optional</code> then
+we just optionally look for consumer and won’t error with <code class="highlighter-rouge">403 Forbidden</code>
+if none was found.</p>
 
 <table>
   <thead>
@@ -3392,9 +3983,10 @@ fallback if found.</p>
 <ul>
   <li><code class="highlighter-rouge">"sub"</code></li>
   <li><code class="highlighter-rouge">"username"</code></li>
+  <li><code class="highlighter-rouge">"user,information,userid"</code> (nested claim)</li>
 </ul>
 
-<h5 id="configconsumer_by">config.consumer_by</h5>
+<h4 id="configconsumer_by">config.consumer_by</h4>
 
 <p>This can be defined as an array of these values:</p>
 
@@ -3427,13 +4019,58 @@ fallback if found.</p>
   <li><code class="highlighter-rouge">"id,custom_id,username"</code></li>
 </ul>
 
-<h5 id="configcredential_claim">config.credential_claim</h5>
+<h4 id="configconsumer_optional">config.consumer_optional</h4>
+
+<p>When you enable Kong consumer mapping by arbitrary claim by defining
+<code class="highlighter-rouge">config.consumer_claim</code>, the mapping by default is mandatory. E.g.
+a Kong consumer has to be found OR <code class="highlighter-rouge">config.anonymous</code> consumer (if
+enabled) has to be found. Sometimes you want this mapping to be optional.</p>
+
+<p>Use case:</p>
+
+<ol>
+  <li>Protect upstream with OpenID Connect</li>
+  <li>Have rate-limiting configured for 1,000 requests per hour for everyone</li>
+  <li>Have rate-limiting configured for 10,000 request per hour for consumer X</li>
+</ol>
+
+<p>With this use case you could use these parameters:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">config.consumer_claim="sub"</code></li>
+  <li><code class="highlighter-rouge">config.consumer_optional=true</code></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">false</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">true</code></li>
+  <li><code class="highlighter-rouge">false</code></li>
+</ul>
+
+<h4 id="configcredential_claim">config.credential_claim</h4>
 
 <p>If consumer cannot be found or you don’t want to use consumer mapping
 this property allows you to set Kong credential by arbitrary claim. This
 allows e.g. rate-limiting by arbitrary claim. All credentials share same
 limits, but each has limit of their own. If you want to give someone
-different limits, you can use this together with <code class="highlighter-rouge">config.consumer_claim</code>.</p>
+different limits, you can use this together with <code class="highlighter-rouge">config.consumer_claim</code>
+and <code class="highlighter-rouge">config.consumer_optional</code>.</p>
 
 <table>
   <thead>
@@ -3457,7 +4094,7 @@ different limits, you can use this together with <code class="highlighter-rouge"
   <li><code class="highlighter-rouge">"user,preferred_username"</code> (looks under claim <code class="highlighter-rouge">user</code> for key <code class="highlighter-rouge">preferred_username</code>)</li>
 </ul>
 
-<h5 id="configanonymous">config.anonymous</h5>
+<h4 id="configanonymous">config.anonymous</h4>
 
 <p>If consumer is not found and <code class="highlighter-rouge">config.consumer_claim</code> is defined,
 you can use this value to fallback to an anonymous consumer. Set
@@ -3485,7 +4122,7 @@ fallback fails <code class="highlighter-rouge">401</code> will be returned.</p>
   <li><code class="highlighter-rouge">"f4bc9005-7488-4fe5-9861-17a4e7cb31eb"</code></li>
 </ul>
 
-<h5 id="configrun_on_preflight">config.run_on_preflight</h5>
+<h4 id="configrun_on_preflight">config.run_on_preflight</h4>
 
 <p>A boolean value that indicates whether the plugin should run
 (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests,
@@ -3506,7 +4143,7 @@ if set to false then <code class="highlighter-rouge">OPTIONS</code> requests wil
   </tbody>
 </table>
 
-<h5 id="configleeway">config.leeway</h5>
+<h4 id="configleeway">config.leeway</h4>
 
 <p>This configuration parameter is used to adjust possible clock skew
 between the <code class="highlighter-rouge">OP</code> and <code class="highlighter-rouge">Kong</code>. The <code class="highlighter-rouge">config.leeway</code> is taken in account
@@ -3514,7 +4151,7 @@ in all the time related verifications. The <code class="highlighter-rouge">leewa
 seconds. Leeway is also used when checking session expiration, aka
 when to refresh the access token if refresh token is available.</p>
 
-<h5 id="configverify_parameters">config.verify_parameters</h5>
+<h4 id="configverify_parameters">config.verify_parameters</h4>
 
 <p>For debugging purposes you can turn off parameter verification. Sometimes
 providers announce erroneous information in their discovery documents
@@ -3523,7 +4160,7 @@ parameter turns all the discovery based parameter validations off. It can
 be safely turned off. Please always check Kong error logs, as the plugins
 in this suite usually give very clear information of what went wrong.</p>
 
-<h5 id="configverify_nonce">config.verify_nonce</h5>
+<h4 id="configverify_nonce">config.verify_nonce</h4>
 
 <p>For debugging purposes you can turn off nonce verification. Please always
 check Kong error logs, as the plugins in this suite usually give very clear
@@ -3531,13 +4168,13 @@ information of what went wrong. Turning off the verification of nonce is not
 a good idea in production as it is a security feature, If your identity provider
 doesn’t support it, then it might be reasonable to try turning this off.</p>
 
-<h5 id="configverify_signature">config.verify_signature</h5>
+<h4 id="configverify_signature">config.verify_signature</h4>
 
 <p>You can turn off all the signature verification with this option. Generally
 it is not recommended, but you can use this for debugging purposes.
 Claims will still be verified.</p>
 
-<h5 id="configverify_claims">config.verify_claims</h5>
+<h4 id="configverify_claims">config.verify_claims</h4>
 
 <p>You can turn off all the claims verification with this option. Generally
 it is not recommended, but you can use this for debugging purposes.
@@ -3546,33 +4183,33 @@ Signature will still be verified.</p>
 <p>Additional claims verification (e.g. <code class="highlighter-rouge">config.scopes_required</code>) will still
 be checked if defined.</p>
 
-<h5 id="configcache_ttl">config.cache_ttl</h5>
+<h4 id="configcache_ttl">config.cache_ttl</h4>
 
 <p>Cache expiry time in seconds.</p>
 
-<h5 id="configcache_introspection">config.cache_introspection</h5>
+<h4 id="configcache_introspection">config.cache_introspection</h4>
 
 <p>You can turn off caching of introspection requests with this parameter.</p>
 
-<h5 id="configcache_token_exchange">config.cache_token_exchange</h5>
+<h4 id="configcache_token_exchange">config.cache_token_exchange</h4>
 
 <p>You can turn off caching of token exchange requests with this parameter.</p>
 
-<h5 id="configcache_tokens">config.cache_tokens</h5>
+<h4 id="configcache_tokens">config.cache_tokens</h4>
 
 <p>You can turn off caching of token endpoint requests with this parameter.</p>
 
-<h5 id="configcache_user_info">config.cache_user_info</h5>
+<h4 id="configcache_user_info">config.cache_user_info</h4>
 
 <p>You can turn off caching of user info request with this parameter.</p>
 
-<h5 id="confighide_credentials">config.hide_credentials</h5>
+<h4 id="confighide_credentials">config.hide_credentials</h4>
 
 <p>An optional boolean value telling the plugin to hide the credential to
 the upstream API server. It will be removed by Kong before proxying
 the request.</p>
 
-<h5 id="confighttp_version">config.http_version</h5>
+<h4 id="confighttp_version">config.http_version</h4>
 
 <p>Specifies the HTTP version that is used for communicating with the
 OP. It can either be <code class="highlighter-rouge">1.1</code> or <code class="highlighter-rouge">1.0</code>.</p>
@@ -3599,10 +4236,30 @@ OP. It can either be <code class="highlighter-rouge">1.1</code> or <code class="
   <li><code class="highlighter-rouge">1.1</code></li>
 </ul>
 
-<h5 id="configssl_verify">config.ssl_verify</h5>
+<h4 id="confighttp_proxy">config.http_proxy</h4>
 
-<p>Specifies whether or not the plugin should verify the certificates
-used in SSL/TLS communication.</p>
+<p>Specifies the HTTP proxy to be used for communicating with the IdP.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">http://10.0.0.5:8080</code></li>
+</ul>
+
+<h4 id="confighttps_proxy">config.https_proxy</h4>
+
+<p>Specifies the HTTPS proxy to be used for communicating with the IdP.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">http://10.0.0.5:8080</code></li>
+</ul>
+
+<h4 id="configkeepalive">config.keepalive</h4>
+
+<p>Specifies whether or not the plugin should keep-alive connections
+with the IdP endpoints.</p>
 
 <table>
   <thead>
@@ -3626,7 +4283,34 @@ used in SSL/TLS communication.</p>
   <li><code class="highlighter-rouge">false</code></li>
 </ul>
 
-<h5 id="configtimeout">config.timeout</h5>
+<h4 id="configssl_verify">config.ssl_verify</h4>
+
+<p>Specifies whether or not the plugin should verify the certificates
+used in SSL/TLS communication.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">false</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">true</code></li>
+  <li><code class="highlighter-rouge">false</code></li>
+</ul>
+
+<h4 id="configtimeout">config.timeout</h4>
 
 <p>Specified the timeouts for HTTP requests used in non-blocking communications
  between <code class="highlighter-rouge">Kong</code> and <code class="highlighter-rouge">OP</code>, and between <code class="highlighter-rouge">Kong</code> and the <code class="highlighter-rouge">Client</code>. This parameter
@@ -3655,14 +4339,14 @@ used in SSL/TLS communication.</p>
   <li><code class="highlighter-rouge">5000</code></li>
 </ul>
 
-<h4 id="authorization">Authorization</h4>
+<h3 id="authorization">Authorization</h3>
 
 <p><code class="highlighter-rouge">openid-connect</code> plugin supports different authentication / authorization
 methods in one plugin. The plugin figures out the method used for
 authentication by looking the request headers or parameters (and also
 plugin configuration parameter <code class="highlighter-rouge">config.auth_methods</code>).</p>
 
-<h5 id="authorization-code-grant">Authorization Code Grant</h5>
+<h4 id="authorization-code-grant">Authorization Code Grant</h4>
 
 <p>Authorization Code grant is default (if enabled) that Kong tries when there is
 no other credentials supplied. With authorization code flow Kong sends a
@@ -3672,7 +4356,7 @@ client back to Kong where Kong validates the parameters and then goes on with
 exchanging the authorization code with the tokens by calling token endpoint
 of the identity provider.</p>
 
-<h5 id="resource-owner-password-credentials-grant">Resource Owner Password Credentials Grant</h5>
+<h4 id="resource-owner-password-credentials-grant">Resource Owner Password Credentials Grant</h4>
 
 <p>The plugin looks for <code class="highlighter-rouge">Authorization: Basic &lt;username&gt;:&lt;password&gt;</code> header to
 determine the username and password. <code class="highlighter-rouge">&lt;username&gt;:&lt;password&gt;</code> pair can (and should)
@@ -3680,7 +4364,7 @@ be base64 encoded (HTTP Basic Authentication). Alternatively you can send
 <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> in url (<code class="highlighter-rouge">GET</code>) or body (<code class="highlighter-rouge">POST</code>) arguments using
 <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> fields.</p>
 
-<h5 id="client-credentials-grant">Client Credentials Grant</h5>
+<h4 id="client-credentials-grant">Client Credentials Grant</h4>
 
 <p>The plugin looks for <code class="highlighter-rouge">Authorization: Basic &lt;client_id&gt;:&lt;client_secret&gt;</code> header to
 determine the username and password. <code class="highlighter-rouge">&lt;client_id&gt;:&lt;client_secret&gt;</code> pair can (and should)
@@ -3688,7 +4372,7 @@ be base64 encoded (HTTP Basic Authentication). Alternatively you can send
 <code class="highlighter-rouge">client_id</code> and <code class="highlighter-rouge">client_secret</code> in url (<code class="highlighter-rouge">GET</code>) or body (<code class="highlighter-rouge">POST</code>) arguments using
 <code class="highlighter-rouge">client_id</code> and <code class="highlighter-rouge">client_secret</code> fields.</p>
 
-<h5 id="jwt-bearer-token">JWT Bearer Token</h5>
+<h4 id="jwt-bearer-token">JWT Bearer Token</h4>
 
 <p>When the client has an JWT access token available. E.g. it could have retrieved one
 directly from identity provider by using implicit flow, or it could have received it
@@ -3697,13 +4381,13 @@ an authorization header (<code class="highlighter-rouge">Authorization: Bearer &
 in this case) will be verified for signature and standard claims before it gets
 accepted.</p>
 
-<h5 id="opaque-bearer-token">Opaque Bearer Token</h5>
+<h4 id="opaque-bearer-token">Opaque Bearer Token</h4>
 
 <p>Similar to JWT bearer tokens, but this time Kong will figure out through introspection
 whether or not to trust this token. Also the opaque access tokens are presented in an
 authorization header (<code class="highlighter-rouge">Authorization: Bearer &lt;token&gt;</code>).</p>
 
-<h5 id="kong-oauth-20-authentication-plugin-issued-opaque-access-tokens">Kong OAuth 2.0 Authentication Plugin issued Opaque Access Tokens</h5>
+<h4 id="kong-oauth-20-authentication-plugin-issued-opaque-access-tokens">Kong OAuth 2.0 Authentication Plugin issued Opaque Access Tokens</h4>
 
 <p>The plugin will also accept tokens that are issued by Kong OAuth 2.0 Authentication Plugin,
 and it can be used to verify them. It duplicates some verification code from Kong OAuth 2.0
@@ -3711,7 +4395,7 @@ plugin, but this plugin does not provide any identity provider functionality as 
 2.0 plugin does. Similar to JWT Bearer tokens and opaque bearer tokens, the Kong issued opaque
 tokens are presented in an authorization header (<code class="highlighter-rouge">Authorization: Bearer &lt;token&gt;</code>).</p>
 
-<h5 id="session-cookie">Session Cookie</h5>
+<h4 id="session-cookie">Session Cookie</h4>
 
 <p>When the client has authenticated with one of the supported authentication methods mentioned
 above, this plugin can also (optionally) send a HTTP Only session cookie to the client. This
@@ -3719,7 +4403,7 @@ cookie can be used to authenticate further requests This works especially nicely
 Authorization Code Grant that is usually used with interactive browser sessions. Session cookie
 is presented to this plugin by setting the cookie header (e.g. <code class="highlighter-rouge">Cookie: session=…</code>).</p>
 
-<h5 id="refresh-token">Refresh Token</h5>
+<h4 id="refresh-token">Refresh Token</h4>
 
 <p>While this plugin does not accept refresh token directly from the client, it does support
 automatic refreshing of access tokens if there is a refresh token received from a token
@@ -3734,7 +4418,7 @@ that this usage example is for testing purposes and that you should
 not send confidential information to <code class="highlighter-rouge">httpbin.org</code> that is used here
 for illustrative purposes.</p>
 
-<h5 id="1-creating-the-api">1. Creating the API</h5>
+<h4 id="1-creating-the-api">1. Creating the API</h4>
 
 <p>To create an API we execute the following command:</p>
 
@@ -3790,7 +4474,7 @@ for illustrative purposes.</p>
 </span></code></pre>
 </div>
 
-<h5 id="2-checking-the-api">2. Checking the API</h5>
+<h4 id="2-checking-the-api">2. Checking the API</h4>
 
 <p>Check that the API works by issuing the following command:</p>
 
@@ -3844,7 +4528,7 @@ for illustrative purposes.</p>
 </span></code></pre>
 </div>
 
-<h5 id="3-enabling-the-plugin">3. Enabling the Plugin</h5>
+<h4 id="3-enabling-the-plugin">3. Enabling the Plugin</h4>
 
 <p>To enable <code class="highlighter-rouge">openid-connect</code> plugin for the API,
 execute the following command (on production you
@@ -3946,7 +4630,7 @@ shouldn’t disable SSL verification):</p>
 </span></code></pre>
 </div>
 
-<h5 id="4-try-the-api">4. Try the API</h5>
+<h4 id="4-try-the-api">4. Try the API</h4>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>http :8000 -v
 </code></pre>
@@ -3979,7 +4663,6 @@ shouldn’t disable SSL verification):</p>
   <span class="nt">&lt;head&gt;&lt;title&gt;</span>302 Found<span class="nt">&lt;/title&gt;&lt;/head&gt;</span>
   <span class="nt">&lt;body</span> <span class="na">bgcolor=</span><span class="s">"white"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;center&gt;&lt;h1&gt;</span>302 Found<span class="nt">&lt;/h1&gt;&lt;/center&gt;</span>
-    <span class="nt">&lt;hr&gt;&lt;center&gt;</span>openresty/1.11.2.2<span class="nt">&lt;/center&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </code></pre>
@@ -4021,13 +4704,13 @@ and downstream headers:</p>
 <p>And make an authenticated request again to see how this affects
 the request and response headers.</p>
 
-<h3 id="compatibility">Compatibility</h3>
+<h2 id="compatibility">Compatibility</h2>
 
 <p>The library behind these plugins have been tested with several OpenID
 Connect Providers, and we do expect the plugins to work with them as
 well.</p>
 
-<h4 id="cloud-providers">Cloud Providers</h4>
+<h3 id="cloud-providers">Cloud Providers</h3>
 
 <table>
   <thead>
@@ -4048,6 +4731,10 @@ well.</p>
     <tr>
       <td><a href="https://www.onelogin.com/">OneLogin</a></td>
       <td style="text-align: center"><a href="https://developers.onelogin.com/openid-connect">Docs</a> / <a href="https://openid-connect.onelogin.com/oidc/.well-known/openid-configuration">Discovery</a> / <a href="https://openid-connect.onelogin.com/oidc/certs">Keys</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://aws.amazon.com/">Amazon AWS</a> <a href="https://aws.amazon.com/cognito/">Cognito</a></td>
+      <td style="text-align: center"><a href="https://aws.amazon.com/cognito/getting-started/">Docs</a> / <a href="https://cognito-idp.us-east-2.amazonaws.com/us-east-2_XEXO5iUSL/.well-known/openid-configuration">Discovery</a> / <a href="https://cognito-idp.us-east-2.amazonaws.com/us-east-2_XEXO5iUSL/.well-known/jwks.json">Keys</a></td>
     </tr>
     <tr>
       <td><a href="https://www.google.com/">Google</a></td>
@@ -4076,7 +4763,7 @@ well.</p>
   </tbody>
 </table>
 
-<h4 id="on-premises">On Premises</h4>
+<h3 id="on-premises">On Premises</h3>
 
 <table>
   <thead>
@@ -4285,7 +4972,7 @@ well.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1542408087"></script>
+    <script src="/assets/app.js?v=1542667706"></script>
 
     <div id="fb-root"></div>
 
