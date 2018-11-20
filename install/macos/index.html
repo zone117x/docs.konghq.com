@@ -90,7 +90,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1542668069"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1542674002"/>
   
 </head>
 
@@ -417,8 +417,22 @@ window['_fs_namespace'] = 'FS';
 
     <p>Use the <a href="https://brew.sh/">Homebrew</a> package manager to add Kong as a tap and install it:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> $ brew tap kong/kong
- $ brew install kong
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>brew tap kong/kong
+ <span class="nv">$ </span>brew install kong
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><strong>Add <code class="highlighter-rouge">kong.conf</code></strong></p>
+
+    <p><strong>Note</strong>: This step is <strong>required</strong> if you are using Cassandra; it is <strong>optional</strong> for Postgres users.</p>
+
+    <p>By default, Kong is configured to communicate with a local Postgres instance.
+ If you are using Cassandra, or need to modify any settings, download the <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/0.14.x/configuration#database">adjust</a> it as necessary.
+ Then, as root, add it to <code class="highlighter-rouge">/etc</code>:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo mkdir -p /etc/kong
+ <span class="nv">$ </span>sudo cp kong.conf.default /etc/kong/kong.conf
 </code></pre>
     </div>
   </li>
@@ -427,20 +441,20 @@ window['_fs_namespace'] = 'FS';
 
     <p><a href="/0.14.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports both <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a> and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as its datastore.</p>
 
-    <p>If you are using Postgres, please provision a database and a user before starting Kong, ie:</p>
+    <p>If you are using Postgres, provision a database and a user before starting Kong:</p>
 
     <div class="language-sql highlighter-rouge"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
 </code></pre>
     </div>
 
-    <p>Now, run the Kong migrations:</p>
+    <p>Next, run the Kong migrations:</p>
 
     <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations up <span class="o">[</span>-c /path/to/kong.conf]
 </code></pre>
     </div>
 
-    <p><strong>Note</strong>: migrations should never be run concurrently; only
- one Kong nodes should be performing migrations at a time.</p>
+    <p><strong>Note</strong>: Migrations should never be run concurrently; only
+ one Kong node should be performing migrations at a time.</p>
   </li>
   <li>
     <p><strong>Start Kong</strong></p>
@@ -452,7 +466,7 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p><strong>Use Kong</strong></p>
 
-    <p>Kong is running:</p>
+    <p>Verify that Kong is running:</p>
 
     <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i http://localhost:8001/
 </code></pre>
@@ -640,7 +654,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1542668069"></script>
+    <script src="/assets/app.js?v=1542674002"></script>
 
     <div id="fb-root"></div>
 
