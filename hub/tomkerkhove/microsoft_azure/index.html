@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1542819822"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1543356779"/>
   
 </head>
 
@@ -238,6 +238,12 @@ window['_fs_namespace'] = 'FS';
           <ul>
   <li><a href="#deploying-kong-via-the-azure-marketplace">Deploying Kong via the Azure Marketplace</a></li>
   <li><a href="#running-kong-on-azure-container-instances">Running Kong on Azure Container Instances</a></li>
+  <li><a href="#provisioning-a-kong-datastore-in-microsoft-azure">Provisioning a Kong datastore in Microsoft Azure</a>
+    <ul>
+      <li><a href="#running-postgresql-on-azure-with-azure-database-for-postgresql">Running PostgreSQL on Azure with Azure Database for PostgreSQL</a></li>
+      <li><a href="#running-cassandra-on-azure-with-azure-cosmos-db">Running Cassandra on Azure with Azure Cosmos DB</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -390,22 +396,48 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p><strong>Kong Certified by Bitnami</strong></p>
 
-    <p>The Bitnami Kong Stack provides a one-click install solution for Kong. Bitnami certifies that the images are secure, up-to-date, and packaged using industry best practices.</p>
-
-    <p>You can deploy it in Azure <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/bitnami.kong">here</a> and all the documentation you need to configure and manage the server at the <a href="https://docs.bitnami.com/azure/apps/kong/">Bitnami Docs</a>.</p>
+    <p>For more information, see <a href="/hub/bitnami/microsoft_azure/">guidance provided by Bitnami</a>.</p>
   </li>
   <li>
-    <p><strong>Kong Cluster</strong></p>
+    <p><strong>Kong Cluster by Bitnami</strong></p>
 
-    <p>Kong Cluster for production environments - This solution configures a load-balanced Kong cluster with an additional Cassandra cluster for data storage. This solutions is a perfect choice to ensure high availability and performance in medium/large size production environments.</p>
-
-    <p>You can deploy Kong Cluster in Azure <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/bitnami.kong-cluster">here</a> and learn more about how the Cluster is configured at the <a href="https://docs.bitnami.com/azure-templates/apps/kong/get-started/understand-cluster-config/">Bitnami Docs</a>.</p>
+    <p>For more information, see <a href="/hub/bitnami/microsoft_azure/">guidance provided by Bitnami</a>.</p>
   </li>
 </ol>
 
 <h2 id="running-kong-on-azure-container-instances">Running Kong on Azure Container Instances</h2>
 
-<p>For more information, see <a href="./../microsoft_azure_container_instances">Running Kong on Azure Container Instances</a>.</p>
+<p>For more information, see <a href="/hub/tomkerkhove/microsoft_azure_container_instances">Running Kong on Azure Container Instances</a>.</p>
+
+<h2 id="provisioning-a-kong-datastore-in-microsoft-azure">Provisioning a Kong datastore in Microsoft Azure</h2>
+<p>When running Kong you need a datastore - Microsoft Azure can help with this as well!</p>
+
+<h3 id="running-postgresql-on-azure-with-azure-database-for-postgresql">Running PostgreSQL on Azure with Azure Database for PostgreSQL</h3>
+<p><a href="https://azure.microsoft.com/en-us/services/postgresql/">Azure Database for PostgreSQL</a> is a great way to use a managed PostgreSQL in the Azure Cloud.</p>
+
+<p>Here are the simple steps to provision one:</p>
+
+<ol>
+  <li>Go to the <a href="https://portal.azure.com" target="blank">Azure Portal</a></li>
+  <li>Create a new “Azure Database for PostgreSQL” instance</li>
+  <li>Go to “Connection Security” and enable access to Azure services</li>
+  <li>Create a new database called “kong” by using your favorite tool</li>
+</ol>
+
+<div class="alert alert-warning">
+  <div class="text-center">
+    <strong>Note</strong>: Before connecting to your new database, make sure your IP address is whitelisted in "Connection Security"
+  </div>
+</div>
+
+<h3 id="running-cassandra-on-azure-with-azure-cosmos-db">Running Cassandra on Azure with Azure Cosmos DB</h3>
+<p>Currently,  <a href="https://azure.microsoft.com/en-us/services/cosmos-db/">Azure Cosmos DB</a>  is not supported as a Cassandra datastore.</p>
+
+<div class="alert alert-info">
+  <div class="text-center">
+    <strong>Note</strong>: See <a href="https://github.com/Kong/docker-kong/issues/188" target="blank">#188</a> for more information.
+  </div>
+</div>
 
 
       
@@ -571,7 +603,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1542819822"></script>
+    <script src="/assets/app.js?v=1543356779"></script>
 
     <div id="fb-root"></div>
 
