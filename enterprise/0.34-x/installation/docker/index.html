@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1543356779"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1543542121"/>
   
 </head>
 
@@ -674,9 +674,23 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.34-x/developer-portal/customization"  >
+            <a href="/enterprise/0.34-x/developer-portal/customization/customization"  >
               Customization
             </a>
+            
+            <ul>
+              
+              
+              <li>
+                <a href="/enterprise/0.34-x/developer-portal/customization/customization" >Customizing the Dev Portal</a>
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.34-x/developer-portal/customization/smart-components" >Smart Components</a>
+              </li>
+              
+            </ul>
             
           </li>
           
@@ -929,7 +943,11 @@ welcome email. Once you have your license, you can set it in an environment vari
    kong-ee kong migrations up
 </code></pre>
     </div>
-    <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the license file</p>
+    <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment 
+ variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
+ For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
+ use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the 
+ license file.</p>
   </li>
   <li>
     <p>Start Kong:</p>
@@ -942,10 +960,10 @@ welcome email. Once you have your license, you can set it in an environment vari
   -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
   -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
   -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
-  -e "KONG_VITALS=on" \
   -e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
   -e "KONG_PORTAL=on" \
-  -e "KONG_PORTAL_GUI_URI=localhost:8003" \
+  -e "KONG_PORTAL_GUI_PROTOCOL=http" \
+  -e "KONG_PORTAL_GUI_HOST=127.0.0.1:8003" \
   -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
   -p 8000:8000 \
   -p 8443:8443 \
@@ -958,15 +976,18 @@ welcome email. Once you have your license, you can set it in an environment vari
   kong-ee
 </code></pre>
     </div>
-    <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the license file</p>
+    <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment 
+variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
+For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
+use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the 
+license file.</p>
   </li>
   <li>
-    <p>Congratulations! You now have Kong Enterprise installed and running. Test 
-it by visiting Kong Manager at http://localhost:8002 (replace <code class="highlighter-rouge">localhost</code> with 
-your server IP or hostname when running Kong on a remote system). If you load 
-the Dev Portal, at http://localhost:8003, expect a blank page until you follow 
-the instructions 
-<a href="/enterprise/0.34-x/developer-portal/getting-started/">here</a>.</p>
+    <p>Kong Enterprise should now be installed and running. Test 
+it by visiting Kong Manager at <a href="http://localhost:8002">http://localhost:8002</a>
+(replace <code class="highlighter-rouge">localhost</code> with your server IP or hostname when running Kong on a 
+remote system), or by visiting the Default Dev Portal at 
+<a href="http://127.0.0.1:8003/default">http://127.0.0.1:8003/default</a></p>
   </li>
 </ol>
 
@@ -979,7 +1000,7 @@ To enable it:</p>
 
 <ol>
   <li>
-    <p>Create an initial RBAC super admin:</p>
+    <p>Create an initial RBAC admin:</p>
 
     <div class="highlighter-rouge"><pre class="highlight"><code> curl -X POST http://localhost:8001/rbac/users/ -d name=admin -d user_token=12345
  curl -X POST http://localhost:8001/rbac/users/admin/roles -d roles=super-admin
@@ -1010,6 +1031,11 @@ header in requests:</p>
 
     <p>If you are able to access Kong without issues, you can add <code class="highlighter-rouge">KONG_ENFORCE_RBAC=on</code>
  to your initial container environment variables.</p>
+  </li>
+  <li>
+    <p>When RBAC is enabled, the Kong Manager requires the use of an 
+authentication plugin. Follow the 
+<a href="/enterprise/0.34-x/kong-manager/configuration/authentication">Authenticating Kong Manager</a> Guide to complete this set up.</p>
   </li>
 </ol>
 
@@ -1209,7 +1235,7 @@ nginx: [alert] Error validating Kong license: could not decode license json
 </script>
 
 
-    <script src="/assets/app.js?v=1543356779"></script>
+    <script src="/assets/app.js?v=1543542121"></script>
 
     <div id="fb-root"></div>
 
