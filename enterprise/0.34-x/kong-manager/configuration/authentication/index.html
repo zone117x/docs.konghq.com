@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1543542121"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1543887587"/>
   
 </head>
 
@@ -875,33 +875,33 @@ admin_gui_auth = basic-auth
 
 <h2 id="how-to-log-in-as-the-first-super-admin">How to Log In as the First Super Admin</h2>
 
-<p>To create credentials for the first Super Admin account:</p>
+<p>To create the first Super Admin account:</p>
 
 <ol>
   <li>
     <p>Set the Super Admin’s password.</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>   $ KONG_ADMIN_PASSWORD=&lt;password-only-you-know&gt;
+    <div class="highlighter-rouge"><pre class="highlight"><code>   $ export KONG_ADMIN_PASSWORD=&lt;password-only-you-know&gt;
 </code></pre>
     </div>
   </li>
   <li>
     <p>Run migrations.</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>   $ kong migrations up - c kong.conf.default
+    <div class="highlighter-rouge"><pre class="highlight"><code>   $ kong migrations up [-c /path/to/kong/conf]
 </code></pre>
     </div>
   </li>
   <li>
     <p>Start Kong.</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>   $ kong start -c kong.conf.default
+    <div class="highlighter-rouge"><pre class="highlight"><code>   $ kong start [-c /path/to/kong/conf]
 </code></pre>
     </div>
   </li>
   <li>
     <p>Log in to Kong Manager with the username <code class="highlighter-rouge">kong_admin</code> and the password set 
-in step 2.</p>
+in step 1.</p>
   </li>
 </ol>
 
@@ -915,9 +915,10 @@ to store and retrieve the RBAC token, parameters, and headers. Local Storage is
 saved on every successful login, and it is retrieved on every Kong Manager API 
 XHR request based on the <code class="highlighter-rouge">auth-store-types</code> value until you log out.</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: Local Storage Authentication credentials are stored in the 
-browser via <code class="highlighter-rouge">base64-encoding</code>, but are not encrypted. Therefore, it advised 
-that you always used SSL/TLS to encrypt your Kong Manager traffic.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: Information in Local Storage, including the current 
+user’s RBAC token, is stored in the browser via <code class="highlighter-rouge">base64-encoding</code>, but 
+is not encrypted. Therefore, it advised that you always use SSL/TLS to 
+encrypt your Kong Manager traffic.</p>
 
 <h2 id="how-to-log-out-and-log-in">How to Log Out and Log In</h2>
 
@@ -929,13 +930,13 @@ to the login page.</p>
   </li>
   <li>
     <p><em>Ensure you are logged out</em> before attempting to log in with a different 
-account. Visit the Kong Manager, where you will be prompted with a login form.</p>
+account. Visit Kong Manager, where you will be prompted with a login form.</p>
   </li>
   <li>
     <p>When you submit the login form, Kong Manager will make a request against the 
 Admin API using the specified <code class="highlighter-rouge">admin_gui_auth</code> with the data in the form. For 
 instance, if you have <code class="highlighter-rouge">basic-auth</code> enabled, then the form will submit with the 
-Authorization header e.g. <code class="highlighter-rouge">Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>.</p>
+Authorization header; e.g., <code class="highlighter-rouge">Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=</code>.</p>
   </li>
   <li>
     <p>If successful, the RBAC token associated with this Admin will be stored 
@@ -1144,7 +1145,7 @@ your remote LDAP server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1543542121"></script>
+    <script src="/assets/app.js?v=1543887587"></script>
 
     <div id="fb-root"></div>
 
