@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545086944"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
   
 </head>
 
@@ -314,6 +314,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#on-premises">On Premises</a></li>
     </ul>
   </li>
+  <li><a href="#enterprise-support--demo">Enterprise Support &amp; Demo</a></li>
 </ul>
 
         </nav>
@@ -962,6 +963,10 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>The <code class="highlighter-rouge">max_age</code> (in seconds) for the previous authentication, specifically the <code class="highlighter-rouge">auth_time</code> claim.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">authenticated_groups_claim</code></td>
+      <td>The Name of the claim (or a path) where the authenticated groups can be found.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">authorization_cookie_name</code></td>
       <td>The name of authorization code flow cookie that is used for verifying the responses from OpenID Connect provider.</td>
     </tr>
@@ -1080,6 +1085,18 @@ requirements will vary depending on your use case and identity provider.</p>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">bearer_token_param_type</code></td>
       <td>The types of delivery mechanisms for the bearer token parameter.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_token_param_name</code></td>
+      <td>The name of the payload parameter where the refresh or offline token is delivered.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_token_param_type</code></td>
+      <td>The types of delivery mechanisms for the refresh token parameter.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_tokens</code></td>
+      <td>Enable or disable automatic expiring access token refreshing if the plugin has access to refresh token.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">client_credentials_param_type</code></td>
@@ -1274,6 +1291,14 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>Revoke tokens from IdP on logout by calling <code class="highlighter-rouge">revocation_endpoint</code>.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">logout_revoke_access_token</code></td>
+      <td>If <code class="highlighter-rouge">logout_revoke</code> is turned on, this controls whether or not <code class="highlighter-rouge">access_token</code> is revoked on logout.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">logout_revoke_refresh_token</code></td>
+      <td>If <code class="highlighter-rouge">logout_revoke</code> is turned on, this controls whether or not <code class="highlighter-rouge">refresh_token</code> is revoked on logout.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">revocation_endpoint</code></td>
       <td>If <code class="highlighter-rouge">revocation_endpoint</code> is not specified in discovery (as it is not standardized by OpenID Connect), you can specify it manually.</td>
     </tr>
@@ -1362,8 +1387,20 @@ requirements will vary depending on your use case and identity provider.</p>
       <td>The proxy URL for HTTP communications.</td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">http_proxy_authorization</code></td>
+      <td>A value for Proxy-Authorization header to be used with http_proxy.</td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">https_proxy</code></td>
       <td>The proxy URL for HTTPS communications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">https_proxy_authorization</code></td>
+      <td>A value for Proxy-Authorization header to be used with https_proxy.</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">no_proxy</code></td>
+      <td>A comma separated list of hosts that should not be proxied with <code class="highlighter-rouge">http_proxy</code> or <code class="highlighter-rouge">https_proxy</code>.</td>
     </tr>
     <tr>
       <td style="text-align: right"><code class="highlighter-rouge">keepalive</code></td>
@@ -1722,6 +1759,24 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">"query"</code>, <code class="highlighter-rouge">"header"</code>, <code class="highlighter-rouge">"body"</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_token_param_name</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_token_param_type</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">"query"</code>, <code class="highlighter-rouge">"header"</code>, <code class="highlighter-rouge">"body"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">refresh_tokens</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">client_credentials_param_type</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">array</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
@@ -2010,6 +2065,18 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">false</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">logout_revoke_access_token</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">false</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">logout_revoke_refresh_token</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">boolean</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">false</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">revocation_endpoint</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">url</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
@@ -2142,8 +2209,26 @@ as you can see below.</p>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
     <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">http_proxy_authorization</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
       <td style="text-align: right"><code class="highlighter-rouge">https_proxy</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">url</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">https_proxy_authorization</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+      <td><code class="highlighter-rouge">—</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">no_proxy</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">string</code></td>
       <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
       <td><code class="highlighter-rouge">—</code></td>
     </tr>
@@ -2595,8 +2680,9 @@ especially nice when used together with authorization code flow.</p>
 
 <p><em>refresh_token</em></p>
 
-<p>If refresh token is available for Kong, this authentication method enables
-Kong to automatically refresh the access token using the refresh token.</p>
+<p>This authentication method enables authentication using refresh or an offline
+token. It is similar to <code class="highlighter-rouge">password</code> and <code class="highlighter-rouge">client_credentials</code>, but uses different
+grant type when calling the token endpoint of the identity provider.</p>
 
 <h4 id="configaudience">config.audience</h4>
 
@@ -2739,6 +2825,22 @@ with too old id tokens. The <code class="highlighter-rouge">max_age</code> is sp
 <ul>
   <li><code class="highlighter-rouge">86400</code></li>
   <li><code class="highlighter-rouge">1800</code></li>
+</ul>
+
+<h4 id="configauthenticated_groups_claim">config.authenticated_groups_claim</h4>
+
+<p>This property allows one to connect this plugin with an ACL plugin 
+where the ACL plugin provides both white- and blacklisting based on
+an arbitrary claim.</p>
+
+<p>With this configuration, one can specify the name of the claim
+(or path) where the “groups” can be found</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">"groups"</code></li>
+  <li><code class="highlighter-rouge">"user,groups"</code></li>
 </ul>
 
 <h4 id="configauthorization_cookie_name">config.authorization_cookie_name</h4>
@@ -3399,6 +3501,124 @@ and <code class="highlighter-rouge">X-Access-Token</code> headers and in query a
   </tbody>
 </table>
 
+<h4 id="configrefresh_token_param_name">config.refresh_token_param_name</h4>
+
+<p>Because there is no such standard that defines how the refresh token
+or offline token should be sent to a server for verification, this
+parameter solves half of the puzzle by defining the parameters
+name where the plugin should look for the refresh token.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">"refresh_token"</code></li>
+  <li><code class="highlighter-rouge">"X-Refresh-Token"</code></li>
+  <li><code class="highlighter-rouge">"Offline-Token"</code></li>
+</ul>
+
+<h4 id="configrefresh_token_param_type">config.refresh_token_param_type</h4>
+
+<p>This parameter is the another half of the puzzle of how the refresh token
+is delivered for verification (another one being <code class="highlighter-rouge">config.refresh_token_param_name</code>).
+The HTTP protocol provides a few methods for information delivery to
+the server:</p>
+
+<ol>
+  <li>URL Query String</li>
+  <li>HTTP Headers</li>
+  <li>HTTP Body</li>
+</ol>
+
+<p>(servers do not generally deal with url <code class="highlighter-rouge">#fragments</code>).</p>
+
+<p>For query string and HTTP headers we do look for a value defined with
+<code class="highlighter-rouge">config.refresh_token_param_type</code>. For HTTP Body we support several ways of delivery:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">application/x-www-form-urlencoded</code></li>
+  <li><code class="highlighter-rouge">application/json</code></li>
+</ol>
+
+<p>There we look for a value defined with <code class="highlighter-rouge">config.refresh_token_param_name</code>.</p>
+
+<p>Based on the above the supported values for this configuration parameter
+are (or any combination of them):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Value</th>
+      <th style="text-align: center">Enabled by Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"header"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
+      <td>If specified, tries to find refresh token from the HTTP header.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"query"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
+      <td>If specified, tries to find refresh token from the URL’s query string.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"body"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">yes</code></td>
+      <td>If specified, tries to find refresh token from the HTTP request body (according to the possiblities defined above).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here are the unconfigured defaults:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">"header,query,body"</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="configrefresh_tokens">config.refresh_tokens</h4>
+
+<p>Specifies whether or not the plugin should try to refresh (soon to be)
+expired access tokens if the plugin has a <code class="highlighter-rouge">refresh_token</code> available.
+This is most useful with <code class="highlighter-rouge">session</code> authentication, as the session can
+possibly live longer than the access token. If expired access token
+cannot be refreshed or the refresh token is not available, the request
+will be terminated and not proxied.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Default</th>
+      <th style="text-align: center">Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="highlighter-rouge">true</code></td>
+      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">true</code></li>
+  <li><code class="highlighter-rouge">false</code></li>
+</ul>
+
 <h4 id="configclient_credentials_param_type">config.client_credentials_param_type</h4>
 
 <p>With this parameter you can define where the client credentials are searched
@@ -3506,20 +3726,9 @@ be send to a server for verification this parameter solves one half of
 the puzzle by defining the parameters name where the plugin should look
 for the id token.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Default</th>
-      <th style="text-align: center">Required</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center"><code class="highlighter-rouge">"id_token"</code></td>
-      <td style="text-align: center"><code class="highlighter-rouge">no</code></td>
-    </tr>
-  </tbody>
-</table>
+<p>The ID token can only be sent with the access token. It cannot be used
+alone for authentication (at least in current implementation, and we 
+encourage not to use it for authentication).</p>
 
 <p><strong>Examples:</strong></p>
 
@@ -3922,7 +4131,25 @@ methods:</p>
 
 <p>If you want also try to revoke the tokens on logout by calling IdP’s
 revocation endpoint, you can use this parameter to enable it. By default
-the plugin does not call revocation endpoint.</p>
+the plugin does not call revocation endpoint. With this parameter you
+can switch (<code class="highlighter-rouge">on</code>/<code class="highlighter-rouge">off</code>) the the more specific <code class="highlighter-rouge">config.logout_revoke_access_token</code>,
+and <code class="highlighter-rouge">config.logout_revoke_refresh_token</code>.</p>
+
+<h4 id="configlogout_revoke_access_token">config.logout_revoke_access_token</h4>
+
+<p>If turned <code class="highlighter-rouge">on</code>, and <code class="highlighter-rouge">config.logout_revoke</code> is enabled, the plugin tries to
+revoke access token on logout.</p>
+
+<p>By default this is <code class="highlighter-rouge">enabled</code>, but the <code class="highlighter-rouge">config.logout_revoke</code> is disabled
+so the access token will not be revoked.</p>
+
+<h4 id="configlogout_revoke_refresh_token">config.logout_revoke_refresh_token</h4>
+
+<p>If turned on, and <code class="highlighter-rouge">config.logout_revoke</code> is enabled, the plugin tries to
+revoke the refresh token on logout.</p>
+
+<p>By default this is <code class="highlighter-rouge">disabled</code>, and the <code class="highlighter-rouge">config.logout_revoke</code> is disabled
+too, so the refresh token will not be revoked</p>
 
 <h4 id="configrevocation_endpoint">config.revocation_endpoint</h4>
 
@@ -4147,8 +4374,8 @@ if set to false then <code class="highlighter-rouge">OPTIONS</code> requests wil
 <p>This configuration parameter is used to adjust possible clock skew
 between the <code class="highlighter-rouge">OP</code> and <code class="highlighter-rouge">Kong</code>. The <code class="highlighter-rouge">config.leeway</code> is taken in account
 in all the time related verifications. The <code class="highlighter-rouge">leeway</code> is specified in
-seconds. Leeway is also used when checking session expiration, aka
-when to refresh the access token if refresh token is available.</p>
+seconds. Leeway is also used when checking access token expiration,
+i.e. when to refresh the access token if refresh token is available.</p>
 
 <h4 id="configverify_parameters">config.verify_parameters</h4>
 
@@ -4245,6 +4472,16 @@ OP. It can either be <code class="highlighter-rouge">1.1</code> or <code class="
   <li><code class="highlighter-rouge">http://10.0.0.5:8080</code></li>
 </ul>
 
+<h4 id="confighttp_proxy_authorization">config.http_proxy_authorization</h4>
+
+<p>A value for <code class="highlighter-rouge">Proxy-Authorization</code> header to be used with <code class="highlighter-rouge">config.http_proxy</code>.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">Basic ZGVtbzp0ZXN0</code></li>
+</ul>
+
 <h4 id="confighttps_proxy">config.https_proxy</h4>
 
 <p>Specifies the HTTPS proxy to be used for communicating with the IdP.</p>
@@ -4253,6 +4490,26 @@ OP. It can either be <code class="highlighter-rouge">1.1</code> or <code class="
 
 <ul>
   <li><code class="highlighter-rouge">http://10.0.0.5:8080</code></li>
+</ul>
+
+<h4 id="confighttps_proxy_authorization">config.https_proxy_authorization</h4>
+
+<p>A value for <code class="highlighter-rouge">Proxy-Authorization</code> header to be used with <code class="highlighter-rouge">config.https_proxy</code>.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">Basic ZGVtbzp0ZXN0</code></li>
+</ul>
+
+<h4 id="configno_proxy">config.no_proxy</h4>
+
+<p>A comma-separated list of hosts that should not be proxied.</p>
+
+<p><strong>Examples:</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">example.org,example.com</code></li>
 </ul>
 
 <h4 id="configkeepalive">config.keepalive</h4>
@@ -4402,12 +4659,12 @@ cookie can be used to authenticate further requests This works especially nicely
 Authorization Code Grant that is usually used with interactive browser sessions. Session cookie
 is presented to this plugin by setting the cookie header (e.g. <code class="highlighter-rouge">Cookie: session=…</code>).</p>
 
-<h4 id="refresh-token">Refresh Token</h4>
+<h4 id="refresh-token-or-offline-token">Refresh Token (or Offline Token)</h4>
 
-<p>While this plugin does not accept refresh token directly from the client, it does support
-automatic refreshing of access tokens if there is a refresh token received from a token
-endpoint. With all methods there may not be a refresh token available, though (e.g. the
-bearer token ones).</p>
+<p>If the client provides a refresh token or offline token to this plugin, the plugin can 
+attempt to fetch tokens from the token endpoint using <code class="highlighter-rouge">refresh_token</code> grant. It is necessary
+to configure the parameter name where the refresh token is supplied with 
+<code class="highlighter-rouge">config.refresh_token_param_name</code> and <code class="highlighter-rouge">config.refresh_token_param_type</code> configuration parameters.</p>
 
 <h3 id="usage">Usage</h3>
 
@@ -4807,6 +5064,11 @@ well.</p>
   </tbody>
 </table>
 
+<h2 id="enterprise-support--demo">Enterprise Support &amp; Demo</h2>
+
+<p><a href="https://konghq.com/kong-enterprise-edition/">Learn more</a> about Kong Priority Support,
+Products, HA, Demo, Training, API Certifications and Professional Services.</p>
+
 
       
 
@@ -4971,7 +5233,7 @@ well.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1545086944"></script>
+    <script src="/assets/app.js?v=1545258692"></script>
 
     <div id="fb-root"></div>
 

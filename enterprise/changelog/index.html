@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545086944"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
   
 </head>
 
@@ -254,7 +254,8 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#034---20181119">0.34 - 2018/11/19</a></li>
+  <li><a href="#034-1---20181219">0.34-1 - 2018/12/19</a></li>
+  <li><a href="#034---20181117">0.34 - 2018/11/17</a></li>
   <li><a href="#033-2---20181009">0.33-2 - 2018/10/09</a></li>
   <li><a href="#033-1---20180905">0.33-1 - 2018/09/05</a></li>
   <li><a href="#033---20180724">0.33 - 2018/07/24</a></li>
@@ -266,7 +267,208 @@ window['_fs_namespace'] = 'FS';
 
           
 
-          <h2 id="034---20181119">0.34 - 2018/11/19</h2>
+          <h2 id="034-1---20181219">0.34-1 - 2018/12/19</h2>
+
+<p><strong>Notifications</strong></p>
+<ul>
+  <li><strong>Kong EE 0.34</strong> inherits from <strong>Kong CE 0.13.1</strong>; make sure to read 0.13.1 - and 0.13.0 - changelogs:
+    <ul>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">0.13.0 Changelog</a></li>
+      <li><a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0131---20180423">0.13.1 Changelog</a></li>
+    </ul>
+  </li>
+  <li><strong>Kong EE 0.34</strong> has these notices from <strong>Kong CE 0.13</strong>:
+    <ul>
+      <li>Support for <strong>Postgres 9.4 has been removed</strong> - starting with 0.32, Kong Enterprise does not start with Postgres 9.4 or prior</li>
+      <li>Support for <strong>Cassandra 2.1 has been deprecated, but Kong will still start</strong> - versions beyond 0.33 will not start with Cassandra 2.1 or prior
+        <ul>
+          <li><strong>Dev Portal</strong> requires Cassandra 3.0+</li>
+        </ul>
+      </li>
+      <li><strong>Galileo - DEPRECATED</strong>: Galileo plugin is deprecated and will reach EOL soon</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>CHANGES</strong></p>
+<ul>
+  <li><strong>Kong Manager</strong>
+    <ul>
+      <li>Email addresses are stored in lower-case. These addresses must be case-insensitively unique. In previous versions, you could store mixed case email addresses. A migration for Postgres converts all existing email addresses to lower case. Cassandra users should review the email address of their admins and developers and update them to lower-case if necessary. Use the Kong Manager or the Admin API to make these updates.</li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>Forward Proxy</strong>
+        <ul>
+          <li>Do not do a DNS request to the original upstream that would be discarded anyway as proxy will manage the resolving of the configured host.</li>
+        </ul>
+      </li>
+      <li><strong>OpenID Connect</strong>
+        <ul>
+          <li>Remove obsolete daos (adds migration)</li>
+          <li>Hide secret from Admin API (used with sessions)</li>
+          <li>Bump lua-resty-session to 2.23</li>
+          <li>Change token verification to check token types when requested</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>FEATURES</strong></p>
+<ul>
+  <li><strong>Dev Portal</strong>
+    <ul>
+      <li><a href="https://github.com/Kong/kong-portal-templates">kong_portal_templates</a> repository:
+        <ul>
+          <li>A public repository containing dev portal themes, examples, and dev tools for working with the Dev Portal template files.</li>
+        </ul>
+      </li>
+      <li>sync.js:
+        <ul>
+          <li>Script which allows dev portal developers to <code class="highlighter-rouge">push</code>, <code class="highlighter-rouge">pull</code>, and <code class="highlighter-rouge">watch</code> the most up to date template files to and from kong to their local machine.</li>
+        </ul>
+      </li>
+      <li>default portal theme:
+        <ul>
+          <li>Directory containing the most up to date version of the default portal template files that ship with Kong EE each release.</li>
+        </ul>
+      </li>
+      <li>Bugfixes, updates, and template features will be pushed here regularly and independently of the EE release cycle.</li>
+      <li>Dev Portal now caches static JS assets</li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>OpenID Connect</strong>
+        <ul>
+          <li>add <code class="highlighter-rouge">config.http_proxy_authorization</code> (note: this is not yet in upstream lua-resty-http)</li>
+          <li>add <code class="highlighter-rouge">config.https_proxy_authorization</code> (note: this is not yet in upstream lua-resty-http)</li>
+          <li>add <code class="highlighter-rouge">config.no_proxy</code></li>
+          <li>add <code class="highlighter-rouge">config.logout_revoke_access_token</code></li>
+          <li>add <code class="highlighter-rouge">config.logout_revoke_refresh_token</code></li>
+          <li>add <code class="highlighter-rouge">config.refresh_token_param_name</code></li>
+          <li>add <code class="highlighter-rouge">config.refresh_token_param_type</code></li>
+          <li>add <code class="highlighter-rouge">config.refresh_tokens</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>CORE</strong>
+    <ul>
+      <li><strong>License</strong>
+        <ul>
+          <li>Added an increasingly “loud” logging to notify via nginx logs as the expiration date approaches.
+            <ul>
+              <li>90 days before the expiration date: Daily WARN log</li>
+              <li>30 days before the expiration date: Daily ERR log</li>
+              <li>After the expiration date: Daily CRIT log</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>DB</strong>
+        <ul>
+          <li><strong>Cassandra</strong>
+            <ul>
+              <li>Support request-aware load-balancing policies in conf &amp;
+DAOs. <code class="highlighter-rouge">cassandra_lb_policy</code> now supports two new
+policies RequestRoundRobin and RequestDCAwareRoundRobin.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>FIXES</strong></p>
+<ul>
+  <li><strong>Admin API</strong>
+    <ul>
+      <li>Prevent creating or modifying developers and admins through the
+/consumers endpoints</li>
+      <li>Prevent creating or modifying consumers through the /admins
+endpoints</li>
+      <li>Fix error on /admins when trying to create an admin with the
+same name as an existing RBAC user</li>
+      <li>Roll back if a POST to /admins fails</li>
+    </ul>
+  </li>
+  <li><strong>Dev Portal</strong>
+    <ul>
+      <li>KONG_PORTAL_AUTH_CONF param values can now handle escaped
+characters such as #</li>
+      <li>ACL plugin credential management no longer accessible from Dev
+Portal client</li>
+      <li>“Return to login” CTA on the password-reset page now redirects
+to appropriate workspace</li>
+      <li>Improved support for OAS 3 specifications</li>
+      <li>General SwaggerUI improvements</li>
+      <li>Developer approval email will only send once (on first
+approval).  A developer will not receive an additional email if
+they are revoked and re-approved.</li>
+    </ul>
+  </li>
+  <li><strong>Kong Manager</strong>
+    <ul>
+      <li>When creating a new workspace, always create roles for that workspace</li>
+      <li>List workspace roles in alphabetical order</li>
+      <li>Provide a button on the Admin show page to generate a registration URL</li>
+      <li>Fix misleading error message when adding an existing user to a
+new workspace</li>
+      <li>Add validation of image type when creating a workspace with an avatar</li>
+      <li>Add configuration fields and icon for the JWT signer plugin</li>
+      <li>Clean up console errors due to lack of permissions</li>
+      <li>Make the UTC button on Vitals charts work in Firefox</li>
+      <li>Change the display order of plugins to match the Plugin Hub</li>
+    </ul>
+  </li>
+  <li><strong>CORE</strong>
+    <ul>
+      <li><strong>Workspaces</strong>
+        <ul>
+          <li>When removing an entity from a workspace, delete the entity
+itself if it only belongs to that workspace.</li>
+          <li>Developers nor admins do not affect consumer counters in
+workspaces. Only proxy consumers do.</li>
+        </ul>
+      </li>
+      <li><strong>DB</strong>
+        <ul>
+          <li><strong>Cassandra</strong>
+            <ul>
+              <li>Fix an issue where Insert operation fails to return an entity as not all Cassandra nodes are synced yet while reading the data.</li>
+              <li>Now Kong will make one try to fetch the inserted row before throwing error. (Fix: https://support.konghq.com/hc/en-us/requests/6217 )</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Plugins</strong>
+    <ul>
+      <li><strong>Rate-limiting</strong>
+        <ul>
+          <li>Use database-based redis connection pool to reduce unnecessary select call</li>
+        </ul>
+      </li>
+      <li><strong>Response-ratelimiting</strong>
+        <ul>
+          <li>Use database-based redis connection pool to reduce unnecessary select call</li>
+        </ul>
+      </li>
+      <li><strong>OpenID Connect</strong>
+        <ul>
+          <li>Fix schema <code class="highlighter-rouge">self_check</code> to verify issuer only when given (e.g. when using <code class="highlighter-rouge">PATCH</code> to update configuration)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="034---20181117">0.34 - 2018/11/17</h2>
 
 <p><strong>Notifications</strong></p>
 <ul>
@@ -290,6 +492,11 @@ window['_fs_namespace'] = 'FS';
   <li><strong>Kong Manager</strong>
     <ul>
       <li>The name of the <code class="highlighter-rouge">Admin GUI</code> has changed to <code class="highlighter-rouge">Kong Manager</code></li>
+    </ul>
+  </li>
+  <li><strong>Licensing</strong>
+    <ul>
+      <li>License expiration logs: Kong will start logging the license expiration date once a day - with a <code class="highlighter-rouge">WARN</code> log - 90 days before the expiry; 30 days before, the log severity increases to <code class="highlighter-rouge">ERR</code> and, after expiration, to <code class="highlighter-rouge">CRIT</code></li>
     </ul>
   </li>
 </ul>
@@ -451,6 +658,17 @@ window['_fs_namespace'] = 'FS';
           <li>HTTPS support</li>
         </ul>
       </li>
+      <li><strong>License</strong>
+        <ul>
+          <li>Added an increasingly <code class="highlighter-rouge">loud</code> logging to notify via nginx logs as the expiration date approaches
+            <ul>
+              <li>90 days before the expiration date: Daily <code class="highlighter-rouge">WARN</code> log</li>
+              <li>30 days before the expiration date: Daily <code class="highlighter-rouge">ERR</code> log</li>
+              <li>After the expiration date: Daily <code class="highlighter-rouge">CRIT</code> log</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li><strong>Workspaces</strong>
@@ -466,7 +684,7 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><strong>Plugin runloop</strong>
         <ul>
-          <li>Fix issue where Log phase plugins are not executed for request with non-matching routes. 
+          <li>Fix issue where Log phase plugins are not executed for request with non-matching routes.
 Note: For request with non-matching routes, every logging phase plugin enabled in the cluster will run irrespective of the workspace where it’s configured</li>
         </ul>
       </li>
@@ -1857,7 +2075,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1545086944"></script>
+    <script src="/assets/app.js?v=1545258692"></script>
 
     <div id="fb-root"></div>
 
