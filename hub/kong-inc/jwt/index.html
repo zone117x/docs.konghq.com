@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/jwt/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/jwt/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -241,7 +267,6 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -365,6 +390,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.14.x
                   </li>
                 
@@ -461,6 +495,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/jwt/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -507,8 +563,6 @@ window['_fs_namespace'] = 'FS';
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
           
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-          
         </ul>
       
 
@@ -554,28 +608,6 @@ target.</li>
         
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt"</span> 
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -605,8 +637,6 @@ target.</li>
     
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -982,12 +1012,6 @@ in this order.</p>
 </code></pre>
 </div>
 
-<p>or patch an existing API:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X PATCH http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins/<span class="o">{</span>jwt plugin id<span class="o">}</span> <span class="se">\</span>
-    --data <span class="s2">"config.secret_is_base64=true"</span>
-</code></pre>
-</div>
 <p>Then, base64 encode your consumers’ secrets:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># secret is: "blob data"</span>
@@ -1067,8 +1091,8 @@ heavily on JWTs. Auth0 relies on RS256, does not base64 encode, and publicly
 hosts the public key certificate used to sign tokens. Account name is referred
 to “COMPANYNAME” for the sake of the guide.</p>
 
-<p>To get started, create a Service, a Route that uses that Service, <em>or</em> create
-an API. <em>Note: Auth0 does not use base64 encoded secrets.</em></p>
+<p>To get started, create a Service and a Route that uses that Service.
+<em>Note: Auth0 does not use base64 encoded secrets.</em></p>
 
 <p>Create a Service:</p>
 
@@ -1086,27 +1110,11 @@ an API. <em>Note: Auth0 does not use base64 encoded secrets.</em></p>
 </code></pre>
 </div>
 
-<p>or create an API, note these are depreciated:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-    --data <span class="s2">"name={api}"</span> <span class="se">\</span>
-    --data <span class="s2">"hosts=example.com"</span> <span class="se">\</span>
-    --data <span class="s2">"upstream_url=http://httpbin.org"</span>
-</code></pre>
-</div>
-
 <p>Add the JWT Plugin:</p>
 
 <p>Add the plugin to your Route:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/route/<span class="o">{</span>route id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt"</span>
-</code></pre>
-</div>
-
-<p>Add the plugin to your API:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
     --data <span class="s2">"name=jwt"</span>
 </code></pre>
 </div>
@@ -1185,7 +1193,7 @@ request:</p>
             <span class="s2">"algorithm"</span>: <span class="s2">"HS256"</span>,
             <span class="s2">"key"</span>: <span class="s2">"UHVwIly5ZxZH7g52E0HRlFkFC09v9yI0"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"KMWyDsTTcZgqqyOGgRWTDgZtIyWeEtJh"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"created_at"</span>: 1511389527000,
@@ -1193,7 +1201,7 @@ request:</p>
             <span class="s2">"algorithm"</span>: <span class="s2">"ES256"</span>,
             <span class="s2">"key"</span>: <span class="s2">"vcc1NlsPfK3N6uU03YdNrDZhzmFF4S19"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"b65Rs6wvnWPYaCEypNU7FnMOZ4lfMGM7"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"created_at"</span>: 1509593912000,
@@ -1201,45 +1209,35 @@ request:</p>
             <span class="s2">"algorithm"</span>: <span class="s2">"HS256"</span>,
             <span class="s2">"key"</span>: <span class="s2">"SqSNfg9ARmPnpycyJSMAc2uR6nxdmc9S"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"CCh6ZIcwDSOIWacqkkWoJ0FWdZ5eTqrx"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span> <span class="o">}</span>
         <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>You can filter the list using the following query parameters:</p>
+<p>You can filter the list by consumer by using this other path:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Attributes</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">key</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">key</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">consumer_id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the JWT credential <code class="highlighter-rouge">consumer_id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">size</code><br /><em>optional, default is <strong>100</strong></em></td>
-      <td>A limit on the number of objects to be returned.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">offset</code><br /><em>optional</em></td>
-      <td>A cursor used for pagination. <code class="highlighter-rouge">offset</code> is an object identifier that defines a place in the list.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>username or id<span class="o">}</span>/jwts
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 1,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">"created_at"</span>: 1511389527000,
+            <span class="s2">"id"</span>: <span class="s2">"0dfc969b-02be-42ae-9d98-e04ed1c05850"</span>,
+            <span class="s2">"algorithm"</span>: <span class="s2">"ES256"</span>,
+            <span class="s2">"key"</span>: <span class="s2">"vcc1NlsPfK3N6uU03YdNrDZhzmFF4S19"</span>,
+            <span class="s2">"secret"</span>: <span class="s2">"b65Rs6wvnWPYaCEypNU7FnMOZ4lfMGM7"</span>,
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
+
+        <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">username or id</code>: The username or id of the consumer whose jwts need to be listed</p>
 
 <h3 id="retrieve-the-consumer-associated-with-a-jwt">Retrieve the Consumer associated with a JWT</h3>
 
@@ -1428,7 +1426,7 @@ associated <a href="/latest/admin-api/#consumer-object">Consumer</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

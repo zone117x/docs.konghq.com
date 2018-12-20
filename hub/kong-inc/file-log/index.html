@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/file-log/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/file-log/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -242,7 +268,6 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
       <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -346,6 +371,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -460,6 +494,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/file-log/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -505,8 +561,6 @@ and hence is an anti-pattern for Kong installations.</p>
             <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -579,29 +633,6 @@ plugin.</p>
 
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=file-log"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.path=/tmp/file.log"</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -633,8 +664,6 @@ target.</li>
     
       <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -796,7 +825,7 @@ target.</li>
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/0.14.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/1.0.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
 
       
@@ -962,7 +991,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -242,7 +242,6 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
       <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -346,6 +345,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -483,8 +491,6 @@ window['_fs_namespace'] = 'FS';
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
           
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
-          
         </ul>
       
 
@@ -568,33 +574,6 @@ plugin.</p>
 
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=response-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -626,8 +605,6 @@ target.</li>
     
       <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -730,7 +707,7 @@ target.</li>
 <h2 id="examples">Examples</h2>
 
 <p>In these examples we have the plugin enabled on a Route. This would work
-similar for Services, or the depreciated API entity.</p>
+similar for Services.</p>
 
 <ul>
   <li>Add multiple headers by passing each header:value pair separately:</li>
@@ -743,7 +720,7 @@ similar for Services, or the depreciated API entity.</p>
 </code></pre>
 </div>
 <p>upstream response headers | proxied response headers
-—           | —        <br />
+—           | —
 h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
 —</p>
 
@@ -757,7 +734,7 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </code></pre>
 </div>
 <p>upstream response headers | proxied response headers
-—           | —        <br />
+—           | —
 h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
 —</p>
 
@@ -772,7 +749,7 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </div>
 
 <p>upstream response headers | proxied response headers
-—           | —        <br />
+—           | —
 h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
 —</p>
 
@@ -807,7 +784,7 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </table>
 
 <p>upstream response JSON body | proxied response body
-—           | —        <br />
+—           | —
 {}            | {“p1” : “v1”, “p2”: “v2”}
 {“p1” : “v2”}  | {“p1” : “v2”, “p2”: “v2”}
 —</p>
@@ -1021,7 +998,7 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

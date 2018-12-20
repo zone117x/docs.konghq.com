@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/aws-lambda/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/aws-lambda/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -242,7 +268,6 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
       <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
       <li><a href="#sending-parameters">Sending parameters</a></li>
@@ -351,6 +376,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.14.x
                   </li>
                 
@@ -412,6 +446,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/aws-lambda/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -454,8 +510,6 @@ the function.</p>
             <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -537,32 +591,6 @@ plugin.</p>
 
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -594,8 +622,6 @@ target.</li>
     
       <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -778,10 +804,6 @@ be specified for the entity to be validated by Kong. The <code class="highlighte
 particular must either be an IP address, or a hostname that gets resolved by
 your nameserver.</p>
 
-<p>When the plugin is added to an API entity (which is deprecated as of 0.13.0),
-it is the <code class="highlighter-rouge">upsream_url</code> property which must be specified and resolvable as well
-(but ignored).</p>
-
 <h4 id="response-plugins">Response plugins</h4>
 
 <p>There is a known limitation in the system that prevents some response plugins
@@ -795,7 +817,7 @@ from being executed. We are planning to remove this limitation in the future.</p
   <li>Access to AWS Console as user allowed to operate with lambda functions and create user and roles.</li>
   <li>Create an Execution role in AWS</li>
   <li>Create an user which will be invoke the function via Kong, test it.</li>
-  <li>Create an API in Kong, add the aws-lambda plugin linked to our aws function and execute it.</li>
+  <li>Create a Service &amp; Route in Kong, add the aws-lambda plugin linked to our aws function and execute it.</li>
 </ol>
 
 <h4 id="configure">Configure</h4>
@@ -828,20 +850,26 @@ from being executed. We are planning to remove this limitation in the future.</p
     <p>Test the lambda function from the AWS console and make sure the execution succeeds.</p>
   </li>
   <li>
-    <p>Finally we setup the api in Kong and link it to the function just created.</p>
+    <p>Finally we setup a Service &amp; Route in Kong and link it to the function just created.</p>
 
-    <p>The api that we are going to create doesn’t really need a real <code class="highlighter-rouge">upstream_url</code> since we are not going to have an HTTP call to upstream but rather a response generated by our function.</p>
-
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/apis <span class="se">\</span>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services <span class="se">\</span>
  --data <span class="s1">'name=lambda1'</span> <span class="se">\</span>
- --data <span class="s1">'upstream_url=http://localhost:8000'</span> <span class="se">\</span>
- --data <span class="s1">'uris=/lambda1'</span>
+ --data <span class="s1">'url=http://localhost:8000'</span> <span class="se">\</span>
+</code></pre>
+    </div>
+
+    <p>The Service doesn’t really need a real <code class="highlighter-rouge">url</code> since we are not going to have an HTTP call to upstream but rather a response generated by our function.</p>
+
+    <p>Also create a Route for the Service:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://{kong_hostname}:8001/services/lambda1/routes \
+ --data 'paths[1]=/lambda1'
 </code></pre>
     </div>
 
     <p>Add the plugin:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/apis/lambda1/plugins <span class="se">\</span>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services/lambda1/plugins <span class="se">\</span>
  --data <span class="s1">'name=aws-lambda'</span> <span class="se">\</span>
  --data-urlencode <span class="s1">'config.aws_key={KongInvoker user key}'</span> <span class="se">\</span>
  --data-urlencode <span class="s1">'config.aws_secret={KongInvoker user secret}'</span> <span class="se">\</span>
@@ -850,7 +878,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </code></pre>
     </div>
 
-    <p>Call the Api and verify the correct invocation, execution and response:</p>
+    <p>Call the Service and verify the correct invocation, execution and response:</p>
 
     <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8000/lambda1
 </code></pre>
@@ -1036,7 +1064,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

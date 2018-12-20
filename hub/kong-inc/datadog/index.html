@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/datadog/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/datadog/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -242,7 +268,6 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
       <li><a href="#enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -355,6 +380,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.14.x
                   </li>
                 
@@ -444,6 +478,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/datadog/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -456,7 +512,7 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Log <a href="#metrics">metrics</a> for a Service, Route (or the deprecated API entity) to a local
+      <p>Log <a href="#metrics">metrics</a> for a Service, Route to a local
 <a href="http://docs.datadoghq.com/guides/basic_agent_usage/">Datadog agent</a>.</p>
 
 <div class="alert alert-warning">
@@ -485,8 +541,6 @@ window['_fs_namespace'] = 'FS';
             <li><code>Credential</code>: a unique string associated with a Consumer, also referred to as an API key.</li>
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -562,30 +616,6 @@ plugin.</p>
 
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=datadog"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
-    --data <span class="s2">"config.port=8125"</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -617,8 +647,6 @@ target.</li>
     
       <tr><td><code>consumer_id</code></td><td></td><td>The id of the Consumer which this plugin will target.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -676,7 +704,7 @@ target.</li>
 
       <h2 id="metrics">Metrics</h2>
 
-<p>Plugin currently logs following metrics to the Datadog server about a Service, Route, or an API entity (which is deprecated since 0.13.0).</p>
+<p>Plugin currently logs following metrics to the Datadog server about a Service or Route.</p>
 
 <table>
   <thead>
@@ -690,52 +718,52 @@ target.</li>
     <tr>
       <td><code class="highlighter-rouge">request_count</code></td>
       <td>tracks the request</td>
-      <td>kong.&lt;api_name&gt;.request.count</td>
+      <td>kong.&lt;service_name&gt;.request.count</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">request_size</code></td>
       <td>tracks the request’s body size in bytes</td>
-      <td>kong.&lt;api_name&gt;.request.size</td>
+      <td>kong.&lt;service_name&gt;.request.size</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">response_size</code></td>
       <td>tracks the response’s body size in bytes</td>
-      <td>kong.&lt;api_name&gt;.response.size</td>
+      <td>kong.&lt;service_name&gt;.response.size</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">latency</code></td>
       <td>tracks the time interval between the request started and response received from the upstream server</td>
-      <td>kong.&lt;api_name&gt;.latency</td>
+      <td>kong.&lt;service_name&gt;.latency</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">status_count</code></td>
       <td>tracks each status code returned as response</td>
-      <td>kong.&lt;api_name&gt;.status.&lt;status&gt;.count and kong.&lt;api_name&gt;.status.&lt;status&gt;.total</td>
+      <td>kong.&lt;service_name&gt;.status.&lt;status&gt;.count and kong.&lt;service_name&gt;.status.&lt;status&gt;.total</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">unique_users</code></td>
-      <td>tracks unique users made a request to the api</td>
-      <td>kong.&lt;api_name&gt;.user.uniques</td>
+      <td>tracks unique users made a request</td>
+      <td>kong.&lt;service_name&gt;.user.uniques</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">request_per_user</code></td>
       <td>tracks request/user</td>
-      <td>kong.&lt;api_name&gt;.user.&lt;consumer_id&gt;.count</td>
+      <td>kong.&lt;service_name&gt;.user.&lt;consumer_id&gt;.count</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">upstream_latency</code></td>
       <td>tracks the time it took for the final service to process the request</td>
-      <td>kong.&lt;api_name&gt;.upstream_latency</td>
+      <td>kong.&lt;service_name&gt;.upstream_latency</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">kong_latency</code></td>
       <td>tracks the internal Kong latency that it took to run all the plugins</td>
-      <td>kong.&lt;api_name&gt;.kong_latency</td>
+      <td>kong.&lt;service_name&gt;.kong_latency</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">status_count_per_user</code></td>
       <td>tracks request/status/user</td>
-      <td>kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;api_name&gt;.user.&lt;customer_id&gt;.status.total</td>
+      <td>kong.&lt;service_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;service_name&gt;.user.&lt;customer_id&gt;.status.total</td>
     </tr>
   </tbody>
 </table>
@@ -796,7 +824,7 @@ target.</li>
 <p>This logging plugin will only log HTTP request and response data. If you are
 looking for the Kong process error file (which is the nginx error file), then
 you can find it at the following path:
-{<a href="/0.14.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+{<a href="/1.0.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
 
       
@@ -962,7 +990,7 @@ you can find it at the following path:
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

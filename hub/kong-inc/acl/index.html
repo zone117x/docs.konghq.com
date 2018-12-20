@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/acl/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/acl/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -241,7 +267,6 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
       <li><a href="#usage">Usage</a></li>
@@ -348,6 +373,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.14.x
                   </li>
                 
@@ -444,6 +478,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/acl/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -456,7 +512,7 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Restrict access to a Service or a Route (or the deprecated API entity) by whitelisting or blacklisting consumers using arbitrary ACL group names. This plugin requires an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> to have been already enabled on the Service or the Route (or API).</p>
+      <p>Restrict access to a Service or a Route by whitelisting or blacklisting consumers using arbitrary ACL group names. This plugin requires an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> to have been already enabled on the Service or Route.</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
@@ -481,8 +537,6 @@ window['_fs_namespace'] = 'FS';
           
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -533,30 +587,6 @@ target.</li>
         
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=acl"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.whitelist=group1, group2"</span> <span class="se">\</span>
-    --data <span class="s2">"config.hide_groups_header=true"</span>
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -587,8 +617,6 @@ target.</li>
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
     
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
-    
     
       <tr>
         <td><code>config.whitelist</code>
@@ -596,7 +624,7 @@ target.</li>
           <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Comma separated list of arbitrary group names that are allowed to consume the Service or the Route (or API). One of <code class="highlighter-rouge">config.whitelist</code> or <code class="highlighter-rouge">config.blacklist</code> must be specified.</p>
+        <td><p>Comma separated list of arbitrary group names that are allowed to consume the Service or Route. One of <code class="highlighter-rouge">config.whitelist</code> or <code class="highlighter-rouge">config.blacklist</code> must be specified.</p>
 </td>
       </tr>
     
@@ -606,7 +634,7 @@ target.</li>
           <br /><em>semi-optional</em>
         </td>
         <td></td>
-        <td><p>Comma separated list of arbitrary group names that are not allowed to consume the Service or the Route (or API). One of <code class="highlighter-rouge">config.whitelist</code> or <code class="highlighter-rouge">config.blacklist</code> must be specified.</p>
+        <td><p>Comma separated list of arbitrary group names that are not allowed to consume the Service or Route. One of <code class="highlighter-rouge">config.whitelist</code> or <code class="highlighter-rouge">config.blacklist</code> must be specified.</p>
 </td>
       </tr>
     
@@ -632,11 +660,11 @@ target.</li>
 
       <h3 id="usage">Usage</h3>
 
-<p>In order to use this plugin, you need to properly have configured your Service or Route (or API) with an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> so that the plugin can identify who is the client <a href="/latest/admin-api/#consumer-object">Consumer</a> making the request.</p>
+<p>In order to use this plugin, you need to properly have configured your Service or Route with an <a href="/about/faq/#how-can-i-add-authentication-to-a-microservice-api">authentication plugin</a> so that the plugin can identify who is the client <a href="/latest/admin-api/#consumer-object">Consumer</a> making the request.</p>
 
 <h4 id="associating-consumers">Associating Consumers</h4>
 
-<p>Once you have added an authentication plugin to a Service or a Route (or API) and you have created your <a href="/latest/admin-api/#consumer-object">Consumers</a>, you can now associate a group to a <a href="/latest/admin-api/#consumer-object">Consumer</a> using the following request:</p>
+<p>Once you have added an authentication plugin to a Service or a Route and you have created your <a href="/latest/admin-api/#consumer-object">Consumers</a>, you can now associate a group to a <a href="/latest/admin-api/#consumer-object">Consumer</a> using the following request:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/acls <span class="se">\</span>
     --data <span class="s2">"group=group1"</span>
@@ -688,57 +716,44 @@ request:</p>
             <span class="s2">"group"</span>: <span class="s2">"foo-group"</span>,
             <span class="s2">"created_at"</span>: 1511391159000,
             <span class="s2">"id"</span>: <span class="s2">"724d1be7-c39e-443d-bf36-41db17452c75"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"89a41fef-3b40-4bb0-b5af-33da57a7ffcf"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"89a41fef-3b40-4bb0-b5af-33da57a7ffcf"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"group"</span>: <span class="s2">"bar-group"</span>,
             <span class="s2">"created_at"</span>: 1511391162000,
             <span class="s2">"id"</span>: <span class="s2">"0905f68e-fee3-4ecb-965c-fcf6912bf29e"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"group"</span>: <span class="s2">"baz-group"</span>,
             <span class="s2">"created_at"</span>: 1509814006000,
             <span class="s2">"id"</span>: <span class="s2">"ff883d4b-aee7-45a8-a17b-8c074ba173bd"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
         <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>You can filter the list using the following query parameters:</p>
+<p>You can filter the list by consumer by using this other path:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Attributes</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the ACL <code class="highlighter-rouge">id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">group</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the ACL <code class="highlighter-rouge">group</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">consumer_id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the ACL <code class="highlighter-rouge">consumer_id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">size</code><br /><em>optional, default is <strong>100</strong></em></td>
-      <td>A limit on the number of objects to be returned.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">offset</code><br /><em>optional</em></td>
-      <td>A cursor used for pagination. <code class="highlighter-rouge">offset</code> is an object identifier that defines a place in the list.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>username or id<span class="o">}</span>/acls
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 1,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">"group"</span>: <span class="s2">"bar-group"</span>,
+            <span class="s2">"created_at"</span>: 1511391162000,
+            <span class="s2">"id"</span>: <span class="s2">"0905f68e-fee3-4ecb-965c-fcf6912bf29e"</span>,
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">username or id</code>: The username or id of the consumer whose ACLs need to be listed</p>
 
 <h4 id="retrieve-the-consumer-associated-with-an-acl">Retrieve the Consumer associated with an ACL</h4>
 
@@ -927,7 +942,7 @@ using the following request:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

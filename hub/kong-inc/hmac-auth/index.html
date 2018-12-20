@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/hmac-auth/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/hmac-auth/0.1-x.html">
+                0.1-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -241,7 +267,6 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -363,6 +388,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.14.x
                   </li>
                 
@@ -459,6 +493,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/hmac-auth/0.1-x.html">
+                      0.1-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -471,7 +527,7 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Add HMAC Signature authentication to a Service or a Route (or the deprecated API entity)
+      <p>Add HMAC Signature authentication to a Service or a Route
 to establish the integrity of incoming requests. The plugin will validate the
 digital signature sent in the <code class="highlighter-rouge">Proxy-Authorization</code> or <code class="highlighter-rouge">Authorization</code> header
 (in this order). This plugin implementation is based off the
@@ -501,8 +557,6 @@ draft with a slightly different signature scheme.</p>
           
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -549,28 +603,6 @@ target.</li>
         
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=hmac-auth"</span> 
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -600,8 +632,6 @@ target.</li>
     
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -674,7 +704,7 @@ target.</li>
 
       
 
-      <p>Once applied, any user with a valid credential can access the Service/API.
+      <p>Once applied, any user with a valid credential can access the Service/Route.
 To restrict usage to only some of the authenticated users, also add the
 <a href="/plugins/acl/">ACL</a> plugin (not covered here) and create whitelist or
 blacklist groups of users.</p>
@@ -858,7 +888,7 @@ include all of the headers and a <code class="highlighter-rouge">digest</code> o
 
 <h3 id="hmac-example">HMAC Example</h3>
 
-<p>The HMAC plugin can be enabled on a Service or a Route (or the deprecated API entity).</p>
+<p>The HMAC plugin can be enabled on a Service or a Route.</p>
 
 <p><strong>Create a Service</strong></p>
 
@@ -881,20 +911,6 @@ include all of the headers and a <code class="highlighter-rouge">digest</code> o
 </code></pre>
 </div>
 
-<p><strong>Add an API</strong></p>
-
-<p>For versions below 0.13.0, you would use now-deprecated API entity:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>  <span class="nv">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-      -d <span class="s2">"name=hmac-test"</span> <span class="se">\</span>
-      -d <span class="s2">"hosts=hmac.com"</span> <span class="se">\</span>
-      -d <span class="s2">"upstream_url=http://example.com"</span>
-  HTTP/1.1 201 Created
-  ...
-
-</code></pre>
-</div>
-
 <p><strong>Enabling the plugin on a Service</strong></p>
 
 <p>Plugins can be enabled on a Service or a Route. This example uses a Service.</p>
@@ -908,24 +924,6 @@ include all of the headers and a <code class="highlighter-rouge">digest</code> o
 
 </code></pre>
 </div>
-
-<p><strong>Enabling the plugin on an API</strong></p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>  <span class="nv">$ </span>curl -i -X POST http://localhost:8001/apis/hmac-test/plugins <span class="se">\</span>
-      -d <span class="s2">"name=hmac-auth"</span> <span class="se">\</span>
-      -d <span class="s2">"config.enforce_headers=date, request-line"</span> <span class="se">\</span>
-      -d <span class="s2">"config.algorithms=hmac-sha1, hmac-sha256"</span>
-  HTTP/1.1 201 Created
-  ...
-
-</code></pre>
-</div>
-
-<p>Here we are enabling the <code class="highlighter-rouge">hmac-auth</code> plugin on API the <code class="highlighter-rouge">hmac-test</code>.
-  <code class="highlighter-rouge">config.enforce_headers</code> is set to force the client to at least use <code class="highlighter-rouge">date</code>
-  and <code class="highlighter-rouge">request-line</code> in the HTTP signature creation. Also we are setting the
-  <code class="highlighter-rouge">config.algorithms</code> to force the client to only use <code class="highlighter-rouge">hmac-sha1</code> or
-  <code class="highlighter-rouge">hmac-sha256</code> for hashing the signing string.</p>
 
 <p><strong>Add a Consumer</strong></p>
 
@@ -948,7 +946,7 @@ include all of the headers and a <code class="highlighter-rouge">digest</code> o
 </code></pre>
 </div>
 
-<p><strong>Request to the API</strong></p>
+<p><strong>Making an authorized request</strong></p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>  <span class="nv">$ </span>curl -i -X GET http://localhost:8000/requests <span class="se">\</span>
       -H <span class="s2">"Host: hmac.com"</span> <span class="se">\</span>
@@ -982,7 +980,7 @@ include all of the headers and a <code class="highlighter-rouge">digest</code> o
   to <code class="highlighter-rouge">true</code>:</p>
 
 <p>The following example works the same way, whether the plugin was added to
-  a Service or a Route (or an API).</p>
+  a Service or a Route.</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>  <span class="nv">$ </span>curl -i -X PATCH http://localhost:8001/plugins/<span class="o">{</span>plugin-id<span class="o">}</span> <span class="se">\</span>
       -d <span class="s2">"config.validate_request_body=true"</span>
@@ -1055,59 +1053,47 @@ following request:</p>
             <span class="s2">"id"</span>: <span class="s2">"75695322-e8a0-4109-aed4-5416b0308d85"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"wQazJ304DW5huJklHgUfjfiSyCyTAEDZ"</span>,
             <span class="s2">"username"</span>: <span class="s2">"foo"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"created_at"</span>: 1509419793000,
             <span class="s2">"id"</span>: <span class="s2">"11d5cbfb-31b9-4a6d-8496-2f4a76500643"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"zi6YHyvLaUCe21XMXKesTYiHSWy6m6CW"</span>,
             <span class="s2">"username"</span>: <span class="s2">"bar"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span> <span class="o">}</span>
         <span class="o">}</span>,
         <span class="o">{</span>
             <span class="s2">"created_at"</span>: 1509681215000,
             <span class="s2">"id"</span>: <span class="s2">"eb0365bc-88ae-4568-be7c-db1eb7c16e5e"</span>,
             <span class="s2">"secret"</span>: <span class="s2">"NvHDTg5mp0ySFVJsITurtgyhEq1Cxbnv"</span>,
             <span class="s2">"username"</span>: <span class="s2">"baz"</span>,
-            <span class="s2">"consumer_id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
         <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>You can filter the list using the following query parameters:</p>
+<p>You can filter the list by consumer by using this other path:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Attributes</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the hmac-auth credential <code class="highlighter-rouge">id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">username</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the hmac-auth credential <code class="highlighter-rouge">username</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">consumer_id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the hmac-auth credential <code class="highlighter-rouge">consumer_id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">size</code><br /><em>optional, default is <strong>100</strong></em></td>
-      <td>A limit on the number of objects to be returned.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">offset</code><br /><em>optional</em></td>
-      <td>A cursor used for pagination. <code class="highlighter-rouge">offset</code> is an object identifier that defines a place in the list.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>username or id<span class="o">}</span>/hmac-auths
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 1,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+        <span class="o">{</span>
+            <span class="s2">"created_at"</span>: 1509419793000,
+            <span class="s2">"id"</span>: <span class="s2">"11d5cbfb-31b9-4a6d-8496-2f4a76500643"</span>,
+            <span class="s2">"secret"</span>: <span class="s2">"zi6YHyvLaUCe21XMXKesTYiHSWy6m6CW"</span>,
+            <span class="s2">"username"</span>: <span class="s2">"bar"</span>,
+            <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span> <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">username or id</code>: The username or id of the consumer whose credentials need to be listed</p>
 
 <h3 id="retrieve-the-consumer-associated-with-a-credential">Retrieve the Consumer associated with a Credential</h3>
 
@@ -1298,7 +1284,7 @@ Consumer.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 

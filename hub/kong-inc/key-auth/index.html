@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545258692"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
   
 </head>
 
@@ -228,6 +228,32 @@ window['_fs_namespace'] = 'FS';
   <div class="container">
 
     
+      <div class="versions-dropdown dropdown page-header-right">
+        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          Plugin Version 1.0-x
+          <em>(latest)</em>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
+          
+            
+            <li  class="active" >
+              <a href="/hub/kong-inc/key-auth/">
+                1.0-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/key-auth/0.2-x.html">
+                0.2-x 
+              </a>
+            </li>
+          
+        </ul>
+      </div>
+    
 
     
 
@@ -241,7 +267,6 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-      <li><a href="#enabling-the-plugin-on-an-api">Enabling the plugin on an API</a></li>
       <li><a href="#">Global plugins</a></li>
       <li><a href="#">Parameters</a></li>
     </ul>
@@ -354,6 +379,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.0.x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -475,6 +509,28 @@ window['_fs_namespace'] = 'FS';
           </tr>
         
         
+          <tr>
+            <th colspan="2">Other Versions</th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <ul class="extn-versions">
+              
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/key-auth/0.2-x.html">
+                      0.2-x </a>
+                      
+                  </li>
+                
+              
+              </ul>
+            </td>
+          </tr>
+        
       </table>
 
     </aside>
@@ -487,7 +543,7 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Add Key Authentication (also sometimes referred to as an API key) to a Service or a Route (or the deprecated API entity). Consumers then add their key either in a querystring parameter or a header to authenticate their requests.</p>
+      <p>Add Key Authentication (also sometimes referred to as an API key) to a Service or a Route. Consumers then add their key either in a querystring parameter or a header to authenticate their requests.</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
@@ -512,8 +568,6 @@ window['_fs_namespace'] = 'FS';
           
           
             <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
-          
-          <li><code>API</code>: a legacy entity used to represent your upstream services. <strong>Deprecated</strong> in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</li>
           
         </ul>
       
@@ -560,28 +614,6 @@ target.</li>
         
         
         
-          
-<h3 id="enabling-the-plugin-on-an-api">Enabling the plugin on an API</h3>
-
-<p>If you are using an older version of Kong with the legacy <a href="/0.13.x/admin-api/#api-object">API
-entity</a> (<strong>deprecated</strong> in favor of Services
-since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">
-CE 0.13.0</a> and
-<a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
-can configure this plugin on top of such an API by making the following request:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=key-auth"</span> 
-
-</code></pre>
-</div>
-
-<ul>
-  <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
-target.</li>
-</ul>
-
-        
 
         <h3>Global plugins</h3>
 
@@ -611,8 +643,6 @@ target.</li>
     
       <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
-    
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
@@ -681,7 +711,7 @@ target.</li>
     <center>The option `config.run_on_preflight` is only available from version `0.11.1` and later</center>
 </div>
 
-<p>Once applied, any user with a valid credential can access the Service/API.
+<p>Once applied, any user with a valid credential can access the Service.
 To restrict usage to only some of the authenticated users, also add the
 <a href="/plugins/acl/">ACL</a> plugin (not covered here) and create whitelist or
 blacklist groups of users.</p>
@@ -745,7 +775,7 @@ service, you must add the new consumer to a whitelisted group. See
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
-    <span class="s2">"consumer_id"</span>: <span class="s2">"876bf719-8f18-4ce5-cc9f-5b5af6c36007"</span>,
+    <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"876bf719-8f18-4ce5-cc9f-5b5af6c36007"</span> <span class="o">}</span>,
     <span class="s2">"created_at"</span>: 1443371053000,
     <span class="s2">"id"</span>: <span class="s2">"62a7d3b7-b995-49f9-c9c8-bac4d781fb59"</span>,
     <span class="s2">"key"</span>: <span class="s2">"62eb165c070a41d5c1b58d9d3d725ca1"</span>
@@ -839,57 +869,44 @@ request:</p>
          <span class="s2">"id"</span>:<span class="s2">"17ab4e95-9598-424f-a99a-ffa9f413a821"</span>,
          <span class="s2">"created_at"</span>:1507941267000,
          <span class="s2">"key"</span>:<span class="s2">"Qslaip2ruiwcusuSUdhXPv4SORZrfj4L"</span>,
-         <span class="s2">"consumer_id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+         <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
       <span class="o">}</span>,
       <span class="o">{</span>
          <span class="s2">"id"</span>:<span class="s2">"6cb76501-c970-4e12-97c6-3afbbba3b454"</span>,
          <span class="s2">"created_at"</span>:1507936652000,
          <span class="s2">"key"</span>:<span class="s2">"nCztu5Jrz18YAWmkwOGJkQe9T8lB99l4"</span>,
-         <span class="s2">"consumer_id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
+         <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
       <span class="o">}</span>,
       <span class="o">{</span>
          <span class="s2">"id"</span>:<span class="s2">"b1d87b08-7eb6-4320-8069-efd85a4a8d89"</span>,
          <span class="s2">"created_at"</span>:1507941307000,
          <span class="s2">"key"</span>:<span class="s2">"26WUW1VEsmwT1ORBFsJmLHZLDNAxh09l"</span>,
-         <span class="s2">"consumer_id"</span>:<span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span>
+         <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"3c2c8fc1-7245-4fbb-b48b-e5947e1ce941"</span> <span class="o">}</span>
       <span class="o">}</span>
    <span class="o">]</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p>You can filter the list using the following query parameters:</p>
+<p>You can filter the list by consumer by using this other path:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Attributes</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the key-auth credential <code class="highlighter-rouge">id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">key</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the key-auth credential <code class="highlighter-rouge">key</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">consumer_id</code><br /><em>optional</em></td>
-      <td>A filter on the list based on the key-auth credential <code class="highlighter-rouge">consumer_id</code> field.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">size</code><br /><em>optional, default is <strong>100</strong></em></td>
-      <td>A limit on the number of objects to be returned.</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"><code class="highlighter-rouge">offset</code><br /><em>optional</em></td>
-      <td>A cursor used for pagination. <code class="highlighter-rouge">offset</code> is an object identifier that defines a place in the list.</td>
-    </tr>
-  </tbody>
-</table>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/consumers/<span class="o">{</span>username or id<span class="o">}</span>/key-auths
+
+<span class="o">{</span>
+    <span class="s2">"total"</span>: 1,
+    <span class="s2">"data"</span>: <span class="o">[</span>
+       <span class="o">{</span>
+         <span class="s2">"id"</span>:<span class="s2">"6cb76501-c970-4e12-97c6-3afbbba3b454"</span>,
+         <span class="s2">"created_at"</span>:1507936652000,
+         <span class="s2">"key"</span>:<span class="s2">"nCztu5Jrz18YAWmkwOGJkQe9T8lB99l4"</span>,
+         <span class="s2">"consumer"</span>: <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span> <span class="o">}</span>
+       <span class="o">}</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">username or id</code>: The username or id of the consumer whose credentials need to be listed</p>
 
 <h3 id="retrieve-the-consumer-associated-with-a-key">Retrieve the Consumer associated with a key</h3>
 
@@ -1080,7 +1097,7 @@ associated Consumer.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1545258692"></script>
+    <script src="/assets/app.js?v=1545320114"></script>
 
     <div id="fb-root"></div>
 
