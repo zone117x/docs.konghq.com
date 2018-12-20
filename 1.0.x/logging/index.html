@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545320114"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1545326206"/>
   
 </head>
 
@@ -996,7 +996,28 @@ window['_fs_namespace'] = 'FS';
 
 <p>With new regulations surrounding protecting private data like GDPR, there is a chance you may need to change your logging habits. If you use Kong as your API Gateway, this can be done in a single location to take effect on all of your APIs. This guide will walk you through one approach to accomplishing this, but there are always different approaches for different needs. Please note, these changes will effect the output of the NGINX access logs. This will not have any effect on Kong’s logging plugins.</p>
 
-<p>For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code class="highlighter-rouge">/apiname/v2/verify/alice@example.com</code> or <code class="highlighter-rouge">/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</p>
+<h2 id="for-this-example-lets-say-you-want-to-remove-any-instances-of-an-email-address-from-your-kong-logs-the-emails-addresses-may-come-through-in-different-ways-for-example-something-like-apinamev2verifyaliceexamplecom-or-v3verifyaliceexamplecom-in-order-to-keep-these-from-being-added-to-the-logs-we-will-need-to-use-a-custom-nginx-template">For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code class="highlighter-rouge">/apiname/v2/verify/alice@example.com</code> or <code class="highlighter-rouge">/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</h2>
+
+<h2 id="log-levels">Log Levels</h2>
+
+<p>Log levels are set in <a href="/1.0.x/configuration/#log_level">Kong’s configuration</a>. Following are the log levels in increasing order of their severity, <code class="highlighter-rouge">debug</code>, <code class="highlighter-rouge">info</code>,
+<code class="highlighter-rouge">notice</code>, <code class="highlighter-rouge">warn</code>, <code class="highlighter-rouge">error</code> and <code class="highlighter-rouge">crit</code>.</p>
+
+<ul>
+  <li><em><code class="highlighter-rouge">debug</code>:</em> It provides debug information about the plugin’s runloop and each individual plugin or other components. Only to be used during debugging since it is too chatty.</li>
+  <li><em><code class="highlighter-rouge">info</code>/<code class="highlighter-rouge">notice</code>:</em> Kong does not make a big difference between both these levels. Provides information about normal behavior most of which can be ignored.</li>
+  <li><em><code class="highlighter-rouge">warn</code>:</em> To log any abnormal behavior that doesn’t result in dropped transactions but requires further investigation, <code class="highlighter-rouge">warn</code> level should be used.</li>
+  <li><em><code class="highlighter-rouge">error</code>:</em> Used for logging errors that result in a request being dropped (for example getting  an HTTP 500 error). The rate of such logs need to be monitored.</li>
+  <li><em><code class="highlighter-rouge">crit</code>:</em> This level is used when Kong is working under critical conditions and not working properly thereby affecting several clients. Nginx also provides <code class="highlighter-rouge">alert</code> and <code class="highlighter-rouge">emerg</code> levels but currently Kong doesn’t make use of these levels making <code class="highlighter-rouge">crit</code> the highest severity log level.</li>
+</ul>
+
+<p>By default <code class="highlighter-rouge">notice</code> is the log level that used and also recommended. However if the logs turn out to be too chatty they can be bumped up to a higher level like <code class="highlighter-rouge">warn</code>.</p>
+
+<h2 id="removing-certain-elements-from-your-kong-logs-1">Removing Certain Elements From Your Kong Logs</h2>
+
+<p>With new regulations surrounding protecting private data like GDPR, there is a chance you may need to change your logging habits. If you use Kong as your API Gateway, this can be done in a single location to take effect on all of your Services. This guide will walk you through one approach to accomplishing this, but there are always different approaches for different needs. Please note, these changes will effect the output of the NGINX access logs. This will not have any effect on Kong’s logging plugins.</p>
+
+<p>For this example, let’s say you want to remove any instances of an email address from your kong logs. The emails addresses may come through in different ways, for example something like <code class="highlighter-rouge">/servicename/v2/verify/alice@example.com</code> or <code class="highlighter-rouge">/v3/verify?alice@example.com</code>. In order to keep these from being added to the logs, we will need to use a custom NGINX template.</p>
 
 <p>To start using a custom NGINX template, first get a copy of our template. This can be found <a href="https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong">https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong</a> or copied from below</p>
 
@@ -1048,7 +1069,7 @@ map $paramater_to_look_at $variable_name {
 
 <div class="highlighter-rouge"><pre class="highlight"><code>map $request_uri $keeplog {
     ~.+\@.+\..+ 0;
-    ~/apiname/v2/verify 0;
+    ~/servicename/v2/verify 0;
     ~/v3/verify 0;
 
     default 1;
@@ -1059,7 +1080,7 @@ map $paramater_to_look_at $variable_name {
 <p>You’ll probably notice that each of those lines start with a tilde. This is what tells NGINX to use RegEx when evaluating the line. We have three things to look for in this example:</p>
 <ul>
   <li>The first line uses regex to look for any email address in the x@y.z format</li>
-  <li>The second line looks for any part of the URI which is /apiname/v2/verify</li>
+  <li>The second line looks for any part of the URI which is /servicename/v2/verify</li>
   <li>The third line looks at any part of the URI which contains /v3/verify</li>
 </ul>
 
@@ -1107,7 +1128,7 @@ http {
         '$request_uri $status $body_bytes_sent '
         '"$http_referer" "$http_user_agent"';
 
-    include 'nginx-kong.conf';  
+    include 'nginx-kong.conf';
 }
 </code></pre>
 </div>
@@ -1298,7 +1319,7 @@ http {
 </script>
 
 
-    <script src="/assets/app.js?v=1545320114"></script>
+    <script src="/assets/app.js?v=1545326206"></script>
 
     <div id="fb-root"></div>
 
