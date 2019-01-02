@@ -89,7 +89,7 @@ window['_fs_namespace'] = 'FS';
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
-  <link rel="stylesheet" href="/assets/styles.css?v=1545398283"/>
+  <link rel="stylesheet" href="/assets/styles.css?v=1546444101"/>
   
 </head>
 
@@ -1495,8 +1495,8 @@ in the path (the root <code class="highlighter-rouge">/</code> character).</p>
 
 <p>As previously mentioned, Kong evaluates prefix paths by length: the longest
 prefix paths are evaluated first. However, Kong will evaluate regex paths based
-on the <code class="highlighter-rouge">regex_priority</code> attribute of Routes. This means that considering
-the following Routes:</p>
+on the <code class="highlighter-rouge">regex_priority</code> attribute of Routes from highest priority to lowest.
+This means that considering the following Routes:</p>
 
 <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -1509,8 +1509,10 @@ the following Routes:</p>
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version"</span><span class="p">],</span><span class="w">
-        </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-    </span><span class="p">},</span><span class="w">
+    </span><span class="err">}</span><span class="p">,</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/any/"</span><span class="p">],</span><span class="w">
+    </span><span class="err">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 </div>
@@ -1519,12 +1521,13 @@ the following Routes:</p>
 defined URIs, in this order:</p>
 
 <ol>
-  <li><code class="highlighter-rouge">/version</code></li>
+  <li><code class="highlighter-rouge">/version/any/</code></li>
+  <li>`/version</li>
   <li><code class="highlighter-rouge">/version/\d+/status/\d+</code></li>
   <li><code class="highlighter-rouge">/status/\d+</code></li>
 </ol>
 
-<p>Prefix paths are always evaluated first.</p>
+<p>Prefix paths are always evaluated before regex paths.</p>
 
 <p>As usual, a request must still match a Route’s <code class="highlighter-rouge">hosts</code> and <code class="highlighter-rouge">methods</code> properties
 as well, and Kong will traverse your Routes until it finds one that matches
@@ -2245,7 +2248,7 @@ just covered.</p>
   <section class="legal">
     <ul>
       <li>
-        <span class="mashape-footer-content">&copy; Kong Inc. 2018</span>
+        <span class="mashape-footer-content">&copy; Kong Inc. 2019</span>
       </li>
       <li>
         <div class="social-link">
@@ -2295,7 +2298,7 @@ just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1545398283"></script>
+    <script src="/assets/app.js?v=1546444101"></script>
 
     <div id="fb-root"></div>
 
