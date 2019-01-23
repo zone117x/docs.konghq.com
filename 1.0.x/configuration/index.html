@@ -104,6 +104,16 @@ window['_fs_namespace'] = 'FS';
   />
   <link rel="dns-prefetch" href="//dev.visualwebsiteoptimizer.com" />
   <link rel="dns-prefetch" href="//cdn.segment.com" />
+
+  <!-- Recaptcha -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script type="text/javascript">
+    var onSubmit = function(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+    };
+  </script>
+
   <!-- ##gulp-resource-hints## -->
 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" />
@@ -113,7 +123,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1547857819"
+    href="/assets/styles.css?v=1548274314"
   />
   
 </head>
@@ -1299,7 +1309,7 @@ window['_fs_namespace'] = 'FS';
           <li><a href="#anonymous_reports">anonymous_reports</a></li>
         </ul>
       </li>
-      <li><a href="#nginx-section">Nginx section</a>
+      <li><a href="#nginx-section">NGINX section</a>
         <ul>
           <li><a href="#proxy_listen">proxy_listen</a></li>
           <li><a href="#stream_listen">stream_listen</a></li>
@@ -1351,6 +1361,7 @@ window['_fs_namespace'] = 'FS';
           <li><a href="#dns_resolver">dns_resolver</a></li>
           <li><a href="#dns_hostsfile">dns_hostsfile</a></li>
           <li><a href="#dns_order">dns_order</a></li>
+          <li><a href="#dns_valid_ttl">dns_valid_ttl</a></li>
           <li><a href="#dns_stale_ttl">dns_stale_ttl</a></li>
           <li><a href="#dns_not_found_ttl">dns_not_found_ttl</a></li>
           <li><a href="#dns_error_ttl">dns_error_ttl</a></li>
@@ -1816,26 +1827,20 @@ the <code class="highlighter-rouge">log_level</code> directive.</p>
 
 <h4 id="plugins">plugins</h4>
 
-<p>Comma-separated list of names of plugins this node should load.</p>
+<p>Comma-separated list of names of plugins this node should load. By default,
+only plugins bundled in official distributions are loaded via the <code class="highlighter-rouge">bundled</code>
+keyword.</p>
 
-<p>Each item in the list can be:</p>
+<p>Loading a plugin does not enable it by default, but only instructs Kong to load its
+source code, and allows to configure the plugin via the various related Admin API
+endpoints.</p>
 
-<ul>
-  <li>A plugin name. Both bundled plugins (e.g. <code class="highlighter-rouge">key-auth</code>), and custom plugins
-(e.g. <code class="highlighter-rouge">custom-rate-limting</code>) are accepted here.</li>
-  <li>The keyword <code class="highlighter-rouge">bundled</code>. This has the same meaning as including all the plugins
-that are bundled with Kong (from the <code class="highlighter-rouge">kong.plugins.{name}.*</code> namespace).</li>
-  <li>The keyword <code class="highlighter-rouge">off</code>. When specified, Kong will not load any plugin, and none
-will be configurable via the Admin API.</li>
-</ul>
+<p>The specified name(s) will be substituted as such in the Lua namespace:
+<code class="highlighter-rouge">kong.plugins.{name}.*</code>.</p>
 
-<p>Note that Kong will not start if some plugins were previously configured (i.e.
-have rows in the database) and are not specified in this list. Before disabling
-a plugin, ensure all instances of it are removed before restarting Kong.</p>
+<p>When the <code class="highlighter-rouge">off</code> keyword is specified as the only value, no plugins will be loaded.</p>
 
-<p>Default: <code class="highlighter-rouge">bundled</code></p>
-
-<p>Examples:</p>
+<p><code class="highlighter-rouge">bundled</code> and plugin names can be mixed together, as the following examples suggest:</p>
 
 <ul>
   <li><code class="highlighter-rouge">plugins=bundled,custom-auth,custom-log</code> will include the bundled plugins
@@ -1845,9 +1850,15 @@ plus two custom ones</li>
   <li><code class="highlighter-rouge">plugins=off</code> will not include any plugins</li>
 </ul>
 
+<p><strong>Note:</strong> Kong will not start if some plugins were previously configured (i.e.
+have rows in the database) and are not specified in this list. Before disabling
+a plugin, ensure all instances of it are removed before restarting Kong.</p>
+
 <p><strong>Note:</strong> Limiting the amount of available plugins can improve P99 latency when
 experiencing LRU churning in the database cache (i.e. when the configured
 <a href="#mem_cache_size">mem_cache_size</a> is full.</p>
+
+<p>Default: <code class="highlighter-rouge">bundled</code></p>
 
 <hr />
 
@@ -1859,12 +1870,12 @@ experiencing LRU churning in the database cache (i.e. when the configured
 
 <hr />
 
-<h3 id="nginx-section">Nginx section</h3>
+<h3 id="nginx-section">NGINX section</h3>
 
 <h4 id="proxy_listen">proxy_listen</h4>
 
 <p>Comma-separated list of addresses and ports on which the proxy server should
-listen. The proxy server is the public entrypoint of Kong, which proxies
+listen. The proxy server is the public entry point of Kong, which proxies
 traffic from your consumers to your backend services. This value accepts IPv4,
 IPv6, and hostnames.</p>
 
@@ -1875,20 +1886,30 @@ IPv6, and hostnames.</p>
 address/port be made with TLS enabled.</li>
   <li><code class="highlighter-rouge">http2</code> will allow for clients to open HTTP/2 connections to Kong’s proxy
 server.</li>
-  <li>Finally, <code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a
+  <li><code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a
 given address/port.</li>
+  <li><code class="highlighter-rouge">transparent</code> will cause kong to listen to, and respond from, any and
+all IP addresses and ports you configure in iptables.</li>
 </ul>
 
-<p>the proxy port for this node, enabling a ‘control-plane’ mode (without traffic
-proxying capabilities) which can configure a cluster of nodes connected to the
-same database.</p>
+<p>This value can be set to <code class="highlighter-rouge">off</code>, thus disabling the HTTP/HTTPS proxy port
+for this node.</p>
+
+<p>If stream_listen is also set to <code class="highlighter-rouge">off</code>, this enables ‘control-plane’ mode for
+this node (in which all traffic proxying capabilities are disabled).
+This node can then be used only to configure a cluster of Kong nodes connected
+to the same datastore.</p>
+
+<p>Example: <code class="highlighter-rouge">proxy_listen = 0.0.0.0:443 ssl, 0.0.0.0:444 http2 ssl</code></p>
 
 <p>See http://nginx.org/en/docs/http/ngx_http_core_module.html#listen for
 a description of the accepted formats for this and other <code class="highlighter-rouge">*_listen</code> values.</p>
 
-<p>Default: <code class="highlighter-rouge">0.0.0.0:8000, 0.0.0.0:8443 ssl</code></p>
+<p>See https://www.nginx.com/resources/admin-guide/proxy-protocol/
+for more details about the <code class="highlighter-rouge">proxy_protocol</code> parameter.
+Not all <code class="highlighter-rouge">*_listen</code> values accept all formats specified in nginx’s documentation.</p>
 
-<p>Example: <code class="highlighter-rouge">0.0.0.0:80, 0.0.0.0:81 http2, 0.0.0.0:443 ssl, 0.0.0.0:444 http2 ssl</code></p>
+<p>Default: <code class="highlighter-rouge">0.0.0.0:8000, 0.0.0.0:8443 ssl</code></p>
 
 <hr />
 
@@ -1905,9 +1926,12 @@ a description of the accepted formats for this and other <code class="highlighte
  you configure in iptables.</li>
 </ul>
 
-<p>Note that the <code class="highlighter-rouge">ssl</code> suffix is not supported,
+<p><strong>Note:</strong> The <code class="highlighter-rouge">ssl</code> suffix is not supported,
 and each address/port will accept TCP with or
 without TLS enabled.</p>
+
+<p>See http://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen
+for a description of the formats that Kong might accept in stream_listen.</p>
 
 <p>Examples:</p>
 
@@ -1919,6 +1943,8 @@ stream_listen = [::1]:1234
 
 <p>By default this value is set to <code class="highlighter-rouge">off</code>, thus disabling the mesh proxy port for this node.</p>
 
+<p>Default: <code class="highlighter-rouge">off</code></p>
+
 <hr />
 
 <h4 id="admin_listen">admin_listen</h4>
@@ -1926,8 +1952,9 @@ stream_listen = [::1]:1234
 <p>Comma-separated list of addresses and ports on which the Admin interface
 should listen. The Admin interface is the API allowing you to configure and
 manage Kong. Access to this interface should be <em>restricted</em> to Kong
-administrators <em>only</em>. This value accepts IPv4, IPv6, and hostnames. Some
-suffixes can be specified for each pair:</p>
+administrators <em>only</em>. This value accepts IPv4, IPv6, and hostnames.</p>
+
+<p>Some suffixes can be specified for each pair:</p>
 
 <ul>
   <li><code class="highlighter-rouge">ssl</code> will require that all connections made through a particular
@@ -1942,9 +1969,9 @@ given address/port.</li>
 node, enabling a ‘data-plane’ mode (without configuration capabilities)
 pulling its configuration changes from the database.</p>
 
-<p>Default: <code class="highlighter-rouge">127.0.0.1:8001, 127.0.0.1:8444 ssl</code></p>
+<p>Example: <code class="highlighter-rouge">stream_listen = 127.0.0.1:8444 http2 ssl</code></p>
 
-<p>Example: <code class="highlighter-rouge">127.0.0.1:8444 http2 ssl</code></p>
+<p>Default: <code class="highlighter-rouge">127.0.0.1:8001, 127.0.0.1:8444 ssl</code></p>
 
 <hr />
 
@@ -1953,17 +1980,21 @@ pulling its configuration changes from the database.</p>
 <p>Defines user and group credentials used by worker processes. If group is omitted, a
 group whose name equals that of user is used.</p>
 
-<p>Default: <code class="highlighter-rouge">nobody nobody</code></p>
+<p>Example: <code class="highlighter-rouge">nginx_user = nginx www</code></p>
 
-<p>Example: <code class="highlighter-rouge">nginx www</code></p>
+<p>Default: <code class="highlighter-rouge">nobody nobody</code></p>
 
 <hr />
 
 <h4 id="nginx_worker_processes">nginx_worker_processes</h4>
 
 <p>Determines the number of worker processes spawned by Nginx.
-See http://nginx.org/en/docs/ngx_core_module.html#worker_processes for detailed
-usage of this directive and a description of accepted values.</p>
+Mainly useful for development or when running Kong inside
+a Docker environment.</p>
+
+<p>See http://nginx.org/en/docs/ngx_core_module.html#worker_processes
+for detailed usage of this directive and a description of accepted
+values.</p>
 
 <p>Default: <code class="highlighter-rouge">auto</code></p>
 
@@ -2002,8 +2033,9 @@ on <code class="highlighter-rouge">proxy_listen</code>, and all SSL settings wil
 <h4 id="ssl_cipher_suite">ssl_cipher_suite</h4>
 
 <p>Defines the TLS ciphers served by Nginx. Accepted values are <code class="highlighter-rouge">modern</code>,
-<code class="highlighter-rouge">intermediate</code>, <code class="highlighter-rouge">old</code>, or <code class="highlighter-rouge">custom</code>.
-See https://wiki.mozilla.org/Security/Server_Side_TLS for detailed
+<code class="highlighter-rouge">intermediate</code>, <code class="highlighter-rouge">old</code>, or <code class="highlighter-rouge">custom</code>.</p>
+
+<p>See https://wiki.mozilla.org/Security/Server_Side_TLS for detailed
 descriptions of each cipher suite.</p>
 
 <p>Default: <code class="highlighter-rouge">modern</code></p>
@@ -2118,7 +2150,7 @@ Kong will generate a default certificate and key.</p>
 <p>Sets the maximum number of idle keepalive connections to upstream servers that
 are preserved in the cache of each worker process. When this number is
 exceeded, the least recently used connections are closed. A value of <code class="highlighter-rouge">0</code>
-will disable this behavior altogether, forcing each upstream request to open 
+will disable this behavior altogether, forcing each upstream request to open
 a new connection.</p>
 
 <p>Default: <code class="highlighter-rouge">60</code></p>
@@ -2145,9 +2177,13 @@ statuses if the response is rewritten by a plugin.</li>
   <li><code class="highlighter-rouge">server_tokens</code>: Same as specifying both <code class="highlighter-rouge">Server</code> and <code class="highlighter-rouge">Via</code>.</li>
   <li><code class="highlighter-rouge">latency_tokens</code>: Same as specifying both <code class="highlighter-rouge">X-Kong-Proxy-Latency</code> and
 <code class="highlighter-rouge">X-Kong-Upstream-Latency</code>.</li>
-  <li><code class="highlighter-rouge">off</code>: Prevents Kong from injecting any of the above headers. Note that
-this does not prevent plugins from injecting headers of their own.</li>
 </ul>
+
+<p>In addition to those, this value can be set to <code class="highlighter-rouge">off</code>, which prevents Kong
+from injecting any of the above headers. Note that this does not
+prevent plugins from injecting headers of their own.</p>
+
+<p>Example: <code class="highlighter-rouge">headers = via, latency_tokens</code></p>
 
 <p>Default: <code class="highlighter-rouge">server_tokens, latency_tokens</code></p>
 
@@ -2169,8 +2205,8 @@ comma-separated list.</p>
 <p>If the special value <code class="highlighter-rouge">unix:</code> is specified, all UNIX-domain sockets will be
 trusted.</p>
 
-<p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#set_real_ip_from">the Nginx docs</a>
-for more details on the <code class="highlighter-rouge">set_real_ip_from</code> directive.</p>
+<p>See http://nginx.org/en/docs/http/ngx_http_realip_module.html#set_real_ip_from
+for examples of accepted values.</p>
 
 <p>Default: none</p>
 
@@ -2178,14 +2214,19 @@ for more details on the <code class="highlighter-rouge">set_real_ip_from</code> 
 
 <h4 id="real_ip_header">real_ip_header</h4>
 
-<p>Defines the request header field whose value will be used to replace the client
-address. This value sets the <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">ngx_http_realip_module</a>
-directive of the same name in the Nginx configuration.</p>
+<p>Defines the request header field whose value will be used to replace the client address.
+This value sets the <code class="highlighter-rouge">ngx_http_realip_module</code> directive of the same name in the Nginx
+configuration.</p>
 
-<p>If this value receives <code class="highlighter-rouge">proxy_protocol</code>, the <code class="highlighter-rouge">proxy_protocol</code> parameter will be
-appended to the <code class="highlighter-rouge">listen</code> directive of the Nginx template.</p>
+<p>If this value receives <code class="highlighter-rouge">proxy_protocol</code>:</p>
 
-<p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header">the Nginx docs</a>
+<ul>
+  <li>at least one of the <code class="highlighter-rouge">proxy_listen</code> entries must have the <code class="highlighter-rouge">proxy_protocol</code> flag enabled.</li>
+  <li>the <code class="highlighter-rouge">proxy_protocol</code> parameter will be appended to the <code class="highlighter-rouge">listen</code> directive of the
+Nginx template.</li>
+</ul>
+
+<p>See http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header
 for a description of this directive.</p>
 
 <p>Default: <code class="highlighter-rouge">X-Real-IP</code></p>
@@ -2197,7 +2238,7 @@ for a description of this directive.</p>
 <p>This value sets the <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">ngx_http_realip_module</a> directive
 of the same name in the Nginx configuration.</p>
 
-<p>See <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_recursive">the Nginx docs</a>
+<p>See http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_recursive
 for a description of this directive.</p>
 
 <p>Default: <code class="highlighter-rouge">off</code></p>
@@ -2211,7 +2252,7 @@ Content-Length request header. If a request exceeds this limit, Kong will respon
 413 (Request Entity Too Large). Setting this value to 0 disables checking the request body
 size.</p>
 
-<p>Note: See <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size">the Nginx docs</a>
+<p>See http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size
 for further description of this parameter. Numeric values may be suffixed with
 <code class="highlighter-rouge">k</code> or <code class="highlighter-rouge">m</code> to denote limits in terms of kilobytes or megabytes.</p>
 
@@ -2229,7 +2270,7 @@ it is advisable to set this value as high as possible (e.g., set it as high as
 high-concurrency environments will require significant memory allocations to process
 many concurrent large request bodies.</p>
 
-<p>Note: See <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size">the Nginx docs</a>
+<p>See http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size
 for further description of this parameter. Numeric values may be suffixed with
 <code class="highlighter-rouge">k</code> or <code class="highlighter-rouge">m</code> to denote limits in terms of kilobytes or megabytes.</p>
 
@@ -2249,7 +2290,7 @@ returning an error for the request. Accepted values are <code class="highlighter
 
 <h3 id="datastore-section">Datastore section</h3>
 
-<p>Kong will store all of its data (such as APIs, Consumers and Plugins) in
+<p>Kong will store all of its data (such as Routes, Services, Consumers and Plugins) in
 either Cassandra or PostgreSQL, and all Kong nodes belonging to the same
 cluster <strong>must</strong> connect themselves to the same database.</p>
 
@@ -2278,36 +2319,44 @@ datastore. Accepted values are <code class="highlighter-rouge">postgres</code> a
     <tr>
       <th>name</th>
       <th>description</th>
+      <th>default</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><strong>pg_host</strong></td>
-      <td>Host of the Postgres server</td>
+      <td>Host of the Postgres server.</td>
+      <td><code class="highlighter-rouge">127.0.0.1</code></td>
     </tr>
     <tr>
       <td><strong>pg_port</strong></td>
-      <td>Port of the Postgres server</td>
+      <td>Port of the Postgres server.</td>
+      <td><code class="highlighter-rouge">5432</code></td>
     </tr>
     <tr>
       <td><strong>pg_user</strong></td>
-      <td>Postgres user</td>
+      <td>Postgres user.</td>
+      <td><code class="highlighter-rouge">kong</code></td>
     </tr>
     <tr>
       <td><strong>pg_password</strong></td>
-      <td>Postgres user’s password</td>
+      <td>Postgres user’s password.</td>
+      <td> </td>
     </tr>
     <tr>
       <td><strong>pg_database</strong></td>
-      <td>Database to connect to. <strong>must exist</strong></td>
+      <td>Database to connect to.</td>
+      <td><code class="highlighter-rouge">kong</code></td>
     </tr>
     <tr>
       <td><strong>pg_ssl</strong></td>
-      <td>Enable SSL connections to the server</td>
+      <td>Enable SSL connections to the server.</td>
+      <td><code class="highlighter-rouge">off</code></td>
     </tr>
     <tr>
       <td><strong>pg_ssl_verify</strong></td>
-      <td>If <code class="highlighter-rouge">pg_ssl</code> is enabled, toggle server certificate verification. See <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> setting.</td>
+      <td>Toggles server certificate verification if <code class="highlighter-rouge">pg_ssl</code> is enabled. See <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> setting.</td>
+      <td><code class="highlighter-rouge">off</code></td>
     </tr>
   </tbody>
 </table>
@@ -2321,72 +2370,84 @@ datastore. Accepted values are <code class="highlighter-rouge">postgres</code> a
     <tr>
       <th>name</th>
       <th>description</th>
+      <th>default</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><strong>cassandra_contact_points</strong></td>
-      <td>Comma-separated list of contacts points to your Cassandra cluster.</td>
+      <td>A comma-separated list of contacts points to your Cassandra cluster.</td>
+      <td><code class="highlighter-rouge">127.0.0.1</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_port</strong></td>
-      <td>Port on which your nodes are listening.</td>
+      <td>The port on which your nodes are listening on. All your nodes and contact points must listen on the same port</td>
+      <td><code class="highlighter-rouge">9042</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_keyspace</strong></td>
-      <td>Keyspace to use in your cluster. Will be created if doesn’t exist.</td>
+      <td>Keyspace to use in your cluster. Will be created if it doesn’t exist.</td>
+      <td><code class="highlighter-rouge">kong</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_consistency</strong></td>
-      <td>Consistency setting to use when reading/writing.</td>
+      <td>Consistency setting to use when reading/writing to the Cassandra cluster</td>
+      <td><code class="highlighter-rouge">ONE</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_timeout</strong></td>
-      <td>Timeout (in ms) for reading/writing.</td>
+      <td>Defines the timeout (in ms) for reading and writing</td>
+      <td><code class="highlighter-rouge">5000</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_ssl</strong></td>
-      <td>Enable SSL connections to the nodes.</td>
+      <td>Toggles client-to-node TLS connections between Kong and Cassandra.</td>
+      <td><code class="highlighter-rouge">off</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_ssl_verify</strong></td>
-      <td>If <code class="highlighter-rouge">cassandra_ssl</code> is enabled, toggle server certificate verification. See <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> setting.</td>
+      <td>Toggles server certificate verification if <code class="highlighter-rouge">cassandra_ssl</code> is enabled. See the <code class="highlighter-rouge">lua_ssl_trusted_certificate</code> to specify a certificate authority.</td>
+      <td><code class="highlighter-rouge">off</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_username</strong></td>
       <td>Username when using the PasswordAuthenticator scheme.</td>
+      <td><code class="highlighter-rouge">kong</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_password</strong></td>
       <td>Password when using the PasswordAuthenticator scheme.</td>
-    </tr>
-    <tr>
-      <td><strong>cassandra_consistency</strong></td>
-      <td>Consistency setting to use when reading/writing to the Cassandra cluster.</td>
+      <td> </td>
     </tr>
     <tr>
       <td><strong>cassandra_lb_policy</strong></td>
-      <td>Load balancing policy to use when distributing queries across your Cassandra cluster. Accepted values are <code class="highlighter-rouge">RoundRobin</code> and <code class="highlighter-rouge">DCAwareRoundRobin</code> and <code class="highlighter-rouge">RequestDCAwareRoundRobin</code>. Prefer the later two if and only if you are using a multi-datacenter cluster, and set the <code class="highlighter-rouge">cassandra_local_datacenter</code> if so.</td>
+      <td>Load balancing policy to use when distributing queries across your Cassandra cluster. Accepted values are <code class="highlighter-rouge">RoundRobin</code>, <code class="highlighter-rouge">RequestRoundRobin</code>, <code class="highlighter-rouge">DCAwareRoundRobin</code> and <code class="highlighter-rouge">RequestDCAwareRoundRobin</code>. Policies prefixed with “Request” make efficient use of established connections throughout the same request. Prefer “DCAware” policies if and only if you are using a multi-datacenter cluster.</td>
+      <td> </td>
     </tr>
     <tr>
       <td><strong>cassandra_local_datacenter</strong></td>
-      <td>When using the <code class="highlighter-rouge">DCAwareRoundRobin</code> or <code class="highlighter-rouge">RequestDCAwareRoundRobin</code> policy, you must specify the name of the cluster local (closest) to this Kong node.</td>
+      <td>When using the <code class="highlighter-rouge">DCAwareRoundRobin</code> or <code class="highlighter-rouge">RequestDCAwareRoundRobin</code> balancing policy, you must specify the name of the cluster local (closest) to this Kong node.</td>
+      <td> </td>
     </tr>
     <tr>
       <td><strong>cassandra_repl_strategy</strong></td>
-      <td>If creating the keyspace for the first time, specify a replication strategy.</td>
+      <td>When migrating for the first time, Kong will use this setting to create your keyspace. Accepted values are <code class="highlighter-rouge">SimpleStrategy</code> and <code class="highlighter-rouge">NetworkTopologyStrategy</code></td>
+      <td><code class="highlighter-rouge">SimpleStrategy</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_repl_factor</strong></td>
-      <td>Specify a replication factor for the <code class="highlighter-rouge">SimpleStrategy</code>.</td>
+      <td>When migrating for the first time, Kong will create the keyspace with this replication factor when using <code class="highlighter-rouge">SimpleStrategy</code>.</td>
+      <td><code class="highlighter-rouge">1</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_data_centers</strong></td>
-      <td>Specify data centers for the <code class="highlighter-rouge">NetworkTopologyStrategy</code>.</td>
+      <td>When migrating for the first time, Kong will use this setting when using <code class="highlighter-rouge">NetworkTopologyStrategy</code>. The format is a comma-separated list made of <code class="highlighter-rouge">&lt;dc_name&gt;:&lt;repl_factor&gt;</code>.</td>
+      <td><code class="highlighter-rouge">dc1:2,dc2:3</code></td>
     </tr>
     <tr>
       <td><strong>cassandra_schema_consensus_timeout</strong></td>
       <td>Define the timeout (in ms) for the waiting period to each a schema consensus between your Cassandra nodes. This value is only used during migrations.</td>
+      <td><code class="highlighter-rouge">10000</code></td>
     </tr>
   </tbody>
 </table>
@@ -2407,14 +2468,15 @@ caching of such configuration entities.</p>
 <h4 id="db_update_frequency">db_update_frequency</h4>
 
 <p>Frequency (in seconds) at which to check for
-updated entities with the datastore.
-When a node creates, updates, or deletes an
+updated entities with the datastore.</p>
+
+<p>When a node creates, updates, or deletes an
 entity via the Admin API, other nodes need
 to wait for the next poll (configured by
 this value) to eventually purge the old
 cached entity and start using the new one.</p>
 
-<p>Default: 5 seconds</p>
+<p>Default: <code class="highlighter-rouge">5</code></p>
 
 <hr />
 
@@ -2422,33 +2484,37 @@ cached entity and start using the new one.</p>
 
 <p>Time (in seconds) taken for an entity in the
 datastore to be propagated to replica nodes
-of another datacenter.
-When in a distributed environment such as
+of another datacenter.</p>
+
+<p>When in a distributed environment such as
 a multi-datacenter Cassandra cluster, this
 value should be the maximum number of
 seconds taken by Cassandra to propagate a
-row to other datacenters.
-When set, this property will increase the
+row to other datacenters.</p>
+
+<p>When set, this property will increase the
 time taken by Kong to propagate the change
-of an entity.
-Single-datacenter setups or PostgreSQL
+of an entity.</p>
+
+<p>Single-datacenter setups or PostgreSQL
 servers should suffer no such delays, and
 this value can be safely set to 0.</p>
 
-<p>Default: 0 seconds</p>
+<p>Default: <code class="highlighter-rouge">0</code></p>
 
 <hr />
 
 <h4 id="db_cache_ttl">db_cache_ttl</h4>
 
 <p>Time-to-live (in seconds) of an entity from
-the datastore when cached by this node.
-Database misses (no entity) are also cached
+the datastore when cached by this node.</p>
+
+<p>Database misses (no entity) are also cached
 according to this setting.
 If set to 0 (default), such cached entities
 or misses never expire.</p>
 
-<p>Default: 0 (no expiration)</p>
+<p>Default: <code class="highlighter-rouge">0</code> (no expiration)</p>
 
 <hr />
 
@@ -2459,11 +2525,16 @@ resurrected for when they cannot be refreshed (e.g., the datastore is
 unreachable). When this TTL expires, a new attempt to refresh the stale
 entities will be made.</p>
 
-<p>Default: 30 seconds</p>
+<p>Default: <code class="highlighter-rouge">30</code></p>
 
 <hr />
 
 <h3 id="dns-resolver-section">DNS resolver section</h3>
+
+<p>By default the DNS resolver will use the standard configuration files
+<code class="highlighter-rouge">/etc/hosts</code> and <code class="highlighter-rouge">/etc/resolv.conf</code>. The settings in the latter file will be
+overridden by the environment variables <code class="highlighter-rouge">LOCALDOMAIN</code> and <code class="highlighter-rouge">RES_OPTIONS</code> if
+they have been set.</p>
 
 <p>Kong will resolve hostnames as either <code class="highlighter-rouge">SRV</code> or <code class="highlighter-rouge">A</code> records (in that order, and
 <code class="highlighter-rouge">CNAME</code> records will be dereferenced in the process).
@@ -2516,6 +2587,17 @@ insensitive) comma separated list.</p>
 
 <hr />
 
+<h4 id="dns_valid_ttl">dns_valid_ttl</h4>
+
+<p>By default, DNS records are cached using
+the TTL value of a response. If this
+property receives a value (in seconds), it
+will override the TTL for all records.</p>
+
+<p>Default: none</p>
+
+<hr />
+
 <h4 id="dns_stale_ttl">dns_stale_ttl</h4>
 
 <p>Defines, in seconds, how long a record will
@@ -2556,7 +2638,7 @@ When disabled multiple requests for the
 same name/type will be synchronised to a
 single query.</p>
 
-<p>Default: off</p>
+<p>Default: <code class="highlighter-rouge">off</code></p>
 
 <hr />
 
@@ -2754,85 +2836,120 @@ differs from a sidecar proxy, in which a local proxy acts on behalf of only a
 
 
     
-  <section class="section subscribe-section" id="newsletter">
-  <div class="container">
-    <div class="row">
-      <div class="one-half column">
-        <div class="newsletter-icon col-md-2 mx-auto mx-md-0 mb-1x mb-md-0x">
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-        </div>
-        <div class="newsletter-headline col-auto text-center text-md-left">
-          Keep up-to-date with Kong <span class="hidden-sm-down">product releases and</span> news.
-        </div>
-      </div>
-      <div class="one-half column">
-        <form accept-charset="UTF-8" method="post" action="https://go.pardot.com/l/392112/2018-10-02/bh8cfd" class="form" id = "subscription_form">
-          <input type="text" name="email" id="email" class="text" size="30" placeholder="Email" maxlength="255">
-          <div class="error-message message"></div>
-          <div class="success-message message"></div>
-          <input type="hidden" name="utm_source">
-          <input type="hidden" name="utm_campaign">
-          <input type="hidden" name="utm_medium">
-          <input type="hidden" name="utm_content">
-          <input type="hidden" name="utm_term">
-          <input type="submit" class="button" accesskey="s" value="Subscribe">
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
 <footer class="marketing-footer--light-gray">
   <section>
-    <ul>
+    <ul class="newsletter">
       <li class="logo-wrapper">
         <div class="logo">
-          <img src="/assets/images/kong-blue.png" alt="Kong Inc">
+          <img src="/assets/images/Kogo-gradient.svg" alt="Kong" />
+        </div>
+        <div class="form">
+          <form accept-charset="UTF-8" method="post" action="https://go.pardot.com/l/392112/2018-10-02/bh8cfd" class="form" id="subscription_form">
+            <input type="text" name="email" id="email" class="text" size="30" placeholder="Email" maxlength="255">
+            <div class="error-message message"></div>
+            <div class="success-message message"></div>
+            <input type="hidden" name="utm_source">
+            <input type="hidden" name="utm_campaign">
+            <input type="hidden" name="utm_medium">
+            <input type="hidden" name="utm_content">
+            <input type="hidden" name="utm_term">
+            <input type="submit" class="button" accesskey="s" class="g-recaptcha" data-sitekey="6LeIX4oUAAAAANjHabbHnQrtHJoBsSutpHAn4VOx" data-callback="onSubmit" value="Subscribe">
+            </form>
+        </div>
+        <div class="social">
+
+          <div class="social-link">
+            <a href="https://www.facebook.com/konghq/" title="Facebook"
+              ><i
+                aria-label="Facebook"
+                class="fa fa-facebook-official"
+                aria-hidden="true"
+              ></i
+            ></a>
+          </div>
+          <div class="social-link">
+            <a href="https://twitter.com/thekonginc" title="Twitter"
+              ><i
+                aria-label="Twitter"
+                class="fa fa-twitter"
+                aria-hidden="true"
+              ></i
+            ></a>
+          </div>
+          <div class="social-link">
+            <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"
+              ><i
+              aria-label="Meetup"
+              class="fa fa-meetup"
+              aria-hidden="true"
+            ></i
+          ></a>
+          </div>
+          <div class="social-link">
+            <a href="https://linkedin.com/company/278819" title="LinkedIn"
+              ><i aria-label="GitHub" class="fa fa-linkedin" aria-hidden="true"></i
+            ></a>
+          </div>
+          <div class="social-link">
+            <a href="https://github.com/kong/kong" target="blank" class="btn-gh">
+              <i class="fa fa-github" aria-hidden="true" aria-label="GitHub"></i> Star
+            </a>
+          </div>
         </div>
       </li>
       <li>
         <nav>
-          <h4>Company</h4>
+          <h5>Products</h5>
           <ul>
-            <li><a href="https://konghq.com/about-kong-inc/">About</a></li>
-            <li><a href="https://konghq.com/investors/">Investors</a></li>
-            <li><a href="http://konghq.com/blog/">Blog</a></li>
-            <li><a href="https://konghq.com/jobs/">Jobs</a></li>
-            <li><a href="https://konghq.com/contact/">Contact</a></li>
-            <li><a href="https://support.konghq.com">Support</a></li>
+            <li><a href="http://konghq.com/kong/">Kong</a></li>
+            <li><a href="http://konghq.com/kong-enterprise/">Kong Enterprise</a></li>
+            <li><a href="http://konghq.com/cloud/">Kong Cloud</a></li>
+            <li><a href="http://konghq.com/subscriptions/">Subscriptions</a></li>
           </ul>
         </nav>
       </li>
       <li>
         <nav>
-          <h4>Products</h4>
+          <h5>Resources</h5>
           <ul>
-            <li><a href="https://docs.konghq.com/">Kong</a></li>
-            <li><a href="https://konghq.com/api-dev-portal/">Dev Portal</a></li>
-            <li><a href="https://konghq.com/api-analytics/">API Analytics</a></li>
-            <li><a href="https://konghq.com/kong-enterprise-edition/">Enterprise</a></li>
+            <li>
+              <a href="https://support.konghq.com" target="blank"
+                >Enterprise Support</a
+              >
+            </li>
+            <li>
+              <a href="https://docs.konghq.com">Documentation</a>
+            </li>
+            <li><a href="http://konghq.com/partners/">Partners</a></li>
+            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
+            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/meetups/">Meetups</a></li>
           </ul>
         </nav>
       </li>
       <li>
         <nav>
-          <h4>Open Source</h4>
+          <h5>Company</h5>
           <ul>
-            <li><a href="http://mockbin.org/">Mockbin</a></li>
-            <li><a href="http://apiembed.com/">API Embed</a></li>
-            <li><a href="http://unirest.io/">Unirest</a></li>
-            <li><a href="http://guardianjs.com/">Guardian JS</a></li>
-            <li><a href="http://oauthbible.com/">OAuth Bible</a></li>
+            <li><a href="http://konghq.com/about-kong-inc/">About</a></li>
+            <li><a href="http://konghq.com/investors/">Investors</a></li>
+            <li><a href="http://konghq.com/blog/">News</a></li>
+            <li>
+              <a href="http://konghq.com/careers/">Careers <span>Hiring!</span></a>
+            </li>
+            <li><a href="http://konghq.com/kong-summit/">Kong Summit</a></li>
+            <li><a href="http://konghq.com/contact/">Contact</a></li>
           </ul>
         </nav>
       </li>
       <li>
         <nav>
-          <h4>Legal</h4>
+          <h5>Open Source</h5>
           <ul>
-            <li><a href="https://konghq.com/terms/">Terms of Service</a></li>
-            <li><a href="https://konghq.com/privacy/">Privacy Policy</a></li>
+            <li><a href="http://konghq.com/install/">Install</a></li>
+            <li><a target="blank" href="https://github.com/Kong/">GitHub</a></li>
+            <li><a href="https://discuss.konghq.com/"">Kong Nation</a></li>
+            <li><a href="http://konghq.com/meetups/">Meetups</a></li>
           </ul>
         </nav>
       </li>
@@ -2842,19 +2959,7 @@ differs from a sidecar proxy, in which a local proxy acts on behalf of only a
   <section class="legal">
     <ul>
       <li>
-        <span class="mashape-footer-content">&copy; Kong Inc. 2019</span>
-      </li>
-      <li>
-        <div class="social-link">
-          <a href="https://github.com/Kong" title="GitHub"><i aria-label="GitHub" class="fa fa-github" aria-hidden="true"></i></a></div>
-        <div class="social-link">
-          <a href="https://www.facebook.com/konghq/" title="Facebook"><i aria-label="Facebook" class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
-        <div class="social-link">
-          <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"><img aria-label="Meetup" alt="Meetup" src="/assets/images/footer/icn-meetup-black.svg"></a>
-        </div>
-        <div class="social-link">
-          <a href="https://twitter.com/thekonginc" title="Twitter"><i aria-label="Twitter" class="fa fa-twitter" aria-hidden="true"></i></a>
-        </div>
+        <span class="mashape-footer-content">&copy; Kong Inc. 2019 &nbsp; <a href="http://konghq.com/terms/">Terms</a><b>•</b><a href="http://konghq.com/privacy/">Privacy</a></span>
       </li>
     </ul>
   </section>
@@ -2891,7 +2996,7 @@ differs from a sidecar proxy, in which a local proxy acts on behalf of only a
 </script>
 
 
-    <script src="/assets/app.js?v=1547857819"></script>
+    <script src="/assets/app.js?v=1548274314"></script>
 
     <div id="fb-root"></div>
 
