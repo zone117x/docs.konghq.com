@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -1088,7 +1082,7 @@ configured, please <a href="mailto:support@konghq.com">contact support</a> for f
 
 <h2 id="why-do-i-get-errors-when-testing-endpoints-in-my-developer-portal-but-not-when-curling-them">Why do I get errors when testing endpoints in my Developer Portal but not when <code class="highlighter-rouge">curl</code>ing them?</h2>
 
-<p>Developer Portal requests originate from port <code class="highlighter-rouge">8003</code>, but are proxied on port <code class="highlighter-rouge">8000</code>. For security, this causes your browser to throw a Cross Origin Request error. You can fix this by configuring the <a href="https://docs.konghq.com/plugins/cors/">CORS plugin</a> and specifying <code class="highlighter-rouge">config.credentials=true</code> and <code class="highlighter-rouge">config.origins=http://localhost:8003</code>. Also, unless you have specific reasons to do so, you should leave <code class="highlighter-rouge">config.preflight_continue=false</code>.</p>
+<p>Developer Portal requests originate from port <code class="highlighter-rouge">8003</code>, but are proxied on port <code class="highlighter-rouge">8000</code>. For security, this causes your browser to throw a Cross Origin Request error. You can fix this by configuring the <a href="/plugins/cors/">CORS plugin</a> and specifying <code class="highlighter-rouge">config.credentials=true</code> and <code class="highlighter-rouge">config.origins=http://localhost:8003</code>. Also, unless you have specific reasons to do so, you should leave <code class="highlighter-rouge">config.preflight_continue=false</code>.</p>
 
 <h2 id="why-do-i-have-files-with-unauthenticated-in-them">Why do I have files with <code class="highlighter-rouge">unauthenticated/</code> in them?</h2>
 
@@ -1274,6 +1268,16 @@ served by the File API.</p>
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1307,7 +1311,7 @@ served by the File API.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

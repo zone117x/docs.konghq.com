@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -954,7 +948,7 @@ step to having Kong EE manage your API. For purposes of this Getting Started
 guide, we suggest adding the <a href="https://mockbin.com/">Mockbin API</a> to Kong, as Mockbin is
 helpful for learning how Kong EE proxies your API requests.</p>
 
-<p>Kong exposes a <a href="/latest/admin-api">RESTful Admin API</a> on ports <code class="highlighter-rouge">:8001</code> and <code class="highlighter-rouge">:8444</code> and an
+<p>Kong exposes a <a href="/0.13.x/admin-api">RESTful Admin API</a> on ports <code class="highlighter-rouge">:8001</code> and <code class="highlighter-rouge">:8444</code> and an
 Admin GUI on ports <code class="highlighter-rouge">:8002</code> and <code class="highlighter-rouge">:8445</code> for managing the
 configuration of your Kong instance or cluster. The Admin GUI makes
 requests to the Admin API, and you can use either interface for configuring
@@ -1014,7 +1008,7 @@ you should see a response similar to the following:</p>
 <h2 id="3-forward-your-requests-through-kong-ee">3. Forward your requests through Kong EE</h2>
 
 <p>Issue the following cURL request to verify that Kong is properly forwarding
-requests to your API. Note that <a href="/latest/configuration/#nginx-section">by default</a> Kong handles proxy
+requests to your API. Note that <a href="/0.13.x/configuration/#nginx-section">by default</a> Kong handles proxy
 requests on port <code class="highlighter-rouge">:8000</code>:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
@@ -1181,6 +1175,16 @@ the header defined in the above cURL request <code class="highlighter-rouge">Hos
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1214,7 +1218,7 @@ the header defined in the above cURL request <code class="highlighter-rouge">Hos
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

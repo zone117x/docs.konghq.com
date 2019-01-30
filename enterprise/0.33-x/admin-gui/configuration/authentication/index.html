@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -1099,7 +1093,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#fifth">Restart Kong</a></li>
 </ol>
 
-<p>In this example we will configure authentication on the Admin GUI using <a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>.</p>
+<p>In this example we will configure authentication on the Admin GUI using <a href="/plugins/key-authentication">Key Authentication</a>.</p>
 
 <p><a name="first"></a>
 <strong>First, we will add an Admin entity using the Admin API:</strong></p>
@@ -1242,7 +1236,7 @@ under <a href="#example-configs">Example configurations</a>:</p>
 
 <ul>
   <li><a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced</a></li>
-  <li><a href="https://getkong.org/plugins/basic-authentication">Basic Authentication</a></li>
+  <li><a href="/plugins/basic-authentication">Basic Authentication</a></li>
 </ul>
 
 <h2 id="add-a-credential">Add a Credential</h2>
@@ -1262,16 +1256,16 @@ only to admins.</p>
 
 <p>Check out the section <a href="#enable-authentication">Enabling Authentication</a> for a
 step by step guide on setting up
-<a href="https://getkong.org/plugins/key-authentication">Key Authentication</a>.</p>
+<a href="/plugins/key-authentication">Key Authentication</a>.</p>
 
 <h3 id="ldap-authentication">LDAP Authentication</h3>
 
 <p>The <a href="/enterprise/0.33-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced plugin</a>
-allows Admins to use their own LDAP server
-to bind authentication to the Admin API with username and password protection.
-Note: You must use <code class="highlighter-rouge">Basic</code> as your <code class="highlighter-rouge">header_type</code> in the <code class="highlighter-rouge">admin_gui_auth_config</code>
-Kong configuration. Here is an example configuration (update the following in your
-Kong Configuration, then restart Kong):</p>
+allows Admins to use their own LDAP server to bind authentication to the Admin 
+API with username and password protection. Note: You must use <code class="highlighter-rouge">Basic</code> as your 
+<code class="highlighter-rouge">header_type</code> in the <code class="highlighter-rouge">admin_gui_auth_config</code> Kong configuration. Here is an 
+example configuration (update the following in your Kong Configuration, then 
+restart Kong):</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth = ldap-auth-advanced
 enforce_rbac = on
@@ -1281,6 +1275,7 @@ enforce_rbac = on
 <div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth_conf={                                     \
 "anonymous":"",                                           \
 "attribute":"uid",                                        \
+"bind_dn":"&lt;ENTER_YOUR_BIND_DN_HERE&gt;",                    \
 "base_dn":"&lt;ENTER_YOUR_BASE_DN_HERE&gt;",                    \
 "cache_ttl": 2,                                           \
 "header_type":"Basic",                                    \
@@ -1298,8 +1293,12 @@ enforce_rbac = on
 LDAP configuration:</p>
 
 <ul>
+  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_BIND_DN_HERE&gt;</code> - Your LDAP Bind DN (Distinguished Name)
+    * Used to perform LDAP search of user. This bind_dn should have 
+      permissions to search for the user being authenticated.
+    * For Example, <code class="highlighter-rouge">uid=einstein,ou=scientists,dc=ldap,dc=com</code></li>
   <li><code class="highlighter-rouge">&lt;ENTER_YOUR_BASE_DN_HERE&gt;</code> - Your LDAP Base DN (Distinguished Name)
-    * For Example, <code class="highlighter-rouge">ou=scientists,dc=ldap,dc=kong,dc=com</code></li>
+    * For Example, <code class="highlighter-rouge">ou=scientists,dc=ldap,dc=com</code></li>
   <li><code class="highlighter-rouge">&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;</code> - LDAP Host domain
     * For Example, <code class="highlighter-rouge">ec2"-XX-XXX-XX-XXX.compute-1.amazonaws.com</code></li>
 </ul>
@@ -1310,7 +1309,7 @@ your remote LDAP server.</p>
 
 <h3 id="basic-authentication">Basic Authentication</h3>
 
-<p>The <a href="https://getkong.org/plugins/basic-authentication">Basic Authentication Plugin</a>
+<p>The <a href="/plugins/basic-authentication">Basic Authentication Plugin</a>
 allows Admins to use username and password to authenticate requests, and can be
 used to authenticate the Admin GUI.</p>
 
@@ -1545,6 +1544,16 @@ you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1578,7 +1587,7 @@ you always used SSL/TLS to encrypt your Admin GUI traffic.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

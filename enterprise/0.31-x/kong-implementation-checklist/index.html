@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -956,7 +950,7 @@ window['_fs_namespace'] = 'FS';
 <h2 id="kong-cluster">Kong Cluster</h2>
 
 <ul>
-  <li>Regardless of the datastore being adopted with Kong, the Kong nodes themselves need to join in a cluster. The Kong nodes will talk to each other via their connections to the database (PostgreSQL or Cassandra). Please refer to the <a href="/latest/clustering/">clustering reference</a> for more details.</li>
+  <li>Regardless of the datastore being adopted with Kong, the Kong nodes themselves need to join in a cluster. The Kong nodes will talk to each other via their connections to the database (PostgreSQL or Cassandra). Please refer to the <a href="/0.12.x/clustering/">clustering reference</a> for more details.</li>
 </ul>
 
 <h2 id="production-system-requirements">Production System Requirements</h2>
@@ -978,7 +972,7 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 
 <ul>
   <li>Kong is stateless and more nodes can be added behind the load balancer to scale the system. Incoming HTTP/s requests can be processed by any server, and that also includes the Kong’s Admin API.</li>
-  <li>Every new Kong node should target the same datastore, and join the existing Kong nodes in a cluster. Failure to join the Kong nodes in a Kong cluster will result in data inconsistencies and errors when processing requests. Kong automates joining a node in the cluster as long as the right configuration settings have been provided. For more information, we recommend reading the <a href="/latest/clustering/">clustering reference</a>.</li>
+  <li>Every new Kong node should target the same datastore, and join the existing Kong nodes in a cluster. Failure to join the Kong nodes in a Kong cluster will result in data inconsistencies and errors when processing requests. Kong automates joining a node in the cluster as long as the right configuration settings have been provided. For more information, we recommend reading the <a href="/0.12.x/clustering/">clustering reference</a>.</li>
 </ul>
 
 <h2 id="kong-performance">Kong Performance</h2>
@@ -1009,10 +1003,10 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 <p>These are the port settings in order for Kong to work:</p>
 
 <ul>
-  <li>Allow HTTP traffic to <a href="/latest/configuration/#proxy_listen">proxy_listen</a>. By default  8000.</li>
-  <li>Allow HTTPS traffic to <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. By default 8443.</li>
-  <li>Allow HTTP traffic to <a href="/latest/configuration/#admin_listen">admin_listen</a>. By default 8001.</li>
-  <li>Allow HTTPS traffic to <a href="/latest/configuration/#admin_listen_ssl">admin_listen_ssl</a>. By default 8444.</li>
+  <li>Allow HTTP traffic to <a href="/0.12.x/configuration/#proxy_listen">proxy_listen</a>. By default  8000.</li>
+  <li>Allow HTTPS traffic to <a href="/0.12.x/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. By default 8443.</li>
+  <li>Allow HTTP traffic to <a href="/0.12.x/configuration/#admin_listen">admin_listen</a>. By default 8001.</li>
+  <li>Allow HTTPS traffic to <a href="/0.12.x/configuration/#admin_listen_ssl">admin_listen_ssl</a>. By default 8444.</li>
   <li>Allow HTTP traffic to admin_gui_listen. By default 8002.</li>
   <li>Allow HTTPS traffic to admin_gui_listen_ssl. By default 8445.</li>
 </ul>
@@ -1022,8 +1016,8 @@ High ulimit systemvalue, possibly &gt;=65535 . A higher limit value will allow K
 <p>Below are the recommended firewall settings:</p>
 
 <ul>
-  <li>The upstream APIs behind Kong will be available on <a href="/latest/configuration/#proxy_listen">proxy_listen</a> and <a href="/latest/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
-  <li>Protect <a href="/latest/configuration/#admin_listen">admin_listen</a>, and only allow trusted sources that can access the Admin API.</li>
+  <li>The upstream APIs behind Kong will be available on <a href="/0.12.x/configuration/#proxy_listen">proxy_listen</a> and <a href="/0.12.x/configuration/#proxy_listen_ssl">proxy_listen_ssl</a>. Configure these ports accordingly to the access level you wish to grant to the upstream APIs.</li>
+  <li>Protect <a href="/0.12.x/configuration/#admin_listen">admin_listen</a>, and only allow trusted sources that can access the Admin API.</li>
 </ul>
 
 <h3 id="network">Network</h3>
@@ -1222,6 +1216,16 @@ or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1255,7 +1259,7 @@ or v0.8.1, v0.8.2 in a 0.8.x baseline version.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

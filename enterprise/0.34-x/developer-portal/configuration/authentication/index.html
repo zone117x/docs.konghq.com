@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -1169,9 +1163,9 @@ window['_fs_namespace'] = 'FS';
 <p>The Dev Portal supports the following authentication plugins:</p>
 
 <ul>
-  <li><a href="https://docs.konghq.com/hub/kong-inc/basic-auth/">Basic Auth</a></li>
-  <li><a href="https://docs.konghq.com/plugins/key-authentication">Key Authentication</a></li>
-  <li><a href="https://docs.konghq.com/plugins/ee-openid-connect/">OpenID Connect-EE</a></li>
+  <li><a href="/hub/kong-inc/basic-auth/">Basic Auth</a></li>
+  <li><a href="/plugins/key-authentication">Key Authentication</a></li>
+  <li><a href="/plugins/ee-openid-connect/">OpenID Connect-EE</a></li>
 </ul>
 
 <h2 id="enable-authentication">Enable Authentication</h2>
@@ -1257,11 +1251,11 @@ in plain text, so be careful not to store sensitive information in meta.</p>
 
 <p>Check out the section “<strong>Enabling Authentication”</strong> for a step by step guide on 
 setting up 
-<a href="https://docs.konghq.com/plugins/basic-authentication">Basic Authentication</a>.</p>
+<a href="/plugins/basic-authentication">Basic Authentication</a>.</p>
 
 <h3 id="key-authentication">Key Authentication</h3>
 
-<p>The <a href="https://docs.konghq.com/plugins/key-authentication">Key Authentication Plugin</a> 
+<p>The <a href="/plugins/key-authentication">Key Authentication Plugin</a> 
 allows developers to use API keys to authenticate requests, and can be used to 
 authenticate the Dev Portal. Developers will be able to login with a single API 
 key, rather than a username/password.</p>
@@ -1276,11 +1270,11 @@ Authentication Plugin dropdown, or run the following cURL command:</p>
 
 <h3 id="open-id-connect-plugin">Open-ID Connect Plugin</h3>
 
-<p>The <a href="https://docs.konghq.com/hub/kong-inc/openid-connect/">OpenID Connect Plugin</a> 
+<p>The <a href="/hub/kong-inc/openid-connect/">OpenID Connect Plugin</a> 
 allows the Dev Portal to hook into existing authentication setups using third-party 
 <em>Identity Providers</em> (<strong>IdP</strong>) such as Google, Yahoo, Microsoft Azure AD, etc.</p>
 
-<p><a href="https://docs.konghq.com/hub/kong-inc/openid-connect/">OIDC</a> must be used with 
+<p><a href="/hub/kong-inc/openid-connect/">OIDC</a> must be used with 
 the <code class="highlighter-rouge">session</code> method, utilizing cookies for Dev Portal File API requests.</p>
 
 <p>In the Dev Portal’s settings in <code class="highlighter-rouge">Kong Manager</code> select <code class="highlighter-rouge">Open ID Connect</code> from the 
@@ -1784,6 +1778,16 @@ does not use Local Storage.</p>
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1817,7 +1821,7 @@ does not use Local Storage.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

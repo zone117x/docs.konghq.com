@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -1020,7 +1014,8 @@ target.</li>
           
         </td>
         <td></td>
-        <td><p>The DN to bind to</p>
+        <td><p>The DN to bind to. Used to perform LDAP search of user. This bind_dn 
+should have permissions to search for the user being authenticated.</p>
 </td>
       </tr>
     
@@ -1053,15 +1048,37 @@ credential for future requests for the duration specified in
 
 <h4 id="upstream-headers">Upstream Headers</h4>
 
-<p>When a client has been authenticated, the plugin will append some headers to the request before proxying it to the upstream service, so that you can identify the consumer in your code:</p>
+<p>When a client has been authenticated, the plugin will append some headers to the
+ request before proxying it to the upstream service, so that you can identify 
+ the consumer in your code:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">X-Credential-Username</code>, the <code class="highlighter-rouge">username</code> of the Credential (only if the consumer is not the ‘anonymous’ consumer)</li>
-  <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to <code class="highlighter-rouge">true</code> when authentication failed, and the ‘anonymous’ consumer was set instead.</li>
-  <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the ‘anonymous’ consumer on Kong (only if authentication failed and ‘anonymous’ was set)</li>
-  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the <code class="highlighter-rouge">custom_id</code> of the ‘anonymous’ consumer (only if authentication failed and ‘anonymous’ was set)</li>
-  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the <code class="highlighter-rouge">username</code> of the ‘anonymous’ consumer (only if authentication failed and ‘anonymous’ was set)</li>
+  <li><code class="highlighter-rouge">X-Credential-Username</code>, the <code class="highlighter-rouge">username</code> of the Credential (only if the 
+consumer is not the ‘anonymous’ consumer)</li>
+  <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to <code class="highlighter-rouge">true</code> when authentication failed, and 
+the ‘anonymous’ consumer was set instead.</li>
+  <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the ‘anonymous’ consumer on Kong (only if 
+authentication failed and ‘anonymous’ was set)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the <code class="highlighter-rouge">custom_id</code> of the ‘anonymous’ consumer (only if 
+authentication failed and ‘anonymous’ was set)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the <code class="highlighter-rouge">username</code> of the ‘anonymous’ consumer (only if 
+authentication failed and ‘anonymous’ was set)</li>
 </ul>
+
+<h4 id="ldap-search-and-configbind_dn">LDAP Search and config.bind_dn</h4>
+
+<p>LDAP directory searching is performed during the request/plugin lifecycle. It is
+used to retrieve the fully qualified DN of the user so a bind 
+request can be performed with the user’s given LDAP username and password. The 
+search for the user being authenticated uses the <code class="highlighter-rouge">config.bind_dn</code> property. The 
+search uses <code class="highlighter-rouge">scope="sub"</code>, <code class="highlighter-rouge">filter="&lt;config.attribute&gt;=&lt;username&gt;"</code>, and
+<code class="highlighter-rouge">base_dn=&lt;config.base_dn&gt;</code>. Here is an example of how it performs the search 
+using the <code class="highlighter-rouge">ldapsearch</code> command line utility:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>ldapsearch -x -h <span class="s2">"&lt;config.ldap_host&gt;"</span> -D <span class="s2">"&lt;config.bind_dn&gt;"</span> -b 
+<span class="s2">"&lt;config.attribute&gt;=&lt;username&gt;&lt;config.base_dn&gt;"</span> -w <span class="s2">"&lt;config.ldap_password&gt;"</span>
+</code></pre>
+</div>
 
 
 
@@ -1217,6 +1234,16 @@ credential for future requests for the duration specified in
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1250,7 +1277,7 @@ credential for future requests for the duration specified in
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 

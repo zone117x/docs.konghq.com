@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1548701642"
+    href="/assets/styles.css?v=1548872531"
   />
   
 </head>
@@ -943,7 +937,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>The default behavior for Kong authentication plugins is to require credentials for all requests without regard for whether a request has been authenticated via some other plugin. Configuring an anonymous consumer on your authentication plugins allows you to offer clients multiple options for authentication.</p>
 
-<p>To begin, <a href="/latest/getting-started/adding-your-api/">create an API</a> and then create three consumers:</p>
+<p>To begin, <a href="/enterprise/0.32-x/getting-started/adding-your-api/">create an API</a> and then create three consumers:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -sX POST kong-admin:8001/consumers <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
@@ -983,7 +977,7 @@ window['_fs_namespace'] = 'FS';
 </code></pre>
 </div>
 
-<p>If using <a href="/enterprise/latest/plugins/openid-connect">OpenID Connect</a>, you must also set <code class="highlighter-rouge">config.consumer_claim</code> along with <code class="highlighter-rouge">anonymous</code>, as setting <code class="highlighter-rouge">anonymous</code> alone will not map that consumer.</p>
+<p>If using <a href="/enterprise/0.32-x/plugins/openid-connect">OpenID Connect</a>, you must also set <code class="highlighter-rouge">config.consumer_claim</code> along with <code class="highlighter-rouge">anonymous</code>, as setting <code class="highlighter-rouge">anonymous</code> alone will not map that consumer.</p>
 
 <p>At this point unauthenticated requests and requests with invalid credentials are still allowed. The anonymous consumer is allowed, and will be applied to any request that does not pass a set of credentials associated with some other consumer.</p>
 
@@ -1188,6 +1182,16 @@ window['_fs_namespace'] = 'FS';
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1221,7 +1225,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1548701642"></script>
+    <script src="/assets/app.js?v=1548872531"></script>
 
     <div id="fb-root"></div>
 
