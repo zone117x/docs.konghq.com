@@ -107,12 +107,6 @@ window['_fs_namespace'] = 'FS';
 
   <!-- Recaptcha -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-  <script type="text/javascript">
-    var onSubmit = function(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
-    };
-  </script>
 
   <!-- ##gulp-resource-hints## -->
 
@@ -123,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1549373814"
+    href="/assets/styles.css?v=1550266415"
   />
   
 </head>
@@ -252,7 +246,7 @@ window['_fs_namespace'] = 'FS';
             </div>
             <div class="list-item">
             <a href="https://docs.konghq.com/enterprise/latest/developer-portal/introduction/" class="list-group-item list-group-item-action">Launch your Dev Portal
-            <p>Learn how to create and manager your Kong Dev Portal.<br><br></p></a>
+            <p>Learn how to create and manage your Kong Dev Portal.<br><br></p></a>
             </div>
           </div>
           </div>
@@ -551,8 +545,8 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#enabling-the-plugin-on-a-service">Enabling the plugin on a Service</a></li>
       <li><a href="#enabling-the-plugin-on-a-route">Enabling the plugin on a Route</a></li>
-      <li><a href="#">Global plugins</a></li>
-      <li><a href="#">Parameters</a></li>
+      <li><a href="#global-plugins">Global plugins</a></li>
+      <li><a href="#parameters">Parameters</a></li>
     </ul>
   </li>
   <li><a href="#usage">Usage</a>
@@ -820,7 +814,7 @@ window['_fs_namespace'] = 'FS';
 
     <div class="page-content-container">
       <div class="page-content">
-        <div class="content">
+        <div class="content show-anchor-links">
           
       
 
@@ -900,7 +894,7 @@ target.</li>
         
         
 
-        <h3>Global plugins</h3>
+        <h3 id="global-plugins">Global plugins</h3>
 
         <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
           Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
@@ -908,7 +902,7 @@ target.</li>
           <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
 
-        <h3>Parameters</h3>
+        <h3 id="parameters">Parameters</h3>
 
         <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
@@ -1190,17 +1184,7 @@ Consumer.</p>
           <img src="/assets/images/Kogo-gradient.svg" alt="Kong" />
         </div>
         <div class="form">
-          <form accept-charset="UTF-8" method="post" action="https://go.pardot.com/l/392112/2018-10-02/bh8cfd" class="form" id="subscription_form">
-            <input type="text" name="email" id="email" class="text" size="30" placeholder="Email" maxlength="255">
-            <div class="error-message message"></div>
-            <div class="success-message message"></div>
-            <input type="hidden" name="utm_source">
-            <input type="hidden" name="utm_campaign">
-            <input type="hidden" name="utm_medium">
-            <input type="hidden" name="utm_content">
-            <input type="hidden" name="utm_term">
-            <input type="submit" class="button" accesskey="s" class="g-recaptcha" data-sitekey="6LeIX4oUAAAAANjHabbHnQrtHJoBsSutpHAn4VOx" data-callback="onSubmit" value="Subscribe">
-            </form>
+            <iframe src="https://go.konghq.com/l/392112/2019-02-14/bhxq9c" width="100%" height="60" type="text/html" frameborder="0" allowTransparency="true" style="border: 0"></iframe>
         </div>
         <div class="social">
 
@@ -1308,6 +1292,16 @@ Consumer.</p>
       </li>
     </ul>
   </section>
+
+  <script type="text/javascript">
+    function onSubmit(response) {
+      document.getElementById('subscription_form').submit();
+      document.getElementById('follow_up_subscription_form').submit();
+      if (response.length == 0) {
+        alert('reCaptcha verification failed');
+      }
+    }
+  </script>
 </footer>
  <script>
   var anchorForId = function (id) {
@@ -1318,30 +1312,26 @@ Consumer.</p>
     anchor.title = "Permalink";
     return anchor;
   };
-  var linkifyAnchors = function (level, containingElement) {
-    var headers = containingElement.getElementsByTagName("h" + level);
-    for (var h = 0; h < headers.length; h++) {
-      var header = headers[h];
-      if (typeof header.id !== "undefined" && header.id !== "") {
-        header.prepend(anchorForId(header.id));
-      }
-    }
-  };
+
   document.onreadystatechange = function () {
     if (this.readyState === "complete") {
-      var contentBlock = document.getElementById("documentation");
-      if (!contentBlock) {
-        return;
-      }
-      for (var level = 1; level <= 6; level++) {
-        linkifyAnchors(level, contentBlock);
+      var className =
+        ".show-anchor-links h1, .show-anchor-links h2, .show-anchor-links h3, " +
+        ".show-anchor-links h4, .show-anchor-links h5, .show-anchor-links h6";
+      var headers = document.querySelectorAll(className);
+
+      for (var i = 0; i < headers.length; i++) {
+        var header = headers[i];
+        if (typeof header.id !== "undefined" && header.id !== "") {
+          header.prepend(anchorForId(header.id));
+        }
       }
     }
   };
 </script>
 
 
-    <script src="/assets/app.js?v=1549373814"></script>
+    <script src="/assets/app.js?v=1550266415"></script>
 
     <div id="fb-root"></div>
 
