@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1550860707"
+    href="/assets/styles.css?v=1551984991"
   />
   
 </head>
@@ -1274,11 +1274,6 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#introduction">Introduction</a></li>
   <li><a href="#module">Module</a></li>
   <li><a href="#adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</a></li>
-  <li><a href="#helpers">Helpers</a>
-    <ul>
-      <li><a href="#crud_helpers">crud_helpers</a></li>
-    </ul>
-  </li>
 </ul>
 
           
@@ -1313,106 +1308,147 @@ level of abstraction makes it easy for you to add endpoints.</p>
 </code></pre>
 </div>
 
-<p>This module is bound to return a table containing strings describing your
-routes (See <a href="http://leafo.net/lapis/reference/actions.html#routes--url-patterns">Lapis routes &amp; URL
-Patterns</a>)
-and HTTP verbs they support. Routes are then assigned a simple handler
-function.</p>
+<p>This module is bound to return a table with one or more entries with the following structure:</p>
 
-<p>This table is then fed to Lapis (See Lapis’ <a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">handling HTTP verbs
-documentation</a>).
-Example:</p>
-
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
-  <span class="p">[</span><span class="s2">"/my-plugin/new/get/endpoint"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
-      <span class="c1">-- ...</span>
-    <span class="k">end</span>
-  <span class="p">}</span>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+  <span class="p">[</span><span class="s2">"&lt;path&gt;"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="n">schema</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">schema</span><span class="o">&gt;</span><span class="p">,</span>
+     <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span>
+       <span class="n">before</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">...</span> <span class="k">end</span><span class="p">,</span>
+       <span class="n">on_error</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">...</span> <span class="k">end</span><span class="p">,</span>
+       <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">...</span> <span class="k">end</span><span class="p">,</span>
+       <span class="n">PUT</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="o">...</span> <span class="k">end</span><span class="p">,</span>
+       <span class="o">...</span>
+     <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="o">...</span>
 <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>The handler function takes three arguments, which are, in order:</p>
+<p>Where:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">self</code>: The request object. See <a href="http://leafo.net/lapis/reference/actions.html#request-object">Lapis request
-object</a></li>
-  <li><code class="highlighter-rouge">dao_factory</code>: The DAO Factory. See the
-<a href="/1.0.x/plugin-development/access-the-datastore/">datastore</a> chapter of this
-guide.</li>
-  <li><code class="highlighter-rouge">helpers</code>: A table containing a few helpers, described below.</li>
+  <li><code class="highlighter-rouge">&lt;path&gt;</code> should be a string representing a route like <code class="highlighter-rouge">/users</code> (See <a href="http://leafo.net/lapis/reference/actions.html#routes--url-patterns">Lapis routes &amp; URL
+Patterns</a>) for details.
+Notice that the path can contain interpolation parameters, like <code class="highlighter-rouge">/users/:users/new</code>.</li>
+  <li><code class="highlighter-rouge">&lt;schema&gt;</code> is a schema definition. Schemas for core and custom plugin entities are available
+via <code class="highlighter-rouge">kong.db.&lt;entity&gt;.schema</code>. The schema is used to parse certain fields according to their
+types; for example if a field is marked as an integer, it will be parsed as such when it is
+passed to a function (by default form fields are all strings).</li>
+  <li>The <code class="highlighter-rouge">methods</code> subtable contains functions, indexed by a string.
+    <ul>
+      <li>The <code class="highlighter-rouge">before</code> key is optional and can hold a function. If present, the function will be executed
+on every request that hits <code class="highlighter-rouge">path</code>, before any other function is invoked.</li>
+      <li>One or more functions can be indexed with HTTP method names, like <code class="highlighter-rouge">GET</code> or <code class="highlighter-rouge">PUT</code>. These functions
+will be executed when the appropriate HTTP method and <code class="highlighter-rouge">path</code> is matched. If a <code class="highlighter-rouge">before</code> function is
+present on the <code class="highlighter-rouge">path</code>, it will be executed first. Keep in mind that <code class="highlighter-rouge">before</code> functions can
+use <code class="highlighter-rouge">kong.response.exit</code> to finish early, effectively cancelling the “regular” http method function.</li>
+      <li>The <code class="highlighter-rouge">on_error</code> key is optional and can hold a function. If present, the function will be executed
+when the code from other functions (either from a <code class="highlighter-rouge">before</code> or a “http method”) throws an error. If
+not present, then Kong will use a default error handler to return the errors.</li>
+    </ul>
+  </li>
 </ul>
 
-<p>In addition to the HTTPS verbs it supports, a route table can also contain two
-other keys:</p>
+<p>For example:</p>
 
-<ul>
-  <li><strong>before</strong>: as in
-<a href="http://leafo.net/lapis/reference/actions.html#handling-http-verbs">Lapis</a>, a
-before_filter that runs before the executed verb action.</li>
-  <li><strong>on_error</strong>: a custom error handler function that overrides the one provided
-by Kong. See Lapis’ <a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">capturing recoverable
-errors</a>
-documentation.</li>
-</ul>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
 
-<hr />
-
-<h2 id="helpers">Helpers</h2>
-
-<p>When handling a request on the Admin API, there are times when you want to send
-back responses and handle errors, to help you do so the third parameter
-<code class="highlighter-rouge">helpers</code> is a table with the following properties:</p>
-
-<ul>
-  <li><code class="highlighter-rouge">responses</code>: a module with helper functions to send HTTP responses.</li>
-  <li><code class="highlighter-rouge">yield_error</code>: the
-<a href="http://leafo.net/lapis/reference/exception_handling.html#capturing-recoverable-errors">yield_error</a>
-function from Lapis. To call when your handler encounters an error (from a
-DAO, for example). Since all Kong errors are tables with context, it can send
-the appropriate response code depending on the error (Internal Server Error,
-Bad Request, etc…).</li>
-</ul>
-
-<h3 id="crud_helpers">crud_helpers</h3>
-
-<p>Since most of the operations you will perform in your endpoints will be CRUD
-operations, you can also use the <code class="highlighter-rouge">kong.api.crud_helpers</code> module. This module
-provides you with helpers for any insert, retrieve, update or delete operations
-and performs the necessary DAO operations and replies with the appropriate HTTP
-status codes. It also provides you with functions to retrieve parameters from
-the path, such as an API’s name or id, or a Consumer’s username or id.</p>
-
-<p>Example:</p>
-
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">crud</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.crud_helpers"</span>
+<span class="kd">local</span> <span class="n">credentials_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">.</span><span class="n">schema</span>
+<span class="kd">local</span> <span class="n">consumers_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span><span class="p">.</span><span class="n">schema</span>
 
 <span class="k">return</span> <span class="p">{</span>
-  <span class="p">[</span><span class="s2">"/consumers/:username_or_id/key-auth/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">before</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
-      <span class="n">crud</span><span class="p">.</span><span class="n">find_consumer_by_username_or_id</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
-      <span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">.</span><span class="n">consumer_id</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">consumer</span><span class="p">.</span><span class="n">id</span>
-    <span class="k">end</span><span class="p">,</span>
+  <span class="p">[</span><span class="s2">"/consumers/:consumers/key-auth"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">credentials_schema</span><span class="p">,</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">GET</span> <span class="o">=</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">get_collection_endpoint</span><span class="p">(</span>
+              <span class="n">credentials_schema</span><span class="p">,</span> <span class="n">consumers_schema</span><span class="p">,</span> <span class="s2">"consumer"</span><span class="p">),</span>
 
-    <span class="n">GET</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
-      <span class="n">crud</span><span class="p">.</span><span class="n">paginated_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
-    <span class="k">end</span><span class="p">,</span>
-
-    <span class="n">PUT</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
-      <span class="n">crud</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
-    <span class="k">end</span><span class="p">,</span>
-
-    <span class="n">POST</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">)</span>
-      <span class="n">crud</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">)</span>
-    <span class="k">end</span>
-  <span class="p">}</span>
+      <span class="n">POST</span> <span class="o">=</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">post_collection_endpoint</span><span class="p">(</span>
+              <span class="n">credentials_schema</span><span class="p">,</span> <span class="n">consumers_schema</span><span class="p">,</span> <span class="s2">"consumer"</span><span class="p">),</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
 <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>See the <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/api.lua">complete Admin API of the Key-Auth plugin</a>
-for an extended version of this example.</p>
+<p>This code will create two Admin API endpoints in <code class="highlighter-rouge">/consumers/:consumers/key-auth</code>, to
+obtain (<code class="highlighter-rouge">GET</code>) and create (<code class="highlighter-rouge">POST</code>) credentials associated to a given consumer. On this example
+the functions are provided by the <code class="highlighter-rouge">kong.api.endpoints</code> library. If you want to see a more
+complete example, with custom code in functions, see
+<a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/api.lua">the <code class="highlighter-rouge">api.lua</code> file from the key-auth plugin</a>.</p>
+
+<p>The <code class="highlighter-rouge">endpoints</code> module currently contains the default implementation for the most usual CRUD
+operations used in Kong. This module provides you with helpers for any insert, retrieve,
+update or delete operations and performs the necessary DAO operations and replies with
+the appropriate HTTP status codes. It also provides you with functions to retrieve parameters from
+the path, such as an Service’s name or id, or a Consumer’s username or id.</p>
+
+<p>If <code class="highlighter-rouge">endpoints</code>-provided are functions not enough, a regular Lua function can be used instead. From there you can use:</p>
+
+<ul>
+  <li>Several functions provided by the <code class="highlighter-rouge">endpoints</code> module.</li>
+  <li>All the functionality provided by the <a href="../../pdk">PDK</a></li>
+  <li>The <code class="highlighter-rouge">self</code> parameter, which is the <a href="http://leafo.net/lapis/reference/actions.html#request-object">Lapis request object</a>.</li>
+  <li>And of course you can <code class="highlighter-rouge">require</code> any Lua modules if needed. Make sure they are compatible with OpenResty if you choose this route.</li>
+</ul>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
+
+<span class="kd">local</span> <span class="n">credentials_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">.</span><span class="n">schema</span>
+<span class="kd">local</span> <span class="n">consumers_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span><span class="p">.</span><span class="n">schema</span>
+
+<span class="k">return</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">"/consumers/:consumers/key-auth/:keyauth_credentials"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">credentials_schema</span><span class="p">,</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">before</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+        <span class="kd">local</span> <span class="n">consumer</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">select_entity</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">consumers_schema</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">err_t</span> <span class="k">then</span>
+          <span class="k">return</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">err_t</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">consumer</span> <span class="k">then</span>
+          <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="p">{</span> <span class="n">message</span> <span class="o">=</span> <span class="s2">"Not found"</span> <span class="p">})</span>
+        <span class="k">end</span>
+
+        <span class="n">self</span><span class="p">.</span><span class="n">consumer</span> <span class="o">=</span> <span class="n">consumer</span>
+
+        <span class="k">if</span> <span class="n">self</span><span class="p">.</span><span class="n">req</span><span class="p">.</span><span class="n">method</span> <span class="o">~=</span> <span class="s2">"PUT"</span> <span class="k">then</span>
+          <span class="kd">local</span> <span class="n">cred</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">select_entity</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">credentials_schema</span><span class="p">)</span>
+          <span class="k">if</span> <span class="n">err_t</span> <span class="k">then</span>
+            <span class="k">return</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">handle_error</span><span class="p">(</span><span class="n">err_t</span><span class="p">)</span>
+          <span class="k">end</span>
+
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">cred</span> <span class="ow">or</span> <span class="n">cred</span><span class="p">.</span><span class="n">consumer</span><span class="p">.</span><span class="n">id</span> <span class="o">~=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">id</span> <span class="k">then</span>
+            <span class="k">return</span> <span class="n">kong</span><span class="p">.</span><span class="n">response</span><span class="p">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="p">{</span> <span class="n">message</span> <span class="o">=</span> <span class="s2">"Not found"</span> <span class="p">})</span>
+          <span class="k">end</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">keyauth_credential</span> <span class="o">=</span> <span class="n">cred</span>
+          <span class="n">self</span><span class="p">.</span><span class="n">params</span><span class="p">.</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">cred</span><span class="p">.</span><span class="n">id</span>
+        <span class="k">end</span>
+      <span class="k">end</span><span class="p">,</span>
+      <span class="n">GET</span>  <span class="o">=</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">get_entity_endpoint</span><span class="p">(</span><span class="n">credentials_schema</span><span class="p">),</span>
+      <span class="n">PUT</span>  <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">post</span><span class="p">.</span><span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">consumer</span><span class="p">.</span><span class="n">id</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">endpoints</span><span class="p">.</span><span class="n">put_entity_endpoint</span><span class="p">(</span><span class="n">credentials_schema</span><span class="p">)(</span><span class="n">self</span><span class="p">,</span> <span class="n">db</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="k">end</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>On the previous example, the <code class="highlighter-rouge">/consumers/:consumers/key-auth/:keyauth_credentials</code> path gets
+three functions:</p>
+<ul>
+  <li>The <code class="highlighter-rouge">before</code> function is a custom Lua function which uses several <code class="highlighter-rouge">endpoints</code>-provided utilities
+(<code class="highlighter-rouge">endpoints.handle_error</code>) as well as PDK functions (<code class="highlighter-rouge">kong.response.exit</code>). It also populates
+<code class="highlighter-rouge">self.consumer</code> for the subsequent functions to use.</li>
+  <li>The <code class="highlighter-rouge">GET</code> function is built entirely using <code class="highlighter-rouge">endpoints</code>. This is possible because the <code class="highlighter-rouge">before</code> has
+“prepared” things in advance, like <code class="highlighter-rouge">self.consumer</code>.</li>
+  <li>The <code class="highlighter-rouge">PUT</code> function populates <code class="highlighter-rouge">self.args.post.consumer</code> before calling the <code class="highlighter-rouge">endpoints</code>-provided
+<code class="highlighter-rouge">put_entity_endpoint</code> function.</li>
+</ul>
 
 <hr />
 
@@ -1612,7 +1648,7 @@ for an extended version of this example.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1550860707"></script>
+    <script src="/assets/app.js?v=1551984991"></script>
 
     <div id="fb-root"></div>
 

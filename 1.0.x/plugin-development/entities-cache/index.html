@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1550860707"
+    href="/assets/styles.css?v=1551984991"
   />
   
 </head>
@@ -1490,7 +1490,7 @@ a unique combination, so that no two entities could yield the same cache key.</p
 <p>Adding this value allows you to use the following function on the DAO of that
 entity:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">dao</span><span class="o">&gt;</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </code></pre>
 </div>
 
@@ -1500,7 +1500,7 @@ computes a string value <code class="highlighter-rouge">cache_key</code> that is
 
 <p>For example, if we were to generate the cache_key of an API key:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
 </code></pre>
 </div>
 
@@ -1509,7 +1509,7 @@ of the query’s arguments) that we can the use to retrieve the key from the
 cache (or fetch from the database if the cache is a miss):</p>
 
 <div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_query</span><span class="p">().</span><span class="n">apikey</span>
-<span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">apikey</span><span class="p">)</span>
+<span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">apikey</span><span class="p">)</span>
 
 <span class="kd">local</span> <span class="n">credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">cache</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">load_entity_key</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
@@ -1794,7 +1794,7 @@ the Admin API</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1550860707"></script>
+    <script src="/assets/app.js?v=1551984991"></script>
 
     <div id="fb-root"></div>
 
