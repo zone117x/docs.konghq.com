@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1551984991"
+    href="/assets/styles.css?v=1552486929"
   />
   
 </head>
@@ -553,16 +553,6 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#dynamic-transformation-based-on-request-content">Dynamic Transformation Based on Request Content</a></li>
   <li><a href="#order-of-execution">Order of execution</a></li>
   <li><a href="#examples">Examples</a></li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>[</td>
-          <td>\?q1=v2&amp;q2=v1](#-q1v2q2v1)</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
 </ul>
 
         </nav>
@@ -1184,10 +1174,22 @@ similarly for Routes.</p>
   --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
 </code></pre>
 </div>
-<p>incoming request headers | upstream proxied headers:
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+
+<table>
+  <tr>
+    <th>incoming request headers</th>
+    <th>upstream proxied headers:</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul>
+        <li>h1: v1</li>
+        <li>h2: v1</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add multiple headers by passing comma separated header:value pair:</li>
@@ -1198,10 +1200,22 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
   --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
 </code></pre>
 </div>
-<p>incoming request headers | upstream proxied headers:
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+
+<table>
+  <tr>
+    <th>incoming request headers</th>
+    <th>upstream proxied headers:</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul>
+        <li>h1: v1</li>
+        <li>h2: v1</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add multiple headers passing config as JSON body:</li>
@@ -1213,10 +1227,21 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </code></pre>
 </div>
 
-<p>incoming request headers | upstream proxied headers:
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+<table>
+  <tr>
+    <th>incoming request headers</th>
+    <th>upstream proxied headers:</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul>
+        <li>h1: v1</li>
+        <li>h2: v1</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add a querystring and a header:</li>
@@ -1224,37 +1249,57 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
   --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.querystring=q1:v2,q2=v1"</span> <span class="se">\</span>
+  --data <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
   --data <span class="s2">"config.add.headers=h1:v1"</span>
 </code></pre>
 </div>
 
 <table>
+  <tr>
+    <th>incoming request headers</th>
+    <th>upstream proxied headers:</th>
+  </tr>
+  <tr>
+    <td>h1: v2</td>
+    <td>
+      <ul>
+        <li>h1: v2</li>
+        <li>h2: v1</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>h3: v1</td>
+    <td>
+      <ul>
+        <li>h1: v1</li>
+        <li>h2: v1</li>
+        <li>h3: v1</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<table>
   <thead>
     <tr>
-      <th>incoming request headers</th>
-      <th>upstream proxied headers:</th>
+      <th>incoming request querystring</th>
+      <th>upstream proxied querystring</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>h1: v2</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>?q1=v1</td>
+      <td>?q1=v1&amp;q2=v1</td>
     </tr>
     <tr>
-      <td>h3: v1</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;li&gt;h3: v1&lt;/li&gt;&lt;/ul&gt;</td>
+      <td> </td>
+      <td>?q1=v2&amp;q2=v1</td>
     </tr>
   </tbody>
 </table>
 
-<p>incoming request querystring | upstream proxied querystring
-—           | —
-\?q1=v1       | \?q1=v1&amp;q2=v1</p>
 <ul>
-  <li>
-    <h2 id="-q1v2q2v1">| \?q1=v2&amp;q2=v1</h2>
-  </li>
   <li>Append multiple headers and remove a body parameter:</li>
 </ul>
 
@@ -1265,18 +1310,20 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </div>
 
 <table>
-  <thead>
-    <tr>
-      <th>incoming request headers</th>
-      <th>upstream proxied headers:</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>h1: v1</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
-    </tr>
-  </tbody>
+  <tr>
+    <th>incoming request headers</th>
+    <th>upstream proxied headers:</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul>
+        <li>h1: v1</li>
+        <li>h1: v2</li>
+        <li>h2: v1</li>
+      </ul>
+    </td>
+  </tr>
 </table>
 
 <table>
@@ -1480,7 +1527,7 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </script>
 
 
-    <script src="/assets/app.js?v=1551984991"></script>
+    <script src="/assets/app.js?v=1552486929"></script>
 
     <div id="fb-root"></div>
 
