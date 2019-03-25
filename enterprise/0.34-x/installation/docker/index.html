@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1553372466"
+    href="/assets/styles.css?v=1553549155"
   />
   
 </head>
@@ -1128,7 +1128,6 @@ window['_fs_namespace'] = 'FS';
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
   <li><a href="#installation-steps">Installation Steps</a></li>
-  <li><a href="#enable-rbac">Enable RBAC</a></li>
   <li><a href="#faqs">FAQs</a></li>
 </ul>
 
@@ -1139,17 +1138,19 @@ window['_fs_namespace'] = 'FS';
 <h2 id="installation-steps">Installation Steps</h2>
 
 <p>A guide to installing Kong Enterprise—and its license file—using
-Docker. <strong>Trial users should skip directly to step 4</strong>.</p>
+Docker.</p>
+
+<p><strong>Free trial users should skip directly to step 3</strong>.</p>
 
 <ol>
   <li>
-    <p>Log in to <a href="https://bintray.com">bintray.com</a>. Your credentials will have 
-been emailed to you by your Sales or Support contact.</p>
+    <p>Log in to <a href="https://bintray.com" target="_blank">bintray.com</a>. Your Sales or Support
+contact will email the credential to you.</p>
   </li>
   <li>
     <p>In the upper right corner, click “Edit Profile’ to retrieve your API
 key, which will be used in step 3. Alternatively, to retrieve it from
-Bintray, click <a href="https://bintray.com/profile/edit">here</a>.</p>
+Bintray, click <a href="https://bintray.com/profile/edit" target="_blank">here</a>.</p>
   </li>
   <li>
     <p>For <strong>users with existing contracts</strong>, add the Kong Docker repository and
@@ -1159,8 +1160,7 @@ pull the image:</p>
  $ docker pull kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition
 </code></pre>
     </div>
-  </li>
-  <li>
+
     <p>For <strong>trial users</strong>, run the following, replacing <code class="highlighter-rouge">&lt;your trial image URL&gt;</code>
 with the URL you received in your welcome email:</p>
 
@@ -1169,29 +1169,21 @@ with the URL you received in your welcome email:</p>
 </code></pre>
     </div>
   </li>
-</ol>
-
-<p>You should now have your Kong Enterprise Free Trial image locally. Run
-<code class="highlighter-rouge">docker images</code> to find it.</p>
-
-<ol>
   <li>
-    <p>Tag it—for easier use in the commands below—as follows:</p>
+    <p>You should now have your Kong Enterprise image locally. Run
+<code class="highlighter-rouge">docker images</code> to verify and find the image ID matching your repository.</p>
+  </li>
+  <li>
+    <p>Tag the image ID for easier use in the commands that follow:</p>
 
     <div class="highlighter-rouge"><pre class="highlight"><code> docker tag &lt;IMAGE ID&gt; kong-ee
 </code></pre>
     </div>
 
-    <p>Replace “IMAGE ID” with <code class="highlighter-rouge">7fc852f88079</code> if the Free Trial image is for Kong
- Enterprise 0.31-1 or <code class="highlighter-rouge">78ffc3bce991</code> if it is for 0.32. Recent Kong Enterprise
- Free Trial images (&gt;= 0.34) come with a more intuitive name.</p>
+    <p>(Replace “IMAGE ID” with the one matching your repository, seen in step 4)</p>
   </li>
   <li>
-    <p>Generally, we’ll be following the instructions <a href="/install/docker/">here</a> with
-some slight, but important, differences</p>
-  </li>
-  <li>
-    <p>For convenience, the commands will look something like this—<strong>PostgreSQL 9.5
+    <p>Run the migrations with an ephemeral Kong container.—<strong>PostgreSQL 9.5
 is required</strong>:</p>
 
     <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee-database \
@@ -1205,7 +1197,7 @@ is required</strong>:</p>
   <li>
     <p>To make the license data easier to handle, export it as a shell variable.
 Please note that <strong>your license contents will differ</strong>! Users with Bintray
-accounts should visit <a href="https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files">https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files</a>
+accounts should visit <code class="highlighter-rouge">https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files</code>
 to retrieve their license. Trial users should download their license from their
 welcome email. Once you have your license, you can set it in an environment variable:</p>
 
@@ -1232,35 +1224,35 @@ welcome email. Once you have your license, you can set it in an environment vari
   <li>
     <p>Start Kong:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
-  -e "KONG_DATABASE=postgres" \
-  -e "KONG_PG_HOST=kong-ee-database" \
-  -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
-  -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
-  -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
-  -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
-  -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
-  -e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
-  -e "KONG_PORTAL=on" \
-  -e "KONG_PORTAL_GUI_PROTOCOL=http" \
-  -e "KONG_PORTAL_GUI_HOST=127.0.0.1:8003" \
-  -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
-  -p 8000:8000 \
-  -p 8443:8443 \
-  -p 8001:8001 \
-  -p 8444:8444 \
-  -p 8002:8002 \
-  -p 8445:8445 \
-  -p 8003:8003 \
-  -p 8004:8004 \
-  kong-ee
+    <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
+   -e "KONG_DATABASE=postgres" \
+   -e "KONG_PG_HOST=kong-ee-database" \
+   -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
+   -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" \
+   -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" \
+   -e "KONG_PROXY_ERROR_LOG=/dev/stderr" \
+   -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
+   -e "KONG_ADMIN_LISTEN=0.0.0.0:8001" \
+   -e "KONG_PORTAL=on" \
+   -e "KONG_PORTAL_GUI_PROTOCOL=http" \
+   -e "KONG_PORTAL_GUI_HOST=127.0.0.1:8003" \
+   -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
+   -p 8000:8000 \
+   -p 8443:8443 \
+   -p 8001:8001 \
+   -p 8444:8444 \
+   -p 8002:8002 \
+   -p 8445:8445 \
+   -p 8003:8003 \
+   -p 8004:8004 \
+   kong-ee
 </code></pre>
     </div>
     <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment 
-variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
-For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
-use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the 
-license file.</p>
+ variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
+ For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
+ use <code class="highlighter-rouge">--volume /c/temp/license.json:/etc/kong/license.json</code> to specify the 
+ license file.</p>
   </li>
   <li>
     <p>Kong Enterprise should now be installed and running. Test 
@@ -1268,54 +1260,6 @@ it by visiting Kong Manager at <a href="http://localhost:8002">http://localhost:
 (replace <code class="highlighter-rouge">localhost</code> with your server IP or hostname when running Kong on a 
 remote system), or by visiting the Default Dev Portal at 
 <a href="http://127.0.0.1:8003/default">http://127.0.0.1:8003/default</a></p>
-  </li>
-</ol>
-
-<h2 id="enable-rbac">Enable RBAC</h2>
-
-<p><a href="/enterprise/0.34-x/rbac/overview">Role-Based Access Control (RBAC)</a>
-allows you to create multiple profiles of Kong users—e.g., <code class="highlighter-rouge">super-admin</code>,
-<code class="highlighter-rouge">admin</code>, <code class="highlighter-rouge">read-only</code>—and permit the resources to which they have access. 
-To enable it:</p>
-
-<ol>
-  <li>
-    <p>Create an initial RBAC admin:</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -X POST http://localhost:8001/rbac/users/ -d name=admin -d user_token=12345
- curl -X POST http://localhost:8001/rbac/users/admin/roles -d roles=super-admin
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>Start a bash session on the container:</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker exec -it kong-ee /bin/sh
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>Reload Kong with RBAC enabled:</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> KONG_ENFORCE_RBAC=on kong reload
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p>Confirm that your user token is working by passing the <code class="highlighter-rouge">Kong-Admin-Token</code>
-header in requests:</p>
-
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -X GET http://localhost:8001/status -H "Kong-Admin-Token: 12345"
-</code></pre>
-    </div>
-
-    <p>If you are able to access Kong without issues, you can add <code class="highlighter-rouge">KONG_ENFORCE_RBAC=on</code>
- to your initial container environment variables.</p>
-  </li>
-  <li>
-    <p>When RBAC is enabled, the Kong Manager requires the use of an 
-authentication plugin. Follow the 
-<a href="/enterprise/0.34-x/kong-manager/configuration/authentication">Authenticating Kong Manager</a> Guide to complete this set up.</p>
   </li>
 </ol>
 
@@ -1532,7 +1476,7 @@ nginx: [alert] Error validating Kong license: could not decode license json
 </script>
 
 
-    <script src="/assets/app.js?v=1553372466"></script>
+    <script src="/assets/app.js?v=1553549155"></script>
 
     <div id="fb-root"></div>
 
