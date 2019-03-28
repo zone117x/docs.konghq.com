@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1553709775"
+    href="/assets/styles.css?v=1553787379"
   />
   
 </head>
@@ -316,6 +316,22 @@ window['_fs_namespace'] = 'FS';
       <div></div>
     </button>
   </div>
+  <nav id="oss_subnav" class="preheader expand">
+    <ul id="oss_nav">
+      <li class="label"><h4>Open Source</h4></li>
+      <li class="slider_line""><a href="https://konghq.com/community/">Community</a></li>
+      <li class="slider_line"><a href="https://konghq.com/solutions/kubernetes-ingress/">Kubernetes</a></li>
+      <li class="install slider_line"><a href="https://konghq.com/install/">Install
+        <svg width="12px" height="12px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12" style="enable-background:new 0 0 12 12;" xml:space="preserve">
+          <path fill="#004B80" class="st0" d="M12,10v2H0v-2H12z"></path>
+          <g id="arrow">
+            <polygon fill="#004B80" class="st1" points="7,5.6 8.3,4.3 9.7,5.7 6,9.4 2.3,5.7 3.7,4.3 5,5.6 5,0 7,0 	"></polygon>
+          </g>
+          </svg>
+      </a></li>
+    </ul>
+    <span id="slide-line"></span>
+  </nav>
 </header>
 <!---- Mobile Navigation ----->
 <nav id="pagesNav" class="fixed-top hidden-xl-up kong-navbar-collapse">
@@ -1286,7 +1302,9 @@ window['_fs_namespace'] = 'FS';
           <ul>
   <li><a href="#introduction">Introduction</a></li>
   <li><a href="#modules">Modules</a></li>
-  <li><a href="#create-a-migration-file">Create a migration file</a></li>
+  <li><a href="#create-the-migrations-folder">Create the migrations folder</a></li>
+  <li><a href="#adding-a-new-migration-to-an-existing-plugin">Adding a new migration to an existing plugin</a></li>
+  <li><a href="#migration-file-syntax">Migration File syntax</a></li>
   <li><a href="#retrieve-your-custom-dao-from-the-dao-factory">Retrieve your custom DAO from the DAO Factory</a></li>
   <li><a href="#caching-custom-entities">Caching custom entities</a></li>
 </ul>
@@ -1295,9 +1313,10 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Your plugin might need to store more than its configuration in the database. In
-that case, Kong provides you with an abstraction on top of its primary
-datastores which allows you to store custom entities.</p>
+<p>While not all plugins need it, your plugin might need to store more than
+its configuration in the database. In that case, Kong provides you with
+an abstraction on top of its primary datastores which allows you to store
+custom entities.</p>
 
 <p>As explained in the <a href="/1.0.x/plugin-development/access-the-datastore/">previous chapter</a>, Kong interacts
 with the model layer through classes we refer to as “DAOs”, and available on a
@@ -1306,12 +1325,15 @@ to to provide an abstraction for your own entities.</p>
 
 <h2 id="modules">Modules</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.schema.migrations
-kong.plugins.&lt;plugin_name&gt;.daos
+<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.daos
+kong.plugins.&lt;plugin_name&gt;.migrations.init
+kong.plugins.&lt;plugin_name&gt;.migrations.000_base
+kong.plugins.&lt;plugin_name&gt;.migrations.001_xxx
+kong.plugins.&lt;plugin_name&gt;.migrations.002_yyy
 </code></pre>
 </div>
 
-<h2 id="create-a-migration-file">Create a migration file</h2>
+<h2 id="create-the-migrations-folder">Create the migrations folder</h2>
 
 <p>Once you have defined your model, you must create your migration modules which
 will be executed by Kong to create the table in which your records of your
@@ -1321,90 +1343,100 @@ returns them.</p>
 <p>If you plugin is intended to support both Cassandra and PostgreSQL, then both
 migrations must be written.</p>
 
-<p>Each migration must bear a unique name, and <code class="highlighter-rouge">up</code> and <code class="highlighter-rouge">down</code> fields. Such fields
-can either be strings of SQL/CQL queries for simple migrations, or actual Lua
-code to execute for complex ones. The <code class="highlighter-rouge">up</code> field will be executed when Kong
-migrates <strong>forward</strong>. It must bring your database’s schema to the latest state
-required by your plugin. The <code class="highlighter-rouge">down</code> field must execute the necessary actions to
-revert your schema to its previous state, before <code class="highlighter-rouge">up</code> was ran.</p>
+<p>If your plugin doesn’t have it already, you should add a <code class="highlighter-rouge">&lt;plugin_name&gt;/migrations</code>
+folder to it. If there is no <code class="highlighter-rouge">init.lua</code> file inside already, you should create one.
+This is where all the migrations for your plugin will be referenced.</p>
 
-<p>One of the main benefits of this approach is should you need to release a new
-version of your plugin that modifies a model, you can add new migrations to the
-array before releasing your plugin. Another benefit is that it is also possible
-to revert such migrations.</p>
+<p>The initial version of your <code class="highlighter-rouge">migrations/init.lua</code> file will point to a single migration.</p>
 
-<p>As described in the <a href="/1.0.x/plugin-development/file-structure/">file structure</a>
-chapter, your migrations modules must be named:</p>
+<p>In this case we have called it <code class="highlighter-rouge">000_base</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
-"kong.plugins.&lt;plugin_name&gt;.migrations.postgres"
-</code></pre>
-</div>
-
-<p>Here is an example of how one would define a migration file to store API keys:</p>
-
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- cassandra.lua</span>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- `migrations/init.lua`</span>
 <span class="k">return</span> <span class="p">{</span>
-  <span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
-    <span class="n">up</span> <span class="o">=</span>  <span class="s">[[
-      CREATE TABLE IF NOT EXISTS keyauth_credentials(
-        id uuid,
-        consumer_id uuid,
-        key text,
-        created_at timestamp,
-        PRIMARY KEY (id)
-      );
-
-      CREATE INDEX IF NOT EXISTS ON keyauth_credentials(key);
-      CREATE INDEX IF NOT EXISTS keyauth_consumer_id ON keyauth_credentials(consumer_id);
-    ]]</span><span class="p">,</span>
-    <span class="n">down</span> <span class="o">=</span> <span class="s">[[
-      DROP TABLE keyauth_credentials;
-    ]]</span>
-  <span class="p">}</span>
+  <span class="s2">"000_base"</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre>
 </div>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- postgres.lua</span>
+<p>This means that there will be a file in <code class="highlighter-rouge">&lt;plugin_name&gt;/migrations/000_base.lua</code> containing the
+initial migrations. We’ll see how this is done in a minute.</p>
+
+<h2 id="adding-a-new-migration-to-an-existing-plugin">Adding a new migration to an existing plugin</h2>
+
+<p>Sometimes it is necessary to introduce changes after a version of a plugin has already been
+released. A new functionality might be needed. A database table row might need changing.</p>
+
+<p>When this happens, <em>you must</em> create a new migrations file. You <em>must not</em>
+of modify the existing migration files once they are published.</p>
+
+<p>While there is no strict rule for naming your migration files, there is a convention that the
+initial one is prefixed by <code class="highlighter-rouge">000</code>, the next one by <code class="highlighter-rouge">001</code>, and so on.</p>
+
+<p>Following with our previous example, if we wanted to release a new version of the plugin with
+changes in the database (for example, a table was needed called <code class="highlighter-rouge">foo</code>) we would insert it by
+adding a file called <code class="highlighter-rouge">&lt;plugin_name&gt;/migrations/001_add_foo.lua</code>, and referencing it on the
+migrations init file like so:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- `&lt;plugin_name&gt;/migrations/init.lua`</span>
 <span class="k">return</span> <span class="p">{</span>
-  <span class="p">{</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
+  <span class="s2">"000_base"</span><span class="p">,</span>
+  <span class="s2">"001_add_foo"</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="migration-file-syntax">Migration File syntax</h2>
+
+<p>While Kong’s core migrations support both PostgreSQL and Cassandra, custom plugins
+can choose to support either both of them or just one.</p>
+
+<p>A migration file is a Lua file which returns a table with the following structure:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- `&lt;plugin_name&gt;/migrations/000_base.lua`</span>
+<span class="k">return</span> <span class="p">{</span>
+  <span class="n">postgresql</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">up</span> <span class="o">=</span> <span class="s">[[
-      CREATE TABLE IF NOT EXISTS keyauth_credentials(
-        id uuid,
-        consumer_id uuid REFERENCES consumers (id) ON DELETE CASCADE,
-        key text UNIQUE,
-        created_at timestamp without time zone default (CURRENT_TIMESTAMP(0) at time zone 'utc'),
-        PRIMARY KEY (id)
-      );
-
-      DO $$
-      BEGIN
-        IF (SELECT to_regclass('public.keyauth_key_idx')) IS NULL THEN
-          CREATE INDEX keyauth_key_idx ON keyauth_credentials(key);
-        END IF;
-        IF (SELECT to_regclass('public.keyauth_consumer_idx')) IS NULL THEN
-          CREATE INDEX keyauth_consumer_idx ON keyauth_credentials(consumer_id);
-        END IF;
-      END$$;
+      CREATE INDEX IF NOT EXISTS "routes_name_idx" ON "routes" ("name");
     ]]</span><span class="p">,</span>
-    <span class="n">down</span> <span class="o">=</span> <span class="s">[[
-      DROP TABLE keyauth_credentials;
-    ]]</span>
+    <span class="n">teardown</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="nb">assert</span><span class="p">(</span><span class="n">connector</span><span class="p">:</span><span class="n">connect_migrations</span><span class="p">())</span>
+      <span class="nb">assert</span><span class="p">(</span><span class="n">connector</span><span class="p">:</span><span class="n">query</span><span class="p">(</span><span class="s1">'DROP TABLE IF EXISTS "schema_migrations" CASCADE;'</span><span class="p">))</span>
+    <span class="k">end</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="n">cassandra</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="s">[[
+      CREATE INDEX IF NOT EXISTS routes_name_idx ON routes(name);
+    ]]</span><span class="p">,</span>
+    <span class="n">teardown</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span> <span class="n">helpers</span><span class="p">)</span>
+      <span class="nb">assert</span><span class="p">(</span><span class="n">connector</span><span class="p">:</span><span class="n">connect_migrations</span><span class="p">())</span>
+      <span class="nb">assert</span><span class="p">(</span><span class="n">connector</span><span class="p">:</span><span class="n">query</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS schema_migrations"</span><span class="p">))</span>
+    <span class="k">end</span><span class="p">,</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 </div>
+
+<p>If a plugin only supports PostgreSQL or Cassandra, only the section for one strategy is
+needed. Each strategy section has two parts, <code class="highlighter-rouge">up</code> and <code class="highlighter-rouge">teardown</code>.</p>
 
 <ul>
-  <li><code class="highlighter-rouge">name</code>: Must be a unique string. The format does not matter but can help you
-debug issues while developing your plugin, so make sure to name it in a
-relevant way.</li>
-  <li><code class="highlighter-rouge">up</code>: Executed when Kong migrates <strong>forward</strong>.</li>
-  <li><code class="highlighter-rouge">down</code>: Executed when Kong migrates <strong>backward</strong>.</li>
+  <li><code class="highlighter-rouge">up</code> is an optional string of raw SQL/CQL statements. Those statements will be executed
+when <code class="highlighter-rouge">kong migrations up</code> is executed.</li>
+  <li><code class="highlighter-rouge">teardown</code> is an optional Lua function, which takes a <code class="highlighter-rouge">connector</code> parameter. Such connector
+can invoke the <code class="highlighter-rouge">query</code> method to execute SQL/CQL queries. Teardown is triggered by
+<code class="highlighter-rouge">kong migrations finish</code></li>
 </ul>
+
+<p>It is recommended that all the non-destructive operations, such as creation of new tables and
+addition of new records is done on the <code class="highlighter-rouge">up</code> sections, while destructive operations (such as
+removal of data, changing row types, insertion of new data) is done on the <code class="highlighter-rouge">teardown</code> sections.</p>
+
+<p>In both cases, it is recommended that all the SQL/CQL statements are written so that they are
+as reentrant as possible. <code class="highlighter-rouge">DROP TABLE IF EXISTS</code> instead of <code class="highlighter-rouge">DROP TABLE</code>,
+<code class="highlighter-rouge">CREATE INDEX IF NOT EXIST</code> instead of <code class="highlighter-rouge">CREATE INDEX</code>, etc. If a migration fails for some
+reason it is expected that the first attempt at fixing the problem will be simply
+re-running the migrations.</p>
 
 <p>While PostgreSQL does, Cassandra does not support constraints such as “NOT
 NULL”, “UNIQUE” or “FOREIGN KEY”, but Kong provides you with such features when
@@ -1414,7 +1446,7 @@ for one that works with Cassandra too.</p>
 
 <p><strong>IMPORTANT</strong>: if your <code class="highlighter-rouge">schema</code> uses a <code class="highlighter-rouge">unique</code> constraint, then Kong will
 enforce it for Cassandra, but for PostgreSQL you must set this constraint in
-the <code class="highlighter-rouge">migrations</code> file.</p>
+the migrations.</p>
 
 <p>To see a real-life example, give a look at the <a href="https://github.com/Kong/kong/tree/master/kong/plugins/key-auth/migrations">Key-Auth plugin migrations</a></p>
 
@@ -1731,7 +1763,7 @@ entities</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1553709775"></script>
+    <script src="/assets/app.js?v=1553787379"></script>
 
     <div id="fb-root"></div>
 
@@ -1973,6 +2005,18 @@ entities</a>.</p>
           jQuery('.overlay').removeClass('active');
         } // out
       );
+      jQuery(window).load(function() {
+        jQuery('#oss_subnav').addClass('expand');
+      });
+      jQuery(window).scroll(function() {
+        var scroll = jQuery(window).scrollTop();
+
+        if (scroll >= 5) {
+          jQuery('#oss_subnav').addClass('collapsed');
+        } else {
+          jQuery('#oss_subnav').removeClass('collapsed');
+        }
+      });
     </script>
   </body>
 
