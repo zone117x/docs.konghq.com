@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1553889131"
+    href="/assets/styles.css?v=1554872467"
   />
   
 </head>
@@ -1347,19 +1347,11 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#step-3-start-kong-control-plane">Step 3: Start Kong Control Plane</a></li>
   <li><a href="#step-4-start-kong-a">Step 4: Start Kong A</a>
     <ul>
-      <li><a href="#the-transparent-config-option">The <code class="highlighter-rouge">transparent</code> config option</a></li>
+      <li><a href="#about-the-transparent--option">About the <code class="highlighter-rouge">transparent</code>  option</a></li>
     </ul>
   </li>
-  <li><a href="#step-5-start-kong-b">Step 5: Start Kong B</a>
-    <ul>
-      <li><a href="#the-origins-configuration-option">The <code class="highlighter-rouge">origins</code> configuration option</a></li>
-    </ul>
-  </li>
-  <li><a href="#step-6-create-kong-services-and-routes">Step 6: Create Kong Services and Routes</a>
-    <ul>
-      <li><a href="#why-do-routes-have-two-ip-addresses">Why do Routes have Two IP Addresses?</a></li>
-    </ul>
-  </li>
+  <li><a href="#step-5-start-kong-b">Step 5: Start Kong B</a></li>
+  <li><a href="#step-6-create-kong-services-and-routes">Step 6: Create Kong Services and Routes</a></li>
   <li><a href="#step-7-configure-transparent-proxying-rules">Step 7: Configure Transparent Proxying Rules</a></li>
   <li><a href="#step-8-start-tailing-kong-logs">Step 8: Start tailing Kong Logs</a></li>
   <li><a href="#step-9-connect-service-a-to-service-b-using-two-sidecars">Step 9: Connect Service A to Service B using Two Sidecars</a>
@@ -1374,27 +1366,28 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Kong <code class="highlighter-rouge">0.15.0</code> / <code class="highlighter-rouge">1.0.0</code> added capability to proxy and route raw <code class="highlighter-rouge">tcp</code> streams and
-deploy Kong using a service mesh sidecar pattern with mutual <code class="highlighter-rouge">tls</code> between Kong
-nodes. This tutorial walks you trough a basic setup of a simplified Service Mesh
-deployment using simple tooling: two servers, talking with each other via
-two Kong nodes, in a single host. It introduces new concepts, configuration
-settings and tools along the way. In a production environments almost all
-of this should be automated, it is nice to know how things work on a lower
-level. If you are interested in running Service Mesh with Kubernetes,
-please head over to our <a href="https://github.com/Kong/kong-mesh-dist-kubernetes">our Kubernetes and Service Mesh example repo</a>.</p>
+<p>Kong <code class="highlighter-rouge">0.15.0</code> / <code class="highlighter-rouge">1.0.0</code> added the capability to proxy and route raw <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">tls</code>
+streams and deploy Kong using a service-mesh sidecar pattern with mutual
+<code class="highlighter-rouge">tls</code> between Kong nodes. This tutorial walks you trough a basic setup of
+a simplified Service Mesh deployment using simple tooling: two servers,
+talking with each other via two Kong nodes, in a single host. It introduces
+new concepts, configuration settings and tools along the way. In a production
+environment, almost all of this should be automated. It is still nice to
+know how things work on a lower level. If you are interested in running
+Service Mesh with Kubernetes, please head over to our
+<a href="https://github.com/Kong/kong-mesh-dist-kubernetes">Kubernetes and Service Mesh example repo</a>.</p>
 
 <p>Kong supports gradual deployment of a sidecar pattern. It can work both as
 a traditional gateway and as a service mesh node at the same time. In Kong
 the service mesh is built dynamically, and it only exists when there are
-active connections between the Kong nodes. In short it means that Kong node
-dose not have to know about other Kong nodes, and services do not have to
+active connections between the Kong nodes. In short it means that Kong nodes
+do not have to know about other Kong nodes, and services do not have to
 know about Kong.</p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>You need <strong>Kong 0.15.0 / 1.0.0 or later</strong> to run through different deployment
-scenarios in this tutorial. It is recommended to use Linux distribution to run
+<p>You need <strong>Kong 1.1.0 or later</strong> to run through different deployment scenarios
+in this tutorial. It is recommended to use Linux distribution to run
 the demos, e.g. a recent version of Ubuntu. You will also need some additional
 tools to be installed on your system:</p>
 
@@ -1416,18 +1409,18 @@ localhost IPs:</p>
 </ul>
 
 <p>We are running everything in a single host on this tutorial, but you are allowed
-to use two separate nodes to run the demos. Please note that there will be differences
-in IP addresses in related commands and configurations. For the sake of simplicity
-we also configure everything using just IP addresses instead of using DNS.</p>
+to use two separate nodes to run the demos. In such case, please note that there
+will be differences in IP addresses in related commands and configurations.
+For the sake of simplicity we also configure everything using just IP addresses
+instead of using DNS.</p>
 
-<p>For some of the configuration changes, you will also need <strong>root</strong> privileges on
+<p>For some of the configuration changes, you may also need <strong>root</strong> privileges on
 a target host.</p>
 
 <h2 id="terms-and-definitions">Terms and Definitions</h2>
 
 <p><strong>Kong Control Plane</strong> is started on network address <code class="highlighter-rouge">127.0.0.1</code>. It listens on Kong
-Admin API on ports <code class="highlighter-rouge">8001</code> (<code class="highlighter-rouge">http</code>), and <code class="highlighter-rouge">8444</code> (<code class="highlighter-rouge">https</code>), and it won’t proxy
-any traffic.</p>
+Admin API on ports <code class="highlighter-rouge">8001</code> (<code class="highlighter-rouge">http</code>), and <code class="highlighter-rouge">8444</code> (<code class="highlighter-rouge">https</code>), and it won’t proxy any traffic.</p>
 
 <p><strong>Service A</strong> represents an imaginary business entity (microservice, app) making the network
 connections to <strong>Service B</strong>. On this tutorial <strong>Service A</strong> is modelled by
@@ -1435,15 +1428,15 @@ direct invocations of <code class="highlighter-rouge">ncat</code> and <code clas
 
 <p><strong>Service B</strong> represent a business entity which accepts network connections from <strong>Service A</strong>.
 On this tutorial it is implemented via several <code class="highlighter-rouge">ncat</code> processes, kept open. Its network address
-is <code class="highlighter-rouge">127.0.0.5</code>, and it listens on ports <code class="highlighter-rouge">18000</code>(<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">18443</code>(<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">19000</code>(<code class="highlighter-rouge">tcp</code>),
+is <code class="highlighter-rouge">127.0.0.5</code>, and it listens on ports <code class="highlighter-rouge">18000</code>(<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">18443</code>(<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">19000</code>(<code class="highlighter-rouge">tcp</code>), and
 <code class="highlighter-rouge">19443</code>(<code class="highlighter-rouge">tls</code>).</p>
 
 <p><strong>Kong A</strong> is the sidecar proxy in-front of <strong>Service A</strong>. It listens on network address
-<code class="highlighter-rouge">127.0.0.3</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), and <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">tls</code>).
+<code class="highlighter-rouge">127.0.0.3</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code>), and <code class="highlighter-rouge">9443</code> (<code class="highlighter-rouge">tls</code>).
 It does not listen or provide Kong Admin API.</p>
 
 <p><strong>Kong B</strong> is the sidecar proxy in-front of <strong>Service B</strong>. It listens on network address
-<code class="highlighter-rouge">127.0.0.4</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), and <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">tls</code>).
+<code class="highlighter-rouge">127.0.0.4</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code>), and <code class="highlighter-rouge">9443</code> (<code class="highlighter-rouge">tls</code>).
 It does not listen or provide Kong Admin API.</p>
 
 <p>The examples presented here are run directly from a <code class="highlighter-rouge">terminal</code>, such as <code class="highlighter-rouge">bash</code> shell.
@@ -1460,7 +1453,7 @@ several in order to model all possible Service Mesh combinations.</p>
 <div class="highlighter-rouge"><pre class="highlight"><code>$ ncat --listen \
        --keep-open \
        --verbose \
-       --sh-exec "echo Hello from Service B" \
+       --sh-exec "echo 'Hello from Service B (TCP)'" \
        127.0.0.5 19000
 </code></pre>
 </div>
@@ -1480,7 +1473,7 @@ Ncat: Listening on 127.0.0.5:19000
        --keep-open \
        --verbose \
        --ssl \
-       --sh-exec "echo Hello from Service B" \
+       --sh-exec "echo 'Hello from Service B (TLS)'" \
        127.0.0.5 19443
 </code></pre>
 </div>
@@ -1499,7 +1492,7 @@ Ncat: Listening on 127.0.0.5:19443
 <div class="highlighter-rouge"><pre class="highlight"><code>ncat --listen \
      --keep-open \
      --verbose \
-     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B'" \
+     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service (HTTP)'" \
      127.0.0.5 18000
 </code></pre>
 </div>
@@ -1519,7 +1512,7 @@ Ncat: Listening on 127.0.0.5:18000
      --keep-open \
      --verbose \
      --ssl \
-     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B'" \
+     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B (HTTPS)'" \
      127.0.0.5 18443
 </code></pre>
 </div>
@@ -1542,13 +1535,13 @@ representing the <strong>Service B</strong> listening with different protocols.<
 
 <p>Connect with <strong>Service B</strong> using TCP:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
+<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only 127.0.0.5 19000
 </code></pre>
 </div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (TCP)
 </code></pre>
 </div>
 
@@ -1560,7 +1553,7 @@ representing the <strong>Service B</strong> listening with different protocols.<
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (TLS)
 </code></pre>
 </div>
 
@@ -1572,7 +1565,7 @@ representing the <strong>Service B</strong> listening with different protocols.<
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (HTTP)
 </code></pre>
 </div>
 
@@ -1584,7 +1577,7 @@ representing the <strong>Service B</strong> listening with different protocols.<
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (HTTPS)
 </code></pre>
 </div>
 
@@ -1613,15 +1606,30 @@ to it.</p>
 
 <h2 id="step-4-start-kong-a">Step 4: Start Kong A</h2>
 
-<p><strong>Kong A</strong>, will be a Kong instance acting as sidecar for <strong>Service A</strong>.
-Start it like this:</p>
+<p><strong>Kong A</strong>, will be a Kong instance acting as sidecar for <strong>Service A</strong>.</p>
+
+<p>Start it like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
   KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.3:9000 transparent" \
+  KONG_STREAM_LISTEN="127.0.0.3:9000 transparent, 127.0.0.3:9443 transparent" \
   KONG_PROXY_LISTEN="127.0.0.3:8000 transparent, 127.0.0.3:8443 ssl transparent" \
   KONG_ADMIN_LISTEN="off" \
   KONG_NGINX_PROXY_PROXY_BIND="127.0.0.3" \
+  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.3" \
+    kong start
+</code></pre>
+</div>
+
+<p>On <code class="highlighter-rouge">macOS</code> / <code class="highlighter-rouge">BSD</code> use this instead:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
+  KONG_LOG_LEVEL=debug \
+  KONG_STREAM_LISTEN="127.0.0.3:9000, 127.0.0.3:9443" \
+  KONG_PROXY_LISTEN="127.0.0.3:8000, 127.0.0.3:8443 ssl" \
+  KONG_ADMIN_LISTEN="off" \
+  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.3" \
+  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.3" \
     kong start
 </code></pre>
 </div>
@@ -1632,17 +1640,16 @@ Start it like this:</p>
 </code></pre>
 </div>
 
-<h3 id="the-transparent-config-option">The <code class="highlighter-rouge">transparent</code> config option</h3>
+<h3 id="about-the-transparent--option">About the <code class="highlighter-rouge">transparent</code>  option</h3>
 
-<p>The <code class="highlighter-rouge">transparent</code> listen option makes it possible for Nginx to answer requests
+<p>The <code class="highlighter-rouge">transparent</code> listen option makes it possible for Kong to answer requests
 mangled with <code class="highlighter-rouge">iptables</code> <code class="highlighter-rouge">PREROUTING</code> rules, and to read the original destination
 address and the port that client tried to connect before <code class="highlighter-rouge">iptables</code> rules
 did <code class="highlighter-rouge">transparently</code> proxy it to its sidecar proxy.</p>
 
 <p><strong>Note:</strong> <code class="highlighter-rouge">transparent</code> is only supported on <code class="highlighter-rouge">Linux</code>, and specifying
 it may require you to start Kong as a <code class="highlighter-rouge">root</code> user. If you are <strong>not</strong> running
-<code class="highlighter-rouge">Linux</code> (e.g. <code class="highlighter-rouge">macOS</code> or <code class="highlighter-rouge">BSD</code>) it might be that transparent proxying is
-supported by default.</p>
+<code class="highlighter-rouge">Linux</code> (e.g. <code class="highlighter-rouge">macOS</code> or <code class="highlighter-rouge">BSD</code>), the transparent proxying is supported by default.</p>
 
 <h2 id="step-5-start-kong-b">Step 5: Start Kong B</h2>
 
@@ -1650,20 +1657,27 @@ supported by default.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
   KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.4:9000 transparent" \
+  KONG_STREAM_LISTEN="127.0.0.4:9000 transparent, 127.0.0.4:9443 transparent" \
   KONG_PROXY_LISTEN="127.0.0.4:8000 transparent, 127.0.0.4:8443 transparent ssl" \
   KONG_ADMIN_LISTEN="off" \
   KONG_NGINX_PROXY_PROXY_BIND="127.0.0.4" \
+  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.4" \
     kong start
 </code></pre>
 </div>
 
-<p><strong>Note</strong>: at the moment we don’t have <code class="highlighter-rouge">KONG_NGINX_STREAM_PROXY_BIND</code>
-injection configuration option, so you need to add <code class="highlighter-rouge">proxy_bind 127.0.0.4;</code>
-manually to your <code class="highlighter-rouge">stream</code> <code class="highlighter-rouge">server</code> block on your custom Nginx template for
-the stream examples to work. In a real world you should use <code class="highlighter-rouge">nginx worker user</code>
-to make the exceptions to <code class="highlighter-rouge">iptables</code> rules (see step 7), but for this simplified
-demo, we use the <code class="highlighter-rouge">proxy_bind</code> for the exceptions on rules.</p>
+<p>On <code class="highlighter-rouge">macOS</code> / <code class="highlighter-rouge">BSD</code> use this instead:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
+  KONG_LOG_LEVEL=debug \
+  KONG_STREAM_LISTEN="127.0.0.4:9000, 127.0.0.4:9443" \
+  KONG_PROXY_LISTEN="127.0.0.4:8000, 127.0.0.4:8443 ssl" \
+  KONG_ADMIN_LISTEN="off" \
+  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.4" \
+  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.4" \
+    kong start
+</code></pre>
+</div>
 
 <p>You should see this message if the Kong node starts successfully:</p>
 
@@ -1671,18 +1685,9 @@ demo, we use the <code class="highlighter-rouge">proxy_bind</code> for the excep
 </code></pre>
 </div>
 
-<h3 id="the-origins-configuration-option">The <code class="highlighter-rouge">origins</code> configuration option</h3>
-
-<p>When you setup Kong as a sidecar proxy in front of a service,
-as we do in this walkthrough with <strong>Kong B</strong> and <strong>Service B</strong>, the
-network traffic that you used to route directly to <strong>Service B</strong>
-will now be routed to <strong>Kong B</strong>. In this case the <strong>Kong B</strong> knows
-that it is a sidecar for <strong>Service B</strong>, so instead of proxying
-to a Kong service, we override the service endpoint using
-the <code class="highlighter-rouge">origins</code> configuration on this node only. Without this
-you would end up <strong>Kong B</strong> proxying to <strong>Kong B</strong> loop. Interesting
-side-note to this is that this allows you to change protocols,
-such as <code class="highlighter-rouge">https</code> to <code class="highlighter-rouge">http</code> and <code class="highlighter-rouge">tls</code> to <code class="highlighter-rouge">tcp</code>.</p>
+<p><strong>Note</strong>: In the real world, you should use <code class="highlighter-rouge">nginx worker user</code> to make the exceptions
+to <code class="highlighter-rouge">iptables</code> rules (see step 7), but for this simplified demo, we use the <code class="highlighter-rouge">proxy_bind</code>
+for the exceptions on rules.</p>
 
 <h2 id="step-6-create-kong-services-and-routes">Step 6: Create Kong Services and Routes</h2>
 
@@ -1760,24 +1765,6 @@ such as <code class="highlighter-rouge">https</code> to <code class="highlighter
 </code></pre>
 </div>
 
-<h3 id="why-do-routes-have-two-ip-addresses">Why do Routes have Two IP Addresses?</h3>
-
-<p>Remember when we started implementing the Service Mesh in this tutorial,
-we had this:</p>
-
-<p><strong>Service A</strong> on <code class="highlighter-rouge">127.0.0.2</code> connecting to <strong>Service B</strong> on <code class="highlighter-rouge">127.0.0.5</code>.
-We did not touch these, but we added <strong>Kong A</strong> (sidecar for <strong>Service A</strong>)
-on <code class="highlighter-rouge">127.0.0.3</code> and <strong>Kong B</strong> (sidecar for <strong>Service B</strong>) on <code class="highlighter-rouge">127.0.0.4</code>.</p>
-
-<p>Because, for demonstration purposes, we would like not to touch <strong>Service A</strong> or
-<strong>Service B</strong> or their current code or configuration, we need to add both the new
-endpoint on <strong>Kong B</strong> to which our Kong <code class="highlighter-rouge">service</code> entities point to, and the real
-address where our <strong>Service A</strong> tries to connect. At this point you might be
-wondering that our Kong’s don’t listen to <code class="highlighter-rouge">127.0.0.5</code>, and you are right.
-That’s why we added <code class="highlighter-rouge">transparent</code> to <strong>Kong A</strong>, when we started it, and in next
-step you will see how we make <strong>Service A</strong> to transparently talk to <strong>Kong A</strong>
-instead of making a connection directly to <strong>Service B</strong>.</p>
-
 <h2 id="step-7-configure-transparent-proxying-rules">Step 7: Configure Transparent Proxying Rules</h2>
 
 <p>Following <code class="highlighter-rouge">iptables</code> commands add transparent proxying rules for <strong>Service A</strong>.
@@ -1801,7 +1788,7 @@ $ sudo iptables --insert PREROUTING \
                 --dport 19443 \
                 --source 127.0.0.2 \
                 --jump TPROXY \
-                --on-port=9000 \
+                --on-port=9443 \
                 --on-ip=127.0.0.3
 
 $ sudo iptables --insert PREROUTING \
@@ -1844,7 +1831,7 @@ $ sudo iptables --append PREROUTING \
                 --dport 19443 \
                 --destination 127.0.0.5 \
                 --jump TPROXY \
-                --on-port=9000 \
+                --on-port=9443 \
                 --on-ip=127.0.0.4
 
 $ sudo iptables --append PREROUTING \
@@ -1868,6 +1855,9 @@ $ sudo iptables --append PREROUTING \
                 --on-ip=127.0.0.4
 </code></pre>
 </div>
+
+<p>The equivalent <code class="highlighter-rouge">TPROXY</code> rules with <code class="highlighter-rouge">macOS</code> or <code class="highlighter-rouge">BSDs</code> is a bit tricky, so we leave that
+to the reader. If we find a simple way to define them, we’ll update this article.</p>
 
 <h2 id="step-8-start-tailing-kong-logs">Step 8: Start tailing Kong Logs</h2>
 
@@ -1898,7 +1888,7 @@ the server (we are working on it).</p>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (TCP)
 </code></pre>
 </div>
 
@@ -1910,7 +1900,7 @@ the server (we are working on it).</p>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (TLS)
 </code></pre>
 </div>
 
@@ -1922,7 +1912,7 @@ the server (we are working on it).</p>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (HTTP)
 </code></pre>
 </div>
 
@@ -1934,7 +1924,7 @@ the server (we are working on it).</p>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B (HTTPS)
 </code></pre>
 </div>
 
@@ -1946,9 +1936,9 @@ both raw <code class="highlighter-rouge">tcp</code> and <code class="highlighter
 <h3 id="about-service-mesh">About Service Mesh</h3>
 
 <p>In Kong we call it Service Mesh only when the connection between the two sidecars,
-<strong>Kong A</strong> and <strong>Kong B</strong>, is mutually TLS authenticated. That is not obviously the case in
-this document with the <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> demos. But what makes things interesting is
-that Kong can automatically update unprotected <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> connections to <code class="highlighter-rouge">tls</code>
+<strong>Kong A</strong> and <strong>Kong B</strong>, is mutually TLS authenticated. That is not obviously the
+case in this document with the <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> demos. But what makes things interesting
+is that Kong can automatically update unprotected <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> connections to <code class="highlighter-rouge">tls</code>
 protected connections so that <strong>Kong A</strong> will always talk to <strong>Kong B</strong> using either <code class="highlighter-rouge">tls</code>
 or <code class="highlighter-rouge">https</code>. And on the other side, <strong>Kong B</strong>, Kong can also downgrade the <code class="highlighter-rouge">tls</code> and <code class="highlighter-rouge">https</code>
 connections to unprotected <code class="highlighter-rouge">tcp</code> or <code class="highlighter-rouge">http</code> before making that final proxy connection
@@ -2187,7 +2177,7 @@ on this tutorial).</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1553889131"></script>
+    <script src="/assets/app.js?v=1554872467"></script>
 
     <div id="fb-root"></div>
 
