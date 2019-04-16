@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1554872467"
+    href="/assets/styles.css?v=1555448799"
   />
   
 </head>
@@ -358,7 +358,7 @@ window['_fs_namespace'] = 'FS';
           </div>
           </div>
         </li>
-        <li class="kong-navbar_nav_link kong-navbar_nav_link--cta"><a class="nav-link btn btn-outline-secondary transparent" href="http://konghq.com/request-demo">Request Demo</a></li>
+        <li class="kong-navbar_nav_link kong-navbar_nav_link--cta"><a class="nav-link btn btn-outline-secondary transparent" href="http://konghq.com/install">Install Kong</a></li>
       </ul>
     </nav>
     <button class="navbar-toggler align-self-center" type="button" data-toggle="kong-expand" data-target="#pagesNav" aria-controls="pagesNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -1341,6 +1341,407 @@ window['_fs_namespace'] = 'FS';
           
 
           
+          
+          <h2 id="table-of-contents">Table of Contents</h2>
+          <ul>
+  <li><a href="#supported-content-types">Supported Content Types</a></li>
+  <li><a href="#information-routes">Information routes</a>
+    <ul>
+      <li><a href="#retrieve-node-information">Retrieve node information</a>
+        <ul>
+          <li><a href="#response">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-node-status">Retrieve node status</a>
+        <ul>
+          <li><a href="#response-1">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#service-object">Service Object</a>
+    <ul>
+      <li><a href="#add-service">Add Service</a>
+     -  <a href="#create-service">Create Service</a>
+        <ul>
+          <li><a href="#request-body">Request Body</a></li>
+          <li><a href="#response-2">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-services">List Services</a>
+     -  <a href="#list-all-services">List all Services</a>
+        <ul>
+          <li><a href="#response-3">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-service">Retrieve Service</a>
+     -  <a href="#retrieve-service-1">Retrieve Service</a>
+     -  <a href="#retrieve-service-associated-to-a-specific-route">Retrieve Service associated to a specific Route</a>
+     -  <a href="#retrieve-service-associated-to-a-specific-plugin">Retrieve Service associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#response-4">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-service">Update Service</a>
+     -  <a href="#update-service-1">Update Service</a>
+     -  <a href="#update-service-associated-to-a-specific-route">Update Service associated to a specific Route</a>
+     -  <a href="#update-service-associated-to-a-specific-plugin">Update Service associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-1">Request Body</a></li>
+          <li><a href="#response-5">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-service">Update or create Service</a>
+     -  <a href="#create-or-update-service">Create or update Service</a>
+     -  <a href="#create-or-update-service-associated-to-a-specific-route">Create or update Service associated to a specific Route</a>
+     -  <a href="#create-or-update-service-associated-to-a-specific-plugin">Create or update Service associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-2">Request Body</a></li>
+          <li><a href="#response-6">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-service">Delete Service</a>
+     -  <a href="#delete-service-1">Delete Service</a>
+     -  <a href="#delete-service-associated-to-a-specific-route">Delete Service associated to a specific Route</a>
+        <ul>
+          <li><a href="#response-7">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#route-object">Route Object</a>
+    <ul>
+      <li><a href="#add-route">Add Route</a>
+     -  <a href="#create-route">Create Route</a>
+     -  <a href="#create-route-associated-to-a-specific-service">Create Route associated to a specific Service</a>
+        <ul>
+          <li><a href="#request-body-3">Request Body</a></li>
+          <li><a href="#response-8">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-routes">List Routes</a>
+     -  <a href="#list-all-routes">List all Routes</a>
+     -  <a href="#list-routes-associated-to-a-specific-service">List Routes associated to a specific Service</a>
+        <ul>
+          <li><a href="#response-9">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-route">Retrieve Route</a>
+     -  <a href="#retrieve-route-1">Retrieve Route</a>
+     -  <a href="#retrieve-route-associated-to-a-specific-plugin">Retrieve Route associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#response-10">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-route">Update Route</a>
+     -  <a href="#update-route-1">Update Route</a>
+     -  <a href="#update-route-associated-to-a-specific-plugin">Update Route associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-4">Request Body</a></li>
+          <li><a href="#response-11">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-route">Update or create Route</a>
+     -  <a href="#create-or-update-route">Create or update Route</a>
+     -  <a href="#create-or-update-route-associated-to-a-specific-plugin">Create or update Route associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-5">Request Body</a></li>
+          <li><a href="#response-12">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-route">Delete Route</a>
+     -  <a href="#delete-route-1">Delete Route</a>
+        <ul>
+          <li><a href="#response-13">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#consumer-object">Consumer Object</a>
+    <ul>
+      <li><a href="#add-consumer">Add Consumer</a>
+     -  <a href="#create-consumer">Create Consumer</a>
+        <ul>
+          <li><a href="#request-body-6">Request Body</a></li>
+          <li><a href="#response-14">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-consumers">List Consumers</a>
+     -  <a href="#list-all-consumers">List all Consumers</a>
+        <ul>
+          <li><a href="#response-15">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-consumer">Retrieve Consumer</a>
+     -  <a href="#retrieve-consumer-1">Retrieve Consumer</a>
+     -  <a href="#retrieve-consumer-associated-to-a-specific-plugin">Retrieve Consumer associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#response-16">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-consumer">Update Consumer</a>
+     -  <a href="#update-consumer-1">Update Consumer</a>
+     -  <a href="#update-consumer-associated-to-a-specific-plugin">Update Consumer associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-7">Request Body</a></li>
+          <li><a href="#response-17">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-consumer">Update or create Consumer</a>
+     -  <a href="#create-or-update-consumer">Create or update Consumer</a>
+     -  <a href="#create-or-update-consumer-associated-to-a-specific-plugin">Create or update Consumer associated to a specific Plugin</a>
+        <ul>
+          <li><a href="#request-body-8">Request Body</a></li>
+          <li><a href="#response-18">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-consumer">Delete Consumer</a>
+     -  <a href="#delete-consumer-1">Delete Consumer</a>
+        <ul>
+          <li><a href="#response-19">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#plugin-object">Plugin Object</a>
+     -  <a href="#precedence">Precedence</a>
+    <ul>
+      <li><a href="#add-plugin">Add Plugin</a>
+     -  <a href="#create-plugin">Create Plugin</a>
+     -  <a href="#create-plugin-associated-to-a-specific-route">Create Plugin associated to a specific Route</a>
+     -  <a href="#create-plugin-associated-to-a-specific-service">Create Plugin associated to a specific Service</a>
+     -  <a href="#create-plugin-associated-to-a-specific-consumer">Create Plugin associated to a specific Consumer</a>
+        <ul>
+          <li><a href="#request-body-9">Request Body</a></li>
+          <li><a href="#response-20">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-plugins">List Plugins</a>
+     -  <a href="#list-all-plugins">List all Plugins</a>
+     -  <a href="#list-plugins-associated-to-a-specific-route">List Plugins associated to a specific Route</a>
+     -  <a href="#list-plugins-associated-to-a-specific-service">List Plugins associated to a specific Service</a>
+     -  <a href="#list-plugins-associated-to-a-specific-consumer">List Plugins associated to a specific Consumer</a>
+        <ul>
+          <li><a href="#response-21">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-plugin">Retrieve Plugin</a>
+     -  <a href="#retrieve-plugin-1">Retrieve Plugin</a>
+        <ul>
+          <li><a href="#response-22">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-plugin">Update Plugin</a>
+     -  <a href="#update-plugin-1">Update Plugin</a>
+        <ul>
+          <li><a href="#request-body-10">Request Body</a></li>
+          <li><a href="#response-23">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-plugin">Update or create Plugin</a>
+     -  <a href="#create-or-update-plugin">Create or update Plugin</a>
+        <ul>
+          <li><a href="#request-body-11">Request Body</a></li>
+          <li><a href="#response-24">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-plugin">Delete Plugin</a>
+     -  <a href="#delete-plugin-1">Delete Plugin</a>
+        <ul>
+          <li><a href="#response-25">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-enabled-plugins">Retrieve Enabled Plugins</a>
+        <ul>
+          <li><a href="#response-26">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-plugin-schema">Retrieve Plugin Schema</a>
+        <ul>
+          <li><a href="#response-27">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#certificate-object">Certificate Object</a>
+    <ul>
+      <li><a href="#add-certificate">Add Certificate</a>
+     -  <a href="#create-certificate">Create Certificate</a>
+        <ul>
+          <li><a href="#request-body-12">Request Body</a></li>
+          <li><a href="#response-28">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-certificates">List Certificates</a>
+     -  <a href="#list-all-certificates">List all Certificates</a>
+        <ul>
+          <li><a href="#response-29">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-certificate">Retrieve Certificate</a>
+     -  <a href="#retrieve-certificate-1">Retrieve Certificate</a>
+        <ul>
+          <li><a href="#response-30">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-certificate">Update Certificate</a>
+     -  <a href="#update-certificate-1">Update Certificate</a>
+        <ul>
+          <li><a href="#request-body-13">Request Body</a></li>
+          <li><a href="#response-31">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-certificate">Update or create Certificate</a>
+     -  <a href="#create-or-update-certificate">Create or update Certificate</a>
+        <ul>
+          <li><a href="#request-body-14">Request Body</a></li>
+          <li><a href="#response-32">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-certificate">Delete Certificate</a>
+     -  <a href="#delete-certificate-1">Delete Certificate</a>
+        <ul>
+          <li><a href="#response-33">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#sni-object">SNI Object</a>
+    <ul>
+      <li><a href="#add-sni">Add SNI</a>
+     -  <a href="#create-sni">Create SNI</a>
+     -  <a href="#create-sni-associated-to-a-specific-certificate">Create SNI associated to a specific Certificate</a>
+        <ul>
+          <li><a href="#request-body-15">Request Body</a></li>
+          <li><a href="#response-34">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-snis">List SNIs</a>
+     -  <a href="#list-all-snis">List all SNIs</a>
+     -  <a href="#list-snis-associated-to-a-specific-certificate">List SNIs associated to a specific Certificate</a>
+        <ul>
+          <li><a href="#response-35">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-sni">Retrieve SNI</a>
+     -  <a href="#retrieve-sni-1">Retrieve SNI</a>
+        <ul>
+          <li><a href="#response-36">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-sni">Update SNI</a>
+     -  <a href="#update-sni-1">Update SNI</a>
+        <ul>
+          <li><a href="#request-body-16">Request Body</a></li>
+          <li><a href="#response-37">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-sni">Update or create SNI</a>
+     -  <a href="#create-or-update-sni">Create or update SNI</a>
+        <ul>
+          <li><a href="#request-body-17">Request Body</a></li>
+          <li><a href="#response-38">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-sni">Delete SNI</a>
+     -  <a href="#delete-sni-1">Delete SNI</a>
+        <ul>
+          <li><a href="#response-39">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#upstream-object">Upstream Object</a>
+    <ul>
+      <li><a href="#add-upstream">Add Upstream</a>
+     -  <a href="#create-upstream">Create Upstream</a>
+        <ul>
+          <li><a href="#request-body-18">Request Body</a></li>
+          <li><a href="#response-40">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-upstreams">List Upstreams</a>
+     -  <a href="#list-all-upstreams">List all Upstreams</a>
+        <ul>
+          <li><a href="#response-41">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#retrieve-upstream">Retrieve Upstream</a>
+     -  <a href="#retrieve-upstream-1">Retrieve Upstream</a>
+     -  <a href="#retrieve-upstream-associated-to-a-specific-target">Retrieve Upstream associated to a specific Target</a>
+        <ul>
+          <li><a href="#response-42">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-upstream">Update Upstream</a>
+     -  <a href="#update-upstream-1">Update Upstream</a>
+     -  <a href="#update-upstream-associated-to-a-specific-target">Update Upstream associated to a specific Target</a>
+        <ul>
+          <li><a href="#request-body-19">Request Body</a></li>
+          <li><a href="#response-43">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#update-or-create-upstream">Update or create Upstream</a>
+     -  <a href="#create-or-update-upstream">Create or update Upstream</a>
+     -  <a href="#create-or-update-upstream-associated-to-a-specific-target">Create or update Upstream associated to a specific Target</a>
+        <ul>
+          <li><a href="#request-body-20">Request Body</a></li>
+          <li><a href="#response-44">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-upstream">Delete Upstream</a>
+     -  <a href="#delete-upstream-1">Delete Upstream</a>
+     -  <a href="#delete-upstream-associated-to-a-specific-target">Delete Upstream associated to a specific Target</a>
+        <ul>
+          <li><a href="#response-45">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#show-upstream-health-for-node">Show Upstream health for node</a>
+        <ul>
+          <li><a href="#response-46">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#target-object">Target Object</a>
+    <ul>
+      <li><a href="#add-target">Add Target</a>
+     -  <a href="#create-target-associated-to-a-specific-upstream">Create Target associated to a specific Upstream</a>
+        <ul>
+          <li><a href="#request-body-21">Request Body</a></li>
+          <li><a href="#response-47">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-targets">List Targets</a>
+     -  <a href="#list-targets-associated-to-a-specific-upstream">List Targets associated to a specific Upstream</a>
+        <ul>
+          <li><a href="#response-48">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#delete-target">Delete Target</a>
+        <ul>
+          <li><a href="#response-49">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#set-target-as-healthy">Set target as healthy</a>
+        <ul>
+          <li><a href="#response-50">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#set-target-as-unhealthy">Set target as unhealthy</a>
+        <ul>
+          <li><a href="#response-51">Response</a></li>
+        </ul>
+      </li>
+      <li><a href="#list-all-targets">List all Targets</a>
+        <ul>
+          <li><a href="#response-52">Response</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
           
 
           <p>Kong comes with an <strong>internal</strong> RESTful Admin API for administration purposes.
@@ -5732,7 +6133,7 @@ The target object with the latest <code class="highlighter-rouge">created_at</co
 </script>
 
 
-    <script src="/assets/app.js?v=1554872467"></script>
+    <script src="/assets/app.js?v=1555448799"></script>
 
     <div id="fb-root"></div>
 
