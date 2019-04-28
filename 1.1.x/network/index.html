@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1555448799"
+    href="/assets/styles.css?v=1556452821"
   />
   
 </head>
@@ -1343,10 +1343,11 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#ports">Ports</a>
     <ul>
       <li><a href="#proxy">Proxy</a></li>
-      <li><a href="#management-api">Management api</a></li>
+      <li><a href="#admin-api">Admin API</a></li>
     </ul>
   </li>
-  <li><a href="#firewall">Firewall</a></li>
+  <li><a href="#firewall">Firewall</a>
+     -  <a href="#transparent-proxying">Transparent Proxying</a></li>
 </ul>
 
           
@@ -1361,27 +1362,34 @@ window['_fs_namespace'] = 'FS';
 
 <ul>
   <li>proxy</li>
-  <li>management api</li>
+  <li>admin api</li>
 </ul>
 
 <h3 id="proxy">Proxy</h3>
 
-<p>The proxy ports is where Kong receives its incoming traffic. There are two ports with the following defaults;</p>
+<p>The proxy ports is where Kong receives its incoming traffic. There are two ports with the following defaults:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">8000</code> for proxying. This is where Kong listens for HTTP traffic. Be sure to change it to <code class="highlighter-rouge">80</code> once you go to production. See <a href="/1.1.x/configuration/#proxy_listen">proxy_listen</a>.</li>
-  <li><code class="highlighter-rouge">8443</code> for proxying HTTPS traffic. Be sure to change it to <code class="highlighter-rouge">443</code> once you go to production. See <a href="/1.1.x/configuration/#proxy_listen">proxy_listen</a> and the <code class="highlighter-rouge">ssl</code> suffix.</li>
+  <li><code class="highlighter-rouge">8000</code> for proxying HTTP traffic, and</li>
+  <li><code class="highlighter-rouge">8443</code> for proxying HTTPS traffic</li>
 </ul>
 
-<p>These are the <strong>only ports</strong> that should be made available to your clients.</p>
+<p>See <a href="/1.1.x/configuration/#proxy_listen">proxy_listen</a> for more details on HTTP/HTTPS proxy listen options. For production environment it is common
+to change HTTP and HTTPS listen ports to <code class="highlighter-rouge">80</code> and <code class="highlighter-rouge">443</code>.</p>
 
-<h3 id="management-api">Management api</h3>
+<p>Kong can also proxy TCP/TLS streams. The stream proxying is disabled by default. See <a href="/1.1.x/configuration/#stream_listen">stream_listen</a> for
+additional details on stream proxy listen options, and how to enable it (if you plan to proxy anything other than
+HTTP/HTTPS traffic).</p>
 
-<p>This is the port where Kong exposes its management api. Hence in production this port should be firewalled to protect
+<p>In general the proxy ports are the <strong>only ports</strong> that should be made available to your clients.</p>
+
+<h3 id="admin-api">Admin API</h3>
+
+<p>This is the port where Kong exposes its management API. Hence in production this port should be firewalled to protect
 it from unauthorized access.</p>
 
 <ul>
-  <li><code class="highlighter-rouge">8001</code> provides Kong’s <strong>Admin API</strong> that you can use to operate Kong. See <a href="/1.1.x/configuration/#admin_listen">admin_listen</a>.</li>
+  <li><code class="highlighter-rouge">8001</code> provides Kong’s <strong>Admin API</strong> that you can use to operate Kong with HTTP. See <a href="/1.1.x/configuration/#admin_listen">admin_listen</a>.</li>
   <li><code class="highlighter-rouge">8444</code> provides the same Kong <strong>Admin API</strong> but using HTTPS. See <a href="/1.1.x/configuration/#admin_listen">admin_listen</a> and the <code class="highlighter-rouge">ssl</code> suffix.</li>
 </ul>
 
@@ -1392,11 +1400,26 @@ it from unauthorized access.</p>
 <ul>
   <li>The upstream Services behind Kong will be available via the <a href="/1.1.x/configuration/#proxy_listen">proxy_listen</a> interface/port values.
 Configure these values according to the access level you wish to grant to the upstream Services.</li>
-  <li>If you are binding the Admin API to a public-facing interface (via <a href="/1.1.x/configuration/#admin_listen">admin_listen</a>), then <strong>protect</strong> it to only allow trusted clients to access the Admin API.
-See also <a href="/1.1.x/secure-admin-api">Securing the Admin API</a>.</li>
-  <li>Your proxy will need have rules added for any TCP Stream listeners that you configure. For example, if you want Kong to manage traffic on port <code class="highlighter-rouge">4242</code>, your
-firewall will need to be allow traffic on said port.</li>
+  <li>If you are binding the Admin API to a public-facing interface (via <a href="/1.1.x/configuration/#admin_listen">admin_listen</a>), then <strong>protect</strong> it to only
+allow trusted clients to access the Admin API. See also <a href="/1.1.x/secure-admin-api">Securing the Admin API</a>.</li>
+  <li>Your proxy will need have rules added for any HTTP/HTTPS and TCP/TLS stream listeners that you configure.
+For example, if you want Kong to manage traffic on port <code class="highlighter-rouge">4242</code>, your firewall will need to allow traffic
+on said port.</li>
 </ul>
+
+<h4 id="transparent-proxying">Transparent Proxying</h4>
+
+<p>It is worth mentioning that the <code class="highlighter-rouge">transparent</code> listen option may be applied to <a href="/1.1.x/configuration/#proxy_listen">proxy_listen</a>
+and <a href="/1.1.x/configuration/#stream_listen">stream_listen</a> configuration. With packet filtering such as <code class="highlighter-rouge">iptables</code> (Linux) or <code class="highlighter-rouge">pf</code> (macOS/BSDs)
+or with hardware routers/switches, you can specify pre-routing or redirection rules for TCP packets that
+allow you to mangle the original destination address and port. For example a HTTP request with a destination
+address of <code class="highlighter-rouge">10.0.0.1</code>, and a destination port of <code class="highlighter-rouge">80</code> can be redirected to <code class="highlighter-rouge">127.0.0.1</code> at port <code class="highlighter-rouge">8000</code>.
+To make this work, you need (with Linux) to add the <code class="highlighter-rouge">transparent</code> listen option to Kong proxy,
+<code class="highlighter-rouge">proxy_listen=8000 transparent</code>. This allows Kong to see the original destination for the request
+(<code class="highlighter-rouge">10.0.0.1:80</code>) even when Kong didn’t actually listen to it directly. With this information,
+Kong can route the request correctly. The <code class="highlighter-rouge">transparent</code> listen option should only be used with Linux.
+macOS/BSDs allow transparent proxying without <code class="highlighter-rouge">transparent</code> listen option. With Linux you may also need
+to start Kong as a <code class="highlighter-rouge">root</code> user or set the needed capabilities for the executable.</p>
 
 
 
@@ -1592,7 +1615,7 @@ firewall will need to be allow traffic on said port.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1555448799"></script>
+    <script src="/assets/app.js?v=1556452821"></script>
 
     <div id="fb-root"></div>
 

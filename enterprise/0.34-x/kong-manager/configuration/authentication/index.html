@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1555448799"
+    href="/assets/styles.css?v=1556452821"
   />
   
 </head>
@@ -1172,6 +1172,14 @@ window['_fs_namespace'] = 'FS';
             
           </li>
           
+          
+          <li>
+            <a href="/enterprise/0.34-x/kong-aws"  >
+              AWS Guide and Best Practices
+            </a>
+            
+          </li>
+          
         </ul>
       </nav>
       
@@ -1314,52 +1322,71 @@ locally and used for subsequent browser requests.</p>
 
 <h2 id="ldap-authentication">LDAP Authentication</h2>
 
-<p>The <a href="/enterprise/0.34-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced plugin</a> 
-allows Admins to use their own LDAP server to bind authentication to the Admin 
-API with username and password protection. Note: You must use <code class="highlighter-rouge">Basic</code> as your 
-<code class="highlighter-rouge">header_type</code> in the <code class="highlighter-rouge">admin_gui_auth_config</code> Kong configuration. To implement 
-this (and any other) configuration, restart Kong after saving changes to 
-<code class="highlighter-rouge">kong.conf</code>:</p>
+<p>Kong Enterprise offers the ability to bind authentication for Kong Manager 
+<em>Admins</em> to a company’s Active Directory using the 
+<a href="/enterprise/0.34-x/plugins/ldap-authentication-advanced">LDAP Authentication Advanced plugin</a>.</p>
+
+<p>⚠️ <strong>IMPORTANT</strong>: by using the configuration below, it is unnecessary to manually apply
+the plugin; the configuration alone will enable LDAP Authentication for Kong Manager.</p>
+
+<p>Ensure Kong is configured with the following properties either in the configuration 
+file or using environment variables:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth = ldap-auth-advanced
 enforce_rbac = on
-</code></pre>
-</div>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>admin_gui_auth_conf={                                     \
-"anonymous":"",                                           \
-"attribute":"uid",                                        \ 
-"bind_dn":"&lt;ENTER_YOUR_BIND_DN_HERE&gt;",                    \
-"base_dn":"&lt;ENTER_YOUR_BASE_DN_HERE&gt;",                    \
-"cache_ttl": 2,                                           \
-"header_type":"Basic",                                    \
-"keepalive":60000,                                        \
-"ldap_host":"&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;",                \
-"ldap_port":389,                                          \
-"start_tls":false,                                        \
-"timeout":10000,                                          \
-"verify_ldap_host":true                                   \
+admin_gui_auth_conf = {                                   
+    "anonymous":"",                                           \
+    "attribute":"&lt;ENTER_YOUR_ATTRIBUTE_HERE&gt;",                \ 
+    "bind_dn":"&lt;ENTER_YOUR_BIND_DN_HERE&gt;",                    \
+    "base_dn":"&lt;ENTER_YOUR_BASE_DN_HERE&gt;",                    \
+    "cache_ttl": 2,                                           \
+    "header_type":"Basic",                                    \
+    "keepalive":60000,                                        \
+    "ldap_host":"&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;",                \
+    "ldap_password":"&lt;ENTER_YOUR_LDAP_PASSWORD_HERE&gt;",        \
+    "ldap_port":389,                                          \
+    "start_tls":false,                                        \
+    "timeout":10000,                                          \
+    "verify_ldap_host":true                                   \
+    "consumer_by":"username",                                 \
 }
 </code></pre>
 </div>
 
-<p>The values above can be replaced with their corresponding values for your custom
-LDAP configuration:</p>
-
 <ul>
-  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_BIND_DN_HERE&gt;</code> - Your LDAP Bind DN (Distinguished Name)
-    * Used to perform LDAP search of user. This bind_dn should have 
-      permissions to search for the user being authenticated.
-    * For Example, <code class="highlighter-rouge">uid=einstein,ou=scientists,dc=ldap,dc=com</code></li>
-  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_BASE_DN_HERE&gt;</code> - Your LDAP Base DN (Distinguished Name)
-    * For Example, <code class="highlighter-rouge">ou=scientists,dc=ldap,dc=com</code></li>
-  <li><code class="highlighter-rouge">&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;</code> - LDAP Host domain
-    * For Example, <code class="highlighter-rouge">ec2"-XX-XXX-XX-XXX.compute-1.amazonaws.com</code></li>
+  <li><code class="highlighter-rouge">"attribute":"&lt;ENTER_YOUR_ATTRIBUTE_HERE&gt;"</code>: The attribute used to identify LDAP users
+    <ul>
+      <li>For example, to map LDAP users to admins by their username, <code class="highlighter-rouge">"attribute":"uid"</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">"bind_dn":"&lt;ENTER_YOUR_BIND_DN_HERE&gt;"</code>: LDAP Bind DN (Distinguished Name)
+    <ul>
+      <li>Used to perform LDAP search of user. This bind_dn should have permissions to search 
+for the user being authenticated.</li>
+      <li>For example, <code class="highlighter-rouge">uid=einstein,ou=scientists,dc=ldap,dc=com</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">"base_dn":"&lt;ENTER_YOUR_BASE_DN_HERE&gt;"</code>: LDAP Base DN (Distinguished Name)
+    <ul>
+      <li>For example, <code class="highlighter-rouge">ou=scientists,dc=ldap,dc=com</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">"ldap_host":"&lt;ENTER_YOUR_LDAP_HOST_HERE&gt;"</code>: LDAP host domain
+    <ul>
+      <li>For example, <code class="highlighter-rouge">"ec2-XX-XXX-XX-XXX.compute-1.amazonaws.com"</code></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">"ldap_password":"&lt;ENTER_YOUR_LDAP_PASSWORD_HERE&gt;"</code>: LDAP password
+    <ul>
+      <li><em>Note</em>: As with any configuration property, sensitive information may be set as an 
+environment variable instead of being written directly in the configuration file.</li>
+    </ul>
+  </li>
 </ul>
 
-<p>After you have updated your configuration and restarted Kong, you will now be 
-able to login to Kong Manager with a username and password validated against 
-your remote LDAP server.</p>
+<p>After starting Kong with the desired configuration, you may create new <em>Admins</em> whose
+usernames match those in the AD. Those users will then be able to accept invitations
+to join Kong Manager and log in with their LDAP credentials.</p>
 
 <p>Next: <a href="/enterprise/0.34-x/kong-manager/configuration/networking/">Networking ›</a></p>
 
@@ -1535,7 +1562,7 @@ your remote LDAP server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1555448799"></script>
+    <script src="/assets/app.js?v=1556452821"></script>
 
     <div id="fb-root"></div>
 

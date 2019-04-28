@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1555448799"
+    href="/assets/styles.css?v=1556452821"
   />
   
 </head>
@@ -1344,7 +1344,17 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#create-the-migrations-folder">Create the migrations folder</a></li>
   <li><a href="#adding-a-new-migration-to-an-existing-plugin">Adding a new migration to an existing plugin</a></li>
   <li><a href="#migration-file-syntax">Migration File syntax</a></li>
-  <li><a href="#retrieve-your-custom-dao-from-the-dao-factory">Retrieve your custom DAO from the DAO Factory</a></li>
+  <li><a href="#defining-a-schema">Defining a Schema</a></li>
+  <li><a href="#the-custom-dao">The custom DAO</a>
+    <ul>
+      <li><a href="#selecting-an-entity">Selecting an entity</a></li>
+      <li><a href="#iterating-over-all-the-entities">Iterating over all the entities</a></li>
+      <li><a href="#inserting-an-entity">Inserting an entity</a></li>
+      <li><a href="#updating-an-entity">Updating an entity</a></li>
+      <li><a href="#upserting-an-entity">Upserting an entity</a></li>
+      <li><a href="#deleting-an-entity">Deleting an entity</a></li>
+    </ul>
+  </li>
   <li><a href="#caching-custom-entities">Caching custom entities</a></li>
 </ul>
 
@@ -1487,105 +1497,409 @@ for one that works with Cassandra too.</p>
 enforce it for Cassandra, but for PostgreSQL you must set this constraint in
 the migrations.</p>
 
-<p>To see a real-life example, give a look at the <a href="https://github.com/Kong/kong/tree/master/kong/plugins/key-auth/migrations">Key-Auth plugin migrations</a></p>
+<p>To see a real-life example, give a look at the <a href="https://github.com/Kong/kong/tree/1.1.x/kong/plugins/key-auth/migrations">Key-Auth plugin migrations</a></p>
 
 <hr />
 
-<h2 id="retrieve-your-custom-dao-from-the-dao-factory">Retrieve your custom DAO from the DAO Factory</h2>
+<h2 id="defining-a-schema">Defining a Schema</h2>
 
-<p>To make the DAO Factory load your custom DAO(s), you will need to define your
-entity’s schema (just like the schemas describing your <a href="/1.1.x/plugin-development/plugin-configuration/">plugin
-configuration</a>). This schema
-contains a few more values since it must describes which table the entity
-relates to in the datastore, constraints on its fields such as foreign keys,
-non-null constraints and such.</p>
+<p>The first step to using custom entities in a custom plugin is defining one
+or more <em>schemas</em>.</p>
 
-<p>This schema is to be defined in a module named:</p>
+<p>A schema is a Lua table which describes entities. There’s structural information
+like how are the different fields of the entity named and what are their types,
+which is similar to the fields describing your <a href="/1.1.x/plugin-development/plugin-configuration/">plugin
+configuration</a>).
+Compared to plugin configuration schemas, custom entity schemas require
+additional metadata (e.g. which field, or fields, constitute the entities’
+primary key).</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
+<p>Schemas are to be defined in a module named:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.daos
 </code></pre>
 </div>
 
-<p>Once that module returns your entity’s schema, and assuming your plugin is
-loaded by Kong (see the <code class="highlighter-rouge">plugins</code> property in <code class="highlighter-rouge">kong.conf</code>), the DAO Factory
-will use it to instantiate a DAO object.</p>
+<p>Meaning that there should be a file called <code class="highlighter-rouge">&lt;plugin_name&gt;/daos.lua</code> inside your
+plugin folder. The <code class="highlighter-rouge">daos.lua</code> file should return a table containing one or more
+schemas. For example:</p>
 
-<p>Here is an example of how one would define a schema to store API keys in a his
-or her database:</p>
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- &lt;plugin_name&gt;/daos.lua</span>
+<span class="kd">local</span> <span class="n">typedefs</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.db.schema.typedefs"</span>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
-<span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
-  <span class="n">table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span> <span class="c1">-- the actual table in the database</span>
+<span class="kd">local</span> <span class="n">credentials</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"id"</span> <span class="p">},</span>
+  <span class="n">name</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span>
+  <span class="n">endpoint_key</span> <span class="o">=</span> <span class="s2">"key"</span><span class="p">,</span>
+  <span class="n">cache_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"key"</span> <span class="p">},</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- a value to be inserted by the DAO itself (think of serial ID and the uniqueness of such required here)</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"timestamp"</span><span class="p">,</span> <span class="n">immutable</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">dao_insert_value</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span> <span class="c1">-- also interted by the DAO itself</span>
-    <span class="n">consumer_id</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"id"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">foreign</span> <span class="o">=</span> <span class="s2">"consumers:id"</span><span class="p">},</span> <span class="c1">-- a foreign key to a Consumer's id</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">}</span> <span class="c1">-- a unique API key</span>
+    <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">typedefs</span><span class="p">.</span><span class="n">uuid</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="n">created_at</span> <span class="o">=</span> <span class="n">typedefs</span><span class="p">.</span><span class="n">auto_timestamp_s</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">"foreign"</span><span class="p">,</span> <span class="n">reference</span> <span class="o">=</span> <span class="s2">"consumers"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">null</span><span class="p">,</span> <span class="n">on_delete</span> <span class="o">=</span> <span class="s2">"cascade"</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="n">auto</span> <span class="o">=</span> <span class="kc">true</span> <span class="p">}</span> <span class="p">},</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="k">return</span> <span class="p">{</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">SCHEMA</span><span class="p">}</span> <span class="c1">-- this plugin only results in one custom DAO, named `keyauth_credentials`</span>
+<span class="k">return</span> <span class="p">{</span> <span class="n">credentials</span> <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>Since your plugin might have to deal with multiple custom DAOs (in the case
-when you want to store several entities), this module is bound to return a
-key/value table where keys are the name on which the custom DAO will be
-available in the DAO Factory.</p>
+<p>This example <code class="highlighter-rouge">daos.lua</code> file introduces a single schema called <code class="highlighter-rouge">keyauth_credentials</code>.</p>
 
-<p>You will have noticed a few new properties in the schema definition (compared
-to your <a href="/1.1.x/plugin-development/plugin-configuration/">schema.lua</a> file):</p>
+<p>Here is a description of some top-level properties:</p>
 
 <table>
-  <thead>
-    <tr>
-      <th>Property name</th>
-      <th>Lua type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="highlighter-rouge">primary_key</code></td>
-      <td>Integer indexed table</td>
-      <td>An array of each part of your column family’s primary key. It also supports <strong>composite keys</strong>, even if all Kong entities currently use a simple <code class="highlighter-rouge">id</code> for usability of the <a href="/1.1.x/admin-api/">Admin API</a>. If your primary key is composite, only include what makes your <strong>partition key</strong>.</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">fields.*.dao_insert_value</code></td>
-      <td>Boolean</td>
-      <td>If true, specifies that this field is to be automatically populated by the DAO (in the base_dao implementation) depending on it’s type. A property of type <code class="highlighter-rouge">id</code> will be a generated uuid, and <code class="highlighter-rouge">timestamp</code> a timestamp with second-precision.</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">fields.*.queryable</code></td>
-      <td>Boolean</td>
-      <td>If true, specifies that Cassandra maintains an index on the specified column. This allows for querying the column family filtered by this column.</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">fields.*.foreign</code></td>
-      <td>String</td>
-      <td>Specifies that this column is a foreign key to another entity’s column. The format is: <code class="highlighter-rouge">dao_name:column_name</code>. This makes it up for Cassandra not supporting foreign keys. When the parent row will be deleted, Kong will also delete rows containing the parent’s column value.</td>
-    </tr>
-  </tbody>
+<tbody>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
+<tr>
+  <td><code>name</code></td>
+  <td>String (mandatory)</td>
+  <td>It will be used to determine the DAO name (<code>kong.db.[name]</code>).</td>
+</tr>
+<tr>
+  <td><code>primary_key</code></td>
+  <td>Array of strings (mandatory)</td>
+  <td>Field names forming the entity's primary key.
+    Schemas support composite keys, even if most Kong core entities currently use an UUID named
+    <code>id</code>. If you are using Cassandra and need a composite key, it should have the same
+    fields as the partition key.
+  </td>
+</tr>
+<tr>
+<td><code>endpoint_key</code></td>
+  <td>String (optional)</td>
+  <td>The name of the field used as an alternative identifier on the Admin API.
+    On the example above, <code>key</code> is the endpoint_key. This means that a credential with
+    <code>id = 123</code> and <code>key = "foo"</code> could be referenced as both
+    <code>/keyauth_credentials/123</code> and <code>/keyauth_credentials/foo</code>.
+  </td>
+</tr>
+<tr>
+  <td><code>cache_key</code></td>
+  <td>Array of strings (optional)</td>
+  <td>Contains the name of the fields used for generating the <code>cache_key</code>, a string which must
+    unequivocally identify the entity inside Kong's cache. A unique field, like <code>key</code> in your example,
+    is usually good candidate. In other cases a combination of several fields is preferable.
+  </td>
+</tr>
+<tr>
+  <td><code>fields</code></td>
+  <td>Array of field definitions</td>
+  <td>Each field definition is a table with a single key, which is the field's name. The table value is
+    a subtable containing the field's <em>attributes</em>, some of which will be explained below.
+  </td>
+</tr>
+</tbody>
 </table>
 
-<p>Your DAO will now be loaded by the DAO Factory and available as one of its
-properties. Since the DAO Factory is exposed by the <a href="/1.1.x/pdk">Plugin Development Kit</a>’s
-<code class="highlighter-rouge">kong</code> global (see <a href="/1.1.x/pdk/#kong-dao">kong.dao</a>, you can
-retrieve it like so:</p>
+<p>Many field attributes encode <em>validation rules</em>. When attempting to insert or update entities using
+the DAO, these validations will be checked, and an error returned if the provided input doesn’t conform
+to them.</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">key_credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">key_credentials</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
-  <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
-  <span class="n">key</span> <span class="o">=</span> <span class="s2">"abcd"</span>
-<span class="p">})</span>
+<p>The <code class="highlighter-rouge">typedefs</code> variable (obtained by requiring <code class="highlighter-rouge">kong.db.schema.typedefs</code>) is a table containing
+a lot of useful type definitions and aliases, including <code class="highlighter-rouge">typedefs.uuid</code>, the most usual type for the primary key,
+and <code class="highlighter-rouge">typedefs.auto_timestamp_s</code>, for <code class="highlighter-rouge">created_at</code> fields. It is used extensively when defining fields.</p>
+
+<p>Here’s a non-exhaustive explanation of some of the field attributes available:</p>
+
+<table>
+<tbody>
+<tr><th>Attribute name</th><th>type</th><th>Description</th></tr>
+<tr>
+  <td><code>type</code></td>
+  <td>String</td>
+  <td>
+  <p>Schemas support the following scalar types: <code>"string"</code>, <code>"integer"</code>, <code>"number"</code> and
+  <code>"boolean"</code>. Compound types like <code>"array"</code>, <code>"record"</code>, or <code>"set"</code> are
+  also supported.</p>
+
+  <p>In additon to these values, the <code>type</code> attribute can also take the special <code>"foreign"</code> value,
+  which denotes a foreign relationship.</p>
+
+  <p>Each field will need to be backed by database fields of appropriately similar types, created via migrations.</p>
+
+  <p><code>type</code> is the only required attribute for all field definitions.</p>
+  </td>
+</tr>
+<tr>
+  <td><code>default</code></td>
+  <td>Any Lua value matching the <code>type</code> attribute</td>
+  <td>Specifies the value the field will have when attempting to insert it, if no value was provided.
+  Devalut values are always set via Lua, never by the underlying database. It is thus not recommended to set
+  any default values on fields in migrations.</td>
+</tr>
+<tr>
+  <td><code>required</code></td>
+  <td>Boolean</td>
+  <td>When set to <code>true</code> on a field, an error will be thrown when attempting to insert an entity lacking a value
+    for said field (unless the field in question has a default value).</td>
+</tr>
+<tr>
+  <td><code>unique</code></td>
+  <td>Boolean</td>
+  <td>
+  <p>When set to <code>true</code> on a field, an error will be thrown when attempting to insert an entity on the database,
+    but another entity already has the given value on said field.</p>
+
+  <p>This attribute <em>must</em> be backed up by declaring fields as <code>UNIQUE</code> in migrations when using
+    PostgreSQL. The Cassandra strategy does a check in Lua before attempting inserts, so it doesn't require any special treatment.
+  </p>
+  </td>
+</tr>
+<tr>
+  <td><code>auto</code></td>
+  <td>Boolean</td>
+  <td>
+  <p>When attempting to insert an entity without providing a value for this a field where <code>auto</code> is set to <code>true</code>, </p>
+  <ul>
+    <li>If <code>type == "uuid"</code>, the field will take a random UUID as value.</li>
+    <li>If <code>type == "string"</code>, the field will take a random string.</li>
+    <li>If the field name is <code>created_at</code> or <code>updated_at</code>, the field will take the current time when
+    inserting / updating, as appropriate.</li>
+  </ul>
+  </td>
+</tr>
+<tr>
+  <td><code>reference</code></td>
+  <td>String</td>
+  <td>Required for fields of type <code>foreign</code>. The given string <em>must</em> be the name of an existing schema,
+    to which the foreign key will "point to". This means that if a schema B has a foreign key pointing to schema A,
+    then A needs to be loaded before B.
+  </td>
+</tr>
+<tr>
+  <td><code>on_delete</code></td>
+  <td>String</td>
+  <td>
+  <p>Optional and exclusive for fields of type <code>foreign</code>. It dictates what must happen
+  with entities linked by a foreign key when the entity being referenced is deleted. It can have three possible
+  values:</p>
+
+  <ul>
+    <li><code>"cascade"</code>: When the linked entity is deleted, all the dependent entities must also be deleted.</li>
+    <li><code>"null"</code>: When the linked entity is deleted, all the dependent entities will have their foreign key
+    field set to <code>null</code>.</li>
+    <li><code>"restrict"</code>: Attempting to delete an entity with linked entities will result in an error.</li>
+  </ul>
+
+  <p>In Cassandra this is handled with pure Lua code, but in PostgreSQL it will be necessary to declare the references
+    as <code>ON DELETE CASCADE/NULL/RESTRICT</code> in a migration.</p>
+  </td>
+</tr>
+</tbody>
+</table>
+
+<p>To learn more about schemas, see:</p>
+
+<ul>
+  <li>The source code of <a href="https://github.com/Kong/kong/blob/1.1.0/kong/db/schema/typedefs.lua">typedefs.lua</a>
+to get an idea of what’s provided there by default.</li>
+  <li><a href="https://github.com/Kong/kong/tree/1.1.0/kong/db/schema/entities">The Core Schemas</a>
+to see examples of some other field attributes not discussed here.</li>
+  <li><a href="https://github.com/search?utf8=%E2%9C%93&amp;q=repo%3Akong%2Fkong+path%3A%2Fkong%2Fplugins+filename%3Adaos.lua">All the <code class="highlighter-rouge">daos.lua</code> files for embedded plugins</a>,
+especially <a href="https://github.com/Kong/kong/blob/1.1.0/kong/plugins/key-auth/daos.lua">the key-auth one</a>,
+which was used for this guide as an example.</li>
+</ul>
+
+<hr />
+
+<h2 id="the-custom-dao">The custom DAO</h2>
+
+<p>The schemas are not used directly to interact with the database. Instead, a DAO
+is built for each valid schema. A DAO takes the name of the schema it wraps, and is
+accessible through the <code class="highlighter-rouge">kong.db</code> interface.</p>
+
+<p>For the example schema above, the DAO generated would be available for plugins
+via <code class="highlighter-rouge">kong.db.keyauth_credentials</code>.</p>
+
+<h3 id="selecting-an-entity">Selecting an entity</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
 </code></pre>
 </div>
 
-<p>The DAO name (<code class="highlighter-rouge">keyauth_credentials</code>) with which it is accessible from the DAO
-Factory depends on the key with which you exported your DAO in the returned
-table of <code class="highlighter-rouge">daos.lua</code>.</p>
+<p>Attempts to find an entity in the database and return it. Three things can happen:</p>
 
-<p>You can see an example of this in the <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/daos.lua">Key-Auth <code class="highlighter-rouge">daos.lua</code> file</a>.</p>
+<ul>
+  <li>The entity was found. In this case, it is returned as a regular Lua table.</li>
+  <li>An error occurred - for example the connection with the database was lost. In that
+case the first returned value will be <code class="highlighter-rouge">nil</code>, the second one will be a string
+describing the error, and the last one will be the same error in table form.</li>
+  <li>An error does not occur but the entity is not found. Then the function will
+just return <code class="highlighter-rouge">nil</code>, with no error.</li>
+</ul>
+
+<p>Example of usage:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="nb">select</span><span class="p">({</span>
+  <span class="n">id</span> <span class="o">=</span> <span class="s2">"c77c50d2-5947-4904-9f37-fa36182a71a9"</span>
+<span class="p">})</span>
+
+<span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when inserting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Could not find credential."</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="iterating-over-all-the-entities">Iterating over all the entities</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="n">on</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="n">each</span><span class="p">(</span><span class="n">entities_per_page</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
+    <span class="o">...</span>
+  <span class="k">end</span>
+  <span class="o">...</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>This method efficiently iterates over all the entities in the database by making paginated
+requests. The <code class="highlighter-rouge">entities_per_page</code> parameter, which defaults to <code class="highlighter-rouge">100</code>, controls how many
+entities per page are returned.</p>
+
+<p>On each iteration, a new <code class="highlighter-rouge">entity</code> will be returned or, if there is any error, the <code class="highlighter-rouge">err</code>
+variable will be filled up with an error. The recommended way to iterate is checking <code class="highlighter-rouge">err</code> first,
+and otherwise assume that <code class="highlighter-rouge">entity</code> is present.</p>
+
+<p>Example of usage:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">credential</span><span class="p">,</span> <span class="n">err</span> <span class="n">on</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">each</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="k">do</span>
+  <span class="k">if</span> <span class="n">err</span> <span class="k">then</span>
+    <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when iterating over keyauth credentials: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+  <span class="k">end</span>
+
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"id: "</span> <span class="o">..</span> <span class="n">credential</span><span class="p">.</span><span class="n">id</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>This example iterates over the credentials in pages of 1000 items, logging their ids unless
+an error happens.</p>
+
+<h3 id="inserting-an-entity">Inserting an entity</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="n">insert</span><span class="p">(</span><span class="o">&lt;</span><span class="n">values</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Inserts an entity in the database, and returns a copy of the inserted entity, or
+<code class="highlighter-rouge">nil</code>, an error message (a string) and a table describing the error in table form.</p>
+
+<p>When the insert is successful, the returned entity contains the extra values produced by
+<code class="highlighter-rouge">default</code> and <code class="highlighter-rouge">auto</code>.</p>
+
+<p>The following example uses the <code class="highlighter-rouge">keyauth_credentials</code> DAO to insert a credential for a given
+Consumer, setting its <code class="highlighter-rouge">key</code> to <code class="highlighter-rouge">"secret"</code>. Notice the syntax for referencing foreign keys.</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
+  <span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"c77c50d2-5947-4904-9f37-fa36182a71a9"</span> <span class="p">},</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="s2">"secret"</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when inserting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>The returned entity, assuming no error happened will have <code class="highlighter-rouge">auto</code>-filled fields, like <code class="highlighter-rouge">id</code> and <code class="highlighter-rouge">created_at</code>.</p>
+
+<h3 id="updating-an-entity">Updating an entity</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="n">update</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">values</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Updates an existing entity, provided it can be found using the provided primary key and a set of values.</p>
+
+<p>The returned entity will be the entity after the update takes place, or <code class="highlighter-rouge">nil</code> + an error message + an error table.</p>
+
+<p>The following example modifies the <code class="highlighter-rouge">key</code> field of an existing credential given the credential’s id:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">update</span><span class="p">({</span>
+  <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="s2">"updated_secret"</span> <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when updating keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Notice how the syntax for specifying a primary key is similar to the one used to specify a foreign key.</p>
+
+<h3 id="upserting-an-entity">Upserting an entity</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="n">upsert</span><span class="p">(</span><span class="n">primary_key</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">values</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">upsert</code> is a mixture of <code class="highlighter-rouge">insert</code> and <code class="highlighter-rouge">update</code>:</p>
+
+<ul>
+  <li>When the provided <code class="highlighter-rouge">primary_key</code> identifies an existing entity, it works like <code class="highlighter-rouge">update</code>.</li>
+  <li>When the provided <code class="highlighter-rouge">primary_key</code> does not identify an existing entity, it works like <code class="highlighter-rouge">insert</code></li>
+</ul>
+
+<p>Given this code:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">upsert</span><span class="p">({</span>
+  <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"a96145fb-d71e-4c88-8a5a-2c8b1947534c"</span> <span class="p">}</span> <span class="p">},</span>
+<span class="p">})</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when upserting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Two things can happen:</p>
+
+<ul>
+  <li>If a credential with id <code class="highlighter-rouge">2b6a2022-770a-49df-874d-11e2bf2634f5</code> exists,
+then this code will attempt to set its Consumer to the provided one.</li>
+  <li>If the credential does not exist, then this code is attempting to create
+a new credential, with the given id and Consumer.</li>
+</ul>
+
+<h3 id="deleting-an-entity">Deleting an entity</h3>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">err_t</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="n">delete</span><span class="p">(</span><span class="n">primary_key</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Attempts to delete the entity identified by <code class="highlighter-rouge">primary_key</code>. It returns <code class="highlighter-rouge">true</code>
+if the entity <em>doesn’t exist</em> after calling this method, or <code class="highlighter-rouge">nil</code> + error +
+error table if an error is detected.</p>
+
+<p>Notice that calling <code class="highlighter-rouge">delete</code> will succeed if the entity didn’t exist <em>before
+calling it</em>. This is for performance reasons - we want to avoid doing a
+read-before-delete if we can avoid it. If you want to do this check, you
+must do it manually, by checking with <code class="highlighter-rouge">select</code> before invoking <code class="highlighter-rouge">delete</code>.</p>
+
+<p>Example:</p>
+
+<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">delete</span><span class="p">({</span>
+  <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="k">then</span>
+  <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when deleting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">nil</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
 <hr />
 
@@ -1607,7 +1921,6 @@ entities</a>.</p>
 <hr />
 
 <p>Next: <a href="/1.1.x/plugin-development/entities-cache/">Caching custom entities ›</a></p>
-
 
 
         </div>
@@ -1802,7 +2115,7 @@ entities</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1555448799"></script>
+    <script src="/assets/app.js?v=1556452821"></script>
 
     <div id="fb-root"></div>
 
