@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1558656102"
+    href="/assets/styles.css?v=1559088671"
   />
   
 </head>
@@ -983,7 +983,7 @@ window['_fs_namespace'] = 'FS';
                   
                   
                   <li>
-                    <a href="/enterprise/0.35-x/kong-manager/administration/rbac/new-role" >How to Create a New Role with Custom Permissions</a>
+                    <a href="/enterprise/0.35-x/kong-manager/administration/rbac/new-role" >How to Create a New Role</a>
                   </li>
                   
                 </ul>
@@ -1071,7 +1071,7 @@ window['_fs_namespace'] = 'FS';
                   
                   
                   <li>
-                    <a href="/enterprise/0.35-x" >Adding Custom Registration Fields</a>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
                 </ul>
@@ -1112,7 +1112,7 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
-                <a href="/enterprise/0.35-x/developer-portal/management/developers" >Managing Developers</a>
+                <a href="/enterprise/0.35-x/developer-portal/administration/managing-developers" >Managing Developers</a>
                 
               </li>
               
@@ -1259,6 +1259,12 @@ window['_fs_namespace'] = 'FS';
                 
               </li>
               
+              
+              <li>
+                <a href="/enterprise/0.35-x/plugins/request-validator" >Request Validator</a>
+                
+              </li>
+              
             </ul>
             
           </li>
@@ -1333,6 +1339,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#step-2">Step 2</a></li>
   <li><a href="#step-3">Step 3</a></li>
   <li><a href="#step-4">Step 4</a></li>
+  <li><a href="#default-ports">Default Ports</a></li>
   <li><a href="#next-steps">Next Steps</a></li>
 </ul>
 
@@ -1399,10 +1406,10 @@ be present in the environment where database migrations will run.</p>
 can be used to log in to Kong Manager. This password may also be 
 used as a <code class="highlighter-rouge">Kong-Admin-Token</code> to make Admin API requests.</p>
 
-<p><strong>Note:</strong> only one <strong>Super Admin</strong> may be created using this method. 
-Future migrations will not override it or create additional <strong>Super Admins</strong>. 
-To do so, it is necessary to 
-<a href="/enterprise/0.35-x/kong-manager/administration/admins/invite/#how-to-invite-a-new-admin-from-the-organization-page">invite new users as <strong>Super Admins</strong> in Kong Manager</a>.</p>
+<p><strong>Note:</strong> only one <strong>Super Admin</strong> may be created using this method, and only
+on a fresh installation with an empty database.  Future migrations will not update the
+password or create additional <strong>Super Admins</strong>.  To add additional <strong>Super
+Admins</strong> it is necessary to <a href="enterprise/0.35-x/kong-manager/administration/admins/invite/#how-to-invite-a-new-admin-from-the-organization-page">invite a new user as a <strong>Super Admin</strong> in Kong Manager</a>.</p>
 
 <h2 id="step-2">Step 2</h2>
 
@@ -1426,10 +1433,29 @@ allowing you to point to <a href="/1.0.x/configuration/#configuration-loading">y
 <h2 id="step-4">Step 4</h2>
 
 <p>To test that Kong Enterprise has successfully started with a <strong>Super Admin</strong>, 
-visit Kong Manager’s URL. By default, it is <code class="highlighter-rouge">http://localhost:8002</code>.</p>
+visit Kong Manager’s URL. By <a href="#default-ports">default</a>, it is on port <code class="highlighter-rouge">:8002</code>.</p>
 
 <p>The username is <code class="highlighter-rouge">kong_admin</code> and the password is the one set in 
 <a href="#step-1">Step 1</a>.</p>
+
+<h3 id="default-ports">Default Ports</h3>
+
+<p>By default, Kong Enterprise listens on the following ports:</p>
+
+<ul>
+  <li><a href="/enterprise/0.35-x/property-reference/#proxy_listen"><code class="highlighter-rouge">:8000</code></a>: incoming HTTP traffic from <strong>Consumers</strong>, and forwarded to upstream 
+<strong>Services</strong>.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#proxy_listen"><code class="highlighter-rouge">:8443</code></a>: incoming HTTPS traffic. This port behaves similarly to the <code class="highlighter-rouge">:8000</code> 
+port, except that it expects HTTPS traffic only.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#portal_gui_listen"><code class="highlighter-rouge">:8003</code></a>: Dev Portal listens for HTTP traffic, assuming Dev Portal is <strong>enabled</strong>.
+-<a href="/enterprise/0.35-x/property-reference/#portal_gui_listen"><code class="highlighter-rouge">:8446</code></a>: Dev Portal listens for HTTPS traffic, assuming Dev Portal is <strong>enabled</strong>.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#portal_api_listen"><code class="highlighter-rouge">:8004</code></a>: Dev Portal <strong><code class="highlighter-rouge">/files</code></strong> traffic over HTTP, assuming the Dev Portal is <strong>enabled</strong>.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#portal_api_listen"><code class="highlighter-rouge">:8447</code></a>: Dev Portal <strong><code class="highlighter-rouge">/files</code></strong> traffic over HTTPS, assuming the Dev Portal is <strong>enabled</strong>.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#admin_api_uri"><code class="highlighter-rouge">:8001</code></a>: Admin API listens for HTTP traffic.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#admin_api_uri"><code class="highlighter-rouge">:8444</code></a>: Admin API listens for HTTPS traffic.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#admin_gui_listen"><code class="highlighter-rouge">:8002</code></a>: Kong Manager listens for HTTP traffic.</li>
+  <li><a href="/enterprise/0.35-x/property-reference/#admin_gui_listen"><code class="highlighter-rouge">:8445</code></a>: Kong Manager listens for HTTPS traffic.</li>
+</ul>
 
 <h3 id="next-steps">Next Steps</h3>
 
@@ -1611,7 +1637,7 @@ possible to create any entity in Kong.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1558656102"></script>
+    <script src="/assets/app.js?v=1559088671"></script>
 
     <div id="fb-root"></div>
 
