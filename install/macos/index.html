@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1559278164"
+    href="/assets/styles.css?v=1559608655"
   />
   
 </head>
@@ -760,23 +760,23 @@ window['_fs_namespace'] = 'FS';
     </div>
   </li>
   <li>
-    <p><strong>Add <code class="highlighter-rouge">kong.conf</code></strong></p>
+    <p><strong>Prepare your database or declarative configuration file</strong></p>
 
-    <p><strong>Note</strong>: This step is <strong>required</strong> if you are using Cassandra; it is <strong>optional</strong> for Postgres users.</p>
+    <p>Kong can run either with or without a database.</p>
 
-    <p>By default, Kong is configured to communicate with a local Postgres instance.
- If you are using Cassandra, or need to modify any settings, download the <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.1.x/configuration#database">adjust</a> it as necessary.
- Then, as root, add it to <code class="highlighter-rouge">/etc</code>:</p>
+    <p>When using a database, you will use the <code class="highlighter-rouge">kong.conf</code> configuration file for setting Kong’s
+ configuration properties at start-up and the database as storage of all configured entities,
+ such as the Routes and Services to which Kong proxies.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo mkdir -p /etc/kong
- <span class="nv">$ </span>sudo cp kong.conf.default /etc/kong/kong.conf
-</code></pre>
-    </div>
-  </li>
-  <li>
-    <p><strong>Prepare your database</strong></p>
+    <p>When not using a database, you will use <code class="highlighter-rouge">kong.conf</code>’s configuration properties and a <code class="highlighter-rouge">kong.yml</code>
+ file for specifying the entities as a declarative configuration.</p>
 
-    <p><a href="/1.1.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports both <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a> and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as its datastore.</p>
+    <p><strong>Using a database</strong></p>
+
+    <p><a href="/1.1.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports
+ <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a> and
+ <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as datastores, and
+ can also run in <a href="/1.1.x/db-less-and-declarative-config/">DB-less mode</a></p>
 
     <p>If you are using Postgres, provision a database and a user before starting Kong:</p>
 
@@ -789,12 +789,38 @@ window['_fs_namespace'] = 'FS';
     <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span>-c /path/to/kong.conf]
 </code></pre>
     </div>
+    <p>By default, Kong is configured to communicate with a local Postgres instance.
+ If you are using Cassandra, or need to modify any settings, download the <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.1.x/configuration#database">adjust</a> it as necessary.
+ Then, as root, add <code class="highlighter-rouge">kong.conf.default</code> to <code class="highlighter-rouge">/etc</code>:</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo mkdir -p /etc/kong
+ <span class="nv">$ </span>sudo cp kong.conf.default /etc/kong/kong.conf
+</code></pre>
+    </div>
 
     <p><strong>Note for Kong &lt; 0.15</strong>: with Kong versions below 0.15 (up to 0.14), use
  the <code class="highlighter-rouge">up</code> sub-command instead of <code class="highlighter-rouge">bootstrap</code>. Also note that with Kong &lt;
  0.15, migrations should never be run concurrently; only one Kong node
  should be performing migrations at a time. This limitation is lifted for
  Kong 0.15, 1.0, and above.</p>
+
+    <p><strong>Without a database</strong></p>
+
+    <p>If you are going to run Kong in <a href="/1.1.x/db-less-and-declarative-config/">DB-less mode</a>,
+ you should start by generating a declarative config file. The following command will generate a <code class="highlighter-rouge">kong.yml</code>
+ file in your current folder. It contains instructions about how to populate it.</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong config init
+</code></pre>
+    </div>
+
+    <p>After populating the <code class="highlighter-rouge">kong.yml</code> file, edit your <code class="highlighter-rouge">kong.conf</code> file. Set the <code class="highlighter-rouge">database</code> option
+ to <code class="highlighter-rouge">off</code> and the <code class="highlighter-rouge">declarative_config</code> option to the path of your <code class="highlighter-rouge">kong.yml</code> file:</p>
+
+    <div class="language-conf highlighter-rouge"><pre class="highlight"><code> <span class="n">database</span> = <span class="n">off</span>
+ <span class="n">declarative_config</span> = /<span class="n">path</span>/<span class="n">to</span>/<span class="n">kong</span>.<span class="n">yml</span>
+</code></pre>
+    </div>
   </li>
   <li>
     <p><strong>Start Kong</strong></p>
@@ -1011,7 +1037,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1559278164"></script>
+    <script src="/assets/app.js?v=1559608655"></script>
 
     <div id="fb-root"></div>
 
