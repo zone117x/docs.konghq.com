@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1559608655"
+    href="/assets/styles.css?v=1560204901"
   />
   
 </head>
@@ -596,7 +596,7 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.35-x"  >
+            <a href="/enterprise/0.35-x/deployment/licensing"  >
               Licensing
             </a>
             
@@ -620,7 +620,7 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.35-x"  >
+            <a href="/enterprise/0.35-x/deployment/installation"  >
               Installation
             </a>
             
@@ -752,9 +752,19 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Admin API</h5>
+        <a href="/enterprise/0.35-x/admin-api">
+          <h5>Admin API</h5>
+        </a>
         
         <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.35-x/admin-api"  >
+              Overview
+            </a>
+            
+          </li>
           
           
           <li>
@@ -839,7 +849,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Kong Manager</h5>
+        <a href="/enterprise/0.35-x/kong-manager/overview">
+          <h5>Kong Manager</h5>
+        </a>
         
         <ul>
           
@@ -1028,7 +1040,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Kong Dev Portal</h5>
+        <a href="/enterprise/0.35-x/developer-portal/introduction">
+          <h5>Kong Dev Portal</h5>
+        </a>
         
         <ul>
           
@@ -1169,7 +1183,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>APIs and Plugins</h5>
+        <a href="/enterprise/0.35-xhttps://konghq.com/hub">
+          <h5>APIs and Plugins</h5>
+        </a>
         
         <ul>
           
@@ -1304,7 +1320,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Guides & References</h5>
+        <a href="/enterprise/0.35-x/property-reference">
+          <h5>Guides & References</h5>
+        </a>
         
         <ul>
           
@@ -1379,7 +1397,16 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="introduction">Introduction</h2>
 
-<p>Kong Enterprise provides a granular logging facility on its Admin API. This allows cluster administrators to keep detailed track of changes made to the cluster configuration throughout its lifetime, aiding in compliance efforts and providing valuable data points during forensic investigations. Generated audit log trails are <a href="/enterprise/0.35-x/admin-api/workspaces">Workspace</a>- and <a href="/enterprise/0.35-x/admin-api/rbac">RBAC</a>-aware, providing Kong operators a deep and wide look into changes happening within the cluster.</p>
+<p>Kong Enterprise provides a granular logging facility on its Admin API. This 
+allows cluster administrators to keep detailed track of changes made to the 
+cluster configuration throughout its lifetime, aiding in compliance efforts and 
+providing valuable data points during forensic investigations. Generated audit 
+log trails are <a href="/enterprise/0.35-x/admin-api/workspaces/reference">Workspace</a></p>
+<ul>
+  <li>and <a href="/enterprise/0.35-x/admin-api/rbac/rbac">RBAC</a>-aware, 
+providing Kong operators a deep and wide look into changes happening within 
+the cluster.</li>
+</ul>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1399,7 +1426,8 @@ audit_log <span class="o">=</span> off <span class="c"># audit logging is disabl
 </code></pre>
 </div>
 
-<p>As with other Kong configurations, changes take effect on kong reload or kong restart.</p>
+<p>As with other Kong configurations, changes take effect on kong reload or kong 
+restart.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1407,7 +1435,11 @@ audit_log <span class="o">=</span> off <span class="c"># audit logging is disabl
 
 <h3 id="generating-and-viewing-audit-logs">Generating and Viewing Audit Logs</h3>
 
-<p>Audit logging provides granular details of each HTTP request that was handled by Kong’s Admin API. Audit log data is written to Kong’s back database. As a result, request audit logs are available via the Admin API (in addition to via direct database query). For example, consider a query to the Admin API to the <code class="highlighter-rouge">/status</code> endpoint:</p>
+<p>Audit logging provides granular details of each HTTP request that was handled by 
+Kong’s Admin API. Audit log data is written to Kong’s back database. As a result, 
+request audit logs are available via the Admin API (in addition to via direct 
+database query). For example, consider a query to the Admin API to the <code class="highlighter-rouge">/status</code> 
+endpoint:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>vagrant@ubuntu-xenial:/kong$ http :8001/status
 HTTP/1.1 200 OK
@@ -1436,7 +1468,9 @@ X-Kong-Admin-Request-ID: ZuUfPfnxNn7D2OTU6Xi4zCnQkavzMUNM
 </code></pre>
 </div>
 
-<p>The above interaction with the Admin API would generate a correlating entry in the audit log table—querying the audit log via the Admin API returns the details of of the interaction above:</p>
+<p>The above interaction with the Admin API would generate a correlating entry in 
+the audit log table—querying the audit log via the Admin API returns the details 
+of of the interaction above:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/requests
 HTTP/1.1 200 OK
@@ -1466,15 +1500,22 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
 </code></pre>
 </div>
 
-<p>Note the value of the <code class="highlighter-rouge">request_id</code> field. This is tied to the <code class="highlighter-rouge">X-Kong-Admin-Request-ID</code> response header received in the first transaction. This allows close association of client requests and audit log records within the Kong cluster.</p>
+<p>Note the value of the <code class="highlighter-rouge">request_id</code> field. This is tied to the 
+<code class="highlighter-rouge">X-Kong-Admin-Request-ID</code> response header received in the first transaction. 
+This allows close association of client requests and audit log records within 
+the Kong cluster.</p>
 
-<p>Because every audit log entry is made available via Kong’s Admin API, it is possible to transport audit log entries into existing logging warehouses, SIEM solutions, or other remote services for duplication and inspection.</p>
+<p>Because every audit log entry is made available via Kong’s Admin API, it is 
+possible to transport audit log entries into existing logging warehouses, SIEM 
+solutions, or other remote services for duplication and inspection.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h3 id="workspaces-and-rbac">Workspaces and RBAC</h3>
 
-<p>Audit log entries are written with an awareness of the requested Workspace, and the RBAC user (if present). When RBAC is enforced, the RBAC user’s UUID will be written to the <code class="highlighter-rouge">rbac_user_id</code> field in the audit log entry:</p>
+<p>Audit log entries are written with an awareness of the requested Workspace, and 
+the RBAC user (if present). When RBAC is enforced, the RBAC user’s UUID will be 
+written to the <code class="highlighter-rouge">rbac_user_id</code> field in the audit log entry:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1501,14 +1542,22 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
 
 <h3 id="limiting-audit-log-generation">Limiting Audit Log Generation</h3>
 
-<p>It may be desirable to ignore audit log generation for certain Admin API requests, such as innocuous requests to the <code class="highlighter-rouge">/status</code> endpoint for healthchecking, or to ignore requests for a given path prefix (e.g., a given Workspace). To this end, the <code class="highlighter-rouge">audit_log_ignore_methods</code> and <code class="highlighter-rouge">audit_log_ignore_paths</code> configuration options are presented:</p>
+<p>It may be desirable to ignore audit log generation for certain Admin API 
+requests, such as innocuous requests to the <code class="highlighter-rouge">/status</code> endpoint for 
+healthchecking, or to ignore requests for a given path prefix (e.g., a given 
+Workspace). To this end, the <code class="highlighter-rouge">audit_log_ignore_methods</code> and 
+<code class="highlighter-rouge">audit_log_ignore_paths</code> configuration options are presented:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_methods <span class="o">=</span> GET,OPTIONS <span class="c"># do not generate an audit log entry for GET or OPTIONS HTTP requests</span>
-audit_log_ignore_paths <span class="o">=</span> /foo,/status <span class="c"># do not generate an audit log entry for requests that match the strings '/foo' or '/status'</span>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_methods <span class="o">=</span> GET,OPTIONS 
+<span class="c"># do not generate an audit log entry for GET or OPTIONS HTTP requests</span>
+audit_log_ignore_paths <span class="o">=</span> /foo,/status 
+<span class="c"># do not generate an audit log entry for requests that match the strings '/foo' or '/status'</span>
 </code></pre>
 </div>
 
-<p>Note that <code class="highlighter-rouge">audit_log_ignore_paths</code> values matched via simple string matching; regular expression or anchored searching for ignored paths is not supported at this time.</p>
+<p>Note that <code class="highlighter-rouge">audit_log_ignore_paths</code> values matched via simple string matching; 
+regular expression or anchored searching for ignored paths is not supported at 
+this time.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1516,7 +1565,10 @@ audit_log_ignore_paths <span class="o">=</span> /foo,/status <span class="c"># d
 
 <h3 id="generating-and-viewing-audit-logs-1">Generating and Viewing Audit Logs</h3>
 
-<p>In addition to Admin API request data, Kong will generate granular audit log entries for all insertions, updates, and deletions to the cluster database. Database updates audit logs are also associated with Admin API request unique IDs. Consider the following request to create a Consumer:</p>
+<p>In addition to Admin API request data, Kong will generate granular audit log 
+entries for all insertions, updates, and deletions to the cluster database. 
+Database updates audit logs are also associated with Admin API request unique 
+IDs. Consider the following request to create a Consumer:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/consumers username=bob
 HTTP/1.1 201 Created
@@ -1538,7 +1590,9 @@ X-Kong-Admin-Request-ID: 59fpTWlpUtHJ0qnAWBzQRHRDv7i5DwK2
 </code></pre>
 </div>
 
-<p>As seen before, a request audit log is generated with details about the request. Note the presence of the <code class="highlighter-rouge">payload</code> field, recorded when the request body is present:</p>
+<p>As seen before, a request audit log is generated with details about the request. 
+Note the presence of the <code class="highlighter-rouge">payload</code> field, recorded when the request body is 
+present:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/requests
 HTTP/1.1 200 OK
@@ -1569,7 +1623,8 @@ X-Kong-Admin-Request-ID: SpPaxLTkDNndzKaYiWuZl3xrxDUIiGRR
 </code></pre>
 </div>
 
-<p>Additionally, additional audit logs are generated to track the creation of the database entity:</p>
+<p>Additionally, additional audit logs are generated to track the creation of the 
+database entity:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/objects
 HTTP/1.1 200 OK
@@ -1598,15 +1653,21 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 </code></pre>
 </div>
 
-<p>Object audit entries contain information about the entity updated, including the entity body itself, its database primary key, and the type of operation performed (<code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, or <code class="highlighter-rouge">delete</code>). Note also the associated <code class="highlighter-rouge">request_id</code> field.</p>
+<p>Object audit entries contain information about the entity updated, including the 
+entity body itself, its database primary key, and the type of operation 
+performed (<code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, or <code class="highlighter-rouge">delete</code>). Note also the associated
+ <code class="highlighter-rouge">request_id</code> field.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h3 id="limiting-audit-log-generation-1">Limiting Audit Log Generation</h3>
 
-<p>As with request audit logs, it may be desirable to skip generation of audit logs for certain database tables. This is configurable via the <code class="highlighter-rouge">audit_log_ignore_tables</code> Kong config option:</p>
+<p>As with request audit logs, it may be desirable to skip generation of audit logs 
+for certain database tables. This is configurable via the 
+<code class="highlighter-rouge">audit_log_ignore_tables</code> Kong config option:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_tables = consumers # do not generate database audit logs for changes to the consumers table
+<div class="highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_tables = consumers 
+# do not generate database audit logs for changes to the consumers table
 </code></pre>
 </div>
 
@@ -1614,7 +1675,11 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <h2 id="digital-signatures">Digital Signatures</h2>
 
-<p>To provide nonrepudiation, audit logs may be signed with a private RSA key. When enabled, a lexically sorted representation of each audit log entry is signed by the defined private key; the signature is stored in an additional field within the record itself. The public key should be stored elsewhere and can be used later to validate the signature of the record.</p>
+<p>To provide nonrepudiation, audit logs may be signed with a private RSA key. When 
+enabled, a lexically sorted representation of each audit log entry is signed by 
+the defined private key; the signature is stored in an additional field within 
+the record itself. The public key should be stored elsewhere and can be used 
+later to validate the signature of the record.</p>
 
 <h3 id="setting-up-log-signing">Setting Up Log Signing</h3>
 
@@ -1650,7 +1715,10 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <h3 id="validating-signatures">Validating Signatures</h3>
 
-<p>Record signatures can be regenerated and verified by <code class="highlighter-rouge">openssl</code> or other cryptographic tools to confirm the validity of the signature. Re-generating the signature requires serializing the record into a string format that can be signed. The following is a canonical implementation written in Lua:</p>
+<p>Record signatures can be regenerated and verified by <code class="highlighter-rouge">openssl</code> or other 
+cryptographic tools to confirm the validity of the signature. Re-generating the 
+signature requires serializing the record into a string format that can be 
+signed. The following is a canonical implementation written in Lua:</p>
 
 <div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">pl_sort</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"pl.tablex"</span><span class="p">.</span><span class="n">sort</span>
 
@@ -1672,7 +1740,10 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 </code></pre>
 </div>
 
-<p>The contents of the record itself can be fed to this implementation (minus the <code class="highlighter-rouge">signature</code> field) in order to derive the value passed to the RSA key signing facility. Note that the <code class="highlighter-rouge">signature</code> field within each record is a Base-64 encoded representation of the RSA signature itself.</p>
+<p>The contents of the record itself can be fed to this implementation (minus the 
+<code class="highlighter-rouge">signature</code> field) in order to derive the value passed to the RSA key signing 
+facility. Note that the <code class="highlighter-rouge">signature</code> field within each record is a Base-64 
+encoded representation of the RSA signature itself.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1922,7 +1993,7 @@ section of Kong Enterprise’s Configuration Property Reference.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1559608655"></script>
+    <script src="/assets/app.js?v=1560204901"></script>
 
     <div id="fb-root"></div>
 

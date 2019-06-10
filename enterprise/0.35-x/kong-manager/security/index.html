@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1559608655"
+    href="/assets/styles.css?v=1560204901"
   />
   
 </head>
@@ -596,7 +596,7 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.35-x"  >
+            <a href="/enterprise/0.35-x/deployment/licensing"  >
               Licensing
             </a>
             
@@ -620,7 +620,7 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.35-x"  >
+            <a href="/enterprise/0.35-x/deployment/installation"  >
               Installation
             </a>
             
@@ -752,9 +752,19 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Admin API</h5>
+        <a href="/enterprise/0.35-x/admin-api">
+          <h5>Admin API</h5>
+        </a>
         
         <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.35-x/admin-api"  >
+              Overview
+            </a>
+            
+          </li>
           
           
           <li>
@@ -839,7 +849,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Kong Manager</h5>
+        <a href="/enterprise/0.35-x/kong-manager/overview">
+          <h5>Kong Manager</h5>
+        </a>
         
         <ul>
           
@@ -1028,7 +1040,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Kong Dev Portal</h5>
+        <a href="/enterprise/0.35-x/developer-portal/introduction">
+          <h5>Kong Dev Portal</h5>
+        </a>
         
         <ul>
           
@@ -1169,7 +1183,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>APIs and Plugins</h5>
+        <a href="/enterprise/0.35-xhttps://konghq.com/hub">
+          <h5>APIs and Plugins</h5>
+        </a>
         
         <ul>
           
@@ -1304,7 +1320,9 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
-        <h5>Guides & References</h5>
+        <a href="/enterprise/0.35-x/property-reference">
+          <h5>Guides & References</h5>
+        </a>
         
         <ul>
           
@@ -1340,13 +1358,22 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="what-can-admins-do-in-kong-manager">What Can Admins Do in Kong Manager?</h2>
 
-<p>Kong Manager enables users with <strong>Admin</strong> accounts to access Kong entities such as <strong>Services</strong>, <strong>Plugins</strong>, and <strong>Consumers.</strong></p>
+<p>Kong Manager enables users with <strong>Admin</strong> accounts to access Kong entities such 
+as <strong>Services</strong>, <strong>Plugins</strong>, and <strong>Consumers.</strong></p>
 
-<p>The following document summarizes Kong Manager’s controls for <em>authentication</em> and <em>authorization</em>.</p>
+<p>The following document summarizes Kong Manager’s controls for <em>authentication</em> 
+and <em>authorization</em>.</p>
 
 <h2 id="authentication-with-plugins">Authentication with Plugins</h2>
 
-<p>Kong Enterprise comes packaged with <strong>Authentication Plugins</strong> that can be used to secure Kong Manager. Unlike enabling a <strong>Plugin</strong> on an entity or cluster, enabling an <strong>Authentication Plugin</strong> for Kong Manager <em>only</em> requires turning on <code class="highlighter-rouge">enforce_rbac</code>, setting <code class="highlighter-rouge">admin_gui_auth</code> to the desired type, and configuring <code class="highlighter-rouge">admin_gui_auth_conf</code> if needed.</p>
+<p>Kong Enterprise comes packaged with <strong>Authentication Plugins</strong> that can be used 
+to secure Kong Manager. Unlike enabling a <strong>Plugin</strong> on an entity or cluster, 
+enabling an <strong>Authentication Plugin</strong> for <em>only</em> Kong Manager requires turning 
+on <code class="highlighter-rouge">enforce_rbac</code>, setting <code class="highlighter-rouge">admin_gui_auth</code> to the desired type, proper 
+configuration of <code class="highlighter-rouge">admin_gui_session_conf</code>, and configuring <code class="highlighter-rouge">admin_gui_auth_conf</code> 
+if needed.</p>
+
+<p>Kong Manager currently supports the following <strong>Authentication Plugins</strong>:</p>
 
 <ul>
   <li><a href="/enterprise/0.35-x/kong-manager/authentication/basic/"><strong>Basic Auth</strong></a></li>
@@ -1354,23 +1381,38 @@ window['_fs_namespace'] = 'FS';
   <li><a href="/enterprise/0.35-x/kong-manager/authentication/ldap/"><strong>LDAP</strong></a></li>
 </ul>
 
-<p>In addition to the <strong>Authentication Plugins</strong> above, the new <a href="/enterprise/0.35-x/kong-manager/authentication/sessions/"><strong>Sessions Plugin</strong></a> is now required when RBAC is enabled. It sends HTTP cookies to authenticate client requests and maintain session information.</p>
+<p>In addition to the <strong>Authentication Plugins</strong> above, the new 
+<a href="/enterprise/0.35-x/kong-manager/authentication/sessions/"><strong>Sessions Plugin</strong></a> 
+is now required when RBAC is enabled. It sends HTTP cookies to authenticate 
+client requests and maintain session information.</p>
 
-<p>⚠️<strong>Important:</strong> the <strong>Sessions Plugin</strong> requries a secret and is configured securely by default.</p>
+<p>⚠️<strong>Important:</strong> the <strong>Sessions Plugin</strong> requries a secret and is configured 
+securely by default.</p>
 <ul>
   <li>Under all circumstances, the <code class="highlighter-rouge">secret</code> must be manually set to a string.</li>
   <li>If using HTTP instead of HTTPS, <code class="highlighter-rouge">cookie_secure</code> must be manually set to <code class="highlighter-rouge">false</code>.</li>
-  <li>If using different domains for the Admin API and Kong Manager, <code class="highlighter-rouge">cookie_samesite</code> must be set to <code class="highlighter-rouge">off</code>. 
-Learn more about these properties in <a href="/enterprise/0.35-x/kong-manager/authentication/sessions/#session-security">Session Security in Kong Manager</a>, and see <a href="/enterprise/0.35-x/kong-manager/authentication/sessions/#example-configurations">example configurations</a>.</li>
+  <li>If using different domains for the Admin API and Kong Manager, 
+<code class="highlighter-rouge">cookie_samesite</code> must be set to <code class="highlighter-rouge">off</code>. 
+Learn more about these properties in 
+<a href="/enterprise/0.35-x/kong-manager/authentication/sessions/#session-security">Session Security in Kong Manager</a>, 
+and see <a href="/enterprise/0.35-x/kong-manager/authentication/sessions/#example-configurations">example configurations</a>.</li>
 </ul>
 
 <h2 id="access-control-with-roles-and-workspaces">Access Control with Roles and Workspaces</h2>
 
-<p>An <strong>Admin</strong> belongs to a <strong>Workspace</strong> and should have at least one <strong>Role</strong> with a set of <strong>Permissions</strong>. If an <strong>Admin</strong> is in a <strong>Workspace</strong> <em>without</em> a <strong>Role</strong>, they will not have the ability to see or interact with anything.</p>
+<p>An <strong>Admin</strong> belongs to a <strong>Workspace</strong> and should have at least one <strong>Role</strong> 
+with a set of <strong>Permissions</strong>. If an <strong>Admin</strong> is in a <strong>Workspace</strong> <em>without</em> 
+a <strong>Role</strong>, they will not have the ability to see or interact with anything.</p>
 
-<p>By creating separate <a href="https://kongdocs-private.netlify.com/enterprise/0.35-x/kong-manager/administration/workspaces/workspaces/"><strong>Workspaces</strong></a>, an organization with multiple teams can segment its Kong cluster so that different teams do not have access to each other’s Kong entities.</p>
+<p>By creating separate 
+<a href="/enterprise/0.35-x/kong-manager/administration/workspaces/workspaces/"><strong>Workspaces</strong></a>,
+ an organization with multiple teams can segment its Kong cluster so that 
+ different teams do not have access to each other’s Kong entities.</p>
 
-<p>Kong Enterprise implements Role-Based Access Control (<a href="/enterprise/0.35-x/kong-manager/administration/rbac/rbac/">RBAC</a>). <strong>Admins</strong> are assigned <strong>Roles</strong> that have clearly defined <strong>Permissions</strong>. A <strong>Super Admin</strong> has the ability to:</p>
+<p>Kong Enterprise implements Role-Based Access Control 
+(<a href="/enterprise/0.35-x/kong-manager/administration/rbac/rbac/">RBAC</a>). 
+<strong>Admins</strong> are assigned <strong>Roles</strong> that have clearly defined <strong>Permissions</strong>. A 
+<strong>Super Admin</strong> has the ability to:</p>
 
 <ul>
   <li>further customize <strong>Permissions</strong></li>
@@ -1379,7 +1421,10 @@ Learn more about these properties in <a href="/enterprise/0.35-x/kong-manager/au
   <li>assign or revoke their <strong>Roles</strong></li>
 </ul>
 
-<p>In Kong Manager, limiting <strong>Permissions</strong> also restricts the visibility of the application interface and navigation.</p>
+<p>In Kong Manager, limiting <strong>Permissions</strong> also restricts the visibility of the 
+application interface and navigation. Learn more about RBAC in Kong Manager in 
+our guide 
+<a href="/enterprise/0.35-x/kong-manager/administration/rbac/rbac">RBAC in Kong Manager</a>.</p>
 
 
         </div>
@@ -1553,7 +1598,7 @@ Learn more about these properties in <a href="/enterprise/0.35-x/kong-manager/au
 </script>
 
 
-    <script src="/assets/app.js?v=1559608655"></script>
+    <script src="/assets/app.js?v=1560204901"></script>
 
     <div id="fb-root"></div>
 
