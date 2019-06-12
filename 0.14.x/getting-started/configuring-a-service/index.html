@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1446,74 +1452,70 @@ Routes, is made via requests on that API.</p>
 <p>Issue the following cURL request to add your first Service (pointing to the <a href="https://mockbin.com/">Mockbin API</a>)
 to Kong:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/services/ <span class="se">\</span>
-  --data <span class="s1">'name=example-service'</span> <span class="se">\</span>
-  --data <span class="s1">'url=http://mockbin.org'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/services/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'name=example-service'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'url=http://mockbin.org'</span>
+</code></pre></div></div>
 
 <p>You should receive a response similar to:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
 <span class="p">{</span><span class="w">
-   </span><span class="nt">"host"</span><span class="p">:</span><span class="s2">"mockbin.org"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="mi">1519130509</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"connect_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"92956672-f5ea-4e9a-b096-667bf55bc40c"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"protocol"</span><span class="p">:</span><span class="s2">"http"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"example-service"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"read_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"port"</span><span class="p">:</span><span class="mi">80</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"path"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="mi">1519130509</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"retries"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"write_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="w">
+   </span><span class="s2">"host"</span><span class="p">:</span><span class="s2">"mockbin.org"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="mi">1519130509</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"connect_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"92956672-f5ea-4e9a-b096-667bf55bc40c"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"protocol"</span><span class="p">:</span><span class="s2">"http"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"example-service"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"read_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"port"</span><span class="p">:</span><span class="mi">80</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"path"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="mi">1519130509</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"retries"</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"write_timeout"</span><span class="p">:</span><span class="mi">60000</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
 <h2 id="2-add-a-route-for-the-service">2. Add a Route for the Service</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/services/example-service/routes <span class="se">\</span>
-  --data <span class="s1">'hosts[]=example.com'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/services/example-service/routes <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'hosts[]=example.com'</span>
+</code></pre></div></div>
 
 <p>The answer should be similar to:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
 <span class="p">{</span><span class="w">
-   </span><span class="nt">"created_at"</span><span class="p">:</span><span class="mi">1519131139</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"strip_path"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"hosts"</span><span class="p">:[</span><span class="w">
+   </span><span class="s2">"created_at"</span><span class="p">:</span><span class="mi">1519131139</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"strip_path"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"hosts"</span><span class="p">:[</span><span class="w">
       </span><span class="s2">"example.com"</span><span class="w">
    </span><span class="p">],</span><span class="w">
-   </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="mi">1519131139</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"paths"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"service"</span><span class="p">:{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"79d7ee6e-9fc7-4b95-aa3b-61d2e17e7516"</span><span class="w">
+   </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"regex_priority"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="mi">1519131139</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"paths"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"service"</span><span class="p">:{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"79d7ee6e-9fc7-4b95-aa3b-61d2e17e7516"</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"methods"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"protocols"</span><span class="p">:[</span><span class="w">
+   </span><span class="s2">"methods"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"protocols"</span><span class="p">:[</span><span class="w">
       </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"https"</span><span class="w">
    </span><span class="p">],</span><span class="w">
-   </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"f9ce2ed7-c06e-4e16-bd5d-3a82daef3f9d"</span><span class="w">
+   </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"f9ce2ed7-c06e-4e16-bd5d-3a82daef3f9d"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Kong is now aware of your Service and ready to proxy requests.</p>
 
@@ -1525,11 +1527,10 @@ to Kong:</p>
 requests to your Service. Note that <a href="/0.14.x/configuration/#nginx-section">by default</a> Kong handles proxy
 requests on port <code class="highlighter-rouge">:8000</code>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: example.com'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/ <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Host: example.com'</span>
+</code></pre></div></div>
 
 <p>A successful response means Kong is now forwarding requests made to
 <code class="highlighter-rouge">http://localhost:8000</code> to the <code class="highlighter-rouge">url</code> we configured in step #1,
@@ -1744,7 +1745,7 @@ the header defined in the above cURL request:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

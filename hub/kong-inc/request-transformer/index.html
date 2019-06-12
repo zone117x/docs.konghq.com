@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -716,6 +716,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -938,21 +947,20 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -966,21 +974,20 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -994,22 +1001,21 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
-    --data <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
-    --data <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
-    --data <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.body=formparam-toremove, formparam-another-one"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.headers=header-old-name:header-new-name, another-old-name:another-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.querystring=qs-old-name:qs-new-name, qs2-old-name:qs2-new-name"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.rename.body=param-old:param-new, param2-old:param2-new"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.querystring=new-param:some_value, another-param:some_value"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.add.body=new-form-param:some_value, another-form-param:some_value"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -1263,12 +1269,11 @@ similarly for Routes.</p>
   <li>Add multiple headers by passing each header:value pair separately:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers[2]=h2:v1"</span>
+</code></pre></div></div>
 
 <table>
   <tr>
@@ -1290,11 +1295,10 @@ similarly for Routes.</p>
   <li>Add multiple headers by passing comma separated header:value pair:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
+</code></pre></div></div>
 
 <table>
   <tr>
@@ -1316,11 +1320,10 @@ similarly for Routes.</p>
   <li>Add multiple headers passing config as JSON body:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
-  --data <span class="s1">'{"name": "request-transformer", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{"name": "request-transformer", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
+</code></pre></div></div>
 
 <table>
   <tr>
@@ -1342,12 +1345,11 @@ similarly for Routes.</p>
   <li>Add a querystring and a header:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v1"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1"</span>
+</code></pre></div></div>
 
 <table>
   <tr>
@@ -1398,11 +1400,10 @@ similarly for Routes.</p>
   <li>Append multiple headers and remove a body parameter:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
-  --data <span class="s1">'{"name": "request-transformer", "config": {"append": {"headers": ["h1:v2", "h2:v1"]}, "remove": {"body": ["p1"]}}}'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{"name": "request-transformer", "config": {"append": {"headers": ["h1:v2", "h2:v1"]}, "remove": {"body": ["p1"]}}}'</span>
+</code></pre></div></div>
 
 <table>
   <tr>
@@ -1622,7 +1623,7 @@ similarly for Routes.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

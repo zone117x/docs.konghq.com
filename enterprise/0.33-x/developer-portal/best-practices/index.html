@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1163,10 +1163,9 @@ window['_fs_namespace'] = 'FS';
 
 <p>If possible, it’s best practice to have this Kong instance be used to only serve the dev portal, and not do any Kong administrative work. To do this, in your kong.conf file, set the following values</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>admin_listen=off
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>admin_listen=off
 portal=on
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We will also want to ensure all other instances of Kong have the portal boolean set to off. This ensures your portal is only being served by a single Kong instance.</p>
 
@@ -1174,19 +1173,17 @@ portal=on
 
 <p>The Developer Portal has two files that contain CSS and are used to control the design. The main CSS file is <code class="highlighter-rouge">unauthenticated/theme-css</code> which contains the bulk of the CSS styles for the default layout. The second file is <code class="highlighter-rouge">unauthenticated/custom-css</code> where owners add and edit their own custom css. Both of these files can be accessed by non authenticated pages. You can access the custom-css file by using the Admin API</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl http://localhost:8001/files/unauthenticated/custom-css
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl http://localhost:8001/files/unauthenticated/custom-css
+</code></pre></div></div>
 
 <p>This will return a JSON object that represents the custom-css file. It contains metadata about the file, and the <code class="highlighter-rouge">contents</code> field contains the actual CSS data. You should save the <code class="highlighter-rouge">contents</code> to a file, and edit it to your liking. Edit the CSS to customize the look of your portal.</p>
 
 <p>When you have customized the CSS, you will then upload it to the Files API. This will make the Dev Portal use the CSS for when it serves content, and show your custom design.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -X PATCH \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X PATCH \
    -- url http://localhost:8001/files/unauthenticated/custom-css \
    -F contents=@custom.css
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In this example the name of the file on disk is <code class="highlighter-rouge">custom.css</code>. You are free to name this whatever you like, so long as you send your changes to the <code class="highlighter-rouge">unauthenticated/custom-css</code> file. This specific place is where the Kong Dev Portal will look for custom CSS.</p>
 
@@ -1198,17 +1195,15 @@ portal=on
 
 <p>Use this command to get the JSON object that represents the <code class="highlighter-rouge">custom-js</code> file</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl http://localhost:8001/files/custom-js
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl http://localhost:8001/files/custom-js
+</code></pre></div></div>
 
 <p>Once you have this, save the value of the <code class="highlighter-rouge">contents</code> field to a file. This is the file we will use to add custom JavaScript. Once the file has been edited it will need to be uploaded to the <code class="highlighter-rouge">custom-js</code> file. Use this command to upload your changes. This command assumes the name of the file is <code class="highlighter-rouge">custom-js</code><br /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -X PATCH \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X PATCH \
    -- url http://localhost:8001/files/custom-js \
    -F contents=@custom-js
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Once uploaded your changes will be served on each page request.</p>
 
@@ -1218,7 +1213,7 @@ portal=on
 
 <p>In a new repository, recreate all of the files in your portal there. The general layout of files (pages, partials and specs). The default structure is:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>├── assets
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── assets
 │   ├── fonts
 │   │   ├── MaterialIcons-Regular.ttf
 │   │   ├── Roboto-Bold.ttf
@@ -1335,8 +1330,7 @@ portal=on
         ├── admin.json
         ├── files.yaml
         └── vitals.yaml
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When the file structure is setup, you can make use of <a href="https://developer.github.com/webhooks/creating/">GitHub Webhooks</a> and every time you merge a change into the Master branch, it triggers a push of files to the portal. This allows your developers to work in an environment they are familiar with, and maintain a history of changes to your portal. It also means you can easily roll back to a previous version.</p>
 
@@ -1524,7 +1518,7 @@ portal=on
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1459,7 +1470,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>To start using a custom NGINX template, first get a copy of our template. This can be found <a href="https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong">https://docs.konghq.com/latest/configuration/#custom-nginx-templates-embedding-kong</a> or copied from below</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1488,32 +1499,29 @@ http {
         }
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In order to control what is placed in the logs, we will be using the NGINX map module in our template. For more detailed information abut using the map directive, please see <a href="http://nginx.org/en/docs/http/ngx_http_map_module.html">this guide</a>. This will create a new variable whose value depends on values of one or more of the source variables specified in the first parameter. The format is:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 map $paramater_to_look_at $variable_name {
     pattern_to_look_for 0;
     second_pattern_to_look_for 0;
 
     default 1;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For this example, we will be mapping a new variable called <code class="highlighter-rouge">keeplog</code> which is dependent on certain values appearing in the <code class="highlighter-rouge">$request_uri</code>. We will be placing our map directive right at the start of the http block, this must be before <code class="highlighter-rouge">include 'nginx-kong.conf';</code>. So, for our example, we will add something along the lines of:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>map $request_uri $keeplog {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>map $request_uri $keeplog {
     ~.+\@.+\..+ 0;
     ~/servicename/v2/verify 0;
     ~/v3/verify 0;
 
     default 1;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You’ll probably notice that each of those lines start with a tilde. This is what tells NGINX to use RegEx when evaluating the line. We have three things to look for in this example:</p>
 <ul>
@@ -1526,15 +1534,14 @@ map $paramater_to_look_at $variable_name {
 
 <p>Now, we need to set the log format for what we will keep in the logs. We will use the <code class="highlighter-rouge">log_format</code> module and assign our new logs a name of show_everything. The contents of the log can be customized for you needs, but for this example, I will simply change everything back to the Kong standards. To see the full list of options you can use, please refer to <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#variables">this guide</a>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>log_format show_everything '$remote_addr - $remote_user [$time_local] '
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_format show_everything '$remote_addr - $remote_user [$time_local] '
     '$request_uri $status $body_bytes_sent '
     '"$http_referer" "$http_user_agent"';
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, our custom NGINX template is all ready to be used. If you have been following along, your file should now be look like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1568,14 +1575,12 @@ http {
 
     include 'nginx-kong.conf';
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The last thing we need to do is tell Kong to use the newly created log, <code class="highlighter-rouge">show_everything</code>. To do this, we will be altering the Kong variable <code class="highlighter-rouge">prpxy_access_log</code>. Either by opening and editing <code class="highlighter-rouge">etc/kong/kong.conf</code> or by using an environmental variable <code class="highlighter-rouge">KONG_PROXY_ACCESS_LOG=</code> you will want to mend the default location to show</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>proxy_access_log=logs/access.log show_everything if=$keeplog
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>proxy_access_log=logs/access.log show_everything if=$keeplog
+</code></pre></div></div>
 
 <p>The final step in the process to make all the changes take effect is to restart kong. you can use the <code class="highlighter-rouge">kong restart</code> command to do so.</p>
 
@@ -1774,7 +1779,7 @@ http {
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

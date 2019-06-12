@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1038,7 +1038,7 @@ window['_fs_namespace'] = 'FS';
 
 <div class="endpoint get">/rbac/resources</div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
  </span><span class="s2">"kong"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"snis"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"acls"</span><span class="p">,</span><span class="w"> 
@@ -1057,8 +1057,7 @@ window['_fs_namespace'] = 'FS';
  </span><span class="s2">"targets"</span><span class="p">,</span><span class="w"> 
  </span><span class="s2">"jwt"</span><span class="w">
 </span><span class="p">]</span><span class="w"> 
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h4 id="user">User</h4>
 
@@ -1096,17 +1095,15 @@ window['_fs_namespace'] = 'FS';
 
 <p>In order to authenticate with Kong’s RBAC implementation, we must first create a user (and their associated token). Note that if the user_token param is not provided, Kong will automatically create the token on your behalf. Each token must be unique:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/ -d name=bob -d user_token=12345
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/ -d name=bob -d user_token=12345
+</code></pre></div></div>
 
 <h2 id="assigning-roles-to-the-user">Assigning Roles to the User</h2>
 
 <p>Once the user has been created, we can assign them to a role. We can use the default roles to quickly enforce a basic security policy for our user.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/bob/roles -d roles=read-only
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X POST http://localhost:8001/rbac/users/bob/roles -d roles=read-only
+</code></pre></div></div>
 
 <p>Our user has now been assigned the read-only role, giving them read access to all Kong RBAC resources.</p>
 
@@ -1114,58 +1111,53 @@ window['_fs_namespace'] = 'FS';
 
 <p>RBAC policies are of little use without enforcement. By default, RBAC policies are not enforced by Kong, meaning that the Admin API access is available without requiring any authorization. This allows new Kong clusters to be bootstrapped with the appropriate RBAC configuration. Once the appropriate RBAC relationships have been defined, enforcing authorization and role access requires only a single configuration change via the Kong config file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>enforce_rbac = on
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>enforce_rbac = on
+</code></pre></div></div>
 
 <p>Once this is done, simply restart Kong</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong restart
+</code></pre></div></div>
 
 <p>RBAC policies will now be enforced by Kong, based on the user token presented to the request. By default, this user token should be presented via the Kong-Admin-Token request header; the name of this header is configurable via the Kong configuration file. In order to test our setup, we can send a request to the Admin API without sending an authentication. Because Kong does not recognize a user associated with the requesting client, it will reject the request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/status
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/status
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:06:00 GMT
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
 
 <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By sending a request with our user’s token, we will be granted read access to the resource in question.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Kong-Admin-Token: 12345"</span> <span class="nt">-i</span> http://localhost:8001/status
 HTTP/1.1 200 OK
 Date: Fri, 04 Aug 2017 22:09:25 GMT
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can also see that attempting to create a new resource with our RBAC user is not permitted, as they are not assigned any roles that have permissions with create access:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alic
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Kong-Admin-Token: 12345"</span> <span class="nt">-i</span> http://localhost:8001/consumers <span class="nt">-d</span> <span class="nv">name</span><span class="o">=</span>alic
 HTTP/1.1 401 Unauthorized
 Date: Fri, 04 Aug 2017 22:15:47 GMT
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.11.0rc2
 
 <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Unauthorized"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="extending-rbac">Extending RBAC</h2>
 
@@ -1173,7 +1165,7 @@ Server: kong/0.11.0rc2
 
 <p>Additionally, third-party plugin developers can register their own Admin API RBAC resources as part of the <a href="/0.13.x/plugin-development/admin-api">Admin API extension</a>. This is done by defining a “resource” value associated with each API endpoint, like so:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"/mock/api/endpoint/"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">resource</span> <span class="o">=</span> <span class="s2">"mock"</span><span class="p">,</span>
 
@@ -1181,12 +1173,11 @@ Server: kong/0.11.0rc2
       <span class="n">crud</span><span class="p">.</span><span class="n">paginated_set</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">mock</span><span class="p">)</span>
     <span class="k">end</span><span class="p">,</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Additionally, a custom migration is needed to register this resource with Kong. This would look something like the following:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
    <span class="n">name</span> <span class="o">=</span> <span class="s2">"2017-07-23-100000_rbac_mock_resources"</span><span class="p">,</span>
    <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dao</span><span class="p">)</span>
      <span class="kd">local</span> <span class="n">rbac</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.core.rbac"</span>
@@ -1197,8 +1188,7 @@ Server: kong/0.11.0rc2
      <span class="k">end</span> 
   <span class="k">end</span><span class="p">,</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="rbac-and-the-gui">RBAC and the GUI</h2>
 
@@ -1380,7 +1370,7 @@ Server: kong/0.11.0rc2
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -735,6 +735,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -961,14 +970,13 @@ In addition to this, its Admin API endpoints offer several POST, PATCH, PUT and 
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=oauth2"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
-    --data <span class="s2">"config.mandatory_scope=true"</span> <span class="se">\</span>
-    --data <span class="s2">"config.enable_authorization_code=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=oauth2"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.mandatory_scope=true"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.enable_authorization_code=true"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -1198,11 +1206,10 @@ blacklist groups of users.</p>
 
 <p>You need to associate a credential to an existing <a href="/latest/admin-api/#consumer-object">Consumer</a> object. To create a Consumer, you can execute the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
-    --data <span class="s2">"username=user123"</span> <span class="se">\</span>
-    --data <span class="s2">"custom_id=SOME_CUSTOM_ID"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/ <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"username=user123"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"custom_id=SOME_CUSTOM_ID"</span>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1232,13 +1239,12 @@ blacklist groups of users.</p>
 
 <p>Then you can finally provision new OAuth 2.0 credentials (also called “OAuth applications”) by making the following HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer_id<span class="o">}</span>/oauth2 <span class="se">\</span>
-    --data <span class="s2">"name=Test%20Application"</span> <span class="se">\</span>
-    --data <span class="s2">"client_id=SOME-CLIENT-ID"</span> <span class="se">\</span>
-    --data <span class="s2">"client_secret=SOME-CLIENT-SECRET"</span> <span class="se">\</span>
-    --data <span class="s2">"redirect_uris[]=http://some-domain/endpoint/"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer_id<span class="o">}</span>/oauth2 <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=Test%20Application"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"client_id=SOME-CLIENT-ID"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"client_secret=SOME-CLIENT-SECRET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"redirect_uris[]=http://some-domain/endpoint/"</span>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">consumer_id</code>: The <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to</p>
 
@@ -1283,14 +1289,13 @@ blacklist groups of users.</p>
   <li>Migrate access tokens using the <code class="highlighter-rouge">/oauth2_tokens</code> endpoints in the Kong’s Admin API. For example:</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/oauth2_tokens <span class="se">\</span>
-    --data <span class="s1">'credential={"id": "KONG-APPLICATION-ID" }'</span> <span class="se">\</span>
-    --data <span class="s2">"token_type=bearer"</span> <span class="se">\</span>
-    --data <span class="s2">"access_token=SOME-TOKEN"</span> <span class="se">\</span>
-    --data <span class="s2">"refresh_token=SOME-TOKEN"</span> <span class="se">\</span>
-    --data <span class="s2">"expires_in=3600"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/oauth2_tokens <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'credential={"id": "KONG-APPLICATION-ID" }'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"token_type=bearer"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"access_token=SOME-TOKEN"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"refresh_token=SOME-TOKEN"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"expires_in=3600"</span>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1406,9 +1411,8 @@ blacklist groups of users.</p>
   <li>
     <p>The client application will send the <code class="highlighter-rouge">client_id</code> in the querystring, from which the web application can retrieve both the OAuth 2.0 application name, and developer name, by making the following request to Kong:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl kong:8001/oauth2?client_id<span class="o">=</span>XXX
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl kong:8001/oauth2?client_id<span class="o">=</span>XXX
+</code></pre></div>    </div>
   </li>
   <li>
     <p>If the end user authorized the application, the form will submit the data to your backend with a <code class="highlighter-rouge">POST</code> request, sending the <code class="highlighter-rouge">client_id</code>, <code class="highlighter-rouge">response_type</code> and <code class="highlighter-rouge">scope</code> parameters that were placed in <code class="highlighter-rouge">&lt;input type="hidden" .. /&gt;</code> fields.</p>
@@ -1416,26 +1420,24 @@ blacklist groups of users.</p>
   <li>
     <p>The backend must add the <code class="highlighter-rouge">provision_key</code> and <code class="highlighter-rouge">authenticated_userid</code> parameters to the <code class="highlighter-rouge">client_id</code>, <code class="highlighter-rouge">response_type</code> and <code class="highlighter-rouge">scope</code> parameters and it will make a <code class="highlighter-rouge">POST</code> request to Kong at your Service address, on the <code class="highlighter-rouge">/oauth2/authorize</code> endpoint. If an <code class="highlighter-rouge">Authorization</code> header has been sent by the client, that must be added too. The equivalent of:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl https://your.service.com/oauth2/authorize <span class="se">\</span>
-     --header <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
-     --data <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"response_type=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"scope=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"authenticated_userid=XXX"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl https://your.service.com/oauth2/authorize <span class="se">\</span>
+     <span class="nt">--header</span> <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"response_type=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"scope=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"authenticated_userid=XXX"</span>
+</code></pre></div>    </div>
 
     <p>The <code class="highlighter-rouge">provision_key</code> is the key the plugin has generated when it has been added to the Service while <code class="highlighter-rouge">authenticated_userid</code> is the ID of the logged-in end user who has granted the permission.</p>
   </li>
   <li>
     <p>Kong will respond with a JSON response:</p>
 
-    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"redirect_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://some/url"</span><span class="w">
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"redirect_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://some/url"</span><span class="w">
  </span><span class="p">}</span><span class="w">
-</span></code></pre>
-    </div>
+</span></code></pre></div>    </div>
 
     <p>With either a <code class="highlighter-rouge">200 OK</code> or <code class="highlighter-rouge">400 Bad Request</code> response code depending if the request was successful or not.</p>
   </li>
@@ -1473,18 +1475,17 @@ blacklist groups of users.</p>
   <li>
     <p>The backend of your web-application will authenticate the <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> sent by the client, and if successful will add the <code class="highlighter-rouge">provision_key</code>, <code class="highlighter-rouge">authenticated_userid</code> and <code class="highlighter-rouge">grant_type</code> parameters to the parameters originally sent by the client, and it will make a <code class="highlighter-rouge">POST</code> request to Kong at, on the <code class="highlighter-rouge">/oauth2/token</code> endpoint of the configured plugin. If an <code class="highlighter-rouge">Authorization</code> header has been sent by the client, that must be added too. The equivalent of:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl https://your.service.com/oauth2/token <span class="se">\</span>
-     --header <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
-     --data <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"grant_type=password"</span> <span class="se">\</span>
-     --data <span class="s2">"scope=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"authenticated_userid=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"username=XXX"</span> <span class="se">\</span>
-     --data <span class="s2">"password=XXX"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl https://your.service.com/oauth2/token <span class="se">\</span>
+     <span class="nt">--header</span> <span class="s2">"Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"grant_type=password"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"scope=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"provision_key=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"authenticated_userid=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"username=XXX"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"password=XXX"</span>
+</code></pre></div>    </div>
 
     <p>The <code class="highlighter-rouge">provision_key</code> is the key the plugin has generated when it has been added to the Service, while <code class="highlighter-rouge">authenticated_userid</code> is the ID of the end user whose <code class="highlighter-rouge">username</code> and <code class="highlighter-rouge">password</code> belong to.</p>
   </li>
@@ -1508,13 +1509,12 @@ blacklist groups of users.</p>
 
 <p>When your access token expires, you can generate a new access token using the refresh token you received in conjunction to your expired access token.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST https://your.service.com/oauth2/token <span class="se">\</span>
-    --data <span class="s2">"grant_type=refresh_token"</span> <span class="se">\</span>
-    --data <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
-    --data <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
-    --data <span class="s2">"refresh_token=XXX"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST https://your.service.com/oauth2/token <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"grant_type=refresh_token"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"client_id=XXX"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"client_secret=XXX"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"refresh_token=XXX"</span>
+</code></pre></div></div>
 
 
 
@@ -1698,7 +1698,7 @@ blacklist groups of users.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1335,13 +1341,12 @@ access. Here is an example, which assumes you have already configured an API nam
     <p>Issue the following cURL request to create <code class="highlighter-rouge">example-api</code> which will use the
  mockbin service to echo the request:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/apis/ <span class="se">\</span>
-   --data <span class="s1">'name=example-api'</span> <span class="se">\</span>
-   --data <span class="s1">'uris=/auth-sample'</span> <span class="se">\</span>
-   --data <span class="s1">'upstream_url=http://mockbin.org/request'</span> 
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/apis/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'name=example-api'</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'uris=/auth-sample'</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'upstream_url=http://mockbin.org/request'</span> 
+</code></pre></div>    </div>
 
     <p>The url <code class="highlighter-rouge">http://localhost:8000/auth-sample</code> will now echo whatever is being requested.</p>
   </li>
@@ -1350,11 +1355,10 @@ access. Here is an example, which assumes you have already configured an API nam
 
     <p>Issue the following cURL request on the API named <code class="highlighter-rouge">example-api</code>:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/apis/example-api/plugins/ <span class="se">\</span>
-   --data <span class="s1">'name=key-auth'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/apis/example-api/plugins/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'name=key-auth'</span>
+</code></pre></div>    </div>
 
     <p>Be sure to note the <code class="highlighter-rouge">id</code> - you’ll need it in step 5.</p>
   </li>
@@ -1364,22 +1368,20 @@ access. Here is an example, which assumes you have already configured an API nam
     <p>Issue the following cURL request to verify that the <a href="/plugins/key-authentication">key-auth</a>
  plugin was properly configured on the API:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-   --url http://localhost:8000/auth-example
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8000/auth-example
+</code></pre></div>    </div>
 
     <p>Since you did not specify the required <code class="highlighter-rouge">apikey</code> header or parameter, and you have not yet
  enabled anonymous access, the response should be <code class="highlighter-rouge">403 Forbidden</code>:</p>
 
-    <div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
+    <div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">403</span> <span class="ne">Forbidden</span>
 <span class="s"> ...</span>
 
  {
    "message": "No API key found in headers or querystring"
  }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <h3 id="create-an-anonymous-consumer">Create an anonymous consumer</h3>
@@ -1388,15 +1390,14 @@ access. Here is an example, which assumes you have already configured an API nam
  named <code class="highlighter-rouge">anonymous_users</code> (that Kong will utilize when proxying anonymous access) by issuing the 
  following request:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/consumers/ <span class="se">\</span>
-   --data <span class="s2">"username=anonymous_users"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"username=anonymous_users"</span>
+</code></pre></div>    </div>
 
     <p>You should see a response similar to the one below:</p>
 
-    <div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+    <div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err"> </span><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="s"> Content-Type: application/json</span>
 <span class="s"> Connection: keep-alive</span>
 
@@ -1405,8 +1406,7 @@ access. Here is an example, which assumes you have already configured an API nam
    "created_at": 1428555626000,
    "id": "bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"
  }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Be sure to note the <code class="highlighter-rouge">id</code> - you’ll need it in the next step.</p>
   </li>
@@ -1416,11 +1416,10 @@ access. Here is an example, which assumes you have already configured an API nam
     <p>You’ll now re-configure the key-auth plugin to permit anonymous access by issuing the following
  request (<strong>replace the sample uuids below by the <code class="highlighter-rouge">id</code> values from step 2 and 4</strong>):</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X PATCH <span class="se">\</span>
-   --url http://localhost:8001/apis/example-api/plugins/4a223b63-c44a-40e5-9102-b23335f594ca <span class="se">\</span>
-   --data <span class="s2">"config.anonymous=bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/apis/example-api/plugins/4a223b63-c44a-40e5-9102-b23335f594ca <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"config.anonymous=bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span>
+</code></pre></div>    </div>
 
     <p>The <code class="highlighter-rouge">config.anonymous=&lt;consumer uuid&gt;</code> parameter instructs the key-auth plugin on this API to permit 
  anonymous access, and to associate such access with the consumer <code class="highlighter-rouge">id</code> we received in the previous step. It is
@@ -1433,29 +1432,27 @@ access. Here is an example, which assumes you have already configured an API nam
 
     <p>Confirm that your API now permits anonymous access by issuing the following request:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-   --url http://localhost:8000/auth-sample
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8000/auth-sample
+</code></pre></div>    </div>
 
     <p>This is the same request you made in step #3, however this time the request should succeed, because you 
  enabled anonymous access in step #5.</p>
 
     <p>The response (which is the request as Mockbin received it) should have these elements:</p>
 
-    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
    </span><span class="err">...</span><span class="w">
-   </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
      </span><span class="err">...</span><span class="w">
-     </span><span class="nt">"x-consumer-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"713c592c-38b8-4f5b-976f-1bd2b8069494"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"x-consumer-username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anonymous_users"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"x-anonymous-consumer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"x-consumer-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"713c592c-38b8-4f5b-976f-1bd2b8069494"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"x-consumer-username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anonymous_users"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"x-anonymous-consumer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
      </span><span class="err">...</span><span class="w">
-   </span><span class="err">}</span><span class="p">,</span><span class="w">
+   </span><span class="p">},</span><span class="w">
    </span><span class="err">...</span><span class="w">
- </span><span class="err">}</span><span class="w">
-</span></code></pre>
-    </div>
+ </span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
 
     <p>It shows the request was successful, but anonymous.</p>
   </li>
@@ -1690,7 +1687,7 @@ tokens etc. will require authentication by the other configured auth plugins.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -800,10 +800,9 @@ in the <a href="https://github.com/Kong/kong-dist-kubernetes/">repo</a>.</p>
 
 <p>Download or clone the following repo:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git clone git@github.com:Kong/kong-dist-kubernetes.git
-<span class="gp">$ </span><span class="nb">cd </span>kong-dist-kubernetes
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git clone git@github.com:Kong/kong-dist-kubernetes.git
+<span class="nv">$ </span><span class="nb">cd </span>kong-dist-kubernetes
+</code></pre></div></div>
 
 <p>Skip to step 3 if you have already provisioned a cluster and registered it
 with Kubernetes.</p>
@@ -827,10 +826,9 @@ GKE cluster. Provide the following information before deploying:</p>
 cluster</li>
 </ol>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>gcloud deployment-manager deployments <span class="se">\</span>
-    create cluster --config cluster.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gcloud deployment-manager deployments <span class="se">\</span>
+    create cluster <span class="nt">--config</span> cluster.yaml
+</code></pre></div></div>
 
 <h3 id="azure-kubernetes-cluster-aks"><a href="https://docs.microsoft.com/en-us/azure/aks/">Azure Kubernetes Cluster (AKS)</a></h3>
 
@@ -840,25 +838,22 @@ cluster</li>
   <li>
     <p><strong>Create a Resource Group</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>az group create --name myAKSCluster --location eastus
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>az group create <span class="nt">--name</span> myAKSCluster <span class="nt">--location</span> eastus
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Install kubectl</strong></p>
 
     <p>If you already have <a href="https://cloud.google.com/container-engine/docs/quickstart#install_the_gcloud_command-line_interface">kubectl</a> installed, you can skip this step.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>az aks install-cli
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>az aks install-cli
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Configure kubectl</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>az aks get-credentials --resource-group myAKSCluster --name myAKSCluster
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>az aks get-credentials <span class="nt">--resource-group</span> myAKSCluster <span class="nt">--name</span> myAKSCluster
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -869,17 +864,15 @@ cluster</li>
 <p>For Cassandra, use the <code class="highlighter-rouge">cassandra.yaml</code> file from this repo to deploy a
 Cassandra <code class="highlighter-rouge">Service</code> and a <code class="highlighter-rouge">StatefulSet</code> in the cluster.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl create -f cassandra.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl create <span class="nt">-f</span> cassandra.yaml
+</code></pre></div></div>
 
 <p>For PostgreSQL, use the <code class="highlighter-rouge">postgres.yaml</code> file from the kong-dist-kubernetes
 repo to deploy a PostgreSQL <code class="highlighter-rouge">Service</code> and a <code class="highlighter-rouge">ReplicationController</code> in the
 cluster:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl create -f postgres.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl create <span class="nt">-f</span> postgres.yaml
+</code></pre></div></div>
 
 <p><strong>Kong Enterprise trial users</strong> should complete the steps in the
 <strong>Additional Steps for Kong Enterprise Trial Users</strong> section below before proceeding.</p>
@@ -889,14 +882,12 @@ cluster:</p>
 <p>Using the <code class="highlighter-rouge">kong_migration_&lt;postgres|cassandra&gt;.yaml</code> file,
 run the migration job:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl create -f kong_migration_&lt;postgres|cassandra&gt;.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl create <span class="nt">-f</span> kong_migration_&lt;postgres|cassandra&gt;.yaml
+</code></pre></div></div>
 <p>Once the job completes, you can remove the pod by running following command:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl delete -f kong_migration_&lt;postgres|cassandra&gt;.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl delete <span class="nt">-f</span> kong_migration_&lt;postgres|cassandra&gt;.yaml
+</code></pre></div></div>
 
 <h2 id="5-deploy-kong">5. <strong>Deploy Kong</strong></h2>
 
@@ -904,27 +895,24 @@ run the migration job:</p>
 repo, deploy Kong admin, proxy services, and a <code class="highlighter-rouge">Deployment</code> controller to
 the cluster:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl create -f kong_&lt;postgres|cassandra&gt;.yaml
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl create <span class="nt">-f</span> kong_&lt;postgres|cassandra&gt;.yaml
+</code></pre></div></div>
 
 <h2 id="6-verify-your-deployments">6. <strong>Verify your deployments</strong></h2>
 
 <p>You can now see the resources that have been deployed using <code class="highlighter-rouge">kubectl</code>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kubectl get all
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl get all
+</code></pre></div></div>
 
 <p>Once the <code class="highlighter-rouge">EXTERNAL_IP</code> is available for Kong Proxy and Admin services, you
 can test Kong by making the following requests:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl &lt;kong-admin-ip-address&gt;:8001
-<span class="gp">$ </span>curl https://&lt;admin-ssl-ip-address&gt;:8444
-<span class="gp">$ </span>curl &lt;kong-proxy-ip-address&gt;:8000
-<span class="gp">$ </span>curl https://&lt;kong-proxy-ssl-ip-address&gt;:8443
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl &lt;kong-admin-ip-address&gt;:8001
+<span class="nv">$ </span>curl https://&lt;admin-ssl-ip-address&gt;:8444
+<span class="nv">$ </span>curl &lt;kong-proxy-ip-address&gt;:8000
+<span class="nv">$ </span>curl https://&lt;kong-proxy-ssl-ip-address&gt;:8443
+</code></pre></div></div>
 
 <h2 id="7-get-started-with-kong">7. <strong>Get Started with Kong</strong></h2>
 
@@ -946,12 +934,11 @@ can test Kong by making the following requests:</p>
     <p>In the steps below, replace <code class="highlighter-rouge">&lt;image ID&gt;</code> with ID associated with your loaded image in <code class="highlighter-rouge">docker images</code> output.
  Replace <code class="highlighter-rouge">&lt;project ID&gt;</code> with your <a href="https://support.google.com/cloud/answer/6158840">Google Cloud Platform project ID</a>.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>docker load -i /tmp/kong-docker-enterprise-edition.tar.gz
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>docker load <span class="nt">-i</span> /tmp/kong-docker-enterprise-edition.tar.gz
  <span class="nv">$ </span>docker images
  <span class="nv">$ </span>docker tag &lt;image ID&gt; gcr.io/&lt;project ID&gt;/kong-ee
- <span class="nv">$ </span>gcloud docker -- push gcr.io/demo-cs-lab/kong-ee:latest
-</code></pre>
-    </div>
+ <span class="nv">$ </span>gcloud docker <span class="nt">--</span> push gcr.io/demo-cs-lab/kong-ee:latest
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Add your Kong Enterprise License File</strong></p>
@@ -959,10 +946,9 @@ can test Kong by making the following requests:</p>
     <p>Edit <code class="highlighter-rouge">kong_trial_postgres.yaml</code> and <code class="highlighter-rouge">kong_trial_migration_postgres.yaml</code> to replace
  <code class="highlighter-rouge">YOUR_LICENSE_HERE</code> with your Kong Enterprise License File string - it should look like:</p>
 
-    <div class="language-yaml highlighter-rouge"><pre class="highlight"><code> <span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">KONG_LICENSE_DATA</span>
- <span class="s">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">{"license":{"signature":"alongstringofcharacters","payload":{"customer":"Test</span><span class="nv"> </span><span class="s">Company","license_creation_date":"2018-03-06","product_subscription":"Kong</span><span class="nv"> </span><span class="s">Only","admin_seats":"5","support_plan":"Premier","license_expiration_date":"2018-06-04","license_key":"anotherstringofcharacters"},"version":1}}'</span>
-</code></pre>
-    </div>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">KONG_LICENSE_DATA</span>
+ <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">{"license":{"signature":"alongstringofcharacters","payload":{"customer":"Test</span><span class="nv"> </span><span class="s">Company","license_creation_date":"2018-03-06","product_subscription":"Kong</span><span class="nv"> </span><span class="s">Only","admin_seats":"5","support_plan":"Premier","license_expiration_date":"2018-06-04","license_key":"anotherstringofcharacters"},"version":1}}'</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Use the Kong Enterprise image</strong></p>
@@ -1175,7 +1161,7 @@ can test Kong by making the following requests:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

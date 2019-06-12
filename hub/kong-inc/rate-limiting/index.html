@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -720,6 +720,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -955,13 +964,12 @@ The plugin will not work with the `cluster` policy, which requires writes to the
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
-    --data <span class="s2">"config.hour=10000"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.second=5"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hour=10000"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -975,13 +983,12 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
-    --data <span class="s2">"config.hour=10000"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=rate-limiting"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.second=5"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hour=10000"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -995,14 +1002,13 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=rate-limiting"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.second=5"</span> <span class="se">\</span>
-    --data <span class="s2">"config.hour=10000"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=rate-limiting"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.second=5"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hour=10000"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -1218,25 +1224,22 @@ plugin.</p>
 
 <p>When this plugin is enabled, Kong will send some additional headers back to the client telling how many requests are available and what are the limits allowed, for example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>X-RateLimit-Limit-Minute: 10
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>or it will return a combination of more time limits, if more than one is being set:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>X-RateLimit-Limit-Second: 5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>X-RateLimit-Limit-Second: 5
 X-RateLimit-Remaining-Second: 4
 X-RateLimit-Limit-Minute: 10
 X-RateLimit-Remaining-Minute: 9
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If any of the limits configured is being reached, the plugin will return a <code class="highlighter-rouge">HTTP/1.1 429</code> status code to the client with the following JSON body:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"API rate limit exceeded"</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s2">"message"</span><span class="p">:</span><span class="s2">"API rate limit exceeded"</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <h2 id="implementation-considerations">Implementation considerations</h2>
 
@@ -1500,7 +1503,7 @@ effectively block any attacks while maintaining the best performance.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

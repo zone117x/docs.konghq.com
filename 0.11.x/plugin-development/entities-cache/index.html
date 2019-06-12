@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1281,9 +1287,8 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="modules">Modules</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
+</code></pre></div></div>
 
 <hr />
 
@@ -1321,10 +1326,9 @@ under heavy load).</p>
 <p>Once you have defined your custom entities, you can cache them in-memory in
 your code by using the <code class="highlighter-rouge">singletons.cache</code> module provided by Kong:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>local singletons = require "kong.singletons"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>local singletons = require "kong.singletons"
 local cache = singletons.cache
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There are 2 levels of cache:</p>
 
@@ -1379,7 +1383,7 @@ then return it.</p>
 <p>Bringing back our authentication plugin example, to lookup a credential with a
 specific api-key, we would write something like:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- access.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- access.lua</span>
 <span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">load_entity_key</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
@@ -1419,8 +1423,7 @@ specific api-key, we would write something like:</p>
 
 <span class="c1">-- set an upstream header if the credential exists and is valid</span>
 <span class="n">ngx</span><span class="p">.</span><span class="n">req</span><span class="p">.</span><span class="n">set_header</span><span class="p">(</span><span class="s2">"X-API-Key"</span><span class="p">,</span> <span class="n">credential</span><span class="p">.</span><span class="n">apikey</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With the above mechanism in place, once a Consumer has made a request with
 their API key, the cache will be considered warm and subsequent requests
@@ -1451,7 +1454,7 @@ some entities with more complex relationships.</p>
 rely on the <code class="highlighter-rouge">cache_key</code> property of your entity’s schema. For example, in the
 following schema:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
   <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"id"</span> <span class="p">},</span>
   <span class="n">table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span>
   <span class="n">cache_key</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"key"</span> <span class="p">},</span> <span class="c1">-- cache key for this entity</span>
@@ -1464,8 +1467,7 @@ following schema:</p>
 <span class="p">}</span>
 
 <span class="k">return</span> <span class="p">{</span> <span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">SCHEMA</span> <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We can see that we declare the cache key of this API key entity to be its
 <code class="highlighter-rouge">key</code> attribute. We use <code class="highlighter-rouge">key</code> here because it has a unique constraints
@@ -1475,9 +1477,8 @@ a unique combination, so that no two entities could yield the same cache key.</p
 <p>Adding this value allows you to use the following function on the DAO of that
 entity:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">cache_key</span> <span class="o">=</span> <span class="n">dao</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cache_key</span> <span class="o">=</span> <span class="n">dao</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>Where the arguments must be the attributes specified in your schema’s
 <code class="highlighter-rouge">cache_key</code> property, in the order they were specified. This function then
@@ -1485,15 +1486,14 @@ computes a string value <code class="highlighter-rouge">cache_key</code> that is
 
 <p>For example, if we were to generate the cache_key of an API key:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="s2">"abcd"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>This would produce a cache_key for the API key <code class="highlighter-rouge">"abcd"</code> (retrieved from one
 of the query’s arguments) that we can the use to retrieve the key from the
 cache (or fetch from the database if the cache is a miss):</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_uri_args</span><span class="p">().</span><span class="n">apikey</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_uri_args</span><span class="p">().</span><span class="n">apikey</span>
 <span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">cache_key</span><span class="p">(</span><span class="n">apikey</span><span class="p">)</span>
 
 <span class="kd">local</span> <span class="n">credential</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cache</span><span class="p">:</span><span class="n">get</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">load_entity_key</span><span class="p">,</span> <span class="n">apikey</span><span class="p">)</span>
@@ -1502,8 +1502,7 @@ cache (or fetch from the database if the cache is a miss):</p>
 <span class="k">end</span>
 
 <span class="c1">-- do something with the credential</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the <code class="highlighter-rouge">cache_key</code> is generated like so and specified in an entity’s schema,
 cache invalidation will be an automatic process: every CRUD operation that
@@ -1543,7 +1542,7 @@ was required in &lt; 0.11.0 for cache invalidations.</p>
 <p>To listen on invalidation channels inside of Kong, implement the following in
 your plugin’s <code class="highlighter-rouge">init_worker</code> handler:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">function</span> <span class="nf">MyCustomHandler</span><span class="p">:</span><span class="n">init_worker</span><span class="p">()</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">MyCustomHandler</span><span class="p">:</span><span class="n">init_worker</span><span class="p">()</span>
   <span class="kd">local</span> <span class="n">worker_events</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span>
 
   <span class="c1">-- listen to all CRUD operations made on Consumers</span>
@@ -1559,21 +1558,19 @@ your plugin’s <code class="highlighter-rouge">init_worker</code> handler:</p>
     <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">schema</span><span class="p">)</span>     <span class="c1">-- entity's schema</span>
   <span class="k">end</span><span class="p">,</span> <span class="s2">"crud"</span><span class="p">,</span> <span class="s2">"consumers:update"</span><span class="p">)</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Once the above listeners are in place for the desired entities, you can perform
 manual invalidations of any entity that your plugin has cached as you wish so.
 For instance:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">singletons</span><span class="p">.</span><span class="n">worker_events</span><span class="p">.</span><span class="n">register</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">data</span><span class="p">.</span><span class="n">operation</span> <span class="o">==</span> <span class="s2">"delete"</span> <span class="k">then</span>
     <span class="kd">local</span> <span class="n">cache_key</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">entity</span><span class="p">.</span><span class="n">id</span>
     <span class="n">singletons</span><span class="p">.</span><span class="n">cache</span><span class="p">:</span><span class="n">invalidate</span><span class="p">(</span><span class="s2">"prefix:"</span> <span class="o">..</span> <span class="n">cache_key</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span><span class="p">,</span> <span class="s2">"crud"</span><span class="p">,</span> <span class="s2">"consumers"</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="extending-the-admin-api">Extending the Admin API</h2>
 
@@ -1782,7 +1779,7 @@ the Admin API</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

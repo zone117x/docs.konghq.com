@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1094,21 +1100,19 @@ window['_fs_namespace'] = 'FS';
 
 <p>As already mentioned in the [file structure] chapter, we make Kong aware that it has to look for your plugin’s modules by adding it to the <code class="highlighter-rouge">custom_plugins</code> property in your configuration file. Example:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">custom_plugins</span><span class="pi">:</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">custom_plugins</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">my-custom-plugin</span> <span class="c1"># your plugin name here</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong will now look for modules named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.my-custom-plugin.api"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.my-custom-plugin.api"
 "kong.plugins.my-custom-plugin.daos"
 "kong.plugins.my-custom-plugin.handler"
 "kong.plugins.my-custom-plugin.schema.migrations"
 "kong.plugins.my-custom-plugin.schema"
 "kong.plugins.my-custom-plugin.hooks"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You need to make these modules available in your LUA_PATH.</p>
 
@@ -1122,32 +1126,31 @@ window['_fs_namespace'] = 'FS';
 
 <p>Here is an example rockspec which would use the “builtin” build type to define modules in Lua notation and their corresponding file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>package = "my-kong-plugin"
-version = "1.0-1"
-source = {
-  url = "..."
-}
-description = {
-  summary = "A Kong plugin.",
-  license = "MIT/X11"
-}
-dependencies = {
-  "lua ~&gt; 5.1"
-  -- If you depend on other rocks, add them here
-}
-build = {
-  type = "builtin",
-  modules = {
-    ["kong.plugins.my-kong-plugin.api"] = "/path/to/api.lua",
-    ["kong.plugins.my-kong-plugin.daos"] = "/path/to/daos.lua",
-    ["kong.plugins.my-kong-plugin.handler"] = "/path/to/handler.lua",
-    ["kong.plugins.my-kong-plugin.schema.migrations"] = "/path/to/schema/migrations.lua",
-    ["kong.plugins.my-kong-plugin.schema"] = "/path/to/schema.lua",
-    ["kong.plugins.my-kong-plugin.hooks"] = "/path/to/hooks.lua"
-  }
-}
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="p">=</span> <span class="s2">"my-kong-plugin"</span>
+<span class="k">version</span> <span class="p">=</span> <span class="s2">"1.0-1"</span>
+<span class="n">source</span> <span class="p">=</span> <span class="p">{</span>
+  <span class="n">url</span> <span class="p">=</span> <span class="s2">"..."</span>
+<span class="p">}</span>
+<span class="n">description</span> <span class="p">=</span> <span class="p">{</span>
+  <span class="n">summary</span> <span class="p">=</span> <span class="s2">"A Kong plugin."</span><span class="p">,</span>
+  <span class="n">license</span> <span class="p">=</span> <span class="s2">"MIT/X11"</span>
+<span class="p">}</span>
+<span class="n">dependencies</span> <span class="p">=</span> <span class="p">{</span>
+  <span class="s2">"lua ~&gt; 5.1"</span>
+  <span class="p">--</span> <span class="k">If</span> <span class="n">you</span> <span class="n">depend</span> <span class="n">on</span> <span class="n">other</span> <span class="n">rocks</span><span class="p">,</span> <span class="n">add</span> <span class="n">them</span> <span class="n">here</span>
+<span class="p">}</span>
+<span class="n">build</span> <span class="p">=</span> <span class="p">{</span>
+  <span class="n">type</span> <span class="p">=</span> <span class="s2">"builtin"</span><span class="p">,</span>
+  <span class="n">modules</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.api"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/api.lua"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.daos"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/daos.lua"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.handler"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/handler.lua"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.schema.migrations"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/schema/migrations.lua"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.schema"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/schema.lua"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"kong.plugins.my-kong-plugin.hooks"</span><span class="p">]</span> <span class="p">=</span> <span class="s2">"/path/to/hooks.lua"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>Learn more about creating your rockspec <a href="https://github.com/keplerproject/luarocks/wiki/Creating-a-rock">here</a>.</p>
 
@@ -1347,7 +1350,7 @@ build = {
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

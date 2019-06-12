@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -688,6 +688,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -801,12 +803,11 @@ Kong-powered architecture. For more details visit https://cleafy.com/resources.<
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.api_address=http://cleafy.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -820,12 +821,11 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.api_address=http://cleafy.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -839,13 +839,12 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=cleafy"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.api_address=http://cleafy.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=cleafy"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -868,12 +867,11 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.api_address=http://cleafy.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=cleafy"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.api_address=http://cleafy.com"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -954,37 +952,32 @@ plugin does not support gzip-encoded requests.</p>
 
 <h4 id="standalone-installation">Standalone Installation</h4>
 <p>Once the .rock file has been obtained from your Cleafy distributor it can be installed using the luarocks package manager.</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>luarocks install cleafy-plugin-for-kong-VERSION.rock
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>luarocks install cleafy-plugin-for-kong-VERSION.rock
+</code></pre></div></div>
 
 <h3 id="typical-configuration-via-curl">Typical configuration (via curl)</h3>
 
 <p>Register Cleafy backend as a Kong service:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=cleafy'</span>  --data <span class="s1">'url=&lt;url-to-cleafy-api&gt;'</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="nt">--url</span> http://url-to-kong-api:8001/services/ <span class="nt">--data</span> <span class="s1">'name=cleafy'</span>  <span class="nt">--data</span> <span class="s1">'url=&lt;url-to-cleafy-api&gt;'</span>
+</code></pre></div></div>
 
 <p>Moreover, each application you want to manage via Kong must be registered as a service:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/services/ --data <span class="s1">'name=app1'</span>  --data <span class="s1">'url=&lt;url-to-app1-application-server&gt;'</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="nt">--url</span> http://url-to-kong-api:8001/services/ <span class="nt">--data</span> <span class="s1">'name=app1'</span>  <span class="nt">--data</span> <span class="s1">'url=&lt;url-to-app1-application-server&gt;'</span>
+</code></pre></div></div>
 
 <p>For each application registered (Cleafy excluded) you must define two Kong routes: the first routing traffic to the application server and the second routing traffic to the Cleafy backend:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/routes/ --data <span class="s1">'hosts[]=&lt;hostname&gt;'</span> --data <span class="s1">'service.id=&lt;cleafy-service-id&gt;'</span> --data <span class="s1">'paths[]=/&lt;ingestion-prefix&gt;'</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="nt">--url</span> http://url-to-kong-api:8001/routes/ <span class="nt">--data</span> <span class="s1">'hosts[]=&lt;hostname&gt;'</span> <span class="nt">--data</span> <span class="s1">'service.id=&lt;cleafy-service-id&gt;'</span> <span class="nt">--data</span> <span class="s1">'paths[]=/&lt;ingestion-prefix&gt;'</span>
 
-<span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/routes/ --data <span class="s1">'hosts[]=&lt;hostname&gt;'</span> --data <span class="s1">'service.id=&lt;app-service-id&gt;'</span>
-</code></pre>
-</div>
+<span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="nt">--url</span> http://url-to-kong-api:8001/routes/ <span class="nt">--data</span> <span class="s1">'hosts[]=&lt;hostname&gt;'</span> <span class="nt">--data</span> <span class="s1">'service.id=&lt;app-service-id&gt;'</span>
+</code></pre></div></div>
 
 <p>Then you must activate the <em>stream</em> plugin over <strong>each</strong> app-related route:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST --url http://url-to-kong-api:8001/plugins/ --data <span class="s1">'name=stream'</span> --data <span class="s1">'route_id=&lt;app-route-id'</span> --data <span class="s1">'config.api_address=&lt;cleafy-api-address&gt;'</span> --data <span class="s1">'config.api_token=&lt;ingestion-token&gt;'</span>
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="nt">--url</span> http://url-to-kong-api:8001/plugins/ <span class="nt">--data</span> <span class="s1">'name=stream'</span> <span class="nt">--data</span> <span class="s1">'route_id=&lt;app-route-id'</span> <span class="nt">--data</span> <span class="s1">'config.api_address=&lt;cleafy-api-address&gt;'</span> <span class="nt">--data</span> <span class="s1">'config.api_token=&lt;ingestion-token&gt;'</span>
+</code></pre></div></div>
 
 
       
@@ -1167,7 +1160,7 @@ plugin does not support gzip-encoded requests.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -725,6 +725,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -883,14 +885,13 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
-    --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
-    --data <span class="s2">"config.echo_downstream=false"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -904,14 +905,13 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
-    --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
-    --data <span class="s2">"config.echo_downstream=false"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -925,15 +925,14 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=correlation-id"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
-    --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
-    --data <span class="s2">"config.echo_downstream=false"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=correlation-id"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -956,14 +955,13 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
-    --data <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
-    --data <span class="s2">"config.echo_downstream=false"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=correlation-id"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_name=Kong-Request-ID"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.generator=uuid#counter"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.echo_downstream=false"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -1061,18 +1059,16 @@ target.</li>
 <h3 id="uuid">uuid</h3>
 
 <p>Format:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+</code></pre></div></div>
 
 <p>Using this format, a UUID is generated in its hexadecimal form for each request.</p>
 
 <h3 id="uuidcounter">uuid#counter</h3>
 
 <p>Format:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx#counter
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx#counter
+</code></pre></div></div>
 
 <p>In this format, a single UUID is generated on a per-worker basis, and further requests simply append a counter to the UUID after a <code class="highlighter-rouge">#</code> character. The <code class="highlighter-rouge">counter</code> value starts at <code class="highlighter-rouge">0</code> for each worker, and gets incremented independently of the others.</p>
 
@@ -1081,9 +1077,8 @@ target.</li>
 <h3 id="tracker">tracker</h3>
 
 <p>Format:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>ip-port-pid-connection-connection_requests-timestamp
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip-port-pid-connection-connection_requests-timestamp
+</code></pre></div></div>
 
 <p>In this format, the correlation id contains more practical implications for each request.</p>
 
@@ -1311,7 +1306,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

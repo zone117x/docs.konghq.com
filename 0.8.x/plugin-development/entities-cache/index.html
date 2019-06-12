@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1100,10 +1106,9 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="modules">Modules</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
 "kong.plugins.&lt;plugin_name&gt;.hooks"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -1128,9 +1133,8 @@ window['_fs_namespace'] = 'FS';
 
 <p>Once you have defined your custom entities, you can cache them in-memory in your code by requiring the <code class="highlighter-rouge">database_cache</code> dependency:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>local cache = require "kong.tools.database_cache"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>local cache = require "kong.tools.database_cache"
+</code></pre></div></div>
 
 <p>This module exposes the following functions:</p>
 
@@ -1167,7 +1171,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>Bringing back our authentication plugin example, to lookup a credential with a specific api-key, we would write something like:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- access.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- access.lua</span>
 
 <span class="kd">local</span> <span class="n">credential</span>
 
@@ -1192,8 +1196,7 @@ window['_fs_namespace'] = 'FS';
 <span class="k">if</span> <span class="ow">not</span> <span class="n">credential</span> <span class="k">then</span> <span class="c1">-- If the credential couldn't be found, show an error message</span>
   <span class="k">return</span> <span class="n">responses</span><span class="p">.</span><span class="n">send_HTTP_FORBIDDEN</span><span class="p">(</span><span class="s2">"Invalid authentication credentials"</span><span class="p">)</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By doing so it doesn’t matter how many requests the client makes with that particular api-key, after the first request every lookup will be done in-memory without querying the datastore.</p>
 
@@ -1236,7 +1239,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>In order to listen to these events, we need to implement the <code class="highlighter-rouge">hooks.lua</code> file and distribute it with our plugin, for example:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- hooks.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- hooks.lua</span>
 
 <span class="kd">local</span> <span class="n">events</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.core.events"</span>
 <span class="kd">local</span> <span class="n">cache</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.tools.database_cache"</span>
@@ -1262,8 +1265,7 @@ window['_fs_namespace'] = 'FS';
   <span class="k">end</span>
 <span class="p">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the example above the plugin is listening to the <code class="highlighter-rouge">ENTITY_UPDATED</code> and <code class="highlighter-rouge">ENTITY_DELETED</code> events and responding by invoking the appropriate function. The <code class="highlighter-rouge">message_t</code> table contains the event properties:</p>
 
@@ -1302,7 +1304,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>For example:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
 
 <span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
   <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
@@ -1317,8 +1319,7 @@ window['_fs_namespace'] = 'FS';
     <span class="k">return</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">consumer_id</span><span class="p">,</span> <span class="n">apikey</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="n">apikey</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the example above the custom entity provides a <code class="highlighter-rouge">marshall_event</code> function that returns an object with its <code class="highlighter-rouge">id</code>, <code class="highlighter-rouge">consumer_id</code> and <code class="highlighter-rouge">apikey</code> fields. In our hooks we don’t need <code class="highlighter-rouge">creation_date</code> to invalidate the entity, so we don’t care to propagate it in the event. The <code class="highlighter-rouge">t</code> table in the arguments is the original object with all its fields.</p>
 
@@ -1530,7 +1531,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

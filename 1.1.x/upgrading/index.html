@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1515,7 +1526,7 @@ routing, you can generate this file using <code class="highlighter-rouge">kong p
 it if you are using a custom template. The changes are detailed in the following diff:</li>
 </ul>
 
-<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
 index d4e416bc..8f268ffd 100644
 </span><span class="gd">--- a/kong/templates/nginx_kong.lua
 </span><span class="gi">+++ b/kong/templates/nginx_kong.lua
@@ -1547,8 +1558,7 @@ index d4e416bc..8f268ffd 100644
 </span>
      ssl_session_cache shared:SSL:10m;
      ssl_session_timeout 10m;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="core">Core</h3>
 
@@ -1761,17 +1771,15 @@ good time to do so.</p>
 
 <p>Then, run migration to upgrade your database schema:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong migrations up <span class="o">[</span>-c configuration_file]
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong migrations up <span class="o">[</span><span class="nt">-c</span> configuration_file]
+</code></pre></div></div>
 
 <p>If the command is successful, and no migration ran
 (no output), then you only have to
 <a href="https://getkong.org/docs/latest/cli/#reload">reload</a> Kong:</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong reload <span class="o">[</span>-c configuration_file]
-</code></pre>
-</div>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong reload <span class="o">[</span><span class="nt">-c</span> configuration_file]
+</code></pre></div></div>
 
 <p><strong>Reminder</strong>: <code class="highlighter-rouge">kong reload</code> leverages the Nginx <code class="highlighter-rouge">reload</code> signal that seamlessly
 starts new workers, which take over from old workers before those old workers
@@ -1784,10 +1792,9 @@ configuration, without dropping existing in-flight connections.</p>
 bootstrap</code> command. The following commands can be run to prepare a new 1.0
 cluster from a fresh datastore:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ kong migrations bootstrap [-c config]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kong migrations bootstrap [-c config]
 $ kong start [-c config]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
 
@@ -1983,7 +1990,7 @@ $ kong start [-c config]
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

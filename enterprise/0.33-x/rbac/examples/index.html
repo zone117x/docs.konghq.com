@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1175,7 +1175,7 @@ quite easy:</p>
 
 <p>Create the RBAC user, named <code class="highlighter-rouge">super-admin</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/rbac/users name=super-admin
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/rbac/users name=super-admin
 {
   "user_token": "M8J5A88xKXa7FNKsMbgLMjkm6zI2anOY",
   "id": "da80838d-49f8-40f6-b673-6fff3e2c305b",
@@ -1183,14 +1183,13 @@ quite easy:</p>
   "created_at": 1531009435000,
   "name": "super-admin"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As the <code class="highlighter-rouge">super-admin</code> user name coincides with an existing <code class="highlighter-rouge">super-admin</code>
 role, it gets automatically added to the <code class="highlighter-rouge">super-admin</code> role - which can be
 confirmed with the following command:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/rbac/users/super-admin/roles
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/rbac/users/super-admin/roles
 {
   "roles": [
     {
@@ -1209,15 +1208,13 @@ confirmed with the following command:</p>
   }
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As the <code class="highlighter-rouge">super-admin</code> user has just been created, the Kong Admin may now
 restart Kong with RBAC enforced, with, e.g.:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>KONG_ENFORCE_RBAC=on kong restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_ENFORCE_RBAC=on kong restart
+</code></pre></div></div>
 
 <p><strong>NOTE</strong>: This is one of the possible ways of enforcing RBAC and restarting
 Kong; another possibility is editing the Kong configuration file and
@@ -1249,37 +1246,34 @@ exploration of RBAC + Workspaces easier:</p>
 
 <p><strong>Team A</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces name=teamA Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/workspaces name=teamA Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "name": "teamA",
   "created_at": 1531014100000,
   "id": "1412f3a6-4d9b-4b9d-964e-60d8d63a9d46"
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Team B</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces name=teamB Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/workspaces name=teamB Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "name": "teamB",
   "created_at": 1531014143000,
   "id": "7dee8c56-c6db-4125-b87a-b508baa33c66"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Team C</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces name=teamC Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/workspaces name=teamC Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "name": "teamC",
   "created_at": 1531014171000,
   "id": "542c8662-17cc-49eb-af50-6eb14f3b2e8a"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>NOTE</strong>: this is the RBAC Super Admin creating workspaces - note his
 token being passed in through the <code class="highlighter-rouge">Kong-Admin-Token</code> HTTP header.</p>
@@ -1288,7 +1282,7 @@ token being passed in through the <code class="highlighter-rouge">Kong-Admin-Tok
 
 <p><strong>Team A</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users name=adminA Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users name=adminA Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "user_token": "qv1VLIpl8kHj7lC1QOKwRdCMXanqEDii",
   "id": "4d315ff9-8c1a-4844-9ea2-21b16204a154",
@@ -1296,12 +1290,11 @@ token being passed in through the <code class="highlighter-rouge">Kong-Admin-Tok
   "created_at": 1531015165000,
   "name": "adminA"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Team B</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/rbac/users name=adminB Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamB/rbac/users name=adminB Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "user_token": "IX5vHVgYqM40tLcctdmzRtHyfxB4ToYv",
   "id": "49641fc0-8c9d-4507-bc7a-2acac8f2903a",
@@ -1309,12 +1302,11 @@ token being passed in through the <code class="highlighter-rouge">Kong-Admin-Tok
   "created_at": 1531015221000,
   "name": "adminB"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Team C</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/rbac/users name=adminC Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamC/rbac/users name=adminC Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "user_token": "w2f7tsuUW4BerXocZIMRQHE84nK2ZAo7",
   "id": "74643f69-8852-49f9-b363-21971bac4f52",
@@ -1322,13 +1314,12 @@ token being passed in through the <code class="highlighter-rouge">Kong-Admin-Tok
   "created_at": 1531015304000,
   "name": "teamC"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With this, all of the teams have one admin and each admin can only be seen
 in his corresponding workspace. To verify:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "total": 1,
   "data": [
@@ -1341,12 +1332,11 @@ in his corresponding workspace. To verify:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Similarly, workspaces teamB and teamC only show their respective admins:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamB/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "total": 1,
   "data": [
@@ -1359,10 +1349,9 @@ in his corresponding workspace. To verify:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamC/rbac/users Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "total": 1,
   "data": [
@@ -1375,8 +1364,7 @@ in his corresponding workspace. To verify:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="super-admin-creates-admin-roles-for-teams">Super Admin Creates Admin Roles for Teams</h2>
 
@@ -1389,18 +1377,17 @@ workspace.</p>
 
 <p>Setting up the Admin role - pay close attention to the request parameters:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/ name=admin Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/ name=admin Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "created_at": 1531016728000,
   "id": "d40e61ab-8dad-4ef2-a48b-d11379f7b8d1",
   "name": "admin"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Creating role endpoint permissions:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/admin/endpoints/ endpoint=* workspace=teamA actions=* Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/admin/endpoints/ endpoint=* workspace=teamA actions=* Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "total": 1,
   "data": [
@@ -1419,13 +1406,12 @@ workspace.</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Next logical step is to add the adminA user - admin of Team A - to the Admin
 role in his workspace:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/adminA/roles/ roles=admin Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/adminA/roles/ roles=admin Kong-Admin-Token:vajeOlkbsn0q0VD9qw9B3nHYOErgY7b8
 {
   "roles": [
     {
@@ -1448,8 +1434,7 @@ role in his workspace:</p>
     "user_token": "n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG"
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note the admin role in the list above.</p>
 
@@ -1457,16 +1442,15 @@ role in his workspace:</p>
 validate that, let’s try to list RBAC users in Team B using Team A’s admin
 user token - and see that we are not allowed to do so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/rbac/users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamB/rbac/users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "message": "Invalid RBAC credentials"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Said admin is, however, allowed to list RBAC users in Team A’s workspace:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "total": 1,
   "data": [
@@ -1479,8 +1463,7 @@ user token - and see that we are not allowed to do so:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the same procedure is repeated for Team B and Team C, they will end up with
 a similar set up, with an admin role and an admin user, both restricted to the
@@ -1503,20 +1486,19 @@ and, if they do, the Admin can grant them.</p>
 
 <p><strong>Creating the regular users role</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/ name=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/ name=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531020346000,
   "id": "9846b92c-6820-4741-ac31-425b3d6abc5b",
   "name": "users"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Creating permissions in the regular users role</strong>:</p>
 
 <p>First, permission to all of Admin API - positive permission on *:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "endpoint": "*",
   "created_at": 1531020573000,
@@ -1530,12 +1512,11 @@ and, if they do, the Admin can grant them.</p>
   "negative": false,
   "workspace": "teamA"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then, filter out RBAC and workspaces with negative permissions:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=/rbac/* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=/rbac/* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "endpoint": "/rbac/*",
   "created_at": 1531020744000,
@@ -1549,10 +1530,9 @@ and, if they do, the Admin can grant them.</p>
   "negative": true,
   "workspace": "teamA"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=/workspaces/* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/users/endpoints/ endpoint=/workspaces/* workspace=teamA actions=* Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "endpoint": "/workspaces/*",
   "created_at": 1531020778000,
@@ -1566,8 +1546,7 @@ and, if they do, the Admin can grant them.</p>
   "negative": true,
   "workspace": "teamA"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>IMPORTANT</strong>: as explained in the [Wildcards in Permissions][rbac-wildcards]
 section, the meaning of <code class="highlighter-rouge">*</code> is not the expected generic globbing one might
@@ -1589,7 +1568,7 @@ access to Kong!</p>
 
 <p>Create foogineer:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users name=foogineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users name=foogineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531019797000,
   "id": "0b4111da-2827-4767-8651-a327f7a559e9",
@@ -1597,12 +1576,11 @@ access to Kong!</p>
   "enabled": true,
   "user_token": "dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Add foogineer to the <code class="highlighter-rouge">users</code> role:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/foogineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/foogineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "roles": [
     {
@@ -1625,12 +1603,11 @@ access to Kong!</p>
     "user_token": "dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI"
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create bargineer:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users name=bargineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users name=bargineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531019837000,
   "id": "25dfa68e-32e8-48d8-815f-6fedfd2fb4a6",
@@ -1638,12 +1615,11 @@ access to Kong!</p>
   "enabled": true,
   "user_token": "eZj3WUc46wO3zEJbLP3Y4VGvNaUgGlyv"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Add bargineer to the <code class="highlighter-rouge">users</code> role:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/bargineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/bargineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "roles": [
     {
@@ -1666,12 +1642,11 @@ access to Kong!</p>
     "user_token": "eZj3WUc46wO3zEJbLP3Y4VGvNaUgGlyv"
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create bazgineer:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users name=bazgineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users name=bazgineer Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531019937000,
   "id": "ea7207d7-0d69-427b-b288-ce696b7f4690",
@@ -1679,12 +1654,11 @@ access to Kong!</p>
   "enabled": true,
   "user_token": "r8NhaT213Zm8o1woQF4ZyQyCVjFRgGp3"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Add bazgineer to the <code class="highlighter-rouge">users</code> role:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/bazgineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/bazgineer/roles roles=users Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "roles": [
     {
@@ -1707,8 +1681,7 @@ access to Kong!</p>
     "user_token": "r8NhaT213Zm8o1woQF4ZyQyCVjFRgGp3"
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="regular-team-users-use-their-tokens">Regular Team Users use their tokens!</h2>
 
@@ -1719,16 +1692,15 @@ they wish, except over RBAC and Workspaces.</p>
 
 <p>Try listing Workspaces:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/workspaces/ Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/workspaces/ Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
 {
   "message": "foogineer, you do not have permissions to read this resource"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Enable some plugin - e.g., key-auth:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/plugins name=key-auth Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/plugins name=key-auth Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
 {
   "created_at": 1531021732000,
   "config": {
@@ -1744,12 +1716,11 @@ they wish, except over RBAC and Workspaces.</p>
   "enabled": true,
   "name": "key-auth"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>List currently enabled plugins:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/plugins Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/plugins Kong-Admin-Token:dNeYvYAwvjOJdoReVJZXF8vLBXQioKkI
 {
   "total": 1,
   "data": [
@@ -1770,8 +1741,7 @@ they wish, except over RBAC and Workspaces.</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This ends our use case tutorial; it demonstrates the power of RBAC and
 workspaces with a real-world scenario. Following, we will approach <strong>Entity-Level
@@ -1810,20 +1780,19 @@ use Entity-Level RBAC.</p>
 
 <p><strong>Admin A creates a role for the temporary user qux</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles name=qux-role Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles name=qux-role Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "name": "qux-role",
   "created_at": 1531065975000,
   "id": "ffe93269-7993-4308-965e-0286d0bc87b9"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We will assume the following entities exist:</p>
 
 <p>A service:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/services Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/services Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "next": null,
   "data": [
@@ -1843,12 +1812,11 @@ use Entity-Level RBAC.</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and a Route to that Service:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/routes Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "next": null,
   "data": [
@@ -1874,14 +1842,13 @@ use Entity-Level RBAC.</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Admin A creates entity permissions in qux-role</strong>:</p>
 
 <p>Add service1 - whose ID is 3ed24101-19a7-4a0b-a10f-2f47bcd4ff43:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/qux-role/entities entity_id=3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 actions=read Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/qux-role/entities entity_id=3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 actions=read Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531066684000,
   "role_id": "ffe93269-7993-4308-965e-0286d0bc87b9",
@@ -1892,12 +1859,11 @@ use Entity-Level RBAC.</p>
     "read"
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Add the route - whose ID is d25afc46-dc59-48b2-b04f-d3ebe19f6d4b:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/roles/qux-role/entities entity_id=d25afc46-dc59-48b2-b04f-d3ebe19f6d4b actions=read Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/roles/qux-role/entities entity_id=d25afc46-dc59-48b2-b04f-d3ebe19f6d4b actions=read Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "created_at": 1531066728000,
   "role_id": "ffe93269-7993-4308-965e-0286d0bc87b9",
@@ -1908,12 +1874,11 @@ use Entity-Level RBAC.</p>
     "read"
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Admin A adds qux to his role</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/qux/roles roles=qux-role Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/qux/roles roles=qux-role Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "roles": [
     {
@@ -1936,12 +1901,11 @@ use Entity-Level RBAC.</p>
     "user_token": "sUnv6uBehM91amYRNWESsgX3HzqoBnR5"
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Checking permissions appear listed:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/qux/permissions Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/qux/permissions Kong-Admin-Token:n5bhjgv0speXp4N7rSUzUj8PGnl3F5eG
 {
   "entities": {
     "d25afc46-dc59-48b2-b04f-d3ebe19f6d4b": {
@@ -1959,8 +1923,7 @@ use Entity-Level RBAC.</p>
   },
   "endpoints": {}
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That is, 2 entities permissions and no endpoint permissions.</p>
 
@@ -1974,25 +1937,23 @@ endpoint-level validation comes before entity-level.</p>
 
 <p><strong>qux tries listing all RBAC users</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/users/ Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/users/ Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "message": "qux, you do not have permissions to read this resource"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>qux tries listing all Workspaces</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/rbac/workspaces/ Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/rbac/workspaces/ Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "message": "qux, you do not have permissions to read this resource"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>qux tries to access service1</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/services/service1 Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/services/service1 Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "host": "httpbin.org",
   "created_at": 1531066074,
@@ -2007,12 +1968,11 @@ endpoint-level validation comes before entity-level.</p>
   "retries": 5,
   "write_timeout": 60000
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Similarly, he can access his Route:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes/3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/routes/3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "created_at": 1531066253,
   "strip_path": false,
@@ -2033,8 +1993,7 @@ endpoint-level validation comes before entity-level.</p>
   ],
   "id": "d25afc46-dc59-48b2-b04f-d3ebe19f6d4b"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="closing-remarks">Closing Remarks</h2>
 
@@ -2084,7 +2043,7 @@ particular collection will only list entities that the user has access to;
 in the example above, if user qux listed all Routes, he would only get as
 response the entities he has access to - even though there could be more:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/routes Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "next": null,
   "data": [
@@ -2110,8 +2069,7 @@ response the entities he has access to - even though there could be more:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Some Kong endpoints carry a <code class="highlighter-rouge">total</code> field in responses; with Entity-Level RBAC
 enabled, the global count of entities is displayed, but only entities the user
@@ -2119,7 +2077,7 @@ has access to are themselves shown; for example, if Team A has a number of
 plugins configured, but qux only has access to one of them, the following
 would be the expected output for a GET request to <code class="highlighter-rouge">/teamA/plugins</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/plugins Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/plugins Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "total": 2,
   "data": [
@@ -2140,8 +2098,7 @@ would be the expected output for a GET request to <code class="highlighter-rouge
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Notice the <code class="highlighter-rouge">total</code> field is 2, but qux only got one entity in the response.</p>
 
@@ -2152,7 +2109,7 @@ it does not apply to creation of new entities; for that, endpoint-level
 permissions must be configured and enforced. For example, if endpoint-level
 permissions are not enforced, qux will be able to create new entities:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes paths[]=/anything service.id=3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 strip_path=false Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/routes paths[]=/anything service.id=3ed24101-19a7-4a0b-a10f-2f47bcd4ff43 strip_path=false Kong-Admin-Token:sUnv6uBehM91amYRNWESsgX3HzqoBnR5
 {
   "created_at": 1531070828,
   "strip_path": false,
@@ -2173,8 +2130,7 @@ permissions are not enforced, qux will be able to create new entities:</p>
   ],
   "id": "6ee76f74-3c96-46a9-ae48-72df0717d244"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and qux will automatically have permissions to perform any actions to entities
 he created.</p>
@@ -2354,7 +2310,7 @@ he created.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

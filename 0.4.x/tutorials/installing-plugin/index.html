@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -985,16 +991,14 @@ window['_fs_namespace'] = 'FS';
 
 <p>We need to make sure that the plugin name is in the <code class="highlighter-rouge">plugins_available</code> property of your node’s configuration:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">plugins_available</span><span class="pi">:</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins_available</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">keyauth</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will make Kong load the plugin. When changing the configuration file, we need to restart Kong:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong restart
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong restart
+</code></pre></div></div>
 
 <p>Repeat this step for every node in your cluster.</p>
 
@@ -1002,9 +1006,8 @@ window['_fs_namespace'] = 'FS';
 
 <p>To enable the plugin on the API, we need to retrieve the API <code class="highlighter-rouge">id</code> that has been created when we added the API on Kong. We can list all of the APIs configured on Kong by executing:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://127.0.0.1:8001/apis/
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://127.0.0.1:8001/apis/
+</code></pre></div></div>
 
 <p>Once we have got the <code class="highlighter-rouge">id</code> of the API, we can configure the key authentication plugin by performing a <code class="highlighter-rouge">POST</code> request with the following parameters:</p>
 
@@ -1016,9 +1019,9 @@ window['_fs_namespace'] = 'FS';
 
 <p>We would like every API consumer to send their credential in an <code class="highlighter-rouge">apikey</code> field, so we would configure the Plugin like this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/plugins_configurations/ <span class="se">\</span>
-  --data <span class="s1">'name=keyauth&amp;api_id=&lt;api_id&gt;&amp;value.key_names=apikey'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://127.0.0.1:8001/plugins_configurations/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'name=keyauth&amp;api_id=&lt;api_id&gt;&amp;value.key_names=apikey'</span>
 
 HTTP/1.1 201 Created
 ...
@@ -1032,52 +1035,48 @@ HTTP/1.1 201 Created
   <span class="s2">"enabled"</span>: <span class="nb">true</span>,
   <span class="s2">"name"</span>: <span class="s2">"keyauth"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here we go, the Plugin has been successfully configured and enabled.</p>
 
 <p>If we now try to make an HTTP request to the same API, Kong will tell us that we are not authenticated to make the request.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://127.0.0.1:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: api.mockbin.com'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://127.0.0.1:8000/ <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Host: api.mockbin.com'</span>
 
   HTTP/1.1 403 Forbidden
   ...
   <span class="o">{</span>
     <span class="s2">"message"</span>: <span class="s2">"Your authentication credentials are invalid"</span> 
   <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That happened because the request we made didn’t provide a key named <code class="highlighter-rouge">apikey</code> (as specified by our plugin configuration) and it has been blocked by Kong. The request never reached the final API.</p>
 
 <p>To authenticate against the API, we need to pass a credential along with the request. As documented in the <a href="/plugins/key-authentication/">Plugin’s Usage</a>, we need to create a <a href="/latest/api/#consumer-object">Consumer</a> and a credential key:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/consumers/ <span class="se">\</span>
-  --data <span class="s1">'username=tutorial_user'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://127.0.0.1:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'username=tutorial_user'</span>
 
 HTTP/1.1 201 Created
 
 <span class="c"># Make sure the given consumer_id matches the freshly created account:</span>
-<span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://127.0.0.1:8001/keyauth_credentials/
-  --data <span class="s1">'key=123456&amp;consumer_id=&lt;consumer_id&gt;'</span>
+<span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://127.0.0.1:8001/keyauth_credentials/
+  <span class="nt">--data</span> <span class="s1">'key=123456&amp;consumer_id=&lt;consumer_id&gt;'</span>
 HTTP/1.1 201 Created
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That consumer with an associated <code class="highlighter-rouge">123456</code> key credential can now consume the API. We can retry to make the request passing the proper value into an <code class="highlighter-rouge">apikey</code> parameter:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://127.0.0.1:8000/?apikey<span class="o">=</span>123456 <span class="se">\</span>
-  --header <span class="s1">'Host: api.mockbin.com'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://127.0.0.1:8000/?apikey<span class="o">=</span>123456 <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Host: api.mockbin.com'</span>
 
 HTTP/1.1 200 OK
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Success! The request was proxied successfully to the final API.</p>
 
@@ -1276,7 +1275,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1470,25 +1476,22 @@ window['_fs_namespace'] = 'FS';
 <code class="highlighter-rouge">/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
 packages. To start configuring Kong, you can copy this file:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cp</span> /etc/kong/kong.conf.default /etc/kong/kong.conf
+</code></pre></div></div>
 
 <p>Kong will operate with default settings should all the values in your
 configuration be commented-out. Upon starting, Kong looks for several
 default locations that might contain a configuration file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/etc/kong/kong.conf
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/kong/kong.conf
 /etc/kong.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can override this behavior by specifying a custom path for your
 configuration file using the <code class="highlighter-rouge">-c / --conf</code> argument in the CLI:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start --conf /path/to/kong.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">--conf</span> /path/to/kong.conf
+</code></pre></div></div>
 
 <p>The configuration format is straightforward: simply uncomment any property
 (comments are defined by the <code class="highlighter-rouge">#</code> character) and modify it to your needs.
@@ -1500,10 +1503,9 @@ Booleans values can be specified as <code class="highlighter-rouge">on/off</code
 
 <p>You can verify the integrity of your settings with the <code class="highlighter-rouge">check</code> command:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong check &lt;path/to/kong.conf&gt;
 configuration at &lt;path/to/kong.conf&gt; is valid
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This command will take into account the environment variables you have
 currently set, and will error out in case your settings are invalid.</p>
@@ -1511,15 +1513,14 @@ currently set, and will error out in case your settings are invalid.</p>
 <p>Additionally, you can also use the CLI in debug mode to have more insight
 as to what properties Kong is being started with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> &lt;kong.conf&gt; <span class="nt">--vv</span>
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
 <span class="o">[</span>...]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1535,15 +1536,13 @@ same name as a setting will override it.</p>
 
 <p>Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>log_level = debug # in kong.conf
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_level = debug # in kong.conf
+</code></pre></div></div>
 
 <p>Can be overridden with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1568,17 +1567,16 @@ minimalistic and includes the latter, which contains everything Kong requires
 to run. When <code class="highlighter-rouge">kong start</code> runs, right before starting Nginx, it copies these
 two files into the prefix directory, which looks like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/kong
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/kong
 ├── nginx-kong.conf
 ├── nginx.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you wish to include other <code class="highlighter-rouge">server</code> blocks in your Nginx configuration, or if
 you must tweak global settings that are not exposed by the Kong configuration,
 here is a suggestion:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1607,20 +1605,18 @@ http {
         }
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can then start Kong with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> kong.conf <span class="nt">--nginx-conf</span> custom_nginx.template
+</code></pre></div></div>
 
 <p>If you wish to customize the Kong Nginx sub-configuration file to, eventually,
 add other Lua handlers or customize the <code class="highlighter-rouge">lua_*</code> directives, you can inline the
 <code class="highlighter-rouge">nginx_kong.lua</code> configuration in this <code class="highlighter-rouge">custom_nginx.template</code> example file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1640,8 +1636,7 @@ http {
 
   ... # etc
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1653,19 +1648,17 @@ by including the Kong Nginx sub-configuration using the <code class="highlighter
 top-level NGINX configuration that simply includes the Kong-specific
 configuration:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># my_nginx.conf
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># my_nginx.conf
 
 http {
     include 'nginx-kong.conf';
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>you can start your instance like so:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>nginx -p /usr/local/openresty -c my_nginx.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nginx <span class="nt">-p</span> /usr/local/openresty <span class="nt">-c</span> my_nginx.conf
+</code></pre></div></div>
 
 <p>And Kong will be running in that instance (as configured in <code class="highlighter-rouge">nginx-kong.conf</code>).</p>
 
@@ -1684,7 +1677,7 @@ Nginx configuration template which inlines <code class="highlighter-rouge">nginx
 <code class="highlighter-rouge">location</code> block serving the website alongside the Kong Proxy <code class="highlighter-rouge">location</code>
 block:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1730,8 +1723,7 @@ http {
 
   # Kong's Admin server block goes below
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2698,7 +2690,7 @@ every remote server.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

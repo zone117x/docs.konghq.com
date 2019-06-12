@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -722,6 +722,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -949,12 +958,11 @@ and hence is an anti-pattern for Kong installations.</p>
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=file-log"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.path=/tmp/file.log"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=file-log"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=/tmp/file.log"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -968,12 +976,11 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=file-log"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.path=/tmp/file.log"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=file-log"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=/tmp/file.log"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -987,13 +994,12 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=file-log"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.path=/tmp/file.log"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=file-log"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=/tmp/file.log"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -1073,110 +1079,109 @@ plugin.</p>
 
 <p>Every request will be logged separately in a JSON object separated by a new line <code class="highlighter-rouge">\n</code>, with the following format:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/get"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org:8000/get"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"querystring"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"user-agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"curl/7.37.1"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/get"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org:8000/get"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"querystring"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+        </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"user-agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"curl/7.37.1"</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"tls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TLSv1.2"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"cipher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ECDHE-RSA-AES256-GCM-SHA384"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"supported_client_ciphers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ECDHE-RSA-AES256-GCM-SHA384"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"client_verify"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="w">
+        </span><span class="s2">"tls"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TLSv1.2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"cipher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ECDHE-RSA-AES256-GCM-SHA384"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"supported_client_ciphers"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ECDHE-RSA-AES256-GCM-SHA384"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"client_verify"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NONE"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"upstream_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"434"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"Content-Length"</span><span class="p">:</span><span class="w"> </span><span class="s2">"197"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"via"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong/0.3.0"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"access-control-allow-credentials"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"Content-Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/json"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nginx"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"access-control-allow-origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+    </span><span class="s2">"upstream_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"434"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"Content-Length"</span><span class="p">:</span><span class="w"> </span><span class="s2">"197"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"via"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong/0.3.0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"access-control-allow-credentials"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"Content-Type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/json"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nginx"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"access-control-allow-origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"tries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"tries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">502</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="w">
+            </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">502</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="w">
+            </span><span class="s2">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"authenticated_entity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80f74eef-31b8-45d5-c525-ae532297ea8e"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eaa330c0-4cff-47f5-c79e-b2e4f355207e"</span><span class="w">
+    </span><span class="s2">"authenticated_entity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"80f74eef-31b8-45d5-c525-ae532297ea8e"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eaa330c0-4cff-47f5-c79e-b2e4f355207e"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"route"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75818c5f-202d-4b82-a553-6a46e7c9a19e"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"route"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"75818c5f-202d-4b82-a553-6a46e7c9a19e"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="s2">"/example-path"</span><span class="w">
         </span><span class="p">],</span><span class="w">
-        </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
             </span><span class="s2">"https"</span><span class="w">
         </span><span class="p">],</span><span class="w">
-        </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="w">
+        </span><span class="s2">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="w">
+        </span><span class="s2">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521555129</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myservice"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"write_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0590139e-7481-466c-bcdf-929adcaaf804"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"myservice"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1521554518</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"write_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"workspaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"workspaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"b7cac81a-05dc-41f5-b6dc-b87e29b6c3a3"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="s2">"b7cac81a-05dc-41f5-b6dc-b87e29b6c3a3"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"consumer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491847011000</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35b03bfc-7a5b-4a23-a594-aa350c585fa8"</span><span class="w">
+    </span><span class="s2">"consumer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1491847011000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"35b03bfc-7a5b-4a23-a594-aa350c585fa8"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"latencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"proxy"</span><span class="p">:</span><span class="w"> </span><span class="mi">1430</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"kong"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"request"</span><span class="p">:</span><span class="w"> </span><span class="mi">1921</span><span class="w">
+    </span><span class="s2">"latencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"proxy"</span><span class="p">:</span><span class="w"> </span><span class="mi">1430</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"kong"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"request"</span><span class="p">:</span><span class="w"> </span><span class="mi">1921</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1433209822425</span><span class="w">
+    </span><span class="s2">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1433209822425</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>A few considerations on the above JSON object:</p>
 
@@ -1204,7 +1209,7 @@ plugin.</p>
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
-<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/1.1.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
+<p>This logging plugin will only log HTTP request and response data. If you are looking for the Kong process error file (which is the nginx error file), then you can find it at the following path: {<a href="/1.2.x/configuration/#prefix">prefix</a>}/logs/error.log</p>
 
 
       
@@ -1387,7 +1392,7 @@ plugin.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1538,79 +1544,71 @@ several in order to model all possible Service Mesh combinations.</p>
 
 <p>Start <strong>Service B</strong> listening on TCP traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ncat --listen \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ncat --listen \
        --keep-open \
        --verbose \
        --sh-exec "echo Hello from Service B" \
        127.0.0.5 19000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
 Ncat: Listening on 127.0.0.5:19000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Leave the command running.</p>
 
 <p>Open a new console and start <strong>Service B</strong> listening on TLS traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ncat --listen \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ncat --listen \
        --keep-open \
        --verbose \
        --ssl \
        --sh-exec "echo Hello from Service B" \
        127.0.0.5 19443
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
 Ncat: Listening on 127.0.0.5:19443
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Leave it running.</p>
 
 <p>Open a new console and start <strong>Service B</strong> listening on HTTP traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --listen \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --listen \
      --keep-open \
      --verbose \
      --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B'" \
      127.0.0.5 18000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
 Ncat: Listening on 127.0.0.5:18000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Again, leave that running.</p>
 
 <p>Open a fourth console and start <strong>Service B</strong> listening on HTTPS traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --listen \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --listen \
      --keep-open \
      --verbose \
      --ssl \
      --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B'" \
      127.0.0.5 18443
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
 Ncat: Listening on 127.0.0.5:18443
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Leave this command running as well.</p>
 
@@ -1623,51 +1621,43 @@ representing the <strong>Service B</strong> listening with different protocols.<
 
 <p>Connect with <strong>Service B</strong> using TCP:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect with <strong>Service B</strong> using TLS:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect with <strong>Service B</strong> using HTTP:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect with <strong>Service B</strong> using HTTPS:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>At this point you have <strong>Service B</strong> running at <code class="highlighter-rouge">127.0.0.5</code> and our
 <strong>Service A</strong> at <code class="highlighter-rouge">127.0.0.2</code> can directly and successfully connect
@@ -1677,41 +1667,37 @@ to it.</p>
 
 <p>Start a Kong node that only listens to its Kong Admin API:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-c \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-c \
   KONG_LOG_LEVEL=debug \
   KONG_STREAM_LISTEN="off" \
   KONG_PROXY_LISTEN="off" \
   KONG_ADMIN_LISTEN="127.0.0.1:8001, 127.0.0.1:8444 ssl" \
     kong start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see this message:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Kong started
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
+</code></pre></div></div>
 
 <h2 id="step-4-start-kong-a">Step 4: Start Kong A</h2>
 
 <p><strong>Kong A</strong>, will be a Kong instance acting as sidecar for <strong>Service A</strong>.
 Start it like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
   KONG_LOG_LEVEL=debug \
   KONG_STREAM_LISTEN="127.0.0.3:9000 transparent" \
   KONG_PROXY_LISTEN="127.0.0.3:8000 transparent, 127.0.0.3:8443 ssl transparent" \
   KONG_ADMIN_LISTEN="off" \
   KONG_NGINX_PROXY_PROXY_BIND="127.0.0.3" \
     kong start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You should see this message:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Kong started
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
+</code></pre></div></div>
 
 <h3 id="the-transparent-config-option">The <code class="highlighter-rouge">transparent</code> config option</h3>
 
@@ -1729,15 +1715,14 @@ supported by default.</p>
 
 <p><strong>Kong B</strong> will be the sidecar Kong instance for <strong>Service B</strong>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
   KONG_LOG_LEVEL=debug \
   KONG_STREAM_LISTEN="127.0.0.4:9000 transparent" \
   KONG_PROXY_LISTEN="127.0.0.4:8000 transparent, 127.0.0.4:8443 transparent ssl" \
   KONG_ADMIN_LISTEN="off" \
   KONG_NGINX_PROXY_PROXY_BIND="127.0.0.4" \
     kong start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Note</strong>: at the moment we don’t have <code class="highlighter-rouge">KONG_NGINX_STREAM_PROXY_BIND</code>
 injection configuration option, so you need to add <code class="highlighter-rouge">proxy_bind 127.0.0.4;</code>
@@ -1748,9 +1733,8 @@ demo, we use the <code class="highlighter-rouge">proxy_bind</code> for the excep
 
 <p>You should see this message if the Kong node starts successfully:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Kong started
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
+</code></pre></div></div>
 
 <h3 id="the-origins-configuration-option">The <code class="highlighter-rouge">origins</code> configuration option</h3>
 
@@ -1769,77 +1753,69 @@ such as <code class="highlighter-rouge">https</code> to <code class="highlighter
 
 <p>Create Kong Service for <strong>Service B</strong>’s TCP Traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X PUT \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
        -d url=tcp://127.0.0.5:19000 \
        http://127.0.0.1:8001/services/service-b-tcp
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create one Kong Route for that Kong Service:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X POST \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
        -d name=service-b-tcp \
        -d protocols=tcp \
        -d destinations[1].ip=127.0.0.5 \
        -d destinations[1].port=19000 \
        http://127.0.0.1:8001/services/service-b-tcp/routes
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create a Kong Service for <strong>Service B</strong>’s TLS Traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X PUT \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
        -d url=tls://127.0.0.5:19443 \
        http://127.0.0.1:8001/services/service-b-tls
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And one Route for it:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X POST \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
        -d name=service-b-tls \
        -d protocols=tls \
        -d destinations[1].ip=127.0.0.5 \
        -d destinations[1].port=19443 \
        http://127.0.0.1:8001/services/service-b-tls/routes
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create a Kong Service for <strong>Service B</strong>’s HTTP Traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X PUT \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
        -d url=http://127.0.0.5:18000 \
        http://127.0.0.1:8001/services/service-b-http
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Create a Kong Route for this Kong Service as well:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X POST \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
        -d name=service-b-http \
        -d protocols=http \
        -d hosts=127.0.0.5 \
        http://127.0.0.1:8001/services/service-b-http/routes
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Finally, create a Kong Service for <strong>Service B</strong>’s HTTPS Traffic:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X PUT \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
        -d url=https://127.0.0.5:18443/ \
        http://127.0.0.1:8001/services/service-b-https
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And a Kong Route to go with it:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ curl -X POST \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
        -d name=service-b-https \
        -d protocols=https \
        -d hosts=127.0.0.5 \
        http://127.0.0.1:8001/services/service-b-https/routes
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="why-do-routes-have-two-ip-addresses">Why do Routes have Two IP Addresses?</h3>
 
@@ -1867,7 +1843,7 @@ directly as we saw on Step 2.</p>
 
 <p>Configure <code class="highlighter-rouge">iptables</code> on <strong>Service A</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ sudo iptables --insert PREROUTING \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo iptables --insert PREROUTING \
                 --table mangle \
                 --protocol tcp \
                 --dport 19000 \
@@ -1902,13 +1878,12 @@ $ sudo iptables --insert PREROUTING \
                 --jump TPROXY \
                 --on-port=8443 \
                 --on-ip=127.0.0.3
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And then configure more rules for intercepting traffic destined for <strong>Service B</strong>, and send
 it to <strong>Kong B</strong> instead:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ sudo iptables --append PREROUTING \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo iptables --append PREROUTING \
                 --table mangle \
                 --protocol tcp \
                 "!" --source 127.0.0.4 \
@@ -1947,31 +1922,27 @@ $ sudo iptables --append PREROUTING \
                 --jump TPROXY \
                 --on-port=8443 \
                 --on-ip=127.0.0.4
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="step-8-start-tailing-kong-logs">Step 8: Start tailing Kong Logs</h2>
 
 <p>We do this so that you can view that the requests on next step do pass both <strong>Kong A</strong>
 and <strong>Kong B</strong>. Run this command for <strong>Kong A</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ tail -F kong-a/logs/error.log
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -F kong-a/logs/error.log
+</code></pre></div></div>
 
 <p>Leave it running, and in another console, run this command for <strong>Kong B</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ tail -F kong-b/logs/error.log
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -F kong-b/logs/error.log
+</code></pre></div></div>
 
 <h2 id="step-9-connect-service-a-to-service-b-using-two-sidecars">Step 9: Connect Service A to Service B using Two Sidecars</h2>
 
 <p>Connect from <strong>Service A</strong> to <strong>Service B</strong> using TCP:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
+</code></pre></div></div>
 
 <p><strong>Note:</strong> at the moment you need to write around twenty bytes to
 the stream with the client to actually receive the response from
@@ -1979,45 +1950,38 @@ the server (we are working on it).</p>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect using TLS:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect using HTTP:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>Connect using HTTPS:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
+</code></pre></div></div>
 
 <p>You should see output similar to one below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Hello from Service B
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B
+</code></pre></div></div>
 
 <p>As you can see, step 9 looks exactly the same as step 2. We did not need to
 make any changes to <strong>Service A</strong> or <strong>Service B</strong>, but we introduced a sidecar proxy
@@ -2041,39 +2005,33 @@ on this tutorial).</p>
 
 <p>Cleanup the <code class="highlighter-rouge">iptables</code> rules:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo iptables --table mangle --flush PREROUTING
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo iptables --table mangle --flush PREROUTING
+</code></pre></div></div>
 
 <p>Stop <strong>Kong B</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>KONG_PREFIX=kong-b kong stop
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-b kong stop
+</code></pre></div></div>
 
 <p>Stop <strong>Kong A</strong>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>KONG_PREFIX=kong-a kong stop
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-a kong stop
+</code></pre></div></div>
 
 <p>Stop Kong Control Plane:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>KONG_PREFIX=kong-c kong stop
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-c kong stop
+</code></pre></div></div>
 
 <p>Stop Tailing Kong Logs:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pkill tail
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkill tail
+</code></pre></div></div>
 
 <p>Stop Ncat Servers:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pkill ncat
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkill ncat
+</code></pre></div></div>
 
 
         </div>
@@ -2268,7 +2226,7 @@ on this tutorial).</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

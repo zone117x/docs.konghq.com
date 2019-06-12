@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1251,18 +1251,16 @@ Bintray, click <a href="https://bintray.com/profile/edit" target="_blank">here</
     <p>For <strong>users with existing contracts</strong>, add the Kong Docker repository and
 pull the image:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> $ docker login -u &lt;your_username_from_bintray&gt; -p &lt;your_apikey_from_bintray&gt; kong-docker-kong-enterprise-edition-docker.bintray.io
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ docker login -u &lt;your_username_from_bintray&gt; -p &lt;your_apikey_from_bintray&gt; kong-docker-kong-enterprise-edition-docker.bintray.io
  $ docker pull kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>For <strong>trial users</strong>, run the following, replacing <code class="highlighter-rouge">&lt;your trial image URL&gt;</code>
 with the URL you received in your welcome email:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -Lsv "&lt;your trial image URL&gt;" -o /tmp/kong-docker-ee.tar.gz
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -Lsv "&lt;your trial image URL&gt;" -o /tmp/kong-docker-ee.tar.gz
  docker load -i /tmp/kong-docker-ee.tar.gz
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>You should now have your Kong Enterprise image locally. Run
@@ -1271,9 +1269,8 @@ with the URL you received in your welcome email:</p>
   <li>
     <p>Tag the image ID for easier use in the commands that follow:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker tag &lt;IMAGE ID&gt; kong-ee
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker tag &lt;IMAGE ID&gt; kong-ee
+</code></pre></div>    </div>
 
     <p>(Replace “IMAGE ID” with the one matching your repository, seen in step 4)</p>
   </li>
@@ -1281,13 +1278,12 @@ with the URL you received in your welcome email:</p>
     <p>Run the migrations with an ephemeral Kong container.—<strong>PostgreSQL 9.5
 is required</strong>:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run -d --name kong-ee-database \
    -p 5432:5432 \
    -e "POSTGRES_USER=kong" \
    -e "POSTGRES_DB=kong" \
    postgres:9.5
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>To make the license data easier to handle, export it as a shell variable.
@@ -1296,20 +1292,18 @@ accounts should visit <code class="highlighter-rouge">https://bintray.com/kong/&
 to retrieve their license. Trial users should download their license from their
 welcome email. Once you have your license, you can set it in an environment variable:</p>
 
-    <div class="language-sh highlighter-rouge"><pre class="highlight"><code> <span class="nb">export </span><span class="nv">KONG_LICENSE_DATA</span><span class="o">=</span><span class="s1">'{"license":{"signature":"LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tClZlcnNpb246IEdudVBHIHYyCgpvd0did012TXdDSFdzMTVuUWw3dHhLK01wOTJTR0tLWVc3UU16WTBTVTVNc2toSVREWk1OTFEzVExJek1MY3dTCjA0ek1UVk1OREEwc2pRM04wOHpNalZKVHpOTE1EWk9TVTFLTXpRMVRVNHpTRXMzTjA0d056VXdUTytKWUdNUTQKR05oWW1VQ21NWEJ4Q3NDc3lMQmorTVBmOFhyWmZkNkNqVnJidmkyLzZ6THhzcitBclZtcFZWdnN1K1NiKzFhbgozcjNCeUxCZzdZOVdFL2FYQXJ0NG5lcmVpa2tZS1ozMlNlbGQvMm5iYkRzcmdlWFQzek1BQUE9PQo9b1VnSgotLS0tLUVORCBQR1AgTUVTU0FHRS0tLS0tCg=","payload":{"customer":"Test Company Inc","license_creation_date":"2017-11-08","product_subscription":"Kong Enterprise","admin_seats":"5","support_plan":"None","license_expiration_date":"2017-11-10","license_key":"00141000017ODj3AAG_a1V41000004wT0OEAU"},"version":1}}'</span>
-</code></pre>
-    </div>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">export </span><span class="nv">KONG_LICENSE_DATA</span><span class="o">=</span><span class="s1">'{"license":{"signature":"LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tClZlcnNpb246IEdudVBHIHYyCgpvd0did012TXdDSFdzMTVuUWw3dHhLK01wOTJTR0tLWVc3UU16WTBTVTVNc2toSVREWk1OTFEzVExJek1MY3dTCjA0ek1UVk1OREEwc2pRM04wOHpNalZKVHpOTE1EWk9TVTFLTXpRMVRVNHpTRXMzTjA0d056VXdUTytKWUdNUTQKR05oWW1VQ21NWEJ4Q3NDc3lMQmorTVBmOFhyWmZkNkNqVnJidmkyLzZ6THhzcitBclZtcFZWdnN1K1NiKzFhbgozcjNCeUxCZzdZOVdFL2FYQXJ0NG5lcmVpa2tZS1ozMlNlbGQvMm5iYkRzcmdlWFQzek1BQUE9PQo9b1VnSgotLS0tLUVORCBQR1AgTUVTU0FHRS0tLS0tCg=","payload":{"customer":"Test Company Inc","license_creation_date":"2017-11-08","product_subscription":"Kong Enterprise","admin_seats":"5","support_plan":"None","license_expiration_date":"2017-11-10","license_key":"00141000017ODj3AAG_a1V41000004wT0OEAU"},"version":1}}'</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Run Kong migrations:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run --rm --link kong-ee-database:kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run --rm --link kong-ee-database:kong-ee-database \
    -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-ee-database" \
    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
    -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
    kong-ee kong migrations up
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment 
  variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
  For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
@@ -1319,7 +1313,7 @@ welcome email. Once you have your license, you can set it in an environment vari
   <li>
     <p>Start Kong:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
    -e "KONG_DATABASE=postgres" \
    -e "KONG_PG_HOST=kong-ee-database" \
    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
@@ -1341,8 +1335,7 @@ welcome email. Once you have your license, you can set it in an environment vari
    -p 8003:8003 \
    -p 8004:8004 \
    kong-ee
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p><strong>Docker on Windows users:</strong> Instead of the <code class="highlighter-rouge">KONG_LICENSE_DATA</code> environment 
  variable, use the <a href="https://docs.docker.com/engine/reference/commandline/run/#options">volume bind</a> option. 
  For example, assuming you’ve saved your <code class="highlighter-rouge">license.json</code> file into <code class="highlighter-rouge">C:\temp</code>, 
@@ -1368,26 +1361,23 @@ Admin API.</p>
 
 <p>Without a license properly referenced, you’ll get errors running migrations:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ docker run -ti --rm ... kong migrations up
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -ti --rm ... kong migrations up
 nginx: [alert] Error validating Kong license: license path environment variable not set
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Also, without a license, you will get no output if you do a <code class="highlighter-rouge">docker run</code> in
 “daemon mode”—the <code class="highlighter-rouge">-d</code> flag to <code class="highlighter-rouge">docker run</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ docker run -d ... kong start
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -d ... kong start
 26a995171e23e37f89a4263a10bb084120ab0dbed1aa11a71c888c8e0d74a0b6
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When you check the container, it won’t be running. Doing a <code class="highlighter-rouge">docker logs</code> will
 show you:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ docker logs &lt;container name&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker logs &lt;container name&gt;
 nginx: [alert] Error validating Kong license: license path environment variable not set
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As awareness, another error that can occur due to the vagaries of the interactions
 between text editors and copy &amp; paste changing straight quotes (“ or ‘) into curly
@@ -1571,7 +1561,7 @@ nginx: [alert] Error validating Kong license: could not decode license json
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

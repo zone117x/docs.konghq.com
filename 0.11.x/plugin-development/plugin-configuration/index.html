@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1275,9 +1281,8 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="module">Module</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema"
+</code></pre></div></div>
 
 <hr />
 
@@ -1289,13 +1294,12 @@ window['_fs_namespace'] = 'FS';
 
 <p>For example, a user performs the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
-    -d <span class="s2">"config.foo=bar"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.foo=bar"</span>
+</code></pre></div></div>
 
-<p>If all properties of the <code class="highlighter-rouge">config</code> object are valid according to your schema, then the API would return <code class="highlighter-rouge">201 Created</code> and the plugin would be stored in the database along with its configuration (<code class="highlighter-rouge"><span class="p">{</span><span class="err">foo</span><span class="w"> </span><span class="err">=</span><span class="w"> </span><span class="nt">"bar"</span><span class="err">}</span></code> in this case). If the configuration is not valid, the Admin API would return <code class="highlighter-rouge">400 Bad Request</code> and the appropriate error messages.</p>
+<p>If all properties of the <code class="highlighter-rouge">config</code> object are valid according to your schema, then the API would return <code class="highlighter-rouge">201 Created</code> and the plugin would be stored in the database along with its configuration (<code class="highlighter-rouge">{foo = "bar"}</code> in this case). If the configuration is not valid, the Admin API would return <code class="highlighter-rouge">400 Bad Request</code> and the appropriate error messages.</p>
 
 <hr />
 
@@ -1322,7 +1326,7 @@ window['_fs_namespace'] = 'FS';
     <tr>
       <td><code class="highlighter-rouge">fields</code></td>
       <td>Table</td>
-      <td><code class="highlighter-rouge"><span class="p">{}</span></code></td>
+      <td><code class="highlighter-rouge">{}</code></td>
       <td>Your plugin’s <strong>schema</strong>. A key/value table of available properties and their rules.</td>
     </tr>
     <tr>
@@ -1336,18 +1340,17 @@ window['_fs_namespace'] = 'FS';
 
 <p>The <code class="highlighter-rouge">self_check</code> function must be implemented as follows:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- @param `schema` A table describing the schema (rules) of your plugin configuration.</span>
 <span class="c1">-- @param `config` A key/value table of the current plugin's configuration.</span>
 <span class="c1">-- @param `dao` An instance of the DAO (see DAO chapter).</span>
 <span class="c1">-- @param `is_updating` A boolean indicating whether or not this check is performed in the context of an update.</span>
 <span class="c1">-- @return `valid` A boolean indicating if the plugin's configuration is valid or not.</span>
 <span class="c1">-- @return `error` A DAO error (see DAO chapter)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is an example of a potential <code class="highlighter-rouge">schema.lua</code> file:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">-- this plugin will only be API-wide,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1">-- Describe your plugin's configuration's schema here.</span>
@@ -1357,20 +1360,18 @@ window['_fs_namespace'] = 'FS';
     <span class="k">return</span> <span class="kc">true</span>
   <span class="k">end</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="describing-your-configuration-schema">Describing your configuration schema</h2>
 
 <p>The <code class="highlighter-rouge">fields</code> property of your <code class="highlighter-rouge">schema.lua</code> file described the schema of your plugin’s configuration. It is a flexible key/value table where each key will be a valid configuration property for your plugin, and each value a table describing the rules for that property. For example:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code>  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">some_string</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"string"</span><span class="p">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="p">},</span>
     <span class="n">some_boolean</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">},</span>
     <span class="n">some_array</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"array"</span><span class="p">,</span> <span class="n">enum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"POST"</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">}}</span>
   <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is the list of accepted rules for a property:</p>
 
@@ -1463,7 +1464,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>This <code class="highlighter-rouge">schema.lua</code> file for the <a href="/plugins/key-authentication/">key-auth</a> plugin defines a default list of accepted parameter names for an API key, and a boolean whose default is set to <code class="highlighter-rouge">false</code>:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="n">no_consumer</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
@@ -1471,12 +1472,11 @@ window['_fs_namespace'] = 'FS';
     <span class="n">hide_credentials</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span> <span class="o">=</span> <span class="s2">"boolean"</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="kc">false</span><span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Hence, when implementing the <code class="highlighter-rouge">access()</code> function of your plugin in <a href="/0.11.x/plugin-development/custom-logic/">handler.lua</a> and given that the user enabled the plugin with the default values, you’d have access to:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
@@ -1492,14 +1492,13 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
 <p>A more complex example, which could be used for an eventual logging plugin:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">server_port</span><span class="p">(</span><span class="n">given_value</span><span class="p">,</span> <span class="n">given_config</span><span class="p">)</span>
   <span class="c1">-- Custom validation</span>
@@ -1527,21 +1526,19 @@ window['_fs_namespace'] = 'FS';
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Such a configuration will allow a user to post the configuration to your plugin as follows:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=&lt;my-custom-plugin&gt;"</span> <span class="se">\</span>
-    -d <span class="s2">"config.environment=development"</span> <span class="se">\</span>
-    -d <span class="s2">"config.server.host=http://localhost"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/&lt;api name&gt;/plugins <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=&lt;my-custom-plugin&gt;"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.environment=development"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.server.host=http://localhost"</span>
+</code></pre></div></div>
 
 <p>And the following will be available in <a href="/0.11.x/plugin-development/custom-logic/">handler.lua</a>:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 <span class="kd">local</span> <span class="n">CustomHandler</span> <span class="o">=</span> <span class="n">BasePlugin</span><span class="p">:</span><span class="n">extend</span><span class="p">()</span>
 
@@ -1558,8 +1555,7 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -1759,7 +1755,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1021,17 +1021,15 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p>For <strong>users with existing contracts</strong> add the Kong Docker repository and pull the image:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker login -u &lt;your_username_from_bintray&gt; -p &lt;your_apikey_from_bintray&gt; kong-docker-kong-enterprise-edition-docker.bintray.io
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker login -u &lt;your_username_from_bintray&gt; -p &lt;your_apikey_from_bintray&gt; kong-docker-kong-enterprise-edition-docker.bintray.io
  docker pull kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>For <strong>trial users</strong>, run the following, replacing <code class="highlighter-rouge">&lt;your trial image URL&gt;</code> with the URL you received in your welcome email:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -Lsv "&lt;your trial image URL&gt;" -o /tmp/kong-docker-ee.tar.gz
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -Lsv "&lt;your trial image URL&gt;" -o /tmp/kong-docker-ee.tar.gz
  docker load -i /tmp/kong-docker-ee.tar.gz
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Now you have the docker image for EE locally this way
  Run <code class="highlighter-rouge">docker images</code> to find the image</p>
@@ -1039,9 +1037,8 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p>Tag it (for easier use in the commands below) as follows (replace w/ your image’s IMAGE ID):</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker tag 92aa781a99db kong-ee
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker tag 92aa781a99db kong-ee
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Generally, we’ll be following the instructions <a href="/install/docker/">here</a> with some slight (but important) differences</p>
@@ -1049,36 +1046,33 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p>For convenience, the commands will look something like this (PostgreSQL 9.5 is required):</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run -d --name kong-ee-database \
  -p 5432:5432 \
  -e "POSTGRES_USER=kong" \
  -e "POSTGRES_DB=kong" \
  postgres:9.6
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>To make the license data easier to handle, export it as a shell variable. Please note that your <code class="highlighter-rouge">KONG_LICENSE_DATA</code> will differ! Users with Bintray accounts should visit <a href="https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files">https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files</a> to retrieve their license. Trial users should download their license from their welcome email. Once you have your license, you can set it in an environment variable:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> export KONG_LICENSE_DATA='{"license":{"signature":"LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tClZlcnNpb246IEdudVBHIHYyCgpvd0did012TXdDSFdzMTVuUWw3dHhLK01wOTJTR0tLWVc3UU16WTBTVTVNc2toSVREWk1OTFEzVExJek1MY3dTCjA0ek1UVk1OREEwc2pRM04wOHpNalZKVHpOTE1EWk9TVTFLTXpRMVRVNHpTRXMzTjA0d056VXdUTytKWUdNUTQKR05oWW1VQ21NWEJ4Q3NDc3lMQmorTVBmOFhyWmZkNkNqVnJidmkyLzZ6THhzcitBclZtcFZWdnN1K1NiKzFhbgozcjNCeUxCZzdZOVdFL2FYQXJ0NG5lcmVpa2tZS1ozMlNlbGQvMm5iYkRzcmdlWFQzek1BQUE9PQo9b1VnSgotLS0tLUVORCBQR1AgTUVTU0FHRS0tLS0tCg=","payload":{"customer":"Test Company Inc","license_creation_date":"2017-11-08","product_subscription":"Kong Enterprise Edition","admin_seats":"5","support_plan":"None","license_expiration_date":"2017-11-10","license_key":"00141000017ODj3AAG_a1V41000004wT0OEAU"},"version":1}}'
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> export KONG_LICENSE_DATA='{"license":{"signature":"LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tClZlcnNpb246IEdudVBHIHYyCgpvd0did012TXdDSFdzMTVuUWw3dHhLK01wOTJTR0tLWVc3UU16WTBTVTVNc2toSVREWk1OTFEzVExJek1MY3dTCjA0ek1UVk1OREEwc2pRM04wOHpNalZKVHpOTE1EWk9TVTFLTXpRMVRVNHpTRXMzTjA0d056VXdUTytKWUdNUTQKR05oWW1VQ21NWEJ4Q3NDc3lMQmorTVBmOFhyWmZkNkNqVnJidmkyLzZ6THhzcitBclZtcFZWdnN1K1NiKzFhbgozcjNCeUxCZzdZOVdFL2FYQXJ0NG5lcmVpa2tZS1ozMlNlbGQvMm5iYkRzcmdlWFQzek1BQUE9PQo9b1VnSgotLS0tLUVORCBQR1AgTUVTU0FHRS0tLS0tCg=","payload":{"customer":"Test Company Inc","license_creation_date":"2017-11-08","product_subscription":"Kong Enterprise Edition","admin_seats":"5","support_plan":"None","license_expiration_date":"2017-11-10","license_key":"00141000017ODj3AAG_a1V41000004wT0OEAU"},"version":1}}'
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Run Kong migrations:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run --rm --link kong-ee-database:kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run --rm --link kong-ee-database:kong-ee-database \
    -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-ee-database" \
    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
    -e "KONG_LICENSE_DATA=$KONG_LICENSE_DATA" \
    kong-ee kong migrations up
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Start Kong:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker run -d --name kong-ee --link kong-ee-database:kong-ee-database \
    -e "KONG_DATABASE=postgres" \
    -e "KONG_PG_HOST=kong-ee-database" \
    -e "KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database" \
@@ -1100,8 +1094,7 @@ window['_fs_namespace'] = 'FS';
    -p 8003:8003 \
    -p 8004:8004 \
    kong-ee
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Congratulations! You now have Kong Enterprise installed and running. You can use Kong Enterprise’s web interfaces by visiting http://localhost:8002 (Admin GUI) and http://localhost:8003 (Developer Portal).</p>
@@ -1116,31 +1109,27 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p>Create an initial RBAC administrator:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -X POST http://localhost:8001/rbac/users/ -d name=admin -d user_token=12345
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X POST http://localhost:8001/rbac/users/ -d name=admin -d user_token=12345
  curl -X POST http://localhost:8001/rbac/users/admin/roles -d roles=super-admin
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Start a bash session on the container:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> docker exec -it kong-ee /bin/sh
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker exec -it kong-ee /bin/sh
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Reload Kong with RBAC enabled:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> KONG_ENFORCE_RBAC=on kong reload
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> KONG_ENFORCE_RBAC=on kong reload
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Confirm that your user token is working by passing the <code class="highlighter-rouge">Kong-Admin-Token</code> header in requests:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -X GET http://localhost:8001/status -H "Kong-Admin-Token: 12345"
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X GET http://localhost:8001/status -H "Kong-Admin-Token: 12345"
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1152,15 +1141,13 @@ window['_fs_namespace'] = 'FS';
 
 <p>Without a license properly referenced, you’ll get errors running migrations. Also, without a license, you’ll do a <code class="highlighter-rouge">docker start &lt;name&gt;</code> and not see an error attempting to start the container. But when you check the process, it won’t be running. Doing a <code class="highlighter-rouge">docker logs &lt;container_name&gt;</code> will show you:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    nginx: [alert] Error validating Kong license: license path environment variable not set
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    nginx: [alert] Error validating Kong license: license path environment variable not set
+</code></pre></div></div>
 
 <p>As awareness, another error that can occur due to the vagaries of the interactions between text editors and copy &amp; paste changing straight quotes (“ or ‘) into curly ones (“ or ” or ’ or ‘) is:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    nginx: [alert] Error validating Kong license: could not decode license json
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    nginx: [alert] Error validating Kong license: could not decode license json
+</code></pre></div></div>
 
 <p>Your license data must contain only straight quotes to be considered valid JSON.</p>
 
@@ -1336,7 +1323,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

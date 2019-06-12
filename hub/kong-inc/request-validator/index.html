@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -697,6 +697,8 @@ window['_fs_namespace'] = 'FS';
               
                 
               
+                
+              
               </ul>
             </td>
           </tr>
@@ -765,12 +767,11 @@ format is used.</p>
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -784,12 +785,11 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -803,13 +803,12 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-validator"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-validator"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -881,11 +880,10 @@ plugin.</p>
 <p>By applying the plugin to an Service, all requests to that Service will be validated
 before being proxied.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -i -X POST http://kong:8001/services/{service}/plugins \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -i -X POST http://kong:8001/services/{service}/plugins \
   --data "name=request-validator" \
   --data 'config.body_schema=[{"name":{"type": "string", "required": true}}]'
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -970,17 +968,16 @@ field expected to be in the request body; for example:</p>
 
 <p>Example string-boolean map:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"map"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"values"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "type": "map",
+  "keys": {
+    "type": "string"
+  },
+  "values": {
+    "type": "boolean"
+  }
+}
+</code></pre></div></div>
 
 <p>Array:</p>
 
@@ -1003,14 +1000,13 @@ field expected to be in the request body; for example:</p>
 
 <p>Example integer array schema:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"elements"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "type": "array",
+  "elements": {
+    "type": "integer"
+  }
+}
+</code></pre></div></div>
 
 <p>Record:</p>
 
@@ -1033,23 +1029,22 @@ field expected to be in the request body; for example:</p>
 
 <p>Example record schema:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"record"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-      </span><span class="err">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"zipcode"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w">
-      </span><span class="err">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "type": "record",
+  "fields": [
+    {
+      "street": {
+        "type": "string",
+      }
+    },
+    {
+      "zipcode": {
+        "type": "string",
+      }
+    }
+  ]
+}
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">type</code> field assumes one the following values:</p>
 
@@ -1078,7 +1073,7 @@ validations:</p>
     <tr>
       <td><code class="highlighter-rouge">between</code></td>
       <td>Integers</td>
-      <td>Whether the value is between two integer. Specified as an array; e.g., <code class="highlighter-rouge"><span class="p">{</span><span class="err">1,</span><span class="w"> </span><span class="err">10</span><span class="p">}</span></code></td>
+      <td>Whether the value is between two integer. Specified as an array; e.g., <code class="highlighter-rouge">{1, 10}</code></td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">len_eq</code></td>
@@ -1147,7 +1142,7 @@ validations:</p>
 
 <h3 id="schema-example">Schema Example</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
   {
     "name": {
       "type": "string",
@@ -1181,22 +1176,20 @@ validations:</p>
     }
   }
 ]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Such a schema would validate the following request body:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gruce The Great"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"street"</span><span class="p">:</span><span class="w"> </span><span class="s2">"251 Post St."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"zipcode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"94108"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "name": "Gruce The Great",
+  "age": 4,
+  "address": {
+    "street": "251 Post St.",
+    "zipcode": "94108"
+  }
+}
 
-</span></code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In case either the JSON or schema validation fail, a <code class="highlighter-rouge">400 Bad Request</code> will
 be returned as response.</p>
@@ -1389,7 +1382,7 @@ be returned as response.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

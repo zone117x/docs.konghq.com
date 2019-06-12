@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1546,15 +1557,14 @@ attributes of Routes define rules for matching incoming HTTP requests.</p>
 <p>If Kong receives a request that it cannot match against any of the configured
 Routes (or if no Routes are configured), it will respond with:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">404</span> <span class="ne">Not Found</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">404</span> <span class="ne">Not Found</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Server</span><span class="p">:</span> <span class="s">kong/&lt;x.x.x&gt;</span>
 
 <span class="p">{</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"no route and no Service found with those values"</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"no route and no Service found with those values"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1565,9 +1575,9 @@ how Kong is configured via the <a href="/1.1.x/admin-api">Admin API</a>.</p>
 
 <p>Adding a Service to Kong is done by sending an HTTP request to the Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/services/ <span class="se">\</span>
-    -d <span class="s1">'name=foo-service'</span> <span class="se">\</span>
-    -d <span class="s1">'url=http://foo-service.com'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/services/ <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'name=foo-service'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'url=http://foo-service.com'</span>
 HTTP/1.1 201 Created
 ...
 
@@ -1585,8 +1595,7 @@ HTTP/1.1 201 Created
     <span class="s2">"updated_at"</span>: 1515537771,
     <span class="s2">"write_timeout"</span>: 60000
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This request instructs Kong to register a Service named “foo-service”, which
 points to <code class="highlighter-rouge">http://foo-service.com</code> (your upstream).</p>
@@ -1597,10 +1606,10 @@ points to <code class="highlighter-rouge">http://foo-service.com</code> (your up
 <p>Now, in order to send traffic to this Service through Kong, we need to specify
 a Route, which acts as an entrypoint to Kong:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes/ <span class="se">\</span>
-    -d <span class="s1">'hosts[]=example.com'</span> <span class="se">\</span>
-    -d <span class="s1">'paths[]=/foo'</span> <span class="se">\</span>
-    -d <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes/ <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts[]=example.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'paths[]=/foo'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
 HTTP/1.1 201 Created
 ...
 
@@ -1626,8 +1635,7 @@ HTTP/1.1 201 Created
     <span class="s2">"strip_path"</span>: <span class="nb">true</span>,
     <span class="s2">"updated_at"</span>: 1515539858
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We have now configured a Route to match incoming requests matching the given
 <code class="highlighter-rouge">hosts</code> and <code class="highlighter-rouge">paths</code>, and forward them to the <code class="highlighter-rouge">foo-service</code> we configured, thus
@@ -1656,50 +1664,43 @@ a request needs only one of the values to be considered a match)</li>
 
 <p>Let’s go through a few examples. Consider a Route configured like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"foo-service.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/foo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/bar"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"foo-service.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/foo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/bar"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Some of the possible requests matching this Route would look like:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/bar</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/bar</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">foo-service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo/hello/world</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo/hello/world</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All three of these requests satisfy all the conditions set in the Route
 definition.</p>
 
 <p>However, the following requests would <strong>not</strong> match the configured conditions:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">foo.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All three of these requests satisfy only two of configured conditions. The
 first request’s path is not a match for any of the configured <code class="highlighter-rouge">paths</code>, same for
@@ -1723,37 +1724,33 @@ them via the Admin API:</p>
 <p><code class="highlighter-rouge">hosts</code> accepts multiple values, which is straightforward to represent in a
 JSON payload:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes/ <span class="se">\</span>
-    -H <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
-    -d <span class="s1">'{"hosts":["example.com", "foo-service.com"]}'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes/ <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'{"hosts":["example.com", "foo-service.com"]}'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But since the Admin API also supports form-urlencoded content types, you
 can specify an array via the <code class="highlighter-rouge">[]</code> notation:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes/ <span class="se">\</span>
-    -d <span class="s1">'hosts[]=example.com'</span> <span class="se">\</span>
-    -d <span class="s1">'hosts[]=foo-service.com'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes/ <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts[]=example.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts[]=foo-service.com'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To satisfy the <code class="highlighter-rouge">hosts</code> condition of this Route, any incoming request from a
 client must now have its Host header set to one of:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Host: example.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host: example.com
+</code></pre></div></div>
 
 <p>or:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Host: foo-service.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host: foo-service.com
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1775,23 +1772,20 @@ to match.</li>
 
 <p>A complete example would look like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Which would allow the following requests to match this Route:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">an.example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1804,56 +1798,50 @@ header to the hostname specified in the Service’s <code class="highlighter-rou
 <p>For example, when the <code class="highlighter-rouge">preserve_host</code> property is not changed and a Route is
 configured like so:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>A possible request from a client to Kong could be:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong would extract the Host header value from the Service’s <code class="highlighter-rouge">host</code> property, ,
 and would send the following upstream request:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">&lt;my-service-host.com&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>However, by explicitly configuring a Route with <code class="highlighter-rouge">preserve_host=true</code>:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>And assuming the same request from the client:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong would preserve the Host on the client request and would send the following
 upstream request instead:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1865,28 +1853,24 @@ values of the <code class="highlighter-rouge">paths</code> attribute.</p>
 
 <p>For example, with a Route configured like so:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/hello/world"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/hello/world"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following requests would be matched:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/resource?param=value</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/resource?param=value</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/hello/world/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/hello/world/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">anything.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For each of these requests, Kong detects that their URL path is prefixed with
 one of the Routes’s <code class="highlighter-rouge">paths</code> values. By default, Kong would then proxy the
@@ -1906,23 +1890,20 @@ assign paths as both prefixes and regexes to a Route at the same time.</p>
 
 <p>For example, if we consider the following Route:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/users/\d+/profile"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/following"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/users/</span><span class="se">\d</span><span class="s2">+/profile"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/following"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following requests would be matched by this Route:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/following</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/following</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/users/123/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/users/123/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The provided regexes are evaluated with the <code class="highlighter-rouge">a</code> PCRE flag (<code class="highlighter-rouge">PCRE_ANCHORED</code>),
 meaning that they will be constrained to match at the first matching point
@@ -1937,24 +1918,23 @@ prefix paths are evaluated first. However, Kong will evaluate regex paths based
 on the <code class="highlighter-rouge">regex_priority</code> attribute of Routes from highest priority to lowest.
 This means that considering the following Routes:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/status/\d+"</span><span class="p">],</span><span class="w">
-        </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/status/</span><span class="se">\d</span><span class="s2">+"</span><span class="p">],</span><span class="w">
+        </span><span class="s2">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/\d+/status/\d+"</span><span class="p">],</span><span class="w">
-        </span><span class="nt">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
+        </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/</span><span class="se">\d</span><span class="s2">+/status/</span><span class="se">\d</span><span class="s2">+"</span><span class="p">],</span><span class="w">
+        </span><span class="s2">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version"</span><span class="p">],</span><span class="w">
-    </span><span class="err">}</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version"</span><span class="p">],</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/any/"</span><span class="p">],</span><span class="w">
-    </span><span class="err">}</span><span class="w">
+        </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/any/"</span><span class="p">],</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>In this scenario, Kong will evaluate incoming requests against the following
 defined URIs, in this order:</p>
@@ -1980,26 +1960,23 @@ the most rules (see [Routing priorities][proxy-routing-priorities]).</p>
 from the path and available for plugins consumption. If we consider the
 following regex:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/version/(?&lt;version&gt;\d+)/users/(?&lt;user&gt;\S+)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/version/(?&lt;version&gt;\d+)/users/(?&lt;user&gt;\S+)
+</code></pre></div></div>
 
 <p>And the following request path:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/version/1/users/john
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/version/1/users/john
+</code></pre></div></div>
 
 <p>Kong will consider the request path a match, and if the overall Route is
 matched (considering the <code class="highlighter-rouge">hosts</code> and <code class="highlighter-rouge">methods</code> fields), the extracted capturing
 groups will be available from the plugins in the <code class="highlighter-rouge">ngx.ctx</code> variable:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">router_matches</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">ctx</span><span class="p">.</span><span class="n">router_matches</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">router_matches</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">ctx</span><span class="p">.</span><span class="n">router_matches</span>
 
 <span class="c1">-- router_matches.uri_captures is:</span>
 <span class="c1">-- { "1", "john", version = "1", user = "john" }</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2012,12 +1989,11 @@ should be percent-encoded. <strong>When configuring Routes with regex paths via 
 Admin API, be sure to URL encode your payload if necessary</strong>. For example,
 with <code class="highlighter-rouge">curl</code> and using an <code class="highlighter-rouge">application/x-www-form-urlencoded</code> MIME type:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes <span class="se">\</span>
-    --data-urlencode <span class="s1">'uris[]=/status/\d+'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s1">'uris[]=/status/\d+'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that <code class="highlighter-rouge">curl</code> does not automatically URL encode your payload, and note the
 usage of <code class="highlighter-rouge">--data-urlencode</code>, which prevents the <code class="highlighter-rouge">+</code> character to be URL decoded
@@ -2031,60 +2007,54 @@ and interpreted as a space ` ` by Kong’s Admin API.</p>
 include it in the upstream request. To do so, use the <code class="highlighter-rouge">strip_path</code> boolean
 property by configuring a Route like so:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Enabling this flag instructs Kong that when matching this Route, and proceeding
 with the proxying to a Service, it should <strong>not</strong> include the matched part of
 the URL path in the upstream request’s URL. For example, the following
 client’s request to the above Route:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Will cause Kong to send the following upstream request:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The same way, if a regex path is defined on a Route that has <code class="highlighter-rouge">strip_path</code>
 enabled, the entirety of the request URL matching sequence will be stripped.
 Example:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/\d+/service"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/</span><span class="se">\d</span><span class="s2">+/service"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following HTTP request matching the provided regex path:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/version/1/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/version/1/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Will be proxied upstream by Kong as:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2096,26 +2066,23 @@ method is not used for routing).</p>
 
 <p>The following Route allows routing via <code class="highlighter-rouge">GET</code> and <code class="highlighter-rouge">HEAD</code>:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> </span><span class="s2">"HEAD"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> </span><span class="s2">"HEAD"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Such a Route would be matched with the following requests:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">HEAD</span> <span class="nn">/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">HEAD</span> <span class="nn">/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But it would not match a <code class="highlighter-rouge">POST</code> or <code class="highlighter-rouge">DELETE</code> request. This allows for much more
 granularity when configuring plugins on Routes. For example, one could imagine
@@ -2139,21 +2106,20 @@ Routes with the most rules</strong>.</p>
 
 <p>For example, if two Routes are configured like so:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="p">},</span><span class="w">
 </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"POST"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"POST"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The second Route has a <code class="highlighter-rouge">hosts</code> field <strong>and</strong> a <code class="highlighter-rouge">methods</code> field, so it will be
 evaluated first by Kong. By doing so, we avoid the first Route “shadowing”
@@ -2161,17 +2127,15 @@ calls intended for the second one.</p>
 
 <p>Thus, this request will match the first Route</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And this request will match the second one:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Following this logic, if a third Route was to be configured with a <code class="highlighter-rouge">hosts</code>
 field, a <code class="highlighter-rouge">methods</code> field, and a <code class="highlighter-rouge">uris</code> field, it would be evaluated first by
@@ -2354,14 +2318,13 @@ different status code or response without proxying the request).</p>
 
 <p>Here is an example of such a fallback Route:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>As you can guess, any HTTP request made to Kong would actually match this
 Route, since all URIs are prefixed by the root character <code class="highlighter-rouge">/</code>. As we know from
@@ -2394,14 +2357,13 @@ Indication.</li>
 <p>Here is how to configure an SSL certificate on a given Route: first, upload
 your SSL certificate and key via the Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/certificates <span class="se">\</span>
-    -F <span class="s2">"cert=@/path/to/cert.pem"</span> <span class="se">\</span>
-    -F <span class="s2">"key=@/path/to/cert.key"</span> <span class="se">\</span>
-    -F <span class="s2">"snis=ssl-example.com,other-ssl-example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/certificates <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"cert=@/path/to/cert.pem"</span> <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"key=@/path/to/cert.key"</span> <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"snis=ssl-example.com,other-ssl-example.com"</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">snis</code> form parameter is a sugar parameter, directly inserting an SNI and
 associating the uploaded certificate to it.</p>
@@ -2409,22 +2371,20 @@ associating the uploaded certificate to it.</p>
 <p>You must now register the following Route within Kong. We will match requests
 to this Route using only the Host header for convenience:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/routes <span class="se">\</span>
-    -d <span class="s1">'hosts=ssl-example.com,other-ssl-example.com'</span> <span class="se">\</span>
-    -d <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts=ssl-example.com,other-ssl-example.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can now expect the Route to be served over HTTPS by Kong:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i https://localhost:8443/ <span class="se">\</span>
-  -H <span class="s2">"Host: ssl-example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> https://localhost:8443/ <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Host: ssl-example.com"</span>
 HTTP/1.1 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When establishing the connection and negotiating the SSL handshake, if your
 client sends <code class="highlighter-rouge">ssl-example.com</code> as part of the SNI extension, Kong will serve
@@ -2440,17 +2400,16 @@ listen for. This attribute accepts a set of values, which can be <code class="hi
 
 <p>A Route with <code class="highlighter-rouge">http</code> and <code class="highlighter-rouge">https</code> will accept traffic in both protocols.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"http"</span><span class="p">,</span><span class="w"> </span><span class="s2">"https"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"http"</span><span class="p">,</span><span class="w"> </span><span class="s2">"https"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Not specifying any protocol has the same effect, since routes default to
 <code class="highlighter-rouge">["http", "https"]</code>.</p>
@@ -2462,78 +2421,73 @@ request comes from one of the configured IPs in
 <a href="/1.1.x/configuration/#trusted_ips">trusted_ips</a> and if the <code class="highlighter-rouge">X-Forwarded-Proto: https</code>
 header is set:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>If a Route such as the above matches a request, but that request is in
 plain-text without valid prior SSL termination, Kong responds with:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">426</span> <span class="ne">Upgrade Required</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">426</span> <span class="ne">Upgrade Required</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json; charset=utf-8</span>
 <span class="na">Transfer-Encoding</span><span class="p">:</span> <span class="s">chunked</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">Upgrade</span>
 <span class="na">Upgrade</span><span class="p">:</span> <span class="s">TLS/1.2, HTTP/1.1</span>
 <span class="na">Server</span><span class="p">:</span> <span class="s">kong/x.y.z</span>
 
-<span class="p">{</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"Please use HTTPS protocol"</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<span class="p">{</span><span class="s2">"message"</span><span class="p">:</span><span class="s2">"Please use HTTPS protocol"</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Since Kong 1.0 it’s possible to create routes for raw TCP (not necessarily HTTP)
 connections by using <code class="highlighter-rouge">"tcp"</code> in the <code class="highlighter-rouge">protocols</code> attribute:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"tcp"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"tcp"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Similarly, we can create routes which accept raw TLS traffic (not necessarily HTTPS) with
 the <code class="highlighter-rouge">"tls"</code> value:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"tls"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"tls"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>A Route with <em>only</em> <code class="highlighter-rouge">TLS</code> would <em>only</em> accept traffic over TLS.</p>
 
 <p>It is also possible to accept both TCP and TLS simultaneously:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"tcp"</span><span class="p">,</span><span class="w"> </span><span class="s2">"tls"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "hosts": ["..."],
+    "paths": ["..."],
+    "methods": ["..."],
+    "protocols": ["tcp", "tls"],
+    "service": {
+        "id": "..."
+    }
+}
 
-</span></code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2545,12 +2499,11 @@ upstream services <em>through</em> Kong, you must establish a WebSocket handshak
 This is done via the HTTP Upgrade mechanism. This is what your client request
 made to Kong would look like:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">Upgrade</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-websocket-api.com</span>
 <span class="na">Upgrade</span><span class="p">:</span> <span class="s">WebSocket</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will make Kong forward the <code class="highlighter-rouge">Connection</code> and <code class="highlighter-rouge">Upgrade</code> headers to your
 upstream service, instead of dismissing them due to the hop-by-hop nature of a
@@ -2788,7 +2741,7 @@ just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

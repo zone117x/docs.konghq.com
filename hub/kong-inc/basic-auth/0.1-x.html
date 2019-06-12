@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -721,6 +721,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -926,12 +928,11 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.hide_credentials=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hide_credentials=true"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -945,12 +946,11 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.hide_credentials=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hide_credentials=true"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -969,12 +969,11 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.hide_credentials=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=basic-auth"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.hide_credentials=true"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -1056,9 +1055,8 @@ blacklist groups of users.</p>
 
 <p>You need to associate a credential to an existing <a href="/latest/admin-api/#consumer-object">Consumer</a> object. To create a Consumer, you can execute the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -d <span class="s2">"username=user123&amp;custom_id=SOME_CUSTOM_ID"</span> http://kong:8001/consumers/
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-d</span> <span class="s2">"username=user123&amp;custom_id=SOME_CUSTOM_ID"</span> http://kong:8001/consumers/
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1092,11 +1090,10 @@ service, you must add the new consumer to a whitelisted group. See
 
 <p>You can provision new username/password credentials by making the following HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
-    --data <span class="s2">"username=Aladdin"</span> <span class="se">\</span>
-    --data <span class="s2">"password=OpenSesame"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/basic-auth <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"username=Aladdin"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"password=OpenSesame"</span>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</p>
 
@@ -1130,16 +1127,14 @@ value is the base64-encoding of <code class="highlighter-rouge">Aladdin:OpenSesa
 
 <p>Then the <code class="highlighter-rouge">Authorization</code> (or <code class="highlighter-rouge">Proxy-Authorization</code>) header must appear as:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+</code></pre></div></div>
 
 <p>Simply make a request with the header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>path matching a configured Route<span class="o">}</span> <span class="se">\</span>
-    -H <span class="s1">'Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>path matching a configured Route<span class="o">}</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l'</span>
+</code></pre></div></div>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
@@ -1164,7 +1159,7 @@ value is the base64-encoding of <code class="highlighter-rouge">Aladdin:OpenSesa
 <p>You can paginate through the basic-auth Credentials for all Consumers using the
 following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/basic-auths
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> GET http://kong:8001/basic-auths
 
 <span class="o">{</span>
     <span class="s2">"total"</span>: 3,
@@ -1192,8 +1187,7 @@ following request:</p>
         <span class="o">}</span>
     <span class="o">]</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can filter the list using the following query parameters:</p>
 
@@ -1237,15 +1231,14 @@ following request:</p>
 <p>It is possible to retrieve a <a href="/latest/admin-api/#consumer-object">Consumer</a> associated with a
 basic-auth Credential using the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X GET http://kong:8001/basic-auths/<span class="o">{</span>username or id<span class="o">}</span>/consumer
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> GET http://kong:8001/basic-auths/<span class="o">{</span>username or <span class="nb">id</span><span class="o">}</span>/consumer
 
 <span class="o">{</span>
    <span class="s2">"created_at"</span>:1507936639000,
    <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
    <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">username or id</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the basic-auth
 Credential for which to get the associated <a href="/latest/admin-api/#consumer-object">Consumer</a>.
@@ -1434,7 +1427,7 @@ Consumer.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

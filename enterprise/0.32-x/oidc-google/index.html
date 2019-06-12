@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1031,14 +1031,13 @@ application-specific state on the client, but for our purposes, any protected UR
 
 <p>Add a plugin with the configuration below to your API using an HTTP client or the Admin GUI. Make sure to use the same redirect URI as configured earlier:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/apis/example/plugins --data <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
-  --data config.issuer<span class="o">=</span><span class="s2">"https://accounts.google.com/.well-known/openid-configuration"</span> <span class="se">\</span>
-  --data config.client_id<span class="o">=</span><span class="s2">"YOUR_CLIENT_ID"</span> <span class="se">\</span>
-  --data config.client_secret<span class="o">=</span><span class="s2">"YOUR_CLIENT_SECRET"</span> <span class="se">\</span>
-  --data config.redirect_uri<span class="o">=</span><span class="s2">"https://example.com/api"</span> <span class="se">\</span>
-  --data config.scopes<span class="o">=</span><span class="s2">"openid,email"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/apis/example/plugins <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.issuer<span class="o">=</span><span class="s2">"https://accounts.google.com/.well-known/openid-configuration"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.client_id<span class="o">=</span><span class="s2">"YOUR_CLIENT_ID"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.client_secret<span class="o">=</span><span class="s2">"YOUR_CLIENT_SECRET"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.redirect_uri<span class="o">=</span><span class="s2">"https://example.com/api"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.scopes<span class="o">=</span><span class="s2">"openid,email"</span>
+</code></pre></div></div>
 
 <p>Visiting a URL matched by that API in a browser will now redirect to Google’s authentication site and return you to the redirect URI after authenticating. You’ll note, however, that we did not configure anything to map authentication to consumers and that no consumer is associated with the subsequent request. Indeed, if you have configured other plugins that rely on consumer information, such as the ACL plugin, you will not have access. At present, the plugin configuration confirms that
 users have a Google account, but doesn’t do anything with that information.</p>
@@ -1049,15 +1048,14 @@ users have a Google account, but doesn’t do anything with that information.</p
 
 <p>If you need to interact with other Kong plugins using consumer information, you must add configuration that maps account data received from the identity provider to a Kong consumer. For this example, we’ll map the user’s Google account email by setting a <code class="highlighter-rouge">custom_id</code> on their consumer, e.g.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/consumers/ <span class="se">\</span>
-  --data <span class="nv">username</span><span class="o">=</span><span class="s2">"Yoda"</span> <span class="se">\</span>
-  --data <span class="nv">custom_id</span><span class="o">=</span><span class="s2">"user@example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">username</span><span class="o">=</span><span class="s2">"Yoda"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">custom_id</span><span class="o">=</span><span class="s2">"user@example.com"</span>
 
-<span class="gp">$ </span>curl -i -X PATCH http://kong:8001/apis/example/plugins/&lt;OIDC plugin ID&gt; <span class="se">\</span>
-  --data config.consumer_by<span class="o">=</span><span class="s2">"custom_id"</span> <span class="se">\</span>
-  --data config.consumer_claim<span class="o">=</span><span class="s2">"email"</span>
-</code></pre>
-</div>
+<span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH http://kong:8001/apis/example/plugins/&lt;OIDC plugin ID&gt; <span class="se">\</span>
+  <span class="nt">--data</span> config.consumer_by<span class="o">=</span><span class="s2">"custom_id"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.consumer_claim<span class="o">=</span><span class="s2">"email"</span>
+</code></pre></div></div>
 
 <p>Now, if a user logs into a Google account with the email <code class="highlighter-rouge">user@example.com</code>, Kong will apply configuration associated with the consumer <code class="highlighter-rouge">Yoda</code> to their requests. Note that while Google provides account emails, not all identity providers will. OpenID Connect does not have many required claims–the <a href="http://openid.net/specs/openid-connect-core-1_0.html#IDToken">only required user identity claim</a> is <code class="highlighter-rouge">sub</code>, a unique subscriber ID. Many optional claims <a href="http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">are
 standardized</a>, however–if a provider returns an <code class="highlighter-rouge">email</code> claim, the contents will always be an email address.</p>
@@ -1237,7 +1235,7 @@ standardized</a>, however–if a provider returns an <code class="highlighter-ro
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

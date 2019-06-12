@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1359,26 +1359,23 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="installation-steps">Installation Steps</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo yum update
-<span class="gp">$ </span>wget <span class="s1">'https://&lt;BINTRAY_USER:&lt;PASSWORD&gt;@bintray.com/kong/kong-enterprise-edition-aws/rpm'</span> -O bintray-kong-kong-enterprise-edition-aws.repo --auth-no-challenge
-<span class="gp">$ </span>sudo mv bintray-kong-kong-enterprise-edition-aws.repo /etc/yum.repos.d/
-<span class="gp">$ </span>sudo vi /etc/yum.repos.d/bintray-kong-kong-enterprise-edition-aws.repo
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum update
+<span class="nv">$ </span>wget <span class="s1">'https://&lt;BINTRAY_USER:&lt;PASSWORD&gt;@bintray.com/kong/kong-enterprise-edition-aws/rpm'</span> <span class="nt">-O</span> bintray-kong-kong-enterprise-edition-aws.repo <span class="nt">--auth-no-challenge</span>
+<span class="nv">$ </span><span class="nb">sudo mv </span>bintray-kong-kong-enterprise-edition-aws.repo /etc/yum.repos.d/
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/yum.repos.d/bintray-kong-kong-enterprise-edition-aws.repo
+</code></pre></div></div>
 
 <p>Ensure <code class="highlighter-rouge">baseurl</code> is correct</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo yum install kong-enterprise-edition
-<span class="gp">$ </span>sudo yum install postgresql95 postgresql95-server
-<span class="gp">$ </span>sudo service postgresql95 initdb
-<span class="gp">$ </span>sudo service postgresql95 start
-<span class="gp">$ </span>sudo -i -u postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-enterprise-edition
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95 postgresql95-server
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 initdb
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 start
+<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
+</code></pre></div></div>
 
 <p><strong>Note</strong>: <code class="highlighter-rouge">&lt;USERNAME&gt;</code> is obtained from your access key, by appending a <code class="highlighter-rouge">%40kong</code>
 to it (encoded form of <code class="highlighter-rouge">@kong</code>). For example, if your access key is <code class="highlighter-rouge">bob-company</code>,
@@ -1386,58 +1383,53 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 
 <p>Create <code class="highlighter-rouge">kong</code> user</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>psql
-<span class="gp">&gt; </span>CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password <span class="s1">'kong'</span>; 
-<span class="gp">&gt; </span><span class="se">\q</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>psql
+<span class="o">&gt;</span> CREATE USER kong<span class="p">;</span> CREATE DATABASE kong OWNER kong<span class="p">;</span> ALTER USER kong WITH password <span class="s1">'kong'</span><span class="p">;</span> 
+<span class="o">&gt;</span> <span class="se">\q</span>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
-<span class="gp">$ </span>sudo vi /var/lib/pgsql95/data/pg_hba.conf
-<span class="gp">$ </span>sudo service postgresql95 restart
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
+<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql95/data/pg_hba.conf
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 restart
 
 <span class="c"># add contents of license file</span>
-<span class="gp">$ </span>sudo vi /etc/kong/license.json
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/license.json
 
 <span class="c"># Uncomment and add 'kong' to pg_password line</span>
-<span class="gp">$ </span>sudo vi <span class="o">[</span>/path/to/kong.conf]
+<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf]
 
 <span class="c"># Run migrations and start kong</span>
-<span class="gp">$ </span>kong migrations bootstrap <span class="o">[</span>-c /path/to/kong.conf]
-<span class="gp">$ </span>sudo /usr/local/bin/kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-</div>
+<span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div></div>
 
 <p><strong>Note:</strong> You may use <code class="highlighter-rouge">kong.conf.default</code> or create <a href="/0.13.x/configuration/#configuration-loading">your own configuration</a>.</p>
 
 <h2 id="install-httpie-to-make-commands-more-easily">Install HTTPie to Make Commands more Easily</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo yum install python-pip
-<span class="gp">$ </span>sudo pip install --upgrade pip setuptools
-<span class="gp">$ </span>sudo pip install --upgrade httpie
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip
+<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip setuptools
+<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> httpie
+</code></pre></div></div>
 
 <h2 id="verify-kong-installation">Verify Kong Installation</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>http :8001/apis <span class="nv">name</span><span class="o">=</span>demo <span class="nv">uris</span><span class="o">=</span>/ <span class="nv">upstream_url</span><span class="o">=</span>http://httpbin.org
-<span class="gp">$ </span>http :8000/ip
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8001/apis <span class="nv">name</span><span class="o">=</span>demo <span class="nv">uris</span><span class="o">=</span>/ <span class="nv">upstream_url</span><span class="o">=</span>http://httpbin.org
+<span class="nv">$ </span>http :8000/ip
+</code></pre></div></div>
 
 <h2 id="install-kong-manager">Install Kong Manager</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
-<span class="gp">$ </span>ifconfig 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
+<span class="nv">$ </span>ifconfig 
 
 <span class="c"># Uncomment the admin_listen setting, and update to something like this `admin_listen = 172.31.3.8:8001`</span>
-<span class="gp">$ </span>sudo vi <span class="o">[</span>/path/to/kong.conf] 
+<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf] 
 
 <span class="c"># Restart kong</span>
-<span class="gp">$ </span>sudo /usr/local/bin/kong stop 
-<span class="gp">$ </span>sudo /usr/local/bin/kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-</div>
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong stop 
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div></div>
 
 <p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
 
@@ -1613,7 +1605,7 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

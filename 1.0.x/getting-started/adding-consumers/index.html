@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1450,25 +1456,23 @@ plugin</a> or skip steps two and three.</p>
 
 <p>Lets create a user named <code class="highlighter-rouge">Jason</code> by issuing the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/ <span class="se">\</span>
-  --data <span class="s2">"username=Jason"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"username=Jason"</span>
+</code></pre></div></div>
 
 <p>You should see a response similar to the one below:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jason"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jason"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Congratulations! You’ve just added your first consumer to Kong.</p>
 
@@ -1481,23 +1485,21 @@ database.</p>
 <p>Now, we can create a key for our recently created consumer <code class="highlighter-rouge">Jason</code> by
 issuing the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/Jason/key-auth/ <span class="se">\</span>
-  --data <span class="s1">'key=ENTER_KEY_HERE'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/Jason/key-auth/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'key=ENTER_KEY_HERE'</span>
+</code></pre></div></div>
 
 <h2 id="3-verify-that-your-consumer-credentials-are-valid">3. Verify that your Consumer credentials are valid</h2>
 
 <p>We can now issue the following request to verify that the credentials of
 our <code class="highlighter-rouge">Jason</code> Consumer is valid:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000 <span class="se">\</span>
-  --header <span class="s2">"Host: example.com"</span> <span class="se">\</span>
-  --header <span class="s2">"apikey: ENTER_KEY_HERE"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000 <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s2">"Host: example.com"</span> <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s2">"apikey: ENTER_KEY_HERE"</span>
+</code></pre></div></div>
 
 <h2 id="next-steps">Next Steps</h2>
 
@@ -1709,7 +1711,7 @@ for help!</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

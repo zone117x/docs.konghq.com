@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1445,21 +1451,19 @@ level of abstraction makes it easy for you to add endpoints.</p>
 
 <h2 id="module">Module</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.api
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.api
+</code></pre></div></div>
 
 <h2 id="adding-endpoints-to-the-admin-api">Adding endpoints to the Admin API</h2>
 
 <p>Kong will detect and load your endpoints if they are defined in a module named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.api"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.api"
+</code></pre></div></div>
 
 <p>This module is bound to return a table with one or more entries with the following structure:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
   <span class="p">[</span><span class="s2">"&lt;path&gt;"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
      <span class="n">schema</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">schema</span><span class="o">&gt;</span><span class="p">,</span>
      <span class="n">methods</span> <span class="o">=</span> <span class="p">{</span>
@@ -1472,8 +1476,7 @@ level of abstraction makes it easy for you to add endpoints.</p>
   <span class="p">},</span>
   <span class="o">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where:</p>
 
@@ -1502,7 +1505,7 @@ not present, then Kong will use a default error handler to return the errors.</l
 
 <p>For example:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
 
 <span class="kd">local</span> <span class="n">credentials_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">.</span><span class="n">schema</span>
 <span class="kd">local</span> <span class="n">consumers_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span><span class="p">.</span><span class="n">schema</span>
@@ -1519,8 +1522,7 @@ not present, then Kong will use a default error handler to return the errors.</l
     <span class="p">},</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This code will create two Admin API endpoints in <code class="highlighter-rouge">/consumers/:consumers/key-auth</code>, to
 obtain (<code class="highlighter-rouge">GET</code>) and create (<code class="highlighter-rouge">POST</code>) credentials associated to a given consumer. On this example
@@ -1543,7 +1545,7 @@ the path, such as an Service’s name or id, or a Consumer’s username or id.</
   <li>And of course you can <code class="highlighter-rouge">require</code> any Lua modules if needed. Make sure they are compatible with OpenResty if you choose this route.</li>
 </ul>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">endpoints</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.api.endpoints"</span>
 
 <span class="kd">local</span> <span class="n">credentials_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">.</span><span class="n">schema</span>
 <span class="kd">local</span> <span class="n">consumers_schema</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span><span class="p">.</span><span class="n">schema</span>
@@ -1584,8 +1586,7 @@ the path, such as an Service’s name or id, or a Consumer’s username or id.</
     <span class="p">},</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>On the previous example, the <code class="highlighter-rouge">/consumers/:consumers/key-auth/:keyauth_credentials</code> path gets
 three functions:</p>
@@ -1797,7 +1798,7 @@ three functions:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

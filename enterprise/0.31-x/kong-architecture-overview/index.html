@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -992,7 +992,7 @@ configuration</a> is fairly basic: beyond configuring standard headers, listenin
 
 <p>To understand how this is done, it helps to look at an abbreviated section of the Kong NGINX configuration:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>upstream kong_upstream {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>upstream kong_upstream {
     server 0.0.0.1;
     balancer_by_lua_block {
         kong.balancer()
@@ -1031,8 +1031,7 @@ server {
         ...
         proxy_pass         $upstream_scheme://kong_upstream$upstream_uri;
         ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The above configuration first defines an upstream for later use. Typical configuration would specify an actual address for the upstream, but Kong instead uses the invalid placeholder address <code class="highlighter-rouge">0.0.0.1</code>, which will be overwritten by code executed in the <code class="highlighter-rouge">balancer_by_lua_block</code> section–Kong’s <code class="highlighter-rouge">balancer</code> function determines an appropriate address for upstream traffic based on the API and plugin configuration in Kong’s datastore.</p>
 
@@ -1223,7 +1222,7 @@ and ACL has priority 950, Kong will execute Key Auth’s access function first a
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

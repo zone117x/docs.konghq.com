@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -742,9 +742,8 @@ or extend the function.</p>
         
 <p>You can either use the LuaRocks package manager to install the plugin</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>luarocks install kong-plugin-openwhisk
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>luarocks <span class="nb">install </span>kong-plugin-openwhisk
+</code></pre></div></div>
 
 <p>or install it from <a href="https://github.com/Kong/kong-plugin-openwhisk">source</a>.
 For more information on Plugin installation, please see the documentation
@@ -769,15 +768,14 @@ For more information on Plugin installation, please see the documentation
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=openwhisk"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
-    --data <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=openwhisk"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -791,15 +789,14 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=openwhisk"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
-    --data <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=openwhisk"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -813,16 +810,15 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=openwhisk"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
-    --data <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=openwhisk"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.host=OPENWHISK_HOST"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.path=PATH_TO_ACTION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.action=ACTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.service_token=AUTHENTICATION_TOKEN"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -996,44 +992,40 @@ Vagrant machine on a MacOS.</p>
     <p>Create a javascript Action <code class="highlighter-rouge">hello</code> with the following code snippet on the
 Openwhisk platform using <a href="https://github.com/openwhisk/openwhisk-cli"><code class="highlighter-rouge">wsk cli</code></a>.</p>
 
-    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code> <span class="kd">function</span> <span class="nx">main</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">function</span> <span class="nx">main</span><span class="p">(</span><span class="nx">params</span><span class="p">)</span> <span class="p">{</span>
      <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">params</span><span class="p">.</span><span class="nx">name</span> <span class="o">||</span> <span class="s1">'World'</span><span class="p">;</span>
      <span class="k">return</span> <span class="p">{</span><span class="na">payload</span><span class="p">:</span>  <span class="s1">'Hello, '</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">'!'</span><span class="p">};</span>
  <span class="p">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>wsk action create hello hello.js
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>wsk action create hello hello.js
 
  ok: created action hello
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Create a Service or Route</p>
 
     <p>Create a Service.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
-   --data <span class="s2">"name=openwhisk-test"</span> <span class="se">\</span>
-   --data <span class="s2">"url=http://example.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span>  POST http://localhost:8001/services/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"name=openwhisk-test"</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"url=http://example.com"</span>
 
  HTTP/1.1 201 Created
  ...
 
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Create a Route that uses the Service.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -f -X  POST http://localhost:8001/services/openwhisk-test/routes/ <span class="se">\</span>
-   --data <span class="s2">"paths[]=/"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-f</span> <span class="nt">-X</span>  POST http://localhost:8001/services/openwhisk-test/routes/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"paths[]=/"</span>
 
  HTTP/1.1 201 Created
  ...
 
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Enable the <code class="highlighter-rouge">openwhisk</code> plugin on the Route</p>
@@ -1042,7 +1034,7 @@ Openwhisk platform using <a href="https://github.com/openwhisk/openwhisk-cli"><c
 
 <p>Plugins can be enabled on a Service or a Route. This example uses a Service.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>```bash
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```bash
 $ curl -i -X POST http://localhost:8001/services/openwhisk-test/plugins \
     --data "name=openwhisk" \
     --data "config.host=192.168.33.13" \
@@ -1054,8 +1046,7 @@ HTTP/1.1 201 Created
 ...
 
 ```
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ol>
   <li>
@@ -1063,44 +1054,41 @@ HTTP/1.1 201 Created
 
     <p><strong>Without parameters</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/ -H <span class="s2">"Host:example.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/ <span class="nt">-H</span> <span class="s2">"Host:example.com"</span>
    HTTP/1.1 200 OK
    ...
 
    <span class="o">{</span>
      <span class="s2">"payload"</span>: <span class="s2">"Hello, World!"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>Parameters as form-urlencoded</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/ -H <span class="s2">"Host:example.com"</span> --data <span class="s2">"name=bar"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/ <span class="nt">-H</span> <span class="s2">"Host:example.com"</span> <span class="nt">--data</span> <span class="s2">"name=bar"</span>
    HTTP/1.1 200 OK
    ...
 
    <span class="o">{</span>
      <span class="s2">"payload"</span>: <span class="s2">"Hello, bar!"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>Parameters as JSON body</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/ -H <span class="s2">"Host:example.com"</span> <span class="se">\</span>
-     -H <span class="s2">"Content-Type:application/json"</span> --data <span class="s1">'{"name":"bar"}'</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/ <span class="nt">-H</span> <span class="s2">"Host:example.com"</span> <span class="se">\</span>
+     <span class="nt">-H</span> <span class="s2">"Content-Type:application/json"</span> <span class="nt">--data</span> <span class="s1">'{"name":"bar"}'</span>
    HTTP/1.1 200 OK
    ...
 
    <span class="o">{</span>
      <span class="s2">"payload"</span>: <span class="s2">"Hello, bar!"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>Parameters as multipart form</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/ -H <span class="s2">"Host:example.com"</span>  -F <span class="nv">name</span><span class="o">=</span>bar
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/ <span class="nt">-H</span> <span class="s2">"Host:example.com"</span>  <span class="nt">-F</span> <span class="nv">name</span><span class="o">=</span>bar
    HTTP/1.1 100 Continue
 
    HTTP/1.1 200 OK
@@ -1109,27 +1097,25 @@ HTTP/1.1 201 Created
    <span class="o">{</span>
      <span class="s2">"payload"</span>: <span class="s2">"Hello, bar!"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>Parameters as querystring</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/?name<span class="o">=</span>foo -H <span class="s2">"Host:example.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/?name<span class="o">=</span>foo <span class="nt">-H</span> <span class="s2">"Host:example.com"</span>
    HTTP/1.1 200 OK
    ...
 
    <span class="o">{</span>
      <span class="s2">"payload"</span>: <span class="s2">"Hello, foo!"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>OpenWhisk metadata in response</strong></p>
 
     <p>When Kong’s <code class="highlighter-rouge">config.result</code> is set to false, OpenWhisk’s metadata will
    be returned in response:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X POST http://localhost:8000/?name<span class="o">=</span>foo -H <span class="s2">"Host:example.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8000/?name<span class="o">=</span>foo <span class="nt">-H</span> <span class="s2">"Host:example.com"</span>
    HTTP/1.1 200 OK
    ...
 
@@ -1163,8 +1149,7 @@ HTTP/1.1 201 Created
      <span class="s2">"start"</span>: 1491855076121,
      <span class="s2">"namespace"</span>: <span class="s2">"guest"</span>
    <span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1367,7 +1352,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

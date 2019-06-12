@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1393,15 +1399,14 @@ incoming traffic are <code class="highlighter-rouge">hosts</code>, <code class="
 <p>If Kong cannot determine to which upstream API a given request should be
 routed, Kong will respond with:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">404</span> <span class="ne">Not Found</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">404</span> <span class="ne">Not Found</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Server</span><span class="p">:</span> <span class="s">kong/&lt;x.x.x&gt;</span>
 
 <span class="p">{</span><span class="w">
-    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"no API found with those values"</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"no API found with those values"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1411,16 +1416,15 @@ routed, Kong will respond with:</p>
 configured via Kong’s <a href="/0.12.x/admin-api">Admin API</a> running by default on port <code class="highlighter-rouge">8001</code>.
 Adding an API to Kong is as easy as sending an HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis/ <span class="se">\</span>
-    -d <span class="s1">'name=my-api'</span> <span class="se">\</span>
-    -d <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
-    -d <span class="s1">'hosts=example.com'</span> <span class="se">\</span>
-    -d <span class="s1">'uris=/my-api'</span> <span class="se">\</span>
-    -d <span class="s1">'methods=GET,HEAD'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis/ <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'name=my-api'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts=example.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'uris=/my-api'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'methods=GET,HEAD'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This request instructs Kong to register an API named “my-api”, reachable at
 “http://my-api.com”. It also specifies various routing properties, though note
@@ -1450,52 +1454,45 @@ a request needs only one of the values to be considered a match)</li>
 
 <p>Let’s go through a few examples. Consider an API configured like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/foo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/bar"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/foo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/bar"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Some of the possible requests matching this API could be:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/bar</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/bar</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo/hello/world</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo/hello/world</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All three of these requests satisfy all the conditions set in the API
 definition.</p>
 
 <p>However, the following requests would <strong>not</strong> match the configured conditions:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/foo</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">foo.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>All three of these requests satisfy only two of configured conditions. The
 first request’s URI is not a match for any of the configured <code class="highlighter-rouge">uris</code>, same for
@@ -1515,33 +1512,29 @@ header. Kong makes it easy to do so via the <code class="highlighter-rouge">host
 <p><code class="highlighter-rouge">hosts</code> accepts multiple values, which must be comma-separated when specifying
 them via the Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis/ <span class="se">\</span>
-    -d <span class="s1">'name=my-api'</span> <span class="se">\</span>
-    -d <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
-    -d <span class="s1">'hosts=my-api.com,example.com,service.com'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis/ <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'name=my-api'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts=my-api.com,example.com,service.com'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To satisfy the <code class="highlighter-rouge">hosts</code> condition of this API, any incoming request from a
 client must now have its Host header set to one of:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Host: my-api.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host: my-api.com
+</code></pre></div></div>
 
 <p>or:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Host: example.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host: example.com
+</code></pre></div></div>
 
 <p>or:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Host: service.com
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host: service.com
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1563,25 +1556,22 @@ to match.</li>
 
 <p>A complete example would look like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"*.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"service.com"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Which would allow the following requests to match this API:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">an.example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1594,55 +1584,49 @@ header to the hostname of the API’s <code class="highlighter-rouge">upstream_u
 <p>For example, when the <code class="highlighter-rouge">preserve_host</code> property is not changed and an API is
 configured like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>A possible request from a client to Kong could be:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong would extract the Host header value from the the hostname of the API’s
 <code class="highlighter-rouge">upstream_url</code> field, and would send the following request to your upstream
 service:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-api.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>However, by explicitly configuring your API with <code class="highlighter-rouge">preserve_host=true</code>:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"service.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>And assuming the same request from the client:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong would preserve the Host on the client request and would send the following
 request to your upstream service:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">service.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1655,30 +1639,26 @@ of the <code class="highlighter-rouge">uris</code> field.</p>
 
 <p>For example, in an API configured like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/hello/world"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/hello/world"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following requests would match the configured API:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-api.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/resource?param=value</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/resource?param=value</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-api.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/hello/world/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/hello/world/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">anything.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For each of these requests, Kong detects that their URI is prefixed with one of
 the API’s <code class="highlighter-rouge">uris</code> values. By default, Kong would then forward the request
@@ -1698,25 +1678,22 @@ URIs as both prefixes and regexes to an API at the same time.</p>
 
 <p>For example, if we consider the following API:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regex-matching-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/users/\d+/profile"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/following"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"regex-matching-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/users/</span><span class="se">\d</span><span class="s2">+/profile"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/following"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following requests would match this API and be proxied by Kong:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/following</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/following</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/users/123/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/users/123/profile</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The provided regexes are evaluated with the <code class="highlighter-rouge">a</code> PCRE flag (<code class="highlighter-rouge">PCRE_ANCHORED</code>),
 meaning that they will be constrained to match at the first matching point
@@ -1731,25 +1708,24 @@ prefix URIs are evaluated first. However, Kong will evaluate regex URIs <strong>
 on the order in which they are defined</strong>. This means that considering the
 following APIs:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-1.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/status/\d+"</span><span class="p">]</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-1.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/status/</span><span class="se">\d</span><span class="s2">+"</span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-2"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-2.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/\d+/status/\d+"</span><span class="p">]</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-2"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-2.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/</span><span class="se">\d</span><span class="s2">+/status/</span><span class="se">\d</span><span class="s2">+"</span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-3"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-3.com"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version"</span><span class="p">]</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-3"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-3.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version"</span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>In this scenario, Kong will evaluate incoming requests against the following
 defined URIs, in this order:</p>
@@ -1775,26 +1751,23 @@ the most rules (see [Routing priorities][proxy-routing-priorities]).</p>
 from the URI and available for plugins consumption. If we consider the
 following regex:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/version/(?&lt;version&gt;\d+)/users/(?&lt;user&gt;\S+)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/version/(?&lt;version&gt;\d+)/users/(?&lt;user&gt;\S+)
+</code></pre></div></div>
 
 <p>And the following request URI:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/version/1/users/john
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/version/1/users/john
+</code></pre></div></div>
 
 <p>Kong will consider the request URI a match, and if the overall API is matched
 (considering <code class="highlighter-rouge">hosts</code> and <code class="highlighter-rouge">methods</code> fields), the extracted capturing groups
 will be available from the plugins in the <code class="highlighter-rouge">ngx.ctx</code> variable:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">router_matches</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">ctx</span><span class="p">.</span><span class="n">router_matches</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">router_matches</span> <span class="o">=</span> <span class="n">ngx</span><span class="p">.</span><span class="n">ctx</span><span class="p">.</span><span class="n">router_matches</span>
 
 <span class="c1">-- router_matches.uri_captures is:</span>
 <span class="c1">-- { "1", "john", version = "1", user = "john" }</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1807,14 +1780,13 @@ should be percent-encoded. <strong>When configuring APIs with regex URIs via the
 Admin API, be sure to URL encode your payload if necessary</strong>. For example,
 with <code class="highlighter-rouge">curl</code> and using an <code class="highlighter-rouge">application/x-www-form-urlencoded</code> MIME type:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-    --data <span class="s1">'name=my-api'</span> <span class="se">\</span>
-    --data <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
-    --data-urlencode <span class="s1">'uris=/status/\d+'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'name=my-api'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s1">'uris=/status/\d+'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that <code class="highlighter-rouge">curl</code> does not automatically URL encode your payload, and note the
 usage of <code class="highlighter-rouge">--data-urlencode</code>, which prevents the <code class="highlighter-rouge">+</code> character to be URL decoded
@@ -1825,14 +1797,13 @@ PCRE sequences - we must consider the comma, which is used by Kong to delimit
 several entries in the <code class="highlighter-rouge">uris</code> property. Because of this, commas used in a PCRE
 sequence must be escaped, like so:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-    --data <span class="s1">'name=my-api'</span> <span class="se">\</span>
-    --data <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
-    --data-urlencode <span class="s1">'uris=/status/\d+{1\,3},/version/\d+/status/\d+{1\,3}'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'name=my-api'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'upstream_url=http://my-api.com'</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s1">'uris=/status/\d+{1\,3},/version/\d+/status/\d+{1\,3}'</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the above example, two regex URIs are defined, and both of these URIs
 contain a repeated escape sequence: <code class="highlighter-rouge">\d+{1,3}</code>. Because those two URIs are
@@ -1848,56 +1819,50 @@ separator.</p>
 include it in the upstream request. To do so, use the <code class="highlighter-rouge">strip_uri</code> boolean
 property by configuring an API like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/service"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Enabling this flag instructs Kong that when proxying this API, it should
 <strong>not</strong> include the matching URI prefix in the upstream request’s URI. For
 example, the following client’s request to the API configured as above:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="s">Host:</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Will cause Kong to send the following request to your upstream service:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-api.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The same way, if a regex URI is defined on an API that has <code class="highlighter-rouge">strip_uri</code> enabled,
 the entirety of the request URI matching sequence will be stripped. Example:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-regex-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/\d+/service"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-regex-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/version/</span><span class="se">\d</span><span class="s2">+/service"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The following HTTP request matching the provided URI:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/version/1/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/version/1/service/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Will be proxied upstream by Kong as:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/path/to/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-api.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1911,25 +1876,22 @@ only requests with the specified HTTP methods will be matched.</p>
 <p>This field also accepts multiple values. Here is an example of an API allowing
 routing via <code class="highlighter-rouge">GET</code> and <code class="highlighter-rouge">HEAD</code> HTTP methods:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> </span><span class="s2">"HEAD"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> </span><span class="s2">"HEAD"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Such an API would be matched with the following requests:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="s">Host:</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">HEAD</span> <span class="nn">/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">HEAD</span> <span class="nn">/resource</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="s">Host:</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But would not match a <code class="highlighter-rouge">POST</code> or <code class="highlighter-rouge">DELETE</code> request. This allows for much more
 granularity when configuring APIs and Plugins. For example, one could imagine
@@ -1953,19 +1915,18 @@ to match the APIs with the most rules</strong>.</p>
 
 <p>For example, two APIs are configured like this:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="err">,</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">]</span><span class="w">
+</span><span class="p">},</span><span class="w">
 </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-2"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-2.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
-    </span><span class="nt">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"POST"</span><span class="p">]</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api-2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api-2.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example.com"</span><span class="p">],</span><span class="w">
+    </span><span class="s2">"methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"POST"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>api-2 has a <code class="highlighter-rouge">hosts</code> field <strong>and</strong> a <code class="highlighter-rouge">methods</code> field, so it will be
 evaluated first by Kong. By doing so, we avoid api-1 “shadowing” calls
@@ -1973,17 +1934,15 @@ intended for api-2.</p>
 
 <p>Thus, this request will match api-1:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And this request will match api-2:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">example.com</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Following this logic, if a third API was to be configured with a <code class="highlighter-rouge">hosts</code> field,
 a <code class="highlighter-rouge">methods</code> field, and a <code class="highlighter-rouge">uris</code> field, it would be evaluated first by Kong.</p>
@@ -2170,13 +2129,12 @@ with a different status code or response without proxying the request).</p>
 
 <p>Here is an example of such a fallback API:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root-fallback"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://dummy.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/"</span><span class="p">]</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root-fallback"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://dummy.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/"</span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>As you can guess, any HTTP request made to Kong would actually match this API,
 since all URIs are prefixed by the root character <code class="highlighter-rouge">/</code>. As we know from the
@@ -2208,14 +2166,13 @@ Indication.</li>
 <p>Here is how to configure an SSL certificate for a given API: first, upload your
 SSL certificate and key via the Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/certificates <span class="se">\</span>
-    -F <span class="s2">"cert=@/path/to/cert.pem"</span> <span class="se">\</span>
-    -F <span class="s2">"key=@/path/to/cert.key"</span> <span class="se">\</span>
-    -F <span class="s2">"snis=ssl-example.com,other-ssl-example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/certificates <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"cert=@/path/to/cert.pem"</span> <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"key=@/path/to/cert.key"</span> <span class="se">\</span>
+    <span class="nt">-F</span> <span class="s2">"snis=ssl-example.com,other-ssl-example.com"</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">snis</code> form parameter is a sugar parameter, directly inserting an SNI and
 associating the uploaded certificate to it.</p>
@@ -2223,23 +2180,21 @@ associating the uploaded certificate to it.</p>
 <p>You must now register the following API within Kong. We’ll route requests to
 this API using the Host header for convenience:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-    -d <span class="s2">"name=ssl-api"</span> <span class="se">\</span>
-    -d <span class="s2">"upstream_url=http://my-api.com"</span> <span class="se">\</span>
-    -d <span class="s2">"hosts=ssl-example.com,other-ssl-example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=ssl-api"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"upstream_url=http://my-api.com"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"hosts=ssl-example.com,other-ssl-example.com"</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can now expect the API to be served over HTTPs by Kong:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i https://localhost:8443/ <span class="se">\</span>
-  -H <span class="s2">"Host: ssl-example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> https://localhost:8443/ <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Host: ssl-example.com"</span>
 HTTP/1.1 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2248,32 +2203,30 @@ HTTP/1.1 200 OK
 <p>If you wish an API to only be served through HTTPS, you can do so by enabling
 its <code class="highlighter-rouge">https_only</code> property:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/apis <span class="se">\</span>
-    -d <span class="s2">"name=ssl-only-api"</span> <span class="se">\</span>
-    -d <span class="s2">"upstream_url=http://example.com"</span> <span class="se">\</span>
-    -d <span class="s2">"hosts=my-api.com"</span> <span class="se">\</span>
-    -d <span class="s2">"https_only=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/apis <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=ssl-only-api"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"upstream_url=http://example.com"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"hosts=my-api.com"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"https_only=true"</span>
 HTTP/1.1 201 Created
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By configuring your API like so, Kong will refuse to proxy traffic for it
 without HTTPS. A request to Kong over plain HTTP targeting this API would
 instruct your clients to upgrade to HTTPS:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8000 <span class="se">\</span>
-    -H <span class="s2">"Host: my-api.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8000 <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Host: my-api.com"</span>
 HTTP/1.1 426
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: Upgrade
 Upgrade: TLS/1.2, HTTP/1.1
 Server: kong/x.x.x
 
 <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"Please use HTTPS protocol"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -2285,23 +2238,21 @@ API definition.</p>
 
 <p>Following the previous example, if we update our HTTPS-only API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X PATCH http://localhost:8001/apis/ssl-only-api <span class="se">\</span>
-    -d <span class="s2">"http_if_terminated=true"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH http://localhost:8001/apis/ssl-only-api <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"http_if_terminated=true"</span>
 HTTP/1.1 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And we make a request with the <code class="highlighter-rouge">X-Forwarded-Proto</code> header (assuming it is
 coming from a <strong>trusted</strong> client):</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8000 <span class="se">\</span>
-    -H <span class="s2">"Host: my-api.com"</span> <span class="se">\</span>
-    -H <span class="s2">"X-Forwarded-Proto: https"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8000 <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"Host: my-api.com"</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"X-Forwarded-Proto: https"</span>
 HTTP/1.1 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong now proxies this request, because it assumes SSL termination has been
 achieved by a previous component of your architecture.</p>
@@ -2316,12 +2267,11 @@ upstream services <em>through</em> Kong, you must establish a WebSocket handshak
 This is done via the HTTP Upgrade mechanism. This is what your client request
 made to Kong would look like:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">Upgrade</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">my-websocket-api.com</span>
 <span class="na">Upgrade</span><span class="p">:</span> <span class="s">WebSocket</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will make Kong forward the <code class="highlighter-rouge">Connection</code> and <code class="highlighter-rouge">Upgrade</code> headers to your
 upstream service, instead of dismissing them due to the hop-by-hop nature of a
@@ -2558,7 +2508,7 @@ topic we just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

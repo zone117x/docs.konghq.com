@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1433,9 +1439,8 @@ namespaced under: <code class="highlighter-rouge">kong.plugins.&lt;plugin_name&g
 
 <h2 id="module">Module</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.handler
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.handler
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1516,7 +1521,7 @@ implementing all the available methods:</p>
   classes in Lua and ease the inheritance pattern.
 </div>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Extending the Base Plugin handler is optional, as there is no real</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Extending the Base Plugin handler is optional, as there is no real</span>
 <span class="c1">-- concept of interface in Lua, but the Base Plugin handler's methods</span>
 <span class="c1">-- can be called from your child implementation and will print logs</span>
 <span class="c1">-- in your `error.log` file (where all logs are printed).</span>
@@ -1589,15 +1594,14 @@ implementing all the available methods:</p>
 <span class="c1">-- This module needs to return the created table, so that Kong</span>
 <span class="c1">-- can execute those functions.</span>
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Of course, the logic of your plugin itself can be abstracted away in another
 module, and called from your <code class="highlighter-rouge">handler</code> module. Many existing plugins have
 already chosen this pattern when their logic is verbose, but it is purely
 optional:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 
 <span class="c1">-- The actual logic is implemented in those modules</span>
 <span class="kd">local</span> <span class="n">access</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.my-custom-plugin.access"</span>
@@ -1626,8 +1630,7 @@ optional:</p>
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>See <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/handler.lua">the source code of the Key-Auth plugin</a> for an example of a real-life
 handler code.</p>
@@ -1664,9 +1667,8 @@ to run <strong>after</strong> authentication plugins. Considering this, Kong def
 <p>Your plugin’s priority can be configured via a property accepting a number in
 the returned handler table:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="n">CustomHandler</span><span class="p">.</span><span class="n">PRIORITY</span> <span class="o">=</span> <span class="mi">10</span>
-</code></pre>
-</div>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CustomHandler</span><span class="p">.</span><span class="n">PRIORITY</span> <span class="o">=</span> <span class="mi">10</span>
+</code></pre></div></div>
 
 <p>The higher the priority, the sooner your plugin’s phases will be executed in
 regard to other plugins’ phases (such as <code class="highlighter-rouge">:access()</code>, <code class="highlighter-rouge">:log()</code>, etc…).</p>
@@ -2012,7 +2014,7 @@ regard to other plugins’ phases (such as <code class="highlighter-rouge">:acce
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

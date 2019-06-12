@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -752,10 +752,9 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 
     <p>Download or clone the following repo:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>git clone git@github.com:Kong/kong-dist-dcos.git
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git clone git@github.com:Kong/kong-dist-dcos.git
  <span class="nv">$ </span><span class="nb">cd </span>kong-dist-dcos
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Skip to step 3 if you have already provisioned a DC/OS cluster.</p>
   </li>
@@ -778,9 +777,8 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
  traffic to cluster and <a href="https://dcos.io/docs/1.9/networking/load-balancing-vips/virtual-ip-addresses/">VIPs</a> for load balancing
  internal traffic:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos package install marathon-lb
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos package <span class="nb">install </span>marathon-lb
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Deploy a Kong-supported database</strong></p>
@@ -791,50 +789,48 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
     <p>For Cassandra, use the <code class="highlighter-rouge">cassandra</code> package to deploy 3 nodes of Cassandra
  in the DC/OS cluster:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos package install cassandra
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos package <span class="nb">install </span>cassandra
+</code></pre></div>    </div>
 
     <p>For PostgreSQL, use the <code class="highlighter-rouge">postgresql</code> package with the following options:</p>
 
-    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql"</span><span class="w">
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql"</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"postgresql"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"mem"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="w">
+   </span><span class="s2">"postgresql"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"mem"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"dbname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
+   </span><span class="s2">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"dbname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"storage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"host_volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/tmp"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"pgdata"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pgdata"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"persistence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"volume_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"external"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-         </span><span class="nt">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"volume_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dvdi"</span><span class="p">,</span><span class="w">
-         </span><span class="nt">"driver"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rexray"</span><span class="w">
+   </span><span class="s2">"storage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"host_volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/tmp"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"pgdata"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pgdata"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"persistence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"volume_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"external"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"volume_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dvdi"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"driver"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rexray"</span><span class="w">
        </span><span class="p">}</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"networking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5432</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"host_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"external_access"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"external_access_port"</span><span class="p">:</span><span class="w"> </span><span class="mi">15432</span><span class="w">
+   </span><span class="s2">"networking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5432</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"host_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"external_access"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"enable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"external_access_port"</span><span class="p">:</span><span class="w"> </span><span class="mi">15432</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">}</span><span class="w">
  </span><span class="p">}</span><span class="w">
-</span></code></pre>
-    </div>
+</span></code></pre></div>    </div>
 
     <p>It configures PostgreSQL as follows:</p>
 
@@ -867,9 +863,8 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 
     <p>Install PostgreSQL using <code class="highlighter-rouge">postgres.json</code> file from the repo:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos package install postgresql --options<span class="o">=</span>postgres.json
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos package <span class="nb">install </span>postgresql <span class="nt">--options</span><span class="o">=</span>postgres.json
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Deploy Kong</strong></p>
@@ -878,53 +873,52 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
  running. Using the <a href="https://universe.dcos.io/#/package/kong/version/latest">kong package</a> from Universe repo, deploy Kong
  with the following options:</p>
 
-    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
-   </span><span class="nt">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"instances"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"mem"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"instances"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"mem"</span><span class="p">:</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"log-level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"notice"</span><span class="p">,</span><span class="w">
-     </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"migrations"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"use-cassandra"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+   </span><span class="s2">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"log-level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"notice"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"migrations"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"use-cassandra"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
      </span><span class="p">},</span><span class="w">
-     </span><span class="nt">"postgres"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql.marathon.l4lb.thisdcos.directory"</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5432</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
+     </span><span class="s2">"postgres"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"postgresql.marathon.l4lb.thisdcos.directory"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">5432</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"database"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
      </span><span class="p">},</span><span class="w">
-     </span><span class="nt">"cassandra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"contact-points"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node-0.cassandra.mesos, node-1.cassandra.mesos, node-2.cassandra.mesos"</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">9042</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"keyspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
+     </span><span class="s2">"cassandra"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"contact-points"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node-0.cassandra.mesos, node-1.cassandra.mesos, node-2.cassandra.mesos"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">9042</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"keyspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">},</span><span class="w">
-   </span><span class="nt">"networking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-     </span><span class="nt">"proxy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"external-access"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"vip-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"vip-port-ssl"</span><span class="p">:</span><span class="w"> </span><span class="mi">8443</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"virtual-host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;vhost&gt;"</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"https-redirect"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"service-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">10201</span><span class="w">
+   </span><span class="s2">"networking"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"proxy"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"external-access"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"vip-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"vip-port-ssl"</span><span class="p">:</span><span class="w"> </span><span class="mi">8443</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"virtual-host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;vhost&gt;"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"https-redirect"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"service-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">10201</span><span class="w">
      </span><span class="p">},</span><span class="w">
-     </span><span class="nt">"admin"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-       </span><span class="nt">"external-access"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"vip-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8001</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"vip-port-ssl"</span><span class="p">:</span><span class="w"> </span><span class="mi">8444</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"https-redirect"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-       </span><span class="nt">"service-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">10202</span><span class="w">
+     </span><span class="s2">"admin"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"external-access"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"vip-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">8001</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"vip-port-ssl"</span><span class="p">:</span><span class="w"> </span><span class="mi">8444</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"https-redirect"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"service-port"</span><span class="p">:</span><span class="w"> </span><span class="mi">10202</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">}</span><span class="w">
  </span><span class="p">}</span><span class="w">
-</span></code></pre>
-    </div>
+</span></code></pre></div>    </div>
 
     <p>It configures Kong as follows:</p>
 
@@ -1039,9 +1033,8 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 
     <p>Run the following command to install Kong package:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos package install kong --options<span class="o">=</span>kong_postgres.json
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos package <span class="nb">install </span>kong <span class="nt">--options</span><span class="o">=</span>kong_postgres.json
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Verify your deployments</strong></p>
@@ -1049,13 +1042,12 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
     <p>To verify that our Kong instance is up and running, we can use <code class="highlighter-rouge">dcos task</code>
  command:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos task
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos task
  NAME         HOST        USER  STATE  ID
  kong         10.0.1.8   root    R    kong.af46c916-3b55-11e7-844e-52921ef4378d
  marathon-lb  10.0.4.42  root    R    marathon-lb.d65c3cc3-3b54-11e7-844e-52921ef4378d
  postgres     10.0.1.8   root    R    postgres.5b0a2635-3b55-11e7-844e-52921ef4378d
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Using Kong</strong></p>
@@ -1065,23 +1057,21 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 
     <p><strong>Admin</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET http://marathon-lb.marathon.mesos:10202
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET http://marathon-lb.marathon.mesos:10202
  HTTP/1.1 200 OK
  ..
 
  <span class="o">{</span>..<span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>Proxy</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET http://marathon-lb.marathon.mesos:10201
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET http://marathon-lb.marathon.mesos:10201
  HTTP/1.1 404 Not Found
  ..
 
  <span class="o">{</span><span class="s2">"message"</span>:<span class="s2">"no API found with those values"</span><span class="o">}</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p><strong>VHOST</strong></p>
 
@@ -1097,9 +1087,8 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 
     <p>To uninstall Kong, run the following command:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos package uninstall kong
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos package uninstall kong
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Example</strong></p>
@@ -1109,32 +1098,29 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
  the cluster which will act as a backend server to process requests received
  from Kong:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>dcos marathon app add my_app.json
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>dcos marathon app add my_app.json
+</code></pre></div>    </div>
 
     <p>Create an API on Kong:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST marathon-lb.marathon.mesos:10002/apis <span class="se">\</span>
-   --data <span class="s2">"name=myapp"</span> <span class="se">\</span>
-   --data <span class="s2">"hosts=myapp.com"</span> <span class="se">\</span>
-   --data <span class="s2">"upstream_url=http://myapp.marathon.l4lb.thisdcos.directory:8080"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST marathon-lb.marathon.mesos:10002/apis <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"name=myapp"</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"hosts=myapp.com"</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"upstream_url=http://myapp.marathon.l4lb.thisdcos.directory:8080"</span>
  HTTP/1.1 201 Created
  ...
 
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Make a request to the API:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET marathon-lb.marathon.mesos:10001 <span class="se">\</span>
-   --header <span class="s2">"Host:myapp.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET marathon-lb.marathon.mesos:10001 <span class="se">\</span>
+   <span class="nt">--header</span> <span class="s2">"Host:myapp.com"</span>
  HTTP/1.1 200 OK
  ...
 
  Hello world
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Quickly learn how to use Kong with the 
  <a href="/latest/getting-started/quickstart/">5-minute Quickstart</a>.</p>
@@ -1335,7 +1321,7 @@ have basic knowledge of <a href="https://dcos.io/docs/1.9/">DC/OS</a>,
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

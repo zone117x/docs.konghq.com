@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -722,6 +722,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -927,11 +929,10 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=key-auth"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=key-auth"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -945,11 +946,10 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=key-auth"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=key-auth"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -968,11 +968,10 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=key-auth"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=key-auth"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -1093,9 +1092,9 @@ blacklist groups of users.</p>
 
 <p>You need to associate a credential to an existing <a href="/latest/admin-api/#consumer-object">Consumer</a> object. To create a Consumer, you can execute the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
-    --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
-    --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/ <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -1104,8 +1103,7 @@ HTTP/1.1 201 Created
     <span class="s2">"created_at"</span>: 1472604384000,
     <span class="s2">"id"</span>: <span class="s2">"7f853474-7b70-439d-ad59-2481a0a9a904"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1139,7 +1137,7 @@ service, you must add the new consumer to a whitelisted group. See
 
 <p>You can provision new credentials by making the following HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth -d <span class="s1">''</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth <span class="nt">-d</span> <span class="s1">''</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -1148,8 +1146,7 @@ HTTP/1.1 201 Created
     <span class="s2">"id"</span>: <span class="s2">"62a7d3b7-b995-49f9-c9c8-bac4d781fb59"</span>,
     <span class="s2">"key"</span>: <span class="s2">"62eb165c070a41d5c1b58d9d3d725ca1"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
@@ -1180,25 +1177,22 @@ HTTP/1.1 201 Created
 
 <p>Simply make a request with the key as a querystring parameter:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span>?apikey<span class="o">=</span>&lt;some_key&gt;
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span>?apikey<span class="o">=</span>&lt;some_key&gt;
+</code></pre></div></div>
 
 <p>Or in a header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span> <span class="se">\</span>
-    -H <span class="s1">'apikey: &lt;some_key&gt;'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'apikey: &lt;some_key&gt;'</span>
+</code></pre></div></div>
 
 <h3 id="delete-a-key">Delete a Key</h3>
 
 <p>You can delete an API Key by making the following HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth/<span class="o">{</span>id<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> DELETE http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/key-auth/<span class="o">{</span><span class="nb">id</span><span class="o">}</span>
 HTTP/1.1 204 No Content
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">consumer</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> property of the <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to.</li>
@@ -1228,7 +1222,7 @@ HTTP/1.1 204 No Content
 <p>You can paginate through the API keys for all Consumers using the following
 request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://kong:8001/key-auths
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> GET http://kong:8001/key-auths
 
 <span class="o">{</span>
    <span class="s2">"total"</span>:3,
@@ -1253,8 +1247,7 @@ request:</p>
       <span class="o">}</span>
    <span class="o">]</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can filter the list using the following query parameters:</p>
 
@@ -1298,15 +1291,14 @@ request:</p>
 <p>It is possible to retrieve a <a href="/latest/admin-api/#consumer-object">Consumer</a> associated with an API
 Key using the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X GET http://kong:8001/key-auths/<span class="o">{</span>key or id<span class="o">}</span>/consumer
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> GET http://kong:8001/key-auths/<span class="o">{</span>key or <span class="nb">id</span><span class="o">}</span>/consumer
 
 <span class="o">{</span>
    <span class="s2">"created_at"</span>:1507936639000,
    <span class="s2">"username"</span>:<span class="s2">"foo"</span>,
    <span class="s2">"id"</span>:<span class="s2">"c0d92ba9-8306-482a-b60d-0cfdd2f0e880"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">key or id</code>: The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">key</code> property of the API key for which to get the
@@ -1495,7 +1487,7 @@ associated Consumer.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

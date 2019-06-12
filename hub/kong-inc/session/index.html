@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -684,6 +684,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -779,12 +781,11 @@ It is built using
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=session"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.secret=opensesame"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.secret=opensesame"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -798,12 +799,11 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=session"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.secret=opensesame"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.secret=opensesame"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -1035,20 +1035,18 @@ requests. For more information please see section on <a href="https://docs.kongh
     <p>Issue the following cURL request to create <code class="highlighter-rouge">example-service</code> pointing to 
  mockbin.org, which will echo the request:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/services/ <span class="se">\</span>
-   --data <span class="s1">'name=example-service'</span> <span class="se">\</span>
-   --data <span class="s1">'url=http://mockbin.org/request'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/services/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'name=example-service'</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'url=http://mockbin.org/request'</span>
+</code></pre></div>    </div>
 
     <p>Add a route to the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/services/example-service/routes <span class="se">\</span>
-   --data <span class="s1">'paths[]=/sessions-test'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/services/example-service/routes <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'paths[]=/sessions-test'</span>
+</code></pre></div>    </div>
 
     <p>The url <code class="highlighter-rouge">http://localhost:8000/sessions-test</code> will now echo whatever is being 
  requested.</p>
@@ -1058,11 +1056,10 @@ requests. For more information please see section on <a href="https://docs.kongh
 
     <p>Issue the following cURL request to add the key-auth <strong>Plugin</strong> to the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
-   --data <span class="s1">'name=key-auth'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'name=key-auth'</span>
+</code></pre></div>    </div>
 
     <p>Be sure to note the created <strong>Plugin</strong> <code class="highlighter-rouge">id</code> - it will be needed later.</p>
   </li>
@@ -1072,10 +1069,9 @@ requests. For more information please see section on <a href="https://docs.kongh
     <p>Issue the following cURL request to verify that the [key-auth][key-auth]
  <strong>Plugin</strong> was properly configured on the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-   --url http://localhost:8000/sessions-test
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8000/sessions-test
+</code></pre></div>    </div>
 
     <p>Since the required header or parameter <code class="highlighter-rouge">apikey</code> was not specified, and 
  anonymous access was not yet enabled, the response should be <code class="highlighter-rouge">401 Unauthorized</code>:</p>
@@ -1087,29 +1083,26 @@ requests. For more information please see section on <a href="https://docs.kongh
  Consumer. You’ll now create a Consumer named <code class="highlighter-rouge">anonymous_users</code> by issuing 
  the following request:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/consumers/ <span class="se">\</span>
-   --data <span class="s2">"username=anonymous_users"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"username=anonymous_users"</span>
+</code></pre></div>    </div>
 
     <p>Be sure to note the Consumer <code class="highlighter-rouge">id</code> - you’ll need it in a later step.</p>
 
     <p>Now create a consumer that will authenticate via sessions</p>
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/consumers/ <span class="se">\</span>
-   --data <span class="s2">"username=fiona"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"username=fiona"</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Provision key-auth credentials for your Consumer</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST <span class="se">\</span>
-   --url http://localhost:8001/consumers/fiona/key-auth/ <span class="se">\</span>
-   --data <span class="s1">'key=open_sesame'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/consumers/fiona/key-auth/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s1">'key=open_sesame'</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Enable anonymous access</p>
@@ -1118,21 +1111,19 @@ requests. For more information please see section on <a href="https://docs.kongh
  issuing the following request (<strong>replace the uuids below by the <code class="highlighter-rouge">id</code> value
  from previous steps</strong>):</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X PATCH <span class="se">\</span>
-   --url http://localhost:8001/plugins/&lt;your-key-auth-plugin-id&gt; <span class="se">\</span>
-   --data <span class="s2">"config.anonymous=&lt;anonymous_consumer_id&gt;"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8001/plugins/&lt;your-key-auth-plugin-id&gt; <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"config.anonymous=&lt;anonymous_consumer_id&gt;"</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Add the Kong Session <strong>Plugin</strong> to the service</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-     --data <span class="s2">"name=session"</span>  <span class="se">\</span>
-     --data <span class="s2">"config.storage=kong"</span> <span class="se">\</span>
-     --data <span class="s2">"config.cookie_secure=false"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.storage=kong"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.cookie_secure=false"</span>
+</code></pre></div>    </div>
     <blockquote>
       <p>Note: cookie_secure is true by default, and should always be true, but is set to
  false for the sake of this demo in order to avoid using HTTPS.</p>
@@ -1144,46 +1135,41 @@ requests. For more information please see section on <a href="https://docs.kongh
     <p>To disable anonymous access to only allow users access via sessions or via
  authentication credentials, enable the Request Termination <strong>Plugin</strong>.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -X POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-     --data <span class="s2">"name=request-termination"</span>  <span class="se">\</span>
-     --data <span class="s2">"config.status_code=403"</span> <span class="se">\</span>
-     --data <span class="s2">"config.message=So long and thanks for all the fish!"</span> <span class="se">\</span>
-     --data <span class="s2">"consumer.id=&lt;anonymous_consumer_id&gt;"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"name=request-termination"</span>  <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.status_code=403"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.message=So long and thanks for all the fish!"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"consumer.id=&lt;anonymous_consumer_id&gt;"</span>
+</code></pre></div>    </div>
 
     <p>Anonymous requests now will return status <code class="highlighter-rouge">403</code>.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-     --url http://localhost:8000/sessions-test
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+     <span class="nt">--url</span> http://localhost:8000/sessions-test
+</code></pre></div>    </div>
 
     <p>Should return <code class="highlighter-rouge">403</code>.</p>
   </li>
   <li>
     <p>Verify that the session <strong>Plugin</strong> is properly configured</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-   --url http://localhost:8000/sessions-test?apikey<span class="o">=</span>open_sesame
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+   <span class="nt">--url</span> http://localhost:8000/sessions-test?apikey<span class="o">=</span>open_sesame
+</code></pre></div>    </div>
 
     <p>The response should now have the <code class="highlighter-rouge">Set-Cookie</code> header. Make sure that this
  cookie works.</p>
 
     <p>If cookie looks like this:</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code> Set-Cookie: session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8.; Path=/; SameSite=Strict; HttpOnly
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Set-Cookie: session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8.; Path=/; SameSite=Strict; HttpOnly
+</code></pre></div>    </div>
 
     <p>Use it like this:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>   <span class="nv">$ </span>curl -i -X GET <span class="se">\</span>
-     --url http://localhost:8000/sessions-test <span class="se">\</span>
-     -H <span class="s2">"cookie:session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8."</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+     <span class="nt">--url</span> http://localhost:8000/sessions-test <span class="se">\</span>
+     <span class="nt">-H</span> <span class="s2">"cookie:session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8."</span>
+</code></pre></div>    </div>
 
     <p>This request should succeed, and <code class="highlighter-rouge">Set-Cookie</code> response header will not appear
  until renewal period.</p>
@@ -1210,10 +1196,9 @@ variable host, but can be overridden.</p>
 or inside <a href="#-kong-storage-adapter">Kong</a>. The session data stores two context
 variables:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ngx.ctx.authenticated_consumer.id
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ngx.ctx.authenticated_consumer.id
 ngx.ctx.authenticated_credential.id
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="kong-storage-adapter">Kong Storage Adapter</h2>
 
@@ -1432,7 +1417,7 @@ Current workaround is to wait some interval of time (~100-500ms) after
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

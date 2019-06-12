@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1098,10 +1104,9 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="modules">Modules</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.schema.migrations"
 "kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -1123,14 +1128,13 @@ window['_fs_namespace'] = 'FS';
 
 <p>As described in the <a href="/0.9.x/plugin-development/file-structure/">file structure</a> chapter, your migrations modules must be named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
 "kong.plugins.&lt;plugin_name&gt;.migrations.postgres"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is an example of how one would define a migration file to store API keys:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- cassandra.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- cassandra.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="p">{</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
@@ -1151,10 +1155,9 @@ window['_fs_namespace'] = 'FS';
     ]]</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- postgres.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- postgres.lua</span>
 <span class="k">return</span> <span class="p">{</span>
   <span class="p">{</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
@@ -1182,8 +1185,7 @@ window['_fs_namespace'] = 'FS';
     ]]</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">name</code>: Must be a unique string. The format does not matter but can help you debug issues while developing your plugin, so make sure to name it in a relevant way.</li>
@@ -1201,15 +1203,14 @@ window['_fs_namespace'] = 'FS';
 
 <p>This schema is to be defined in a module named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos"
+</code></pre></div></div>
 
 <p>Once that module returns your entity’s schema, and assuming your plugin is loaded by Kong (see the <code class="highlighter-rouge">custom_plugins</code> property in <code class="highlighter-rouge">kong.yml</code>), the DAO Factory will use it to instantiate a DAO object.</p>
 
 <p>Here is an example of how one would define a schema to store API keys in a his or her database:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
 <span class="kd">local</span> <span class="n">SCHEMA</span> <span class="o">=</span> <span class="p">{</span>
   <span class="n">primary_key</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">},</span>
   <span class="n">table</span> <span class="o">=</span> <span class="s2">"keyauth_credentials"</span><span class="p">,</span> <span class="c1">-- the actual table in the database</span>
@@ -1222,8 +1223,7 @@ window['_fs_namespace'] = 'FS';
 <span class="p">}</span>
 
 <span class="k">return</span> <span class="p">{</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">SCHEMA</span><span class="p">}</span> <span class="c1">-- this plugin only results in one custom DAO, named `keyauth_credentials`</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Since your plugin might have to deal with multiple custom DAOs (in the case when you want to store several entities), this module is bound to return a key/value table where keys are the name on which the custom DAO will be available in the DAO Factory.</p>
 
@@ -1263,7 +1263,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>Your DAO will now be loaded by the DAO Factory and available as one of its properties:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">singletons</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.singletons"</span>
 <span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">singletons</span><span class="p">.</span><span class="n">dao</span>
 
 <span class="kd">local</span> <span class="n">keys_dao</span> <span class="o">=</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span>
@@ -1272,8 +1272,7 @@ window['_fs_namespace'] = 'FS';
   <span class="n">consumer_id</span> <span class="o">=</span> <span class="n">consumer</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
   <span class="n">key</span> <span class="o">=</span> <span class="s2">"abcd"</span>
 <span class="p">})</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The DAO name (<code class="highlighter-rouge">keyauth_credentials</code>) with which it is accessible from the DAO Factory depends on the key with which you exported your DAO in the returned table of <code class="highlighter-rouge">daos.lua</code>.</p>
 
@@ -1485,7 +1484,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

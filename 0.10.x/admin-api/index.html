@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1521,9 +1527,8 @@ of methods to secure the Admin API.</p>
 
 <p>Simple enough for basic request bodies, you will probably use it most of the time. Note that when sending nested values, Kong expects nested objects to be referenced with dotted keys. Example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>config.limit=10&amp;config.period=seconds
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>config.limit=10&amp;config.period=seconds
+</code></pre></div></div>
 
 <ul>
   <li><strong>application/json</strong></li>
@@ -1531,14 +1536,13 @@ of methods to secure the Admin API.</p>
 
 <p>Handy for complex bodies (ex: complex plugin configuration), in that case simply send a JSON representation of the data you want to send. Example:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"seconds"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="s2">"seconds"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -1554,29 +1558,27 @@ of methods to secure the Admin API.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lua_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LuaJIT 2.1.0-alpha"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"available_on_server"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"hostname"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lua_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LuaJIT 2.1.0-alpha"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"available_on_server"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="err">...</span><span class="w">
         </span><span class="p">],</span><span class="w">
-        </span><span class="nt">"enabled_in_cluster"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"enabled_in_cluster"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="err">...</span><span class="w">
         </span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"configuration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"configuration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="err">...</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"tagline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Welcome to Kong"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.10.0"</span><span class="w">
+    </span><span class="s2">"tagline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Welcome to Kong"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.10.0"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">available_on_server</code>: Names of plugins that are installed on the node.</li>
@@ -1597,30 +1599,28 @@ of methods to secure the Admin API.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"total_requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_active"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_accepted"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_handled"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_reading"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_writing"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"connections_waiting"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"server"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"total_requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_active"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_accepted"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_handled"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_reading"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_writing"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"connections_waiting"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"apis"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"consumers"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"nodes"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"database"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"apis"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"consumers"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"plugins"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nodes"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="err">...</span><span class="w">
-    </span><span class="err">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">server</code>: Metrics about the nginx HTTP/S server.
@@ -1659,27 +1659,25 @@ of methods to secure the Admin API.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.30.0.4:7946"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f86eadb04c9_0.0.0.0:7946_b1dae503e0f34f9c9bf9be0a5023461d"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alive"</span><span class="w">
+            </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.30.0.4:7946"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f86eadb04c9_0.0.0.0:7946_b1dae503e0f34f9c9bf9be0a5023461d"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alive"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.30.0.5:7946"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3b42de4b1a43_0.0.0.0:7946_5b0f4afcfe4e45c6b5d40cef6a256311"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alive"</span><span class="w">
+            </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.30.0.5:7946"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3b42de4b1a43_0.0.0.0:7946_5b0f4afcfe4e45c6b5d40cef6a256311"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alive"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -1710,9 +1708,8 @@ of methods to secure the Admin API.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
 <hr />
 
@@ -1743,9 +1740,8 @@ of methods to secure the Admin API.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
 <hr />
 
@@ -1755,25 +1751,24 @@ of methods to secure the Admin API.</p>
 API when a consumer is calling it from the Proxy port. Each API object must specify some combination 
 of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge">uris</code>, and <code class="highlighter-rouge">methods</code>. Kong will proxy all requests to the API to the specified upstream URL.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.org"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+    </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -1850,29 +1845,27 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.org"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+    </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -1899,29 +1892,27 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.org"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+    </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -1970,52 +1961,50 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="s2">"example.org"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+            </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830708000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830708000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="s2">"api.com"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0924978e-eb19-44a0-9adc-55f20db2f04d"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="w">
+            </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0924978e-eb19-44a0-9adc-55f20db2f04d"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-api"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-api.com"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/apis?size=2&amp;offset=6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/apis?size=2&amp;offset=6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2107,29 +2096,27 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"updated-example.org"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-updated-api"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
+    </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-updated-api"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2208,9 +2195,8 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -2239,9 +2225,8 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -2249,11 +2234,10 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p>The Consumer object represents a consumer - or a user - of an API. You can either rely on Kong as the primary datastore, or you can map the consumer list with your database to keep consistency between Kong and your existing primary datastore.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2286,17 +2270,15 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2323,17 +2305,15 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2378,28 +2358,26 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abc123"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"def345"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"def345"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/consumers/?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/consumers/?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2447,17 +2425,15 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"updated_abc123"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"custom_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"updated_abc123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2492,9 +2468,8 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -2523,9 +2498,8 @@ of <code class="highlighter-rouge">hosts</code>, <code class="highlighter-rouge"
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -2542,20 +2516,19 @@ that API will run said Plugin. If a Plugin needs to be tuned to different
 values for some specific Consumers, you can do so by specifying the
 <code class="highlighter-rouge">consumer_id</code> value:</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>See the <a href="#precedence">Precedence</a> section below for more details.</p>
 
@@ -2657,24 +2630,22 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2701,24 +2672,22 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2767,41 +2736,39 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+          </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+          </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2850,41 +2817,39 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+          </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
       </span><span class="p">},</span><span class="w">
       </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
+          </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3f924084-1adb-40a5-c042-63b19db421a2"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="w">
           </span><span class="p">},</span><span class="w">
-          </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
+          </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386585</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/plugins?size=2&amp;offset=4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -2944,24 +2909,22 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5fd1z584-1adb-40a5-c042-63b19db49x21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"consumer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a3dX2dh2-1adb-40a5-c042-63b19dbx83hF4"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rate-limiting"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"minute"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"hour"</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3019,9 +2982,8 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -3054,9 +3016,8 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -3070,12 +3031,11 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"enabled_plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"enabled_plugins"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"jwt"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"acl"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"cors"</span><span class="p">,</span><span class="w">
@@ -3105,8 +3065,7 @@ given API or Consumer.</p>
         </span><span class="s2">"syslog"</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3118,25 +3077,23 @@ given API or Consumer.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"hide_credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"hide_credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"boolean"</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"key_names"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="w">
+        </span><span class="s2">"key_names"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"function"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"array"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3147,12 +3104,11 @@ certificate. These objects are used by Kong to handle SSL/TLS termination for
 encrypted requests. Certificates are optionally associated with SNI objects to
 tie a cert/key pair to one or more hostnames.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3189,21 +3145,19 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.com"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3230,21 +3184,19 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.com"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 <hr />
 
 <h3 id="list-certificates">List Certificates</h3>
@@ -3255,35 +3207,33 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="s2">"example.com"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="s2">"example.org"</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485522651185</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485522651185</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 <hr />
 
 <h3 id="update-certificate">Update Certificate</h3>
@@ -3332,21 +3282,19 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----..."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"snis"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"example.com"</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3383,9 +3331,8 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -3412,9 +3359,8 @@ tie a cert/key pair to one or more hostnames.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -3425,12 +3371,11 @@ That is, a certificate object can have many hostnames associated with it; when
 Kong receives an SSL request, it uses the SNI field in the Client Hello to
 lookup the certificate object based on the SNI associated with the certificate.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3463,17 +3408,15 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3500,17 +3443,15 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="list-snis">List SNIs</h3>
 
@@ -3520,27 +3461,25 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.org"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.org"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6b5b6f71-c0b3-426d-8f3b-8de2c67c816b"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3565,17 +3504,15 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ssl_certificate_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21b69eab-09d9-40f9-a55e-c4ee47fada68"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3608,9 +3545,8 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -3637,9 +3573,8 @@ lookup the certificate object based on the SNI associated with the certificate.<
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -3650,9 +3585,9 @@ incoming requests over multiple services (targets). So for example an upstream
 named <code class="highlighter-rouge">service.v1.xyz</code> with an API object created with an <code class="highlighter-rouge">upstream_url=https://service.v1.xyz/some/path</code>.
 Requests for this API would be proxied to the targets defined within the upstream.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="mi">7</span><span class="p">,</span><span class="w">
@@ -3664,10 +3599,9 @@ Requests for this API would be proxied to the targets defined within the upstrea
         </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="mi">8</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3704,14 +3638,13 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="mi">7</span><span class="p">,</span><span class="w">
@@ -3723,11 +3656,10 @@ Requests for this API would be proxied to the targets defined within the upstrea
         </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="mi">8</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+    </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3754,14 +3686,13 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="mi">7</span><span class="p">,</span><span class="w">
@@ -3773,11 +3704,10 @@ Requests for this API would be proxied to the targets defined within the upstrea
         </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="mi">8</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
+    </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3822,18 +3752,17 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485521710265</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"13611da7-703f-44f8-b790-fc1e7bf51b3e"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="mi">1</span><span class="p">,</span><span class="w">
                 </span><span class="mi">2</span><span class="p">,</span><span class="w">
                 </span><span class="mi">7</span><span class="p">,</span><span class="w">
@@ -3845,13 +3774,13 @@ Requests for this API would be proxied to the targets defined within the upstrea
                 </span><span class="mi">3</span><span class="p">,</span><span class="w">
                 </span><span class="mi">8</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+            </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485522651185</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v2.xyz"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485522651185</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v2.xyz"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="mi">5</span><span class="p">,</span><span class="w">
                 </span><span class="mi">3</span><span class="p">,</span><span class="w">
                 </span><span class="mi">6</span><span class="p">,</span><span class="w">
@@ -3863,14 +3792,13 @@ Requests for this API would be proxied to the targets defined within the upstrea
                 </span><span class="mi">4</span><span class="p">,</span><span class="w">
                 </span><span class="mi">9</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+            </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/upstreams?size=2&amp;offset=Mg%3D%3D"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"offset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mg=="</span><span class="w">
+    </span><span class="s2">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/upstreams?size=2&amp;offset=Mg%3D%3D"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"offset"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mg=="</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3922,14 +3850,13 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4d924084-1adb-40a5-c042-63b19db421d1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"service.v1.xyz"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"orderlist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="mi">7</span><span class="p">,</span><span class="w">
@@ -3941,11 +3868,10 @@ Requests for this API would be proxied to the targets defined within the upstrea
         </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="mi">8</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
+    </span><span class="s2">"slots"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1422386534</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -3984,9 +3910,8 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
 
 <p>See POST and PATCH responses.</p>
 
@@ -4015,9 +3940,8 @@ Requests for this API would be proxied to the targets defined within the upstrea
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <hr />
 
@@ -4033,13 +3957,12 @@ alternatively, use the <code class="highlighter-rouge">DELETE</code> convenience
 
 <p>The current target object definition is the one with the latest <code class="highlighter-rouge">created_at</code>.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2.3.4:80"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ee3310c1-6789-40ac-9386-f79c0cb58432"</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2.3.4:80"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ee3310c1-6789-40ac-9386-f79c0cb58432"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -4087,19 +4010,17 @@ alternatively, use the <code class="highlighter-rouge">DELETE</code> convenience
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 201 Created
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4661f55e-95c2-4011-8fd6-c5c56df1c9db"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2.3.4:80"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ee3310c1-6789-40ac-9386-f79c0cb58432"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485523507446</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4661f55e-95c2-4011-8fd6-c5c56df1c9db"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.2.3.4:80"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ee3310c1-6789-40ac-9386-f79c0cb58432"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485523507446</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -4163,38 +4084,36 @@ The target object with the latest <code class="highlighter-rouge">created_at</co
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524897232</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b96f13d-65af-4f30-bbe9-b367121dd26b"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20001"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524897232</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9b96f13d-65af-4f30-bbe9-b367121dd26b"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20001"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -4228,31 +4147,29 @@ for a given upstream.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524883980</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18c0ad90-f942-4098-88db-bbee3e43b27f"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20000"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1485524914883</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6c6f34eb-e6c3-4c1f-ac58-4060e5bca890"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"target"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1:20002"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"upstream_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"07131005-ba30-4204-a29f-0927d53257b4"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <hr />
 
@@ -4290,9 +4207,8 @@ a new entry for the given target definition with a <code class="highlighter-roug
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 
 
@@ -4488,7 +4404,7 @@ a new entry for the given target definition with a <code class="highlighter-roug
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

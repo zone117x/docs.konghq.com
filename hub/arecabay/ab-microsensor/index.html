@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -696,6 +696,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -814,17 +816,16 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_id="</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_id="</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -838,17 +839,16 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_id="</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_id="</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -862,18 +862,17 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=ab-microsensor"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_id="</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=ab-microsensor"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_id="</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -896,17 +895,16 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
-    --data <span class="s2">"config.ab_microsensor_id="</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=ab-microsensor"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_ip="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_port="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_tenant_id="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_localbay_passphrase="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_name="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ab_microsensor_id="</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -1028,15 +1026,13 @@ target.</li>
 <h3 id="install-and-setup-arecabays-kong-plugin">Install and setup ArecaBay’s Kong Plugin</h3>
 <p>Install the ArecaBay’s Kong plugin (ab-microsensor) on each node in your Kong cluster via luarocks. As this plugin source is already hosted in Luarocks.org, please run the below command:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>luarocks install kong-plugin-ab-microsensor
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>luarocks install kong-plugin-ab-microsensor
+</code></pre></div></div>
 
 <p>Add to the custom_plugins list in your Kong configuration (on each Kong node):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>custom_plugins = ab-microsensor
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>custom_plugins = ab-microsensor
+</code></pre></div></div>
 
 <h3 id="access-arecabay-cloud-webconsole-and-setup-localbay">Access ArecaBay Cloud Webconsole and setup LocalBay</h3>
 <p>Please visit the following page <a href="https://www.arecabay.com/partners/kong">https://www.arecabay.com/partners/kong</a> and request your ArecaBay Cloud Webconsole account. Follow the quickstart guide within the Webconsole to configure your Kong Plugin as a MicroSensor. This involves providing details for the Kong Plugin MicroSensor and downloading the setup script. Run the setup script which internally uses the Kong Admin API to configure &amp; run the Kong Plugin as a global plugin.</p>
@@ -1222,7 +1218,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

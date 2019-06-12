@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -744,8 +744,8 @@ window['_fs_namespace'] = 'FS';
 <p>Start by downloading the corresponding package for your configuration:</p>
 
 <ul>
-  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=rhel/6/kong-1.1.2.rhel6.noarch.rpm">RHEL 6</a></li>
-  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=rhel/7/kong-1.1.2.rhel7.noarch.rpm">RHEL 7</a></li>
+  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=rhel/6/kong-1.2.0.rhel6.noarch.rpm">RHEL 6</a></li>
+  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=rhel/7/kong-1.2.0.rhel7.noarch.rpm">RHEL 7</a></li>
 </ul>
 
 <p><strong>Enterprise trial users</strong> should download their package from their welcome email and save their license to <code class="highlighter-rouge">/etc/kong/license.json</code> after step 1.</p>
@@ -762,14 +762,12 @@ section on the page below.</p>
 <p><strong>NOTE</strong>: ensure that the <code class="highlighter-rouge">baseurl</code> field of the generated <code class="highlighter-rouge">.repo</code> file contains
 your RHEL version; for instance:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>baseurl=https://kong.bintray.com/kong-rpm/rhel/6
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>baseurl=https://kong.bintray.com/kong-rpm/rhel/6
+</code></pre></div></div>
 <p>or</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>baseurl=https://kong.bintray.com/kong-rpm/rhel/7
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>baseurl=https://kong.bintray.com/kong-rpm/rhel/7
+</code></pre></div></div>
 
 <hr />
 
@@ -781,30 +779,27 @@ your RHEL version; for instance:</p>
 
     <p>Before installing Kong, you need to install the <code class="highlighter-rouge">epel-release</code> package for right version of your operating system, so that Kong can fetch all the required dependencies:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ EL_VERSION</span><span class="o">=</span><span class="sb">`</span>cat /etc/redhat-release | grep -oE <span class="s1">'[0-9]+\.[0-9]+'</span><span class="sb">`</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
-   sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-<span class="k">${</span><span class="nv">EL_VERSION</span><span class="p">%.*</span><span class="k">}</span>.noarch.rpm
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ EL_VERSION</span><span class="o">=</span><span class="sb">`</span><span class="nb">cat</span> /etc/redhat-release | <span class="nb">grep</span> <span class="nt">-oE</span> <span class="s1">'[0-9]+\.[0-9]+'</span><span class="sb">`</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+   <span class="nb">sudo </span>yum <span class="nb">install </span>https://dl.fedoraproject.org/pub/epel/epel-release-latest-<span class="k">${</span><span class="nv">EL_VERSION</span><span class="p">%.*</span><span class="k">}</span>.noarch.rpm
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Install Kong</strong></p>
 
     <p>If you are downloading the <a href="#packages">package</a>, execute:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo yum install kong-1.1.2.<span class="k">*</span>.noarch.rpm --nogpgcheck
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-1.2.0.<span class="k">*</span>.noarch.rpm <span class="nt">--nogpgcheck</span>
+</code></pre></div>    </div>
 
     <p>If you are using the repository, execute:</p>
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo yum install -y wget
- <span class="nv">$ </span>wget https://bintray.com/kong/kong-rpm/rpm -O bintray-kong-kong-rpm.repo
- <span class="nv">$ </span><span class="nb">export </span><span class="nv">major_version</span><span class="o">=</span><span class="sb">`</span>grep -oE <span class="s1">'[0-9]+\.[0-9]+'</span> /etc/redhat-release | cut -d <span class="s2">"."</span> -f1<span class="sb">`</span>
- <span class="nv">$ </span>sed -i -e <span class="s1">'s/baseurl.*/&amp;\/rhel\/'</span><span class="nv">$major_version</span><span class="s1">''</span>/ bintray-kong-kong-rpm.repo
- <span class="nv">$ </span>sudo mv bintray-kong-kong-rpm.repo /etc/yum.repos.d/
- <span class="nv">$ </span>sudo yum update -y
- <span class="nv">$ </span>sudo yum install -y kong
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> wget
+ <span class="nv">$ </span>wget https://bintray.com/kong/kong-rpm/rpm <span class="nt">-O</span> bintray-kong-kong-rpm.repo
+ <span class="nv">$ </span><span class="nb">export </span><span class="nv">major_version</span><span class="o">=</span><span class="sb">`</span><span class="nb">grep</span> <span class="nt">-oE</span> <span class="s1">'[0-9]+\.[0-9]+'</span> /etc/redhat-release | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s2">"."</span> <span class="nt">-f1</span><span class="sb">`</span>
+ <span class="nv">$ </span><span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s1">'s/baseurl.*/&amp;\/rhel\/'</span><span class="nv">$major_version</span><span class="s1">''</span>/ bintray-kong-kong-rpm.repo
+ <span class="nv">$ </span><span class="nb">sudo mv </span>bintray-kong-kong-rpm.repo /etc/yum.repos.d/
+ <span class="nv">$ </span><span class="nb">sudo </span>yum update <span class="nt">-y</span>
+ <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> kong
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Prepare your database or declarative configuration file</strong></p>
@@ -820,19 +815,17 @@ your RHEL version; for instance:</p>
 
     <p><strong>Using a database</strong></p>
 
-    <p><a href="/1.1.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports both <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a> and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as its datastore.</p>
+    <p><a href="/1.2.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong supports both <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a> and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a> as its datastore.</p>
 
     <p>If you are using Postgres, please provision a database and a user before starting Kong, ie:</p>
 
-    <div class="language-sql highlighter-rouge"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
-</code></pre>
-    </div>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
+</code></pre></div>    </div>
 
     <p>Now, run the Kong migrations:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div>    </div>
 
     <p><strong>Note for Kong &lt; 0.15</strong>: with Kong versions below 0.15 (up to 0.14), use
  the <code class="highlighter-rouge">up</code> sub-command instead of <code class="highlighter-rouge">bootstrap</code>. Also note that with Kong &lt;
@@ -842,37 +835,33 @@ your RHEL version; for instance:</p>
 
     <p><strong>Without a database</strong></p>
 
-    <p>If you are going to run Kong in <a href="/1.1.x/db-less-and-declarative-config/">DB-less mode</a>,
+    <p>If you are going to run Kong in <a href="/1.2.x/db-less-and-declarative-config/">DB-less mode</a>,
  you should start by generating declarative config file. The following command will generate a <code class="highlighter-rouge">kong.yml</code>
  file in your current folder. It contains instructions about how to fill it up.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong config init
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong config init
+</code></pre></div>    </div>
 
     <p>After filling up the <code class="highlighter-rouge">kong.yml</code> file, edit your <code class="highlighter-rouge">kong.conf</code> file. Set the <code class="highlighter-rouge">database</code> option
  to <code class="highlighter-rouge">off</code> and the <code class="highlighter-rouge">declarative_config</code> option to the path of your <code class="highlighter-rouge">kong.yml</code> file:</p>
 
-    <div class="language-conf highlighter-rouge"><pre class="highlight"><code> <span class="n">database</span> = <span class="n">off</span>
+    <div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">database</span> = <span class="n">off</span>
  <span class="n">declarative_config</span> = /<span class="n">path</span>/<span class="n">to</span>/<span class="n">kong</span>.<span class="n">yml</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Start Kong</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Use Kong</strong></p>
 
     <p>Kong is running:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i http://localhost:8001/
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/
+</code></pre></div>    </div>
 
     <p>Quickly learn how to use Kong with the <a href="/latest/getting-started/quickstart">5-minute Quickstart</a>.</p>
   </li>
@@ -1073,7 +1062,7 @@ your RHEL version; for instance:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1207,7 +1207,7 @@ other, the only difference being that it’s created by Kong, at migration time.
 <p>In a fresh Kong Enterprise install - or one just migrated to 0.33 - submit the
 following request:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http GET :8001/workspaces
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http GET :8001/workspaces
 {
   "total": 1,
   "data": [
@@ -1218,15 +1218,14 @@ following request:</p>
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="list-entities-in-the-default-workspace">List entities in the default workspace</h2>
 
 <p>To get a list of entities contained in - or referenced by - the default workspace,
 let’s issue the following request:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http GET :8001/workspaces/default/entities
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http GET :8001/workspaces/default/entities
 {
   "data": [
     {
@@ -1253,8 +1252,7 @@ let’s issue the following request:</p>
   ],
   "total": 42
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As can be seen, a total of 42 entities were part of the default workspace - for
 brevity, most of them were redacted here.</p>
@@ -1268,65 +1266,61 @@ example, let’s say they are teamA, teamB, and teamC.</p>
 routes - and want to segregate their configurations and traffic; they can
 achieve that with workspaces.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamA
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/workspaces name=teamA
 {
     "created_at": 1528843468000,
     "id": "735af96e-206f-43f7-88f0-b930d5fd4b7e",
     "name": "teamA"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamB
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/workspaces name=teamB
 {
   "name": "teamB",
   "created_at": 1529628574000,
   "id": "a25728ac-6036-497c-82ee-524d4c22fcae"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/workspaces name=teamC
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/workspaces name=teamC
 {
   "name": "teamC",
   "created_at": 1529628622000,
   "id": "34b28f10-e1ec-4dad-9ac0-74780baee182"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>At this point, if we list workspaces, we will get a total of 4 - remember,
 Kong provisions a “default” workspace and, on top of that, we created other
 3.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529627841000</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a43fc3f9-98e4-43b0-b703-c3b1004980d5"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529628818000</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5ed1c043-78cc-4fe2-924e-40b17ecd97bc"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teamA"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529628574000</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a25728ac-6036-497c-82ee-524d4c22fcae"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teamB"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1529628622000</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"34b28f10-e1ec-4dad-9ac0-74780baee182"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teamC"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-  </span><span class="s2">"total"</span><span class="err">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-</span><span class="err">}</span><span class="w">
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "data": [
+    {
+      "created_at": 1529627841000,
+      "id": "a43fc3f9-98e4-43b0-b703-c3b1004980d5",
+      "name": "default"
+    },
+    {
+      "created_at": 1529628818000,
+      "id": "5ed1c043-78cc-4fe2-924e-40b17ecd97bc",
+      "name": "teamA"
+    },
+    {
+      "created_at": 1529628574000,
+      "id": "a25728ac-6036-497c-82ee-524d4c22fcae",
+      "name": "teamB"
+    },
+    {
+      "created_at": 1529628622000,
+      "id": "34b28f10-e1ec-4dad-9ac0-74780baee182",
+      "name": "teamC"
+    }
+  ]
+  "total": 4,
+}
 
-</span></code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Having our teams’ workspaces set up, let’s add some entities to them. Say
 they have a shared service - represented by the <a href="/0.33-x/admin-api/#service-object">Service</a> Kong
@@ -1334,7 +1328,7 @@ entity - and different routes associated with this upstream service.</p>
 
 <p>Creating the shared service:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/services url=http://httpbin.org/ name=shared-service
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/services url=http://httpbin.org/ name=shared-service
 {
   "host": "httpbin.org",
   "created_at": 1529699798,
@@ -1349,15 +1343,14 @@ entity - and different routes associated with this upstream service.</p>
   "retries": 5,
   "write_timeout": 60000
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Notice the endpoint <code class="highlighter-rouge">/services</code> does not include a workspace prefix - which
 is how one specifies the workspace under which a given API call applies to.
 In such cases, the call applies to the <code class="highlighter-rouge">default</code> workspace. Let’s confirm that
 by listing all entities under the <code class="highlighter-rouge">default</code> workspace:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces/default/entities
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/workspaces/default/entities
 {
   "data": [
     ...
@@ -1371,8 +1364,7 @@ by listing all entities under the <code class="highlighter-rouge">default</code>
   ],
   "total": 43
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Again, entities not relevant for this example were redacted; notice, though,
 that our shared service is on the list.</p>
@@ -1380,15 +1372,14 @@ that our shared service is on the list.</p>
 <p>The next step is to add the shared service to our teams’ workspaces. This can be
 done as follows:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/workspaces/teamA/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/workspaces/teamA/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
 http :8001/workspaces/teamB/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
 http :8001/workspaces/teamC/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d445
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To confirm the shared service was added,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/services
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/services
 {
   "next": null,
   "data": [
@@ -1408,15 +1399,14 @@ http :8001/workspaces/teamC/entities entities=86608199-e3d8-48aa-b76d-d9ec36d8d4
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The next step is to set up each team’s routes to the shared service. Let’s say
 Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <code class="highlighter-rouge">/ip</code>, and <code class="highlighter-rouge">/user-agent</code>, respectively.</p>
 
 <p>Putting into action, we have:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamA/routes paths[]=/headers service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/teamA/routes paths[]=/headers service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702016,
     "hosts": null,
@@ -1437,10 +1427,9 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     "strip_path": false,
     "updated_at": 1529702016
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamB/routes paths[]=/ip service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/teamB/routes paths[]=/ip service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702211,
     "hosts": null,
@@ -1461,10 +1450,9 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     "strip_path": false,
     "updated_at": 1529702211
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http POST :8001/teamC/routes paths[]=/user-agent service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http POST :8001/teamC/routes paths[]=/user-agent service.id=86608199-e3d8-48aa-b76d-d9ec36d8d445 strip_path=false -f
 {
     "created_at": 1529702339,
     "hosts": null,
@@ -1485,14 +1473,13 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     "strip_path": false,
     "updated_at": 1529702339
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Ready - now we have all teams with their routes sharing the same service!</p>
 
 <p>To make sure it’s set up correctly, let’s list the routes in each workspace.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/routes
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/routes
 {
   "next": null,
   "data": [
@@ -1518,12 +1505,11 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As we wanted, Team A has a <code class="highlighter-rouge">/headers</code> route pointing to the shared service.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/routes
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamB/routes
 {
   "next": null,
   "data": [
@@ -1549,12 +1535,11 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Team B has its <code class="highlighter-rouge">/ip</code> route.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/routes
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamC/routes
 {
   "next": null,
   "data": [
@@ -1580,8 +1565,7 @@ Team A, B, and C have routes <code class="highlighter-rouge">/headers</code>, <c
     }
   ]
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>and Team C has its <code class="highlighter-rouge">/user-agent</code> route.</p>
 
@@ -1597,35 +1581,32 @@ name to their entities. To provide an example of that, let’s say that Teams A,
 and C want a particular consumer named <code class="highlighter-rouge">guest</code> - a different consumer for each
 team, sharing the same username.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamA/consumers username=guest
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamA/consumers username=guest
 {
     "created_at": 1529703386000,
     "id": "2e230275-2a4a-41fd-b06b-bae37008aed2",
     "type": 0,
     "username": "guest"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamB/consumers username=guest
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamB/consumers username=guest
 {
     "created_at": 1529703390000,
     "id": "8533e404-8d56-4481-a919-0ee35b8a768c",
     "type": 0,
     "username": "guest"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http :8001/teamC/consumers username=guest
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http :8001/teamC/consumers username=guest
 {
     "created_at": 1529703393000,
     "id": "5fb180b0-0cd0-42e1-8d75-ce42a54b2909",
     "type": 0,
     "username": "guest"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>With this, Teams A, B, and C will have the freedom to operate their <code class="highlighter-rouge">guest</code>
 consumer independently, choosing authentication plugins or doing any other
@@ -1808,7 +1789,7 @@ operation that is allowed in the non-workspaced Kong world.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

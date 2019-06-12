@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1439,9 +1445,8 @@ modules</a>. Each file described in
 this chapter is to be considered as a separate module. Kong will detect and
 load your plugin’s modules if their names follow this convention:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.&lt;module_name&gt;
+</code></pre></div></div>
 
 <blockquote>
   <p>Your modules of course need to be accessible through your
@@ -1459,21 +1464,18 @@ to add it to the
 <a href="/1.0.x/configuration/#plugins">plugins</a> property in
 your configuration file, which is a comma-separated list. For example:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">plugins = bundled,my-custom-plugin</span> <span class="c1"># your plugin name here</span>
-</code></pre>
-</div>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">plugins = bundled,my-custom-plugin</span> <span class="c1"># your plugin name here</span>
+</code></pre></div></div>
 
 <p>Or, if you don’t want to load any of the bundled plugins:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">plugins = my-custom-plugin</span> <span class="c1"># your plugin name here</span>
-</code></pre>
-</div>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">plugins = my-custom-plugin</span> <span class="c1"># your plugin name here</span>
+</code></pre></div></div>
 
 <p>Now, Kong will try to load several Lua modules from the following namespace:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.my-custom-plugin.&lt;module_name&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong.plugins.my-custom-plugin.&lt;module_name&gt;
+</code></pre></div></div>
 
 <p>Some of these modules are mandatory (e.g. <code class="highlighter-rouge">handler.lua</code>), and some are
 optional, and will allow the plugin to implement some extra-functionalities
@@ -1488,11 +1490,10 @@ their purpose is.</p>
 
 <p>In its purest form, a plugin consists of two mandatory modules:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>simple-plugin
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>simple-plugin
 ├── handler.lua
 └── schema.lua
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong><a href="/1.0.x/plugin-development/custom-logic/">handler.lua</a></strong>: the core of your plugin. It is an interface to implement, in
@@ -1512,7 +1513,7 @@ the database, expose endpoints in the Admin API, etc. Each of those can be
 done by adding a new module to your plugin. Here is what the structure of a
 plugin would look like if it was implementing all of the optional modules:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>complete-plugin
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>complete-plugin
 ├── api.lua
 ├── daos.lua
 ├── handler.lua
@@ -1520,8 +1521,7 @@ plugin would look like if it was implementing all of the optional modules:</p>
 │   ├── init.lua
 │   └── 000_base_complete_plugin.lua
 └── schema.lua
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is the complete list of possible modules to implement and a brief
 description of what their purpose is. This guide will go in details to let you
@@ -1765,7 +1765,7 @@ See <a href="https://github.com/Kong/kong/tree/master/kong/plugins/key-auth">its
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

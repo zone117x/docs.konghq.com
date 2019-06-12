@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -653,6 +653,8 @@ window['_fs_namespace'] = 'FS';
               </ul><ul class="compat-list">
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -768,16 +770,15 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p><strong>Run the migrations</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>az container create --name kong-migrations <span class="se">\</span>
-                       --resource-group kong-gateway <span class="se">\</span>
-                       --image kong:latest <span class="se">\</span>
-                       --restart-policy Never <span class="se">\</span>
-                       --environment-variables <span class="nv">KONG_PG_HOST</span><span class="o">=</span><span class="s2">"&lt;instance-name&gt;.postgres.database.azure.com"</span> <span class="se">\</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>az container create <span class="nt">--name</span> kong-migrations <span class="se">\</span>
+                       <span class="nt">--resource-group</span> kong-gateway <span class="se">\</span>
+                       <span class="nt">--image</span> kong:latest <span class="se">\</span>
+                       <span class="nt">--restart-policy</span> Never <span class="se">\</span>
+                       <span class="nt">--environment-variables</span> <span class="nv">KONG_PG_HOST</span><span class="o">=</span><span class="s2">"&lt;instance-name&gt;.postgres.database.azure.com"</span> <span class="se">\</span>
                                                <span class="nv">KONG_PG_USER</span><span class="o">=</span><span class="s2">"&lt;username&gt;"</span> <span class="se">\</span>
                                                <span class="nv">KONG_PG_PASSWORD</span><span class="o">=</span><span class="s2">"&lt;password&gt;"</span> <span class="se">\</span>
-                       --command-line <span class="s2">"kong migrations bootstrap"</span>
-</code></pre>
-    </div>
+                       <span class="nt">--command-line</span> <span class="s2">"kong migrations bootstrap"</span>
+</code></pre></div>    </div>
     <p>In this example, we are using a PostgreSQL database running on <a href="/hub/tomkerkhove/microsoft_azure/#running-postgresql-on-azure-with-azure-database-for-postgresql">Azure Database for PostgreSQL</a>.</p>
 
     <p><strong>Note for Kong &lt; 0.15</strong>: with Kong versions below 0.15 (up to 0.14), use
@@ -786,12 +787,12 @@ window['_fs_namespace'] = 'FS';
   <li>
     <p><strong>Start Kong</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>az container create --name kong-gateway /
-                       --dns-name-label kong-gateway /
-                       --resource-group kong-gateway /
-                       --image kong:latest /
-                       --port 8000 8443 8001 8444 /
-                       --environment-variables <span class="nv">KONG_PG_HOST</span><span class="o">=</span><span class="s2">"&lt;instance-name&gt;.postgres.database.azure.com"</span> /
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>az container create <span class="nt">--name</span> kong-gateway /
+                       <span class="nt">--dns-name-label</span> kong-gateway /
+                       <span class="nt">--resource-group</span> kong-gateway /
+                       <span class="nt">--image</span> kong:latest /
+                       <span class="nt">--port</span> 8000 8443 8001 8444 /
+                       <span class="nt">--environment-variables</span> <span class="nv">KONG_PG_HOST</span><span class="o">=</span><span class="s2">"&lt;instance-name&gt;.postgres.database.azure.com"</span> /
                                                <span class="nv">KONG_PG_USER</span><span class="o">=</span><span class="s2">"&lt;username&gt;"</span> /
                                                <span class="nv">KONG_PG_PASSWORD</span><span class="o">=</span><span class="s2">"&lt;password&gt;"</span> /
                                                <span class="nv">KONG_PROXY_ACCESS_LOG</span><span class="o">=</span><span class="s2">"/dev/stdout"</span> /
@@ -799,8 +800,7 @@ window['_fs_namespace'] = 'FS';
                                                <span class="nv">KONG_PROXY_ERROR_LOG</span><span class="o">=</span><span class="s2">"/dev/stderr"</span> /
                                                <span class="nv">KONG_ADMIN_ERROR_LOG</span><span class="o">=</span><span class="s2">"/dev/stderr"</span> /
                                                <span class="nv">KONG_ADMIN_LISTEN</span><span class="o">=</span><span class="s2">"0.0.0.0:8001, 0.0.0.0:8444 ssl"</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>The <code class="highlighter-rouge">8000</code>, <code class="highlighter-rouge">8001</code>, <code class="highlighter-rouge">8443</code>, and <code class="highlighter-rouge">8444</code> will be forwarded to the container.</p>
 
@@ -1000,7 +1000,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -761,14 +761,13 @@ file for specifying the entities as a declarative configuration.</p>
  <a href="http://www.pcre.org/">PCRE</a> to compile OpenResty, and to at least use the
  following compilation options:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>./configure <span class="se">\</span>
-   --with-pcre-jit <span class="se">\</span>
-   --with-http_ssl_module <span class="se">\</span>
-   --with-http_realip_module <span class="se">\</span>
-   --with-http_stub_status_module <span class="se">\</span>
-   --with-http_v2_module
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>./configure <span class="se">\</span>
+   <span class="nt">--with-pcre-jit</span> <span class="se">\</span>
+   <span class="nt">--with-http_ssl_module</span> <span class="se">\</span>
+   <span class="nt">--with-http_realip_module</span> <span class="se">\</span>
+   <span class="nt">--with-http_stub_status_module</span> <span class="se">\</span>
+   <span class="nt">--with-http_v2_module</span>
+</code></pre></div>    </div>
 
     <p>You might have to specify <code class="highlighter-rouge">--with-openssl</code> and you can add any other option
  you’d like, such as additional Nginx modules or a custom <code class="highlighter-rouge">--prefix</code> directory.</p>
@@ -777,37 +776,33 @@ file for specifying the entities as a declarative configuration.</p>
  <a href="https://github.com/openresty/resty-cli">resty-cli</a> which are essential to
  Kong. Add the <code class="highlighter-rouge">nginx</code> and <code class="highlighter-rouge">resty</code> executables to your $PATH:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PATH</span><span class="s2">:/usr/local/openresty/bin"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PATH</span><span class="s2">:/usr/local/openresty/bin"</span>
+</code></pre></div>    </div>
 
     <p><a href="https://github.com/keplerproject/luarocks/wiki/Download">Luarocks 2.4.3</a>,
  compiled with the LuaJIT version bundled with OpenResty (See the
  <code class="highlighter-rouge">--with-lua</code> and <code class="highlighter-rouge">--with-lua-include</code> configure options). Example:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> ./configure <span class="se">\</span>
-   --lua-suffix<span class="o">=</span>jit <span class="se">\</span>
-   --with-lua<span class="o">=</span>/usr/local/openresty/luajit <span class="se">\</span>
-   --with-lua-include<span class="o">=</span>/usr/local/openresty/luajit/include/luajit-2.1
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ./configure <span class="se">\</span>
+   <span class="nt">--lua-suffix</span><span class="o">=</span>jit <span class="se">\</span>
+   <span class="nt">--with-lua</span><span class="o">=</span>/usr/local/openresty/luajit <span class="se">\</span>
+   <span class="nt">--with-lua-include</span><span class="o">=</span>/usr/local/openresty/luajit/include/luajit-2.1
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Install Kong</strong></p>
 
     <p>Now that OpenResty is installed, we can use Luarocks to install Kong’s Lua sources:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>luarocks install kong 1.1.2-0
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>luarocks <span class="nb">install </span>kong 1.2.0-0
+</code></pre></div>    </div>
 
     <p><strong>Or</strong>:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>git clone git@github.com:Kong/kong.git
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>git clone git@github.com:Kong/kong.git
  <span class="nv">$ </span><span class="nb">cd </span>kong
- <span class="nv">$ </span><span class="o">[</span>sudo] make install <span class="c"># this simply runs the `luarocks make kong-*.rockspec` command</span>
-</code></pre>
-    </div>
+ <span class="nv">$ </span><span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> make <span class="nb">install</span> <span class="c"># this simply runs the `luarocks make kong-*.rockspec` command</span>
+</code></pre></div>    </div>
 
     <p>Finally, place the <code class="highlighter-rouge">bin/kong</code> script in your <code class="highlighter-rouge">$PATH</code>.</p>
   </li>
@@ -817,33 +812,30 @@ file for specifying the entities as a declarative configuration.</p>
     <p><strong>Note</strong>: This step is <strong>required</strong> if you are using Cassandra; it is <strong>optional</strong> for Postgres users.</p>
 
     <p>By default, Kong is configured to communicate with a local Postgres instance.
- If you are using Cassandra, or need to modify any settings, download the <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.1.x/configuration#database">adjust</a> it as necessary.
+ If you are using Cassandra, or need to modify any settings, download the <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.2.x/configuration#database">adjust</a> it as necessary.
  Then, as root, add it to <code class="highlighter-rouge">/etc</code>:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>sudo mkdir -p /etc/kong
- <span class="nv">$ </span>sudo cp kong.conf.default /etc/kong/kong.conf
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo mkdir</span> <span class="nt">-p</span> /etc/kong
+ <span class="nv">$ </span><span class="nb">sudo cp </span>kong.conf.default /etc/kong/kong.conf
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Prepare your database</strong></p>
 
-    <p><a href="/1.1.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong
+    <p><a href="/1.2.x/configuration#database">Configure</a> Kong so it can connect to your database. Kong
  supports both <a href="http://www.postgresql.org/">PostgreSQL 9.5+</a>
  and <a href="http://cassandra.apache.org/">Cassandra 3.x.x</a>
  as its datastore.</p>
 
     <p>If you are using Postgres, provision a database and a user before starting Kong:</p>
 
-    <div class="language-sql highlighter-rouge"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
-</code></pre>
-    </div>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">CREATE</span> <span class="k">USER</span> <span class="n">kong</span><span class="p">;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">kong</span> <span class="k">OWNER</span> <span class="n">kong</span><span class="p">;</span>
+</code></pre></div>    </div>
 
     <p>Next, run the Kong migrations:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div>    </div>
 
     <p><strong>Note for Kong &lt; 0.15</strong>: with Kong versions below 0.15 (up to 0.14), use
  the <code class="highlighter-rouge">up</code> sub-command instead of <code class="highlighter-rouge">bootstrap</code>. Also note that with Kong &lt;
@@ -854,18 +846,16 @@ file for specifying the entities as a declarative configuration.</p>
   <li>
     <p><strong>Start Kong</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Use Kong</strong></p>
 
     <p>Verify that Kong is running:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i http://localhost:8001/
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/
+</code></pre></div>    </div>
 
     <p>Quickly learn how to use Kong with the <a href="/latest/getting-started/quickstart">5-minute Quickstart</a>.</p>
   </li>
@@ -882,44 +872,40 @@ file for specifying the entities as a declarative configuration.</p>
 
     <p>The following command will generate a <code class="highlighter-rouge">kong.yml</code>
  file in your current folder. It contains instructions about how to fill it up.
- Follow the [Declarative Configuration Format]: /1.1.x/db-less-and-declarative-config/#the-declarative-configuration-format instructions while doing so.</p>
+ Follow the [Declarative Configuration Format]: /1.2.x/db-less-and-declarative-config/#the-declarative-configuration-format instructions while doing so.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong config init
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong config init
+</code></pre></div>    </div>
 
     <p>We’ll assume the file is named <code class="highlighter-rouge">kong.yml</code>.</p>
   </li>
   <li>
     <p><strong>Add <code class="highlighter-rouge">kong.conf</code></strong></p>
 
-    <p>Download <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.1.x/configuration#database">adjust</a> it as necessary.</p>
+    <p>Download <a href="https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default"><code class="highlighter-rouge">kong.conf.default</code></a> file and <a href="/1.2.x/configuration#database">adjust</a> it as necessary.</p>
 
     <p>In particular, make sure to set the <code class="highlighter-rouge">database</code> config option to <code class="highlighter-rouge">off</code> and the <code class="highlighter-rouge">declarative_config</code> option to
  the absolute path to <code class="highlighter-rouge">kong.yml</code>:</p>
 
-    <div class="language-conf highlighter-rouge"><pre class="highlight"><code> <span class="n">database</span> = <span class="n">off</span>
+    <div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">database</span> = <span class="n">off</span>
  ...
  <span class="n">declarative_config</span> = /<span class="n">path</span>/<span class="n">to</span>/<span class="n">kong</span>.<span class="n">yml</span>
 
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Start Kong</strong></p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span>-c /path/to/kong.conf]
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+</code></pre></div>    </div>
   </li>
   <li>
     <p><strong>Use Kong</strong></p>
 
     <p>Verify that Kong is running and it has the entities detailed in the declarative config file:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i http://localhost:8001/
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1118,7 +1104,7 @@ file for specifying the entities as a declarative configuration.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

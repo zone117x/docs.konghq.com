@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1278,17 +1278,15 @@ window['_fs_namespace'] = 'FS';
 
 <p>Audit logging is disabled by default. It is configured via the Kong configuration:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># via Kong configuration file, e.g., kong.conf</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via Kong configuration file, e.g., kong.conf</span>
 audit_log <span class="o">=</span> on <span class="c"># audit logging is enabled</span>
 audit_log <span class="o">=</span> off <span class="c"># audit logging is disabled</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># or via environmental variables</span>
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_AUDIT_LOG</span><span class="o">=</span>on
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_AUDIT_LOG</span><span class="o">=</span>off
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environmental variables</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_AUDIT_LOG</span><span class="o">=</span>on
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_AUDIT_LOG</span><span class="o">=</span>off
+</code></pre></div></div>
 
 <p>As with other Kong configurations, changes take effect on kong reload or kong restart.</p>
 
@@ -1300,7 +1298,7 @@ audit_log <span class="o">=</span> off <span class="c"># audit logging is disabl
 
 <p>Audit logging provides granular details of each HTTP request that was handled by Kong’s Admin API. Audit log data is written to Kong’s back database. As a result, request audit logs are available via the Admin API (in addition to via direct database query). For example, consider a query to the Admin API to the <code class="highlighter-rouge">/status</code> endpoint:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>vagrant@ubuntu-xenial:/kong$ http :8001/status
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vagrant@ubuntu-xenial:/kong$ http :8001/status
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
 Connection: keep-alive
@@ -1324,12 +1322,11 @@ X-Kong-Admin-Request-ID: ZuUfPfnxNn7D2OTU6Xi4zCnQkavzMUNM
         "total_requests": 1
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The above interaction with the Admin API would generate a correlating entry in the audit log table—querying the audit log via the Admin API returns the details of of the interaction above:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/requests
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/audit/requests
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
 Connection: keep-alive
@@ -1354,8 +1351,7 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
     ], 
     "total": 1
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note the value of the <code class="highlighter-rouge">request_id</code> field. This is tied to the <code class="highlighter-rouge">X-Kong-Admin-Request-ID</code> response header received in the first transaction. This allows close association of client requests and audit log records within the Kong cluster.</p>
 
@@ -1367,24 +1363,23 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
 
 <p>Audit log entries are written with an awareness of the requested Workspace, and the RBAC user (if present). When RBAC is enforced, the RBAC user’s UUID will be written to the <code class="highlighter-rouge">rbac_user_id</code> field in the audit log entry:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544722999857</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/status"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"rbac_user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2e959b45-0053-41cc-9c2c-5458d0964331"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QUtUa3RMbRLxomqcL68ilOjjl68h56xr"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"request_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1542130999858</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0da4afe7-44ad-4e81-a953-5d2923ce68ae"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">],</span><span class="w"> 
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "data": [
+        {
+            "client_ip": "127.0.0.1", 
+            "expire": 1544722999857, 
+            "method": "GET", 
+            "path": "/status", 
+            "rbac_user_id": "2e959b45-0053-41cc-9c2c-5458d0964331", 
+            "request_id": "QUtUa3RMbRLxomqcL68ilOjjl68h56xr", 
+            "request_timestamp": 1542130999858, 
+            "status": 200, 
+            "workspace": "0da4afe7-44ad-4e81-a953-5d2923ce68ae"
+        }
+    ], 
+    "total": 1
+}
+</code></pre></div></div>
 
 <p>Note also the presence of the <code class="highlighter-rouge">workspace</code> field. This is the UUID of the Workspace with which the request was associated.</p>
 
@@ -1394,10 +1389,9 @@ X-Kong-Admin-Request-ID: VXgMG1Y3rZKbjrzVYlSdLNPw8asVwhET
 
 <p>It may be desirable to ignore audit log generation for certain Admin API requests, such as innocuous requests to the <code class="highlighter-rouge">/status</code> endpoint for healthchecking, or to ignore requests for a given path prefix (e.g., a given Workspace). To this end, the <code class="highlighter-rouge">audit_log_ignore_methods</code> and <code class="highlighter-rouge">audit_log_ignore_paths</code> configuration options are presented:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_methods <span class="o">=</span> GET,OPTIONS <span class="c"># do not generate an audit log entry for GET or OPTIONS HTTP requests</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>audit_log_ignore_methods <span class="o">=</span> GET,OPTIONS <span class="c"># do not generate an audit log entry for GET or OPTIONS HTTP requests</span>
 audit_log_ignore_paths <span class="o">=</span> /foo,/status <span class="c"># do not generate an audit log entry for requests that match the strings '/foo' or '/status'</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that <code class="highlighter-rouge">audit_log_ignore_paths</code> values matched via simple string matching; regular expression or anchored searching for ignored paths is not supported at this time.</p>
 
@@ -1409,7 +1403,7 @@ audit_log_ignore_paths <span class="o">=</span> /foo,/status <span class="c"># d
 
 <p>In addition to Admin API request data, Kong will generate granular audit log entries for all insertions, updates, and deletions to the cluster database. Database updates audit logs are also associated with Admin API request unique IDs. Consider the following request to create a Consumer:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/consumers username=bob
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/consumers username=bob
 HTTP/1.1 201 Created
 Access-Control-Allow-Origin: *
 Connection: keep-alive
@@ -1426,12 +1420,11 @@ X-Kong-Admin-Request-ID: 59fpTWlpUtHJ0qnAWBzQRHRDv7i5DwK2
     "username": "bob"
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As seen before, a request audit log is generated with details about the request. Note the presence of the <code class="highlighter-rouge">payload</code> field, recorded when the request body is present:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/requests
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/audit/requests
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
 Connection: keep-alive
@@ -1457,12 +1450,11 @@ X-Kong-Admin-Request-ID: SpPaxLTkDNndzKaYiWuZl3xrxDUIiGRR
     ], 
     "total": 1
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Additionally, additional audit logs are generated to track the creation of the database entity:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/audit/objects
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/audit/objects
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
 Connection: keep-alive
@@ -1486,8 +1478,7 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
   ],
   "total": 1
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Object audit entries contain information about the entity updated, including the entity body itself, its database primary key, and the type of operation performed (<code class="highlighter-rouge">create</code>, <code class="highlighter-rouge">update</code>, or <code class="highlighter-rouge">delete</code>). Note also the associated <code class="highlighter-rouge">request_id</code> field.</p>
 
@@ -1497,9 +1488,8 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <p>As with request audit logs, it may be desirable to skip generation of audit logs for certain database tables. This is configurable via the <code class="highlighter-rouge">audit_log_ignore_tables</code> Kong config option:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>audit_log_ignore_tables = consumers # do not generate database audit logs for changes to the consumers table
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>audit_log_ignore_tables = consumers # do not generate database audit logs for changes to the consumers table
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1511,31 +1501,28 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <p>Generate a private key via the <code class="highlighter-rouge">openssl</code> tool:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>openssl genrsa -out private.pem 2048
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>openssl genrsa <span class="nt">-out</span> private.pem 2048
+</code></pre></div></div>
 
 <p>Configure Kong to sign audit log records:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>audit_log_signing_key = /path/to/private.pem
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>audit_log_signing_key = /path/to/private.pem
+</code></pre></div></div>
 
 <p>Audit log entries will now contain a field <code class="highlighter-rouge">signature</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544724298663</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/status"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ka2GeB13RkRIbMwBHw0xqe2EEfY0uZG0"</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"request_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1542132298664</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"signature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ctD8DXJEfuFAVdlYuhay7f4kmcZhfRPjX8Q6HlSJ+67aHjJIzzrlSxWKfmxnJ7WKRvlF7bU8PX/rtu1ytLQwmzW2LpMd/WFt34PKmyOFUByslkxCdfKKNHadZ+FfINzD+JrecFdXNJrSxKKHHTxj8g6vglAcoJMmuSB6cMsAuVUbO+CL6N/WV9RfCquxxkQUfqGoyEA09EeU4uC0xa8gcYAr1FMGcu+TdRbazfBqZayrKxn8iMV/7LUefMgzUrVdC7UFjZORo5Q0wl9U/iQWU5sRGiTo/HTQmU/a7EdyX3c6Wbmg2khYJFzUIkg9JRL/YUla+yfe3AL4KwFSH90xTw=="</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> 
-    </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fd51ce6e-59c0-4b6b-b991-aa708a9ff4d2"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "client_ip": "127.0.0.1", 
+    "expire": 1544724298663, 
+    "method": "GET", 
+    "path": "/status", 
+    "request_id": "Ka2GeB13RkRIbMwBHw0xqe2EEfY0uZG0", 
+    "request_timestamp": 1542132298664, 
+    "signature": "ctD8DXJEfuFAVdlYuhay7f4kmcZhfRPjX8Q6HlSJ+67aHjJIzzrlSxWKfmxnJ7WKRvlF7bU8PX/rtu1ytLQwmzW2LpMd/WFt34PKmyOFUByslkxCdfKKNHadZ+FfINzD+JrecFdXNJrSxKKHHTxj8g6vglAcoJMmuSB6cMsAuVUbO+CL6N/WV9RfCquxxkQUfqGoyEA09EeU4uC0xa8gcYAr1FMGcu+TdRbazfBqZayrKxn8iMV/7LUefMgzUrVdC7UFjZORo5Q0wl9U/iQWU5sRGiTo/HTQmU/a7EdyX3c6Wbmg2khYJFzUIkg9JRL/YUla+yfe3AL4KwFSH90xTw==", 
+    "status": 200, 
+    "workspace": "fd51ce6e-59c0-4b6b-b991-aa708a9ff4d2"
+}
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1543,7 +1530,7 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <p>Record signatures can be regenerated and verified by <code class="highlighter-rouge">openssl</code> or other cryptographic tools to confirm the validity of the signature. Re-generating the signature requires serializing the record into a string format that can be signed. The following is a canonical implementation written in Lua:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">pl_sort</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"pl.tablex"</span><span class="p">.</span><span class="n">sort</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">pl_sort</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"pl.tablex"</span><span class="p">.</span><span class="n">sort</span>
 
 <span class="kd">local</span> <span class="k">function</span> <span class="nf">serialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
   <span class="kd">local</span> <span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1560,8 +1547,7 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 <span class="k">end</span>
 
 <span class="nb">table.concat</span><span class="p">(</span><span class="n">serialize</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="s2">"|"</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The contents of the record itself can be fed to this implementation (minus the <code class="highlighter-rouge">signature</code> field) in order to derive the value passed to the RSA key signing facility. Note that the <code class="highlighter-rouge">signature</code> field within each record is a Base-64 encoded representation of the RSA signature itself.</p>
 
@@ -1581,27 +1567,25 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <h5 id="response">Response</h5>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544722367698</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/status"</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZuUfPfnxNn7D2OTU6Xi4zCnQkavzMUNM"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"request_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1542130367699</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> 
-            </span><span class="nt">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0da4afe7-44ad-4e81-a953-5d2923ce68ae"</span><span class="w">
+            </span><span class="s2">"client_ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544722367698</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/status"</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ZuUfPfnxNn7D2OTU6Xi4zCnQkavzMUNM"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"request_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1542130367699</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> 
+            </span><span class="s2">"workspace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0da4afe7-44ad-4e81-a953-5d2923ce68ae"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w"> 
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h4 id="list-database-audit-logs">List Database Audit Logs</h4>
 
@@ -1611,26 +1595,24 @@ X-Kong-Admin-Request-ID: ZKra3QT0d3eJKl96jOUXYueLumo0ck8c
 
 <h5 id="response-1">Response</h5>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"dao_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"consumers"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{\"created_at\":1542131418000,\"id\":\"16787ed7-d805-434a-9cec-5e5a3e5c9e4f\",\"username\":\"bob\",\"type\":0}"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"entity_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16787ed7-d805-434a-9cec-5e5a3e5c9e4f"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544723418009</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7ebabee7-2b09-445d-bc1f-2092c4ddc4be"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59fpTWlpUtHJ0qnAWBzQRHRDv7i5DwK2"</span><span class="w">
+            </span><span class="s2">"dao_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"consumers"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">created_at</span><span class="se">\"</span><span class="s2">:1542131418000,</span><span class="se">\"</span><span class="s2">id</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">16787ed7-d805-434a-9cec-5e5a3e5c9e4f</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">username</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">bob</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">:0}"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"entity_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"16787ed7-d805-434a-9cec-5e5a3e5c9e4f"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"expire"</span><span class="p">:</span><span class="w"> </span><span class="mi">1544723418009</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7ebabee7-2b09-445d-bc1f-2092c4ddc4be"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59fpTWlpUtHJ0qnAWBzQRHRDv7i5DwK2"</span><span class="w">
         </span><span class="p">},</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1813,7 +1795,7 @@ section of Kong Enterprise’s Configuration Property Reference.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

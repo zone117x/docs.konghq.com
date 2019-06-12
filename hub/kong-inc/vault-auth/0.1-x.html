@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -700,6 +700,8 @@ window['_fs_namespace'] = 'FS';
               
                 
               
+                
+              
               </ul>
             </td>
           </tr>
@@ -762,14 +764,13 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=vault-auth"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.access_token_name=access_token"</span> <span class="se">\</span>
-    --data <span class="s2">"config.vault="</span> <span class="se">\</span>
-    --data <span class="s2">"config.secret_token_name=access_token"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=vault-auth"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.access_token_name=access_token"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.vault="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.secret_token_name=access_token"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -783,14 +784,13 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=vault-auth"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.access_token_name=access_token"</span> <span class="se">\</span>
-    --data <span class="s2">"config.vault="</span> <span class="se">\</span>
-    --data <span class="s2">"config.secret_token_name=access_token"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=vault-auth"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.access_token_name=access_token"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.vault="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.secret_token_name=access_token"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -922,9 +922,9 @@ target.</li>
 
 <p>You need to associate a credential to an existing [Consumer][consumer-object] object. To create a Consumer, you can execute the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/consumers/ <span class="se">\</span>
-    --data <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
-    --data <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/ <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"username=&lt;USERNAME&gt;"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"custom_id=&lt;CUSTOM_ID&gt;"</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -933,8 +933,7 @@ HTTP/1.1 201 Created
     <span class="s2">"created_at"</span>: 1472604384000,
     <span class="s2">"id"</span>: <span class="s2">"7f853474-7b70-439d-ad59-2481a0a9a904"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -970,13 +969,13 @@ service, you must add the new consumer to a whitelisted group. See
 
 <p>Vault objects can be created via the following HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/vaults <span class="se">\</span>
-  --data <span class="nv">name</span><span class="o">=</span>kong-auth <span class="se">\</span>
-  --data <span class="nv">mount</span><span class="o">=</span>kong-auth <span class="se">\</span>
-  --data <span class="nv">protocol</span><span class="o">=</span>http <span class="se">\</span>
-  --data <span class="nv">host</span><span class="o">=</span>127.0.0.1 <span class="se">\</span>
-  --data <span class="nv">port</span><span class="o">=</span>8200
-  --data <span class="nv">token</span><span class="o">=</span>s.m3w9gdV0uMDYFpMgEWSB2mtM
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/vaults <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span>kong-auth <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">mount</span><span class="o">=</span>kong-auth <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">protocol</span><span class="o">=</span>http <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">host</span><span class="o">=</span>127.0.0.1 <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">port</span><span class="o">=</span>8200
+  <span class="nt">--data</span> <span class="nv">token</span><span class="o">=</span>s.m3w9gdV0uMDYFpMgEWSB2mtM
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -990,8 +989,7 @@ HTTP/1.1 201 Created
     <span class="s2">"token"</span>: <span class="s2">"s.m3w9gdV0uMDYFpMgEWSB2mtM"</span>,
     <span class="s2">"updated_at"</span>: 1550538643
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This assumes a Vault server is accessible via <code class="highlighter-rouge">127.0.0.1:8200</code>, and that a version 1 KV secrets engine has been enabled at <code class="highlighter-rouge">kong-auth</code>. Vault KV secrets engine documentation is available via the <a href="https://www.vaultproject.io/docs/secrets/kv/kv-v1.html">Vault documentation</a>.</p>
 
@@ -1001,7 +999,7 @@ HTTP/1.1 201 Created
 
 <p>Token pairs can be managed either via the Kong Admin API, or independantly via direct access with Vault. Token pairs must be associated with an existing Kong Consumer. Creating a token pair with the Kong Admin API can be done via the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/vaults/<span class="o">{</span>vault<span class="o">}</span>/credentials/<span class="o">{</span>consumer<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/vaults/<span class="o">{</span>vault<span class="o">}</span>/credentials/<span class="o">{</span>consumer<span class="o">}</span>
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -1015,8 +1013,7 @@ HTTP/1.1 201 Created
         <span class="s2">"ttl"</span>: null
     <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When the <code class="highlighter-rouge">access_token</code> or <code class="highlighter-rouge">secret_token</code> values are not provided, token values will be automatically generated via a cryptographically-secure random number generator (CSPRNG).</p>
 
@@ -1024,9 +1021,9 @@ HTTP/1.1 201 Created
 
 <p>Vault objects are treated as foreign references in plugin configs, creating a seamless lifecycle relationship between Vault instances and plugins with which they’re associated. <code class="highlighter-rouge">vault-auth</code> plugins require an association with a Vault object, which can be defined with the following HTTP request during plugin creation:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-  --data <span class="nv">name</span><span class="o">=</span>vault-auth <span class="se">\</span>
-  --data config.vault.id<span class="o">=</span>&lt;uuid&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span>vault-auth <span class="se">\</span>
+  <span class="nt">--data</span> config.vault.id<span class="o">=</span>&lt;uuid&gt;
 HTTP/1.1 201 Created
 
 <span class="o">{</span>
@@ -1051,8 +1048,7 @@ HTTP/1.1 201 Created
   <span class="s2">"name"</span>: <span class="s2">"vault-auth"</span>
 <span class="o">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">&lt;uuid&gt;</code> is the <code class="highlighter-rouge">id</code> of an existing Vault object.</p>
 
@@ -1060,27 +1056,24 @@ HTTP/1.1 201 Created
 
 <p>Simply make a request with the <code class="highlighter-rouge">access_token</code> and <code class="highlighter-rouge">secret_token</code> as querystring parameters:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span>?access_token<span class="o">=</span>&lt;access token&gt;&amp;secret_token<span class="o">=</span>&lt;secret token&gt;
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span>?access_token<span class="o">=</span>&lt;access token&gt;&amp;secret_token<span class="o">=</span>&lt;secret token&gt;
+</code></pre></div></div>
 
 <p>Or in a header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span> <span class="se">\</span>
-    -H <span class="s1">'access_token: &lt;access_token&gt;'</span> <span class="se">\</span>
-    -H <span class="s1">'secret_token: &lt;secret_token&gt;'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>proxy path<span class="o">}</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'access_token: &lt;access_token&gt;'</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'secret_token: &lt;secret_token&gt;'</span>
+</code></pre></div></div>
 
 <h3 id="deleting-an-accesssecret-token-pair">Deleting an Access/Secret Token Pair</h3>
 
 <p>Existing Vault credentials can be removed from the Vault server via the following API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://kong:8001/vaults/<span class="o">{</span>vault<span class="o">}</span>/credentials/token/<span class="o">{</span>access token<span class="o">}</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> DELETE http://kong:8001/vaults/<span class="o">{</span>vault<span class="o">}</span>/credentials/token/<span class="o">{</span>access token<span class="o">}</span>
 
 HTTP/1.1 204 No Content
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="token-ttl">Token TTL</h3>
 
@@ -1090,24 +1083,23 @@ HTTP/1.1 204 No Content
 
 <p>Kong can read access/token secret pairs that have been created directly in Vault, outside of the Kong Admin API. Currently <code class="highlighter-rouge">vault-auth</code> supports creating and reading credentials based on the Vault v1 KV engine. Create Vault KV secret values must contain the following fields:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="err">access_token:</span><span class="w"> </span><span class="err">&lt;string&gt;</span><span class="w">
-  </span><span class="err">secret_token:</span><span class="w"> </span><span class="err">&lt;string&gt;</span><span class="w">
-  </span><span class="err">created_at:</span><span class="w"> </span><span class="err">&lt;integer&gt;</span><span class="w">
-  </span><span class="err">updated_at:</span><span class="w"> </span><span class="err">&lt;integer&gt;</span><span class="w">
-  </span><span class="err">ttl:</span><span class="w"> </span><span class="err">&lt;integer&gt;</span><span class="w"> </span><span class="err">(optional)</span><span class="w">
-  </span><span class="err">consumer:</span><span class="w"> </span><span class="err">{</span><span class="w">
-    </span><span class="err">id:</span><span class="w"> </span><span class="err">&lt;uuid&gt;</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="err">}</span><span class="w">
-</span></code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  access_token: &lt;string&gt;
+  secret_token: &lt;string&gt;
+  created_at: &lt;integer&gt;
+  updated_at: &lt;integer&gt;
+  ttl: &lt;integer&gt; (optional)
+  consumer: {
+    id: &lt;uuid&gt;
+  }
+}
+</code></pre></div></div>
 
 <p>Additional fields within the secret are ignored. The key must be the <code class="highlighter-rouge">access_token</code> value; this is the identifier by which Kong queries the Vault API to fetch the credential data. See the <a href="https://www.vaultproject.io/docs/secrets/kv/kv-v1.html">Vault documentation</a> for further information on the KV v1 secrets engine.</p>
 
 <p><code class="highlighter-rouge">vault-auth</code> token pairs can be created with the Vault HTTP API or the <code class="highlighter-rouge">vault write</code> command:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>vault write kong-auth/foo - <span class="sh">&lt;&lt;EOF
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vault write kong-auth/foo - <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
 {
   "access_token": "foo",
   "secret_token": "supersecretvalue",
@@ -1116,9 +1108,8 @@ HTTP/1.1 204 No Content
   },
   "ttl": 86400
 }
-EOF
-</span></code></pre>
-</div>
+</span><span class="no">EOF
+</span></code></pre></div></div>
 
 
       
@@ -1301,7 +1292,7 @@ EOF
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

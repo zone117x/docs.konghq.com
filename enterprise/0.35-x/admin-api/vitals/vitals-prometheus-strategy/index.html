@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1396,10 +1396,9 @@ be downloaded at
 <a href="/enterprise/0.35-x/plugins/statsd.rules.yaml">statsd.rules.yaml</a>.
 Then start StatsD exporter with</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>./statsd_exporter --statsd.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
-                    --statsd.listen-unixgram<span class="o">=</span><span class="s1">''</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./statsd_exporter <span class="nt">--statsd</span>.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
+                    <span class="nt">--statsd</span>.listen-unixgram<span class="o">=</span><span class="s1">''</span>
+</code></pre></div></div>
 
 <p>The StatsD mapping rules file must be configured to match the metrics sent from
 Kong. To learn how to customize the StatsD events name, please refer to
@@ -1419,13 +1418,12 @@ in Prometheus Exposition Format are exposed on port <code class="highlighter-rou
 <p>To configure Prometheus to scrape StatsD exporter, add the following section to
 <code class="highlighter-rouge">scrape_configs</code> in <code class="highlighter-rouge">prometheus.yaml</code>.</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">scrape_configs</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">job_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">vitals_statsd_exporter'</span>
-    <span class="s">scrape_interval</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5s"</span>
-    <span class="s">static_configs</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">targets</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">statsd-node:9102'</span><span class="pi">]</span>
-</code></pre>
-</div>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">scrape_configs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">job_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">vitals_statsd_exporter'</span>
+    <span class="na">scrape_interval</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5s"</span>
+    <span class="na">static_configs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">targets</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">statsd-node:9102'</span><span class="pi">]</span>
+</code></pre></div></div>
 
 <p>Please update <code class="highlighter-rouge">statsd-node</code> with the actual hostname that runs StatsD exporter.</p>
 
@@ -1438,21 +1436,19 @@ section of Prometheus document for further reading.</p>
 
 <p>You can change this in your configuration to enable Vitals with Prometheus:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
 vitals <span class="o">=</span> on
 vitals_strategy <span class="o">=</span> prometheus
 vitals_statsd_address <span class="o">=</span> statsd-node:9125
 vitals_tsdb_address <span class="o">=</span> prometheus-node:9090
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># or via environment variables</span>
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS</span><span class="o">=</span>on
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STRATEGY</span><span class="o">=</span>prometheus
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STATSD_ADDRESS</span><span class="o">=</span>statsd-node:9125
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_TSDB_ADDRESS</span><span class="o">=</span>prometheus-node:9090
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environment variables</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS</span><span class="o">=</span>on
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STRATEGY</span><span class="o">=</span>prometheus
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STATSD_ADDRESS</span><span class="o">=</span>statsd-node:9125
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_TSDB_ADDRESS</span><span class="o">=</span>prometheus-node:9090
+</code></pre></div></div>
 
 <p>Please update <code class="highlighter-rouge">statsd-node</code> and <code class="highlighter-rouge">prometheus-node</code> with the actual hostname that
 runs StatsD exporter and Prometheus.</p>
@@ -1463,15 +1459,13 @@ runs StatsD exporter and Prometheus.</p>
 <p>If you set <code class="highlighter-rouge">scrape_interval</code> in Prometheus other than the default value of <code class="highlighter-rouge">5</code>
 seconds, you will also need to update the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
 vitals_prometheus_scrape_interval <span class="o">=</span> new_value_in_seconds
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># or via environment variables</span>
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_PROMETHEUS_SCRAPE_INTERVAL</span><span class="o">=</span>new_value_in_seconds
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environment variables</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_PROMETHEUS_SCRAPE_INTERVAL</span><span class="o">=</span>new_value_in_seconds
+</code></pre></div></div>
 
 <p>The above option configures <code class="highlighter-rouge">interval</code> parameter when querying Prometheus.
 The value <code class="highlighter-rouge">new_value_in_seconds</code> should be equal or larger than
@@ -1481,27 +1475,24 @@ The value <code class="highlighter-rouge">new_value_in_seconds</code> should be 
 the default value of <code class="highlighter-rouge">kong</code>. Make sure the prefix in statsd.rules
 is same as that in Kong configuration:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
 vitals_statsd_prefix <span class="o">=</span> kong-vitals
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># or via environment variables</span>
-<span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STATSD_PREFIX</span><span class="o">=</span>kong-vitals
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environment variables</span>
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_VITALS_STATSD_PREFIX</span><span class="o">=</span>kong-vitals
+</code></pre></div></div>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># in statsd.rules</span>
-<span class="s">mappings</span><span class="pi">:</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># in statsd.rules</span>
+<span class="na">mappings</span><span class="pi">:</span>
 <span class="c1"># by API</span>
-<span class="pi">-</span> <span class="s">match</span><span class="pi">:</span> <span class="s">kong-vitals.api.*.request.count</span>
-  <span class="s">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_requests_proxy"</span>
-  <span class="s">labels</span><span class="pi">:</span>
-    <span class="s">job</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_metrics"</span>
+<span class="pi">-</span> <span class="na">match</span><span class="pi">:</span> <span class="s">kong-vitals.api.*.request.count</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_requests_proxy"</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">job</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_metrics"</span>
 <span class="c1"># follows other metrics</span>
 <span class="c1"># ...</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="tuning-and-optimization">Tuning and Optimization</h2>
 
@@ -1515,24 +1506,21 @@ dropping.</p>
 <p>To increase the UDP read buffer for the StatsD exporter process, run the binary
 using the following example to set read buffer to around 3 MB:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ./statsd_exporter --statsd.mapping-config=statsd.rules.yaml \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./statsd_exporter --statsd.mapping-config=statsd.rules.yaml \
                     --statsd.listen-unixgram='' \
                     --statsd.read-buffer=30000000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To increase the UDP read buffer for the host that’s running, adding the
 following example line to <code class="highlighter-rouge">/etc/sysctl.conf</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>net.core.rmem_max = 60000000
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net.core.rmem_max = 60000000
+</code></pre></div></div>
 
 <p>And then apply the setting with root privilege:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># sysctl -p
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># sysctl -p
+</code></pre></div></div>
 
 <h3 id="statsd-exporter-with-unix-domain-socket">StatsD exporter with Unix domain socket</h3>
 
@@ -1540,23 +1528,21 @@ following example line to <code class="highlighter-rouge">/etc/sysctl.conf</code
 on the same node with Kong and let the exporter listen on local Unix domain
 socket.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>./statsd_exporter --statsd.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
-                    --statsd.read-buffer<span class="o">=</span>30000000 <span class="se">\</span>
-                    --statsd.listen-unixgram<span class="o">=</span><span class="s1">'/tmp/statsd.sock'</span> 
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./statsd_exporter <span class="nt">--statsd</span>.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
+                    <span class="nt">--statsd</span>.read-buffer<span class="o">=</span>30000000 <span class="se">\</span>
+                    <span class="nt">--statsd</span>.listen-unixgram<span class="o">=</span><span class="s1">'/tmp/statsd.sock'</span> 
+</code></pre></div></div>
 
 <p>By default the socket is created with permission <code class="highlighter-rouge">0755</code>, so that StatsD exporter
  has to be running with the same user with Kong to allow Kong to write UDP
  packets to the socket. To allow the exporter and Kong to run as different
  users, the socket can be created with permission <code class="highlighter-rouge">0777</code> with the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>./statsd_exporter --statsd.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
-                    --statsd.read-buffer<span class="o">=</span>30000000 <span class="se">\</span>
-                    --statsd.listen-unixgram<span class="o">=</span><span class="s1">'/tmp/statsd.sock'</span> <span class="se">\</span>
-                    --statsd.unixsocket-umask<span class="o">=</span><span class="s2">"777"</span> 
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./statsd_exporter <span class="nt">--statsd</span>.mapping-config<span class="o">=</span>statsd.rules.yaml <span class="se">\</span>
+                    <span class="nt">--statsd</span>.read-buffer<span class="o">=</span>30000000 <span class="se">\</span>
+                    <span class="nt">--statsd</span>.listen-unixgram<span class="o">=</span><span class="s1">'/tmp/statsd.sock'</span> <span class="se">\</span>
+                    <span class="nt">--statsd</span>.unixsocket-umask<span class="o">=</span><span class="s2">"777"</span> 
+</code></pre></div></div>
 
 <h2 id="accessing-vitals-metrics-from-prometheus">Accessing Vitals metrics from Prometheus</h2>
 
@@ -1737,7 +1723,7 @@ above, all metrics are also labeled with <code class="highlighter-rouge">job=vit
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

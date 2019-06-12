@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1383,19 +1383,17 @@ and is accepting write traffic. Production-ready InfluxDB installations should
 be deployed as a separate effort, but for proof-of-concept testing, running a 
 local InfluxDB instance is possible via Docker:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>docker run -p 8086:8086 <span class="se">\</span>
-      -v <span class="nv">$PWD</span>:/var/lib/influxdb <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>docker run <span class="nt">-p</span> 8086:8086 <span class="se">\</span>
+      <span class="nt">-v</span> <span class="nv">$PWD</span>:/var/lib/influxdb <span class="se">\</span>
       influxdb
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Writing Vitals data to InfluxDB requires that the <code class="highlighter-rouge">kong</code> database is created.
 Currently, this operation must be done manually. This can be done via the
 <code class="highlighter-rouge">influx</code> CLI:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">influx&gt; </span>create database kong;
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>influx&gt; create database kong<span class="p">;</span>
+</code></pre></div></div>
 
 <p>Alternatively the <a href="https://docs.influxdata.com/influxdb/v1.7/tools/api/#query-http-endpoint">InfluxDB API</a>
 may be queried directly to create the database.</p>
@@ -1405,10 +1403,9 @@ may be queried directly to create the database.</p>
 <p>In addition to enabling Vitals, Kong must be configured to use InfluxDB as the
 backing strategy for Vitals. The InfluxDB host and port must also be defined:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>vitals_strategy = influxdb
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vitals_strategy = influxdb
 vitals_tsdb_address = 127.0.0.1:8086 # the IP or hostname, and port, of InfluxDB
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As with other Kong configurations, changes take effect on kong reload or kong
 restart.</p>
@@ -1421,7 +1418,7 @@ entities associated with the requests (e.g., the Route and Service in question,
 etc.), and <code class="highlighter-rouge">kong_datastore_cache</code>, which contains points about cache hits and
 misses. Measurement schemas are listed below:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&gt; show tag keys
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; show tag keys
 name: kong_request
 tagKey
 ------
@@ -1438,10 +1435,9 @@ tagKey
 ------
 hostname
 wid
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&gt; show field keys
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; show field keys
 name: kong_request
 fieldKey	         fieldType
 --------	         ---------
@@ -1456,8 +1452,7 @@ fieldKey  fieldType
 
 hits      integer
 misses    integer
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The tag <code class="highlighter-rouge">wid</code> is used to differentiate the unique worker ID per host, to avoid
 duplicate metrics shipped at the same point in time.</p>
@@ -1666,7 +1661,7 @@ duration for measurements written by Kong.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

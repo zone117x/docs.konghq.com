@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1174,14 +1180,13 @@ window['_fs_namespace'] = 'FS';
 
 <p>As explained in the <a href="/0.6.x/getting-started/adding-your-api">Adding your API</a> quickstart guide, Kong is configured via its internal <a href="/0.6.x/admin-api">Admin API</a> running by default on port <code class="highlighter-rouge">8001</code>. Adding an API to Kong is as easy as an HTTP request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/apis/ <span class="se">\</span>
-  -d <span class="s1">'name=mockbin'</span> <span class="se">\</span>
-  -d <span class="s1">'upstream_url=http://mockbin.com/'</span> <span class="se">\</span>
-  -d <span class="s1">'request_host=mockbin.com'</span> <span class="se">\</span>
-  -d <span class="s1">'request_path=/status'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/apis/ <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'name=mockbin'</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'upstream_url=http://mockbin.com/'</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'request_host=mockbin.com'</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'request_path=/status'</span>
+</code></pre></div></div>
 
 <p>This request tells Kong to add an API named “<strong>mockbin</strong>”, with its upstream resource being located at “<strong>http://mockbin.com</strong>”. The <code class="highlighter-rouge">request_host</code> and <code class="highlighter-rouge">request_path</code> properties are the ones used by Kong to route a request to that API. Both properties are not required but at least one must be specified.</p>
 
@@ -1195,11 +1200,10 @@ window['_fs_namespace'] = 'FS';
 
 <p>Now that we added an API to Kong (via the Admin API), Kong can proxy it via the <code class="highlighter-rouge">8000</code> port. One way to do so is to specify the API’s <code class="highlighter-rouge">request_host</code> value in the <code class="highlighter-rouge">Host</code> header of your request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">'Host: mockbin.com'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/ <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'Host: mockbin.com'</span>
+</code></pre></div></div>
 
 <p>By doing so, Kong recognizes the <code class="highlighter-rouge">Host</code> value as being the <code class="highlighter-rouge">request_host</code> of the “mockbin” API. The request will be routed to the upstream API and Kong will execute any configured <a href="/plugins/">plugin</a> for that API.</p>
 
@@ -1211,11 +1215,10 @@ window['_fs_namespace'] = 'FS';
 
 <p>When performing a request from a browser, you might not be able to set the <code class="highlighter-rouge">Host</code> header. Thus, Kong also checks a request for a header named <code class="highlighter-rouge">X-Host-Override</code> and treats it exactly like the <code class="highlighter-rouge">Host</code> header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ <span class="se">\</span>
-  --header <span class="s1">'X-Host-Override: mockbin.com'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/ <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'X-Host-Override: mockbin.com'</span>
+</code></pre></div></div>
 
 <p>This request will be proxied just as well by Kong.</p>
 
@@ -1235,10 +1238,9 @@ window['_fs_namespace'] = 'FS';
 
 <p>Because the API we previously configured has a <code class="highlighter-rouge">request_path</code> property, the following request will <strong>also</strong> be proxied to the upstream “mockbin” API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/status/200
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/status/200
+</code></pre></div></div>
 
 <p>You will notice this command makes a request to <code class="highlighter-rouge">KONG_URL:PROXY_PORT/status/200</code>. Since the configured <code class="highlighter-rouge">upstream_url</code> is <code class="highlighter-rouge">http://mockbin.com/</code>, the request will hit the upstream service at <code class="highlighter-rouge">http://mockbin.com/status/200</code>.</p>
 
@@ -1246,12 +1248,11 @@ window['_fs_namespace'] = 'FS';
 
 <p>By enabling the <code class="highlighter-rouge">strip_request_path</code> property on an API, the requests will be proxied without the <code class="highlighter-rouge">request_path</code> property being included in the upstream request. Let’s enable this option by making a request to the Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X PATCH <span class="se">\</span>
-  --url http://localhost:8001/apis/mockbin <span class="se">\</span>
-  -d <span class="s1">'strip_request_path=true'</span> <span class="se">\</span>
-  -d <span class="s1">'request_path=/mockbin'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/apis/mockbin <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'strip_request_path=true'</span> <span class="se">\</span>
+  <span class="nt">-d</span> <span class="s1">'request_path=/mockbin'</span>
+</code></pre></div></div>
 
 <p>Now that we slightly updated our API (you might have to wait a few seconds for Kong’s proxying cache to be updated), Kong will proxy requests made to <code class="highlighter-rouge">KONG_URL:PROXY_PORT/mockbin</code> but will not include the <code class="highlighter-rouge">/mockbin</code> part when performing the upstream request.</p>
 
@@ -1555,7 +1556,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

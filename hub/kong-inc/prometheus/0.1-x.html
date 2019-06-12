@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -684,6 +684,8 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+              
+                
                   
                   <h6>Kong</h6>
                   
@@ -797,11 +799,10 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=prometheus"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=prometheus"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -815,11 +816,10 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=prometheus"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=prometheus"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -838,11 +838,10 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=prometheus"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=prometheus"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -933,11 +932,11 @@ writing, and number of accepted connections.</li>
 
 <p>Here is an example of output you could expect from the <code class="highlighter-rouge">/metrics</code> endpoint:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/metrics
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/metrics
 HTTP/1.1 200 OK
 Server: openresty/1.11.2.5
 Date: Mon, 11 Jun 2018 01:39:38 GMT
-Content-Type: text/plain; <span class="nv">charset</span><span class="o">=</span>UTF-8
+Content-Type: text/plain<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>UTF-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
@@ -963,19 +962,19 @@ kong_http_status<span class="o">{</span><span class="nv">code</span><span class=
 <span class="c"># TYPE kong_latency histogram</span>
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00001.0"</span><span class="o">}</span> 1
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00002.0"</span><span class="o">}</span> 1
-.
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00300.0"</span><span class="o">}</span> 1
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00400.0"</span><span class="o">}</span> 1
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00300.0"</span><span class="o">}</span> 2
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"00400.0"</span><span class="o">}</span> 2
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,service<span class="o">=</span><span class="s2">"google"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_count<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,service<span class="o">=</span><span class="s2">"google"</span><span class="o">}</span> 2
 kong_latency_count<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,service<span class="o">=</span><span class="s2">"google"</span><span class="o">}</span> 2
@@ -987,19 +986,19 @@ kong_latency_sum<span class="o">{</span><span class="nb">type</span><span class=
 <span class="c"># TYPE kong_latency_total histogram</span>
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,le<span class="o">=</span><span class="s2">"00001.0"</span><span class="o">}</span> 1
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,le<span class="o">=</span><span class="s2">"00002.0"</span><span class="o">}</span> 1
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,le<span class="o">=</span><span class="s2">"00300.0"</span><span class="o">}</span> 1
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,le<span class="o">=</span><span class="s2">"00400.0"</span><span class="o">}</span> 1
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,le<span class="o">=</span><span class="s2">"00300.0"</span><span class="o">}</span> 2
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,le<span class="o">=</span><span class="s2">"00400.0"</span><span class="o">}</span> 2
-.
-.
-.
+<span class="nb">.</span>
+<span class="nb">.</span>
+<span class="nb">.</span>
 kong_latency_total_bucket<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"upstream"</span>,le<span class="o">=</span><span class="s2">"+Inf"</span><span class="o">}</span> 2
 kong_latency_total_count<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"kong"</span><span class="o">}</span> 2
 kong_latency_total_count<span class="o">{</span><span class="nb">type</span><span class="o">=</span><span class="s2">"request"</span><span class="o">}</span> 2
@@ -1019,8 +1018,7 @@ kong_nginx_http_current_connections<span class="o">{</span><span class="nv">stat
 <span class="c"># HELP kong_nginx_metric_errors_total Number of nginx-lua-prometheus errors</span>
 <span class="c"># TYPE kong_nginx_metric_errors_total counter</span>
 kong_nginx_metric_errors_total 0
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="accessing-the-metrics">Accessing the metrics</h3>
 
@@ -1052,7 +1050,7 @@ template</a> with Kong.</p>
     <p>The following block is an example custom nginx template which can be used
  by Kong:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> server {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> server {
      server_name kong_prometheus_exporter;
      listen 0.0.0.0:9542; # can be any other port as well
 
@@ -1070,8 +1068,7 @@ template</a> with Kong.</p>
          stub_status;
      }
  }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1256,7 +1253,7 @@ template</a> with Kong.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

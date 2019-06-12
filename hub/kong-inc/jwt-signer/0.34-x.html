@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -706,6 +706,8 @@ window['_fs_namespace'] = 'FS';
               
                 
               
+                
+              
               </ul>
             </td>
           </tr>
@@ -776,11 +778,10 @@ can be any valid verifiable tokens. E.g. two access tokens
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt-signer"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=jwt-signer"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -794,11 +795,10 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt-signer"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=jwt-signer"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -817,11 +817,10 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=jwt-signer"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=jwt-signer"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -962,10 +961,9 @@ target.</li>
 
 <p>Configure the plugin for a service:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://&lt;kong&gt;:8001/service/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-       --data <span class="s2">"name=jwt-signer"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;kong&gt;:8001/service/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+       <span class="nt">--data</span> <span class="s2">"name=jwt-signer"</span>
+</code></pre></div></div>
 
 <h2 id="plugin-configuration-parameters">Plugin Configuration Parameters</h2>
 
@@ -1773,117 +1771,111 @@ revealing the secrets).</p>
 
 <p>All the public keys that Kong has loaded or generated can be viewed by accessing:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err">GET kong:8001/jwt-signer/jwks
-</span></code></pre>
-</div>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">GET kong:8001/jwt-signer/jwks
+</span></code></pre></div></div>
 
 <p>E.g.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://&lt;kong&gt;:8001/jwt-signer/jwks
-</code></pre>
-</div>
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> GET http://&lt;kong&gt;:8001/jwt-signer/jwks
+</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520731</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c1d2d9b7-ac3a-4ca4-b595-453acd78925e"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520731</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c1d2d9b7-ac3a-4ca4-b595-453acd78925e"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aXKFjIY80eM_H4rqhT6iaOfdL5iDHDHjag2BWLaxeJA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qDjxLGSa4jI14ctmvjMDQzZDfZJcXS6G6-wcVxLsQgrIWc_JnZ44b1ApAokFwaZsig4oNFLQYAMdapZSORI2jNlZ9lsJ-b3VZUz0gB5jGaFAyx7G1Uh46w_-2JZKI4wW8KinJ8VZayobSYS3eg6p3f34t2mDv36Uwa4B8DZKo8cE0JE8T2ne2lyS18W9bJkpfIoctcDjzsvFTg4NbEF3Y61q5v_6icxyJkB9JtS2JE1RjJxmBDOb_ETCLyIiN0Wlb9OdLX_HSdY3DRfnYNl3XAaPdqr8QifqidfdWI4YnJiJ3mYAgI-E37waZ0-1-Ykt-mpvUX1l_UvAdxqetGuC5Q"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+                    </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aXKFjIY80eM_H4rqhT6iaOfdL5iDHDHjag2BWLaxeJA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"qDjxLGSa4jI14ctmvjMDQzZDfZJcXS6G6-wcVxLsQgrIWc_JnZ44b1ApAokFwaZsig4oNFLQYAMdapZSORI2jNlZ9lsJ-b3VZUz0gB5jGaFAyx7G1Uh46w_-2JZKI4wW8KinJ8VZayobSYS3eg6p3f34t2mDv36Uwa4B8DZKo8cE0JE8T2ne2lyS18W9bJkpfIoctcDjzsvFTg4NbEF3Y61q5v_6icxyJkB9JtS2JE1RjJxmBDOb_ETCLyIiN0Wlb9OdLX_HSdY3DRfnYNl3XAaPdqr8QifqidfdWI4YnJiJ3mYAgI-E37waZ0-1-Ykt-mpvUX1l_UvAdxqetGuC5Q"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
                 </span><span class="p">},</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xb_lFJbpaVuo7cWO7XADl0PsL4G97VFpFg3hIgRiJHQ"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vLY2u2q1gmzysPCbjq7mSDwh2oeRLZ3A047gn0-JsNWF2BZrgMUlB5cnKHOUPAD2ugHjUAOVMy_1d6FO2VBxV6i66KgWM_CMu0sqpmM-n7iUq8TCbpOX5mWczt3GutXPw960--LGyFTuuy2xi1wVYW1WbDIvb4oLo9b0G1eJIjvtSjmQ8tiBkiIxnRGKKxeZl0oTX99v6Z9X1aXoQ11y46l4_IGsN1b8ZWfBJ7Glyi80trWIs6z-EmZED6gdRushRT98GHofqTPRaaOnOJ1itHECj6U82ec6UU-IBtryGqUn_PQ9fUpI1Ru-0jGEcMY3aBZdZ4Uy_189ELK4jqn28w"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+                    </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xb_lFJbpaVuo7cWO7XADl0PsL4G97VFpFg3hIgRiJHQ"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vLY2u2q1gmzysPCbjq7mSDwh2oeRLZ3A047gn0-JsNWF2BZrgMUlB5cnKHOUPAD2ugHjUAOVMy_1d6FO2VBxV6i66KgWM_CMu0sqpmM-n7iUq8TCbpOX5mWczt3GutXPw960--LGyFTuuy2xi1wVYW1WbDIvb4oLo9b0G1eJIjvtSjmQ8tiBkiIxnRGKKxeZl0oTX99v6Z9X1aXoQ11y46l4_IGsN1b8ZWfBJ7Glyi80trWIs6z-EmZED6gdRushRT98GHofqTPRaaOnOJ1itHECj6U82ec6UU-IBtryGqUn_PQ9fUpI1Ru-0jGEcMY3aBZdZ4Uy_189ELK4jqn28w"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520731</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kong"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520731</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520379</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d9d5b731-55fe-4cad-829f-6aba4b2d8823"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520379</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d9d5b731-55fe-4cad-829f-6aba4b2d8823"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b863b534069bfc0207197bcf831320d1cdc2cee2"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8h6tCwOYDPtzyFivNaIguQVc_yBO5eOA2kUu_MAN8s4VWn8tIfCbVvcAz3yNwQuGpkdNg8gTk9QmReXl4SE8m7aCa0iRcBBWLyPUt6TM1RkYE51rOGYhjWxo9V8ogMXSBclE6x0t8qFY00l5O34gjYzXtyvyBX7Sw5mGuNLVAzq2nsCTnIsHrIaBy70IKU3FLsJ_PRYyViXP1nfo9872q3mtn7bJ7_hqss0vDgUiNAqPztVIsrZinFbaTgXjLhBlUjFWgJx_g4p76CJkjQ3-puZRU5A0D04KvqQ_0AWcN1Q8pvwQ9V4uGHm6Bop9nUhIcZJYjjlTM9Pkx_JnVOfekw"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+                    </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b863b534069bfc0207197bcf831320d1cdc2cee2"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8h6tCwOYDPtzyFivNaIguQVc_yBO5eOA2kUu_MAN8s4VWn8tIfCbVvcAz3yNwQuGpkdNg8gTk9QmReXl4SE8m7aCa0iRcBBWLyPUt6TM1RkYE51rOGYhjWxo9V8ogMXSBclE6x0t8qFY00l5O34gjYzXtyvyBX7Sw5mGuNLVAzq2nsCTnIsHrIaBy70IKU3FLsJ_PRYyViXP1nfo9872q3mtn7bJ7_hqss0vDgUiNAqPztVIsrZinFbaTgXjLhBlUjFWgJx_g4p76CJkjQ3-puZRU5A0D04KvqQ_0AWcN1Q8pvwQ9V4uGHm6Bop9nUhIcZJYjjlTM9Pkx_JnVOfekw"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
                 </span><span class="p">},</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55b854edf35f093b4708f72dec4f15149836e8ac"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xul55cFjIY7QFMhl79y_3MWK4rHDRqTu-C2VxaPqxbLUSW-LJp8hotDeIOdMEawi2WFNUUCrOpSl33CtX3oFeq7ytLS6y5aosoQMLlguGHnU7FBNvw9kNtR41ykvLphU5YGJVr_JVFAqJPcpB9cEo6f6Mo9i8_gfsXMhkyrm5eqXDFlgDfgfJ_oaMyfkBmhLO2sjgdLguy_x6jg1Ys3WK2DfsI0q7X_esbEStEiV9M9lHOYsmdikKO-CPK6_c5zzJgiIjoND47WEtWuuOp_izV6BeojK9JFPHxcOnX71__sTWYl2iv7cZUNQQeH3Kub6gfpfVjCExy_5qKvtdMnzrw"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+                    </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55b854edf35f093b4708f72dec4f15149836e8ac"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xul55cFjIY7QFMhl79y_3MWK4rHDRqTu-C2VxaPqxbLUSW-LJp8hotDeIOdMEawi2WFNUUCrOpSl33CtX3oFeq7ytLS6y5aosoQMLlguGHnU7FBNvw9kNtR41ykvLphU5YGJVr_JVFAqJPcpB9cEo6f6Mo9i8_gfsXMhkyrm5eqXDFlgDfgfJ_oaMyfkBmhLO2sjgdLguy_x6jg1Ys3WK2DfsI0q7X_esbEStEiV9M9lHOYsmdikKO-CPK6_c5zzJgiIjoND47WEtWuuOp_izV6BeojK9JFPHxcOnX71__sTWYl2iv7cZUNQQeH3Kub6gfpfVjCExy_5qKvtdMnzrw"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
                 </span><span class="p">},</span><span class="w">
                 </span><span class="p">{</span><span class="w">
-                    </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ba4aeae8b208ad9ae12b6610865f63961287b6d6"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1f7xnpGKS5pq7l2nE0iLQ1SYX3MVeOxFDdqzTLOzU_JCNrl_w0a3f1Ry0nRPGMjONaBodUAKKgVbTKT3v88Y8-8l4BAk7lnw0fjw404MfDCt2lHaLVY_WjCHfltsUbCklta_eSN92bYQX81wmlGhwWW5kAyagTkpsPGb04zZLWTPR5fYffdYfRY1r65VmzrZaniEq4HQUr49swKmH5yyqF_HrtkpXXAcqmPlsoh1rwm1G1fsDTiNgwhJD54oZ1z5h-_8S4a0XV5cfrAQw6zzRw2Yfe6_FSXVJdJjZ_qZmY_Eqay3Wv-FDr0mZGZg6RmTtDt5208lwUcB4j49kczUhw"</span><span class="p">,</span><span class="w">
-                    </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+                    </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ba4aeae8b208ad9ae12b6610865f63961287b6d6"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1f7xnpGKS5pq7l2nE0iLQ1SYX3MVeOxFDdqzTLOzU_JCNrl_w0a3f1Ry0nRPGMjONaBodUAKKgVbTKT3v88Y8-8l4BAk7lnw0fjw404MfDCt2lHaLVY_WjCHfltsUbCklta_eSN92bYQX81wmlGhwWW5kAyagTkpsPGb04zZLWTPR5fYffdYfRY1r65VmzrZaniEq4HQUr49swKmH5yyqF_HrtkpXXAcqmPlsoh1rwm1G1fsDTiNgwhJD54oZ1z5h-_8S4a0XV5cfrAQw6zzRw2Yfe6_FSXVJdJjZ_qZmY_Eqay3Wv-FDr0mZGZg6RmTtDt5208lwUcB4j49kczUhw"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
                 </span><span class="p">}</span><span class="w">
             </span><span class="p">],</span><span class="w">
-            </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.googleapis.com/oauth2/v3/certs"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-            </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520379</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.googleapis.com/oauth2/v3/certs"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535560520379</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+    </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h3 id="cached-jwks-admin-api-endpoint-for-a-key-set">Cached JWKS Admin API Endpoint for a Key Set</h3>
 
 <p>A particular keyset can be accessed in another endpoint:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err">GET kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;
-</span></code></pre>
-</div>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">GET kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;
+</span></code></pre></div></div>
 
 <p>E.g.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X GET http://&lt;kong&gt;:8001/jwt-signer/jwks/kong
-</code></pre>
-</div>
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> GET http://&lt;kong&gt;:8001/jwt-signer/jwks/kong
+</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v6el8V8dbrKY5w2PInkM468aSuODrKcfbt-44xdDIjk"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uJzCU_TangWMFk25_JggtkVNjtFfaaz3jERYEYrsb92KFK4FpjfenYYeo8XCGLphn-NcYJroHy3aVznTvU3O8B-5z27uFgXUzk_m-fJ5C4cyqBaJS_myuMOnx0SBl-V6rIGmbdAd0rxsR9SK4JXaZ7xPnQKl8Z6N_Be2iWzf8RUzgM51x7RLQWr55DXBz5IS0O3uYi0z2_xaTyhvZ01aGMGO8Jom1QZkSf2SBGVvQiff464wB_R9Uw8bnbDw6SI0A7JbvSTj80dsoB5YJaR6OZ7XzJX53J1-efiEPc-JTXnqsN1xd-7DbrwpGSui7cGU79H7rG2o-DdVtz649JVXHw"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v6el8V8dbrKY5w2PInkM468aSuODrKcfbt-44xdDIjk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uJzCU_TangWMFk25_JggtkVNjtFfaaz3jERYEYrsb92KFK4FpjfenYYeo8XCGLphn-NcYJroHy3aVznTvU3O8B-5z27uFgXUzk_m-fJ5C4cyqBaJS_myuMOnx0SBl-V6rIGmbdAd0rxsR9SK4JXaZ7xPnQKl8Z6N_Be2iWzf8RUzgM51x7RLQWr55DXBz5IS0O3uYi0z2_xaTyhvZ01aGMGO8Jom1QZkSf2SBGVvQiff464wB_R9Uw8bnbDw6SI0A7JbvSTj80dsoB5YJaR6OZ7XzJX53J1-efiEPc-JTXnqsN1xd-7DbrwpGSui7cGU79H7rG2o-DdVtz649JVXHw"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SBFmMBtMQzjQEYPDQ_7H5emJzfjX4-FBVE22_SRy5oU"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rPcrSYQKnJNfMd0AF2t8JGSRdSSOeEPwSpPNyq6T13NXWLBDzzmZC8gNURFrsB8hkeY_KUNe3rVZz__6Vp7_h5PxWXKIUFJT18Gl8mSJ_4ohWUFziWdLV1rliZ671Uo5My2_McgRFI2DfHCWCe5XL5ApKPv9YFT684_FfKpnvTIn7_rVoyQYp3g9Ud_7X5hJGEuBa3HKSGPhn-zh1A0kxnLwNrLms4t3bQZMamuR0R3XYXr76OwU0xQMsqy3_DwV1DJ0z9o0gFV8GSkYWYllVNwfGPXiTSUvTKWIARGV60jUaoYB1sG5yXyhgBcWn-XX5wcOG--aGfdWwlnYF7p_ow"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SBFmMBtMQzjQEYPDQ_7H5emJzfjX4-FBVE22_SRy5oU"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rPcrSYQKnJNfMd0AF2t8JGSRdSSOeEPwSpPNyq6T13NXWLBDzzmZC8gNURFrsB8hkeY_KUNe3rVZz__6Vp7_h5PxWXKIUFJT18Gl8mSJ_4ohWUFziWdLV1rliZ671Uo5My2_McgRFI2DfHCWCe5XL5ApKPv9YFT684_FfKpnvTIn7_rVoyQYp3g9Ud_7X5hJGEuBa3HKSGPhn-zh1A0kxnLwNrLms4t3bQZMamuR0R3XYXr76OwU0xQMsqy3_DwV1DJ0z9o0gFV8GSkYWYllVNwfGPXiTSUvTKWIARGV60jUaoYB1sG5yXyhgBcWn-XX5wcOG--aGfdWwlnYF7p_ow"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">http://&lt;kong&gt;:8001/jwt-signer/jwks/kong</code> being the URL that you can give to your
 upstream services for them to verify Kong issued tokens. The response is a standard
@@ -1896,15 +1888,13 @@ if that is needed.</p>
 
 <p>You can also <code class="highlighter-rouge">DELETE</code> a keyset by issuing following:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err">DELETE kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;
-</span></code></pre>
-</div>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">DELETE kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;
+</span></code></pre></div></div>
 
 <p>E.g.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://&lt;kong&gt;:8001/jwt-signer/jwks/kong
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> DELETE http://&lt;kong&gt;:8001/jwt-signer/jwks/kong
+</code></pre></div></div>
 
 <p>The plugin will automatically reload or regenerate missing JWKS if it cannot
 find a cached ones. The plugin will also try to reload JWKS if it cannot verify
@@ -1924,55 +1914,52 @@ with newly generated tokens OR reloaded tokens (in case the keys are loaded from
 uri).</p>
 
 <p>To rotate keys you can send <code class="highlighter-rouge">POST</code> request:</p>
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="err">POST kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;/rotate
-</span></code></pre>
-</div>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">POST kong:8001/jwt-signer/jwks/&lt;name-or-id&gt;/rotate
+</span></code></pre></div></div>
 
 <p>E.g.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://&lt;kong&gt;:8001/jwt-signer/jwks/kong/rotate
-</code></pre>
-</div>
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;kong&gt;:8001/jwt-signer/jwks/kong/rotate
+</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"keys"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WL-MciVclsUiIOo1IFBozrFmCIGHcYieGGny3RiENbU"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sOIf20LLUMcwaScetGnnljjkla_uZ1xQbWOy5cUjiDqku1MqiRgSvI9lM0A6USa4xtqGEnAhE-wZG7fqdWIUPgm3gZxmB6JjIV3E32PjWUtiVAiJUId3dMaGn4FSzU-TTKFAIB-xfO_0qoccaGfjsh2E5qeBGK1IBznnaw3ShnqdB53kJkSS0xgZ3NyCwh4zfTb0XeJq0l8U9xS3IdaVMj5EBOFvo-DBMneyICgLQaLIEB2KQ64aN2al4sLhKCL_Ui02s1F0igLdUr0nyhe7iFK6YIyhERMviDmv_HW7CfFcNVvB-dbpIfW0Z9SX4CtkpaAHdY4HPZFneJ4VtqYQLQ"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WL-MciVclsUiIOo1IFBozrFmCIGHcYieGGny3RiENbU"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sOIf20LLUMcwaScetGnnljjkla_uZ1xQbWOy5cUjiDqku1MqiRgSvI9lM0A6USa4xtqGEnAhE-wZG7fqdWIUPgm3gZxmB6JjIV3E32PjWUtiVAiJUId3dMaGn4FSzU-TTKFAIB-xfO_0qoccaGfjsh2E5qeBGK1IBznnaw3ShnqdB53kJkSS0xgZ3NyCwh4zfTb0XeJq0l8U9xS3IdaVMj5EBOFvo-DBMneyICgLQaLIEB2KQ64aN2al4sLhKCL_Ui02s1F0igLdUr0nyhe7iFK6YIyhERMviDmv_HW7CfFcNVvB-dbpIfW0Z9SX4CtkpaAHdY4HPZFneJ4VtqYQLQ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6EIBzS288AfTm1atFHICYZ4SvWY3X9jnZEYQT3uKfXw"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zpxT7SlEmnWxquVwELysCCmrAkAvJb8eYHk3DLKEvjDDUVjA8u6KFoCBL6ySRg59kZESZ_30A0Oi1wWO85kUySlL_rtn-1PYPCUX_Yhsdoq0dYmD388l5VxRDdwVQh6c4VnbTZbJGk7RDm-dBe2xNwdfNs_C5f4pf-nGMyk1kqfgVRoYkrXuMAwd4xbeb-gh7ZdBNQO-LkMlLVGKbFe5bsnvG2ht202qx_VdHjN-spxbRUANCDRpPTAM1uEdB15EijZDLnwXZCywUsb0WIKA0bxxEJtH6tO7g8EujYqZB3Z-TaCq-dtq8lKT2FoRNx6-Zc3zVsRHb5RWqV2pgrKWZQ"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6EIBzS288AfTm1atFHICYZ4SvWY3X9jnZEYQT3uKfXw"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zpxT7SlEmnWxquVwELysCCmrAkAvJb8eYHk3DLKEvjDDUVjA8u6KFoCBL6ySRg59kZESZ_30A0Oi1wWO85kUySlL_rtn-1PYPCUX_Yhsdoq0dYmD388l5VxRDdwVQh6c4VnbTZbJGk7RDm-dBe2xNwdfNs_C5f4pf-nGMyk1kqfgVRoYkrXuMAwd4xbeb-gh7ZdBNQO-LkMlLVGKbFe5bsnvG2ht202qx_VdHjN-spxbRUANCDRpPTAM1uEdB15EijZDLnwXZCywUsb0WIKA0bxxEJtH6tO7g8EujYqZB3Z-TaCq-dtq8lKT2FoRNx6-Zc3zVsRHb5RWqV2pgrKWZQ"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"previous"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v6el8V8dbrKY5w2PInkM468aSuODrKcfbt-44xdDIjk"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uJzCU_TangWMFk25_JggtkVNjtFfaaz3jERYEYrsb92KFK4FpjfenYYeo8XCGLphn-NcYJroHy3aVznTvU3O8B-5z27uFgXUzk_m-fJ5C4cyqBaJS_myuMOnx0SBl-V6rIGmbdAd0rxsR9SK4JXaZ7xPnQKl8Z6N_Be2iWzf8RUzgM51x7RLQWr55DXBz5IS0O3uYi0z2_xaTyhvZ01aGMGO8Jom1QZkSf2SBGVvQiff464wB_R9Uw8bnbDw6SI0A7JbvSTj80dsoB5YJaR6OZ7XzJX53J1-efiEPc-JTXnqsN1xd-7DbrwpGSui7cGU79H7rG2o-DdVtz649JVXHw"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS256"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v6el8V8dbrKY5w2PInkM468aSuODrKcfbt-44xdDIjk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uJzCU_TangWMFk25_JggtkVNjtFfaaz3jERYEYrsb92KFK4FpjfenYYeo8XCGLphn-NcYJroHy3aVznTvU3O8B-5z27uFgXUzk_m-fJ5C4cyqBaJS_myuMOnx0SBl-V6rIGmbdAd0rxsR9SK4JXaZ7xPnQKl8Z6N_Be2iWzf8RUzgM51x7RLQWr55DXBz5IS0O3uYi0z2_xaTyhvZ01aGMGO8Jom1QZkSf2SBGVvQiff464wB_R9Uw8bnbDw6SI0A7JbvSTj80dsoB5YJaR6OZ7XzJX53J1-efiEPc-JTXnqsN1xd-7DbrwpGSui7cGU79H7rG2o-DdVtz649JVXHw"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SBFmMBtMQzjQEYPDQ_7H5emJzfjX4-FBVE22_SRy5oU"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rPcrSYQKnJNfMd0AF2t8JGSRdSSOeEPwSpPNyq6T13NXWLBDzzmZC8gNURFrsB8hkeY_KUNe3rVZz__6Vp7_h5PxWXKIUFJT18Gl8mSJ_4ohWUFziWdLV1rliZ671Uo5My2_McgRFI2DfHCWCe5XL5ApKPv9YFT684_FfKpnvTIn7_rVoyQYp3g9Ud_7X5hJGEuBa3HKSGPhn-zh1A0kxnLwNrLms4t3bQZMamuR0R3XYXr76OwU0xQMsqy3_DwV1DJ0z9o0gFV8GSkYWYllVNwfGPXiTSUvTKWIARGV60jUaoYB1sG5yXyhgBcWn-XX5wcOG--aGfdWwlnYF7p_ow"</span><span class="p">,</span><span class="w">
-            </span><span class="nt">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
+            </span><span class="s2">"alg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RS512"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"e"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AQAB"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SBFmMBtMQzjQEYPDQ_7H5emJzfjX4-FBVE22_SRy5oU"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kty"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RSA"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"n"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rPcrSYQKnJNfMd0AF2t8JGSRdSSOeEPwSpPNyq6T13NXWLBDzzmZC8gNURFrsB8hkeY_KUNe3rVZz__6Vp7_h5PxWXKIUFJT18Gl8mSJ_4ohWUFziWdLV1rliZ671Uo5My2_McgRFI2DfHCWCe5XL5ApKPv9YFT684_FfKpnvTIn7_rVoyQYp3g9Ud_7X5hJGEuBa3HKSGPhn-zh1A0kxnLwNrLms4t3bQZMamuR0R3XYXr76OwU0xQMsqy3_DwV1DJ0z9o0gFV8GSkYWYllVNwfGPXiTSUvTKWIARGV60jUaoYB1sG5yXyhgBcWn-XX5wcOG--aGfdWwlnYF7p_ow"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"use"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sig"</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 
       
@@ -2155,7 +2142,7 @@ uri).</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1466,20 +1477,18 @@ template</a>, for more info about the format see the LuaRocks
 
 <p>Pack your rock using the following command (from the plugin repo):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># install it locally (based on the `.rockspec` in the current directory)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># install it locally (based on the `.rockspec` in the current directory)
 $ luarocks make
 
 # pack the installed rock
 $ luarocks pack &lt;plugin-name&gt; &lt;version&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Assuming your plugin rockspec is called
 <code class="highlighter-rouge">kong-plugin-my-plugin-0.1.0-1.rockspec</code>, the above would become;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ luarocks pack kong-plugin-my-plugin 0.1.0-1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ luarocks pack kong-plugin-my-plugin 0.1.0-1
+</code></pre></div></div>
 
 <p>The LuaRocks <code class="highlighter-rouge">pack</code> command has now created a <code class="highlighter-rouge">.rock</code> file (this is simply a
 zip file containing everything needed to install the rock).</p>
@@ -1491,7 +1500,7 @@ systems.</p>
 
 <p>The contents of this archive should be close to the following:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ tree &lt;plugin-name&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tree &lt;plugin-name&gt;
 &lt;plugin-name&gt;
 ├── INSTALL.txt
 ├── README.md
@@ -1501,8 +1510,7 @@ systems.</p>
 │           ├── handler.lua
 │           └── schema.lua
 └── &lt;plugin-name&gt;-&lt;version&gt;.rockspec
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1528,9 +1536,8 @@ of doing so: via LuaRocks, or manually. Choose one, and jump to section 3.</p>
 
     <p>It can be installed by doing:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> $ luarocks install &lt;rock-filename&gt;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ luarocks install &lt;rock-filename&gt;
+</code></pre></div>    </div>
 
     <p>The filename can be a local name, or any of the supported methods, eg.
  <code class="highlighter-rouge">http://myrepository.lan/rocks/my-plugin-0.1.0-1.all.rock</code></p>
@@ -1546,15 +1553,13 @@ of doing so: via LuaRocks, or manually. Choose one, and jump to section 3.</p>
     <p>You can do so by changing the current directory to the extracted archive,
  where the rockspec file is:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> $ cd &lt;plugin-name&gt;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ cd &lt;plugin-name&gt;
+</code></pre></div>    </div>
 
     <p>And then run the following:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> $ luarocks make
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ luarocks make
+</code></pre></div>    </div>
 
     <p>This will install the Lua sources in <code class="highlighter-rouge">kong/plugins/&lt;plugin-name&gt;</code> in your
  system’s LuaRocks tree, where all the Kong sources are already present.</p>
@@ -1574,9 +1579,8 @@ of doing so: via LuaRocks, or manually. Choose one, and jump to section 3.</p>
  which to search for Lua sources. It should be set like so in your Kong
  configuration file:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> lua_package_path = /&lt;path-to-plugin-location&gt;/?.lua;;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /&lt;path-to-plugin-location&gt;/?.lua;;
+</code></pre></div>    </div>
 
     <p>Where:</p>
 
@@ -1595,25 +1599,22 @@ not change it.</li>
     <p>The plugin <code class="highlighter-rouge">something</code> being located on the file system such that the
  handler file is:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> /usr/local/custom/kong/plugins/&lt;something&gt;/handler.lua
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /usr/local/custom/kong/plugins/&lt;something&gt;/handler.lua
+</code></pre></div>    </div>
 
     <p>The location of the <code class="highlighter-rouge">kong</code> directory is: <code class="highlighter-rouge">/usr/local/custom</code>, hence the
  proper path setup would be:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> lua_package_path = /usr/local/custom/?.lua;;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /usr/local/custom/?.lua;;
+</code></pre></div>    </div>
 
     <p>Multiple plugins:</p>
 
     <p>If you wish to install two or more custom plugins this way, you can set
  the variable to something like:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
+</code></pre></div>    </div>
 
     <ul>
       <li><code class="highlighter-rouge">;</code> is the separator between directories.</li>
@@ -1637,27 +1638,23 @@ sources, you must still do so for each node in your Kong cluster.</p>
 <p>You must now add the custom plugin’s name to the <code class="highlighter-rouge">plugins</code> list in your
 Kong configuration (on each Kong node):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>plugins = bundled,&lt;plugin-name&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = bundled,&lt;plugin-name&gt;
+</code></pre></div></div>
 
 <p>Or, if you don’t want to include the bundled plugins:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>plugins = &lt;plugin-name&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = &lt;plugin-name&gt;
+</code></pre></div></div>
 
 <p>If you are using two or more custom plugins, insert commas in between, like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>plugins = bundled,plugin1,plugin2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = bundled,plugin1,plugin2
+</code></pre></div></div>
 
 <p>Or</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>plugins = plugin1,plugin2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = plugin1,plugin2
+</code></pre></div></div>
 
 <p>Note: you can also set this property via its environment variable equivalent:
 <code class="highlighter-rouge">KONG_PLUGINS</code>.</p>
@@ -1667,16 +1664,14 @@ in your Kong cluster.</p>
 
 <p>Reminder: the plugin will take effect after restart kong:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong restart
+</code></pre></div></div>
 
 <p>But, if you want to apply plugin while kong never stop, you can use this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong prepare
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong prepare
 kong reload
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1691,21 +1686,18 @@ on a Service, Route, or Consumer entity.</p>
 <p>To make sure your plugin is being loaded by Kong, you can start Kong with a
 <code class="highlighter-rouge">debug</code> log level:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>log_level = debug
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_level = debug
+</code></pre></div></div>
 
 <p>or:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>KONG_LOG_LEVEL=debug
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_LOG_LEVEL=debug
+</code></pre></div></div>
 
 <p>Then, you should see the following log for each plugin being loaded:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[debug] Loading plugin &lt;plugin-name&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[debug] Loading plugin &lt;plugin-name&gt;
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1991,7 +1983,7 @@ the <code class="highlighter-rouge">schema.lua</code> file is present alongside 
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

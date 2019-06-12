@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -723,6 +723,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -898,15 +907,14 @@ the function.</p>
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -920,15 +928,14 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -942,16 +949,15 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
-    --data <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    --data <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -1224,7 +1230,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 
     <p>Use the inline code below to have a simple JSON response in return, note this is code for Python 3.6 interpreter.</p>
 
-    <div class="language-python highlighter-rouge"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">json</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">json</span>
  <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
      <span class="s">"""
        If is_proxy_integration is set to true :
@@ -1232,57 +1238,50 @@ from being executed. We are planning to remove this limitation in the future.</p
      """</span>
      <span class="n">jsonbody</span><span class="o">=</span><span class="s">'''{"response": "yes"}'''</span>
      <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonbody</span><span class="p">)</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Test the lambda function from the AWS console and make sure the execution succeeds.</p>
   </li>
   <li>
     <p>Finally we setup a Service &amp; Route in Kong and link it to the function just created.</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services <span class="se">\</span>
- --data <span class="s1">'name=lambda1'</span> <span class="se">\</span>
- --data <span class="s1">'url=http://localhost:8000'</span> <span class="se">\</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services <span class="se">\</span>
+ <span class="nt">--data</span> <span class="s1">'name=lambda1'</span> <span class="se">\</span>
+ <span class="nt">--data</span> <span class="s1">'url=http://localhost:8000'</span> <span class="se">\</span>
+</code></pre></div>    </div>
 
     <p>The Service doesn’t really need a real <code class="highlighter-rouge">url</code> since we are not going to have an HTTP call to upstream but rather a response generated by our function.</p>
 
     <p>Also create a Route for the Service:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://{kong_hostname}:8001/services/lambda1/routes \
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -i -X POST http://{kong_hostname}:8001/services/lambda1/routes \
  --data 'paths[1]=/lambda1'
-</code></pre>
-    </div>
+</code></pre></div>    </div>
 
     <p>Add the plugin:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services/lambda1/plugins <span class="se">\</span>
- --data <span class="s1">'name=aws-lambda'</span> <span class="se">\</span>
- --data-urlencode <span class="s1">'config.aws_key={KongInvoker user key}'</span> <span class="se">\</span>
- --data-urlencode <span class="s1">'config.aws_secret={KongInvoker user secret}'</span> <span class="se">\</span>
- --data <span class="s1">'config.aws_region=us-east-1'</span> <span class="se">\</span>
- --data <span class="s1">'config.function_name=MyLambda'</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services/lambda1/plugins <span class="se">\</span>
+ <span class="nt">--data</span> <span class="s1">'name=aws-lambda'</span> <span class="se">\</span>
+ <span class="nt">--data-urlencode</span> <span class="s1">'config.aws_key={KongInvoker user key}'</span> <span class="se">\</span>
+ <span class="nt">--data-urlencode</span> <span class="s1">'config.aws_secret={KongInvoker user secret}'</span> <span class="se">\</span>
+ <span class="nt">--data</span> <span class="s1">'config.aws_region=us-east-1'</span> <span class="se">\</span>
+ <span class="nt">--data</span> <span class="s1">'config.function_name=MyLambda'</span>
+</code></pre></div>    </div>
 
     <p>Call the Service and verify the correct invocation, execution and response:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8000/lambda1
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8000/lambda1
+</code></pre></div>    </div>
 
     <p>Additional headers:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> x-amzn-Remapped-Content-Length, X-Amzn-Trace-Id, x-amzn-RequestId
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> x-amzn-Remapped-Content-Length, X-Amzn-Trace-Id, x-amzn-RequestId
+</code></pre></div>    </div>
 
     <p>JSON response:</p>
 
-    <div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="nt">"response"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yes"</span><span class="p">}</span><span class="w">
-</span></code></pre>
-    </div>
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="s2">"response"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yes"</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1469,7 +1468,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1462,29 +1473,26 @@ Service, Route and/or Consumer.</p>
 
 <p>For example, a user performs the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/&lt;service-name-or-id&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
-    -d <span class="s2">"config.foo=bar"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/&lt;service-name-or-id&gt;/plugins <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.foo=bar"</span>
+</code></pre></div></div>
 
 <p>If all properties of the <code class="highlighter-rouge">config</code> object are valid according to your schema,
 then the API would return <code class="highlighter-rouge">201 Created</code> and the plugin would be stored in the
 database along with its configuration:</p>
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
   <span class="n">foo</span> <span class="o">=</span> <span class="s2">"bar"</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the configuration is not valid, the Admin API would return <code class="highlighter-rouge">400 Bad Request</code>
 and the appropriate error messages.</p>
 
 <h2 id="module">Module</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.schema
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong.plugins.&lt;plugin_name&gt;.schema
+</code></pre></div></div>
 
 <h2 id="schemalua-specifications">schema.lua specifications</h2>
 
@@ -1587,7 +1595,7 @@ specify value when enabling a plugin.</p>
 
 <p>Here is an example of a potential <code class="highlighter-rouge">schema.lua</code> file (with some overrides applied):</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">typedefs</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.db.schema.typedefs"</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">typedefs</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.db.schema.typedefs"</span>
 
 
 <span class="k">return</span> <span class="p">{</span>
@@ -1621,8 +1629,7 @@ specify value when enabling a plugin.</p>
     <span class="c1">-- Describe your plugin's entity validation rules</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="describing-your-configuration-schema">Describing your configuration schema</h2>
 
@@ -1631,7 +1638,7 @@ plugin’s configuration. It is a flexible array of field definitions where each
 is a valid configuration property for your plugin, describing the rules for that
 property. For example:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">"&lt;plugin-name&gt;"</span><span class="p">,</span>
   <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
@@ -1667,8 +1674,7 @@ property. For example:</p>
     <span class="p">},</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Here is the list of some common (not all) accepted rules for a property (see the fields table above for examples):</p>
 
@@ -1803,7 +1809,7 @@ rules on fields from the above table.</p>
 
 <p>This <code class="highlighter-rouge">schema.lua</code> file is for the <a href="/hub/kong-inc/key-auth/">key-auth</a> plugin:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 <span class="kd">local</span> <span class="n">typedefs</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.db.schema.typedefs"</span>
 
 
@@ -1863,14 +1869,13 @@ rules on fields from the above table.</p>
     <span class="p">},</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Hence, when implementing the <code class="highlighter-rouge">access()</code> function of your plugin in
 <a href="/1.1.x/plugin-development/custom-logic/">handler.lua</a> and given that the user
 enabled the plugin with the default values, you’d have access to:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 
 
@@ -1898,8 +1903,7 @@ enabled the plugin with the default values, you’d have access to:</p>
 
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that the above example uses the
 <a href="http://localhost:3000/docs/0.14.x/pdk/kong.log/#kong_log_inspect">kong.log.inspect</a>
@@ -1910,7 +1914,7 @@ logs.</p>
 
 <p>A more complex example, which could be used for an eventual logging plugin:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- schema.lua</span>
 <span class="kd">local</span> <span class="n">typedefs</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.db.schema.typedefs"</span>
 
 
@@ -1958,23 +1962,21 @@ logs.</p>
     <span class="p">},</span>
   <span class="p">},</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Such a configuration will allow a user to post the configuration to your plugin
 as follows:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/&lt;service-name-or-id&gt;/plugins <span class="se">\</span>
-    -d <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
-    -d <span class="s2">"config.environment=development"</span> <span class="se">\</span>
-    -d <span class="s2">"config.server.host=http://localhost"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/&lt;service-name-or-id&gt;/plugins <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"name=my-custom-plugin"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.environment=development"</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s2">"config.server.host=http://localhost"</span>
+</code></pre></div></div>
 
 <p>And the following will be available in
 <a href="/1.1.x/plugin-development/custom-logic/">handler.lua</a>:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- handler.lua</span>
 <span class="kd">local</span> <span class="n">BasePlugin</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.plugins.base_plugin"</span>
 
 
@@ -2002,8 +2004,7 @@ as follows:</p>
 
 
 <span class="k">return</span> <span class="n">CustomHandler</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can also see a real-world example of schema in <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/schema.lua">the Key-Auth plugin source code</a>.</p>
 
@@ -2205,7 +2206,7 @@ as follows:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

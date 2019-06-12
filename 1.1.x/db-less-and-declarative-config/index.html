@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1510,16 +1521,15 @@ to <code class="highlighter-rouge">off</code>. As usual, you can do this by edit
 <code class="highlighter-rouge">database=off</code> or via environment variables. You can then start Kong
 as usual:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ export KONG_DATABASE=off
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export KONG_DATABASE=off
 $ kong start -c kong.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Once Kong starts, access the <code class="highlighter-rouge">/</code> endpoint of the Admin API to verify that it
 is running without a database. It will return the entire Kong configuration;
 verify that <code class="highlighter-rouge">database</code> is set to <code class="highlighter-rouge">off</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/
 
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
@@ -1537,14 +1547,13 @@ Server: kong/1.1.0
     ...
     "version": "1.1.0"
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Kong is running, but no declarative configuration was loaded yet. This 
 means that the configuration of this node is empty. There are no Routes,
 Services or entities of any kind:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/routes
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/routes
 
 HTTP/1.1 200 OK
 Access-Control-Allow-Origin: *
@@ -1558,8 +1567,7 @@ Server: kong/1.1.0
     "data": [], 
     "next": null
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="creating-a-declarative-configuration-file">Creating a Declarative Configuration File</h2>
 
@@ -1567,9 +1575,8 @@ Server: kong/1.1.0
 file. The following command will create a skeleton file to get you
 started:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ kong config -c kong.conf init
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kong config -c kong.conf init
+</code></pre></div></div>
 
 <p>This command creates a <code class="highlighter-rouge">kong.yml</code> file in the current directory,
 containing examples of the syntax for declaring entities and their
@@ -1583,24 +1590,23 @@ by default. You can experiment by uncommenting the examples
 entities and their attributes. This is a small, yet, complete
 example, which illustrates a number of features:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">_format_version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.1"</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">_format_version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.1"</span>
 
-<span class="s">services</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">my-service</span>
-  <span class="s">url</span><span class="pi">:</span> <span class="s">https://example.com</span>
-  <span class="s">plugins</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">key-auth</span>
-  <span class="s">routes</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">my-route</span>
-    <span class="s">paths</span><span class="pi">:</span>
+<span class="na">services</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-service</span>
+  <span class="na">url</span><span class="pi">:</span> <span class="s">https://example.com</span>
+  <span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key-auth</span>
+  <span class="na">routes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-route</span>
+    <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/</span>
 
-<span class="s">consumers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">username</span><span class="pi">:</span> <span class="s">my-user</span>
-  <span class="s">keyauth_credentials</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s">key</span><span class="pi">:</span> <span class="s">my-key</span>
-</code></pre>
-</div>
+<span class="na">consumers</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">my-user</span>
+  <span class="na">keyauth_credentials</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">my-key</span>
+</code></pre></div></div>
 
 <p>The only mandatory piece of metadata is <code class="highlighter-rouge">_format_version: "1.1"</code>, which
 specifies the version number of the declarative configuration syntax format.
@@ -1625,23 +1631,21 @@ or identifying names (the same identifiers that can be used to refer to them
 in the Admin API). This is an example of a plugin applied to a Service and
 a Consumer:</p>
 
-<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">syslog</span>
-  <span class="s">consumer</span><span class="pi">:</span> <span class="s">my-user</span>
-  <span class="s">service</span><span class="pi">:</span> <span class="s">my-service</span>
-</code></pre>
-</div>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">syslog</span>
+  <span class="na">consumer</span><span class="pi">:</span> <span class="s">my-user</span>
+  <span class="na">service</span><span class="pi">:</span> <span class="s">my-service</span>
+</code></pre></div></div>
 
 <h2 id="checking-the-declarative-configuration-file">Checking The Declarative Configuration File</h2>
 
 <p>Once you are done editing the file, it is possible to check the syntax
 for any errors before attempting to load it into Kong:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ kong config -c kong.conf parse kong.yml
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kong config -c kong.conf parse kong.yml
 
 parse successful
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="loading-the-declarative-configuration-file">Loading The Declarative Configuration File</h2>
 
@@ -1652,19 +1656,17 @@ parse successful
 <code class="highlighter-rouge">declarative_config</code> directive in <code class="highlighter-rouge">kong.conf</code> (or, as usual to all <code class="highlighter-rouge">kong.conf</code>
 entries, the equivalent <code class="highlighter-rouge">KONG_DECLARATIVE_CONFIG</code> environment variable).</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ export KONG_DATABASE=off
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export KONG_DATABASE=off
 $ export KONG_DECLARATIVE_CONFIG=kong.yml
 $ kong start -c kong.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Alternatively, you can load a declarative configuration into a running
 Kong node via its Admin API, using the <code class="highlighter-rouge">/config</code> endpoint. The 
 following example loads <code class="highlighter-rouge">kong.yml</code> using HTTPie:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ http :8001/config config=@kong.yml
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/config config=@kong.yml
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">/config</code> endpoint replaces the entire set of entities in memory
 with the ones specified in the given file.</p>
@@ -1970,7 +1972,7 @@ DB-less.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

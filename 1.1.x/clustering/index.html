@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -540,14 +540,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 1.1.x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/1.1.x"  class="active" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1426,6 +1432,11 @@ window['_fs_namespace'] = 'FS';
           </div>
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1492,16 +1503,14 @@ will instantly take effect. Example:</p>
 
 <p>Consider a single Kong node <code class="highlighter-rouge">A</code>. If we delete a previously registered Service:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X DELETE http://127.0.0.1:8001/services/test-service
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> DELETE http://127.0.0.1:8001/services/test-service
+</code></pre></div></div>
 
 <p>Then any subsequent request to <code class="highlighter-rouge">A</code> would instantly return <code class="highlighter-rouge">404 Not Found</code>, as
 the node purged it from its local cache:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://127.0.0.1:8000/test-service
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://127.0.0.1:8000/test-service
+</code></pre></div></div>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
 
@@ -1543,15 +1552,14 @@ configure a Service with no plugin, Kong will cache this information. Example:</
 
 <p>On node <code class="highlighter-rouge">A</code>, we add a Service and a Route:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># node A</span>
-<span class="gp">$ </span>curl -X POST http://127.0.0.1:8001/services <span class="se">\</span>
-    --data <span class="s2">"name=example-service"</span> <span class="se">\</span>
-    --data <span class="s2">"url=http://example.com"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># node A</span>
+<span class="nv">$ </span>curl <span class="nt">-X</span> POST http://127.0.0.1:8001/services <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=example-service"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"url=http://example.com"</span>
 
-<span class="gp">$ </span>curl -X POST http://127.0.0.1:8001/services/example-service/routes <span class="se">\</span>
-    --data <span class="s2">"paths[]=/example"</span>
-</code></pre>
-</div>
+<span class="nv">$ </span>curl <span class="nt">-X</span> POST http://127.0.0.1:8001/services/example-service/routes <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"paths[]=/example"</span>
+</code></pre></div></div>
 
 <p>(Note that we used <code class="highlighter-rouge">/services/example-service/routes</code> as a shortcut: we
 could have used the <code class="highlighter-rouge">/routes</code> endpoint instead, but then we would need to
@@ -1560,27 +1568,24 @@ pass <code class="highlighter-rouge">service_id</code> as an argument, with the 
 <p>A request to the Proxy port of both node <code class="highlighter-rouge">A</code> and <code class="highlighter-rouge">B</code> will cache this Service, and
 the fact that no plugin is configured on it:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># node A</span>
-<span class="gp">$ </span>curl http://127.0.0.1:8000/example
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># node A</span>
+<span class="nv">$ </span>curl http://127.0.0.1:8000/example
 HTTP 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># node B</span>
-<span class="gp">$ </span>curl http://127.0.0.2:8000/example
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># node B</span>
+<span class="nv">$ </span>curl http://127.0.0.2:8000/example
 HTTP 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, say we add a plugin to this Service via node <code class="highlighter-rouge">A</code>’s Admin API:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># node A</span>
-<span class="gp">$ </span>curl -X POST http://127.0.0.1:8001/services/example-service/plugins <span class="se">\</span>
-    --data <span class="s2">"name=example-plugin"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># node A</span>
+<span class="nv">$ </span>curl <span class="nt">-X</span> POST http://127.0.0.1:8001/services/example-service/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=example-plugin"</span>
+</code></pre></div></div>
 
 <p>Because this request was issued via node <code class="highlighter-rouge">A</code>’s Admin API, node <code class="highlighter-rouge">A</code> will locally
 invalidate its cache and on subsequent requests, it will detect that this API
@@ -1689,19 +1694,17 @@ Admin API <code class="highlighter-rouge">/cache</code> endpoint.</p>
 
 <p>If a value with that key is cached:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 200 OK
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
 ...
 {
     ...
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Else:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 404 Not Found
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 404 Not Found
+</code></pre></div></div>
 
 <p><strong>Note</strong>: retrieving the <code class="highlighter-rouge">cache_key</code> for each entity being cached by Kong is
 currently an undocumented process. Future versions of the Admin API will make
@@ -1717,10 +1720,9 @@ this process easier.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Note</strong>: retrieving the <code class="highlighter-rouge">cache_key</code> for each entity being cached by Kong is
 currently an undocumented process. Future versions of the Admin API will make
@@ -1736,9 +1738,8 @@ this process easier.</p>
 
 <p><strong>Response</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>HTTP 204 No Content
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
 
 <p><strong>Note</strong>: be wary of using this endpoint on a warm, production running node.
 If the node is receiving a lot of traffic, purging its cache at the same time
@@ -1941,7 +1942,7 @@ will trigger many requests to your database, and could cause a
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

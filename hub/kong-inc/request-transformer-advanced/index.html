@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -740,6 +740,8 @@ window['_fs_namespace'] = 'FS';
               
                 
               
+                
+              
               </ul>
             </td>
           </tr>
@@ -847,11 +849,10 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer-advanced"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -865,11 +866,10 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer-advanced"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -883,12 +883,11 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -911,11 +910,10 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer-advanced"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -1173,38 +1171,34 @@ Ex. $(‘$(some_needs_to_escaped)’)</p>
 
 <p>Add an API <code class="highlighter-rouge">test</code> with <code class="highlighter-rouge">uris</code> configured with a named capture group <code class="highlighter-rouge">user_id</code></p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis <span class="se">\</span>
-    --data <span class="s1">'name=test'</span> <span class="se">\</span>
-    --data <span class="s1">'upstream_url=http://mockbin.com'</span> <span class="se">\</span>
-    --data-urlencode <span class="s1">'uris=/requests/user/(?&lt;user_id&gt;\w+)'</span> <span class="se">\</span>
-    --data <span class="s2">"strip_uri=false"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'name=test'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'upstream_url=http://mockbin.com'</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s1">'uris=/requests/user/(?&lt;user_id&gt;\w+)'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"strip_uri=false"</span>
+</code></pre></div></div>
 
 <p>Enable the ‘request-transformer-advanced’ plugin to add a new header <code class="highlighter-rouge">x-consumer-id</code>
 and its value is being set with the value sent with header <code class="highlighter-rouge">x-user-id</code> or
 with the default value alice is <code class="highlighter-rouge">header</code> is missing.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/test/plugins <span class="se">\</span>
-    --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-    --data-urlencode <span class="s2">"config.add.headers=x-consumer-id:</span><span class="se">\$</span><span class="s2">(headers['x-user-id'] or 'alice')"</span> <span class="se">\</span>
-    --data <span class="s2">"config.remove.headers=x-user-id"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/test/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+    <span class="nt">--data-urlencode</span> <span class="s2">"config.add.headers=x-consumer-id:</span><span class="se">\$</span><span class="s2">(headers['x-user-id'] or 'alice')"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-user-id"</span>
+</code></pre></div></div>
 
 <p>Now send a request without setting header <code class="highlighter-rouge">x-user-id</code></p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET localhost:8000/requests/user/foo
+</code></pre></div></div>
 
 <p>Plugin will add a new header <code class="highlighter-rouge">x-consumer-id</code> with value alice before proxying
 request upstream. Now try sending request with header <code class="highlighter-rouge">x-user-id</code> set</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X GET localhost:8000/requests/user/foo <span class="se">\</span>
-  -H <span class="s2">"X-User-Id:bob"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET localhost:8000/requests/user/foo <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"X-User-Id:bob"</span>
+</code></pre></div></div>
 
 <p>This time plugin will add a new header <code class="highlighter-rouge">x-consumer-id</code> with value sent along
 with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="highlighter-rouge">bob</code></p>
@@ -1219,12 +1213,11 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Add multiple headers by passing each header:value pair separately:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers[2]=h2:v1"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers[2]=h2:v1"</span>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1243,11 +1236,10 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Add multiple headers by passing comma separated header:value pair:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1266,11 +1258,10 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Add multiple headers passing config as JSON body:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --header <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
-  --data <span class="s1">'{"name": "request-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--header</span> <span class="s1">'content-type: application/json'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'{"name": "request-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1289,13 +1280,12 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Add a querystring and a header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.querystring=q1:v2,q2=v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v1"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.querystring=q1:v2,q2=v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1337,13 +1327,12 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Append multiple headers and remove a body parameter:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v2,h2:v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.remove.body=p1"</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v2,h2:v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.remove.body=p1"</span> <span class="se">\</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1381,13 +1370,12 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 
 <p>Add multiple headers and querystring parameters if not already set:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
-  --data <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.headers=h1:v1,h2:v1"</span> <span class="se">\</span>
-  --data <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/apis/mockbin/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1,h2:v1"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.add.querystring=q1:v2,q2:v1"</span> <span class="se">\</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <table>
   <thead>
@@ -1608,7 +1596,7 @@ with header <code class="highlighter-rouge">x-user-id</code>, i.e.<code class="h
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

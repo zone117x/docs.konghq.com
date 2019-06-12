@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1361,25 +1361,23 @@ window['_fs_namespace'] = 'FS';
 <p>If you’d like to use the Admin API, issue the following cURL request to
 create your first Consumer, named <code class="highlighter-rouge">Aladdin</code>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/ <span class="se">\</span>
-  --data <span class="s2">"username=Aladdin"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"username=Aladdin"</span>
+</code></pre></div></div>
 
 <p>You should see a response similar to the one below:</p>
 
-<div class="language-http highlighter-rouge"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nt">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aladdin"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aladdin"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1428555626000</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bbdf1c48-19dc-4ab7-cae0-ff4f59d87dc9"</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 <p>Or, add your first Consumer via Kong Manager:</p>
 
 <video width="100%" autoplay="" loop="" controls="">
@@ -1398,12 +1396,11 @@ user database.</p>
 <p>Now, we can create credentials for our recently created Consumer <code class="highlighter-rouge">Aladdin</code> by
 issuing the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/consumers/Aladdin/basic-auth/ <span class="se">\</span>
-  --data <span class="s2">"username=Aladdin"</span> <span class="se">\</span>
-  --data <span class="s2">"password=OpenSesame"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/Aladdin/basic-auth/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"username=Aladdin"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"password=OpenSesame"</span>
+</code></pre></div></div>
 
 <h2 id="3-verify-validity-of-consumer-credentials">3. Verify Validity of Consumer Credentials</h2>
 
@@ -1413,16 +1410,14 @@ value is the base64-encoding of Aladdin:OpenSesame, or QWxhZGRpbjpPcGVuU2VzYW1l.
 
 <p>Then the Authorization (or Proxy-Authorization) header must appear as:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+</code></pre></div></div>
 
 <p>To verify our new Consumer has access, make a request with the header:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://kong:8000/<span class="o">{</span>path matching a configured Route<span class="o">}</span> <span class="se">\</span>
-    -H <span class="s1">'Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l'</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl http://kong:8000/<span class="o">{</span>path matching a configured Route<span class="o">}</span> <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s1">'Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l'</span>
+</code></pre></div></div>
 
 
         </div>
@@ -1596,7 +1591,7 @@ value is the base64-encoding of Aladdin:OpenSesame, or QWxhZGRpbjpPcGVuU2VzYW1l.
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

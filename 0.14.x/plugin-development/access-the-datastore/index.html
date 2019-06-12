@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1455,13 +1461,12 @@ plugins entities (currently relying on <code class="highlighter-rouge">kong.dao<
 <p>Both the DAO Factory and the new <code class="highlighter-rouge">db</code> interface are singleton instances in Kong
 and thus, are accessible through the <code class="highlighter-rouge">kong</code> global:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- Core DAOs</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Core DAOs</span>
 <span class="kd">local</span> <span class="n">services_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span>
 <span class="kd">local</span> <span class="n">routes_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">routes</span>
 <span class="kd">local</span> <span class="n">consumers_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">consumers</span>
 <span class="kd">local</span> <span class="n">plugins_dao</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">plugins</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">kong</code> global exposes the <a href="/0.14.x/pdk">Plugin Development Kit</a>, and its <code class="highlighter-rouge">kong.dao</code> and
 <code class="highlighter-rouge">kong.db</code> properties are instances of the DAO and DB singletons.</p>
@@ -1480,7 +1485,7 @@ interface, thus making the DAO compatible with all of them.</p>
 <p>For example, inserting a Service (with <code class="highlighter-rouge">kong.db</code>) and a Plugin (with
 <code class="highlighter-rouge">kong.dao</code>) is as easy as:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">inserted_service</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">inserted_service</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">services</span><span class="p">:</span><span class="n">insert</span><span class="p">({</span>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">"mockbin"</span><span class="p">,</span>
   <span class="n">url</span> <span class="o">=</span> <span class="s2">"http://mockbin.org"</span>
 <span class="p">})</span>
@@ -1489,8 +1494,7 @@ interface, thus making the DAO compatible with all of them.</p>
   <span class="n">name</span> <span class="o">=</span> <span class="s2">"key-auth"</span><span class="p">,</span>
   <span class="n">service_id</span> <span class="o">=</span> <span class="n">inserted_service</span><span class="p">.</span><span class="n">id</span>
 <span class="p">})</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>For a real-life example of the DAO being used in a plugin, see the
 <a href="https://github.com/Kong/kong/blob/master/kong/plugins/key-auth/handler.lua">Key-Auth plugin source code</a>.</p>
@@ -1695,7 +1699,7 @@ interface, thus making the DAO compatible with all of them.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

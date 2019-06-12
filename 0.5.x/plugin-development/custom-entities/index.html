@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1046,10 +1052,9 @@ window['_fs_namespace'] = 'FS';
 
           <h2 id="modules">Modules</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
 "kong.plugins.&lt;plugin_name&gt;.daos"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -1073,13 +1078,12 @@ window['_fs_namespace'] = 'FS';
 
 <p>As described in the <a href="/0.5.x/plugin-development/file-structure/">file structure</a> chapter, your file must be a module named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.migrations.cassandra"
+</code></pre></div></div>
 
 <p>Here is an example of how one would define a migration file to store API keys:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">Migrations</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">Migrations</span> <span class="o">=</span> <span class="p">{</span>
   <span class="p">{</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">"2015-07-31-172400_init_keyauth"</span><span class="p">,</span>
     <span class="n">up</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
@@ -1105,8 +1109,7 @@ window['_fs_namespace'] = 'FS';
 <span class="p">}</span>
 
 <span class="k">return</span> <span class="n">Migrations</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">name</code>: Must be a unique string. The format does not matter but can help you debug issues while developing your plugin, so make sure to name it in a relevant way.</li>
@@ -1129,9 +1132,8 @@ window['_fs_namespace'] = 'FS';
 
 <p>This DAO is to be implemented in a module named:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos.lua"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"kong.plugins.&lt;plugin_name&gt;.daos.lua"
+</code></pre></div></div>
 
 <p>Here is an example of how one would define a schema to inherit from the base_dao module and store API keys in a new table (“column family” in Cassandra):</p>
 
@@ -1139,7 +1141,7 @@ window['_fs_namespace'] = 'FS';
   <strong>Note:</strong> Kong uses the <a href="https://github.com/rxi/classic">rxi/classic</a> module to simulate classes in Lua and ease the inheritance pattern.
 </div>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- daos.lua</span>
 
 <span class="kd">local</span> <span class="n">BaseDao</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.dao.cassandra.base_dao"</span>
 
@@ -1165,8 +1167,7 @@ window['_fs_namespace'] = 'FS';
 <span class="k">end</span>
 
 <span class="k">return</span> <span class="p">{</span><span class="n">keyauth_credentials</span> <span class="o">=</span> <span class="n">KeyAuth</span><span class="p">}</span> <span class="c1">-- this plugin only defines one custom DAO, named `keyauth_credentials`</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Once you have defined your schema, overriding the :new() method provides the Base DAO the schema and the name of the associated column family in your Cassandra instance (according to your own migration file).</p>
 
@@ -1213,10 +1214,9 @@ window['_fs_namespace'] = 'FS';
 
 <p>Your DAO will now be loaded by the DAO Factory and available as one of its properties:</p>
 
-<div class="language-lua highlighter-rouge"><pre class="highlight"><code><span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">dao</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">dao_factory</span> <span class="o">=</span> <span class="n">dao</span>
 <span class="kd">local</span> <span class="n">keys_dao</span> <span class="o">=</span> <span class="n">dao_factory</span><span class="p">.</span><span class="n">keyauth_credentials</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The property name depends on the key with which you exported your DAO in the returned table of <code class="highlighter-rouge">daos.lua</code>.</p>
 
@@ -1424,7 +1424,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

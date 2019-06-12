@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1114,13 +1114,11 @@ workspaces. Only proxy consumers do.</li>
 
         <p>Set the following in the kong.conf file:</p>
 
-        <div class="highlighter-rouge"><pre class="highlight"><code>custom_plugins=openid-connect-verification,openid-connect-authentication,openid-connect-protection
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>custom_plugins=openid-connect-verification,openid-connect-authentication,openid-connect-protection
+</code></pre></div>        </div>
         <p>Or the following environment variable:</p>
-        <div class="highlighter-rouge"><pre class="highlight"><code>KONG_CUSTOM_PLUGINS=openid-connect-verification,openid-connect-authentication,openid-connect-protection
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_CUSTOM_PLUGINS=openid-connect-verification,openid-connect-authentication,openid-connect-protection
+</code></pre></div>        </div>
         <p>The all-in-one version of OIDC is enabled by default (and is not deprecated).</p>
 
         <ul>
@@ -1382,7 +1380,7 @@ Note: For request with non-matching routes, every logging phase plugin enabled i
 
 <p><strong>unauthenticated/login (page)</strong></p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Login" }}
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Login" }}
 
   {{#*inline "content-block"}}
 
@@ -1419,12 +1417,11 @@ Note: For request with non-matching routes, every logging phase plugin enabled i
   {{/inline}}
 
 {{/unauthenticated/layout}}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>unauthenticated/register (page)</strong></p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Register" }}
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{{#&gt; unauthenticated/layout pageTitle="Register" }}
 
     {{#*inline "content-block"}}
     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"authentication"</span><span class="nt">&gt;</span>
@@ -1457,12 +1454,11 @@ Note: For request with non-matching routes, every logging phase plugin enabled i
     {{/inline}}
 
 {{/unauthenticated/layout}}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>unauthenticated/custom-css (partial)</strong></p>
 
-<div class="language-html highlighter-rouge"><pre class="highlight"><code>{{!--
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{{!--
     |--------------------------------------------------------------------------
     | Here's where the magic happens. This is where you can add your own
     | custom CSS as well as override any default styling we've provided.
@@ -1604,8 +1600,7 @@ Note: For request with non-matching routes, every logging phase plugin enabled i
     <span class="p">}</span>
 
 <span class="nt">&lt;/style&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><strong>Plugins</strong>
@@ -1804,9 +1799,8 @@ Note: For request with non-matching routes, every logging phase plugin enabled i
       <li>
         <p>The plugin uses a dedicated shared dictionary. If you use a custom template, define the following for Prometheus:</p>
 
-        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict prometheus_metrics 5m;
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_shared_dict prometheus_metrics 5m;
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
@@ -1869,7 +1863,7 @@ authentication plugins has not been tested.</li>
       <li>Find consumers by <code class="highlighter-rouge">consumer_by</code> fields and map to ldap-auth user. This will set the authenticated consumer so that <code class="highlighter-rouge">X-Consumer-{ID, USERNAME, CUSTOM_ID}</code> headers are set and consumer functionality is available</li>
       <li>Add fields
         <ul>
-          <li><code class="highlighter-rouge">consumer_by</code>: optional, default: <code class="highlighter-rouge"><span class="p">{</span><span class="err">username,</span><span class="w"> </span><span class="err">custom_id</span><span class="p">}</span></code></li>
+          <li><code class="highlighter-rouge">consumer_by</code>: optional, default: <code class="highlighter-rouge">{username, custom_id}</code></li>
           <li><code class="highlighter-rouge">consumer_optional</code>: optional, default: <code class="highlighter-rouge">false</code></li>
         </ul>
       </li>
@@ -1939,9 +1933,8 @@ authentication plugins has not been tested.</li>
       <li>
         <p>Customers using a custom Nginx template are advised to check if such a dictionary is defined in their template:</p>
 
-        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
@@ -1996,9 +1989,8 @@ authentication plugins has not been tested.</li>
       <li>
         <p>Rate Limiting Advanced, similarly to CE rate-limiting, now uses a dedicated shared dictionary named <code class="highlighter-rouge">kong_rate_limiting_counters</code> for its counters; if you are using a custom template, make sure to define the following shared memory zones:</p>
 
-        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_shared_dict kong_rate_limiting_counters 12m;
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
@@ -2007,10 +1999,9 @@ authentication plugins has not been tested.</li>
       <li>
         <p>Vitals uses two dedicated shared dictionaries. If you use a custom template, define the following shared memory zones for Vitals:</p>
 
-        <div class="highlighter-rouge"><pre class="highlight"><code>lua_shared_dict kong_vitals_counters 50m;
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_shared_dict kong_vitals_counters 50m;
 lua_shared_dict kong_vitals_lists     1m;
-</code></pre>
-        </div>
+</code></pre></div>        </div>
         <p>You can remove any existing shared dictionaries that begin with <code class="highlighter-rouge">kong_vitals_</code>, e.g., <code class="highlighter-rouge">kong_vitals_requests_consumers</code></p>
       </li>
     </ul>
@@ -2166,7 +2157,7 @@ lua_shared_dict kong_vitals_lists     1m;
   </li>
   <li><strong>AWS Lambda</strong>
     <ul>
-      <li>Fix issue where an empty array <code class="highlighter-rouge">[]</code> was returned as an empty object <code class="highlighter-rouge"><span class="p">{}</span></code></li>
+      <li>Fix issue where an empty array <code class="highlighter-rouge">[]</code> was returned as an empty object <code class="highlighter-rouge">{}</code></li>
     </ul>
   </li>
   <li><strong>Galileo - DEPRECATED</strong>
@@ -2198,7 +2189,7 @@ lua_shared_dict kong_vitals_lists     1m;
 
 <p><em>NOTE</em>: if you use a custom Nginx configuration template, apply the following patch to your template:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
 index 15682975..653a7ddd 100644
 </span><span class="gd">--- a/kong/templates/nginx_kong.lua
 </span><span class="gi">+++ b/kong/templates/nginx_kong.lua
@@ -2212,8 +2203,7 @@ index 15682975..653a7ddd 100644
 </span> lua_shared_dict kong_process_events 5m;
  lua_shared_dict kong_cluster_events 5m;
  lua_shared_dict kong_vitals_requests_consumers 50m;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>Fixes</strong></p>
 
@@ -2651,7 +2641,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

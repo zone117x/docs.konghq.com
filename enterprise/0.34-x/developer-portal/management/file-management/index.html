@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1271,7 +1271,7 @@ window['_fs_namespace'] = 'FS';
       <li>Partials can be re-used and shared between all pages using the Handlebars
    import statement:
         <ul>
-          <li><code class="highlighter-rouge"><span class="p">{</span><span class="err">{&gt;</span><span class="w"> </span><span class="err">partial_name</span><span class="p">}</span><span class="err">}</span></code></li>
+          <li><code class="highlighter-rouge">{{&gt; partial_name}}</code></li>
         </ul>
       </li>
       <li>Partials are indicated by <code class="highlighter-rouge">type=partial</code> in Dev Portal File API.</li>
@@ -1535,13 +1535,12 @@ directory under the <code class="highlighter-rouge">pages/</code> directory.</p>
 
 <p>Add it to Kong specifying the file as a page:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files <span class="se">\</span>
-        -F <span class="s2">"name=example"</span> <span class="se">\</span>
-        -F <span class="s2">"type=page"</span> <span class="se">\</span>
-        -F <span class="s2">"contents=@pages/example.hbs"</span> <span class="se">\</span>
-        -F <span class="s2">"auth=true"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> POST http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"name=example"</span> <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"type=page"</span> <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"contents=@pages/example.hbs"</span> <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"auth=true"</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>Note that the name must match that used in the handlebars file 
@@ -1561,12 +1560,11 @@ directory under the <code class="highlighter-rouge">pages/</code> directory.</p>
 (relative to the file):</li>
 </ol>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -X POST http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files <span class="se">\</span>
-        -F <span class="s2">"type=spec"</span> <span class="se">\</span>
-        -F <span class="s2">"name=swagger"</span> <span class="se">\</span>
-        -F <span class="s2">"contents=@swagger.json"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> POST http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"type=spec"</span> <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"name=swagger"</span> <span class="se">\</span>
+        <span class="nt">-F</span> <span class="s2">"contents=@swagger.json"</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>Note: The <code class="highlighter-rouge">@</code> symbol in the <code class="highlighter-rouge">curl</code> command will automatically read the file
@@ -1584,19 +1582,17 @@ Archive</li>
   <li>
     <p>Find the following line of code:</p>
 
-    <div class="language-handlebars highlighter-rouge"><pre class="highlight"><code>   <span class="k">{{&gt;</span> <span class="nv">spec-renderer</span> <span class="nv">spec</span><span class="o">=</span><span class="s2">"files"</span><span class="k">}}</span>
-</code></pre>
-    </div>
+    <div class="language-handlebars highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="k">{{&gt;</span> <span class="nv">spec-renderer</span> <span class="nv">spec</span><span class="o">=</span><span class="s2">"files"</span><span class="k">}}</span>
+</code></pre></div>    </div>
   </li>
   <li>Change: <code class="highlighter-rouge">files</code>  →  <code class="highlighter-rouge">swagger</code></li>
   <li>
     <p>Now make a <code class="highlighter-rouge">PATCH</code> request to update the page against the Dev Portal File API
  in your terminal (note, no extension on the filename in the url):</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -X PATCH http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files/documentation/api1 <span class="se">\</span>
-       -F <span class="s2">"contents=@pages/documentation/api1.hbs"</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-X</span> PATCH http://127.0.0.1:8001/&lt;WORKSPACE_NAME&gt;/files/documentation/api1 <span class="se">\</span>
+       <span class="nt">-F</span> <span class="s2">"contents=@pages/documentation/api1.hbs"</span>
+</code></pre></div>    </div>
   </li>
   <li>Navigate to <code class="highlighter-rouge">:8003/&lt;WORKSPACE_NAME&gt;/documentation/api1</code> in your browser, you 
 should see that the specification has changed.</li>
@@ -1774,7 +1770,7 @@ should see that the specification has changed.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

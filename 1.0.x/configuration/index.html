@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -546,8 +546,14 @@ window['_fs_namespace'] = 'FS';
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
           <li >
+            <a href="/1.2.x" >
+              1.2.x <em>(latest)</em>
+            </a>
+          </li>
+          
+          <li >
             <a href="/1.1.x" >
-              1.1.x <em>(latest)</em>
+              1.1.x 
             </a>
           </li>
           
@@ -1539,25 +1545,22 @@ window['_fs_namespace'] = 'FS';
 <code class="highlighter-rouge">/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
 packages. To start configuring Kong, you can copy this file:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cp /etc/kong/kong.conf.default /etc/kong/kong.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cp</span> /etc/kong/kong.conf.default /etc/kong/kong.conf
+</code></pre></div></div>
 
 <p>Kong will operate with default settings should all the values in your
 configuration be commented out. Upon starting, Kong looks for several
 default locations that might contain a configuration file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/etc/kong/kong.conf
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/kong/kong.conf
 /etc/kong.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can override this behavior by specifying a custom path for your
 configuration file using the <code class="highlighter-rouge">-c / --conf</code> argument in the CLI:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start --conf /path/to/kong.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">--conf</span> /path/to/kong.conf
+</code></pre></div></div>
 
 <p>The configuration format is straightforward: simply uncomment any property
 (comments are defined by the <code class="highlighter-rouge">#</code> character) and modify it to your needs.
@@ -1567,10 +1570,9 @@ Boolean values can be specified as <code class="highlighter-rouge">on</code>/<co
 
 <p>You can verify the integrity of your settings with the <code class="highlighter-rouge">check</code> command:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong check &lt;path/to/kong.conf&gt;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong check &lt;path/to/kong.conf&gt;
 configuration at &lt;path/to/kong.conf&gt; is valid
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This command will take into account the environment variables you have
 currently set, and will error out in case your settings are invalid.</p>
@@ -1578,15 +1580,14 @@ currently set, and will error out in case your settings are invalid.</p>
 <p>Additionally, you can also use the CLI in debug mode to have more insight
 as to what properties Kong is being started with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c &lt;kong.conf&gt; --vv
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> &lt;kong.conf&gt; <span class="nt">--vv</span>
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
 2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
 2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
 <span class="o">[</span>...]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="environment-variables">Environment variables</h2>
 
@@ -1600,15 +1601,13 @@ variable with the name of the setting, prefixed with <code class="highlighter-ro
 
 <p>For example:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>log_level = debug # in kong.conf
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_level = debug # in kong.conf
+</code></pre></div></div>
 
 <p>can be overridden with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
+</code></pre></div></div>
 
 <h2 id="injecting-nginx-directives">Injecting Nginx directives</h2>
 
@@ -1642,31 +1641,27 @@ directive handling Kong’s Admin API ports.</p>
 
 <p>For example, if you add the following line to your <code class="highlighter-rouge">kong.conf</code> file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>nginx_proxy_large_client_header_buffers=16 128k
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx_proxy_large_client_header_buffers=16 128k
+</code></pre></div></div>
 
 <p>it will add the following directive to the proxy <code class="highlighter-rouge">server</code> block of Kong’s
 Nginx configuration:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    large_client_header_buffers 16 128k;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    large_client_header_buffers 16 128k;
+</code></pre></div></div>
 
 <p>Like any other entry in <code class="highlighter-rouge">kong.conf</code>, these directives can also be specified
 using <a href="#environment-variables">environment variables</a> as shown above. For
 example, if you declare an environment variable like this:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_OUTPUT_BUFFERS</span><span class="o">=</span><span class="s2">"4 64k"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_OUTPUT_BUFFERS</span><span class="o">=</span><span class="s2">"4 64k"</span>
+</code></pre></div></div>
 
 <p>This will result in the following Nginx directive being added to the <code class="highlighter-rouge">http</code>
 block:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    output_buffers 4 64k;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    output_buffers 4 64k;
+</code></pre></div></div>
 
 <p>As always, be mindful of your shell’s quoting rules specifying values
 containing spaces.</p>
@@ -1688,7 +1683,7 @@ containing your additional Nginx settings.</p>
 <p>For example, if you create a file called <code class="highlighter-rouge">my-server.kong.conf</code> with
 the following contents:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># custom server
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># custom server
 server {
   listen 2112;
   location / {
@@ -1696,31 +1691,27 @@ server {
     return 200;
   }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can make the Kong node serve this port by adding the following
 entry to your <code class="highlighter-rouge">kong.conf</code> file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>nginx_http_include = /path/to/your/my-server.kong.conf
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nginx_http_include = /path/to/your/my-server.kong.conf
+</code></pre></div></div>
 
 <p>or, alternatively, by configuring it via an environment variable:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_INCLUDE</span><span class="o">=</span><span class="s2">"/path/to/your/my-server.kong.conf"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_NGINX_HTTP_INCLUDE</span><span class="o">=</span><span class="s2">"/path/to/your/my-server.kong.conf"</span>
+</code></pre></div></div>
 
 <p>Now, when you start Kong, the <code class="highlighter-rouge">server</code> section from that file will be added to
 that file, meaning that the custom server defined in it will be responding,
 alongside the regular Kong ports:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -I http://127.0.0.1:2112
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-I</span> http://127.0.0.1:2112
 HTTP/1.1 200 OK
 ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that if you use a relative path in an <code class="highlighter-rouge">nginx_http_include</code> property, that
 path will be interpreted relative to the value of the <code class="highlighter-rouge">prefix</code> property of
@@ -1767,18 +1758,17 @@ minimalistic and includes the latter, which contains everything Kong requires
 to run. When <code class="highlighter-rouge">kong start</code> runs, right before starting Nginx, it copies these
 two files into the prefix directory, which looks like so:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/kong
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/kong
 ├── nginx-kong.conf
 └── nginx.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you must tweak global settings that are defined by Kong but not adjustable
 via the Kong configuration in <code class="highlighter-rouge">kong.conf</code>, you can inline the contents of the
 <code class="highlighter-rouge">nginx_kong.lua</code> configuration template into a custom template file (in this
 example called <code class="highlighter-rouge">custom_nginx.template</code>) like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1804,14 +1794,12 @@ http {
 
   ... # etc
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can then start Kong with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>kong start -c kong.conf --nginx-conf custom_nginx.template
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> kong.conf <span class="nt">--nginx-conf</span> custom_nginx.template
+</code></pre></div></div>
 
 <h2 id="embedding-kong-in-openresty">Embedding Kong in OpenResty</h2>
 
@@ -1821,7 +1809,7 @@ If you have an existing Nginx configuration, you can simply include the
 Kong-specific portion of the configuration which is output by Kong in a separate
 <code class="highlighter-rouge">nginx-kong.conf</code> file:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># my_nginx.conf
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># my_nginx.conf
 
 # ...your nginx settings...
 
@@ -1830,14 +1818,12 @@ http {
 
     # ...your nginx settings...
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can then start your Nginx instance like so:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>nginx -p /usr/local/openresty -c my_nginx.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nginx <span class="nt">-p</span> /usr/local/openresty <span class="nt">-c</span> my_nginx.conf
+</code></pre></div></div>
 
 <p>and Kong will be running in that instance (as configured in <code class="highlighter-rouge">nginx-kong.conf</code>).</p>
 
@@ -1854,7 +1840,7 @@ Nginx configuration template which inlines <code class="highlighter-rouge">nginx
 <code class="highlighter-rouge">location</code> block serving the website alongside the Kong Proxy <code class="highlighter-rouge">location</code>
 block:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># ---------------------
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
 # custom_nginx.template
 # ---------------------
 
@@ -1901,8 +1887,7 @@ http {
   # Kong's Admin server block goes below
   # ...
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="properties-reference">Properties reference</h2>
 
@@ -2076,11 +2061,10 @@ for a description of the formats that Kong might accept in stream_listen.</p>
 
 <p>Examples:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>stream_listen = 127.0.0.1:7000
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stream_listen = 127.0.0.1:7000
 stream_listen = 0.0.0.0:989, 0.0.0.0:20
 stream_listen = [::1]:1234
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By default this value is set to <code class="highlighter-rouge">off</code>, thus disabling the mesh proxy port for this node.</p>
 
@@ -2895,9 +2879,8 @@ managed by the Kubernetes Identity Module (KIM).</p>
 
 <p>If a given Kong node has the following configuration for <code class="highlighter-rouge">origins</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://upstream-foo-bar:1234=http://localhost:5678
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://upstream-foo-bar:1234=http://localhost:5678
+</code></pre></div></div>
 
 <p>That Kong node will not attempt to resolve <code class="highlighter-rouge">upstream-foo-bar</code> - instead, that
 Kong node will route traffic to <code class="highlighter-rouge">localhost:5678</code>. In a service mesh deployment
@@ -2912,9 +2895,8 @@ a non-local instance of <code class="highlighter-rouge">upstream-foo-bar</code>.
 the same host, virtual machine, or Kubernetes Pod as one instance of a service
 for which Kong is acting as a proxy, <code class="highlighter-rouge">origins</code> would be configured like:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>https://service-b:9876=http://localhost:5432
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://service-b:9876=http://localhost:5432
+</code></pre></div></div>
 
 <p>This arrangement would cause this Kong node to accept <em>only</em> HTTPS connections
 on port 9876, terminate TLS, then forward the now-unencrypted traffic to
@@ -2925,9 +2907,8 @@ localhost port 5432.</p>
 <p>Following is an example consisting of two pairs, demonstrating the correct use
 of the <code class="highlighter-rouge">,</code> separator with no space:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>https://foo.bar.com:443=http://localhost:80,tls://dog.cat.org:9999=tcp://localhost:8888
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://foo.bar.com:443=http://localhost:80,tls://dog.cat.org:9999=tcp://localhost:8888
+</code></pre></div></div>
 
 <p>This configuration would result in Kong accepting <em>only</em> HTTPS traffic on port
 443, and <em>only</em> TLS traffic on port 9999, terminating TLS in both cases, then
@@ -3131,7 +3112,7 @@ differs from a sidecar proxy, in which a local proxy acts on behalf of only a
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

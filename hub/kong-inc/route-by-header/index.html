@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -700,6 +700,8 @@ window['_fs_namespace'] = 'FS';
               
                 
               
+                
+              
               </ul>
             </td>
           </tr>
@@ -767,11 +769,10 @@ window['_fs_namespace'] = 'FS';
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=route-by-header"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=route-by-header"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -785,11 +786,10 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=route-by-header"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=route-by-header"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -803,12 +803,11 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=route-by-header"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=route-by-header"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -831,11 +830,10 @@ CE 0.13.0</a> and
 <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.), you
 can configure this plugin on top of such an API by making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=route-by-header"</span> 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=route-by-header"</span> 
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">api</code>: either id or name of the API that this plugin configuration will
@@ -938,35 +936,31 @@ a Kong service <code class="highlighter-rouge">searviceA</code>, which routes al
 
 <p>Add an upstream object and a target:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/upstreams -d <span class="nv">name</span><span class="o">=</span>default.domain.com
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/upstreams <span class="nt">-d</span> <span class="nv">name</span><span class="o">=</span>default.domain.com
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span>created_at<span class="s2">":1534537731231, .. "</span>slots<span class="s2">":10000}
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/upstreams/default.domain.com/targets --data <span class="nv">target</span><span class="o">=</span><span class="s2">"default.host.com:9000"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/upstreams/default.domain.com/targets <span class="nt">--data</span> <span class="nv">target</span><span class="o">=</span><span class="s2">"default.host.com:9000"</span>
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534538010468, .. ,<span class="s2">"id"</span>:<span class="s2">"ffd8815b-fd6c-4e0e-aa67-06e9cda39c3b"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now we will add a <code class="highlighter-rouge">service</code> and a <code class="highlighter-rouge">route</code> object, using the upstream <code class="highlighter-rouge">default.domain.com</code> we just created:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/services --data <span class="nv">protocol</span><span class="o">=</span>http --data <span class="nv">host</span><span class="o">=</span>default.domain.com --data <span class="nv">name</span><span class="o">=</span>serviceA
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/services <span class="nt">--data</span> <span class="nv">protocol</span><span class="o">=</span>http <span class="nt">--data</span> <span class="nv">host</span><span class="o">=</span>default.domain.com <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span>serviceA
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"host"</span>:<span class="s2">"default.domain.com"</span>, .. ,<span class="s2">"write_timeout"</span>:60000<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/routes  --data <span class="s2">"paths[]=/"</span> --data service.id<span class="o">=</span>6e7f5274-62da-469e-bdd5-03c4a212c15b
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/routes  <span class="nt">--data</span> <span class="s2">"paths[]=/"</span> <span class="nt">--data</span> service.id<span class="o">=</span>6e7f5274-62da-469e-bdd5-03c4a212c15b
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534538701, .. ,<span class="s2">"id"</span>:<span class="s2">"12ceb66b-51ed-488a-9de0-112270e6f370"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now any request made to service <code class="highlighter-rouge">serviceA</code> will be routed to the upstream <code class="highlighter-rouge">default.domain.com</code>.
 But let’s say we want to route some of these requests to different upstreams, dynamically, based on some
@@ -978,43 +972,38 @@ set to <code class="highlighter-rouge">us-west</code> to upstream <code class="h
 
 <p>Add the two upstreams and corresponding targets:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/upstreams -d <span class="nv">name</span><span class="o">=</span>east.domain.com
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/upstreams <span class="nt">-d</span> <span class="nv">name</span><span class="o">=</span>east.domain.com
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534541064946, .. ,<span class="s2">"slots"</span>:10000<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/upstreams/east.domain.com/targets --data <span class="nv">target</span><span class="o">=</span><span class="s2">"east.host.com:9001"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/upstreams/east.domain.com/targets <span class="nt">--data</span> <span class="nv">target</span><span class="o">=</span><span class="s2">"east.host.com:9001"</span>
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534541248416, .. ,<span class="s2">"id"</span>:<span class="s2">"3164a588-09d7-4a72-895f-fa19535e3682"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://localhost:8001/upstreams -d <span class="nv">name</span><span class="o">=</span>west.domain.com
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/upstreams <span class="nt">-d</span> <span class="nv">name</span><span class="o">=</span>west.domain.com
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534541385227, .. ,<span class="s2">"slots"</span>:10000<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/upstreams/west.domain.com/targets --data <span class="nv">target</span><span class="o">=</span><span class="s2">"west.host.com:9002"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/upstreams/west.domain.com/targets <span class="nt">--data</span> <span class="nv">target</span><span class="o">=</span><span class="s2">"west.host.com:9002"</span>
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534541405038, .. ,<span class="s2">"id"</span>:<span class="s2">"96cb469f-280f-4b0a-bd3d-1a0599b82585"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Enable plugin on service <code class="highlighter-rouge">serviceA</code>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST http://kong:8001/services/serviceA/plugins -H <span class="s1">'Content-Type: application/json'</span> --data <span class="s1">'{"name": "route-by-header", "config": {"rules":[{"condition": {"location":"us-east"}, "upstream_name": "east.doamin.com"}, {"condition": {"location":"us-west"}, "upstream_name": "west.doamin.com"}]}}'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/services/serviceA/plugins <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="nt">--data</span> <span class="s1">'{"name": "route-by-header", "config": {"rules":[{"condition": {"location":"us-east"}, "upstream_name": "east.doamin.com"}, {"condition": {"location":"us-west"}, "upstream_name": "west.doamin.com"}]}}'</span>
 HTTP/1.1 201 Created
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534540916000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"rules"</span>:<span class="o">{</span><span class="s2">""</span>:<span class="s2">"{</span><span class="se">\"</span><span class="s2">condition</span><span class="se">\"</span><span class="s2">: {</span><span class="se">\"</span><span class="s2">location</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-east</span><span class="se">\"</span><span class="s2">}, </span><span class="se">\"</span><span class="s2">upstream_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">east.doamin.com</span><span class="se">\"</span><span class="s2">}, {</span><span class="se">\"</span><span class="s2">condition</span><span class="se">\"</span><span class="s2">: {</span><span class="se">\"</span><span class="s2">location</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-west</span><span class="se">\"</span><span class="s2">}, </span><span class="se">\"</span><span class="s2">upstream_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">west.doamin.com</span><span class="se">\"</span><span class="s2">}"</span><span class="o">}}</span>,<span class="s2">"id"</span>:<span class="s2">"0df16085-76b2-4a50-ac30-c8a1eade389a"</span>,<span class="s2">"enabled"</span>:true,<span class="s2">"service_id"</span>:<span class="s2">"6e7f5274-62da-469e-bdd5-03c4a212c15b"</span>,<span class="s2">"name"</span>:<span class="s2">"route-by-header"</span><span class="o">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, any request with header <code class="highlighter-rouge">Location</code> set to <code class="highlighter-rouge">us-east</code> will route to upstream
 <code class="highlighter-rouge">east.domain.com</code> and requests with header <code class="highlighter-rouge">Location</code> set to <code class="highlighter-rouge">us-west</code> will route
@@ -1025,12 +1014,11 @@ on the provided headers in the <code class="highlighter-rouge">condition</code> 
 
 <p>Let’s patch above plugin to add one more rule with multiple headers:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X PATCH http://kong:8001/plugins/0df16085-76b2-4a50-ac30-c8a1eade389a -H <span class="s1">'Content-Type: application/json'</span> --data <span class="s1">'{"name": "route-by-header", "config": {"rules":[{"condition": {"location":"us-east"}, "upstream_name": "east.doamin.com"}, {"condition": {"location":"us-west"}, "upstream_name": "west.doamin.com"},  {"condition": {"location":"us-south", "region": "US"}, "upstream_name": "south.doamin.com"}]}}'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH http://kong:8001/plugins/0df16085-76b2-4a50-ac30-c8a1eade389a <span class="nt">-H</span> <span class="s1">'Content-Type: application/json'</span> <span class="nt">--data</span> <span class="s1">'{"name": "route-by-header", "config": {"rules":[{"condition": {"location":"us-east"}, "upstream_name": "east.doamin.com"}, {"condition": {"location":"us-west"}, "upstream_name": "west.doamin.com"},  {"condition": {"location":"us-south", "region": "US"}, "upstream_name": "south.doamin.com"}]}}'</span>
 HTTP/1.1 200 OK
 ...
 <span class="o">{</span><span class="s2">"created_at"</span>:1534540916000,<span class="s2">"config"</span>:<span class="o">{</span><span class="s2">"rules"</span>:<span class="o">{</span><span class="s2">""</span>:<span class="s2">"{</span><span class="se">\"</span><span class="s2">condition</span><span class="se">\"</span><span class="s2">: {</span><span class="se">\"</span><span class="s2">location</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-east</span><span class="se">\"</span><span class="s2">}, </span><span class="se">\"</span><span class="s2">upstream_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">east.doamin.com</span><span class="se">\"</span><span class="s2">}, {</span><span class="se">\"</span><span class="s2">condition</span><span class="se">\"</span><span class="s2">: {</span><span class="se">\"</span><span class="s2">location</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-west</span><span class="se">\"</span><span class="s2">}, </span><span class="se">\"</span><span class="s2">upstream_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">west.doamin.com</span><span class="se">\"</span><span class="s2">}, {</span><span class="se">\"</span><span class="s2">condition</span><span class="se">\"</span><span class="s2">: {</span><span class="se">\"</span><span class="s2">location</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-south</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">region</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">us</span><span class="se">\"</span><span class="s2">}, </span><span class="se">\"</span><span class="s2">upstream_name</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">south.doamin.com</span><span class="se">\"</span><span class="s2">}"</span><span class="o">}}</span>,<span class="s2">"id"</span>:<span class="s2">"0df16085-76b2-4a50-ac30-c8a1eade389a"</span>,<span class="s2">"enabled"</span>:true,<span class="s2">"service_id"</span>:<span class="s2">"6e7f5274-62da-469e-bdd5-03c4a212c15b"</span>,<span class="s2">"name"</span>:<span class="s2">"route-by-header"</span><span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now we have an additional rule which routes any request with header <code class="highlighter-rouge">Location</code> set to
 <code class="highlighter-rouge">us-south</code> and <code class="highlighter-rouge">Region</code> set to <code class="highlighter-rouge">US</code> route to upstream <code class="highlighter-rouge">south.domain.com</code>.</p>
@@ -1216,7 +1204,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

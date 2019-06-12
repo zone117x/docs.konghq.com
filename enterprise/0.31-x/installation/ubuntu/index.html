@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -980,68 +980,61 @@ window['_fs_namespace'] = 'FS';
 <p>Download the EE binary for Ubuntu (or Debian) from Bintray
 SFTP the file to your Ubuntu server</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo apt-get update
-<span class="gp">$ </span>sudo apt-get install openssl libpcre3 procps perl
-<span class="gp">$ </span>sudo dpkg -i kong-enterprise-edition-0.31-1.zesty.all.deb
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>openssl libpcre3 procps perl
+<span class="nv">$ </span><span class="nb">sudo </span>dpkg <span class="nt">-i</span> kong-enterprise-edition-0.31-1.zesty.all.deb
+</code></pre></div></div>
 <p>NOTE: EE file may differ in last step above. In addition to Zesty, we currently build for Precise, Trusty, and Xenial.</p>
 
 <h2 id="install-postgresql">Install PostgreSQL</h2>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo apt-get install postgresql
-<span class="gp">$ </span>sudo -i -u postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>postgresql
+<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
+</code></pre></div></div>
 
 <p>Create <code class="highlighter-rouge">kong</code> user</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>psql
-<span class="gp">&gt; </span>CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password <span class="s1">'kong'</span>; 
-<span class="gp">&gt; </span><span class="se">\q</span>
-<span class="gp">$ </span><span class="nb">exit</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>psql
+<span class="o">&gt;</span> CREATE USER kong<span class="p">;</span> CREATE DATABASE kong OWNER kong<span class="p">;</span> ALTER USER kong WITH password <span class="s1">'kong'</span><span class="p">;</span> 
+<span class="o">&gt;</span> <span class="se">\q</span>
+<span class="nv">$ </span><span class="nb">exit</span>
+</code></pre></div></div>
 
 <h2 id="finish-kong-enterprise-setup-steps">Finish Kong Enterprise setup steps</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Add contents of your license file (copy &amp; paste)</span>
-<span class="gp">$ </span>sudo vi /etc/kong/license.json
-<span class="gp">$ </span>sudo cp /etc/kong/kong.conf.default /etc/kong/kong.conf
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Add contents of your license file (copy &amp; paste)</span>
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/license.json
+<span class="nv">$ </span><span class="nb">sudo cp</span> /etc/kong/kong.conf.default /etc/kong/kong.conf
 <span class="c"># Uncomment and add 'kong' to pg_password line</span>
-<span class="gp">$ </span>sudo vi /etc/kong/kong.conf
-</code></pre>
-</div>
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/kong.conf
+</code></pre></div></div>
 
 <h3 id="run-migrations-and-start-kong">Run migrations and start kong</h3>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>sudo /usr/local/bin/kong migrations up
-<span class="gp">$ </span>sudo /usr/local/bin/kong start
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong migrations up
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start
+</code></pre></div></div>
 
 <h3 id="test-your-kong-installation">Test your Kong installation</h3>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i -X POST <span class="se">\</span>
-  --url http://localhost:8001/apis/ <span class="se">\</span>
-  --data <span class="s1">'name=demo'</span> <span class="se">\</span>
-  --data <span class="s1">'uris=/'</span> <span class="se">\</span>
-  --data <span class="s1">'upstream_url=http://httpbin.org'</span>
-<span class="gp">$ </span>curl -i -X GET <span class="se">\</span>
-  --url http://localhost:8000/ip
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/apis/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'name=demo'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'uris=/'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'upstream_url=http://httpbin.org'</span>
+<span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/ip
+</code></pre></div></div>
 
 <h3 id="setup-admin-gui">Setup Admin GUI</h3>
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
-<span class="gp">$ </span>ifconfig 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
+<span class="nv">$ </span>ifconfig 
 
 <span class="c"># Uncomment the admin_listen setting, and update to </span>
 <span class="c"># something like this `admin_listen = 172.31.3.8:8001`</span>
-<span class="gp">$ </span>sudo vi /etc/kong/kong.conf
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/kong.conf
 
 <span class="c"># Restart kong</span>
-<span class="gp">$ </span>sudo /usr/local/bin/kong stop 
-<span class="gp">$ </span>sudo /usr/local/bin/kong start
-</code></pre>
-</div>
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong stop 
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start
+</code></pre></div></div>
 
 <p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
 
@@ -1217,7 +1210,7 @@ SFTP the file to your Ubuntu server</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

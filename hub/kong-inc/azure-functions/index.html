@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -702,6 +702,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   1.1.x
                   </li>
                 
@@ -842,14 +851,13 @@ or extend the function.</p>
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
-    --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.functionname="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
@@ -863,14 +871,13 @@ target.</li>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
-    --data <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
-    --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=azure-functions"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.functionname="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
@@ -884,15 +891,14 @@ target.</li>
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -X POST http://kong:8001/plugins <span class="se">\</span>
-    --data <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
-    --data <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
-    --data <span class="s2">"config.functionname="</span> <span class="se">\</span>
-    --data <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
-    --data <span class="s2">"config.apikey=AZURE_APIKEY"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.functionname="</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.appname=AZURE_APPNAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.apikey=AZURE_APIKEY"</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
 plugin.</p>
@@ -1063,72 +1069,66 @@ will be verified according to the CA certificates specified by the
   <li>
     <p>In this example we’ll consider the following settings/placeholders, insert your own values here:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> - `&lt;appname&gt;` for the Functions appname
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> - `&lt;appname&gt;` for the Functions appname
  - `&lt;functionname&gt;` for the function name
  - `&lt;apikey&gt;` for the api key
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Test your function to make sure it works before adding it to Kong</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET https://&lt;appname&gt;.azurewebsites.net/api/&lt;functionname&gt;?name<span class="o">=</span>Kong <span class="se">\</span>
-      -H <span class="s2">"x-functions-key:&lt;apikey&gt;"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> GET https://&lt;appname&gt;.azurewebsites.net/api/&lt;functionname&gt;?name<span class="o">=</span>Kong <span class="se">\</span>
+      <span class="nt">-H</span> <span class="s2">"x-functions-key:&lt;apikey&gt;"</span>
 
  HTTP/1.1 200 OK
  ...
  <span class="s2">"Hello Kong!"</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Create a Service on Kong</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/ <span class="se">\</span>
-   --data <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
-   --data <span class="s2">"url=http://dead.end.com"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span>  POST http://localhost:8001/services/ <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"name=plugin-testing"</span> <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"url=http://dead.end.com"</span>
 
  HTTP/1.1 201 Created
  ...
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Add a Route to the Service on Kong</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
-   --data <span class="s2">"paths[]=/mytest"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span>  POST http://localhost:8001/services/plugin-testing/routes <span class="se">\</span>
+   <span class="nt">--data</span> <span class="s2">"paths[]=/mytest"</span>
 
  HTTP/1.1 201 Created
  ...
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Apply the Azure-functions plugin</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nv">$ </span>curl -i -X POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
-     --data <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
-     --data <span class="s2">"config.appname=&lt;appname&gt;"</span> <span class="se">\</span>
-     --data <span class="s2">"config.functionname=&lt;functionname&gt;"</span> <span class="se">\</span>
-     --data <span class="s2">"config.apikey=&lt;apikey&gt;"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/services/plugin-testing/plugins <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"name=azure-functions"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.appname=&lt;appname&gt;"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.functionname=&lt;functionname&gt;"</span> <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"config.apikey=&lt;apikey&gt;"</span>
 
  HTTP/1.1 201 Created
  ...
 
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Test the Azure Function through Kong (same result as step 2)</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code> curl -i -X GET http://localhost:8000/mytest?name<span class="o">=</span>Kong
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> GET http://localhost:8000/mytest?name<span class="o">=</span>Kong
 
  HTTP/1.1 200 OK
  ...
  <span class="s2">"Hello Kong!"</span>
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -1336,7 +1336,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 

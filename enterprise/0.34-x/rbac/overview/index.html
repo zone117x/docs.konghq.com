@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560204901"
+    href="/assets/styles.css?v=1560378250"
   />
   
 </head>
@@ -1276,15 +1276,13 @@ access control</li>
   <li><code class="highlighter-rouge">off</code>: disables RBAC enforcement</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>enforce_rbac = on
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>enforce_rbac = on
+</code></pre></div></div>
 
 <p>Restart Kong:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kong restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong restart
+</code></pre></div></div>
 
 <p>RBAC policies are now enforced by Kong, based on the user token presented
 to the request. By default, the user token is sent via the
@@ -1294,51 +1292,48 @@ to the Admin API without sending an authentication. Because Kong does not
 recognize a user associated with the requesting client, it rejects the
 request:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i http://localhost:8001/status
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> http://localhost:8001/status
 HTTP/1.1 401 Unauthorized
 Access-Control-Allow-Origin: <span class="k">*</span>
 Connection: keep-alive
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Date: Sat, 07 Jul 2018 17:59:35 GMT
 Server: kong/0.34-enterprise-edition
 Transfer-Encoding: chunked
 <span class="o">{</span>
     <span class="s2">"message"</span>: <span class="s2">"Invalid RBAC credentials"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>By sending a request with a valid user token, we are granted read access to
 the resource in question:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/status
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Kong-Admin-Token: 12345"</span> <span class="nt">-i</span> http://localhost:8001/status
 HTTP/1.1 200 OK
 Date: Fri, 04 Aug 2017 22:09:25 GMT
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: <span class="k">*</span>
 Server: kong/0.33-enterprise-edition
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Attempting to create a new resource which our RBAC user is also
 not permitted, as it is not assigned any roles that have permissions with
 create access:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -H <span class="s2">"Kong-Admin-Token: 12345"</span> -i http://localhost:8001/consumers -d <span class="nv">name</span><span class="o">=</span>alice
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-H</span> <span class="s2">"Kong-Admin-Token: 12345"</span> <span class="nt">-i</span> http://localhost:8001/consumers <span class="nt">-d</span> <span class="nv">name</span><span class="o">=</span>alice
 HTTP/1.1 403 Forbidden
 Access-Control-Allow-Origin: <span class="k">*</span>
 Connection: keep-alive
-Content-Type: application/json; <span class="nv">charset</span><span class="o">=</span>utf-8
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
 Date: Sat, 07 Jul 2018 18:03:12 GMT
 Server: kong/0.33-enterprise-edition
 Transfer-Encoding: chunked
 <span class="o">{</span>
     <span class="s2">"message"</span>: <span class="s2">"foo, you do not have permissions to create this resource"</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="user">User</h3>
 
@@ -1605,7 +1600,7 @@ to configure the appropriate RBAC users and user/role relationships.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560204901"></script>
+    <script src="/assets/app.js?v=1560378250"></script>
 
     <div id="fb-root"></div>
 
