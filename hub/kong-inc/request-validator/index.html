@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560378250"
+    href="/assets/styles.css?v=1560411647"
   />
   
 </head>
@@ -764,54 +764,89 @@ format is used.</p>
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
-target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-validator</span>
+  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
+
 
         
         
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-validator</span>
+  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
+
 
         
         
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+     <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
-
 </code></pre></div></div>
 
-<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
-plugin.</p>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#consumer-object">Consumer</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-validator</span>
+  <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
 
 <p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
     <code class="highlighter-rouge">service_id</code></p>
@@ -824,10 +859,15 @@ plugin.</p>
 
         <h3 id="global-plugins">Global plugins</h3>
 
-        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
+
+        <p>A plugin which is not associated to any Service, Route or Consumer (or API, if you are using an older
+        version of Kong) is considered "global", and will be run on every request.
+        Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+        <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
 
         <h3 id="parameters">Parameters</h3>
@@ -877,31 +917,52 @@ plugin.</p>
 
 <h3 id="overview">Overview</h3>
 
-<p>By applying the plugin to an Service, all requests to that Service will be validated
+<p>By applying the plugin to a Service, all requests to that Service will be validated
 before being proxied.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -i -X POST http://kong:8001/services/{service}/plugins \
-  --data "name=request-validator" \
-  --data 'config.body_schema=[{"name":{"type": "string", "required": true}}]'
+<p><strong>With a database</strong></p>
+
+<p>Use a request like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"name=request-validator"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'config.body_schema=[{"name":{"type": "string", "required": true}}]'</span>
 </code></pre></div></div>
+
+<p><strong>Without a database</strong></p>
+
+<p>Add the following entry to the <code class="highlighter-rouge">plugins:</code> section in the declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-validator</span>
+  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span>
+    <span class="na">body_schema</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+        <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
+        <span class="na">required</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<p>The parameters/fields in both cases mean:</p>
 
 <table>
   <thead>
     <tr>
       <th>form parameter</th>
-      <th>default</th>
       <th>description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td><code class="highlighter-rouge">{service}</code></td>
+      <td>The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service to which the plugin will be associated.</td>
+    </tr>
+    <tr>
       <td><code class="highlighter-rouge">name</code></td>
-      <td> </td>
       <td>The name of the plugin to use, in this case: <code class="highlighter-rouge">request-validator</code></td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">config.body_schema</code></td>
-      <td> </td>
       <td>The request body schema specification</td>
     </tr>
   </tbody>
@@ -1382,7 +1443,7 @@ be returned as response.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560378250"></script>
+    <script src="/assets/app.js?v=1560411647"></script>
 
     <div id="fb-root"></div>
 

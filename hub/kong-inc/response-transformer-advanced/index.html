@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560378250"
+    href="/assets/styles.css?v=1560411647"
   />
   
 </head>
@@ -752,6 +752,8 @@ window['_fs_namespace'] = 'FS';
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
@@ -762,56 +764,101 @@ making the following request:</p>
     <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
-target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">response-transformer-advanced</span>
+  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="s">remove.headers</span><span class="pi">:</span> <span class="s">x-toremove, x-another-one</span>
+    <span class="s">remove.json</span><span class="pi">:</span> <span class="s">json-key-toremove, another-json-key</span>
+    <span class="s">add.headers</span><span class="pi">:</span> <span class="s">x-new-header:value,x-another-header:something</span>
+    <span class="s">add.json</span><span class="pi">:</span> <span class="s">new-json-key:some_value, another-json-key:some_value</span>
+    <span class="s">append.headers</span><span class="pi">:</span> <span class="s">x-existing-header:some_value, x-another-header:some_value</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
+
 
         
         
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=response-transformer-advanced"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">response-transformer-advanced</span>
+  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="s">remove.headers</span><span class="pi">:</span> <span class="s">x-toremove, x-another-one</span>
+    <span class="s">remove.json</span><span class="pi">:</span> <span class="s">json-key-toremove, another-json-key</span>
+    <span class="s">add.headers</span><span class="pi">:</span> <span class="s">x-new-header:value,x-another-header:something</span>
+    <span class="s">add.json</span><span class="pi">:</span> <span class="s">new-json-key:some_value, another-json-key:some_value</span>
+    <span class="s">append.headers</span><span class="pi">:</span> <span class="s">x-existing-header:some_value, x-another-header:some_value</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
+
 
         
         
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
 on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/plugins <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=response-transformer-advanced"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"consumer_id={consumer_id}"</span>  <span class="se">\</span>
+     <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.remove.headers=x-toremove, x-another-one"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.remove.json=json-key-toremove, another-json-key"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.add.headers=x-new-header:value,x-another-header:something"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.add.json=new-json-key:some_value, another-json-key:some_value"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.append.headers=x-existing-header:some_value, x-another-header:some_value"</span>
-
 </code></pre></div></div>
 
-<p>Where <code class="highlighter-rouge">consumer_id</code> is the id of the Consumer we want to associate with this
-plugin.</p>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#consumer-object">Consumer</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">response-transformer-advanced</span>
+  <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="s">remove.headers</span><span class="pi">:</span> <span class="s">x-toremove, x-another-one</span>
+    <span class="s">remove.json</span><span class="pi">:</span> <span class="s">json-key-toremove, another-json-key</span>
+    <span class="s">add.headers</span><span class="pi">:</span> <span class="s">x-new-header:value,x-another-header:something</span>
+    <span class="s">add.json</span><span class="pi">:</span> <span class="s">new-json-key:some_value, another-json-key:some_value</span>
+    <span class="s">append.headers</span><span class="pi">:</span> <span class="s">x-existing-header:some_value, x-another-header:some_value</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
 
 <p>You can combine <code class="highlighter-rouge">consumer_id</code> and 
     <code class="highlighter-rouge">service_id</code></p>
@@ -824,10 +871,15 @@ plugin.</p>
 
         <h3 id="global-plugins">Global plugins</h3>
 
-        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
+
+        <p>A plugin which is not associated to any Service, Route or Consumer (or API, if you are using an older
+        version of Kong) is considered "global", and will be run on every request.
+        Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+        <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
 
         <h3 id="parameters">Parameters</h3>
@@ -1015,10 +1067,19 @@ similar for Services.</p>
   <span class="nt">--data</span> <span class="s2">"config.add.headers[1]=h1:v1"</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s2">"config.add.headers[2]=h2:v1"</span>
 </code></pre></div></div>
-<p>upstream response headers | proxied response headers
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+
+<table>
+  <tr>
+    <th>upstream response headers</th>
+    <th>proxied response headers</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+     <ul><li>h1: v1</li><li>h2: v1</li></ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add multiple headers by passing comma separated header:value pair:</li>
@@ -1028,10 +1089,19 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
   <span class="nt">--data</span> <span class="s2">"name=response-transformer-advanced"</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s2">"config.add.headers=h1:v1,h2:v2"</span>
 </code></pre></div></div>
-<p>upstream response headers | proxied response headers
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+
+<table>
+  <tr>
+    <th>upstream response headers</th>
+    <th>proxied response headers</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul><li>h1: v1</li><li>h2: v1</li></ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add multiple headers passing config as JSON body:</li>
@@ -1042,10 +1112,18 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
   <span class="nt">--data</span> <span class="s1">'{"name": "response-transformer-advanced", "config": {"add": {"headers": ["h1:v2", "h2:v1"]}}}'</span>
 </code></pre></div></div>
 
-<p>upstream response headers | proxied response headers
-—           | —
-h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;
-—</p>
+<table>
+  <tr>
+    <th>upstream response headers</th>
+    <th>proxied response headers</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul><li>h1: v1</li><li>h2: v1</li></ul>
+    </td>
+  </tr>
+</table>
 
 <ul>
   <li>Add a body property and a header:</li>
@@ -1058,29 +1136,42 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </code></pre></div></div>
 
 <table>
+  <tr>
+    <th>upstream response headers</th>
+    <th>proxied response headers</th>
+  </tr>
+  <tr>
+    <td>h1: v2</td>
+    <td>
+      <ul><li>h1: v2</li><li>h2: v1</li></ul>
+    </td>
+  </tr>
+  <tr>
+    <td>h3: v1</td>
+    <td>
+      <ul><li>h1: v1</li><li>h2: v1</li><li>h3: v1</li></ul>
+    </td>
+  </tr>
+</table>
+
+<table>
   <thead>
     <tr>
-      <th>upstream response headers</th>
-      <th>proxied response headers:</th>
+      <th>upstream response JSON body</th>
+      <th>proxied response body</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>h1: v2</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>{}</td>
+      <td>{“p1” : “v1”, “p2”: “v2”}</td>
     </tr>
     <tr>
-      <td>h3: v1</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;li&gt;h3: v1&lt;/li&gt;&lt;/ul&gt;</td>
+      <td>{“p1” : “v2”}</td>
+      <td>{“p1” : “v2”, “p2”: “v2”}</td>
     </tr>
   </tbody>
 </table>
-
-<p>upstream response JSON body | proxied response body
-—           | —
-{}            | {“p1” : “v1”, “p2”: “v2”}
-{“p1” : “v2”}  | {“p1” : “v2”, “p2”: “v2”}
-—</p>
 
 <ul>
   <li>Append multiple headers and remove a body property:</li>
@@ -1092,18 +1183,16 @@ h1: v1        | &lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;
 </code></pre></div></div>
 
 <table>
-  <thead>
-    <tr>
-      <th>upstream response headers</th>
-      <th>proxied response headers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>h1: v1</td>
-      <td>&lt;ul&gt;&lt;li&gt;h1: v1&lt;/li&gt;&lt;li&gt;h1: v2&lt;/li&gt;&lt;li&gt;h2: v1&lt;/li&gt;&lt;/ul&gt;</td>
-    </tr>
-  </tbody>
+  <tr>
+    <th>upstream response headers</th>
+    <th>proxied response headers</th>
+  </tr>
+  <tr>
+    <td>h1: v1</td>
+    <td>
+      <ul><li>h1: v1</li><li>h1: v2</li><li>h2: v1</li></ul>
+    </td>
+  </tr>
 </table>
 
 <table>
@@ -1320,7 +1409,7 @@ the content type as defined in the <code class="highlighter-rouge">Content-Type<
 </script>
 
 
-    <script src="/assets/app.js?v=1560378250"></script>
+    <script src="/assets/app.js?v=1560411647"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560378250"
+    href="/assets/styles.css?v=1560411647"
   />
   
 </head>
@@ -612,6 +612,8 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#plugin-names">Plugin Names</a></li>
   <li><a href="#demonstration">Demonstration</a>
     <ul>
+      <li><a href="#with-a-database">With a Database</a></li>
+      <li><a href="#without-a-database">Without a Database</a></li>
       <li><a href="#notes">Notes</a></li>
     </ul>
   </li>
@@ -875,36 +877,59 @@ window['_fs_namespace'] = 'FS';
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=serverless-functions"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.functions=[]"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">service</code>: the id or name of the Service that this plugin configuration will
-target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">serverless-functions</span>
+  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">functions</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
+
 
         
         
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
+<p><strong>With a database</strong></p>
+
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route_id<span class="o">}</span>/plugins <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=serverless-functions"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.functions=[]"</span>
-
 </code></pre></div></div>
 
-<ul>
-  <li><code class="highlighter-rouge">route_id</code>: the id of the Route that this plugin configuration will target.</li>
-</ul>
+<p><strong>Without a database</strong></p>
+
+<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
+adding this section do your declarative configuration file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">serverless-functions</span>
+  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
+  <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">functions</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div></div>
+
+<p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
+
 
         
         
@@ -912,10 +937,15 @@ target.</li>
 
         <h3 id="global-plugins">Global plugins</h3>
 
-        <p>All plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint. A plugin which is not associated to any Service,
-          Route or Consumer (or API, if you are using an older version of Kong) is considered "global", and will be run on every request.
-          Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
-          <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
+
+        <p>A plugin which is not associated to any Service, Route or Consumer (or API, if you are using an older
+        version of Kong) is considered "global", and will be run on every request.
+        Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+        <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
 
         <h3 id="parameters">Parameters</h3>
@@ -979,6 +1009,8 @@ different priority in the plugin chain.</p>
 </ul>
 
 <h2 id="demonstration">Demonstration</h2>
+
+<h3 id="with-a-database">With a Database</h3>
 
 <ol>
   <li>
@@ -1059,6 +1091,60 @@ different priority in the plugin chain.</p>
   </li>
 </ol>
 
+<h3 id="without-a-database">Without a Database</h3>
+
+<ol>
+  <li>
+    <p>Create the Service, Route and Associated plugin on the declarative config file:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">services</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">plugin-testing</span>
+   <span class="na">url</span><span class="pi">:</span> <span class="s">http://httpbin.org/headers</span>
+
+ <span class="na">routes</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">service</span><span class="pi">:</span> <span class="s">plugin-testing</span>
+   <span class="na">paths</span><span class="pi">:</span> <span class="pi">[</span> <span class="s2">"</span><span class="s">/test"</span> <span class="pi">]</span>
+
+ <span class="na">plugins</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">pre-function</span>
+   <span class="na">config</span><span class="pi">:</span>
+     <span class="na">functions</span><span class="pi">:</span> <span class="pi">|</span>
+       <span class="no">-- Get list of request headers</span>
+       <span class="no">local custom_auth = kong.request.get_header("x-custom-auth")</span>
+
+       <span class="no">-- Terminate request early if our custom authentication header</span>
+       <span class="no">-- does not exist</span>
+       <span class="no">if not custom_auth then</span>
+         <span class="no">return kong.response.exit(401, "Invalid Credentials")</span>
+       <span class="no">end</span>
+
+       <span class="no">-- Remove custom authentication header from request</span>
+       <span class="no">kong.service.request.clear_header('x-custom-auth')</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Test that our Lua code will terminate the request when no header is passed:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> GET http://localhost:8000/test
+
+ HTTP/1.1 401 Unauthorized
+ ...
+ <span class="s2">"Invalid Credentials"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Test the Lua code we just applied by making a valid request:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl <span class="nt">-i</span> <span class="nt">-X</span> GET http://localhost:8000/test <span class="se">\</span>
+   <span class="nt">--header</span> <span class="s2">"x-custom-auth: demo"</span>
+
+ HTTP/1.1 200 OK
+ ...
+</code></pre></div>    </div>
+    <hr />
+  </li>
+</ol>
+
 <p>This is just a small demonstration of the power these plugins grant. We were
 able to dynamically inject Lua code into the plugin access phase to dynamically
 terminate, or transform the request without creating a custom plugin or
@@ -1066,8 +1152,6 @@ reloading / redeploying Kong.</p>
 
 <p>In short, serverless functions give you the full capabilities of a custom plugin
 in the access phase without ever redeploying / restarting Kong.</p>
-
-<hr />
 
 <h3 id="notes">Notes</h3>
 
@@ -1290,7 +1374,7 @@ using a <a href="https://mothereff.in/lua-minifier">minifier</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560378250"></script>
+    <script src="/assets/app.js?v=1560411647"></script>
 
     <div id="fb-root"></div>
 
