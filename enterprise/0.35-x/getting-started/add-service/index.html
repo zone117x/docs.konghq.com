@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560411647"
+    href="/assets/styles.css?v=1560467438"
   />
   
 </head>
@@ -1349,77 +1349,132 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#1-add-your-service-using-the-admin-api-or-kong-manager">1. Add Your Service Using the Admin API or Kong Manager</a></li>
-  <li><a href="#2-verify-your-service-has-been-added">2. Verify Your Service Has Been Added</a></li>
-  <li><a href="#3-forward-requests-through-kong-enterprise">3. Forward Requests through Kong Enterprise</a></li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#prerequisites">Prerequisites</a></li>
+  <li><a href="#step-1---create-a-new-service">Step 1 - Create a New Service</a></li>
+  <li><a href="#step-2---create-a-new-route-attached-to-the-service">Step 2 - Create a New Route attached to the Service</a></li>
+  <li><a href="#step-3---test-the-new-service-and-route">Step 3 - Test the new Service and Route</a></li>
 </ul>
 
           
 
-          <h2 id="1-add-your-service-using-the-admin-api-or-kong-manager">1. Add Your Service Using the Admin API or Kong Manager</h2>
+          <h3 id="introduction">Introduction</h3>
 
-<p>If you’d like to use the Admin API, issue the following cURL request to add
-your first Service (Mockbin) to Kong Enterprise:</p>
+<p>This guide walks through the creation and configuration of a 
+<strong>Service and Route</strong> via <strong>Kong Manager</strong> in <strong>Kong Enterprise</strong>. To do this with 
+via the <strong>command line</strong> read Kong’s guide to 
+<a href="/latest/getting-started/configuring-a-service/">Configuring a Service</a>.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-  <span class="nt">--url</span> http://localhost:8001/apis/ <span class="se">\</span>
-  <span class="nt">--data</span> <span class="s1">'name=example-api'</span> <span class="se">\</span>
-  <span class="nt">--data</span> <span class="s1">'hosts=example.com'</span> <span class="se">\</span>
-  <span class="nt">--data</span> <span class="s1">'upstream_url=http://mockbin.org'</span>
+<p>For the purpose of this guide, we’ll create a <strong>Service</strong> pointing to the Mockbin 
+API. Mockbin is an “echo” type public website that returns requests back to
+the requester as responses. This visibility is helpful for learning how Kong proxies API 
+requests.</p>
+
+<p>Kong exposes the RESTful <strong>Admin API</strong> on port <code class="highlighter-rouge">:8001</code>. Kong’s configuration, 
+including adding <strong>Services and Routes</strong>, is made via requests on to the 
+<strong>Admin API</strong>.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li><strong>Kong Enterprise</strong> is <a href="/enterprise/0.35-x/deployment/installation">installed</a></li>
+  <li><strong>Kong Enterprise</strong> is <a href="/enterprise/0.35-x/getting-started/start-kong">started</a></li>
+  <li><strong>Super Admin</strong> or <a href="/enterprise/0.35-x/getting-started/add-admin"><strong>Admin</strong></a>
+access to <strong>Kong Manager</strong></li>
+</ul>
+
+<h3 id="step-1---create-a-new-service">Step 1 - Create a New Service</h3>
+
+<ol>
+  <li>
+    <p>Chose the desired <strong>Workspace</strong> in <strong>Kong Manager</strong> and navigate to the
+<strong>Services</strong> tab under <strong>API Gateway</strong>.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/01-service-page.png" alt="Service Page" /></p>
+  </li>
+  <li>
+    <p>Click the <strong>Create a New Service</strong> button to open the <strong>Create Service</strong> form.
+Fill in a <strong>name</strong> and a <strong>URL</strong> for the <strong>Service</strong>.<br /><br />For example, set the 
+name to <code class="highlighter-rouge">test-service</code> with the URL <code class="highlighter-rouge">http://mockbin.org</code>.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/02-service-name.png" alt="Create Service Form" />
+<br /><br />Kong Manager also allows <strong>Services</strong> to be configured using <strong>Protocol</strong>,
+<strong>Host</strong>, <strong>Path</strong>, and <strong>Port</strong> (optional). To configure the <strong>Service</strong> using
+this method, click the <strong>Add using Protocol, Host, and Path</strong> option.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/03-service-protocol.png" alt="Configure Using Protocol" /><br />
+<br />In addition, Kong Manager exposes several <strong>Advanced Fields</strong> 
+and their default configuration values: <br /><code class="highlighter-rouge">Retries: 5</code><br />
+<code class="highlighter-rouge">Connect Timeout: 60000</code> (in ms)<br /><code class="highlighter-rouge">Write Timeout: 60000</code> (in ms)<br />
+<code class="highlighter-rouge">Read Timeout: 60000</code> (in ms)<br /><br />Adjusting these values is optional and can be 
+edited later.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/04-service-advanced-fields.png" alt="Advanced Fields" /></p>
+  </li>
+  <li>
+    <p>Create the <strong>Service</strong> by clicking the <strong>Create Service</strong> button at the bottom of
+the form.<br /><br />If successful, you will be automatically redirected to the 
+<strong>Service’s Overview</strong> page.<br /><br />The <strong>Service Overview</strong> page displays 
+information and <strong>Activity</strong> on the <strong>Service</strong>, as well as any <strong>Routes</strong> or 
+<strong>Plugins</strong> that have been connected to the <strong>Service</strong>.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/05-service-overview.png" alt="Service Overview" /></p>
+  </li>
+</ol>
+
+<h3 id="step-2---create-a-new-route-attached-to-the-service">Step 2 - Create a New Route attached to the Service</h3>
+
+<ol>
+  <li>
+    <p>From the <strong>Service Overview</strong> page accessed in 
+<a href="#step-1---create-a-new-service">Step 1</a>, click the <strong>Create New Route</strong> button 
+located in the <strong>Routes</strong> tab at the bottom of the page.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/06-service-route-object.png" alt="Create Route Service ID" /></p>
+  </li>
+  <li>
+    <p>To create a <strong>Route</strong> you must provide the <strong>Service</strong> <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">id</code>, this
+will be automatically filled out if the form was accessed via the 
+<strong>Service Overview</strong> page.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/07-route-service-id.png" alt="Step 7" />
+<br /><br />If this field is not automatically filled, the <strong>Service Id</strong> can be
+found via the <strong>Services Overview</strong> page, accessed by clicking on the <strong>Services</strong>
+tab on the side navigation and then clicking the <strong>clipboard</strong> icon next to the
+desired <strong>Service’s Id</strong> field.</p>
+  </li>
+  <li>
+    <p>The <strong>Route</strong> will also need a name, and at least one of the following fields:
+<strong>Host</strong>, <strong>Methods</strong>, or <strong>Paths</strong><br />To continue with the Mockbin example,
+name the <strong>Route</strong> <code class="highlighter-rouge">test-route</code> with the <strong>Host</strong> <code class="highlighter-rouge">example.com</code>. Once completed,
+click the <strong>Create Route</strong> button at the bottom of the form.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/08-route-form-example.png" alt="Create Route Form" /></p>
+  </li>
+  <li>
+    <p>If created successfully, the page will be automatically redirected back to
+the <strong>Service Overview</strong> page, and the new <strong>Route</strong> will now appear under the
+<strong>Routes</strong> tab.</p>
+
+    <p><img src="https://d92hw8qwgdmef.cloudfront.net/0.35/getting-started/add-a-service/10-completed-route.png" alt="Completed Route" /></p>
+  </li>
+</ol>
+
+<h3 id="step-3---test-the-new-service-and-route">Step 3 - Test the new Service and Route</h3>
+
+<p>Issue the following cURL request to verify that Kong is properly forwarding 
+requests to the Service. Note that by default Kong handles proxy requests on 
+port <code class="highlighter-rouge">:8000</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ curl -i -X GET \
+  --url http://localhost:8000/ \
+  --header 'Host: example.com'
 </code></pre></div></div>
 
-<p>Alternatively, add your first Service in Kong Manager via Services &amp; Routes:</p>
-
-<video width="100%" autoplay="" loop="" controls="">
-  <source src="https://konghq.com/wp-content/uploads/2019/02/first-service-enterprise-34.mov" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-
-<h2 id="2-verify-your-service-has-been-added">2. Verify Your Service Has Been Added</h2>
-
-<p>You’ll get a confirmation message in Kong Manager, or if you used cURL
-you should see a response similar to the following:</p>
-
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-
-<span class="p">{</span><span class="w">
-  </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1488830759000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"example.com"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example-api"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://mockbin.org"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>Kong is now aware of your Service and ready to proxy requests.</p>
-
-<h2 id="3-forward-requests-through-kong-enterprise">3. Forward Requests through Kong Enterprise</h2>
-
-<p>Issue the following cURL request to verify that Kong is properly forwarding
-requests to your Service. Note that by default, Kong handles proxy
-requests on port <code class="highlighter-rouge">:8000</code>:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-  <span class="nt">--url</span> http://localhost:8000/ <span class="se">\</span>
-  <span class="nt">--header</span> <span class="s1">'Host: example.com'</span>
-</code></pre></div></div>
-
-<p>A successful response means Kong is now forwarding requests made to
-<code class="highlighter-rouge">http://localhost:8000</code> to the <code class="highlighter-rouge">upstream_url</code> we configured in step #1,
-and is forwarding the response back to us. Kong knows to do this through
-the header defined in the above cURL request <code class="highlighter-rouge">Host: example.com</code></p>
+<p>A successful response means Kong is now forwarding requests made to 
+http://localhost:8000 to the <strong>Service URL</strong> configured in 
+<a href="#step-1---create-a-new-service">Step 1</a>, and is forwarding the response back.
+Kong knows to do this through the header defined in the above cURL request.</p>
 
 
         </div>
@@ -1593,7 +1648,7 @@ the header defined in the above cURL request <code class="highlighter-rouge">Hos
 </script>
 
 
-    <script src="/assets/app.js?v=1560411647"></script>
+    <script src="/assets/app.js?v=1560467438"></script>
 
     <div id="fb-root"></div>
 
