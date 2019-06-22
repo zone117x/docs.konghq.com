@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>How to Enable Basic Authentication - v0.35-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>How to Enable a Plugin - v0.35-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560798191"
+    href="/assets/styles.css?v=1561199366"
   />
   
 </head>
@@ -532,7 +532,7 @@ window['_fs_namespace'] = 'FS';
           alt="Documentation" />
       </div>
       <div class="page-header-title  page-header-title-enterprise ">
-        <h1>How to Enable Basic Authentication</h1>
+        <h1>How to Enable a Plugin</h1>
       </div>
 
       
@@ -1349,50 +1349,92 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#1-configure-the-basic-auth-plugin-for-your-api">1. Configure the Basic Auth Plugin for your API</a></li>
-  <li><a href="#2-verify-that-the-plugin-is-properly-configured">2. Verify that the Plugin is Properly Configured</a></li>
+  <li><a href="#introduction" class="scroll-to">Introduction</a></li>
+  <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
+  <li><a href="#how-to-enable-a-plugin-in-kong-manager" class="scroll-to">How to Enable a Plugin in Kong Manager</a></li>
 </ul>
 
           
 
-          <h2 id="1-configure-the-basic-auth-plugin-for-your-api">1. Configure the Basic Auth Plugin for your API</h2>
+          <h3 id="introduction">Introduction</h3>
 
-<p>Issue the following cURL request on the previously created API named
-<code class="highlighter-rouge">example-api</code>:</p>
+<p>This guide walks through enabling a <strong>Plugin</strong> on <strong>Kong Enterprise</strong> via
+<strong>Kong Manager</strong>, by showing an example configuration of the 
+<a href="/hub/kong-inc/rate-limiting-advanced"><strong>Rate Limiting Advanced</strong></a> Plugin, the
+<strong>Kong Enterprise</strong> version of the popular <strong>Kong Rate Limiting</strong> Plugin. To
+learn more about <strong>Rate Limiting Advanced</strong>, or see how to configure this 
+Plugin via the command line, checkout the 
+<a href="/hub/kong-inc/rate-limiting-advanced"><strong>Rate Limiting Advanced</strong></a> documentation.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-  <span class="nt">--url</span> http://localhost:8001/apis/example-api/plugins/ <span class="se">\</span>
-  <span class="nt">--data</span> <span class="s1">'name=basic-auth'</span>
-  <span class="nt">--data</span> <span class="s2">"config.hide_credentials=true"</span>
-</code></pre></div></div>
+<h3 id="prerequisites">Prerequisites</h3>
 
-<p>Or, add your first plugin via Kong Manager on the “Plugins” page:</p>
+<ul>
+  <li><strong>Kong Enterprise</strong> is <a href="/enterprise/0.35-x/deployment/installation">installed</a></li>
+  <li><strong>Kong Enterprise</strong> is <a href="/enterprise/0.35-x/getting-started/start-kong">started</a></li>
+  <li>A <a href="/enterprise/0.35-x/getting-started/add-service"><strong>Service and Route</strong></a>
+(optional)</li>
+  <li><strong>admin</strong> or <strong>super-admin</strong> privileges</li>
+</ul>
 
-<video width="100%" autoplay="" loop="" controls="">
- <source src="https://konghq.com/wp-content/uploads/2019/02/add-basic-auth-ent-34.mov" type="video/mp4" />
- Your browser does not support the video tag.
-</video>
+<h3 id="how-to-enable-a-plugin-in-kong-manager">How to Enable a Plugin in Kong Manager</h3>
 
-<h2 id="2-verify-that-the-plugin-is-properly-configured">2. Verify that the Plugin is Properly Configured</h2>
+<ol>
+  <li>
+    <p>Choose the desired <strong>Workspace</strong> in <strong>Kong Manager</strong> and navigate to the
+<strong>Plugins</strong> tab under <strong>API Gateway</strong>.</p>
 
-<p>Issue the following cURL request to verify that the [basic-auth][basic-auth]
-plugin was properly configured on the API:</p>
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/01-plugin-tab.png" alt="Plugins Tab" /></p>
+  </li>
+  <li>
+    <p>Click the <strong>Add New Plugin</strong> button to open the <strong>Plugins</strong> page, which lists
+all the <strong>Kong Enterprise</strong> bundled <strong>Plugins</strong> available.
+<br /><br />Scroll to the <strong>Traffic Control</strong> section and select <strong>Rate Limiting EE</strong>.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-  <span class="nt">--url</span> http://localhost:8000/ <span class="se">\</span>
-  <span class="nt">--header</span> <span class="s1">'Host: example.com'</span>
-</code></pre></div></div>
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/02-rate-limiting.png" alt="Rate Limiting EE" />
+<br /><br />This will open the <strong>Plugin Configuration</strong> form for <strong>Rate Limiting EE</strong>.</p>
 
-<p>Since you did not specify the required header or parameter, the response should 
-be <code class="highlighter-rouge">401 Unauthorized</code>:</p>
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/03-plugin-form.png" alt="Configuration Form" />
+<br />Note that the <strong>Plugin</strong> will automatically be enabled when the form is
+submitted. Toggle the <strong>This plugin is Enabled</strong> button at the top of the form
+to configure the <strong>Plugin</strong> without enabling it.</p>
 
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">401</span> <span class="ne">Unauthorized</span>
-<span class="s">...</span>
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/04-toggle-enable.png" alt="Toggle Enable" /></p>
+  </li>
+  <li>
+    <p>Define the <strong>Plugin</strong> as <em>global</em> or <em>scoped</em>.
+<br /><br /><em>Global</em> will apply the <strong>Plugin</strong> to <em>every</em> <strong>Service</strong> and
+<strong>Route</strong> in the <strong>Workspace</strong>.
+<br /><em>Scoped</em> will apply the <strong>Plugin</strong> to one <strong>Service</strong>, <strong>Route</strong>, and/or
+<strong>Consumer</strong>.
+<br /><br />To use this option, select the <strong>Scoped</strong> radio button and select the 
+desired <strong>Service</strong>, <strong>Route</strong>, or <strong>Consumer</strong> from the dropdown.</p>
 
-{
-  "message": "No API key found in request"
-}
-</code></pre></div></div>
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/05-global-scoped.png" alt="Connect test-service" /></p>
+  </li>
+  <li>Fill out the <strong>configuration</strong> form.<br /><br />For <strong>Rate Limiting EE</strong> the
+following fields are <em>required</em>:<br />-<code class="highlighter-rouge">config.limit</code><br />-<code class="highlighter-rouge">config.sync_rate</code><br />
+-<code class="highlighter-rouge">config.window_size</code><br />More information on these fields can be found in the
+<a href="/hub/kong-inc/rate-limiting-advanced/#parameters"><strong>Rate Limiting Advanced</strong> documentation</a>
+<br /><br />For this example set the required fields to the following:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   config.limit = 10
+   config.sync_rate = 10
+   config.window_size = 60
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Click the <strong>Create</strong> button at the bottom of the form to save and
+enable the <strong>Plugin</strong>. If it is successful, the page will automatically 
+redirect to the <strong>Plugin Overview</strong>, with the <strong>Rate Limiting</strong> Plugin
+listed.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/06-plugin-overview.png" alt="Plugin Overview" />
+<br /><br />If the <strong>Plugin</strong> is <em>scoped</em> to a <strong>Service</strong>, <strong>Route</strong>, or
+<strong>Consumer</strong>, the <strong>Plugin</strong> will also be listed on that object’s <strong>Overview</strong>
+page.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/getting-started/add-a-plugin/07-service-plugin-table.png" alt="Service Overview" /></p>
+  </li>
+</ol>
 
 
         </div>
@@ -1566,7 +1608,7 @@ be <code class="highlighter-rouge">401 Unauthorized</code>:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560798191"></script>
+    <script src="/assets/app.js?v=1561199366"></script>
 
     <div id="fb-root"></div>
 

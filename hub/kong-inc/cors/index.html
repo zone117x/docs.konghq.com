@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1560798191"
+    href="/assets/styles.css?v=1561199366"
   />
   
 </head>
@@ -964,8 +964,15 @@ making the following request:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=cors"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.origins=http://mockbin.com"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.methods=GET, POST"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.headers=Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.methods=GET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.methods=POST"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Accept"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Accept-Version"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-Length"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-MD5"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-Type"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Date"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=X-Auth-Token"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.exposed_headers=X-Auth-Token"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.credentials=true"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.max_age=3600"</span>
@@ -981,8 +988,8 @@ adding this section do your declarative configuration file:</p>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">origins</span><span class="pi">:</span> <span class="s">http://mockbin.com</span>
-    <span class="na">methods</span><span class="pi">:</span> <span class="s">GET, POST</span>
-    <span class="na">headers</span><span class="pi">:</span> <span class="s">Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token</span>
+    <span class="na">methods</span><span class="pi">:</span> <span class="s">GETPOST</span>
+    <span class="na">headers</span><span class="pi">:</span> <span class="s">AcceptAccept-VersionContent-LengthContent-MD5Content-TypeDateX-Auth-Token</span>
     <span class="na">exposed_headers</span><span class="pi">:</span> <span class="s">X-Auth-Token</span>
     <span class="na">credentials</span><span class="pi">:</span> <span class="no">true</span>
     <span class="na">max_age</span><span class="pi">:</span> <span class="s">3600</span>
@@ -1003,8 +1010,15 @@ adding this section do your declarative configuration file:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=cors"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.origins=http://mockbin.com"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.methods=GET, POST"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.headers=Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.methods=GET"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.methods=POST"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Accept"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Accept-Version"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-Length"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-MD5"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Content-Type"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=Date"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.headers=X-Auth-Token"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.exposed_headers=X-Auth-Token"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.credentials=true"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.max_age=3600"</span>
@@ -1020,8 +1034,8 @@ adding this section do your declarative configuration file:</p>
   <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">origins</span><span class="pi">:</span> <span class="s">http://mockbin.com</span>
-    <span class="na">methods</span><span class="pi">:</span> <span class="s">GET, POST</span>
-    <span class="na">headers</span><span class="pi">:</span> <span class="s">Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Auth-Token</span>
+    <span class="na">methods</span><span class="pi">:</span> <span class="s">GETPOST</span>
+    <span class="na">headers</span><span class="pi">:</span> <span class="s">AcceptAccept-VersionContent-LengthContent-MD5Content-TypeDateX-Auth-Token</span>
     <span class="na">exposed_headers</span><span class="pi">:</span> <span class="s">X-Auth-Token</span>
     <span class="na">credentials</span><span class="pi">:</span> <span class="no">true</span>
     <span class="na">max_age</span><span class="pi">:</span> <span class="s">3600</span>
@@ -1075,7 +1089,7 @@ adding this section do your declarative configuration file:</p>
           
         </td>
         <td></td>
-        <td><p>A comma-separated list of allowed domains for the <code class="highlighter-rouge">Access-Control-Allow-Origin</code> header. If you wish to allow all origins, add <code class="highlighter-rouge">*</code> as a single value to this configuration field. The accepted values can either be flat strings or PCRE regexes. <strong>NOTE</strong>: Prior to Kong 0.10.x, this parameter was <code class="highlighter-rouge">config.origin</code> (note the change in trailing <code class="highlighter-rouge">s</code>), and only accepted a single value, or the <code class="highlighter-rouge">*</code> special value.</p>
+        <td><p>List of allowed domains for the <code class="highlighter-rouge">Access-Control-Allow-Origin</code> header. If you wish to allow all origins, add <code class="highlighter-rouge">*</code> as a single value to this configuration field. The accepted values can either be flat strings or PCRE regexes. <strong>NOTE</strong>: Prior to Kong 0.10.x, this parameter was <code class="highlighter-rouge">config.origin</code> (note the change in trailing <code class="highlighter-rouge">s</code>), and only accepted a single value, or the <code class="highlighter-rouge">*</code> special value.</p>
 </td>
       </tr>
     
@@ -1086,7 +1100,7 @@ adding this section do your declarative configuration file:</p>
         </td>
         <td><p><code class="highlighter-rouge">GET, HEAD, PUT, PATCH, POST</code></p>
 </td>
-        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Allow-Methods</code> header, expects a comma delimited string (e.g. <code class="highlighter-rouge">GET,POST</code>).</p>
+        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Allow-Methods</code> header</p>
 </td>
       </tr>
     
@@ -1097,7 +1111,7 @@ adding this section do your declarative configuration file:</p>
         </td>
         <td><p>Value of the <code class="highlighter-rouge">Access-Control-Request-Headers</code> request header</p>
 </td>
-        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Allow-Headers</code> header, expects a comma delimited string (e.g. <code class="highlighter-rouge">Origin, Authorization</code>).</p>
+        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Allow-Headers</code> header</p>
 </td>
       </tr>
     
@@ -1107,7 +1121,7 @@ adding this section do your declarative configuration file:</p>
           
         </td>
         <td></td>
-        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Expose-Headers</code> header, expects a comma delimited string (e.g. <code class="highlighter-rouge">Origin, Authorization</code>). If not specified, no custom headers are exposed.</p>
+        <td><p>Value for the <code class="highlighter-rouge">Access-Control-Expose-Headers</code> header. If not specified, no custom headers are exposed.</p>
 </td>
       </tr>
     
@@ -1351,7 +1365,7 @@ Reference</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1560798191"></script>
+    <script src="/assets/app.js?v=1561199366"></script>
 
     <div id="fb-root"></div>
 
