@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1561199366"
+    href="/assets/styles.css?v=1561445331"
   />
   
 </head>
@@ -1246,9 +1246,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#how-to-understanding-dev-portal-routing--authentication" class="scroll-to">How To: Understanding Dev Portal Routing &amp; Authentication</a></li>
   <li><a href="#javascript-hooks" class="scroll-to">JavaScript hooks</a></li>
   <li><a href="#how-authentication-is-stored-in-local-storage" class="scroll-to">How Authentication is Stored in Local Storage</a></li>
-  <li><a href="#" class="scroll-to">Next Steps</a>
-     -  <a href="#" class="scroll-to"><a href="/enterprise/0.34-x/developer-portal/configuration/smtp">SMTP</a></a>
-     -  <a href="#" class="scroll-to"><a href="/enterprise/0.34-x/developer-portal/configuration/workspaces">Working with Workspaces</a></a></li>
+  <li><a href="#" class="scroll-to">Next Steps</a></li>
 </ul>
 
           
@@ -1633,16 +1631,16 @@ error messages:</p>
   <span class="c1">//  message: ""</span>
   <span class="c1">// },</span>
     <span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">status</span><span class="p">:</span> <span class="s1">'requested'</span><span class="p">,</span>
-      <span class="na">message</span><span class="p">:</span> <span class="s2">"You have requested access, but your account is pending approval."</span>
+      <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">requested</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">message</span><span class="p">:</span> <span class="dl">"</span><span class="s2">You have requested access, but your account is pending approval.</span><span class="dl">"</span>
     <span class="p">},</span>
     <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">status</span><span class="p">:</span> <span class="s1">'rejected'</span><span class="p">,</span>
-      <span class="na">message</span><span class="p">:</span> <span class="s2">"This account has been rejected."</span>
+      <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rejected</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">message</span><span class="p">:</span> <span class="dl">"</span><span class="s2">This account has been rejected.</span><span class="dl">"</span>
     <span class="p">},</span>
     <span class="mi">3</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">status</span><span class="p">:</span> <span class="s1">'revoked'</span><span class="p">,</span>
-      <span class="na">message</span><span class="p">:</span> <span class="s2">"This account has been revoked."</span>
+      <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">revoked</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">message</span><span class="p">:</span> <span class="dl">"</span><span class="s2">This account has been revoked.</span><span class="dl">"</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -1652,14 +1650,14 @@ error messages:</p>
   <span class="kd">var</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">]</span> 
                        <span class="o">&amp;&amp;</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">resp</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">status</span><span class="p">].</span><span class="nx">message</span> 
                        <span class="o">||</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Login failed. '</span> <span class="o">+</span> <span class="nx">errorMessage</span><span class="p">)</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Login failed. </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">errorMessage</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="cm">/* 
  * When a user attempts to register, but registration fails.
  */</span>
 <span class="kd">function</span> <span class="nx">onRegistrationError</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Registration failed. '</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Registration failed. </span><span class="dl">'</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getMessageFromError</span><span class="p">(</span><span class="nx">error</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="cm">/**
@@ -1668,7 +1666,7 @@ error messages:</p>
  * to the index route '/', PORTAL_GUI_URL
 */</span>
 <span class="kd">function</span> <span class="nx">onRegistrationSuccess</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">alert</span><span class="p">(</span><span class="s1">'Thank you for registering! Your request will be reviewed.'</span><span class="p">)</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Thank you for registering! Your request will be reviewed.</span><span class="dl">'</span><span class="p">)</span>
   <span class="nb">window</span><span class="p">.</span><span class="nx">navigateToHome</span><span class="p">()</span> <span class="c1">// Navigates to PORTAL_GUI_URL</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -1887,7 +1885,7 @@ does not use Local Storage.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1561199366"></script>
+    <script src="/assets/app.js?v=1561445331"></script>
 
     <div id="fb-root"></div>
 
