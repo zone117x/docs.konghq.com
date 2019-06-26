@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1561445331"
+    href="/assets/styles.css?v=1561591604"
   />
   
 </head>
@@ -974,9 +974,7 @@ making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=oauth2"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.scopes=email"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.scopes=phone"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.scopes=address"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.scopes=email,phone,address"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.mandatory_scope=true"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.enable_authorization_code=true"</span>
 </code></pre></div></div>
@@ -990,7 +988,7 @@ adding this section do your declarative configuration file:</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">oauth2</span>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">scopes</span><span class="pi">:</span> <span class="s">emailphoneaddress</span>
+    <span class="na">scopes</span><span class="pi">:</span> <span class="s">email,phone,address</span>
     <span class="na">mandatory_scope</span><span class="pi">:</span> <span class="no">true</span>
     <span class="na">enable_authorization_code</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
@@ -1042,7 +1040,7 @@ adding this section do your declarative configuration file:</p>
           
         </td>
         <td></td>
-        <td><p>Describes an array of scope names that will be available to the end user</p>
+        <td><p>Describes an array of comma separated scope names that will be available to the end user</p>
 </td>
       </tr>
     
@@ -1269,7 +1267,7 @@ blacklist groups of users.</p>
     <span class="nt">--data</span> <span class="s2">"name=Test%20Application"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"client_id=SOME-CLIENT-ID"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"client_secret=SOME-CLIENT-SECRET"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"redirect_uris=http://some-domain/endpoint/"</span>
+    <span class="nt">--data</span> <span class="s2">"redirect_uris[]=http://some-domain/endpoint/"</span>
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">consumer_id</code>: The <a href="/latest/admin-api/#consumer-object">Consumer</a> entity to associate the credentials to</p>
@@ -1316,7 +1314,7 @@ blacklist groups of users.</p>
 </ul>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/oauth2_tokens <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s1">'credential.id=KONG-APPLICATION-ID'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s1">'credential={"id": "KONG-APPLICATION-ID" }'</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"token_type=bearer"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"access_token=SOME-TOKEN"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"refresh_token=SOME-TOKEN"</span> <span class="se">\</span>
@@ -1724,7 +1722,7 @@ blacklist groups of users.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1561445331"></script>
+    <script src="/assets/app.js?v=1561591604"></script>
 
     <div id="fb-root"></div>
 

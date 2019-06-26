@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1561445331"
+    href="/assets/styles.css?v=1561591604"
   />
   
 </head>
@@ -1442,26 +1442,26 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#upgrade-to-100" class="scroll-to">Upgrade to <code class="highlighter-rouge">1.0.0</code></a></li>
-  <li><a href="#1-breaking-changes" class="scroll-to">1. Breaking Changes</a>
+  <li><a href="#upgrade-to-100">Upgrade to <code class="highlighter-rouge">1.0.0</code></a></li>
+  <li><a href="#1-breaking-changes">1. Breaking Changes</a>
     <ul>
-      <li><a href="#dependencies" class="scroll-to">Dependencies</a></li>
-      <li><a href="#configuration" class="scroll-to">Configuration</a></li>
-      <li><a href="#core" class="scroll-to">Core</a></li>
-      <li><a href="#plugins" class="scroll-to">Plugins</a></li>
-      <li><a href="#admin-api" class="scroll-to">Admin API</a></li>
+      <li><a href="#dependencies">Dependencies</a></li>
+      <li><a href="#configuration">Configuration</a></li>
+      <li><a href="#core">Core</a></li>
+      <li><a href="#plugins">Plugins</a></li>
+      <li><a href="#admin-api">Admin API</a></li>
     </ul>
   </li>
-  <li><a href="#2-deprecation-notices" class="scroll-to">2. Deprecation Notices</a></li>
-  <li><a href="#3-suggested-upgrade-path" class="scroll-to">3. Suggested Upgrade Path</a>
+  <li><a href="#2-deprecation-notices">2. Deprecation Notices</a></li>
+  <li><a href="#3-suggested-upgrade-path">3. Suggested Upgrade Path</a>
     <ul>
-      <li><a href="#preliminary-checks" class="scroll-to">Preliminary Checks</a></li>
-      <li><a href="#migration-steps-from-014" class="scroll-to">Migration Steps from 0.14</a></li>
-      <li><a href="#migration-steps-from-10-release-candidates" class="scroll-to">Migration Steps from 1.0 Release Candidates</a></li>
+      <li><a href="#preliminary-checks">Preliminary Checks</a></li>
+      <li><a href="#migration-steps-from-014">Migration Steps from 0.14</a></li>
+      <li><a href="#migration-steps-from-10-release-candidates">Migration Steps from 1.0 Release Candidates</a></li>
     </ul>
   </li>
-  <li><a href="#upgrade-path-for-patch-releases" class="scroll-to">Upgrade Path for Patch Releases</a></li>
-  <li><a href="#installing-10-on-a-fresh-datastore" class="scroll-to">Installing 1.0 on a Fresh Datastore</a></li>
+  <li><a href="#upgrade-path-for-patch-releases">Upgrade Path for Patch Releases</a></li>
+  <li><a href="#installing-10-on-a-fresh-datastore">Installing 1.0 on a Fresh Datastore</a></li>
 </ul>
 
           
@@ -1530,8 +1530,8 @@ it if you are using a custom template. The changes are detailed in the following
 index d4e416bc..8f268ffd 100644
 </span><span class="gd">--- a/kong/templates/nginx_kong.lua
 </span><span class="gi">+++ b/kong/templates/nginx_kong.lua
-</span><span class="p">@@ -66,7 +66,9 @@</span> upstream kong_upstream {
-     balancer_by_lua_block {
+</span><span class="gu">@@ -66,7 +66,9 @@ upstream kong_upstream {
+</span>     balancer_by_lua_block {
          Kong.balancer()
      }
 <span class="gi">+&gt; if upstream_keepalive &gt; 0 then
@@ -1540,8 +1540,8 @@ index d4e416bc..8f268ffd 100644
 </span> }
 
  server {
-<span class="p">@@ -85,7 +87,7 @@</span> server {
- &gt; if proxy_ssl_enabled then
+<span class="gu">@@ -85,7 +87,7 @@ server {
+</span> &gt; if proxy_ssl_enabled then
      ssl_certificate $;
      ssl_certificate_key $;
 <span class="gd">-    ssl_protocols TLSv1.1 TLSv1.2;
@@ -1549,8 +1549,8 @@ index d4e416bc..8f268ffd 100644
 </span>     ssl_certificate_by_lua_block {
          Kong.ssl_certificate()
      }
-<span class="p">@@ -200,7 +202,7 @@</span> server {
- &gt; if admin_ssl_enabled then
+<span class="gu">@@ -200,7 +202,7 @@ server {
+</span> &gt; if admin_ssl_enabled then
      ssl_certificate $;
      ssl_certificate_key $;
 <span class="gd">-    ssl_protocols TLSv1.1 TLSv1.2;
@@ -1990,7 +1990,7 @@ $ kong start [-c config]
 </script>
 
 
-    <script src="/assets/app.js?v=1561445331"></script>
+    <script src="/assets/app.js?v=1561591604"></script>
 
     <div id="fb-root"></div>
 
