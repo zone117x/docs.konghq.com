@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Streams and Service Mesh - v1.2.x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Kubernetes Sidecar Injector integration | Kong</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562082873"
+    href="/assets/styles.css?v=1562197725"
   />
   
 </head>
@@ -131,7 +131,7 @@ window['_fs_namespace'] = 'FS';
 
 
   <body
-    id=""
+    id="/hub/kong-inc/kubernetes-sidecar-injector/index"
     
     data-spy="scroll"
     data-target="#scroll-sidebar"
@@ -515,1576 +515,366 @@ window['_fs_namespace'] = 'FS';
 <div class="overlay"></div>
 
 
-    <div class="page ">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- BEGIN PAGE OUTPUT -->
+
+<div class="page page-extension-profile">
+  
+    
+
+
   <header class="page-header">
     <div class="container">
-      <div class="edit-this-page">
-        <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/1.2.x/streams-and-service-mesh.md"><i class="fa fa-github"></i>
-          Edit this Page</a>
-      </div>
-      <nav class="docs-navigation">
-        <a href="/"  class="active" >Kong</a>
-        <a href="/enterprise" >Kong Enterprise</a>
-        <span class="sidebar-toggle">Open Sidebar</span>
-      </nav>
-      <div class="page-header-icon">
-        <img src="/assets/images/icons/icn-documentation-ce.svg"
-          alt="Documentation" />
-      </div>
-      <div class="page-header-title ">
-        <h1>Streams and Service Mesh</h1>
+      
+        <div class="page-header-icon">
+          <img src="/assets/images/icons/hub/kong-inc_kubernetes-sidecar-injector.png" alt="header icon"/>
+        </div>
+      
+
+      <div class="page-header-title">
+        
+
+        <h1>Kubernetes Sidecar Injector</h1>
+
+        
       </div>
 
       
-      <div class="versions-dropdown dropdown page-header-right ">
-        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          Version 1.2.x
-          <em>(latest)</em>
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
-          
-          <li  class="active" >
-            <a href="/1.2.x"  class="active" >
-              1.2.x <em>(latest)</em>
-            </a>
-          </li>
-          
-          <li >
-            <a href="/1.1.x" >
-              1.1.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/1.0.x" >
-              1.0.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.14.x" >
-              0.14.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.13.x" >
-              0.13.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.12.x" >
-              0.12.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.11.x" >
-              0.11.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.10.x" >
-              0.10.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.9.x" >
-              0.9.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.8.x" >
-              0.8.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.7.x" >
-              0.7.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.6.x" >
-              0.6.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.5.x" >
-              0.5.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.4.x" >
-              0.4.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.3.x" >
-              0.3.x 
-            </a>
-          </li>
-          
-          <li >
-            <a href="/0.2.x" >
-              0.2.x 
-            </a>
-          </li>
-          
-        </ul>
-        
-        <div id="getkong-algolia-search" class="search-input">
-          <i class="fa fa-search"></i>
-          <input type="text" placeholder="Search" id="getkong-algolia-search-input" />
-        </div>
-        
-      </div>
+
       
     </div>
   </header>
 
+
+  
+
   <div class="container">
+
+    
+
+    
+
     <aside class="page-navigation">
-      <span class="close-sidebar"></span>
+      <span class="close-sidebar">Close Sidebar</span>
+      
+        <nav>
+          <ul>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#prerequisites">Prerequisites</a></li>
+  <li><a href="#installation-steps">Installation Steps</a></li>
+  <li><a href="#usage">Usage</a></li>
+</ul>
+
+        </nav>
       
 
-      
-      <nav>
+      <table id="about-extn">
+        <tr>
+          <th colspan="2">About this Integration</th>
+        </tr>
+        <tr class="publisher">
+          <td>Made by</td>
+          <td>
+          
+            
+<svg width="78" height="15" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd">
+    <path d="M23.685 7.372l-1.217 1.265V12h-1.313V2.047h1.313v4.922l4.423-4.922h1.586L24.56 6.442 28.784 12h-1.572l-3.527-4.628zm5.714.861c0-.724.143-1.376.428-1.955a3.187 3.187 0 0 1 1.19-1.34c.507-.314 1.087-.471 1.739-.471 1.007 0 1.822.348 2.444 1.046.622.697.933 1.624.933 2.782v.089c0 .72-.138 1.366-.414 1.938a3.14 3.14 0 0 1-1.182 1.336c-.513.32-1.102.479-1.767.479-1.003 0-1.815-.349-2.437-1.046-.623-.697-.934-1.62-.934-2.769v-.089zm1.272.15c0 .821.19 1.48.57 1.976.381.497.89.745 1.529.745.642 0 1.153-.251 1.53-.755.379-.503.568-1.209.568-2.116 0-.81-.192-1.468-.577-1.972-.386-.503-.897-.755-1.535-.755-.624 0-1.128.248-1.51.745-.384.497-.575 1.208-.575 2.133zm8.244-3.78l.041.93c.565-.71 1.303-1.066 2.215-1.066 1.563 0 2.351.882 2.365 2.645V12h-1.265V7.105c-.004-.533-.126-.927-.365-1.182-.24-.255-.612-.383-1.118-.383-.41 0-.77.11-1.08.328-.31.219-.551.506-.725.861V12H37.72V4.604h1.196zm6.228 3.637c0-1.153.266-2.07.8-2.751.533-.682 1.239-1.022 2.119-1.022.902 0 1.606.319 2.112.957l.061-.82h1.156v7.218c0 .957-.284 1.712-.851 2.263-.568.551-1.33.827-2.287.827a3.804 3.804 0 0 1-1.566-.342c-.51-.228-.9-.54-1.168-.936l.656-.759c.542.67 1.205 1.005 1.99 1.005.614 0 1.094-.173 1.438-.52.344-.346.516-.834.516-1.463v-.635c-.506.583-1.196.875-2.071.875-.866 0-1.567-.349-2.102-1.046-.536-.697-.803-1.648-.803-2.85zm1.271.144c0 .834.171 1.489.513 1.965.342.476.82.714 1.435.714.798 0 1.383-.362 1.757-1.086V6.6c-.387-.707-.968-1.06-1.743-1.06-.615 0-1.096.24-1.442.718-.347.478-.52 1.187-.52 2.126zM58.37 12h-1.312V2.047h1.312V12zm3.398-7.396l.04.93c.566-.712 1.304-1.067 2.215-1.067 1.564 0 2.352.882 2.366 2.645V12h-1.265V7.105c-.005-.533-.126-.927-.366-1.182-.239-.255-.612-.383-1.117-.383-.41 0-.77.11-1.08.328-.31.219-.552.506-.725.861V12H60.57V4.604h1.197zm9.495 6.5c.45 0 .845-.136 1.182-.41.338-.273.524-.615.56-1.025h1.197a2.293 2.293 0 0 1-.437 1.21 2.881 2.881 0 0 1-1.077.916 3.107 3.107 0 0 1-1.425.342c-1.007 0-1.808-.336-2.403-1.009-.595-.672-.892-1.591-.892-2.758v-.212c0-.72.132-1.36.396-1.92a3.02 3.02 0 0 1 1.138-1.306c.495-.31 1.08-.465 1.754-.465.83 0 1.519.248 2.068.745.549.497.842 1.142.878 1.934h-1.196c-.037-.478-.218-.871-.544-1.179-.325-.307-.728-.461-1.206-.461-.643 0-1.14.231-1.494.694-.353.462-.53 1.131-.53 2.006v.24c0 .852.176 1.508.527 1.968.35.46.852.69 1.504.69zm4.388.233c0-.219.065-.401.195-.547.13-.146.325-.219.585-.219.26 0 .457.073.591.219a.776.776 0 0 1 .202.547c0 .21-.068.385-.202.526-.134.142-.332.212-.591.212-.26 0-.455-.07-.585-.212a.748.748 0 0 1-.195-.526z" fill="#002A49"/>
+    <path fill="#149DCB" d="M5.143 11.531l-.385.487.87 1.355-.09.627H9.23l.255-.627-1.484-1.842z"/>
+    <path fill="#0EB399" d="M7.162 3.284l-1.335 2.33 6.514 7.682-.186.704h2.988l.542-2.499-6.971-8.22z"/>
+    <path fill="#3DB664" d="M9.93 0L8.049 1.532l-.635 1.166H8.99l2.705 3.207 1.608-1.316v-.836l-.559-.781.413-.428z"/>
+    <path fill="#17BDCB" d="M3.2 8.024h-.88L0 10.96V14h2.489l.438-.57 1.921-2.478h2.776l.855-1.304-3.01-3.562z"/>
+  </g>
+</svg>
+
+
+          
+          </td>
+        </tr>
+        <tr class="categories">
+          <td>Categories</td>
+          <td>
+            <ul class="categories">
+            
+              
+              <li><a href="/hub/#deployment">Deployment</a></li>
+            
+            </ul>
+          </td>
+        </tr>
         
-        <h5>Getting Started</h5>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/1.2.x/getting-started/introduction"  >
-              Introduction
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/getting-started/quickstart"  >
-              Five-minute quickstart
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/getting-started/configuring-a-service"  >
-              Configuring a Service
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/getting-started/enabling-plugins"  >
-              Enabling Plugins
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/getting-started/adding-consumers"  >
-              Adding Consumers
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
+          <tr class="source-code">
+            <td>Source</td>
+            <td>
+              <ul>
+              
+                <li>
+                  <a href="https://github.com/Kong/kubernetes-sidecar-injector">Code</a>
+                </li>
+              
+              
+              </ul>
+            </td>
+          </tr>
         
-        <h5>Guides &amp; References</h5>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/1.2.x/configuration"  >
-              Configuration reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/cli"  >
-              CLI reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/proxy"  >
-              Proxy reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/auth"  >
-              Authentication reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/loadbalancing"  >
-              Load balancing reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/health-checks-circuit-breakers"  >
-              Health checks and circuit breakers reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/clustering"  >
-              Clustering reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/logging"  >
-              Logging reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/network"  >
-              Network &amp; Firewall
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/secure-admin-api"  >
-              Securing the Admin API
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/plugin-development"  >
-              Plugin Development Guide
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development" >Introduction</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/file-structure" >File structure</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/custom-logic" >Implementing custom logic</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/plugin-configuration" >Plugin configuration</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/access-the-datastore" >Accessing the datastore</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/custom-entities" >Storing custom entities</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/entities-cache" >Caching custom entities</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/admin-api" >Extending the Admin API</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/tests" >Writing tests</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/plugin-development/distribution" >(un)Installing your plugin</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/pdk"  >
-              Plugin Development Kit
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.client" >kong.client</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.ctx" >kong.ctx</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.ip" >kong.ip</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.log" >kong.log</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.node" >kong.node</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.request" >kong.request</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.response" >kong.response</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.router" >kong.router</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.service" >kong.service</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.service.request" >kong.service.request</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.service.response" >kong.service.response</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/pdk/kong.table" >kong.table</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
         
-        <a href="/1.2.x/admin-api/">
-          <h5>Admin API</h5>
-        </a>
+          <tr class="kong-editions">
+            <th colspan="2">
+              
+                Bundled with...
+              
+            </th>
+          </tr>
+          <tr class="kong-compatibility">
+            <td colspan="2">
+              <ul class="compat-list">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+              </ul><ul class="compat-list">
+              
+                
+                  
+                  <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.2.x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.1.x
+                  </li>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+              </ul>
+            </td>
+          </tr>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/1.2.x/db-less-admin-api"  >
-              DB-less
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/db-less-admin-api/#declarative-configuration"  >
-              Declarative Configuration
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#supported-content-types"  >
-              Supported Content Types
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#information-routes"  >
-              Information Routes
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-node-information" >Retrieve Node Information</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-node-status" >Retrieve Node Status</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#tags"  >
-              Tags
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-all-tags" >List All Tags</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-entity-ids-by-tag" >List Entity Ids by Tag</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#service-object"  >
-              Service Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-service" >Add Service</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-services" >List Services</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-service" >Retrieve Service</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-service" >Update Service</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-service" >Update Or Create Service</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-service" >Delete Service</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#route-object"  >
-              Route Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-route" >Add Route</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-routes" >List Routes</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-route" >Retrieve Route</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-route" >Update Route</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-route" >Update Or Create Route</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-route" >Delete Route</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#consumer-object"  >
-              Consumer Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-consumer" >Add Consumer</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-consumers" >List Consumers</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-consumer" >Retrieve Consumer</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-consumer" >Update Consumer</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-consumer" >Update Or Create Consumer</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-consumer" >Delete Consumer</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#plugin-object"  >
-              Plugin Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-plugin" >Add Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-plugins" >List Plugins</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-plugin" >Retrieve Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-plugin" >Update Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-plugin" >Update Or Create Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-plugin" >Delete Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-enabled-plugins" >Retrieve Enabled Plugins</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-plugin-schema" >Retrieve Plugin Schema</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#certificate-object"  >
-              Certificate Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-certificate" >Add Certificate</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-certificates" >List Certificates</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-certificate" >Retrieve Certificate</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-certificate" >Update Certificate</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-certificate" >Update Or Create Certificate</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-certificate" >Delete Certificate</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#sni-object"  >
-              SNI Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-sni" >Add SNI</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-snis" >List SNIs</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-sni" >Retrieve SNI</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-sni" >Update SNI</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-sni" >Update Or Create SNI</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-sni" >Delete SNI</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#upstream-object"  >
-              Upstream Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-upstream" >Add Upstream</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-upstreams" >List Upstreams</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#retrieve-upstream" >Retrieve Upstream</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-upstream" >Update Upstream</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#update-or-create-upstream" >Update Or Create Upstream</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-upstream" >Delete Upstream</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#show-upstream-health-for-node" >Show Upstream Health for Node</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/1.2.x/admin-api/#target-object"  >
-              Target Object
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#add-target" >Add Target</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-targets" >List Targets</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#delete-target" >Delete Target</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#set-target-as-healthy" >Set Target As Healthy</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#set-target-as-unhealthy" >Set Target As Unhealthy</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/1.2.x/admin-api/#list-all-targets" >List All Targets</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
+        
+      </table>
+
     </aside>
 
-    <div class="page-content-container" id="documentation">
+    <div class="page-content-container">
       <div class="page-content">
         <div class="content show-anchor-links">
           
-          <div class="alert alert-ee">
-            Maybe you were looking for the <a href="/enterprise"><strong>Enterprise Documentation</strong></a>
-            instead?
-          </div>
-          
-          
+      
 
-          
-          
-          <h2 id="table-of-contents">Table of Contents</h2>
-          <ul>
-  <li><a href="#introduction" class="scroll-to">Introduction</a></li>
-  <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
-  <li><a href="#terms-and-definitions" class="scroll-to">Terms and Definitions</a></li>
-  <li><a href="#step-1-start-service-b" class="scroll-to">Step 1: Start Service B</a></li>
-  <li><a href="#step-2-ensure-that-service-a-can-connect-service-b" class="scroll-to">Step 2: Ensure that Service A can connect Service B</a></li>
-  <li><a href="#step-3-start-kong-control-plane" class="scroll-to">Step 3: Start Kong Control Plane</a></li>
-  <li><a href="#step-4-start-kong-a" class="scroll-to">Step 4: Start Kong A</a>
-    <ul>
-      <li><a href="#about-the-transparent--option" class="scroll-to">About the <code class="highlighter-rouge">transparent</code>  option</a></li>
-    </ul>
-  </li>
-  <li><a href="#step-5-start-kong-b" class="scroll-to">Step 5: Start Kong B</a></li>
-  <li><a href="#step-6-create-kong-services-and-routes" class="scroll-to">Step 6: Create Kong Services and Routes</a></li>
-  <li><a href="#step-7-configure-transparent-proxying-rules" class="scroll-to">Step 7: Configure Transparent Proxying Rules</a></li>
-  <li><a href="#step-8-start-tailing-kong-logs" class="scroll-to">Step 8: Start tailing Kong Logs</a></li>
-  <li><a href="#step-9-connect-service-a-to-service-b-using-two-sidecars" class="scroll-to">Step 9: Connect Service A to Service B using Two Sidecars</a>
-    <ul>
-      <li><a href="#about-service-mesh" class="scroll-to">About Service Mesh</a></li>
-    </ul>
-  </li>
-  <li><a href="#step-10-stop-kong-nodes-and-cleanup" class="scroll-to">Step 10: Stop Kong Nodes and Cleanup</a></li>
-</ul>
+      
 
-          
+      <p>The plugin will inject Kong dataplane nodes and form a service mesh on top of Kubernetes</p>
 
-          <h2 id="introduction">Introduction</h2>
+
+      
+
+      
+
+      
+
+      
+
+
+      <h2 id="introduction">Introduction</h2>
 
 <p>Kong <code class="highlighter-rouge">0.15.0</code> / <code class="highlighter-rouge">1.0.0</code> added the capability to proxy and route raw <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">tls</code>
 streams and deploy Kong using a service-mesh sidecar pattern with mutual
-<code class="highlighter-rouge">tls</code> between Kong nodes. This tutorial walks you trough a basic setup of
-a simplified Service Mesh deployment using simple tooling: two servers,
-talking with each other via two Kong nodes, in a single host. It introduces
-new concepts, configuration settings and tools along the way. In a production
-environment, almost all of this should be automated. It is still nice to
-know how things work on a lower level. If you are interested in running
-Service Mesh with Kubernetes, please head over to our
-<a href="https://github.com/Kong/kong-mesh-dist-kubernetes">Kubernetes and Service Mesh example repo</a>.</p>
-
-<p>Kong supports gradual deployment of a sidecar pattern. It can work both as
-a traditional gateway and as a service mesh node at the same time. In Kong
-the service mesh is built dynamically, and it only exists when there are
-active connections between the Kong nodes. In short it means that Kong nodes
-do not have to know about other Kong nodes, and services do not have to
-know about Kong.</p>
+<code class="highlighter-rouge">tls</code> between Kong nodes. This tutorial walks you through setting up a Kong service
+mesh on Kubernetes with our <a href="https://github.com/Kong/kubernetes-sidecar-injector">Kubernetes sidecar injector plugin</a></p>
 
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>You need <strong>Kong 1.1.0 or later</strong> to run through different deployment scenarios
-in this tutorial. It is recommended to use Linux distribution to run
-the demos, e.g. a recent version of Ubuntu. You will also need some additional
-tools to be installed on your system:</p>
+<p>You need Kong 1.0.0 or later running on Kubernetes including and an SSL certificate
+stored as a secret that’s available to the Kong control plane. The Make tasks <code class="highlighter-rouge">run_cassandra</code>
+and <code class="highlighter-rouge">run_postgres</code> from the <a href="https://github.com/Kong/kong-dist-kubernetes">Kong Kubernetes Repository</a>
+will fully provision the prerequisite data store, Kong control plane, Kong data plane
+and the SSL secret.</p>
 
-<ul>
-  <li><code class="highlighter-rouge">ncat</code> (usually comes with <code class="highlighter-rouge">nmap</code>)</li>
-  <li><code class="highlighter-rouge">iptables</code> (<strong>Linux</strong>) or <code class="highlighter-rouge">pfctl</code> (<strong>macOS</strong> / <strong>BSD</strong>)</li>
-  <li><code class="highlighter-rouge">curl</code></li>
-</ul>
+<p>Alternatively follow the any of the setup instructions from 
+<a href="/install/kubernetes/">Kong Kubernetes Install Instructions</a> page then setup the 
+SSL certificate/secret:</p>
 
-<p>Your host machine needs to bind <code class="highlighter-rouge">lo0</code> (or similar) network adapter to these
-localhost IPs:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd $(mktemp -d)
 
-<ul>
-  <li><code class="highlighter-rouge">127.0.0.1</code> (<strong>Host C</strong> running <strong>Kong Control Plane</strong>)</li>
-  <li><code class="highlighter-rouge">127.0.0.2</code> (<strong>Host A</strong> running <strong>Service A</strong>)</li>
-  <li><code class="highlighter-rouge">127.0.0.3</code> (<strong>Host A</strong> running <strong>Kong A</strong>)</li>
-  <li><code class="highlighter-rouge">127.0.0.4</code> (<strong>Host B</strong> running <strong>Kong B</strong>)</li>
-  <li><code class="highlighter-rouge">127.0.0.5</code> (<strong>Host B</strong> running <strong>Service B</strong>)</li>
-</ul>
-
-<p>We are running everything in a single host on this tutorial, but you are allowed
-to use two separate nodes to run the demos. In such case, please note that there
-will be differences in IP addresses in related commands and configurations.
-For the sake of simplicity we also configure everything using just IP addresses
-instead of using DNS.</p>
-
-<p>For some of the configuration changes, you may also need <strong>root</strong> privileges on
-a target host.</p>
-
-<h2 id="terms-and-definitions">Terms and Definitions</h2>
-
-<p><strong>Kong Control Plane</strong> is started on network address <code class="highlighter-rouge">127.0.0.1</code>. It listens on Kong
-Admin API on ports <code class="highlighter-rouge">8001</code> (<code class="highlighter-rouge">http</code>), and <code class="highlighter-rouge">8444</code> (<code class="highlighter-rouge">https</code>), and it won’t proxy any traffic.</p>
-
-<p><strong>Service A</strong> represents an imaginary business entity (microservice, app) making the network
-connections to <strong>Service B</strong>. On this tutorial <strong>Service A</strong> is modelled by
-direct invocations of <code class="highlighter-rouge">ncat</code> and <code class="highlighter-rouge">curl</code>. <strong>Service A</strong>’s network address is <code class="highlighter-rouge">127.0.0.2</code>.</p>
-
-<p><strong>Service B</strong> represent a business entity which accepts network connections from <strong>Service A</strong>.
-On this tutorial it is implemented via several <code class="highlighter-rouge">ncat</code> processes, kept open. Its network address
-is <code class="highlighter-rouge">127.0.0.5</code>, and it listens on ports <code class="highlighter-rouge">18000</code>(<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">18443</code>(<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">19000</code>(<code class="highlighter-rouge">tcp</code>), and
-<code class="highlighter-rouge">19443</code>(<code class="highlighter-rouge">tls</code>).</p>
-
-<p><strong>Kong A</strong> is the sidecar proxy in-front of <strong>Service A</strong>. It listens on network address
-<code class="highlighter-rouge">127.0.0.3</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code>), and <code class="highlighter-rouge">9443</code> (<code class="highlighter-rouge">tls</code>).
-It does not listen or provide Kong Admin API.</p>
-
-<p><strong>Kong B</strong> is the sidecar proxy in-front of <strong>Service B</strong>. It listens on network address
-<code class="highlighter-rouge">127.0.0.4</code> on proxy ports <code class="highlighter-rouge">8000</code> (<code class="highlighter-rouge">http</code>), <code class="highlighter-rouge">8443</code> (<code class="highlighter-rouge">https</code>), <code class="highlighter-rouge">9000</code> (<code class="highlighter-rouge">tcp</code>), and <code class="highlighter-rouge">9443</code> (<code class="highlighter-rouge">tls</code>).
-It does not listen or provide Kong Admin API.</p>
-
-<p>The examples presented here are run directly from a <code class="highlighter-rouge">terminal</code>, such as <code class="highlighter-rouge">bash</code> shell.
-Please follow each step as it gradually builds the understanding and introduces new
-concepts along the way.</p>
-
-<h2 id="step-1-start-service-b">Step 1: Start Service B</h2>
-
-<p>As we said before, <strong>Service B</strong> can be modelled as several <code class="highlighter-rouge">ncat</code> processes. We need
-several in order to model all possible Service Mesh combinations.</p>
-
-<p>Start <strong>Service B</strong> listening on TCP traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ncat --listen \
-       --keep-open \
-       --verbose \
-       --sh-exec "echo 'Hello from Service B (TCP)'" \
-       127.0.0.5 19000
+### Create a key+certificate for the control plane
+cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: kong-control-plane.kong.svc
+spec:
+  request: $(openssl req -new -nodes -batch -keyout privkey.pem -subj /CN=kong-control-plane.kong.svc | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+kubectl certificate approve kong-control-plane.kong.svc
+kubectl -n kong create secret tls kong-control-plane.kong.svc --key=privkey.pem --cert=&lt;(kubectl get csr kong-control-plane.kong.svc -o jsonpath='{.status.certificate}' | base64 --decode)
+kubectl delete csr kong-control-plane.kong.svc
+rm privkey.pem
 </code></pre></div></div>
 
-<p>You should see output similar to one below:</p>
+<p>or use the following convenience script:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
-Ncat: Listening on 127.0.0.5:19000
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -fsSL https://raw.githubusercontent.com/Kong/kong-dist-kubernetes/master/setup_certificate.sh | bash
 </code></pre></div></div>
 
-<p>Leave the command running.</p>
+<h2 id="installation-steps">Installation Steps</h2>
 
-<p>Open a new console and start <strong>Service B</strong> listening on TLS traffic:</p>
+<p>Export some variables to access the Kong Admin API and Proxy:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ncat --listen \
-       --keep-open \
-       --verbose \
-       --ssl \
-       --sh-exec "echo 'Hello from Service B (TLS)'" \
-       127.0.0.5 19443
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export HOST=$(kubectl get nodes --namespace default -o jsonpath='{.items[0].status.addresses[0].address}')
+$ export ADMIN_PORT=$(kubectl get svc --namespace kong kong-control-plane  -o jsonpath='{.spec.ports[0].nodePort}')
 </code></pre></div></div>
 
-<p>You should see output similar to one below:</p>
+<p>Enable the Sidecar Injector Plugin via the Kong Admin API:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
-Ncat: Listening on 127.0.0.5:19443
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl $HOST:$ADMIN_PORT/plugins -d name=kubernetes-sidecar-injector -d config.image=kong
 </code></pre></div></div>
 
-<p>Leave it running.</p>
+<p>Turn on Kubernetes Sidecar Injection:</p>
 
-<p>Open a new console and start <strong>Service B</strong> listening on HTTP traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --listen \
-     --keep-open \
-     --verbose \
-     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service (HTTP)'" \
-     127.0.0.5 18000
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: kong-sidecar-injector
+webhooks:
+- name: kong.sidecar.injector
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+    operations: [ "CREATE" ]
+  failurePolicy: Fail
+  namespaceSelector:
+    matchExpressions:
+    - key: kong-sidecar-injection
+      operator: NotIn
+      values:
+      - disabled
+  clientConfig:
+    service:
+      namespace: kong
+      name: kong-control-plane
+      path: /kubernetes-sidecar-injector
+    caBundle: $(kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}')
+EOF
 </code></pre></div></div>
 
-<p>You should see output similar to one below:</p>
+<p>or use the following convenience script:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
-Ncat: Listening on 127.0.0.5:18000
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -fsSL https://raw.githubusercontent.com/Kong/kong-dist-kubernetes/master/setup_sidecar_injector.sh | bash
 </code></pre></div></div>
 
-<p>Again, leave that running.</p>
+<h2 id="usage">Usage</h2>
 
-<p>Open a fourth console and start <strong>Service B</strong> listening on HTTPS traffic:</p>
+<p>Going forward, any pods that start get a Kong Sidecar automatically injected, and all
+data from the containers of that pod will flow through a Kong Sidecar.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --listen \
-     --keep-open \
-     --verbose \
-     --ssl \
-     --sh-exec "echo 'HTTP/1.1 200 OK\r\n\r\nHello from Service B (HTTPS)'" \
-     127.0.0.5 18443
+<p>For example, if we use the <code class="highlighter-rouge">bookinfo.yaml</code> example from Istio:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.1/samples/bookinfo/platform/kube/bookinfo.yaml
 </code></pre></div></div>
 
-<p>You should see output similar to one below:</p>
+<p>We see that all pods received a Kong Sidecar:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ncat: Version 7.70 ( https://nmap.org/ncat )
-Ncat: Listening on 127.0.0.5:18443
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl get all
+NAME                 READY   STATUS
+pod/details-v1       2/2     Running
+pod/productpage      2/2     Running
+pod/ratings-v1       2/2     Running
+pod/reviews-v1       2/2     Running
+pod/reviews-v2       2/2     Running
+pod/reviews-v3       2/2     Running
 </code></pre></div></div>
 
-<p>Leave this command running as well.</p>
+<p>Continue to <a href="/latest/getting-started/configuring-a-service/">configuring a service</a>.</p>
 
-<p>At this point you should have four <code class="highlighter-rouge">ncat</code> processes in 4 consoles,
-representing the <strong>Service B</strong> listening with different protocols.</p>
 
-<h2 id="step-2-ensure-that-service-a-can-connect-service-b">Step 2: Ensure that Service A can connect Service B</h2>
+      
 
-<p>Our <strong>Service A</strong> is just direct invocations of <code class="highlighter-rouge">ncat</code> and <code class="highlighter-rouge">curl</code>.</p>
-
-<p>Connect with <strong>Service B</strong> using TCP:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only 127.0.0.5 19000
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (TCP)
-</code></pre></div></div>
-
-<p>Connect with <strong>Service B</strong> using TLS:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (TLS)
-</code></pre></div></div>
-
-<p>Connect with <strong>Service B</strong> using HTTP:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (HTTP)
-</code></pre></div></div>
-
-<p>Connect with <strong>Service B</strong> using HTTPS:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (HTTPS)
-</code></pre></div></div>
-
-<p>At this point you have <strong>Service B</strong> running at <code class="highlighter-rouge">127.0.0.5</code> and our
-<strong>Service A</strong> at <code class="highlighter-rouge">127.0.0.2</code> can directly and successfully connect
-to it.</p>
-
-<h2 id="step-3-start-kong-control-plane">Step 3: Start Kong Control Plane</h2>
-
-<p>Start a Kong node that only listens to its Kong Admin API:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-c \
-  KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="off" \
-  KONG_PROXY_LISTEN="off" \
-  KONG_ADMIN_LISTEN="127.0.0.1:8001, 127.0.0.1:8444 ssl" \
-    kong start
-</code></pre></div></div>
-
-<p>You should see this message:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
-</code></pre></div></div>
-
-<h2 id="step-4-start-kong-a">Step 4: Start Kong A</h2>
-
-<p><strong>Kong A</strong>, will be a Kong instance acting as sidecar for <strong>Service A</strong>.</p>
-
-<p>Start it like this:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
-  KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.3:9000 transparent, 127.0.0.3:9443 transparent" \
-  KONG_PROXY_LISTEN="127.0.0.3:8000 transparent, 127.0.0.3:8443 ssl transparent" \
-  KONG_ADMIN_LISTEN="off" \
-  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.3" \
-  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.3" \
-    kong start
-</code></pre></div></div>
-
-<p>On <code class="highlighter-rouge">macOS</code> / <code class="highlighter-rouge">BSD</code> use this instead:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-a \
-  KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.3:9000, 127.0.0.3:9443" \
-  KONG_PROXY_LISTEN="127.0.0.3:8000, 127.0.0.3:8443 ssl" \
-  KONG_ADMIN_LISTEN="off" \
-  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.3" \
-  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.3" \
-    kong start
-</code></pre></div></div>
-
-<p>You should see this message:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
-</code></pre></div></div>
-
-<h3 id="about-the-transparent--option">About the <code class="highlighter-rouge">transparent</code>  option</h3>
-
-<p>The <code class="highlighter-rouge">transparent</code> listen option makes it possible for Kong to answer requests
-mangled with <code class="highlighter-rouge">iptables</code> <code class="highlighter-rouge">PREROUTING</code> rules, and to read the original destination
-address and the port that client tried to connect before <code class="highlighter-rouge">iptables</code> rules
-did <code class="highlighter-rouge">transparently</code> proxy it to its sidecar proxy.</p>
-
-<p><strong>Note:</strong> <code class="highlighter-rouge">transparent</code> is only supported on <code class="highlighter-rouge">Linux</code>, and specifying
-it may require you to start Kong as a <code class="highlighter-rouge">root</code> user. If you are <strong>not</strong> running
-<code class="highlighter-rouge">Linux</code> (e.g. <code class="highlighter-rouge">macOS</code> or <code class="highlighter-rouge">BSD</code>), the transparent proxying is supported by default.</p>
-
-<h2 id="step-5-start-kong-b">Step 5: Start Kong B</h2>
-
-<p><strong>Kong B</strong> will be the sidecar Kong instance for <strong>Service B</strong>.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
-  KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.4:9000 transparent, 127.0.0.4:9443 transparent" \
-  KONG_PROXY_LISTEN="127.0.0.4:8000 transparent, 127.0.0.4:8443 transparent ssl" \
-  KONG_ADMIN_LISTEN="off" \
-  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.4" \
-  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.4" \
-    kong start
-</code></pre></div></div>
-
-<p>On <code class="highlighter-rouge">macOS</code> / <code class="highlighter-rouge">BSD</code> use this instead:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ KONG_PREFIX=kong-b \
-  KONG_LOG_LEVEL=debug \
-  KONG_STREAM_LISTEN="127.0.0.4:9000, 127.0.0.4:9443" \
-  KONG_PROXY_LISTEN="127.0.0.4:8000, 127.0.0.4:8443 ssl" \
-  KONG_ADMIN_LISTEN="off" \
-  KONG_NGINX_PROXY_PROXY_BIND="127.0.0.4" \
-  KONG_NGINX_SPROXY_PROXY_BIND="127.0.0.4" \
-    kong start
-</code></pre></div></div>
-
-<p>You should see this message if the Kong node starts successfully:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Kong started
-</code></pre></div></div>
-
-<p><strong>Note</strong>: In the real world, you should use <code class="highlighter-rouge">nginx worker user</code> to make the exceptions
-to <code class="highlighter-rouge">iptables</code> rules (see step 7), but for this simplified demo, we use the <code class="highlighter-rouge">proxy_bind</code>
-for the exceptions on rules.</p>
-
-<h2 id="step-6-create-kong-services-and-routes">Step 6: Create Kong Services and Routes</h2>
-
-<p>Create Kong Service for <strong>Service B</strong>’s TCP Traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
-       -d url=tcp://127.0.0.5:19000 \
-       http://127.0.0.1:8001/services/service-b-tcp
-</code></pre></div></div>
-
-<p>Create one Kong Route for that Kong Service:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
-       -d name=service-b-tcp \
-       -d protocols=tcp \
-       -d destinations[1].ip=127.0.0.5 \
-       -d destinations[1].port=19000 \
-       http://127.0.0.1:8001/services/service-b-tcp/routes
-</code></pre></div></div>
-
-<p>Create a Kong Service for <strong>Service B</strong>’s TLS Traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
-       -d url=tls://127.0.0.5:19443 \
-       http://127.0.0.1:8001/services/service-b-tls
-</code></pre></div></div>
-
-<p>And one Route for it:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
-       -d name=service-b-tls \
-       -d protocols=tls \
-       -d destinations[1].ip=127.0.0.5 \
-       -d destinations[1].port=19443 \
-       http://127.0.0.1:8001/services/service-b-tls/routes
-</code></pre></div></div>
-
-<p>Create a Kong Service for <strong>Service B</strong>’s HTTP Traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
-       -d url=http://127.0.0.5:18000 \
-       http://127.0.0.1:8001/services/service-b-http
-</code></pre></div></div>
-
-<p>Create a Kong Route for this Kong Service as well:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
-       -d name=service-b-http \
-       -d protocols=http \
-       -d hosts=127.0.0.5 \
-       http://127.0.0.1:8001/services/service-b-http/routes
-</code></pre></div></div>
-
-<p>Finally, create a Kong Service for <strong>Service B</strong>’s HTTPS Traffic:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X PUT \
-       -d url=https://127.0.0.5:18443/ \
-       http://127.0.0.1:8001/services/service-b-https
-</code></pre></div></div>
-
-<p>And a Kong Route to go with it:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -X POST \
-       -d name=service-b-https \
-       -d protocols=https \
-       -d hosts=127.0.0.5 \
-       http://127.0.0.1:8001/services/service-b-https/routes
-</code></pre></div></div>
-
-<h2 id="step-7-configure-transparent-proxying-rules">Step 7: Configure Transparent Proxying Rules</h2>
-
-<p>Following <code class="highlighter-rouge">iptables</code> commands add transparent proxying rules for <strong>Service A</strong>.
-They make <strong>Service A</strong> to connect <strong>Kong A</strong> instead of connecting to to <strong>Service B</strong>
-directly as we saw on Step 2.</p>
-
-<p>Configure <code class="highlighter-rouge">iptables</code> on <strong>Service A</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo iptables --insert PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                --dport 19000 \
-                --source 127.0.0.2 \
-                --jump TPROXY \
-                --on-port=9000 \
-                --on-ip=127.0.0.3
-
-$ sudo iptables --insert PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                --dport 19443 \
-                --source 127.0.0.2 \
-                --jump TPROXY \
-                --on-port=9443 \
-                --on-ip=127.0.0.3
-
-$ sudo iptables --insert PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                --dport 18000 \
-                --source 127.0.0.2 \
-                --jump TPROXY \
-                --on-port=8000 \
-                --on-ip=127.0.0.3
-
-$ sudo iptables --insert PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                --dport 18443 \
-                --source 127.0.0.2 \
-                --jump TPROXY \
-                --on-port=8443 \
-                --on-ip=127.0.0.3
-</code></pre></div></div>
-
-<p>And then configure more rules for intercepting traffic destined for <strong>Service B</strong>, and send
-it to <strong>Kong B</strong> instead:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo iptables --append PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                "!" --source 127.0.0.4 \
-                --dport 19000 \
-                --destination 127.0.0.5 \
-                --jump TPROXY \
-                --on-port=9000 \
-                --on-ip=127.0.0.4
-
-$ sudo iptables --append PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                "!" --source 127.0.0.4 \
-                --dport 19443 \
-                --destination 127.0.0.5 \
-                --jump TPROXY \
-                --on-port=9443 \
-                --on-ip=127.0.0.4
-
-$ sudo iptables --append PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                "!" --source 127.0.0.4 \
-                --dport 18000 \
-                --destination 127.0.0.5 \
-                --jump TPROXY \
-                --on-port=8000 \
-                --on-ip=127.0.0.4
-
-$ sudo iptables --append PREROUTING \
-                --table mangle \
-                --protocol tcp \
-                "!" --source 127.0.0.4 \
-                --dport 18443 \
-                --destination 127.0.0.5 \
-                --jump TPROXY \
-                --on-port=8443 \
-                --on-ip=127.0.0.4
-</code></pre></div></div>
-
-<p>The equivalent <code class="highlighter-rouge">TPROXY</code> rules with <code class="highlighter-rouge">macOS</code> or <code class="highlighter-rouge">BSDs</code> is a bit tricky, so we leave that
-to the reader. If we find a simple way to define them, we’ll update this article.</p>
-
-<h2 id="step-8-start-tailing-kong-logs">Step 8: Start tailing Kong Logs</h2>
-
-<p>We do this so that you can view that the requests on next step do pass both <strong>Kong A</strong>
-and <strong>Kong B</strong>. Run this command for <strong>Kong A</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -F kong-a/logs/error.log
-</code></pre></div></div>
-
-<p>Leave it running, and in another console, run this command for <strong>Kong B</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tail -F kong-b/logs/error.log
-</code></pre></div></div>
-
-<h2 id="step-9-connect-service-a-to-service-b-using-two-sidecars">Step 9: Connect Service A to Service B using Two Sidecars</h2>
-
-<p>Connect from <strong>Service A</strong> to <strong>Service B</strong> using TCP:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 127.0.0.5 19000
-</code></pre></div></div>
-
-<p><strong>Note:</strong> at the moment you need to write around twenty bytes to
-the stream with the client to actually receive the response from
-the server (we are working on it).</p>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (TCP)
-</code></pre></div></div>
-
-<p>Connect using TLS:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat --source 127.0.0.2 --recv-only --ssl 127.0.0.5 19443
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (TLS)
-</code></pre></div></div>
-
-<p>Connect using HTTP:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 http://127.0.0.5:18000
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (HTTP)
-</code></pre></div></div>
-
-<p>Connect using HTTPS:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl --interface 127.0.0.2 --insecure https://127.0.0.5:18443
-</code></pre></div></div>
-
-<p>You should see output similar to one below:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello from Service B (HTTPS)
-</code></pre></div></div>
-
-<p>As you can see, step 9 looks exactly the same as step 2. We did not need to
-make any changes to <strong>Service A</strong> or <strong>Service B</strong>, but we introduced a sidecar proxy
-to each of them while successfully demonstrating that Kong is capable to proxy
-both raw <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">tls</code> streams and <code class="highlighter-rouge">http</code> and <code class="highlighter-rouge">https</code> traffic.</p>
-
-<h3 id="about-service-mesh">About Service Mesh</h3>
-
-<p>In Kong we call it Service Mesh only when the connection between the two sidecars,
-<strong>Kong A</strong> and <strong>Kong B</strong>, is mutually TLS authenticated. That is not obviously the
-case in this document with the <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> demos. But what makes things interesting
-is that Kong can automatically update unprotected <code class="highlighter-rouge">tcp</code> and <code class="highlighter-rouge">http</code> connections to <code class="highlighter-rouge">tls</code>
-protected connections so that <strong>Kong A</strong> will always talk to <strong>Kong B</strong> using either <code class="highlighter-rouge">tls</code>
-or <code class="highlighter-rouge">https</code>. And on the other side, <strong>Kong B</strong>, Kong can also downgrade the <code class="highlighter-rouge">tls</code> and <code class="highlighter-rouge">https</code>
-connections to unprotected <code class="highlighter-rouge">tcp</code> or <code class="highlighter-rouge">http</code> before making that final proxy connection
-to the local <strong>Service B</strong>. You can adjust these settings by modifying the Service
-entities (or adjusting the <code class="highlighter-rouge">KONG_ORIGINS</code> setting on <strong>Kong B</strong> which we didn’t cover
-on this tutorial).</p>
-
-<h2 id="step-10-stop-kong-nodes-and-cleanup">Step 10: Stop Kong Nodes and Cleanup</h2>
-
-<p>Cleanup the <code class="highlighter-rouge">iptables</code> rules:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo iptables --table mangle --flush PREROUTING
-</code></pre></div></div>
-
-<p>Stop <strong>Kong B</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-b kong stop
-</code></pre></div></div>
-
-<p>Stop <strong>Kong A</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-a kong stop
-</code></pre></div></div>
-
-<p>Stop Kong Control Plane:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>KONG_PREFIX=kong-c kong stop
-</code></pre></div></div>
-
-<p>Stop Tailing Kong Logs:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkill tail
-</code></pre></div></div>
-
-<p>Stop Ncat Servers:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pkill ncat
-</code></pre></div></div>
-
-
+      
+    
         </div>
       </div>
     </div>
   </div>
 </div>
-<style>
-  @media (max-width: 768px) {
-    .algolia-docsearch-suggestion--subcategory-column{
-      display: none !important;
-    }
-  }
-</style>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script type="text/javascript">
-  docsearch({
-    apiKey: '691286ef280379144076a4f8df47a1d1',
-    indexName: 'getkong',
-    inputSelector: '#getkong-algolia-search-input',
-    algoliaOptions: {
-      hitsPerPage: 5,
-      'facetFilters': ["version: 1.2.x"]
-    },
-    // Override selected event to allow for local environment navigation
-    handleSelected: function (input, event, suggestion) {
-      input.setVal('');
-      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split(
-        "docs.konghq.com")[1]
-    }
-    // ,debug: true // Set debug to true if you want to inspect the dropdown
-  });
-
+<!-- <script>
+/* eslint-disable */
+  window.intercomSettings = {
+    app_id: "gwoi3d8y"
+  };
 </script>
 
+<script>
+/* eslint-disable */
+(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/gwoi3d8y';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+</script>
+ -->
 
 
     
@@ -2243,7 +1033,7 @@ on this tutorial).</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1562082873"></script>
+    <script src="/assets/app.js?v=1562197725"></script>
 
     <div id="fb-root"></div>
 
