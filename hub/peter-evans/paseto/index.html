@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -931,30 +931,30 @@ target.</li>
         
 <table>
   <thead>
-    <tr><th>form parameter</th><th>default</th><th>description</th></tr>
+    <tr><th>form parameter</th><th>description</th></tr>
   </thead>
   <tbody>
-    <tr><td><code>name</code></td><td></td><td>The name of the plugin to use, in this case <code>paseto</code></td></tr>
+    <tr><td><code>name</code></td><td>The name of the plugin to use, in this case <code>paseto</code></td></tr>
 
     
-      <tr><td><code>service_id</code></td><td></td><td>The id of the Service which this plugin will target.</td></tr>
+      <tr><td><code>service_id</code></td><td>The id of the Service which this plugin will target.</td></tr>
     
     
-      <tr><td><code>route_id</code></td><td></td><td>The id of the Route which this plugin will target.</td></tr>
+      <tr><td><code>route_id</code></td><td>The id of the Route which this plugin will target.</td></tr>
     
-      <tr><td><code>enabled</code></td><td><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
+      <tr><td><code>enabled</code><br /><br /><strong>default value: </strong><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
     
     
-    <tr><td><code>api_id</code></td><td></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
+    <tr><td><code>api_id</code></td><td>The id of the API which this plugin will target. <strong>Note:</strong> The <a href="/0.13.x/admin-api/#api-object">API Entity</a> is deprecated in favor of Services since <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md#0130---20180322">CE 0.13.0</a> and <a href="https://docs.konghq.com/enterprise/changelog/#0-32">EE 0.32</a>.</td></tr>
     
     
       <tr>
         <td><code>config.uri_param_names</code>
           <br /><em>optional</em>
           
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">paseto</code></p>
+
         </td>
-        <td><p><code class="highlighter-rouge">paseto</code></p>
-</td>
         <td><p>A list of querystring parameters that the plugin will inspect to retrieve PASETOs.</p>
 </td>
       </tr>
@@ -963,8 +963,8 @@ target.</li>
         <td><code>config.cookie_names</code>
           <br /><em>optional</em>
           
+          
         </td>
-        <td></td>
         <td><p>A list of cookie names that the plugin will inspect to retrieve PASETOs.</p>
 </td>
       </tr>
@@ -973,8 +973,8 @@ target.</li>
         <td><code>config.claims_to_verify<br />.{claim_name}</code>
           <br /><em>optional</em>
           
+          
         </td>
-        <td></td>
         <td><p>This is a list of custom objects that you can set, with arbitrary names set in the <code class="highlighter-rouge">{claim_name}</code> placeholder, like <code class="highlighter-rouge">claims_to_verify.claim_1.claim=ForAudience</code> if your object is called “claim_1”.</p>
 </td>
       </tr>
@@ -983,8 +983,8 @@ target.</li>
         <td><code>config.claims_to_verify.<br />{claim_name}.claim</code>
           
           <br /><em>semi-optional</em>
+          
         </td>
-        <td></td>
         <td><p>The claim rule or name of your custom claim. See below for a description of the claim rules.</p>
 </td>
       </tr>
@@ -993,8 +993,8 @@ target.</li>
         <td><code>config.claims_to_verify.<br />{claim_name}.value</code>
           
           <br /><em>semi-optional</em>
+          
         </td>
-        <td></td>
         <td><p>The value to verify against.</p>
 </td>
       </tr>
@@ -1003,9 +1003,9 @@ target.</li>
         <td><code>config.kid_claim_name</code>
           <br /><em>optional</em>
           
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">kid</code></p>
+
         </td>
-        <td><p><code class="highlighter-rouge">kid</code></p>
-</td>
         <td><p>The name of the claim in which the kid identifying the PASETO key pair <strong>must</strong> be passed. The plugin will attempt to read this claim from the PASETO footer.</p>
 </td>
       </tr>
@@ -1014,8 +1014,8 @@ target.</li>
         <td><code>config.anonymous</code>
           <br /><em>optional</em>
           
+          
         </td>
-        <td></td>
         <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="highlighter-rouge">4xx</code>. Please note that this value must refer to the Consumer <code class="highlighter-rouge">id</code> attribute which is internal to Kong, and <strong>not</strong> its <code class="highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
@@ -1024,9 +1024,9 @@ target.</li>
         <td><code>config.run_on_preflight</code>
           <br /><em>optional</em>
           
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
         </td>
-        <td><p><code class="highlighter-rouge">true</code></p>
-</td>
         <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests, if set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
       </tr>
@@ -1412,7 +1412,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

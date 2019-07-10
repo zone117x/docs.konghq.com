@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -2357,7 +2357,7 @@ your SSL certificate and key via the Admin API:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/certificates <span class="se">\</span>
     <span class="nt">-F</span> <span class="s2">"cert=@/path/to/cert.pem"</span> <span class="se">\</span>
     <span class="nt">-F</span> <span class="s2">"key=@/path/to/cert.key"</span> <span class="se">\</span>
-    <span class="nt">-F</span> <span class="s2">"snis=ssl-example.com,other-ssl-example.com"</span>
+    <span class="nt">-F</span> <span class="s2">"snis=*.ssl-example.com,other-ssl-example.com"</span>
 HTTP/1.1 201 Created
 ...
 </code></pre></div></div>
@@ -2365,11 +2365,27 @@ HTTP/1.1 201 Created
 <p>The <code class="highlighter-rouge">snis</code> form parameter is a sugar parameter, directly inserting an SNI and
 associating the uploaded certificate to it.</p>
 
+<p>Note that one of the SNI names defined in <code class="highlighter-rouge">snis</code> above contains a wildcard
+(<code class="highlighter-rouge">*.ssl-example.com</code>). An SNI may contain a single wildcard in the leftmost (prefix) or
+rightmost (suffix) postion. This can be useful when maintaining multiple subdomains. A
+single <code class="highlighter-rouge">sni</code> configured with a wildcard name can be used to match multiple 
+subdomains, instead of creating an SNI for each.</p>
+
+<p>Valid wildcard positions are <code class="highlighter-rouge">mydomain.*</code>, <code class="highlighter-rouge">*.mydomain.com</code>, and <code class="highlighter-rouge">*.www.mydomain.com</code>.</p>
+
+<p>Matching of <code class="highlighter-rouge">snis</code> respects the following priority:</p>
+
+<ol>
+  <li>plain (no wildcard)</li>
+  <li>prefix</li>
+  <li>suffix</li>
+</ol>
+
 <p>You must now register the following Route within Kong. We will match requests
 to this Route using only the Host header for convenience:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://localhost:8001/routes <span class="se">\</span>
-    <span class="nt">-d</span> <span class="s1">'hosts=ssl-example.com,other-ssl-example.com'</span> <span class="se">\</span>
+    <span class="nt">-d</span> <span class="s1">'hosts=prefix.ssl-example.com,other-ssl-example.com'</span> <span class="se">\</span>
     <span class="nt">-d</span> <span class="s1">'service.id=d54da06c-d69f-4910-8896-915c63c270cd'</span>
 HTTP/1.1 201 Created
 ...
@@ -2378,13 +2394,13 @@ HTTP/1.1 201 Created
 <p>You can now expect the Route to be served over HTTPS by Kong:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> https://localhost:8443/ <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Host: ssl-example.com"</span>
+  <span class="nt">-H</span> <span class="s2">"Host: prefix.ssl-example.com"</span>
 HTTP/1.1 200 OK
 ...
 </code></pre></div></div>
 
 <p>When establishing the connection and negotiating the SSL handshake, if your
-client sends <code class="highlighter-rouge">ssl-example.com</code> as part of the SNI extension, Kong will serve
+client sends <code class="highlighter-rouge">prefix.ssl-example.com</code> as part of the SNI extension, Kong will serve
 the <code class="highlighter-rouge">cert.pem</code> certificate previously configured.</p>
 
 <p><a href="#table-of-contents">Back to TOC</a></p>
@@ -2738,7 +2754,7 @@ just covered.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -1088,6 +1088,11 @@ window['_fs_namespace'] = 'FS';
                     <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
+                  
+                  <li>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
+                  </li>
+                  
                 </ul>
                 
               </li>
@@ -1360,7 +1365,7 @@ window['_fs_namespace'] = 'FS';
 
           <h3 id="introduction">Introduction</h3>
 
-<p>The Dev Portal can be fully or partially authenticated using HTTP protocol’s Basic Authentication scheme. Requests will be sent with the Authorization header that 
+<p>The Dev Portal can be fully or partially authenticated using HTTP protocol’s Basic Authentication scheme. Requests will be sent with the Authorization header that
 contains the word <code class="highlighter-rouge">Basic</code> followed by the base64-encoded <code class="highlighter-rouge">username:password</code> string.</p>
 
 <p>Basic Authentication for the Dev Portal can be enabled in three ways:</p>
@@ -1373,15 +1378,20 @@ contains the word <code class="highlighter-rouge">Basic</code> followed by the b
 
 <blockquote>
   <p><strong>Warning</strong> Enabling authentication in the Dev Portal requires use of the
-Sessions plugin. Developers will not be able to login if this is not set 
-properly.</p>
+Sessions plugin. Developers will not be able to login if this is not set
+properly. More information about <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions">Sessions in the Dev Portal</a></p>
 </blockquote>
 
 <h3 id="enable-portal-session-config">Enable Portal Session Config</h3>
 
 <p>In the the Kong configuration file set the <code class="highlighter-rouge">portal_session_conf</code> property:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf={ "cookie_name": "portal_session", "secret": "super-secret", "cookie_secure": false, "storage": "kong" }
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf={ "cookie_name": "portal_session", "secret": "CHANGE_THIS", "storage": "kong" }
+</code></pre></div></div>
+
+<p>If using HTTP while testing, include <code class="highlighter-rouge">"cookie_secure": false</code> in the config:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf={ "cookie_name": "portal_session", "secret": "CHANGE_THIS", "storage": "kong", "cookie_secure": false }
 </code></pre></div></div>
 
 <h3 id="enable-basic-auth-via-kong-manager">Enable Basic Auth via Kong Manager</h3>
@@ -1394,8 +1404,8 @@ properly.</p>
 </ol>
 
 <blockquote>
-  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Basic 
-Auth. Anyone currently viewing the Dev Portal will lose access on the 
+  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Basic
+Auth. Anyone currently viewing the Dev Portal will lose access on the
 next page refresh.</p>
 </blockquote>
 
@@ -1408,14 +1418,14 @@ next page refresh.</p>
 </code></pre></div></div>
 
 <blockquote>
-  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Basic 
-Auth. Anyone currently viewing the Dev Portal will lose access on the 
+  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Basic
+Auth. Anyone currently viewing the Dev Portal will lose access on the
 next page refresh.</p>
 </blockquote>
 
 <h3 id="enable-basic-auth-via-the-kongconf">Enable Basic Auth via the Kong.conf</h3>
 
-<p>Kong allows for a <code class="highlighter-rouge">default authentication plugin</code> to be set in the Kong 
+<p>Kong allows for a <code class="highlighter-rouge">default authentication plugin</code> to be set in the Kong
 configuration file with the <code class="highlighter-rouge">portal_auth</code> property.</p>
 
 <p>In your <code class="highlighter-rouge">kong.conf</code> file set the property as follows:</p>
@@ -1423,8 +1433,7 @@ configuration file with the <code class="highlighter-rouge">portal_auth</code> p
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_auth="basic-auth"
 </code></pre></div></div>
 
-<p>This will set all Dev Portals to use Basic Authentication by default when initialized. See 
-<a href="/developer-portal/configuration/default-settings/#auth-plugin">Setting a Default Auth Plugin</a> for more information.</p>
+<p>This will set all Dev Portals to use Basic Authentication by default when initialized.</p>
 
 
         </div>
@@ -1598,7 +1607,7 @@ configuration file with the <code class="highlighter-rouge">portal_auth</code> p
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

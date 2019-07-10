@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -1088,6 +1088,11 @@ window['_fs_namespace'] = 'FS';
                     <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
+                  
+                  <li>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
+                  </li>
+                  
                 </ul>
                 
               </li>
@@ -1351,6 +1356,11 @@ window['_fs_namespace'] = 'FS';
           <ul>
   <li><a href="#default-configuration" class="scroll-to">Default Configuration</a></li>
   <li><a href="#custom-configuration" class="scroll-to">Custom Configuration</a></li>
+  <li><a href="#tls-certificates" class="scroll-to">TLS Certificates</a>
+    <ul>
+      <li><a href="#using-httpslocalhost" class="scroll-to">Using <code class="highlighter-rouge">https://localhost</code></a></li>
+    </ul>
+  </li>
 </ul>
 
           
@@ -1431,6 +1441,43 @@ verify) when configuring Kong Manager connectivity to the Admin API.</p>
 <p>⚠️ When Kong Manager authentication is enabled, RBAC must be turned 
 on to enforce authorization rules. Otherwise, whoever can log in 
 to Kong Manager can perform any operation available on the Admin API.</p>
+
+<h2 id="tls-certificates">TLS Certificates</h2>
+
+<p>By default, if Kong Manager’s URL is accessed over HTTPS <em>without</em> a certificate issued by a CA, it will 
+receive  a self-signed certificate that modern web browsers will not trust, preventing the application 
+from accessing the Admin API.</p>
+
+<p>In order to serve Kong Manager over HTTPS,  use a trusted certificate authority to issue TLS certificates, 
+and have the resulting <code class="highlighter-rouge">.crt</code> and <code class="highlighter-rouge">.key</code> files ready for the next step.</p>
+
+<p>1) Move <code class="highlighter-rouge">.crt</code> and <code class="highlighter-rouge">.key</code> files into the desired directory of the Kong node.</p>
+
+<p>2) Point <a href="/enterprise/0.35-x/property-reference/#admin_gui_ssl_cert"><code class="highlighter-rouge">admin_gui_ssl_cert</code></a> and <a href="/enterprise/0.35-x/property-reference/#admin_gui_ssl_cert_key"><code class="highlighter-rouge">admin_gui_ssl_cert_key</code></a> at the absolute paths of the certificate and key.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>admin_gui_ssl_cert = /path/to/test.crt
+admin_gui_ssl_cert_key = /path/to/test.key
+</code></pre></div></div>
+
+<p>3) Ensure that <code class="highlighter-rouge">admin_gui_url</code> is prefixed with <code class="highlighter-rouge">https</code> to use TLS, e.g.,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>admin_gui_url = https://test.com:8445
+</code></pre></div></div>
+
+<h3 id="using-httpslocalhost">Using <code class="highlighter-rouge">https://localhost</code></h3>
+
+<p>If serving Kong Manager on localhost, it may be preferable to use HTTP as the protocol. If also using RBAC,
+set <code class="highlighter-rouge">cookie_secure=false</code> in <code class="highlighter-rouge">admin_gui_session_conf</code>. The reason to use HTTP for <code class="highlighter-rouge">localhost</code> is that 
+creating TLS certificates for <code class="highlighter-rouge">localhost</code> requires more effort and configuration, and there may not be any 
+reason to use it. The adequate use cases for TLS are (1) when data is in transit between hosts, or (2) 
+when testing an application with <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content">mixed content</a>
+(which Kong Manager does not use).</p>
+
+<p>External CAs cannot provide a certificate since no one uniquely owns <code class="highlighter-rouge">localhost</code>, nor is it rooted in a top-level 
+domain (e.g., <code class="highlighter-rouge">.com</code>, <code class="highlighter-rouge">.org</code>). Likewise, self-signed certificates will not be trusted in modern browsers. Instead, 
+it is necessary to use a private CA that allows you to issue your own certificates. Also ensure that the SSL state 
+is cleared from the browser after testing to prevent stale certificates from interfering with future access to 
+<code class="highlighter-rouge">localhost</code>.</p>
 
 
 
@@ -1605,7 +1652,7 @@ to Kong Manager can perform any operation available on the Admin API.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -1088,6 +1088,11 @@ window['_fs_namespace'] = 'FS';
                     <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
+                  
+                  <li>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
+                  </li>
+                  
                 </ul>
                 
               </li>
@@ -1350,7 +1355,7 @@ window['_fs_namespace'] = 'FS';
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
   <li><a href="#introduction" class="scroll-to">Introduction</a></li>
-  <li><a href="#enable-portal-session-config" class="scroll-to">Enable Portal Session Config</a></li>
+  <li><a href="#portal-session-plugin-config" class="scroll-to">Portal Session Plugin Config</a></li>
   <li><a href="#sample-configuration-object" class="scroll-to">Sample Configuration Object</a></li>
   <li><a href="#enable-oidc-via-kong-manager" class="scroll-to">Enable OIDC via Kong Manager</a></li>
   <li><a href="#enable-oidc-via-the-command-line" class="scroll-to">Enable OIDC via the Command Line</a></li>
@@ -1362,10 +1367,10 @@ window['_fs_namespace'] = 'FS';
           <h3 id="introduction">Introduction</h3>
 
 <p>The <a href="/hub/kong-inc/openid-connect/">OpenID Connect Plugin</a> (OIDC)
-allows the Dev Portal to hook into existing authentication setups using third-party 
+allows the Dev Portal to hook into existing authentication setups using third-party
 <em>Identity Providers</em> (IdP) such as Google, Yahoo, Microsoft Azure AD, etc.</p>
 
-<p><a href="/hub/kong-inc/openid-connect/">OIDC</a> must be used with 
+<p><a href="/hub/kong-inc/openid-connect/">OIDC</a> must be used with
 the <code class="highlighter-rouge">session</code> method, utilizing cookies for Dev Portal File API requests.</p>
 
 <p>In addition, a configuration object is required to enable OIDC, please refer to the
@@ -1375,23 +1380,14 @@ document for more information.</p>
 <p>OIDC for the Dev Portal can be enabled in three ways:</p>
 
 <ul>
-  <li>via the <a href="#enable-key-auth-via-kong-manager">Kong Manager</a></li>
-  <li>via the <a href="#enable-key-auth-via-the-command-line">the command line</a></li>
-  <li>via the <a href="#enable-key-auth-via-the-kong-conf">the Kong configuration file</a></li>
+  <li>via the <a href="#enable-oidc-via-kong-manager">Kong Manager</a></li>
+  <li>via the <a href="#enable-oidc-via-the-command-line">the command line</a></li>
+  <li>via the <a href="#enable-oidc-via-the-kongconf">the Kong configuration file</a></li>
 </ul>
 
-<blockquote>
-  <p><strong>Warning</strong> Enabling authentication in the Dev Portal requires use of the
-Sessions plugin. Developers will not be able to login if this is not set 
-properly.</p>
-</blockquote>
+<h3 id="portal-session-plugin-config">Portal Session Plugin Config</h3>
 
-<h3 id="enable-portal-session-config">Enable Portal Session Config</h3>
-
-<p>In the the Kong configuration file set the <code class="highlighter-rouge">portal_session_conf</code> property:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf={ "cookie_name": "portal_session", "secret": "super-secret", "cookie_secure": false, "storage": "kong" }
-</code></pre></div></div>
+<p>Session Plugin Config does not apply when using OpenID Connect.</p>
 
 <h3 id="sample-configuration-object">Sample Configuration Object</h3>
 
@@ -1418,12 +1414,12 @@ Provder:</p>
 
 </code></pre></div></div>
 
-<p>The values above can be replaced with their corresponding values for a custom 
+<p>The values above can be replaced with their corresponding values for a custom
 OIDC configuration:</p>
 
 <ul>
   <li><code class="highlighter-rouge">&lt;CLIENT_ID&gt;</code> - Client ID provided by IdP
-    * For Example, Google credentials can be found here: 
+    * For Example, Google credentials can be found here:
     https://console.cloud.google.com/projectselector/apis/credentials</li>
   <li><code class="highlighter-rouge">&lt;CLIENT_SECRET&gt;</code> - Client secret provided by IdP</li>
 </ul>
@@ -1477,19 +1473,19 @@ into the provided text area.</li>
 <p>To patch a Dev Portal’s authentication property directly run:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X PATCH http://localhost:8001/workspaces/&lt;WORKSPACE NAME&gt; \
-  --data "config.portal_auth=openid-connect" 
+  --data "config.portal_auth=openid-connect"
   "config.portal_auth_conf=&lt;REPLACE WITH JSON CONFIG OBJECT&gt;
 </code></pre></div></div>
 
 <blockquote>
-  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Key 
-Auth. Anyone currently viewing the Dev Portal will lose access on the 
+  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Key
+Auth. Anyone currently viewing the Dev Portal will lose access on the
 next page refresh.</p>
 </blockquote>
 
 <h3 id="enable-oidc-via-the-kongconf">Enable OIDC via the Kong.conf</h3>
 
-<p>Kong allows for a <code class="highlighter-rouge">default authentication plugin</code> to be set in the Kong 
+<p>Kong allows for a <code class="highlighter-rouge">default authentication plugin</code> to be set in the Kong
 configuration file with the <code class="highlighter-rouge">portal_auth</code> property.</p>
 
 <p>In your <code class="highlighter-rouge">kong.conf</code> file set the property as follows:</p>
@@ -1497,12 +1493,11 @@ configuration file with the <code class="highlighter-rouge">portal_auth</code> p
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_auth="openid-connect"
 </code></pre></div></div>
 
-<p>Then set <code class="highlighter-rouge">portal_auth_conf</code> property to your 
+<p>Then set <code class="highlighter-rouge">portal_auth_conf</code> property to your
 customized <a href="#/sample-configuration-object"><strong>Configuration JSON Object</strong></a></p>
 
-<p>This will set every Dev Portal to use Key Authentication by default when 
-initialized, regardless of Workspace. See 
-<a href="/developer-portal/configuration/default-settings/#auth-plugin">Setting a Default Auth Plugin</a> for more information.</p>
+<p>This will set every Dev Portal to use Key Authentication by default when
+initialized, regardless of Workspace.</p>
 
 
         </div>
@@ -1676,7 +1671,7 @@ initialized, regardless of Workspace. See
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

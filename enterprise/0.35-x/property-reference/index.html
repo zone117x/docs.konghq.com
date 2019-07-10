@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -1088,6 +1088,11 @@ window['_fs_namespace'] = 'FS';
                     <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
+                  
+                  <li>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
+                  </li>
+                  
                 </ul>
                 
               </li>
@@ -1376,8 +1381,8 @@ window['_fs_namespace'] = 'FS';
 
 <p><strong>Description:</strong></p>
 
-<p>Working directory. Equivalent to Nginx’s prefix path, containing 
-temporary files and logs. Each Kong process must have a separate 
+<p>Working directory. Equivalent to Nginx’s prefix path, containing
+temporary files and logs. Each Kong process must have a separate
 working directory.</p>
 
 <h3 id="log_level">log_level</h3>
@@ -1386,11 +1391,11 @@ working directory.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Log level of the Nginx server. Logs are found at 
+<p>Log level of the Nginx server. Logs are found at
 <code class="highlighter-rouge">&lt;prefix&gt;/logs/error.log</code>.</p>
 
-<p><strong>Note:</strong> See 
-http://nginx.org/en/docs/ngx_core_module.html#error_log for a list 
+<p><strong>Note:</strong> See
+http://nginx.org/en/docs/ngx_core_module.html#error_log for a list
 of accepted values.</p>
 
 <h3 id="proxy_access_log">proxy_access_log</h3>
@@ -1399,8 +1404,8 @@ of accepted values.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Path for proxy port request access logs. Set this value to <code class="highlighter-rouge">off</code> to 
-disable logging proxy requests. If this value is a relative path, 
+<p>Path for proxy port request access logs. Set this value to <code class="highlighter-rouge">off</code> to
+disable logging proxy requests. If this value is a relative path,
 it will be placed under the <code class="highlighter-rouge">prefix</code> location.</p>
 
 <h3 id="proxy_error_log">proxy_error_log</h3>
@@ -1409,7 +1414,7 @@ it will be placed under the <code class="highlighter-rouge">prefix</code> locati
 
 <p><strong>Description:</strong></p>
 
-<p>Path for proxy port request error logs. The granularity of these 
+<p>Path for proxy port request error logs. The granularity of these
 logs is adjusted by the <code class="highlighter-rouge">log_level</code> directive.</p>
 
 <h3 id="admin_access_log">admin_access_log</h3>
@@ -1419,7 +1424,7 @@ logs is adjusted by the <code class="highlighter-rouge">log_level</code> directi
 <p><strong>Description:</strong></p>
 
 <p>Path for Admin API request access logs. Set this value to <code class="highlighter-rouge">off</code> to
-disable logging Admin API requests. If this value is a relative 
+disable logging Admin API requests. If this value is a relative
 path, it will be placed under the <code class="highlighter-rouge">prefix</code> location.</p>
 
 <h3 id="admin_error_log">admin_error_log</h3>
@@ -1428,7 +1433,7 @@ path, it will be placed under the <code class="highlighter-rouge">prefix</code> 
 
 <p><strong>Description:</strong></p>
 
-<p>Path for Admin API request error logs. The granularity of these 
+<p>Path for Admin API request error logs. The granularity of these
 logs is adjusted by the <code class="highlighter-rouge">log_level</code> directive.</p>
 
 <h3 id="plugins">plugins</h3>
@@ -1437,8 +1442,8 @@ logs is adjusted by the <code class="highlighter-rouge">log_level</code> directi
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of plugins this node should load. 
-By default, only plugins bundled in official distributions are loaded via the <code class="highlighter-rouge">bundled</code> keyword.. Plugins will be loaded from the <code class="highlighter-rouge">kong.plugins.{name}.*</code> 
+<p>Comma-separated list of plugins this node should load.
+By default, only plugins bundled in official distributions are loaded via the <code class="highlighter-rouge">bundled</code> keyword.. Plugins will be loaded from the <code class="highlighter-rouge">kong.plugins.{name}.*</code>
 namespace.</p>
 
 <h3 id="anonymous_reports">anonymous_reports</h3>
@@ -1447,7 +1452,7 @@ namespace.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Send anonymous usage data such as error stack traces to help 
+<p>Send anonymous usage data such as error stack traces to help
 improve Kong.</p>
 
 <h2 id="nginx">NGINX</h2>
@@ -1458,24 +1463,24 @@ improve Kong.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of addresses and ports on which the proxy 
-server should listen. The proxy server is the public entrypoint of 
-Kong, which proxies traffic from your consumers to your backend 
+<p>Comma-separated list of addresses and ports on which the proxy
+server should listen. The proxy server is the public entrypoint of
+Kong, which proxies traffic from your consumers to your backend
 services. This value accepts IPv4, IPv6, and hostnames.</p>
 
 <p>Some suffixes can be specified for each pair:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">ssl</code> will require that all connections made through a particular 
+  <li><code class="highlighter-rouge">ssl</code> will require that all connections made through a particular
 address/port be made with TLS enabled.</li>
-  <li><code class="highlighter-rouge">http2</code> will allow for clients to open HTTP/2 connections to Kong’s proxy 
+  <li><code class="highlighter-rouge">http2</code> will allow for clients to open HTTP/2 connections to Kong’s proxy
 server.</li>
-  <li>Finally, <code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a given 
+  <li>Finally, <code class="highlighter-rouge">proxy_protocol</code> will enable usage of the PROXY protocol for a given
 address/port.</li>
 </ul>
 
-<p>This value can be set to <code class="highlighter-rouge">off</code>, thus disabling the proxy port for this node, 
-enabling a ‘control-plane’ mode (without traffic proxying capabilities) which 
+<p>This value can be set to <code class="highlighter-rouge">off</code>, thus disabling the proxy port for this node,
+enabling a ‘control-plane’ mode (without traffic proxying capabilities) which
 can configure a cluster of nodes connected to the same database.</p>
 
 <h3 id="proxy_url">proxy_url</h3>
@@ -1510,7 +1515,7 @@ Kong Manager and Dev Portal will use
 the window request host and append the resolved
 listener port depending on the requested protocol.</p>
 
-<p><strong>Note:</strong> see http://nginx.org/en/docs/http/ngx_http_core_module.html#listen 
+<p><strong>Note:</strong> see http://nginx.org/en/docs/http/ngx_http_core_module.html#listen
 for a description of the accepted formats for this and other *_listen values.</p>
 
 <p><strong>Note:</strong> see https://www.nginx.com/resources/admin-guide/proxy-protocol/
@@ -1541,11 +1546,11 @@ stream_listen = [::1]:1234
 
 <p><strong>Description:</strong></p>
 
-<p>Hierarchical part of a URI which is composed 
-optionally of a host, port, and path at which your 
-Admin interface API accepts HTTP or HTTPS traffic. 
-When this config is disabled, the gui will use the 
-window protocol + host and append the resolved 
+<p>Hierarchical part of a URI which is composed
+optionally of a host, port, and path at which your
+Admin interface API accepts HTTP or HTTPS traffic.
+When this config is disabled, the gui will use the
+window protocol + host and append the resolved
 admin_gui_listen HTTP/HTTPS port.</p>
 
 <p><strong>Example:</strong></p>
@@ -1559,11 +1564,11 @@ admin_gui_listen HTTP/HTTPS port.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of addresses and ports on which the 
-Admin interface should listen. The Admin interface is 
-the API allowing you to configure and manage Kong. 
-Access to this interface should be <em>restricted</em> to Kong 
-administrators <em>only</em>. This value accepts IPv4, IPv6, 
+<p>Comma-separated list of addresses and ports on which the
+Admin interface should listen. The Admin interface is
+the API allowing you to configure and manage Kong.
+Access to this interface should be <em>restricted</em> to Kong
+administrators <em>only</em>. This value accepts IPv4, IPv6,
 and hostnames.</p>
 
 <p>Some suffixes can be specified for each pair:</p>
@@ -1636,7 +1641,7 @@ a few MBs.</p>
 Accepted values are <code class="highlighter-rouge">modern</code>,
 <code class="highlighter-rouge">intermediate</code>, <code class="highlighter-rouge">old</code>, or <code class="highlighter-rouge">custom</code>.</p>
 
-<p><strong>Note:</strong> see https://wiki.mozilla.org/Security/Server_Side_TLS for detailed 
+<p><strong>Note:</strong> see https://wiki.mozilla.org/Security/Server_Side_TLS for detailed
 descriptions of each cipher suite.</p>
 
 <h3 id="ssl_ciphers">ssl_ciphers</h3>
@@ -1779,7 +1784,7 @@ comma-separated list.</p>
 <p>If the special value <code class="highlighter-rouge">unix:</code> is specified,
 all UNIX-domain sockets will be trusted.</p>
 
-<p><strong>Note:</strong> see http://nginx.org/en/docs/http/ngx_http_realip_module.html for 
+<p><strong>Note:</strong> see http://nginx.org/en/docs/http/ngx_http_realip_module.html for
 examples of accepted values.</p>
 
 <h3 id="real_ip_header">real_ip_header</h3>
@@ -1798,8 +1803,8 @@ configuration.</p>
 one of the <code class="highlighter-rouge">proxy_listen</code> entries must
 have the <code class="highlighter-rouge">proxy_protocol</code> flag enabled.</p>
 
-<p><strong>Note:</strong> see 
-http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header 
+<p><strong>Note:</strong> see
+http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_header
 for a description of this directive.</p>
 
 <h3 id="real_ip_recursive">real_ip_recursive</h3>
@@ -1812,8 +1817,8 @@ for a description of this directive.</p>
 directive of the same name in the Nginx
 configuration.</p>
 
-<p><strong>Note:</strong> see 
-http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_recursive 
+<p><strong>Note:</strong> see
+http://nginx.org/en/docs/http/ngx_http_realip_module.html#real_ip_recursive
 for a description of this directive.</p>
 
 <h3 id="client_max_body_size">client_max_body_size</h3>
@@ -1830,7 +1835,7 @@ respond with a 413 (Request Entity Too
 Large). Setting this value to 0 disables
 checking the request body size.</p>
 
-<p>Note: see 
+<p>Note: see
 http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size
 for further description of this parameter. Numeric values may be suffixed
 with ‘k’ or ‘m’ to denote limits in terms of kilobytes or megabytes.</p>
@@ -1855,7 +1860,7 @@ high-concurrency environments will require
 significant memory allocations to process
 many concurrent large request bodies.</p>
 
-<p><strong>Note:</strong> see 
+<p><strong>Note:</strong> see
 http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_buffer_size
 for further description of this parameter. Numeric values may be suffixed
 with ‘k’ or ‘m’ to denote limits in terms of kilobytes or megabytes.</p>
@@ -1973,7 +1978,7 @@ setting to specify a certificate authority.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>The port on which your nodes are listening on. All your nodes and contact 
+<p>The port on which your nodes are listening on. All your nodes and contact
 points must listen on the same port.</p>
 
 <h3 id="cassandra_keyspace">cassandra_keyspace</h3>
@@ -2158,7 +2163,7 @@ this value can be safely set to 0.</p>
 
 <h3 id="db_cache_ttl">db_cache_ttl</h3>
 
-<p><strong>Default:</strong> <code class="highlighter-rouge">3600</code></p>
+<p><strong>Default:</strong> <code class="highlighter-rouge">0</code></p>
 
 <p><strong>Description:</strong></p>
 
@@ -2176,15 +2181,15 @@ never expire.</p>
 <p><strong>Description</strong></p>
 
 <p>Time (in seconds) for which stale entities from the datastore should be
-resurrected for when they cannot be refreshed (e.g., the datastore is 
+resurrected for when they cannot be refreshed (e.g., the datastore is
 unreachable). When this TTL expires, a new attempt to refresh the stale
 entities will be made.</p>
 
 <h2 id="dns-resolver">DNS Resolver</h2>
 
-<p>By default the DNS resolver will use the standard configuration files 
-<code class="highlighter-rouge">/etc/hosts</code> and <code class="highlighter-rouge">/etc/resolv.conf</code>. The settings in the latter file will be 
-overridden by the environment variables <code class="highlighter-rouge">LOCALDOMAIN</code> and <code class="highlighter-rouge">RES_OPTIONS</code> if 
+<p>By default the DNS resolver will use the standard configuration files
+<code class="highlighter-rouge">/etc/hosts</code> and <code class="highlighter-rouge">/etc/resolv.conf</code>. The settings in the latter file will be
+overridden by the environment variables <code class="highlighter-rouge">LOCALDOMAIN</code> and <code class="highlighter-rouge">RES_OPTIONS</code> if
 they have been set.</p>
 
 <h3 id="dns_resolver">dns_resolver</h3>
@@ -2364,7 +2369,7 @@ resource.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the name of the HTTP request header from which the Admin 
+<p>Defines the name of the HTTP request header from which the Admin
 API will attempt to identify the RBAC user.</p>
 
 <h2 id="kong-manager">Kong Manager</h2>
@@ -2373,14 +2378,14 @@ API will attempt to identify the RBAC user.</p>
 
 <p><strong>Default:</strong> <code class="highlighter-rouge">0.0.0.0:8002, 0.0.0.0:8445 ssl</code></p>
 
-<p><strong>Description:</strong><br />
+<p><strong>Description:</strong>
 Comma-separated list of addresses and ports on which</p>
 
 <p>Kong will expose the Admin GUI. This web application
 lets you configure and manage Kong, and therefore
 should be kept private and secured.</p>
 
-<p>Suffixes can be specified for each pair, similarly to 
+<p>Suffixes can be specified for each pair, similarly to
 the <code class="highlighter-rouge">admin_listen</code> directive.</p>
 
 <p><strong>Example:</strong></p>
@@ -2422,7 +2427,7 @@ requested protocol.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>The absolute path to the SSL certificate for 
+<p>The absolute path to the SSL certificate for
 <code class="highlighter-rouge">admin_gui_listen</code> values with SSL enabled.</p>
 
 <p><strong>Example:</strong></p>
@@ -2487,7 +2492,7 @@ directive.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Here you may specify the configuration for the 
+<p>Here you may specify the configuration for the
 authentication plugin you have chosen.</p>
 
 <ul>
@@ -2505,7 +2510,7 @@ authentication plugin you have chosen.</p>
 <p>Here you may specify the configuration for the
 authentication plugin you have chosen.</p>
 
-<p>For information about Plugin Configuration consult 
+<p>For information about Plugin Configuration consult
 the associated plugin documentation.</p>
 
 <p><strong>Example (for Basic Auth):</strong></p>
@@ -2534,7 +2539,7 @@ Kong Manager.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the name of the HTTP request header from which the Admin API will 
+<p>Defines the name of the HTTP request header from which the Admin API will
 attempt to identify the Kong Admin user.</p>
 
 <h2 id="vitals">Vitals</h2>
@@ -2545,14 +2550,14 @@ attempt to identify the Kong Admin user.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Kong will store and report metrics about its performance.                               <br />
-When running Kong in a multi-node setup, <code class="highlighter-rouge">vitals</code> entails two 
+<p>When enabled, Kong will store and report metrics about its performance.
+When running Kong in a multi-node setup, <code class="highlighter-rouge">vitals</code> entails two
 separate meanings depending on the node.</p>
 
-<p>On a Proxy-only node, <code class="highlighter-rouge">vitals</code> determines whether to collect data 
+<p>On a Proxy-only node, <code class="highlighter-rouge">vitals</code> determines whether to collect data
 for Vitals.</p>
 
-<p>On an Admin-only node, <code class="highlighter-rouge">vitals</code> determines whether to display 
+<p>On an Admin-only node, <code class="highlighter-rouge">vitals</code> determines whether to display
 Vitals metrics and visualizations on the dashboard.</p>
 
 <h3 id="vitals_strategy">vitals_strategy</h3>
@@ -2649,7 +2654,7 @@ Prometheus server.</p>
 
 <p>Enable or disable the Dev Portal Interface and API</p>
 
-<p>When enabled, Kong will expose the Kong Dev Portal Files endpoint and the 
+<p>When enabled, Kong will expose the Kong Dev Portal Files endpoint and the
 public Dev Portal Files API.</p>
 
 <p><strong>Example:</strong></p>
@@ -2665,7 +2670,7 @@ public Dev Portal Files API.</p>
 
 <p>Comma-separated list of addresses on which Kong will
 expose the Kong Dev Portal GUI. Suffixes can be
-specified for each pair, similar to the <code class="highlighter-rouge">admin_listen</code> 
+specified for each pair, similar to the <code class="highlighter-rouge">admin_listen</code>
 directive.</p>
 
 <p><strong>Example:</strong></p>
@@ -2681,7 +2686,7 @@ directive.</p>
 
 <p>The Dev Portal URL protocol</p>
 
-<p>Provide the protocol used in conjunction with portal_gui_host to construct the 
+<p>Provide the protocol used in conjunction with portal_gui_host to construct the
 lookup, or balancer address for Kong Proxy nodes.</p>
 
 <p><strong>Example:</strong></p>
@@ -2697,7 +2702,7 @@ lookup, or balancer address for Kong Proxy nodes.</p>
 
 <p>Dev Portal GUI Host</p>
 
-<p>Provide the host unsed in conjunction with portal_gui_protocol to construct the 
+<p>Provide the host unsed in conjunction with portal_gui_protocol to construct the
 lookup, or balancer address for Kong Proxy nodes.</p>
 
 <p><strong>Example:</strong></p>
@@ -2728,8 +2733,8 @@ environments.</p>
 
 <p>Enable workspaced Dev Portals to use subdomains</p>
 
-<p>By default the Dev Portal will use the first namespace in the request path to 
-determine the workspace. By enabling subdomains, the Dev Portal will expect the 
+<p>By default the Dev Portal will use the first namespace in the request path to
+determine the workspace. By enabling subdomains, the Dev Portal will expect the
 workspace to be included in the request url as a subdomain</p>
 
 <p><strong>Example</strong></p>
@@ -2749,7 +2754,7 @@ portal_gui_use_subdomains = on
 
 <p><strong>Description:</strong></p>
 
-<p>The absolute path to the SSL certificate for <code class="highlighter-rouge">portal_gui_listen</code> values with 
+<p>The absolute path to the SSL certificate for <code class="highlighter-rouge">portal_gui_listen</code> values with
 SSL enabled.</p>
 
 <p><strong>Example:</strong></p>
@@ -2763,7 +2768,7 @@ SSL enabled.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>The absolute path to the SSL key for <code class="highlighter-rouge">portal_gui_listen</code> values with SSL 
+<p>The absolute path to the SSL key for <code class="highlighter-rouge">portal_gui_listen</code> values with SSL
 enabled.</p>
 
 <p><strong>Example:</strong></p>
@@ -2775,7 +2780,7 @@ enabled.</p>
 
 <p><strong>Default:</strong> <code class="highlighter-rouge">0.0.0.0:8004, 0.0.0.0:8447 ssl</code></p>
 
-<p><strong>Description:</strong><br />
+<p><strong>Description:</strong>
 Comma-separated list of addresses on which Kong will
 expose the Dev Portal API. Suffixes can be
 specified for each pair, similarly to
@@ -2790,10 +2795,9 @@ the <code class="highlighter-rouge">admin_listen</code> directive.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>The address on which the Dev Portal API is accessible by Kong. <strong>ONLY</strong>
-set this value if the Dev Portal API lives on a different node than the Kong Proxy.</p>
+<p>The address on which the Dev Portal API is accessible by Kong.</p>
 
-<p>When not provided, Kong will use the listeners defined on <code class="highlighter-rouge">portal_api_listen</code> as 
+<p>When not provided, Kong will use the listeners defined on <code class="highlighter-rouge">portal_api_listen</code> as
 the value.</p>
 
 <p><strong>Example:</strong></p>
@@ -2841,7 +2845,7 @@ the value.</p>
 
 <p>Location of log containing all calls made to the Portal API.</p>
 
-<p><code class="highlighter-rouge">portal_api_access.log</code> location can be absolute or relative. When using 
+<p><code class="highlighter-rouge">portal_api_access.log</code> location can be absolute or relative. When using
 relative pathing, logs will be placed under the <code class="highlighter-rouge">prefix</code> location.</p>
 
 <p>Setting this value to <code class="highlighter-rouge">off</code> will disable logging
@@ -2874,7 +2878,7 @@ directive.</p>
 
 <h2 id="default-dev-portal-authentication">Default Dev Portal Authentication</h2>
 
-<p>Referenced on workspace creation to set Dev Portal authentication defaults 
+<p>Referenced on workspace creation to set Dev Portal authentication defaults
 in the database for that particular workspace.</p>
 
 <h3 id="portal_auth">portal_auth</h3>
@@ -2916,8 +2920,8 @@ consult the associated plugin documentation.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When this flag is set to ‘on’, a developer will automatically be marked as 
-“approved” after completing registration. Access can still be revoked through the 
+<p>When this flag is set to ‘on’, a developer will automatically be marked as
+“approved” after completing registration. Access can still be revoked through the
 Kong Manager or Admin API.</p>
 
 <h3 id="portal_session_conf">portal_session_conf</h3>
@@ -2932,7 +2936,7 @@ Kong Manager or Admin API.</p>
 Dev Portal.</p>
 
 <p><strong>Example:</strong></p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf= {"cookie_name": "portal_session", "secret":"changeme"}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_session_conf= {"cookie_name": "portal_session", "secret":"changeme", "storage":"kong"}
 </code></pre></div></div>
 
 <h3 id="portal_token_exp">portal_token_exp</h3>
@@ -2941,12 +2945,12 @@ Dev Portal.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Duration in seconds for the expiration of the Dev Portal reset password token. 
+<p>Duration in seconds for the expiration of the Dev Portal reset password token.
 Default <code class="highlighter-rouge">21600</code> is six hours.</p>
 
 <h2 id="default-dev-portal-smtp-configuration">Default Dev Portal SMTP Configuration</h2>
 
-<p>Referenced on workspace creation to set SMTP defaults in the database 
+<p>Referenced on workspace creation to set SMTP defaults in the database
 for that particular workspace.</p>
 
 <h3 id="portal_invite_email">portal_invite_email</h3>
@@ -2955,7 +2959,7 @@ for that particular workspace.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Admins will be able to invite Developers to a Dev Portal by 
+<p>When enabled, Admins will be able to invite Developers to a Dev Portal by
 using the “Invite” button in the Kong Manager.</p>
 
 <h3 id="portal_access_request_email">portal_access_request_email</h3>
@@ -2964,7 +2968,7 @@ using the “Invite” button in the Kong Manager.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Admins specified by <code class="highlighter-rouge">smtp_admin_emails</code> will receive an email 
+<p>When enabled, Admins specified by <code class="highlighter-rouge">smtp_admin_emails</code> will receive an email
 when a Developer requests access to a Dev Portal.</p>
 
 <h3 id="portal_approved_email">portal_approved_email</h3>
@@ -2973,7 +2977,7 @@ when a Developer requests access to a Dev Portal.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Developers will receive an email when access to a Dev Portal has 
+<p>When enabled, Developers will receive an email when access to a Dev Portal has
 been approved.</p>
 
 <h3 id="portal_reset_email">portal_reset_email</h3>
@@ -2982,7 +2986,7 @@ been approved.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Developers will be able to use the “Reset Password” flow on a 
+<p>When enabled, Developers will be able to use the “Reset Password” flow on a
 Dev Portal and will receive an email with password reset instructions.</p>
 
 <p>When disabled, Developers will <em>not</em> be able to reset their account passwords.</p>
@@ -2993,10 +2997,10 @@ Dev Portal and will receive an email with password reset instructions.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Developers will receive an email after successfully reseting 
+<p>When enabled, Developers will receive an email after successfully reseting
 their Dev Portal account password.</p>
 
-<p>When disabled, Developers will still be able to reset their account passwords, 
+<p>When disabled, Developers will still be able to reset their account passwords,
 but will not recieve a confirmation email.</p>
 
 <h3 id="portal_emails_from">portal_emails_from</h3>
@@ -3063,7 +3067,7 @@ but will not recieve a confirmation email.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Expiration time in seconds for Admin invitation links. Set to zero for no 
+<p>Expiration time in seconds for Admin invitation links. Set to zero for no
 expiration.</p>
 
 <h2 id="general-smtp-configuration">General SMTP Configuration</h2>
@@ -3074,8 +3078,8 @@ expiration.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled this flag will only mock the sending of emails and will not 
-attempt to send actual emails. This can be used for testing before the SMTP 
+<p>When enabled this flag will only mock the sending of emails and will not
+attempt to send actual emails. This can be used for testing before the SMTP
 client is fully configured.</p>
 
 <p><strong>Examples:</strong></p>
@@ -3104,7 +3108,7 @@ The host of the SMTP server to connect to.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When set to <code class="highlighter-rouge">on</code>, STARTTLS is used to encrypt communication with the SMTP 
+<p>When set to <code class="highlighter-rouge">on</code>, STARTTLS is used to encrypt communication with the SMTP
 server. This is normally used in conjunction with port 587.</p>
 
 <h3 id="smtp_username">smtp_username</h3>
@@ -3129,7 +3133,7 @@ server. This is normally used in conjunction with port 587.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When set to <code class="highlighter-rouge">on</code> SMTPS is used to encrypt communication with the SMTP server. 
+<p>When set to <code class="highlighter-rouge">on</code> SMTPS is used to encrypt communication with the SMTP server.
 This is normally used in conjunction with port 465.</p>
 
 <h3 id="smtp_auth_type">smtp_auth_type</h3>
@@ -3138,7 +3142,7 @@ This is normally used in conjunction with port 465.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>The method used to authenticate with the SMTP server. Valid options are 
+<p>The method used to authenticate with the SMTP server. Valid options are
 <code class="highlighter-rouge">plain</code>, <code class="highlighter-rouge">login</code>, or <code class="highlighter-rouge">nil</code>.</p>
 
 <h3 id="smtp_domain">smtp_domain</h3>
@@ -3200,7 +3204,7 @@ API and database traffic.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Kong will log information about Admin API access and database 
+<p>When enabled, Kong will log information about Admin API access and database
 row insertions, updates, and deletes.</p>
 
 <h3 id="audit_log_ignore_methods">audit_log_ignore_methods</h3>
@@ -3209,7 +3213,7 @@ row insertions, updates, and deletes.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of HTTP methods that will not generate audit log entries. 
+<p>Comma-separated list of HTTP methods that will not generate audit log entries.
 By default, all HTTP requests will be logged.</p>
 
 <h3 id="audit_log_ignore_paths">audit_log_ignore_paths</h3>
@@ -3218,7 +3222,7 @@ By default, all HTTP requests will be logged.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of request paths that will not generate audit log entries. 
+<p>Comma-separated list of request paths that will not generate audit log entries.
 By default, all HTTP requests will be logged.</p>
 
 <h3 id="audit_log_ignore_tables">audit_log_ignore_tables</h3>
@@ -3227,8 +3231,8 @@ By default, all HTTP requests will be logged.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Comma-separated list of database tables that will not generate audit log 
-entries. By default, updates to all database tables will be logged (the 
+<p>Comma-separated list of database tables that will not generate audit log
+entries. By default, updates to all database tables will be logged (the
 term “updates” refers to the creation, update, or deletion of a row).</p>
 
 <h3 id="audit_log_record_ttl">audit_log_record_ttl</h3>
@@ -3237,7 +3241,7 @@ term “updates” refers to the creation, update, or deletion of a row).</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Length, in seconds, of the TTL for audit log records. Records in the database 
+<p>Length, in seconds, of the TTL for audit log records. Records in the database
 older than their TTL are automatically purged.</p>
 
 <h3 id="audit_log_signing_key">audit_log_signing_key</h3>
@@ -3246,9 +3250,9 @@ older than their TTL are automatically purged.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the path to a private RSA signing key that can be used to insert a 
-signature of audit records, adjacent to the record. The corresponding public 
-key should be stored offline, and can be used the validate audit entries in 
+<p>Defines the path to a private RSA signing key that can be used to insert a
+signature of audit records, adjacent to the record. The corresponding public
+key should be stored offline, and can be used the validate audit entries in
 the future. If this value is undefined, no signature will be generated.</p>
 
 <h2 id="granular-tracing">Granular Tracing</h2>
@@ -3273,9 +3277,9 @@ etc.</p>
 <p><strong>Description</strong></p>
 
 <p>Defines how Kong will write tracing data at the conclusion of the request. The
- default option, <code class="highlighter-rouge">file</code>, writes a human-readable depiction of tracing data to a 
- configurable location on the node’s file system. Other strategies write tracing 
- data as a JSON document to the configured endpoint. Valid entries for this 
+ default option, <code class="highlighter-rouge">file</code>, writes a human-readable depiction of tracing data to a
+ configurable location on the node’s file system. Other strategies write tracing
+ data as a JSON document to the configured endpoint. Valid entries for this
  option are <code class="highlighter-rouge">file</code>, <code class="highlighter-rouge">file_raw</code>, <code class="highlighter-rouge">http</code>, <code class="highlighter-rouge">tcp</code>, <code class="highlighter-rouge">tls</code>, and <code class="highlighter-rouge">udp</code>.</p>
 
 <h3 id="tracing_write_endpoint">tracing_write_endpoint</h3>
@@ -3284,11 +3288,11 @@ etc.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the endpoint to which tracing data will be written. For the ‘file’ and 
-‘file_raw’ tracing write strategies, this value must be a valid location on the 
+<p>Defines the endpoint to which tracing data will be written. For the ‘file’ and
+‘file_raw’ tracing write strategies, this value must be a valid location on the
 node’s file system to which Kong must have write access.</p>
 
-<p>For the <code class="highlighter-rouge">tcp</code>, <code class="highlighter-rouge">tls</code>, and <code class="highlighter-rouge">udp</code> strategies, this value is defined as a string in 
+<p>For the <code class="highlighter-rouge">tcp</code>, <code class="highlighter-rouge">tls</code>, and <code class="highlighter-rouge">udp</code> strategies, this value is defined as a string in
 the form of:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;HOST&gt;:&lt;PORT&gt;
@@ -3307,9 +3311,9 @@ the form of:</p>
 <p><strong>Description:</strong></p>
 
 <p>The minimum time, in microseconds, over which a trace must execute in order to
- write the trace data to the configured endpoint. This configuration can be used 
+ write the trace data to the configured endpoint. This configuration can be used
  to lower the noise present in trace data by removing trace objects that are not
- interesting from a timing perspective. The default value of ‘0’ removes this 
+ interesting from a timing perspective. The default value of ‘0’ removes this
  limitation, causing traces of any duration to be written.</p>
 
 <h3 id="tracing_types">tracing_types</h3>
@@ -3318,11 +3322,11 @@ the form of:</p>
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the types of traces that are written. Trace types not defined in this 
-list are ignored, regardless of their lifetime. The default special value of 
-‘all’ results in all trace types being written, regardless of type. Included 
+<p>Defines the types of traces that are written. Trace types not defined in this
+list are ignored, regardless of their lifetime. The default special value of
+‘all’ results in all trace types being written, regardless of type. Included
 trace types are: <code class="highlighter-rouge">query</code>,<code class="highlighter-rouge">legacy_query</code>, <code class="highlighter-rouge">router</code>, <code class="highlighter-rouge">balancer.getPeer</code>, `
-balancer.toip<code class="highlighter-rouge">, </code>connect.toip<code class="highlighter-rouge">, </code>access.before<code class="highlighter-rouge">, and </code>access.after<code class="highlighter-rouge"> 
+balancer.toip<code class="highlighter-rouge">, </code>connect.toip<code class="highlighter-rouge">, </code>access.before<code class="highlighter-rouge">, and </code>access.after<code class="highlighter-rouge">
 </code>cassandra_iterate<code class="highlighter-rouge">, and </code>plugin`.</p>
 
 <h3 id="tracing_debug_header">tracing_debug_header</h3>
@@ -3331,11 +3335,11 @@ balancer.toip<code class="highlighter-rouge">, </code>connect.toip<code class="h
 
 <p><strong>Description:</strong></p>
 
-<p>Defines the name of the HTTP request header that must be present in order to 
-generate traces within a request. Setting this value provides a mechanism to 
-selectively generate request traces at the client’s request. Note that the value 
-of the header does not matter, only that the header is present in the request. 
-When this value is not set and tracing is enabled, Kong will generate trace data 
+<p>Defines the name of the HTTP request header that must be present in order to
+generate traces within a request. Setting this value provides a mechanism to
+selectively generate request traces at the client’s request. Note that the value
+of the header does not matter, only that the header is present in the request.
+When this value is not set and tracing is enabled, Kong will generate trace data
 for all requests flowing through the proxy and Admin API.</p>
 
 <h3 id="generate_trace_details">generate_trace_details</h3>
@@ -3344,10 +3348,10 @@ for all requests flowing through the proxy and Admin API.</p>
 
 <p><strong>Description:</strong></p>
 
-<p>When enabled, Kong will write context-specific details into traces. Trace details 
-offer more data about the context of the trace. This can significantly increase 
-the size of trace reports. Note also that trace details may contain potentially 
-sensitive information, such as raw SQL queries; care should be taken to store 
+<p>When enabled, Kong will write context-specific details into traces. Trace details
+offer more data about the context of the trace. This can significantly increase
+the size of trace reports. Note also that trace details may contain potentially
+sensitive information, such as raw SQL queries; care should be taken to store
 traces properly when this option is enabled.</p>
 
 
@@ -3522,7 +3526,7 @@ traces properly when this option is enabled.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 

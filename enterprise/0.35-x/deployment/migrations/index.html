@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562648515"
+    href="/assets/styles.css?v=1562720442"
   />
   
 </head>
@@ -1088,6 +1088,11 @@ window['_fs_namespace'] = 'FS';
                     <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
                   </li>
                   
+                  
+                  <li>
+                    <a href="/enterprise/0.35-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
+                  </li>
+                  
                 </ul>
                 
               </li>
@@ -1352,6 +1357,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#prerequisites-for-migrating-to-035" class="scroll-to">Prerequisites for Migrating to 0.35</a></li>
   <li><a href="#changes-and-configuration-to-consider-before-upgrading" class="scroll-to">Changes and Configuration to Consider before Upgrading</a></li>
   <li><a href="#migration-steps-from-034-to-035" class="scroll-to">Migration Steps from 0.34 to 0.35</a></li>
+  <li><a href="#migration-steps-from-kong-10-to-kong-enterprise-035" class="scroll-to">Migration Steps from Kong 1.0 to Kong Enterprise 0.35</a></li>
 </ul>
 
           
@@ -1429,6 +1435,27 @@ window['_fs_namespace'] = 'FS';
   <li><code class="highlighter-rouge">4</code> - there are pending migrations: once your old cluster is decommissioned you should run <code class="highlighter-rouge">kong migrations finish</code> (step 5 above).</li>
   <li><code class="highlighter-rouge">5</code> - there are new migrations: you should start a migration sequence (beginning from step 1 above).</li>
 </ul>
+
+<h3 id="migration-steps-from-kong-10-to-kong-enterprise-035">Migration Steps from Kong 1.0 to Kong Enterprise 0.35</h3>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> This action is irreversible, therefore it is highly recommended to have a backup of production data.
+</div>
+
+<p>Kong Enterprise 0.35 includes a command to migrate all Kong entities to Kong Enterprise. The following steps will guide you through the migration process.</p>
+
+<p>First download Kong Enterprise 0.35, and configure it to point to the same datastore as your Kong 1.0 node. The migration command expects the datastore to be up to date on any pending migration:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong migrations up <span class="o">[</span><span class="nt">-c</span> config]
+<span class="nv">$ </span>kong migrations finish <span class="o">[</span><span class="nt">-c</span> config]
+</code></pre></div></div>
+
+<p>Once all Kong Enterprise migrations are up to date, the migration command can be run as:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong migrations migrate-community-to-enterprise <span class="o">[</span><span class="nt">-c</span> config] <span class="o">[</span><span class="nt">-f</span><span class="o">]</span> <span class="o">[</span><span class="nt">-y</span><span class="o">]</span>
+</code></pre></div></div>
+
+<p>Confirm now that all the entities are now available on your Kong Enterprise 0.35 node.</p>
 
 
         </div>
@@ -1602,7 +1629,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1562648515"></script>
+    <script src="/assets/app.js?v=1562720442"></script>
 
     <div id="fb-root"></div>
 
