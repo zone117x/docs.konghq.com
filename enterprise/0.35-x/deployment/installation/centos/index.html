@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1562870941"
+    href="/assets/styles.css?v=1562883854"
   />
   
 </head>
@@ -620,7 +620,7 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
-            <a href="/enterprise/0.35-x"  >
+            <a href="/enterprise/0.35-x/deployment/installation/docker"  >
               Installation
             </a>
             
@@ -1354,39 +1354,305 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#installation-steps" class="scroll-to">Installation Steps</a></li>
+  <li><a href="#introduction" class="scroll-to">Introduction</a></li>
+  <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
+  <li><a href="#step-1-download-kong-enterprise" class="scroll-to">Step 1. Download Kong Enterprise</a></li>
+  <li><a href="#step-2-install-kong-enterprise" class="scroll-to">Step 2. Install Kong Enterprise</a></li>
+  <li><a href="#step-3-setup-postgresql" class="scroll-to">Step 3. Setup PostgreSQL</a></li>
+  <li><a href="#step-4-create-a-kong-database-and-user" class="scroll-to">Step 4. Create a Kong database and user</a></li>
+  <li><a href="#step-5-modify-kongs-configuration-file" class="scroll-to">Step 5. Modify Kong’s configuration file</a></li>
+  <li><a href="#step-6-seed-the-super-admin-optional" class="scroll-to">Step 6. Seed the Super Admin <em>(optional)</em></a></li>
+  <li><a href="#step-7-start-kong" class="scroll-to">Step 7. Start Kong</a></li>
+  <li><a href="#troubleshooting" class="scroll-to">Troubleshooting</a></li>
+  <li><a href="#next-steps" class="scroll-to">Next Steps</a></li>
 </ul>
 
           
 
-          <h2 id="installation-steps">Installation Steps</h2>
+          <h2 id="introduction">Introduction</h2>
+
+<p>This guide walks through downloading, installing, and starting Kong Enterprise
+using CentOS and PostgreSQL 9.5. The configuration shown in this guide is
+intended only as an example – you will want to modify and take additional
+measures to secure your Kong Enterprise system before moving to a production
+environment.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>To complete this guide you will need:</p>
+
+<ul>
+  <li>A CentOS 6 or 7 system with root equivalent access.</li>
+  <li>The ability to SSH to the system.</li>
+</ul>
+
+<h2 id="step-1-download-kong-enterprise">Step 1. Download Kong Enterprise</h2>
 
 <ol>
   <li>
-    <p>Head over to <a href="https://bintray.com/kong/kong-enterprise-edition-rpm">https://bintray.com/kong/kong-enterprise-edition-rpm</a></p>
-  </li>
-  <li>
-    <p>Click “Set Me Up” and follow the instructions on the “Download &gt; Resolving 
-RPM packages” tab</p>
-  </li>
-  <li>
-    <p>Edit the repo file you placed under <code class="highlighter-rouge">/etc/yum.repos.d</code> to correctly set up your CentOS version (<code class="highlighter-rouge">$releasever</code> e.g. <code class="highlighter-rouge">6</code>, <code class="highlighter-rouge">7</code> etc.), by editing the baseurl field; for instance:</p>
+    <p>Option 1. Download via <strong>Packages</strong></p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ```
- baseurl=https://&lt;USERNAME&gt;:&lt;API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-rpm/centos/$releasever
- ```
+    <p>Log in to <a href="http://bintray.com">Bintray</a> to download the latest Kong 
+ Enterprise RPM for CentOS. Your <strong>Sales</strong> or <strong>Support</strong> contact will
+ email this credential to you.</p>
+
+    <p>Copy the file to your home directory:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ scp kong-enterprise-edition-0.35-1.el7.noarch.rpm &lt;centos user&gt;@&lt;serverip:~
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Option 2. Download via <strong>YUM</strong></p>
+
+    <p>Edit the <code class="highlighter-rouge">baseurl</code> field in the yum repository file <code class="highlighter-rouge">/etc/yum.repos.d</code> :</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> baseurl=https://&lt;USERNAME&gt;:&lt;API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-rpm/centos/$releasever
+</code></pre></div>    </div>
+    <p>Replace <code class="highlighter-rouge">&lt;USERNAME&gt;</code> with your Bintray account information</p>
+
+    <p>Set <code class="highlighter-rouge">$releasever</code> to the correct CentOS version (e.g. <code class="highlighter-rouge">6</code> or <code class="highlighter-rouge">7</code>)</p>
+  </li>
+  <li>
+    <p>Obtain your Kong Enterprise license</p>
+
+    <p>If you do not already have your license file, you can download it from your
+account files in Bintray 
+<code class="highlighter-rouge">https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files</code></p>
+
+    <p>Ensure your license file is in proper <code class="highlighter-rouge">JSON</code>:</p>
+
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="s2">"license"</span><span class="p">:{</span><span class="s2">"signature"</span><span class="p">:</span><span class="s2">"91e6dd9716d12ffsn4a5ckkb16a556dbebdbc4d0a66d9b2c53f8c8d717eb93dd2bdbe2cb3ef51c20806f14345128907da35"</span><span class="p">,</span><span class="s2">"payload"</span><span class="p">:{</span><span class="s2">"customer"</span><span class="p">:</span><span class="s2">"Kong Inc"</span><span class="p">,</span><span class="s2">"license_creation_date"</span><span class="p">:</span><span class="s2">"2019-05-07"</span><span class="p">,</span><span class="s2">"product_subscription"</span><span class="p">:</span><span class="s2">"Kong Enterprise Edition"</span><span class="p">,</span><span class="s2">"admin_seats"</span><span class="p">:</span><span class="s2">"5"</span><span class="p">,</span><span class="s2">"support_plan"</span><span class="p">:</span><span class="s2">"None"</span><span class="p">,</span><span class="s2">"license_expiration_date"</span><span class="p">:</span><span class="s2">"2021-04-01"</span><span class="p">,</span><span class="s2">"license_key"</span><span class="p">:</span><span class="s2">"00Q1K00000zuUAwUAM_a1V1K000005kRhuUAE"</span><span class="p">},</span><span class="s2">"version"</span><span class="p">:</span><span class="mi">1</span><span class="p">}}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Securely copy the license file to the CentOS system</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ scp license.json &lt;centos username&gt;@&lt;serverip&gt;:~
 </code></pre></div>    </div>
   </li>
 </ol>
 
-<p><strong>Note</strong>: <code class="highlighter-rouge">&lt;USERNAME&gt;</code> is obtained from your access key, by appending a <code class="highlighter-rouge">%40kong</code>
-to it (encoded form of <code class="highlighter-rouge">@kong</code>). For example, if your access key is <code class="highlighter-rouge">bob-company</code>,
-your username will be <code class="highlighter-rouge">bob-company%40kong</code>.</p>
+<h2 id="step-2-install-kong-enterprise">Step 2. Install Kong Enterprise</h2>
 
 <ol>
-  <li>Update YUM’s database <code class="highlighter-rouge">yum update</code></li>
-  <li>Install Kong and proceed normally from here</li>
+  <li>
+    <p>Install Kong Enterprise</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo yum install kong-enterprise-edition-0.35-1.el7.noarch.rpm
+</code></pre></div>    </div>
+    <blockquote>
+      <p>Note: Your version may be different based on when you obtained the rpm</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Copy the license file to the <code class="highlighter-rouge">/etc/kong</code> directory</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo cp kong-se-license.json /etc/kong/license.json
+</code></pre></div>    </div>
+    <p>Kong will look for a valid license in this location.</p>
+  </li>
 </ol>
+
+<h2 id="step-3-setup-postgresql">Step 3. Setup PostgreSQL</h2>
+
+<ol>
+  <li>
+    <p>Install PostgreSQL</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+ $ sudo yum install postgresql95 postgresql95-server
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Initialize the PostgreSQL Database</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Start PostgreSQL and Enable Automatic Start</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo systemctl enable postgresql-9.5
+ $ sudo systemctl start postgresql-9.5
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="step-4-create-a-kong-database-and-user">Step 4. Create a Kong database and user</h2>
+
+<ol>
+  <li>
+    <p>Switch to PostgreSQL user</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo -i -u postgres
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Launch PostgreSQL</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ psql
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Run the following command to:</p>
+
+    <p>– Create a Kong user and database</p>
+
+    <p>–  Make Kong the owner of the database</p>
+
+    <p>–  Set the password of the Kong user to ‘kong’</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password 'kong';
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p>⚠️<strong>Note</strong>: Make sure the username and password for the Kong Database are
+kept safe. We have used a simple example for illustration purposes only.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Exit from PostgreSQL</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ \q
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Return to terminal</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ exit
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Run the following command to access the PostgreSQL configuration file.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo vi /var/lib/pgsql/9.5/data/pg_hba.conf
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Under IPv4 local connections replace <code class="highlighter-rouge">ident</code> with <code class="highlighter-rouge">md5</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>TYPE</td>
+          <td>DATABASE</td>
+          <td>USER</td>
+          <td>ADDRESS</td>
+          <td>METHOD</td>
+        </tr>
+        <tr>
+          <td># IPv4 local connections:</td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>host</td>
+          <td>all</td>
+          <td>all</td>
+          <td>127.0.0.1/32</td>
+          <td><strong>md5</strong></td>
+        </tr>
+        <tr>
+          <td># IPv6 local connections:</td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>host</td>
+          <td>all</td>
+          <td>all</td>
+          <td>::1/128</td>
+          <td>ident</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p>Restart PostgreSQL</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo systemctl restart postgresql-9.5
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="step-5-modify-kongs-configuration-file">Step 5. Modify Kong’s configuration file</h2>
+
+<p>To use the newly provisioned PostgreSQL database, Kong’s configuration file
+must be modified to accept the correct PostgreSQL user and password.</p>
+
+<ol>
+  <li>
+    <p>Make a copy of the default configuration file</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ cp /etc/kong/kong.conf.default /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Uncomment and update the PostgreSQL database properties inside the Kong conf:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo vi etc/kong/kong.conf
+</code></pre></div>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> pg_user = kong
+ pg_password = kong
+ pg_database = kong
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="step-6-seed-the-super-admin-optional">Step 6. Seed the Super Admin <em>(optional)</em></h2>
+
+<p>For the added security of Role-Based Access Control (RBAC), it is best to seed 
+the <strong>Super Admin</strong> before initial start-up.</p>
+
+<p>Create an environment variable with the desired <strong>Super Admin</strong> password:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export KONG_PASSWORD=&lt;password-only-you-know&gt;
+</code></pre></div></div>
+
+<p>This will be used during migrations to seed the initial <strong>Super Admin</strong> 
+password within Kong.</p>
+
+<h2 id="step-7-start-kong">Step 7. Start Kong</h2>
+
+<ol>
+  <li>
+    <p>Run migrations to prepare the Kong database</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ kong migrations bootstrap -c /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Start Kong</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo /usr/local/bin/kong start -c /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Verify Kong is working</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -i -X GET --url http://localhost:8001/services
+</code></pre></div>    </div>
+
+    <p>You should receive an HTTP/1.1 200 OK message.</p>
+  </li>
+</ol>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If you did not receive an HTTP/1.1 200 OK message, or need assistance completing
+setup reach out to your <strong>Support contact</strong> or head over to the
+<a href="https://support.konghq.com/support/s/">Support Portal</a>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Work through Kong Enterprise’s series of 
+<a href="/enterprise/latest/getting-started">Getting Started</a> guides to get the most
+out of Kong Enterprise.</p>
 
 
         </div>
@@ -1560,7 +1826,7 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 </script>
 
 
-    <script src="/assets/app.js?v=1562870941"></script>
+    <script src="/assets/app.js?v=1562883854"></script>
 
     <div id="fb-root"></div>
 
