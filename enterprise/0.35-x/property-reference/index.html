@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1563438307"
+    href="/assets/styles.css?v=1563489071"
   />
   
 </head>
@@ -664,6 +664,14 @@ window['_fs_namespace'] = 'FS';
             
           </li>
           
+          
+          <li>
+            <a href="/enterprise/0.35-x/deployment/migrate-apis-cli"  >
+              Migrating APIs to Services
+            </a>
+            
+          </li>
+          
         </ul>
       </nav>
       
@@ -743,6 +751,33 @@ window['_fs_namespace'] = 'FS';
           <li>
             <a href="/enterprise/0.35-x/getting-started/enable-dev-portal"  >
               How to Enable the Dev Portal
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
+        <a href="/enterprise/0.35-x/property-reference">
+          <h5>Guides & References</h5>
+        </a>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.35-x/property-reference"  class="active" >
+              Configuration Property Reference
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.35-x/cli"  >
+              CLI Reference
             </a>
             
           </li>
@@ -934,6 +969,14 @@ window['_fs_namespace'] = 'FS';
               </li>
               
             </ul>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.35-x/kong-manager/reset-password"  >
+              How to Reset Passwords and RBAC Tokens
+            </a>
             
           </li>
           
@@ -1276,6 +1319,12 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
+                <a href="/enterprise/0.35-x/plugins/upstream-tls" >Upstream TLS</a>
+                
+              </li>
+              
+              
+              <li>
                 <a href="/enterprise/0.35-x/plugins/vault-auth" >Vault Auth</a>
                 
               </li>
@@ -1317,25 +1366,6 @@ window['_fs_namespace'] = 'FS';
               </li>
               
             </ul>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/0.35-x/property-reference">
-          <h5>Guides & References</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/0.35-x/property-reference"  class="active" >
-              Configuration Property Reference
-            </a>
             
           </li>
           
@@ -2184,6 +2214,21 @@ never expire.</p>
 resurrected for when they cannot be refreshed (e.g., the datastore is
 unreachable). When this TTL expires, a new attempt to refresh the stale
 entities will be made.</p>
+
+<h3 id="db_cache_warmup_entities">db_cache_warmup_entities</h3>
+
+<p><strong>Default:</strong> <code class="highlighter-rouge">services, plugins</code></p>
+
+<p><strong>Description</strong></p>
+
+<p>Entities to be pre-loaded from the datastore into the in-memory cache at Kong
+start-up.
+This speeds up the first access of endpoints that use the given entities.
+When the <code class="highlighter-rouge">services</code> entity is configured for warmup, the DNS entries for values
+in its <code class="highlighter-rouge">host</code> attribute are pre-resolved asynchronously as well.
+Cache size set in <code class="highlighter-rouge">mem_cache_size</code> should be set to a value large enough to
+hold all instances of the specified entities.
+If the size is insufficient, Kong will log a warning.</p>
 
 <h2 id="dns-resolver">DNS Resolver</h2>
 
@@ -3526,7 +3571,7 @@ traces properly when this option is enabled.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1563438307"></script>
+    <script src="/assets/app.js?v=1563489071"></script>
 
     <div id="fb-root"></div>
 
