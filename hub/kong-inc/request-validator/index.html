@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565026404"
+    href="/assets/styles.css?v=1565039645"
   />
   
 </head>
@@ -569,7 +569,7 @@ window['_fs_namespace'] = 'FS';
       <div class="versions-dropdown dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-          Plugin Version 0.35-x
+          Plugin Version 0.36-x
           <em>(latest)</em>
           <span class="caret"></span>
         </button>
@@ -578,7 +578,14 @@ window['_fs_namespace'] = 'FS';
             
             <li  class="active" >
               <a href="/hub/kong-inc/request-validator/">
-                0.35-x <em>(latest)</em>
+                0.36-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/request-validator/0.35-x.html">
+                0.35-x 
               </a>
             </li>
           
@@ -608,6 +615,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#overview">Overview</a></li>
       <li><a href="#schema-definition">Schema Definition</a></li>
       <li><a href="#schema-example">Schema Example</a></li>
+      <li><a href="#parameter-schema-definition">Parameter Schema Definition</a></li>
       <li><a href="#further-references">Further References</a></li>
     </ul>
   </li>
@@ -672,6 +680,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  0.36-x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.35-x
                   </li>
                 
@@ -730,6 +747,15 @@ window['_fs_namespace'] = 'FS';
             <td colspan="2">
               <ul class="extn-versions">
               
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/request-validator/0.35-x.html">
+                      0.35-x </a>
+                      
+                  </li>
                 
               
               </ul>
@@ -803,7 +829,8 @@ making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.version=kong"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -816,6 +843,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">kong</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -832,7 +860,8 @@ adding this section do your declarative configuration file:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.version=kong"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -845,6 +874,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">kong</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -863,7 +893,8 @@ on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-validator"</span> <span class="se">\</span>
      <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span>
+    <span class="nt">--data</span> <span class="s2">"config.body_schema=[{"</span>name<span class="s2">":{"</span><span class="nb">type</span><span class="s2">": "</span>string<span class="s2">", "</span>required<span class="s2">": true}}]"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.version=kong"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -876,6 +907,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">body_schema</span><span class="pi">:</span> <span class="pi">[{</span><span class="s2">"</span><span class="s">name"</span><span class="pi">:{</span><span class="s2">"</span><span class="s">type"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">string"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">required"</span><span class="pi">:</span> <span class="nv">true</span><span class="pi">}}]</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">kong</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
@@ -933,6 +965,38 @@ adding this section do your declarative configuration file:</p>
           
         </td>
         <td><p>Array of schema fields</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.allowed_content_types</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p>{“application/json”=&gt;nil}</p>
+
+        </td>
+        <td><p>Set of allowed content types</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.version</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p>kong</p>
+
+        </td>
+        <td><p>validator type</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.parameter_schema</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>Array of parameter validator specification</p>
 </td>
       </tr>
     
@@ -1287,6 +1351,206 @@ validations:</p>
 <p>In case either the JSON or schema validation fail, a <code class="highlighter-rouge">400 Bad Request</code> will
 be returned as response.</p>
 
+<h3 id="parameter-schema-definition">Parameter Schema Definition</h3>
+
+<p>You can setup definitions for each parameter based of the OpenAPI Specification and
+the plugin will validate each parameter against it. For more information see the
+<a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#parameter-object">OpenAPI spec</a> or the <a href="https://swagger.io/docs/specification/serialization/">OpenAPI examples</a>.</p>
+
+<h4 id="fixed-fields">Fixed Fields</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td><code class="highlighter-rouge">string</code></td>
+      <td><strong>REQUIRED</strong>. The name of the parameter. Parameter names are <em>case sensitive</em>, and corresponds to the parameter name used by the <code class="highlighter-rouge">in</code> property. If <code class="highlighter-rouge">in</code> is <code class="highlighter-rouge">"path"</code>, the <code class="highlighter-rouge">name</code> field MUST correspond to the <a href="https://docs.konghq.com/latest/proxy/#capturing-groups">named capture group</a> from the configured <code class="highlighter-rouge">route</code>.</td>
+    </tr>
+    <tr>
+      <td>in</td>
+      <td><code class="highlighter-rouge">string</code></td>
+      <td><strong>REQUIRED</strong>. The location of the parameter. Possible values are “query”, “header” or “path”.</td>
+    </tr>
+    <tr>
+      <td>required</td>
+      <td><code class="highlighter-rouge">boolean</code></td>
+      <td><strong>REQUIRED</strong> Determines whether this parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td>style</td>
+      <td><code class="highlighter-rouge">string</code></td>
+      <td><strong>REQUIRED</strong> when schema and explode are set<br /> Describes how the parameter value will be serialized depending on the type of the parameter value.</td>
+    </tr>
+    <tr>
+      <td>schema</td>
+      <td><code class="highlighter-rouge">string</code></td>
+      <td><strong>REQUIRED</strong> when style and explode are set<br /> The schema defining the type used for the parameter. It is validated using <code class="highlighter-rouge">draft4</code> for JSONschema draft 4 compliant validator.</td>
+    </tr>
+    <tr>
+      <td>explode</td>
+      <td><code class="highlighter-rouge">boolean</code></td>
+      <td><strong>REQUIRED</strong> when schema and style are set<br /> When this is true, parameter values of type <code class="highlighter-rouge">array</code> or <code class="highlighter-rouge">object</code> generate separate parameters for each value of the array or key-value pair of the map.  For other types of parameters this property has no effect.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="examples-1">Examples</h4>
+
+<p>In this example we will use the plugin to validate a request’s path parameter.</p>
+
+<ol>
+  <li>
+    <p>Add a service to Kong</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -i -X POST http://kong:8001/services \
+  --data name=httpbin \
+  --data url=http://httpbin.org
+
+HTTP/1.1 201 Created
+..
+
+{
+  "host":"httpbin.org",
+  "created_at":1563479714,
+  "connect_timeout":60000,
+  "id":"0a7f3795-bc92-43b5-aada-258113b7c4ed",
+  "protocol":"http",
+  "name":"httpbin",
+  "read_timeout":60000,
+  "port":80,
+  "path":null,
+  "updated_at":1563479714,
+  "retries":5,
+  "write_timeout":60000
+}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Add a route with <a href="https://docs.konghq.com/latest/proxy/#capturing-groups">named capture group</a></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -i -X POST http://kong:8001/services/httpbin/routes \
+  --data paths="/status/(?&lt;status_code&gt;\d%+)" \
+  --data strip_path=false
+
+HTTP/1.1 201 Created
+..
+
+{
+  "created_at": 1563481399,
+  "methods": null,
+  "id": "cd78749a-33a3-4bbd-9560-588eaf4116d3",
+  "service": {
+    "id": "0a7f3795-bc92-43b5-aada-258113b7c4ed"
+  },
+  "name": null,
+  "hosts": null,
+  "updated_at": 1563481399,
+  "preserve_host": false,
+  "regex_priority": 0,
+  "paths": [
+    "\\/status\\/(?&lt;status_code&gt;\\d+)"
+  ],
+  "sources": null,
+  "destinations": null,
+  "snis": null,
+  "protocols": [
+    "http",
+    "https"
+  ],
+  "strip_path": false
+}
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Enable request-validator plugin to validate body and parameter</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -i -X POST http://kong:8001/services/httpbin/plugins \
+   --header "Content-Type: application/json" \
+   --data @parameter_schema.json
+
+ HTTP/1.1 201 Created
+ ..
+
+ {
+   "created_at": 1563483059,
+   "config": {
+     "body_schema": "{\"name\":{\"type\": \"string\", \"required\": false}}",
+     "parameter_schema": [
+       {
+         "style": "simple",
+         "required": true,
+         "in": "path",
+         "schema": "{\"type\": \"number\"}",
+         "explode": false,
+         "name": "status_code"
+       }
+     ],
+     "version": "draft4"
+   },
+   "id": "ad91a2d4-6217-4d34-9133-4a2508ddda9f",
+   "service": {
+     "id": "0a7f3795-bc92-43b5-aada-258113b7c4ed"
+   },
+   "enabled": true,
+   "run_on": "first",
+   "consumer": null,
+   "route": null,
+   "name": "request-validator"
+ }
+</code></pre></div>    </div>
+
+    <p>content of file <code class="highlighter-rouge">parameter_schema.json</code></p>
+
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"request-validator"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="s2">"body_schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:{</span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">string</span><span class="se">\"</span><span class="s2">, </span><span class="se">\"</span><span class="s2">required</span><span class="se">\"</span><span class="s2">: false}}"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"draft4"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"parameter_schema"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+       </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"status_code"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"in"</span><span class="p">:</span><span class="w"> </span><span class="s2">"path"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">type</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">number</span><span class="se">\"</span><span class="s2">}"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"style"</span><span class="p">:</span><span class="w"> </span><span class="s2">"simple"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"explode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+       </span><span class="p">}</span><span class="w">
+     </span><span class="p">]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p>Here validation will make sure <code class="highlighter-rouge">status_code</code> is a number.</p>
+  </li>
+  <li>
+    <p>A proxy request with a non-numerical status code will be blocked</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -i -X GET http://kong:8000/status/abc
+ HTTP/1.1 400 Bad Request
+ ..
+
+ {"message":"request param doesn't conform to schema"}
+</code></pre></div>    </div>
+
+    <p>but it will be allowed with a numeric status code</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -i -X GET http://kong:8000/status/200
+ HTTP/1.1 200 OK
+ X-Kong-Upstream-Latency: 163
+ X-Kong-Proxy-Latency: 37
+ ..
+
+</code></pre></div>    </div>
+  </li>
+</ol>
+
 <h3 id="further-references">Further References</h3>
 
 <p>Check out the Kong docs on storing custom entities <a href="/1.0.x/plugin-development/custom-entities/#defining-a-schema">here</a>.</p>
@@ -1475,7 +1739,7 @@ be returned as response.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1565026404"></script>
+    <script src="/assets/app.js?v=1565039645"></script>
 
     <div id="fb-root"></div>
 

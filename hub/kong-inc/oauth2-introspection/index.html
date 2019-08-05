@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565026404"
+    href="/assets/styles.css?v=1565039645"
   />
   
 </head>
@@ -569,7 +569,7 @@ window['_fs_namespace'] = 'FS';
       <div class="versions-dropdown dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-          Plugin Version 0.35-x
+          Plugin Version 0.36-x
           <em>(latest)</em>
           <span class="caret"></span>
         </button>
@@ -578,7 +578,14 @@ window['_fs_namespace'] = 'FS';
             
             <li  class="active" >
               <a href="/hub/kong-inc/oauth2-introspection/">
-                0.35-x <em>(latest)</em>
+                0.36-x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/oauth2-introspection/0.35-x.html">
+                0.35-x 
               </a>
             </li>
           
@@ -696,6 +703,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  0.36-x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.35-x
                   </li>
                 
@@ -761,6 +777,15 @@ window['_fs_namespace'] = 'FS';
             <td colspan="2">
               <ul class="extn-versions">
               
+                
+              
+                
+                  
+                  <li>
+                    <a href="/hub/kong-inc/oauth2-introspection/0.35-x.html">
+                      0.35-x </a>
+                      
+                  </li>
                 
               
                 
@@ -872,7 +897,8 @@ third-party OAuth 2.0 server.</p>
 making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span> 
+    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.consumer_by=username"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -884,6 +910,7 @@ adding this section do your declarative configuration file:</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">oauth2-introspection</span>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">consumer_by</span><span class="pi">:</span> <span class="s">username</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -899,7 +926,8 @@ adding this section do your declarative configuration file:</p>
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span> 
+    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.consumer_by=username"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -911,6 +939,7 @@ adding this section do your declarative configuration file:</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">oauth2-introspection</span>
   <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">consumer_by</span><span class="pi">:</span> <span class="s">username</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -928,7 +957,8 @@ on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span> <span class="se">\</span>
-    
+     <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.consumer_by=username"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -940,6 +970,7 @@ adding this section do your declarative configuration file:</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">oauth2-introspection</span>
   <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
+    <span class="na">consumer_by</span><span class="pi">:</span> <span class="s">username</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
@@ -963,7 +994,8 @@ CE 0.13.0</a> and
 can configure this plugin on top of such an API by making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/apis/<span class="o">{</span>api<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span> 
+    <span class="nt">--data</span> <span class="s2">"name=oauth2-introspection"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.consumer_by=username"</span>
 </code></pre></div></div>
 
 <ul>
@@ -1106,6 +1138,56 @@ target.</li>
 </td>
       </tr>
     
+      <tr>
+        <td><code>config.consumer_by</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p>username</p>
+
+        </td>
+        <td><p>A string indicating whether to associate oauth2 <code class="highlighter-rouge">username</code> or <code class="highlighter-rouge">client_id</code>
+with the consumer’s username. Oauth2 <code class="highlighter-rouge">username</code> is mapped to a consumer’s
+<code class="highlighter-rouge">username</code> field, while an oauth2 <code class="highlighter-rouge">client_id</code> maps to a consumer’s
+<code class="highlighter-rouge">custom_id</code></p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.introspect_request</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p>false</p>
+
+        </td>
+        <td><p>A boolean indicating whether to forward information about the current 
+downstream request to the introspect endpoint. If true, headers 
+<code class="highlighter-rouge">X-Request-Path</code> and <code class="highlighter-rouge">X-Request-Http-Method</code> will be inserted in the
+introspect request</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.custom_introspection_headers</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>A list of custom headers to be added in the introspection request</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.custom_claims_forward</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>A list of custom claims to be forwarded from the introspection response
+to the upstream request. Claims are forwarded in headers with prefix
+<code class="highlighter-rouge">X-Credential-{claim-name}</code></p>
+</td>
+      </tr>
+    
   </tbody>
 </table>
 
@@ -1129,8 +1211,8 @@ target.</li>
 
 <ul>
   <li><code class="highlighter-rouge">X-Consumer-ID</code>, the ID of the Consumer on Kong (if matched)</li>
-  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the custom_id of the Consumer (if matched and if existing)</li>
-  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the username of the Consumer (if matched and if existing)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Custom-ID</code>, the <code class="highlighter-rouge">custom_id</code> of the Consumer (if matched and if existing)</li>
+  <li><code class="highlighter-rouge">X-Consumer-Username</code>, the <code class="highlighter-rouge">username of</code> the Consumer (if matched and if existing)</li>
   <li><code class="highlighter-rouge">X-Anonymous-Consumer</code>, will be set to true when authentication failed, and the ‘anonymous’ consumer was set instead.</li>
   <li><code class="highlighter-rouge">X-Credential-Scope</code>, as returned by the Introspection response (if any)</li>
   <li><code class="highlighter-rouge">X-Credential-Client-ID</code>, as returned by the Introspection response (if any)</li>
@@ -1144,6 +1226,8 @@ target.</li>
   <li><code class="highlighter-rouge">X-Credential-Iss</code>, as returned by the Introspection response (if any)</li>
   <li><code class="highlighter-rouge">X-Credential-Jti</code>, as returned by the Introspection response (if any)</li>
 </ul>
+
+<p>Additionally, any claims specified in <code class="highlighter-rouge">config.custom_claims_forward</code> will also be forwarded with the <code class="highlighter-rouge">X-Credential-</code> prefix.</p>
 
 <p>Note: Aforementioned <code class="highlighter-rouge">X-Credential-*</code> headers are not set when authentication failed, and the ‘anonymous’ consumer was set instead.</p>
 
@@ -1328,7 +1412,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1565026404"></script>
+    <script src="/assets/app.js?v=1565039645"></script>
 
     <div id="fb-root"></div>
 
