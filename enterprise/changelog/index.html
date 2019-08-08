@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565281569"
+    href="/assets/styles.css?v=1565282106"
   />
   
 </head>
@@ -577,6 +577,15 @@ for details.</li>
 
 <h3 id="features">Features</h3>
 
+<h4 id="core">Core</h4>
+
+<ul>
+  <li>Adds support for <a href="/1.2.x/configuration/#db_cache_warmup_entities"><code class="highlighter-rouge">db_cache_warmup_entities</code></a>, 
+which allows Kong to pre-load all necessary entries into Kong nodes’ memory on start.</li>
+  <li>Provides support in declarative configuration for <strong>Workspaces</strong> and <strong>RBAC</strong>.</li>
+  <li>Provides support for the Redis Cluster library.</li>
+</ul>
+
 <h4 id="dev-portal">Dev Portal</h4>
 
 <ul>
@@ -621,20 +630,28 @@ to the <strong>upstream service request</strong>.</li>
 <h4 id="workspaces">Workspaces</h4>
 
 <ul>
-  <li>Fixes a permission bug where an <strong>Admin</strong> with the <strong>Role</strong> of <code class="highlighter-rouge">workspace-super-admin</code> was 
+  <li>Fixes permission bug where an <strong>Admin</strong> with <code class="highlighter-rouge">workspace-super-admin</code> <strong>Role</strong> was 
 not able to access the <strong>Workspace</strong> that the <strong>Role</strong> was assigned to.</li>
+</ul>
+
+<h4 id="upstreams">Upstreams</h4>
+
+<ul>
+  <li>Fixes an issue where it was not possible to delete an <strong>Upstream</strong> object if it had no associated <strong>Target</strong>.</li>
 </ul>
 
 <h4 id="kong-manager">Kong Manager</h4>
 
 <ul>
-  <li>Fixes a bug where Kong Manager could only display <strong>100 Workspaces</strong>.</li>
+  <li>Fixes a bug where Kong Manager could only display 100 <strong>Workspaces</strong>.</li>
+  <li>Fixes a bug where a <strong>Route’s</strong> details would not include a link to a <strong>Service</strong> that did not have a name.</li>
 </ul>
 
 <h4 id="dev-portal-1">Dev Portal</h4>
 
 <ul>
-  <li>Fixes a bug in the sign-up meta fields</li>
+  <li>Fixes a bug in the sign-up meta fields that caused data to disappear when a <strong>Developer</strong> is updated.</li>
+  <li>Fixes an issue where clicking on a <strong>Developer</strong> after clicking the credentials section ACL causes a 500 error.</li>
 </ul>
 
 <h4 id="plugins-1">Plugins</h4>
@@ -670,7 +687,7 @@ for details.</li>
 
 <h3 id="features-1">Features</h3>
 
-<h4 id="core">Core</h4>
+<h4 id="core-1">Core</h4>
 <ul>
   <li>New CLI migrations command <code class="highlighter-rouge">migrate-apis</code> to convert all existing API objects to <strong>Services and Routes</strong></li>
   <li>New CLI migrations command <code class="highlighter-rouge">migrate-community-to-enterprise</code> for moving Core entities to Enterprise entities</li>
@@ -690,7 +707,7 @@ for details.</li>
 
 <h3 id="fixes-1">Fixes</h3>
 
-<h4 id="core-1">Core</h4>
+<h4 id="core-2">Core</h4>
 <ul>
   <li>Correctly count <code class="highlighter-rouge">workspace_entities</code> when moving from previous versions</li>
 </ul>
@@ -763,7 +780,7 @@ Redis Sentinel (<code class="highlighter-rouge">config.strategy=redis</code> and
 rule is fixed.</li>
 </ul>
 
-<h4 id="core-2">Core</h4>
+<h4 id="core-3">Core</h4>
 <ul>
   <li>Upgrade from <strong>0.34-1</strong> to <strong>0.35</strong> using <strong>Cassandra</strong> no longer creates 
 duplicate <strong>Workspace</strong>.</li>
@@ -801,7 +818,7 @@ for details.</li>
   POST request to <code class="highlighter-rouge">rbac/users</code>) and is no longer auto-generated if left blank</li>
 </ul>
 
-<h4 id="core-3">Core</h4>
+<h4 id="core-4">Core</h4>
 <ul>
   <li>New <strong>RBAC</strong> user tokens are not stored in plaintext. If upgrading to this
   version, any existing tokens will remain in plaintext until either a) the
@@ -2873,7 +2890,7 @@ index 15682975..653a7ddd 100644
 </script>
 
 
-    <script src="/assets/app.js?v=1565281569"></script>
+    <script src="/assets/app.js?v=1565282106"></script>
 
     <div id="fb-root"></div>
 
