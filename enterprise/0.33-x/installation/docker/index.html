@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565208500"
+    href="/assets/styles.css?v=1565229681"
   />
   
 </head>
@@ -582,7 +582,10 @@ window['_fs_namespace'] = 'FS';
           </li>
           
         </ul>
-        
+        <div id="getkong-algolia-search" class="search-input">
+          <i class="fa fa-search"></i>
+          <input type="text" placeholder="Search" id="getkong-algolia-search-input" />
+        </div>
       </div>
       
     </div>
@@ -1346,6 +1349,32 @@ nginx: [alert] Error validating Kong license: could not decode license json
   }
 </style>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+  docsearch({
+    appId: 'T5JKD83LWT',
+    apiKey: '1390283021f26e36117242934deb8d9d',
+    indexName: 'prod_EE',
+    inputSelector: '#getkong-algolia-search-input',
+    algoliaOptions: {
+      hitsPerPage: 5,
+      'facetFilters': ["version: 0.33-x"]
+    },
+    // Override selected event to allow for local environment navigation
+    handleSelected: function (input, event, suggestion) {
+      input.setVal('');
+      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split(
+        "docs.konghq.com")[1]
+    }
+    // ,debug: true // Set debug to true if you want to inspect the dropdown
+  });
+
+</script>
+
 
 
     
@@ -1504,7 +1533,7 @@ nginx: [alert] Error validating Kong license: could not decode license json
 </script>
 
 
-    <script src="/assets/app.js?v=1565208500"></script>
+    <script src="/assets/app.js?v=1565229681"></script>
 
     <div id="fb-root"></div>
 
