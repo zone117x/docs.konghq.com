@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Migrating to 0.35 - v0.36-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Migrating to 0.36 - v0.36-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565229681"
+    href="/assets/styles.css?v=1565281569"
   />
   
 </head>
@@ -532,7 +532,7 @@ window['_fs_namespace'] = 'FS';
           alt="Documentation" />
       </div>
       <div class="page-header-title  page-header-title-enterprise ">
-        <h1>Migrating to 0.35</h1>
+        <h1>Migrating to 0.36</h1>
       </div>
 
       
@@ -667,6 +667,14 @@ window['_fs_namespace'] = 'FS';
           <li>
             <a href="/enterprise/changelog"  >
               Changelog
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.36-x/deployment/migrations"  class="active" >
+              Migrating to 0.36
             </a>
             
           </li>
@@ -1383,21 +1391,19 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#prerequisites-for-migrating-to-035" class="scroll-to">Prerequisites for Migrating to 0.35</a></li>
+  <li><a href="#prerequisites-for-migrating-to-036" class="scroll-to">Prerequisites for Migrating to 0.36</a></li>
   <li><a href="#changes-and-configuration-to-consider-before-upgrading" class="scroll-to">Changes and Configuration to Consider before Upgrading</a></li>
-  <li><a href="#migration-steps-from-034-to-035" class="scroll-to">Migration Steps from 0.34 to 0.35</a></li>
-  <li><a href="#migration-steps-from-kong-10-to-kong-enterprise-035" class="scroll-to">Migration Steps from Kong 1.0 to Kong Enterprise 0.35</a></li>
+  <li><a href="#migration-steps-from-035-to-036" class="scroll-to">Migration Steps from 0.35 to 0.36</a></li>
+  <li><a href="#migration-steps-from-kong-12-to-kong-enterprise-036" class="scroll-to">Migration Steps from Kong 1.2 to Kong Enterprise 0.36</a></li>
 </ul>
 
           
 
-          <h3 id="prerequisites-for-migrating-to-035">Prerequisites for Migrating to 0.35</h3>
+          <h3 id="prerequisites-for-migrating-to-036">Prerequisites for Migrating to 0.36</h3>
 
 <ul>
-  <li>If running Kong Enterprise 0.34, it is necessary to upgrade to 0.34-1 first before migrating to 0.35. (Likewise, if running a version of Kong Enterprise earlier than 0.34, it is first necessary to <a href="/enterprise/0.34-x/deployment-guide/#upgrading-to-034">upgrade to 0.34</a> before 0.34-1.)</li>
-  <li>If running Kong versions 0.14 or 0.15, you must <a href="/1.0.x/upgrading/">upgrade to Kong 1.0</a> before upgrading to Kong Enterprise 0.35. You cannot upgrade to Kong Enterprise 0.34 first.</li>
-  <li>If running Kong version 0.13 or older, you can either upgrade to Kong 1.0 or Kong Enterprise 0.34 before upgrading to Kong Enterprise 0.35.</li>
-  <li>If the datastore still has <code class="highlighter-rouge">API</code> entities instead of <code class="highlighter-rouge">Services</code> and <code class="highlighter-rouge">Routes</code>, upgrading to 0.35 will not be possible. <code class="highlighter-rouge">APIs</code> were deprecated in release 0.32 and are now removed from Kong. It is possible to convert <code class="highlighter-rouge">APIs</code> to <code class="highlighter-rouge">Services</code> and <code class="highlighter-rouge">Routes</code> and then remove the <code class="highlighter-rouge">APIs</code> on the 0.34 node. See <a href="/enterprise/0.36-x/deployment/migrate-apis-cli">Migrating APIs to Services</a></li>
+  <li>If running a version of <strong>Kong Enterprise</strong> earlier than 0.35, <a href="/enterprise/0.35-x/deployment/migrations/">migrate to 0.35</a> first.</li>
+  <li>If running a version of <strong>Kong</strong> earlier than 1.2, <a href="/1.2.x/upgrading/">upgrade to Kong 1.2</a> before upgrading to Kong Enterprise 0.36.</li>
 </ul>
 
 <h3 id="changes-and-configuration-to-consider-before-upgrading">Changes and Configuration to Consider before Upgrading</h3>
@@ -1407,7 +1413,7 @@ window['_fs_namespace'] = 'FS';
   <li>Kong Manager and the Admin API must share the same domain in order to use the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#SameSite_cookies" target="_blank">SameSite</a> directive. If they are on separate domains, <code class="highlighter-rouge">cookie_samesite</code> must be set to <code class="highlighter-rouge">“off”</code>. Learn more in <a href="/enterprise/0.36-x/kong-manager/authentication/sessions/#configuration-to-use-the-sessions-plugin-with-kong-manager">Session Security</a></li>
   <li>Kong Manager must be served over HTTPS in order for the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies" target="_blank">Secure</a> directive to work. If using Kong Manager with only HTTP, e.g. on <code class="highlighter-rouge">localhost</code>, then <code class="highlighter-rouge">cookie_secure</code> must be set to <code class="highlighter-rouge">false</code>. Learn more in <a href="/enterprise/0.36-x/kong-manager/authentication/sessions/#session-security">Session Security</a></li>
   <li>Instances where the Portal and Files API are on different hostnames require that they at least share a common root, and that the <code class="highlighter-rouge">cookie_domain</code> setting of the Portal session configuration be that common root. For example, if the Portal itself is at <code class="highlighter-rouge">portal.kong.example</code> and the Files API is at <code class="highlighter-rouge">files.kong.example</code>, <code class="highlighter-rouge">cookie_domain=.kong.example</code>.</li>
-  <li>Portal-related <code class="highlighter-rouge">rbac_role_endpoints</code> will be updated to adhere to changes in the Dev Portal API.  This only applies to Portal-related endpoints that were present in or set by Kong Manager; any user-generated endpoints will need to be updated manually.  The endpoints that will be updated automatically are as follows:</li>
+  <li>Portal-related <code class="highlighter-rouge">rbac_role_endpoints</code> will be updated to adhere to changes in the Dev Portal API. This only applies to Portal-related endpoints that were present in or set by Kong Manager; any user-generated endpoints will need to be updated manually.  The endpoints that will be updated automatically are as follows:</li>
 </ul>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'/portal/*'                     =&gt; '/developers/*', '/files/*'
@@ -1436,23 +1442,17 @@ window['_fs_namespace'] = 'FS';
   </li>
 </ul>
 
-<h3 id="migration-steps-from-034-to-035">Migration Steps from 0.34 to 0.35</h3>
+<h3 id="migration-steps-from-035-to-036">Migration Steps from 0.35 to 0.36</h3>
 
-<p>Kong 0.35 introduces a new, improved migrations framework. The full migration is now split into two steps, which are performed via commands <code class="highlighter-rouge">kong migrations up</code> and <code class="highlighter-rouge">kong migrations finish</code>.</p>
-
-<p>For a no-downtime migration from a 0.34 cluster to a 0.35 cluster:</p>
+<p>For a no-downtime migration from a 0.35 cluster to a 0.36 cluster:</p>
 
 <ol>
-  <li>Download 0.35, and configure it to point to the same datastore as your 0.34 cluster.</li>
-  <li>Run <code class="highlighter-rouge">kong migrations up</code>. Both 0.34 and 0.35 nodes can now run simultaneously on the same datastore.</li>
-  <li>
-    <p>Start provisioning 0.35 nodes, but <strong>do not use</strong> their Admin API yet.</p>
-
-    <p>⚠️ <strong>Important:</strong> When doing a Blue/Green upgrade in a 0.34 cluster where RBAC is enabled, if you make an Admin API request from a new 0.35 node, from then on, Admin API calls will only work from the new 0.35 node. This is because the new token will be hashed in the database and will fail on the old 0.34 nodes since they do not know how to verify the hashed token. Note also that Admins are present in a new cluster only after running <code class="highlighter-rouge">kong migrations finish</code>.</p>
-  </li>
-  <li>Gradually divert traffic away from your 0.34 nodes, and into your 0.35 cluster. Monitor your traffic to make sure everything is going smoothly.</li>
-  <li>When your traffic is fully migrated to the 0.35 cluster, decommission your 0.34 nodes.</li>
-  <li>From your 0.35 cluster, run: <code class="highlighter-rouge">kong migrations finish</code>. From this point on, it will not be possible to start 0.34 nodes pointing to the same datastore anymore. Only run this command when you are confident that your migration was successful. From now on, you can safely make Admin API requests to your 0.35 nodes.</li>
+  <li>Download 0.36, and configure it to point to the same datastore as your 0.35 cluster.</li>
+  <li>Run <code class="highlighter-rouge">kong migrations up</code>. Both 0.35 and 0.36 nodes can now run simultaneously on the same datastore.</li>
+  <li>Start provisioning 0.36 nodes.</li>
+  <li>Gradually divert traffic away from your 0.35 nodes, and into your 0.36 cluster. Monitor your traffic to make sure everything is going smoothly.</li>
+  <li>When your traffic is fully migrated to the 0.35 cluster, decommission your 0.35 nodes.</li>
+  <li>From your 0.36 cluster, run <code class="highlighter-rouge">kong migrations finish</code>. From this point on, it will not be possible to start 0.35 nodes pointing to the same datastore anymore. Only run this command when you are confident that your migration was successful. From now on, you can safely make Admin API requests to your 0.36 nodes.</li>
 </ol>
 
 <p>At any step of the way, you may run <code class="highlighter-rouge">kong migrations list</code> to get a report of the state of migrations. It will list whether there are missing migrations, if there are pending migrations (which have already started in the <code class="highlighter-rouge">kong migrations up</code> step and later need to finish in the <code class="highlighter-rouge">kong migrations finish</code> step) or if there are new migrations available. The status code of the process will also change accordingly:</p>
@@ -1465,15 +1465,15 @@ window['_fs_namespace'] = 'FS';
   <li><code class="highlighter-rouge">5</code> - there are new migrations: you should start a migration sequence (beginning from step 1 above).</li>
 </ul>
 
-<h3 id="migration-steps-from-kong-10-to-kong-enterprise-035">Migration Steps from Kong 1.0 to Kong Enterprise 0.35</h3>
+<h3 id="migration-steps-from-kong-12-to-kong-enterprise-036">Migration Steps from Kong 1.2 to Kong Enterprise 0.36</h3>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> This action is irreversible, therefore it is highly recommended to have a backup of production data.
 </div>
 
-<p>Kong Enterprise 0.35 includes a command to migrate all Kong entities to Kong Enterprise. The following steps will guide you through the migration process.</p>
+<p>Kong Enterprise 0.36 includes a command to migrate all Kong entities to Kong Enterprise. The following steps will guide you through the migration process.</p>
 
-<p>First download Kong Enterprise 0.35, and configure it to point to the same datastore as your Kong 1.0 node. The migration command expects the datastore to be up to date on any pending migration:</p>
+<p>First download Kong Enterprise 0.36, and configure it to point to the same datastore as your Kong 1.2 node. The migration command expects the datastore to be up to date on any pending migration:</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong migrations up <span class="o">[</span><span class="nt">-c</span> config]
 <span class="nv">$ </span>kong migrations finish <span class="o">[</span><span class="nt">-c</span> config]
@@ -1684,7 +1684,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1565229681"></script>
+    <script src="/assets/app.js?v=1565281569"></script>
 
     <div id="fb-root"></div>
 
