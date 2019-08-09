@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565282106"
+    href="/assets/styles.css?v=1565375697"
   />
   
 </head>
@@ -243,7 +243,7 @@ window['_fs_namespace'] = 'FS';
           </div> <!-- list-group -->
         </li>
         <li class="navbar-item">
-          <a href="https://docs.konghq.com/hub" class="nav-link plugins">Plugins</a>
+          <a href="https://docs.konghq.com/hub" class="nav-link">Plugins</a>
         </li>
     </ul>
     <a href="http://konghq.com/" class="navbar-brand col col-xl-auto">
@@ -438,7 +438,7 @@ window['_fs_namespace'] = 'FS';
 
   <div class="kong-navbar-collapse_section section-left">
     <h5 class="remove">
-      <a class="nav-link plugins" href="https://docs.konghq.com/hub">Plugins</a>
+      <a class="nav-link" href="https://docs.konghq.com/hub">Plugins</a>
     </h5>
   </div>
 
@@ -531,7 +531,7 @@ window['_fs_namespace'] = 'FS';
         <img src="/assets/images/icons/icn-documentation-ce.svg"
           alt="Documentation" />
       </div>
-      <div class="page-header-title ">
+      <div class="page-header-title">
         <h1>Upgrade guide</h1>
       </div>
 
@@ -1440,32 +1440,24 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#upgrade-to-100" class="scroll-to">Upgrade to <code class="highlighter-rouge">1.0.0</code></a></li>
-  <li><a href="#1-breaking-changes" class="scroll-to">1. Breaking Changes</a>
-    <ul>
-      <li><a href="#dependencies" class="scroll-to">Dependencies</a></li>
-      <li><a href="#configuration" class="scroll-to">Configuration</a></li>
-      <li><a href="#core" class="scroll-to">Core</a></li>
-      <li><a href="#plugins" class="scroll-to">Plugins</a></li>
-      <li><a href="#admin-api" class="scroll-to">Admin API</a></li>
-    </ul>
-  </li>
-  <li><a href="#2-deprecation-notices" class="scroll-to">2. Deprecation Notices</a></li>
+  <li><a href="#upgrade-to-11" class="scroll-to">Upgrade to <code class="highlighter-rouge">1.1</code></a></li>
+  <li><a href="#1-dependencies" class="scroll-to">1. Dependencies</a></li>
+  <li><a href="#2-breaking-changes" class="scroll-to">2. Breaking Changes</a></li>
   <li><a href="#3-suggested-upgrade-path" class="scroll-to">3. Suggested Upgrade Path</a>
     <ul>
-      <li><a href="#preliminary-checks" class="scroll-to">Preliminary Checks</a></li>
-      <li><a href="#migration-steps-from-014" class="scroll-to">Migration Steps from 0.14</a></li>
-      <li><a href="#migration-steps-from-10-release-candidates" class="scroll-to">Migration Steps from 1.0 Release Candidates</a></li>
+      <li><a href="#upgrade-from-0x-to-11" class="scroll-to">Upgrade from <code class="highlighter-rouge">0.x</code> to <code class="highlighter-rouge">1.1</code></a></li>
+      <li><a href="#upgrade-from-10x-to-11" class="scroll-to">Upgrade from <code class="highlighter-rouge">1.0.x</code> to <code class="highlighter-rouge">1.1</code></a></li>
+      <li><a href="#upgrade-path-from-11-release-candidates" class="scroll-to">Upgrade Path from 1.1 Release Candidates</a></li>
+      <li><a href="#upgrade-path-for-patch-releases" class="scroll-to">Upgrade Path for Patch Releases</a></li>
+      <li><a href="#installing-11-on-a-fresh-datastore" class="scroll-to">Installing 1.1 on a Fresh Datastore</a></li>
     </ul>
   </li>
-  <li><a href="#upgrade-path-for-patch-releases" class="scroll-to">Upgrade Path for Patch Releases</a></li>
-  <li><a href="#installing-11-on-a-fresh-datastore" class="scroll-to">Installing 1.1 on a Fresh Datastore</a></li>
 </ul>
 
           
 
           <div class="alert alert-warning">
-  <strong>Note:</strong> What follows is the upgrade guide for 1.0.x.
+  <strong>Note:</strong> What follows is the upgrade guide for 1.1.x.
   If you are trying to upgrade to an earlier version of Kong, please read
   <a href="https://github.com/Kong/kong/blob/master/UPGRADE.md">UPGRADE.md file in the Kong repo</a>
 </div>
@@ -1475,284 +1467,95 @@ when upgrading, as well as take you through the correct sequence of steps
 in order to obtain a <strong>no-downtime</strong> migration in different upgrade
 scenarios.</p>
 
-<h2 id="upgrade-to-100">Upgrade to <code class="highlighter-rouge">1.0.0</code></h2>
+<h2 id="upgrade-to-11">Upgrade to <code class="highlighter-rouge">1.1</code></h2>
 
-<p>This is a major release of Kong, and includes a number of new features
-as well as breaking changes.</p>
+<p>Kong adheres to <a href="https://semver.org/">semantic versioning</a>, which makes a
+distinction between “major”, “minor” and “patch” versions. The upgrade path
+will be different on which previous version from which you are migrating.
+If you are upgrading from 0.x, this is a major upgrade. If you are
+upgrading from 1.0.x, this is a minor upgrade. Both scenarios are
+explained below.</p>
 
-<p>This version introduces <strong>a new schema format for plugins</strong>, <strong>changes in
-Admin API endpoints</strong>, <strong>database migrations</strong>, <strong>Nginx configuration
-changes</strong>, and <strong>removed configuration properties</strong>.</p>
+<h2 id="1-dependencies">1. Dependencies</h2>
 
-<p>In this release, the <strong>API entity is removed</strong>, along with its related
-Admin API endpoints.</p>
-
-<p>This section will highlight breaking changes that you need to be aware of
-before upgrading and will describe the recommended upgrade path. We recommend
-that you consult the full <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md">1.0.0
-Changelog</a> for a
-complete list of changes and new features.</p>
-
-<h2 id="1-breaking-changes">1. Breaking Changes</h2>
-
-<h3 id="dependencies">Dependencies</h3>
+<p>If you are using the provided binary packages, all necessary dependencies
+are bundled. If you are building your dependencies by hand, you should
+be aware of the following changes:</p>
 
 <ul>
   <li>The required OpenResty version is 1.13.6.2, but for a full feature set,
 including stream routing and service mesh abilities with mutual TLS, you need
-Kong’s <a href="https://github.com/kong/openresty-patches">openresty-patches</a>.</li>
+Kong’s <a href="https://github.com/kong/openresty-patches">openresty-patches</a>.
+Note that the set of patches was updated from 1.0 to 1.1.</li>
   <li>The minimum required OpenSSL version is 1.1.1. If you are building by hand,
 make sure all dependencies, including LuaRocks modules, are compiled using
 the same OpenSSL version. If you are installing Kong from one of our
 distribution packages, you are not affected by this change.</li>
 </ul>
 
-<h3 id="configuration">Configuration</h3>
+<h2 id="2-breaking-changes">2. Breaking Changes</h2>
 
-<ul>
-  <li>The <code class="highlighter-rouge">custom_plugins</code> directive is removed (deprecated since 0.14.0).
-Use <code class="highlighter-rouge">plugins</code> instead, which you can use not only to enable
-custom plugins, but also to disable bundled plugins.</li>
-  <li>The default value for <code class="highlighter-rouge">cassandra_lb_policy</code> changed from <code class="highlighter-rouge">RoundRobin</code>
-to <code class="highlighter-rouge">RequestRoundRobin</code>.</li>
-  <li>Kong generates a new template file for stream routing,
-<code class="highlighter-rouge">nginx-kong-stream.conf</code>, included in the <code class="highlighter-rouge">stream</code> block
-of its top-level Nginx configuration file. If you use
-a custom Nginx configuration and wish to use stream
-routing, you can generate this file using <code class="highlighter-rouge">kong prepare</code>.</li>
-  <li>The Nginx configuration file has changed, which means that you need to update
-it if you are using a custom template. The changes are detailed in the following diff:</li>
-</ul>
-
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/kong/templates/nginx_kong.lua b/kong/templates/nginx_kong.lua
-index d4e416bc..8f268ffd 100644
-</span><span class="gd">--- a/kong/templates/nginx_kong.lua
-</span><span class="gi">+++ b/kong/templates/nginx_kong.lua
-</span><span class="p">@@ -66,7 +66,9 @@</span> upstream kong_upstream {
-     balancer_by_lua_block {
-         Kong.balancer()
-     }
-<span class="gi">+&gt; if upstream_keepalive &gt; 0 then
-</span>     keepalive $;
-<span class="gi">+&gt; end
-</span> }
-
- server {
-<span class="p">@@ -85,7 +87,7 @@</span> server {
- &gt; if proxy_ssl_enabled then
-     ssl_certificate $;
-     ssl_certificate_key $;
-<span class="gd">-    ssl_protocols TLSv1.1 TLSv1.2;
-</span><span class="gi">+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-</span>     ssl_certificate_by_lua_block {
-         Kong.ssl_certificate()
-     }
-<span class="p">@@ -200,7 +202,7 @@</span> server {
- &gt; if admin_ssl_enabled then
-     ssl_certificate $;
-     ssl_certificate_key $;
-<span class="gd">-    ssl_protocols TLSv1.1 TLSv1.2;
-</span><span class="gi">+    ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
-</span>
-     ssl_session_cache shared:SSL:10m;
-     ssl_session_timeout 10m;
-</code></pre></div></div>
-
-<h3 id="core">Core</h3>
-
-<ul>
-  <li>The <strong>API</strong> entity and related concepts such as the
-<code class="highlighter-rouge">/apis</code> endpoint, are removed. These were deprecated since
-0.13.0. Instead, use <strong>Routes</strong> to configure your
-endpoints and <strong>Services</strong> to configure your upstream
-services.</li>
-  <li>The old DAO implementation (<code class="highlighter-rouge">kong.dao</code>) is removed,
-which includes the old schema validation library. This
-has implications to plugin developers, listed below.
-    <ul>
-      <li>The last remaining entities that were converted to
-the new DAO implementation were Plugins, Upstreams
-and Targets. This has implications to the Admin API,
-listed below.</li>
-    </ul>
-  </li>
-</ul>
-
-<h3 id="plugins">Plugins</h3>
-
-<p>Kong 1.0.0 marks the introduction of version 1.0.0 of
-the Plugin Development Kit (PDK). No major changes are
-made to the PDK compared to release 0.14, but some older
-non-PDK functionality which was possibly used by custom
-plugins is now removed.</p>
-
-<ul>
-  <li>Plugins now use the new schema format introduced by the
-new DAO implementation, for both plugin schemas
-(in <code class="highlighter-rouge">schema.lua</code>) and custom DAO entities (<code class="highlighter-rouge">daos.lua</code>).
-To ease the transition of plugins, the plugin loader
-in 1.0 includes a <em>best-effort</em> schema auto-translator
-for <code class="highlighter-rouge">schema.lua</code>, which should be sufficient for many
-plugins (in 1.0.0rc1, our bundled plugins used the
-auto-translator; they now use the new format).
-    <ul>
-      <li>If your plugin using the old format in <code class="highlighter-rouge">schema.lua</code>
-fails to load, check the error logs for messages
-produced by the auto-translator. If a field cannot
-be auto-translated, you can make a gradual conversion
-of the schema file by adding a <code class="highlighter-rouge">new_type</code> entry to
-the field table translation of the format. See,
-for example, the <a href="https://github.com/Kong/kong/blob/1.0.0rc1/kong/plugins/key-auth/schema.lua#L39-L54">key-auth schema in 1.0.0rc1</a>.
-The <code class="highlighter-rouge">new_type</code> annotation is ignored by Kong 0.x.</li>
-      <li>If your custom plugin uses custom DAO objects (i.e.
-if it includes a <code class="highlighter-rouge">daos.lua</code> file), it needs to be
-converted to the new format. Their code also needs
-to be adjusted accordingly, replacing uses of
-<code class="highlighter-rouge">singletons.dao</code> or <code class="highlighter-rouge">kong.dao</code> by <code class="highlighter-rouge">kong.db</code> (note
-that this module exposes a different API from the
-old DAO implementation).</li>
-    </ul>
-  </li>
-  <li>Some Kong modules that had their functionality replaced
-by the PDK in 0.14.0 are now removed:
-    <ul>
-      <li><code class="highlighter-rouge">kong.tools.ip</code>: use <code class="highlighter-rouge">kong.ip</code> from the PDK instead.</li>
-      <li><code class="highlighter-rouge">kong.tools.public</code>: replaced by various functionalities
-of the PDK.</li>
-      <li><code class="highlighter-rouge">kong.tools.responses</code>: use <code class="highlighter-rouge">kong.response.exit</code> from the PDK instead. You
-might want to use <code class="highlighter-rouge">kong.log.err</code> to log internal server errors as well.</li>
-    </ul>
-  </li>
-  <li>The <code class="highlighter-rouge">kong.api.crud_helpers</code> module was removed.
-Use <code class="highlighter-rouge">kong.api.endpoints</code> instead if you need to customize
-the auto-generated endpoints.</li>
-</ul>
-
-<h3 id="admin-api">Admin API</h3>
-
-<ul>
-  <li>With the removal of the API entity, the <code class="highlighter-rouge">/apis</code> endpoint
-is removed; accordingly, other endpoints that accepted
-<code class="highlighter-rouge">api_id</code> no longer do so. Use Routes and Services instead.</li>
-  <li>All entity endpoints now use the new Admin API implementaion.
-This means their requests and responses now use the same
-syntax, which was already in use in endpoints such as
-<code class="highlighter-rouge">/routes</code> and <code class="highlighter-rouge">/services</code>.
-    <ul>
-      <li>All endpoints now use the same syntax for
-referencing other entities as <code class="highlighter-rouge">/routes</code>
-(for example, <code class="highlighter-rouge">"service":{"id":"..."}</code> instead of
-<code class="highlighter-rouge">"service_id":"..."</code>), both in requests and responses.
-        <ul>
-          <li>This change affects <code class="highlighter-rouge">/plugins</code> as well as
-plugin-specific endpoints.</li>
-        </ul>
-      </li>
-      <li>Array-typed values are not specified as a
-comma-separated list anymore. It must be specified as a
-JSON array or using the various formats supported by
-the url-formencoded array notation of the new Admin API
-implementation (<code class="highlighter-rouge">a[1]=x&amp;a[2]=y</code>, <code class="highlighter-rouge">a[]=x&amp;a[]=y</code>,
-<code class="highlighter-rouge">a=x&amp;a=y</code>).
-        <ul>
-          <li>This change affects attributes of the <code class="highlighter-rouge">/upstreams</code> endpoint.</li>
-        </ul>
-      </li>
-      <li>Error responses for the updated endpoints use
-the new standardized format.</li>
-      <li>As a result of being moved to the new Admin API implementation,
-all endpoints supporting <code class="highlighter-rouge">PUT</code> do so with proper semantics.</li>
-      <li>See the <a href="https://docs.konghq.com/1.0.x/admin-api">Admin API
-reference</a>
-for more details.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="2-deprecation-notices">2. Deprecation Notices</h2>
-
-<p>There are no deprecation notices in this release.</p>
+<p>Kong 1.1 does not include any breaking changes over Kong 1.0, but Kong 1.0
+included a number of breaking changes over Kong 0.x. If you are upgrading
+from 0.14,x, please read the section on
+<a href="#kong-1-0-breaking-changes">Kong 1.0 Breaking Changes</a> carefully before
+proceeding.</p>
 
 <h2 id="3-suggested-upgrade-path">3. Suggested Upgrade Path</h2>
 
-<h3 id="preliminary-checks">Preliminary Checks</h3>
+<h3 id="upgrade-from-0x-to-11">Upgrade from <code class="highlighter-rouge">0.x</code> to <code class="highlighter-rouge">1.1</code></h3>
 
-<p>If your cluster is running a version lower than 0.14, you need to
-upgrade to 0.14.1 first instead. Upgrading from a pre-0.14 cluster
-straight to Kong 1.0 is <strong>not</strong> supported.</p>
+<p>The lowest version that Kong 1.1 supports migrating from is 0.14.1. if you
+are migrating from a previous 0.x release, please migrate to 0.14.1 first.</p>
 
-<p>If you still use the deprecated API entity to configure your endpoints and
-upstream services (via <code class="highlighter-rouge">/apis</code>) instead of using Routes for endpoints (via
-<code class="highlighter-rouge">/routes</code>) and Services for upstream services (via <code class="highlighter-rouge">/services</code>), now is the
-time to do so. Kong 1.0 will refuse to run migrations if you have any entity
-configured using <code class="highlighter-rouge">/apis</code> in your datastore. Create equivalent Routes and
-Services and delete your APIs. (Note that Kong does not do this automatically
-because the naive option of creating a Route and Service pair for each API
-would miss the point of the improvements brought by Routes and Services;
-the ideal mapping of Routes and Services depends on your microservice
-architecture.)</p>
+<p>For upgrading from 0.14.1 to Kong 1.1, the steps for upgrading are the same as
+upgrading from 0.14.1 to Kong 1.0. Please follow the steps described in the
+“Migration Steps from 0.14” in the <a href="#kong-1-0-upgrade-path">Suggested Upgrade Path for Kong
+1.0</a>.</p>
 
-<p>If you use additional plugins other than the ones bundled with Kong,
-make sure they are compatible with Kong 1.0 prior to upgrading.
-See the section above on Plugins for information on plugin compatibility.</p>
+<h3 id="upgrade-from-10x-to-11">Upgrade from <code class="highlighter-rouge">1.0.x</code> to <code class="highlighter-rouge">1.1</code></h3>
 
-<h3 id="migration-steps-from-014">Migration Steps from 0.14</h3>
+<p>Kong 1.1 supports a no-downtime migration model. This means that while the
+migration is ongoing, you will have two Kong clusters running, sharing the
+same database. (This is sometimes called the Blue/Green migration model.)</p>
 
-<p>Kong 1.0 introduces a new, improved migrations framework.
-It supports a no-downtime, Blue/Green migration model for upgrading
-from 0.14.x. The full migration is now split into two steps,
-which are performed via commands <code class="highlighter-rouge">kong migrations up</code> and
-<code class="highlighter-rouge">kong migrations finish</code>.</p>
-
-<p>For a no-downtime migration from a 0.14 cluster to a 1.0 cluster,
-we recommend the following sequence of steps:</p>
+<p>The migrations are designed so that there is no need to fully copy
+the data, but this also means that they are designed in such a way so that
+the new version of Kong is able to use the data as it is migrated, and to do
+it in a way so that the old Kong cluster keeps working until it is finally
+time to decomission it. For this reason, the full migration is now split into
+two steps, which are performed via commands <code class="highlighter-rouge">kong migrations up</code> (which does
+only non-destructive operations) and <code class="highlighter-rouge">kong migrations finish</code> (which puts the
+database in the final expected state for Kong 1.1).</p>
 
 <ol>
-  <li>Download 1.0, and configure it to point to the same datastore
-as your 0.14 cluster. Run <code class="highlighter-rouge">kong migrations up</code>.</li>
-  <li>Both 0.14 and 1.0 nodes can now run simultaneously on the same
-datastore. Start provisioning 1.0 nodes, but do not use their
-Admin API yet. Prefer making Admin API requests to your 0.14 nodes
-instead.</li>
-  <li>Gradually divert traffic away from your 0.14 nodes, and into
-your 1.0 cluster. Monitor your traffic to make sure everything
+  <li>Download 1.1, and configure it to point to the same datastore
+as your 1.0 cluster. Run <code class="highlighter-rouge">kong migrations up</code>.</li>
+  <li>Once that finishes running, both 1.0 and 1.1 clusters can now
+run simultaneously on the same datastore. Start provisioning
+1.1 nodes, but do not use their Admin API yet. If you need to
+perform Admin API requests, these should be made to your 1.0 nodes.
+The reason is to prevent the new cluster from generating data
+that is not understood by the old cluster.</li>
+  <li>Gradually divert traffic away from your 1.0 nodes, and into
+your 1.1 cluster. Monitor your traffic to make sure everything
 is going smoothly.</li>
-  <li>When your traffic is fully migrated to the 1.0 cluster,
-decommission your 0.14 nodes.</li>
-  <li>From your 1.0 cluster, run: <code class="highlighter-rouge">kong migrations finish</code>.
-From this point on, it will not be possible to start 0.14
+  <li>When your traffic is fully migrated to the 1.1 cluster,
+decommission your 1.0 nodes.</li>
+  <li>From your 1.1 cluster, run: <code class="highlighter-rouge">kong migrations finish</code>.
+From this point on, it will not be possible to start 1.0
 nodes pointing to the same datastore anymore. Only run
 this command when you are confident that your migration
 was successful. From now on, you can safely make Admin API
-requests to your 1.0 nodes.</li>
+requests to your 1.1 nodes.</li>
 </ol>
 
-<p>At any step of the way, you may run <code class="highlighter-rouge">kong migrations list</code> to get
-a report of the state of migrations. It will list whether there
-are missing migrations, if there are pending migrations (which have
-already started in the <code class="highlighter-rouge">kong migrations up</code> step and later need to
-finish in the <code class="highlighter-rouge">kong migrations finish</code> step) or if there
-are new migrations available. The status code of the process will
-also change accordingly:</p>
+<h3 id="upgrade-path-from-11-release-candidates">Upgrade Path from 1.1 Release Candidates</h3>
 
-<ul>
-  <li><code class="highlighter-rouge">0</code> - migrations are up-to-date</li>
-  <li><code class="highlighter-rouge">1</code> - failed inspecting the state of migrations (e.g. database is down)</li>
-  <li><code class="highlighter-rouge">3</code> - database needs bootstrapping:
-you should run <code class="highlighter-rouge">kong migrations bootstrap</code> to install on
-a fresh datastore.</li>
-  <li><code class="highlighter-rouge">4</code> - there are pending migrations: once your old cluster is
-decomissioned you should run <code class="highlighter-rouge">kong migrations finish</code> (step 5 above).</li>
-  <li><code class="highlighter-rouge">5</code> - there are new migrations: you should start a migration
-sequence (beginning from step 1 above).</li>
-</ul>
-
-<h3 id="migration-steps-from-10-release-candidates">Migration Steps from 1.0 Release Candidates</h3>
-
-<p>The process is the same as for upgrading for 0.14 listed above, but on step 1
+<p>The process is the same as for upgrading from 1.0 listed above, but on step 1
 you should run <code class="highlighter-rouge">kong migrations up --force</code> instead.</p>
 
-<h2 id="upgrade-path-for-patch-releases">Upgrade Path for Patch Releases</h2>
+<h3 id="upgrade-path-for-patch-releases">Upgrade Path for Patch Releases</h3>
 
 <p>There are no migrations in upgrades between current or
 future patch releases of the same minor release of Kong
@@ -1784,7 +1587,7 @@ starts new workers, which take over from old workers before those old workers
 are terminated. In this way, Kong will serve new requests via the new
 configuration, without dropping existing in-flight connections.</p>
 
-<h2 id="installing-11-on-a-fresh-datastore">Installing 1.1 on a Fresh Datastore</h2>
+<h3 id="installing-11-on-a-fresh-datastore">Installing 1.1 on a Fresh Datastore</h3>
 
 <p>For installing on a fresh datastore, Kong 1.1 has the <code class="highlighter-rouge">kong migrations
 bootstrap</code> command. The following commands can be run to prepare a new 1.1
@@ -1793,7 +1596,6 @@ cluster from a fresh datastore:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ kong migrations bootstrap [-c config]
 $ kong start [-c config]
 </code></pre></div></div>
-
 
 
         </div>
@@ -1991,7 +1793,7 @@ $ kong start [-c config]
 </script>
 
 
-    <script src="/assets/app.js?v=1565282106"></script>
+    <script src="/assets/app.js?v=1565375697"></script>
 
     <div id="fb-root"></div>
 
