@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565375697"
+    href="/assets/styles.css?v=1565393564"
   />
   
 </head>
@@ -638,8 +638,9 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#global-plugins">Global plugins</a></li>
       <li><a href="#parameters">Parameters</a></li>
       <li><a href="#usage">Usage</a></li>
-      <li><a href="#determining-where-to-route-a-request">Determining where to route a request</a></li>
-      <li><a href="#finalizing-the-canary">Finalizing the canary</a></li>
+      <li><a href="#determining-where-to-route-a-request">Determining Where to Route a Request</a></li>
+      <li><a href="#finalizing-the-canary">Finalizing the Canary</a></li>
+      <li><a href="#upstream-healthchecks">Upstream Healthchecks</a></li>
     </ul>
   </li>
 </ul>
@@ -708,21 +709,7 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
-                  
-                  <li>
-                  
-                    <i class="fa fa-check"></i>
-                  0.35-x
-                  </li>
-                
               
-                
-                  
-                  <li>
-                  
-                    <i class="fa fa-check"></i>
-                  0.34-x
-                  </li>
                 
               
                 
@@ -848,10 +835,6 @@ window['_fs_namespace'] = 'FS';
       
 
       <p>Reduce the risk of introducing a new software version in production by slowly rolling out the change to a small subset of users. This plugin also enables roll back to your original upstream service, or shift all traffic to the new version.</p>
-
-<ul>
-  <li><a href="/enterprise/latest/plugins/canary-release/">Detailed documentation for the Enterprise Canary Release Plugin</a></li>
-</ul>
 
 
       
@@ -1038,6 +1021,89 @@ target.</li>
     
     
       <tr>
+        <td><code>config.start</code>
+          
+          
+          
+        </td>
+        <td><p>Future time in seconds since epoch, when the release will start (ignored when percentage is set, or when using whitelist or blacklist)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.duration</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p>3600</p>
+
+        </td>
+        <td><p>The duration of the transition in seconds. (Ignored when the percentage is set or when using whitelist or blacklist)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.percentage</code>
+          
+          
+          
+        </td>
+        <td><p>Fixed % of traffic to be routed to new target, if given overrides <code class="highlighter-rouge">start</code> and <code class="highlighter-rouge">duration</code></p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.steps</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p>1000</p>
+
+        </td>
+        <td><p>Number of steps the release should be broken into</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.upstream_host</code>
+          
+          
+          
+        </td>
+        <td><p>The target hostname where traffic will be routed. (Required if <code class="highlighter-rouge">upstream_uri/port</code> is not set.)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.upstream_fallback</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p>false</p>
+
+        </td>
+        <td><p>Whether the plugin will fallback to the original upstream if the Canary Upstream doesn’t have at least one healthy target. (<code class="highlighter-rouge">upstream_host</code> must point to a valid Kong Upstream entity.)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.upstream_port</code>
+          
+          
+          
+        </td>
+        <td><p>The target port where traffic will be routed. (Required if <code class="highlighter-rouge">upstream_uri/host</code> is not set.)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.upstream_uri</code>
+          
+          
+          
+        </td>
+        <td><p>The Upstream URI where traffic will be routed. (Required if <code class="highlighter-rouge">upstream_host/port</code> is not set.)</p>
+</td>
+      </tr>
+    
+      <tr>
         <td><code>config.hash</code>
           
           
@@ -1059,39 +1125,87 @@ target.</li>
 
       <h3 id="usage">Usage</h3>
 
-<p>The plugin will route traffic to 2 different upstream services, referred to as A and B. The location of service A will be defined by the <code class="highlighter-rouge">upstream_url</code> property of the api the plugin is configured on. The location of service B is defined by the <code class="highlighter-rouge">config.upstream_host</code> or <code class="highlighter-rouge">config.upstream_uri</code> as configured on the plugin.</p>
+<p>The Canary Release plugin allows you to route traffic to two separate upstream 
+<strong>Services</strong> referred to as <em>Service A</em> and <em>Service B</em>. The location of <em>Service A</em>
+is defined by the <code class="highlighter-rouge">service</code> entity for the request being proxied. The location
+of <em>Service B</em> is defined by the 
+<code class="highlighter-rouge">config.upstream_host</code>, <code class="highlighter-rouge">config.upstream_port</code>, and/or <code class="highlighter-rouge">config.upstream_uri</code> as
+configured on the plugin.</p>
 
-<p>There are 2 modes of operation:</p>
-
-<ol>
-  <li>Set a fixed percentage to be routed to destination B. See parameter <code class="highlighter-rouge">config.percentage</code>.</li>
-  <li>Set a period over which (in linear time) the traffic will be moved over from destination A to B. See parameters <code class="highlighter-rouge">config.start</code> and <code class="highlighter-rouge">config.duration</code>.</li>
-</ol>
-
-<h3 id="determining-where-to-route-a-request">Determining where to route a request</h3>
-
-<p>The plugin defines a number of “buckets” (<code class="highlighter-rouge">config.steps</code>). Each of those can be routed to either A or B. For example: 100 steps, and <code class="highlighter-rouge">percentage</code> at 10%. Then 100 buckets will be created, of which 10 will be routed to upstream B, and 90 will remain at A.</p>
-
-<p>Which requests end up in a specific bucket is determined by the <code class="highlighter-rouge">config.hash</code> parameter. When set to consumer then it is made sure that each consumer will consistently end up in the same bucket. The effect being that once a bucket a consumer belongs to is switched to B, it will then always go to B, and a <code class="highlighter-rouge">consumer</code> will not “flip-flop” between A and B. Alternatively if it is set to <code class="highlighter-rouge">ip</code> then the same concept applies, but based on the originating ip address.</p>
-
-<p>The downside of <code class="highlighter-rouge">consumer</code> and <code class="highlighter-rouge">ip</code> is that if any specific consumer or ip is responsible for a more than average part of the load, the migration is not nicely distributed. Eg. with percentage set to 50%, then 50% of either the consumers or ips are rerouted, but not necessarily 50% of the requests.</p>
-
-<p>When set to <code class="highlighter-rouge">none</code> then the requests will be nicely distributed, each bucket will get the same number of requests, but in this case a consumer or ip might be flip-flopping between destination A and B on consecutive requests.</p>
-
-<p>In any case there is an automatic fallback in case a consumer or ip could not be identified for some reason. The fall-back order will be <code class="highlighter-rouge">consumer</code>-&gt;<code class="highlighter-rouge">ip</code>-&gt;<code class="highlighter-rouge">none</code>.</p>
-
-<h3 id="finalizing-the-canary">Finalizing the canary</h3>
-
-<p>Once the canary is complete, either going to 100% for a percent-based canary, or after the timed canary reached 100%, the configuration needs to be updated.</p>
-
-<p>This takes 2 steps:</p>
+<p>There are 3 modes of operation:</p>
 
 <ol>
-  <li>Update location A to point to location B. This can be done by a PATCH request on the API where the <code class="highlighter-rouge">upstream_url</code> property is updated to the url as specified by <code class="highlighter-rouge">config.upstream_host</code> or <code class="highlighter-rouge">config.upstream_uri</code> (or location B).</li>
-  <li>Since now the location A and B are the same, the canary plugin can now be removed from the system with a <code class="highlighter-rouge">DELETE</code> request.</li>
+  <li>Set a fixed percentage to be routed to <em>Service B</em>. See parameter
+<code class="highlighter-rouge">config.percentage</code>.</li>
+  <li>Define a whitelist or blacklist group comprised of Consumers with allowed or denied access to <em>Service B</em>.
+The Consumer-group association can be configured using the ACL plugin.</li>
+  <li>Set a period (in linear time) over which the traffic will be transferred
+from <em>Service A</em> to <em>Service B</em>. See parameters <code class="highlighter-rouge">config.start</code> and 
+<code class="highlighter-rouge">config.duration</code>.</li>
 </ol>
 
-<p>If the canary was not complete yet, then executing those steps prematurely, will instantly switch 100% of traffic to the new location (B).</p>
+<h3 id="determining-where-to-route-a-request">Determining Where to Route a Request</h3>
+
+<p>(This does not apply to whitelisting or blacklisting)</p>
+
+<p>The Canary Release plugin defines a number of “buckets” (<code class="highlighter-rouge">config.steps</code>). 
+Each of these buckets can be routed to either <em>Service A</em> or <em>Service B</em>.</p>
+
+<p>For example: If you set <code class="highlighter-rouge">config.steps</code> to 100 steps, and <code class="highlighter-rouge">percentage</code> to 10%, 
+Canary will create 100 “buckets”, 10 of which will be routed to <em>Service B</em>, 
+while the other 90 will remain routed to <em>Service A</em>.</p>
+
+<p>The <code class="highlighter-rouge">config.hash</code> parameter determines which requests end up in a specific bucket. 
+When set to <code class="highlighter-rouge">consumer</code>, Canary ensures each Consumer will 
+consistently end up in the same bucket. The effect is that once a Consumer’s bucket 
+switches to <em>Service B</em>, it will then always go to 
+<em>Service B</em>, and will not “flip-flop” between A and B. Alternatively if it is set to
+<code class="highlighter-rouge">ip</code> then the same concept applies but on the basis of the originating IP address.</p>
+
+<p>When using either the <code class="highlighter-rouge">consumer</code> or <code class="highlighter-rouge">ip</code> setting, if any specific Consumer or IP 
+is responsible for more than the average percentage of traffic, the migration 
+may not be evenly distributed, e.g., if the percentage is set to 50%, then 50% of 
+either the Consumers or IPs will be rerouted, but not necessarily 50% of the total requests.</p>
+
+<p>When set to <code class="highlighter-rouge">none</code> the requests will be evenly distributed; each bucket 
+will get the same number of requests, but a Consumer or IP might flip-flop between 
+<em>Service A</em> and <em>Service B</em> on consecutive requests.</p>
+
+<p>Canary provides an automatic fallback if, for some reason, a Consumer or IP can 
+not be identified. The fall-back order is be <code class="highlighter-rouge">consumer</code>-&gt;<code class="highlighter-rouge">ip</code>-&gt;<code class="highlighter-rouge">none</code>.</p>
+
+<h3 id="finalizing-the-canary">Finalizing the Canary</h3>
+
+<p>Once the Canary is complete, either going to 100% for a percentage-based Canary, 
+or when the timed Canary has reached 100%, the configuration will need to be updated.
+Note: if the plugin is configured on a <code class="highlighter-rouge">route</code>, then all routes for the current
+<code class="highlighter-rouge">service</code> must have completed the Canary.</p>
+
+<ol>
+  <li>Update the <code class="highlighter-rouge">service</code> entity to point to <em>Service B</em> by matching it to the URL as 
+specified by <code class="highlighter-rouge">config.upstream_host</code>, <code class="highlighter-rouge">config.upstream_uri</code>, and  <code class="highlighter-rouge">config.upstream_port</code>.</li>
+  <li>Remove the Canary plugin with a <code class="highlighter-rouge">DELETE</code> request.</li>
+</ol>
+
+<p>Removing or disabling the Canary Release plugin before the Canary is complete will
+instantly switch all traffic to <em>Service A</em>.</p>
+
+<h3 id="upstream-healthchecks">Upstream Healthchecks</h3>
+
+<p>The configuration item <code class="highlighter-rouge">upstream_fallback</code> uses 
+<a href="/admin-api/#upstream-objects"><strong>Upstream Healthchecks</strong></a> 
+to skip applying the Canary upstream if it does not have at least one healthy 
+target. For this configuration to take effect, the following conditions must be met:</p>
+
+<ul>
+  <li>As this configuration relies on Kong’s balancer (and healthchecks), 
+ the name specified in <code class="highlighter-rouge">config.upstream_host</code> must point to a valid Kong Upstream 
+ object</li>
+  <li><a href="/health-checks-circuit-breakers/"><strong>Healthchecks</strong></a> are 
+ enabled in the canary upstream, i.e., the upstream specified in <code class="highlighter-rouge">upstream_host</code> 
+ needs to have healthchecks enabled it. It works with both passive and active 
+ healthchecks.</li>
+</ul>
 
 
       
@@ -1274,7 +1388,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1565375697"></script>
+    <script src="/assets/app.js?v=1565393564"></script>
 
     <div id="fb-root"></div>
 

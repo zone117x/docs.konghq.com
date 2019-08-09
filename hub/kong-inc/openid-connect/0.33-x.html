@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565375697"
+    href="/assets/styles.css?v=1565393564"
   />
   
 </head>
@@ -4150,248 +4150,187 @@ that this usage example is for testing purposes and that you should
 not send confidential information to <code class="highlighter-rouge">httpbin.org</code> that is used here
 for illustrative purposes.</p>
 
-<h4 id="1-creating-the-api">1. Creating the API</h4>
+<h4 id="1-creating-a-service-and-route">1. Creating a Service and Route</h4>
 
-<p>To create an API we execute the following command:</p>
+<p>To create a Service, issue the following command:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http post :8001/apis                          <span class="se">\</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http post :8001/services                      <span class="se">\</span>
     <span class="nv">name</span><span class="o">=</span>openid-connect-demo                    <span class="se">\</span>
-    <span class="nv">uris</span><span class="o">=</span>/                                      <span class="se">\</span>
-    <span class="nv">upstream_url</span><span class="o">=</span>http://httpbin.org/anything <span class="nt">-v</span>
+    <span class="nv">url</span><span class="o">=</span>http://httpbin.org/anything
 </code></pre></div></div>
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/apis</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json, */*</span>
-<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">91</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8001</span>
-<span class="na">User-Agent</span><span class="p">:</span> <span class="s">HTTPie/0.9.9</span>
-</code></pre></div></div>
+
+<p>The response should be structured like so:</p>
+
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openid-connect-demo"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org/anything"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"uris"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Access-Control-Allow-Origin</span><span class="p">:</span> <span class="s">*</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json; charset=utf-8</span>
-<span class="na">Date</span><span class="p">:</span> <span class="s">Mon, 14 Aug 2017 17:09:43 GMT</span>
-<span class="na">Server</span><span class="p">:</span> <span class="s">kong/0.10.3</span>
-<span class="na">Transfer-Encoding</span><span class="p">:</span> <span class="s">chunked</span>
-</code></pre></div></div>
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502730583000</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"http_if_terminated"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"https_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f5331dd8-4dc8-4272-8537-199598e660ad"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openid-connect-demo"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"strip_uri"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"upstream_connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"upstream_read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"upstream_send_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"upstream_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org/anything"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"uris"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"/"</span><span class="w">
-    </span><span class="p">]</span><span class="w">
+  </span><span class="nl">"connect_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535539722</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"903978c9-2472-4a04-aff5-d9ba13821e64"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/anything"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"read_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"retries"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1535539722</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"write_timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">60000</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<h4 id="2-checking-the-api">2. Checking the API</h4>
+<p>Then, to add a Route, issue the following command:</p>
 
-<p>Check that the API works by issuing the following command:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8000 <span class="nt">-v</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8001/services/httpbin/routes paths:<span class="o">=</span><span class="s1">'["/"]'</span> protocols:<span class="o">=</span><span class="s1">'["http"]'</span>
 </code></pre></div></div>
 
-<p>And you should get output similar to this:</p>
+<p>The response should be structured like so:</p>
 
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">*/*</span>
-<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8000</span>
-<span class="na">User-Agent</span><span class="p">:</span> <span class="s">HTTPie/0.9.9</span>
-</code></pre></div></div>
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
-<span class="na">Access-Control-Allow-Credentials</span><span class="p">:</span> <span class="s">true</span>
-<span class="na">Access-Control-Allow-Origin</span><span class="p">:</span> <span class="s">*</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">390</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Date</span><span class="p">:</span> <span class="s">Mon, 14 Aug 2017 17:12:16 GMT</span>
-<span class="na">Server</span><span class="p">:</span> <span class="s">meinheld/0.6.1</span>
-<span class="na">Via</span><span class="p">:</span> <span class="s">kong/0.10.3</span>
-<span class="na">X-Kong-Proxy-Latency</span><span class="p">:</span> <span class="s">181</span>
-<span class="na">X-Kong-Upstream-Latency</span><span class="p">:</span> <span class="s">828</span>
-<span class="na">X-Powered-By</span><span class="p">:</span> <span class="s">Flask</span>
-<span class="na">X-Processed-Time</span><span class="p">:</span> <span class="s">0.00134587287903</span>
-</code></pre></div></div>
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"files"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-    </span><span class="nl">"form"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
-    </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"Accept-Encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gzip, deflate"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"User-Agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTPie/0.9.9"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"X-Forwarded-Host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"localhost"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"json"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1, 37.33.72.184"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost/anything"</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1536698521</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"hosts"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"17b83376-b69d-4638-9b53-13184018eaf6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"methods"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"/"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"preserve_host"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"protocols"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"http"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"regex_priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"service"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"903978c9-2472-4a04-aff5-d9ba13821e64"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"strip_path"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1536698521</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<h4 id="3-enabling-the-plugin">3. Enabling the Plugin</h4>
+<p>Save the Route ID</p>
 
-<p>To enable <code class="highlighter-rouge">openid-connect</code> plugin for the API,
-execute the following command (on production you
-shouldn’t disable SSL verification):</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http post :8001/apis/openid-connect-demo/plugins  <span class="se">\</span>
-    <span class="nv">name</span><span class="o">=</span>openid-connect                             <span class="se">\</span>
-    config.issuer<span class="o">=</span>&lt;ISSUER&gt;                          <span class="se">\</span>
-    config.client_id<span class="o">=</span>&lt;CLIENT_ID&gt;                    <span class="se">\</span>
-    config.client_secret<span class="o">=</span>&lt;CLIENT_SECRET&gt;            <span class="se">\</span>
-    config.redirect_uri<span class="o">=</span>&lt;REDIRECT_URI&gt;              <span class="se">\</span>
-    config.ssl_verify<span class="o">=</span><span class="nb">false</span> <span class="nt">-v</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">ROUTE_ID</span><span class="o">=</span>&lt;the <span class="nb">id </span>from the response above&gt;
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$ROUTE_ID</span>
 </code></pre></div></div>
 
-<p>On successful call you will get output similar to this:</p>
+<h4 id="2-verify-response-with-and-without-kong">2. Verify Response with and without Kong</h4>
 
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">POST</span> <span class="nn">/apis/openid-connect-demo/plugins</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">application/json, */*</span>
-<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">256</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8001</span>
-<span class="na">User-Agent</span><span class="p">:</span> <span class="s">HTTPie/0.9.9</span>
+<p>Verify that you can make a direct call to <code class="highlighter-rouge">http://httpbin.org/anything</code> <em>without</em> proxying through Kong by issuing the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http get http://httpbin.org/anything
 </code></pre></div></div>
+
+<p>The response should be <code class="highlighter-rouge">HTTP 200 OK</code> and appear like so:</p>
+
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"config.client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ATdm9WUNmfGzdE0pyRApY66pnfHVJNMI"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"config.client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kaSFMAJSEQVlYl4Crvf4Sl9WIM0rP3gVxbhT3GAhPDTzRbzxKh3pxHnNWMhhRrcN"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"config.issuer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://kong-demo.eu.auth0.com/"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"config.ssl_verify"</span><span class="p">:</span><span class="w"> </span><span class="s2">"false"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openid-connect"</span><span class="w">
+  </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"files"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"form"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Accept-Encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gzip, deflate"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"User-Agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTPie/0.9.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"json"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"52.70.213.138"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://httpbin.org/anything"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>Verify that Kong successfully proxies through Kong by issuing the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http get 127.0.0.1:8000
+</code></pre></div></div>
+
+<p>The response should be <code class="highlighter-rouge">HTTP 200 OK</code> and appear like so:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"files"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"form"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+  </span><span class="nl">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Accept"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*/*"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Accept-Encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gzip, deflate"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Connection"</span><span class="p">:</span><span class="w"> </span><span class="s2">"close"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"httpbin.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"User-Agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTPie/0.9.9"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"X-Forwarded-Host"</span><span class="p">:</span><span class="w"> </span><span class="s2">"127.0.0.1"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"json"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.19.0.1, 23.96.32.228"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://127.0.0.1/anything"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
-<span class="na">Access-Control-Allow-Origin</span><span class="p">:</span> <span class="s">*</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json; charset=utf-8</span>
-<span class="na">Date</span><span class="p">:</span> <span class="s">Mon, 14 Aug 2017 17:22:27 GMT</span>
-<span class="na">Server</span><span class="p">:</span> <span class="s">kong/0.10.3</span>
-<span class="na">Transfer-Encoding</span><span class="p">:</span> <span class="s">chunked</span>
+
+<h4 id="3-secure-the-service-with-oidc">3. Secure the Service with OIDC</h4>
+
+<p>To enable the OIDC Plugin for the Service, execute the following 
+command, but note that SSL verification is disabled here for 
+testing purposes only:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http post :8001/services/httpbin/plugins <span class="se">\</span>
+  <span class="nv">name</span><span class="o">=</span>openid-connect                             <span class="se">\</span>
+  config.issuer<span class="o">=</span>&lt;ISSUER&gt;                          <span class="se">\</span>
+  config.client_id<span class="o">=</span>&lt;CLIENT_ID&gt;                    <span class="se">\</span>
+  config.client_secret<span class="o">=</span>&lt;CLIENT_SECRET&gt;            <span class="se">\</span>
+  config.redirect_uri<span class="o">=</span>&lt;REDIRECT_URI&gt;              <span class="se">\</span>
+  config.ssl_verify<span class="o">=</span><span class="nb">false</span> <span class="nt">-v</span>
 </code></pre></div></div>
+
+<p>On successful <code class="highlighter-rouge">HTTP 200 OK</code>, the response will be similar to:</p>
+
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"api_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f5331dd8-4dc8-4272-8537-199598e660ad"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"auth_methods"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"password"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"client_credentials"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"authorization_code"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"bearer"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"introspection"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"kong_oauth2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"refresh_token"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"session"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"&lt;CLIENT_ID&gt;"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"&lt;CLIENT_SECRET&gt;"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"consumer_by"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"username"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"custom_id"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"http_version"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"id_token_param_type"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"query"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"header"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"body"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"issuer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ISSUER&gt;"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"leeway"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"login_action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"upstream"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"login_tokens"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"id_token"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"response_mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"query"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"reverify"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="s2">"openid"</span><span class="w">
-        </span><span class="p">],</span><span class="w">
-        </span><span class="nl">"ssl_verify"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"upstream_access_token_header"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authorization:bearer"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"verify_claims"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"verify_nonce"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"verify_parameters"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"verify_signature"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1502731347000</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"audience_claim"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"aud"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"kong"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"b8068d7d-d7bf-4b23-8724-881ee49bdbfd"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"consumer_by"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"username"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"custom_id"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"introspect_jwt_tokens"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"introspection_hint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"access_token"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"issuer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://ip10-0-0-3-bec2g5kmeb6ge43qmuc0-8080.direct.konglabs-s3.simplru.com/auth/realms/master"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1536700540000</span><span class="p">,</span><span class="w">
     </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4a91a0ef-1632-491d-a4e3-b8f98f75dcda"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openid-connect"</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6836ba3c-12e0-4f2e-bdfd-88134eaa1786"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openid-connect"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"service_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"903978c9-2472-4a04-aff5-d9ba13821e64"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<h4 id="4-try-the-api">4. Try the API</h4>
+<h4 id="4-verify-that-authorization-is-now-required">4. Verify that Authorization is Now Required</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8000 <span class="nt">-v</span>
+<p>Attempt the following command without authorization:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http get :8000/anything
 </code></pre></div></div>
 
-<p>As you might have expected, it doesn’t work anymore:</p>
+<p>It will result in:</p>
 
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">GET</span> <span class="nn">/</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Accept</span><span class="p">:</span> <span class="s">*/*</span>
-<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">localhost:8000</span>
-<span class="na">User-Agent</span><span class="p">:</span> <span class="s">HTTPie/0.9.9</span>
-</code></pre></div></div>
-
-<p>as it gives this redirect as a reply:</p>
-
-<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">302</span> <span class="ne">Moved Temporarily</span>
-<span class="na">Connection</span><span class="p">:</span> <span class="s">keep-alive</span>
-<span class="na">Content-Length</span><span class="p">:</span> <span class="s">167</span>
-<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html</span>
-<span class="na">Date</span><span class="p">:</span> <span class="s">Mon, 14 Aug 2017 17:24:59 GMT</span>
-<span class="na">Location</span><span class="p">:</span> <span class="s">https://&lt;ISSUER&gt;/authorize?scope=openid&amp;client_id=&lt;CLIENT_ID&gt;&amp;response_mode=query&amp;state=y2J74-KJFzogFXEtWgwDzl-Y&amp;nonce=J-Ylp3E4dIQIhgutGFo3JOOU&amp;redirect_uri=&lt;REDIRECT_URI&gt;&amp;response_type=code</span>
-<span class="na">Server</span><span class="p">:</span> <span class="s">kong/0.10.3</span>
-<span class="na">Set-Cookie</span><span class="p">:</span> <span class="s">authorization=&lt;COOKIE&gt;; Path=/; HttpOnly</span>
-</code></pre></div></div>
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;&lt;title&gt;</span>302 Found<span class="nt">&lt;/title&gt;&lt;/head&gt;</span>
-  <span class="nt">&lt;body</span> <span class="na">bgcolor=</span><span class="s">"white"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;center&gt;&lt;h1&gt;</span>302 Found<span class="nt">&lt;/h1&gt;&lt;/center&gt;</span>
-    <span class="nt">&lt;hr&gt;&lt;center&gt;</span>openresty/1.11.2.2<span class="nt">&lt;/center&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 301 Moved Temporarily
 </code></pre></div></div>
 
 <p>Now, at this point you could try to open the page using a browser and
 see if you can go through the authorization code flow, and after that
-get an reply from httpbin.org. Please check that your redirect uri is
-correctly registered as the identity provider should redirect the
-browser back to Kong url where this plugin is enabled (it can be the same
-API or it can be different API).</p>
+get a reply from <code class="highlighter-rouge">httpbin.org</code>. Please check that your redirect URI parameter is
+correctly set, since the identity provider should redirect the
+user back to this URI once authentication is successful. (The URI can be the same
+Service or a different one).</p>
 
-<p>You could also try another ways, like for example password grant
-(and please try other authentication methods as well):</p>
+<p>You could also try another way; for example, password grant:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8000 Authorization:<span class="s2">"Basic &lt;username&gt;:&lt;password&gt;"</span>
 </code></pre></div></div>
@@ -4698,7 +4637,7 @@ well.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1565375697"></script>
+    <script src="/assets/app.js?v=1565393564"></script>
 
     <div id="fb-root"></div>
 
