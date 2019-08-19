@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1565393564"
+    href="/assets/styles.css?v=1566241358"
   />
   
 </head>
@@ -778,6 +778,105 @@ window['_fs_namespace'] = 'FS';
       
       <nav>
         
+        <a href="/enterprise/0.34-x/admin-api/">
+          <h5>Admin API</h5>
+        </a>
+        
+        <ul>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#supported-content-types"  >
+              Supported Content Types
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#information-routes"  >
+              Information
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#service-object"  >
+              Service Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#route-object"  >
+              Route Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#api-object"  >
+              API Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#consumer-object"  >
+              Consumer Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#plugin-object"  >
+              Plugin Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#certificate-object"  >
+              Certificate Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#sni-objects"  >
+              SNI Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#upstream-objects"  >
+              Upstream Object
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/0.34-x/admin-api/#target-object"  >
+              Target Object
+            </a>
+            
+          </li>
+          
+        </ul>
+      </nav>
+      
+      <nav>
+        
         <h5>Workspaces</h5>
         
         <ul>
@@ -1233,6 +1332,7 @@ window['_fs_namespace'] = 'FS';
           <h2 id="table-of-contents">Table of Contents</h2>
 
 <ul>
+  <li><a href="#configuration-loading">Configuration Loading</a></li>
   <li><a href="#general">General</a></li>
   <li><a href="#nginx">NGINX</a></li>
   <li><a href="#datastore">Datastore</a></li>
@@ -1248,6 +1348,251 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#general-smtp-configuration">General SMTP Configuration</a></li>
   <li><a href="#data-&amp;-admin-audit">Data &amp; Admin Audit</a></li>
 </ul>
+
+<h2 id="configuration-loading">Configuration loading</h2>
+
+<p>Kong comes with a default configuration file that can be found at
+<code class="highlighter-rouge">/etc/kong/kong.conf.default</code> if you installed Kong via one of the official
+packages. To start configuring Kong, you can copy this file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cp</span> /etc/kong/kong.conf.default /etc/kong/kong.conf
+</code></pre></div></div>
+
+<p>Kong will operate with default settings should all the values in your
+configuration be commented-out. Upon starting, Kong looks for several
+default locations that might contain a configuration file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/kong/kong.conf
+/etc/kong.conf
+</code></pre></div></div>
+
+<p>You can override this behavior by specifying a custom path for your
+configuration file using the <code class="highlighter-rouge">-c / --conf</code> argument in the CLI:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">--conf</span> /path/to/kong.conf
+</code></pre></div></div>
+
+<p>The configuration format is straightforward: simply uncomment any property
+(comments are defined by the <code class="highlighter-rouge">#</code> character) and modify it to your needs.
+Booleans values can be specified as <code class="highlighter-rouge">on/off</code> or <code class="highlighter-rouge">true</code>/<code class="highlighter-rouge">false</code> for convenience.</p>
+
+<h2 id="verifying-your-configuration">Verifying your configuration</h2>
+
+<p>You can verify the integrity of your settings with the <code class="highlighter-rouge">check</code> command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong check &lt;path/to/kong.conf&gt;
+configuration at &lt;path/to/kong.conf&gt; is valid
+</code></pre></div></div>
+
+<p>This command will take into account the environment variables you have
+currently set, and will error out in case your settings are invalid.</p>
+
+<p>Additionally, you can also use the CLI in debug mode to have more insight
+as to what properties Kong is being started with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> &lt;kong.conf&gt; <span class="nt">--vv</span>
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>verbose] no config file found at /etc/kong/kong.conf
+2016/08/11 14:53:36 <span class="o">[</span>debug] admin_listen <span class="o">=</span> <span class="s2">"0.0.0.0:8001"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] database <span class="o">=</span> <span class="s2">"postgres"</span>
+2016/08/11 14:53:36 <span class="o">[</span>debug] log_level <span class="o">=</span> <span class="s2">"notice"</span>
+<span class="o">[</span>...]
+</code></pre></div></div>
+
+<h2 id="environment-variables">Environment variables</h2>
+
+<p>When loading properties out of a configuration file, Kong will also look for
+environment variables of the same name. This allows you to fully configure Kong
+via environment variables, which is very convenient for container-based
+infrastructures, for example.</p>
+
+<p>All environment variables prefixed with <code class="highlighter-rouge">KONG_</code>, capitalized and bearing the
+same name as a setting will override it.</p>
+
+<p>Example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_level = debug # in kong.conf
+</code></pre></div></div>
+
+<p>Can be overridden with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">KONG_LOG_LEVEL</span><span class="o">=</span>error
+</code></pre></div></div>
+
+<h2 id="custom-nginx-configuration--embedding-kong">Custom Nginx configuration &amp; embedding Kong</h2>
+
+<p>Tweaking the Nginx configuration is an essential part of setting up your Kong
+instances since it allows you to optimize its performance for your
+infrastructure, or embed Kong in an already running OpenResty instance.</p>
+
+<h3 id="custom-nginx-configuration">Custom Nginx configuration</h3>
+
+<p>Kong can be started, reloaded and restarted with an <code class="highlighter-rouge">--nginx-conf</code> argument,
+which must specify an Nginx configuration template. Such a template uses the
+[Penlight][Penlight] [templating engine][pl.template], which is compiled using
+the given Kong configuration, before being dumped in your Kong prefix
+directory, moments before starting Nginx.</p>
+
+<p>The default template can be found at:
+https://github.com/Kong/kong/tree/master/kong/templates. It is split in two
+Nginx configuration files: <code class="highlighter-rouge">nginx.lua</code> and <code class="highlighter-rouge">nginx_kong.lua</code>. The former is
+minimalistic and includes the latter, which contains everything Kong requires
+to run. When <code class="highlighter-rouge">kong start</code> runs, right before starting Nginx, it copies these
+two files into the prefix directory, which looks like so:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/kong
+├── nginx-kong.conf
+├── nginx.conf
+</code></pre></div></div>
+
+<p>If you wish to include other <code class="highlighter-rouge">server</code> blocks in your Nginx configuration, or if
+you must tweak global settings that are not exposed by the Kong configuration,
+here is a suggestion:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
+# custom_nginx.template
+# ---------------------
+
+worker_processes ${{NGINX_WORKER_PROCESSES}}; # can be set by kong.conf
+daemon ${{NGINX_DAEMON}};                     # can be set by kong.conf
+
+pid pids/nginx.pid;                      # this setting is mandatory
+error_log logs/error.log ${{LOG_LEVEL}}; # can be set by kong.conf
+
+events {
+    use epoll; # custom setting
+    multi_accept on;
+}
+
+http {
+    # include default Kong Nginx config
+    include 'nginx-kong.conf';
+
+    # custom server
+    server {
+        listen 8888;
+        server_name custom_server;
+
+        location / {
+          ... # etc
+        }
+    }
+}
+</code></pre></div></div>
+
+<p>You can then start Kong with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong start <span class="nt">-c</span> kong.conf <span class="nt">--nginx-conf</span> custom_nginx.template
+</code></pre></div></div>
+
+<p>If you wish to customize the Kong Nginx sub-configuration file to, eventually,
+add other Lua handlers or customize the <code class="highlighter-rouge">lua_*</code> directives, you can inline the
+<code class="highlighter-rouge">nginx_kong.lua</code> configuration in this <code class="highlighter-rouge">custom_nginx.template</code> example file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
+# custom_nginx.template
+# ---------------------
+
+worker_processes ${{NGINX_WORKER_PROCESSES}}; # can be set by kong.conf
+daemon ${{NGINX_DAEMON}};                     # can be set by kong.conf
+
+pid pids/nginx.pid;                      # this setting is mandatory
+error_log logs/error.log ${{LOG_LEVEL}}; # can be set by kong.conf
+
+events {}
+
+http {
+  resolver ${{DNS_RESOLVER}} ipv6=off;
+  charset UTF-8;
+  error_log logs/error.log ${{LOG_LEVEL}};
+  access_log logs/access.log;
+
+  ... # etc
+}
+</code></pre></div></div>
+
+<h3 id="embedding-kong-in-openresty">Embedding Kong in OpenResty</h3>
+
+<p>If you are running your own OpenResty servers, you can also easily embed Kong
+by including the Kong Nginx sub-configuration using the <code class="highlighter-rouge">include</code> directive
+(similar to the examples of the previous section). If you have a valid
+top-level NGINX configuration that simply includes the Kong-specific
+configuration:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># my_nginx.conf
+
+http {
+    include 'nginx-kong.conf';
+}
+</code></pre></div></div>
+
+<p>you can start your instance like so:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>nginx <span class="nt">-p</span> /usr/local/openresty <span class="nt">-c</span> my_nginx.conf
+</code></pre></div></div>
+
+<p>And Kong will be running in that instance (as configured in <code class="highlighter-rouge">nginx-kong.conf</code>).</p>
+
+<h3 id="serving-both-a-website-and-your-apis-from-kong">Serving both a website and your APIs from Kong</h3>
+
+<p>A common use case for API providers is to make Kong serve both a website
+and the APIs themselves over the Proxy port — <code class="highlighter-rouge">80</code> or <code class="highlighter-rouge">443</code> in
+production. For example, <code class="highlighter-rouge">https://my-api.com</code> (Website) and
+<code class="highlighter-rouge">https://my-api.com/api/v1</code> (API).</p>
+
+<p>To achieve this, we cannot simply declare a new virtual server block,
+like we did in the previous section. A good solution is to use a custom
+Nginx configuration template which inlines <code class="highlighter-rouge">nginx_kong.lua</code> and adds a new
+<code class="highlighter-rouge">location</code> block serving the website alongside the Kong Proxy <code class="highlighter-rouge">location</code>
+block:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ---------------------
+# custom_nginx.template
+# ---------------------
+
+worker_processes ${{NGINX_WORKER_PROCESSES}}; # can be set by kong.conf
+daemon ${{NGINX_DAEMON}};                     # can be set by kong.conf
+
+pid pids/nginx.pid;                      # this setting is mandatory
+error_log logs/error.log ${{LOG_LEVEL}}; # can be set by kong.conf
+events {}
+
+http {
+  # here, we inline the contents of nginx_kong.lua
+  charset UTF-8;
+
+  # any contents until Kong's Proxy server block
+  ...
+
+  # Kong's Proxy server block
+  server {
+    server_name kong;
+
+    # any contents until the location / block
+    ...
+
+    # here, we declare our custom location serving our website
+    # (or API portal) which we can optimize for serving static assets
+    location / {
+      root /var/www/my-api.com;
+      index index.htm index.html;
+      ...
+    }
+
+    # Kong's Proxy location / has been changed to /api/v1
+    location /api/v1 {
+      set $upstream_host nil;
+      set $upstream_scheme nil;
+      set $upstream_uri nil;
+
+      # Any remaining configuration for the Proxy location
+      ...
+    }
+  }
+
+  # Kong's Admin server block goes below
+}
+</code></pre></div></div>
 
 <h2 id="general">General</h2>
 
@@ -3234,7 +3579,7 @@ the future. If this value is undefined, no signature will be generated.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1565393564"></script>
+    <script src="/assets/app.js?v=1566241358"></script>
 
     <div id="fb-root"></div>
 
