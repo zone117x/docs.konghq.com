@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566849459"
+    href="/assets/styles.css?v=1566854504"
   />
   
 </head>
@@ -601,6 +601,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#global-plugins">Global plugins</a></li>
       <li><a href="#parameters">Parameters</a></li>
       <li><a href="#usage">Usage</a></li>
+      <li><a href="#adding-certificate-authorities">Adding certificate authorities</a></li>
       <li><a href="#create-manual-mappings-between-certificate-and-consumer-object">Create manual mappings between certificate and Consumer object</a></li>
       <li><a href="#matching-behaviors">Matching behaviors</a></li>
       <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -945,6 +946,21 @@ then the response will be <code class="highlighter-rouge">HTTP 401</code> “No 
 option was configured on the plugin, in which case the anonymous <strong>Consumer</strong> will be used
 and the request will be allowed to proceed.</p>
 
+<h3 id="adding-certificate-authorities">Adding certificate authorities</h3>
+
+<p>In order to use this plugin, you must add certificate authority certificates. These are stored in a separate ca-certificates store rather than the main certificates store, as they do not require private keys. To add one, obtain a PEM-encoded copy of your CA certificate and POST it to <code class="highlighter-rouge">/ca_certificates</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-sX</span> POST https://kong:8001/ca_certificates <span class="nt">-F</span> <span class="nv">cert</span><span class="o">=</span>@cert.pem
+<span class="o">{</span>
+  <span class="s2">"tags"</span>: null,
+  <span class="s2">"created_at"</span>: 1566597621,
+  <span class="s2">"cert"</span>: <span class="s2">"-----BEGIN CERTIFICATE-----</span><span class="se">\F</span><span class="s2">ullPEMOmittedForBrevity==</span><span class="se">\n</span><span class="s2">-----END CERTIFICATE-----</span><span class="se">\n</span><span class="s2">"</span>,
+  <span class="s2">"id"</span>: <span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">id</code> value returned can now be used for mTLS plugin configurations or consumer mappings.</p>
+
 <h3 id="create-manual-mappings-between-certificate-and-consumer-object">Create manual mappings between certificate and Consumer object</h3>
 
 <p>Sometimes you may not wish to use automatic Consumer lookup or you have certificates
@@ -1204,7 +1220,7 @@ filter.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1566849459"></script>
+    <script src="/assets/app.js?v=1566854504"></script>
 
     <div id="fb-root"></div>
 

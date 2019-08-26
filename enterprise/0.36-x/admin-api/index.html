@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566849459"
+    href="/assets/styles.css?v=1566854504"
   />
   
 </head>
@@ -1546,7 +1546,19 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
+                <a href="/enterprise/0.36-x/plugins/oidc-azuread" >OpenID Connect with Azure AD</a>
+                
+              </li>
+              
+              
+              <li>
                 <a href="/enterprise/0.36-x/plugins/oidc-google" >OpenID Connect with Google</a>
+                
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/0.36-x/plugins/oidc-okta" >OpenID Connect with Okta</a>
                 
               </li>
               
@@ -4742,6 +4754,255 @@ body is not allowed.</p>
 
 <hr />
 
+<h2 id="certificate-authority-object">Certificate Authority Object</h2>
+
+<p>A certificate authority object represents a public CA certificate.
+These objects are used by Kong to verify client certificates presented to the mTLS plugin.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<h3 id="add-certificate-authority">Add Certificate Authority</h3>
+
+<h5 id="create-certificate-authority">Create Certificate Authority</h5>
+
+<div class="endpoint post">/ca_certificates</div>
+
+<p><em>Request Body</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">cert</code></td>
+      <td>PEM-encoded public CA certificate.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created
+</code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="list-certificate-authorities">List Certificate Authorities</h3>
+
+<h5 id="list-all-certificate-authorities">List all Certificate Authorities</h5>
+
+<div class="endpoint get">/ca_certificates</div>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"43629afd-bda5-4248-94cb-5cc4029909bb"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}],</span><span class="w">
+
+    </span><span class="nl">"next"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8001/ca_certificates?offset=6378122c-a0a1-438d-a5c6-efabae9fb969"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="retrieve-certificate-authority">Retrieve Certificate Authority</h3>
+
+<h5 id="retrieve-certificate-authority-1">Retrieve Certificate Authority</h5>
+
+<div class="endpoint get">/ca_certificates/{certificate authority id}</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">certificate authority id</code><br /><strong>required</strong></td>
+      <td>The unique identifier of the certificate authority to retrieve.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="update-certificate-authority">Update Certificate Authority</h3>
+
+<h5 id="update-certificate-authority-1">Update Certificate Authority</h5>
+
+<div class="endpoint patch">/ca_certificates/{certificate authority id}</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">certificate authority id</code><br /><strong>required</strong></td>
+      <td>The unique identifier of the certificate authority to update.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Request Body</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">cert</code></td>
+      <td>PEM-encoded public CA certificate.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 200 OK
+</code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"322dce96-d434-4e0d-9038-311b3520f0a3"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1566597621</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cert"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN CERTIFICATE-----..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre></div></div>
+
+<hr />
+
+<h3 id="update-or-create-certificate-authority">Update or create Certificate Authority</h3>
+
+<h5 id="create-or-update-certificate-authority">Create or update Certificate Authority</h5>
+
+<div class="endpoint put">/ca_certificates/{certificate authority id}</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">certificate authority id</code><br /><strong>required</strong></td>
+      <td>The unique identifier of the certificate authority to create or update.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Request Body</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">cert</code></td>
+      <td>PEM-encoded public CA certificate.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Inserts (or replaces) the certificate authority under the requested resource with the
+definition specified in the body. The certificate authority will be identified via the ` id` attribute.</p>
+
+<p>When creating a new certificate authority without specifying <code class="highlighter-rouge">id</code> (neither in the URL nor in
+the body), then it will be auto-generated.</p>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 201 Created or HTTP 200 OK
+</code></pre></div></div>
+
+<p>See POST and PATCH responses.</p>
+
+<hr />
+
+<h3 id="delete-certificate-authority">Delete Certificate Authority</h3>
+
+<h5 id="delete-certificate-authority-1">Delete Certificate Authority</h5>
+
+<div class="endpoint delete">/ca_certificates/{certificate authority id}</div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Attributes</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"><code class="highlighter-rouge">certificate authority id</code><br /><strong>required</strong></td>
+      <td>The unique identifier of the certificate authority to delete.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Response</em></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP 204 No Content
+</code></pre></div></div>
+
+<hr />
+
 <h2 id="upstream-object">Upstream Object</h2>
 
 <p>The upstream object represents a virtual hostname and can be used to loadbalance
@@ -6324,7 +6585,7 @@ The target object with the latest <code class="highlighter-rouge">created_at</co
 </script>
 
 
-    <script src="/assets/app.js?v=1566849459"></script>
+    <script src="/assets/app.js?v=1566854504"></script>
 
     <div id="fb-root"></div>
 
