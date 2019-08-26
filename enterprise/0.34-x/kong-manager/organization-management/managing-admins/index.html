@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566498770"
+    href="/assets/styles.css?v=1566844828"
   />
   
 </head>
@@ -1387,39 +1387,39 @@ window['_fs_namespace'] = 'FS';
 button.</p>
   </li>
   <li>
-    <p>When a new <strong>Admin</strong> receives an invitation, they will only be able to log in 
-with that email address. Assign the appropriate Role and click <strong>Invite Admin</strong> 
+    <p>When a new <strong>Admin</strong> receives an invitation, they will only be able to log in
+with that email address. Assign the appropriate Role and click <strong>Invite Admin</strong>
 to send the invitation.</p>
 
     <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-name-admin.png" alt="Create New Admin" /></p>
   </li>
   <li>
-    <p>On the <strong>Admins</strong> page, the new invitee will appear on the list with the 
- “invited” status. Once they accept the invitation, their status will 
- change to “accepted”.</p>
+    <p>On the <strong>Admins</strong> page, the new invitee will appear on the list with the
+“invited” status. Once they accept the invitation, their status will
+change to “accepted”.</p>
 
     <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-invited-admins.png" alt="Invited Admins" /></p>
   </li>
   <li>
-    <p>The newly invited <strong>Admin</strong> will have the ability to set a password. If the 
- <strong>Admin</strong> forgets the password, it is possible to reset it through a recovery email.</p>
+    <p>The newly invited <strong>Admin</strong> will have the ability to set a password. If the
+<strong>Admin</strong> forgets the password, it is possible to reset it through a recovery email.</p>
   </li>
 </ol>
 
-<p>⚠️ <strong>IMPORTANT</strong>: By default, the registration link will expire after 259,200 
-    seconds (3 days). This timeframe can be configured with the <code class="highlighter-rouge">kong.conf</code> 
-    file in <code class="highlighter-rouge">admin_invitation_expiry</code>.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: By default, the registration link will expire after 259,200
+seconds (3 days). This timeframe can be configured with the <code class="highlighter-rouge">kong.conf</code>
+file in <code class="highlighter-rouge">admin_invitation_expiry</code>.</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If an email fails to send, either due to an incorrect email 
-    address or an external error, it will be possible to resend an invitation.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: If an email fails to send, either due to an incorrect email
+address or an external error, it will be possible to resend an invitation.</p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If SMTP is not enabled or the invitation email fails to send, 
-    it is possible for the <strong>Super Admin</strong> to copy and provide a registration link 
-    directly. See the next section.</p>
+<p>⚠️ <strong>IMPORTANT</strong>: If SMTP is not enabled or the invitation email fails to send,
+it is possible for the <strong>Super Admin</strong> to copy and provide a registration link
+directly. See the next section.</p>
 
 <h2 id="how-to-copy-and-send-a-registration-link">How to Copy and Send a Registration Link</h2>
 
-<p>If a mail server is not yet set up, it is still possible to invite <strong>Admins</strong> to 
+<p>If a mail server is not yet set up, it is still possible to invite <strong>Admins</strong> to
 register and log in.</p>
 
 <ol>
@@ -1427,18 +1427,18 @@ register and log in.</p>
     <p>Invite an <strong>Admin</strong> as described in the section above.</p>
   </li>
   <li>
-    <p>If the “View” link is clicked next to the invited <strong>Admin</strong>’s name, a 
- <code class="highlighter-rouge">register_url</code> is displayed on the invitee’s details page.</p>
+    <p>If the “View” link is clicked next to the invited <strong>Admin</strong>’s name, a
+<code class="highlighter-rouge">register_url</code> is displayed on the invitee’s details page.</p>
 
     <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-registration-url.png" alt="Registration URL" /></p>
   </li>
   <li>
-    <p>Copy and directly send this link to the invited <strong>Admin</strong> so that they may set 
- up their credentials and log in.</p>
+    <p>Copy and directly send this link to the invited <strong>Admin</strong> so that they may set
+up their credentials and log in.</p>
   </li>
 </ol>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If <code class="highlighter-rouge">admin_gui_auth</code> is <code class="highlighter-rouge">ldap-auth-advanced</code>, credentials are 
+<p>⚠️ <strong>IMPORTANT</strong>: If <code class="highlighter-rouge">admin_gui_auth</code> is <code class="highlighter-rouge">ldap-auth-advanced</code>, credentials are
 not stored in Kong, and the Admin will be directed to Login.</p>
 
 <h2 id="how-to-grant-an-admin-access-with-ldap">How to Grant an Admin Access with LDAP</h2>
@@ -1449,47 +1449,47 @@ not stored in Kong, and the Admin will be directed to Login.</p>
   </li>
   <li>
     <p>Change the <strong>Super Admin</strong>’s username in Kong by making a <code class="highlighter-rouge">PATCH</code> request to
-<code class="highlighter-rouge">admins/kong_admin</code> and setting the value of <code class="highlighter-rouge">username</code> to the corresponding 
+<code class="highlighter-rouge">admins/kong_admin</code> and setting the value of <code class="highlighter-rouge">username</code> to the corresponding
 LDAP <code class="highlighter-rouge">attribute</code>.</p>
   </li>
 </ol>
 
-<p>For example, if the LDAP user’s attribute is <code class="highlighter-rouge">einstein</code>, 
+<p>For example, if the LDAP user’s attribute is <code class="highlighter-rouge">einstein</code>,
 the <code class="highlighter-rouge">PATCH</code> to <code class="highlighter-rouge">/admins/kong_admin</code> should have a <code class="highlighter-rouge">username</code> set to <code class="highlighter-rouge">einstein</code>.</p>
 
 <ol>
   <li>
-    <p>Log in to Kong Manager using the LDAP credentials associated with the Super 
+    <p>Log in to Kong Manager using the LDAP credentials associated with the Super
 Admin.</p>
   </li>
   <li>
-    <p>Invite Admins from the “Admins” page in Kong Manager, ensuring that the 
-<code class="highlighter-rouge">username</code> of each Admin is mapped to the <code class="highlighter-rouge">attribute</code> value set in the LDAP 
+    <p>Invite Admins from the “Admins” page in Kong Manager, ensuring that the
+<code class="highlighter-rouge">username</code> of each Admin is mapped to the <code class="highlighter-rouge">attribute</code> value set in the LDAP
 directory.</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ⚠️ **IMPORTANT**: To enable the Admins to log in, it is still necessary 
- to assign a Role to them.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ⚠️ **IMPORTANT**: To enable the Admins to log in, it is still necessary
+    to assign a Role to them.
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Once an Admin has logged in successfully and accesses the Admin API using 
-their LDAP credentials, they will be marked as “approved” on the “Admins” list 
+    <p>Once an Admin has logged in successfully and accesses the Admin API using
+their LDAP credentials, they will be marked as “approved” on the “Admins” list
 in Kong Manager</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ⚠️ **IMPORTANT**: The new Admins will still receive an email, but all 
- credentials will be handled through the LDAP server, not Kong Manager 
- or the Admin API.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ⚠️ **IMPORTANT**: The new Admins will still receive an email, but all
+    credentials will be handled through the LDAP server, not Kong Manager
+    or the Admin API.
 </code></pre></div>    </div>
   </li>
 </ol>
 
 <h2 id="using-the-organization-page-to-manage-users">Using the Organization Page to Manage Users</h2>
 
-<p>To view all of the current Workspaces and Roles, click the “Organization” link 
+<p>To view all of the current Workspaces and Roles, click the “Organization” link
 on the top navigation bar.</p>
 
-<p>From this page, it is possible to update every user’s Role across any 
-Workspace. From the “Roles” tab, it is also possible to update the permissions 
+<p>From this page, it is possible to update every user’s Role across any
+Workspace. From the “Roles” tab, it is also possible to update the permissions
 assigned to each Role.</p>
 
 <p>Next: <a href="/enterprise/0.34-x/kong-manager/vitals/">Vitals ›</a></p>
@@ -1692,7 +1692,7 @@ assigned to each Role.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1566498770"></script>
+    <script src="/assets/app.js?v=1566844828"></script>
 
     <div id="fb-root"></div>
 

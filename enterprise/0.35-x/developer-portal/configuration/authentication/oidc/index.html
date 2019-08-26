@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566498770"
+    href="/assets/styles.css?v=1566844828"
   />
   
 </head>
@@ -1595,9 +1595,13 @@ document for more information.</p>
   <li>via the <a href="#enable-oidc-via-the-kongconf">the Kong configuration file</a></li>
 </ul>
 
+<p><strong>Warning:</strong> Configuring OIDC authentication for Dev Portal via Kong Manger or with the Admin API will take precedence over any kong.conf ‘portal_auth_conf’ configuration. Be sure to use only one of the configuration methods.</p>
+
 <h3 id="portal-session-plugin-config">Portal Session Plugin Config</h3>
 
-<p>Session Plugin Config does not apply when using OpenID Connect.</p>
+<p>Session Plugin Config does not apply when using OpenID Connect. Any session
+configuration is defined in the configuration object itself and not
+in a separate portal session configuration object as it is with other Dev Portal authentication options.</p>
 
 <h3 id="sample-configuration-object">Sample Configuration Object</h3>
 
@@ -1612,8 +1616,8 @@ Provder:</p>
   "client_id": ["&lt;CLIENT-ID&gt;"],
   "login_action": "redirect",
   "logout_redirect_uri": ["http://localhost:8003 (http://localhost:8003/)"],
-  "ssl_verify": false,
   "consumer_claim": ["email"],
+  "redirect_uri": ["https://localhost:8004/auth"],
   "forbidden_redirect_uri": ["http://localhost:8003/unauthorized"],
   "client_secret": ["&lt;CLIENT_SECRET&gt;"],
   "issuer": "https://accounts.google.com/",
@@ -1621,18 +1625,7 @@ Provder:</p>
   "login_redirect_uri": ["http://localhost:8003 (http://localhost:8003/)"],
   "login_redirect_mode": "query"
 }
-
 </code></pre></div></div>
-
-<p>The values above can be replaced with their corresponding values for a custom
-OIDC configuration:</p>
-
-<ul>
-  <li><code class="highlighter-rouge">&lt;CLIENT_ID&gt;</code> - Client ID provided by IdP
-    * For Example, Google credentials can be found here:
-    https://console.cloud.google.com/projectselector/apis/credentials</li>
-  <li><code class="highlighter-rouge">&lt;CLIENT_SECRET&gt;</code> - Client secret provided by IdP</li>
-</ul>
 
 <p>If <code class="highlighter-rouge">portal_gui_host</code> and <code class="highlighter-rouge">portal_api_url</code> are set to share a domain but differ
 in regards to subdomain, <code class="highlighter-rouge">redirect_uri</code> and <code class="highlighter-rouge">session_cookie_domain</code> need to be
@@ -1649,9 +1642,8 @@ configured to allow OpenID-Connect to apply the session correctly.</p>
   "login_redirect_uri": ["https://example.portal.com (https://example.portal.com/)"],
   "login_action": "redirect",
   "logout_redirect_uri": ["https://example.portal.com (https://example.portal.com/)"],
-  "ssl_verify": false,
   "consumer_claim": ["email"],
-  "redirect_uri": ["https://exampleapi.portal.com/auth"],
+  "redirect_uri": ["https://example.portalapi.com/auth"],
   "session_cookie_domain": ".portal.com",
   "forbidden_redirect_uri": ["https://example.portal.com/unauthorized"],
   "client_secret": ["&lt;CLIENT_SECRET"],
@@ -1659,8 +1651,16 @@ configured to allow OpenID-Connect to apply the session correctly.</p>
   "logout_methods": ["GET"],
   "login_redirect_mode": "query"
 }
-
 </code></pre></div></div>
+
+<p>The values above must be replaced with their corresponding values for a custom
+OIDC configuration:</p>
+<ul>
+  <li><code class="highlighter-rouge">&lt;CLIENT_ID&gt;</code> - Client ID provided by IdP. For Example, Google credentials can be found here: https://console.cloud.google.com/projectselector/apis/credentials</li>
+  <li><code class="highlighter-rouge">&lt;CLIENT_SECRET&gt;</code> - Client secret provided by IdP</li>
+  <li>The <code class="highlighter-rouge">redirect_uri</code> the Portal API’s ‘/auth’ endpoint.</li>
+  <li>The <code class="highlighter-rouge">session_cookie_domain</code> is the shared domain of the portal GUI <code class="highlighter-rouge">portal_gui_host</code> and portal API <code class="highlighter-rouge">portal_api_url</code> if they have different subdomains.</li>
+</ul>
 
 <h3 id="enable-oidc-via-kong-manager">Enable OIDC via Kong Manager</h3>
 
@@ -1688,8 +1688,8 @@ into the provided text area.</li>
 </code></pre></div></div>
 
 <blockquote>
-  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with Key
-Auth. Anyone currently viewing the Dev Portal will lose access on the
+  <p><strong>Warning</strong> This will automatically authenticate the Dev Portal with OIDC
+. Anyone currently viewing the Dev Portal will lose access on the
 next page refresh.</p>
 </blockquote>
 
@@ -1706,7 +1706,7 @@ configuration file with the <code class="highlighter-rouge">portal_auth</code> p
 <p>Then set <code class="highlighter-rouge">portal_auth_conf</code> property to your
 customized <a href="#/sample-configuration-object"><strong>Configuration JSON Object</strong></a></p>
 
-<p>This will set every Dev Portal to use Key Authentication by default when
+<p>This configuration will set every Dev Portal to use OIDC by default when
 initialized, regardless of Workspace.</p>
 
 
@@ -1907,7 +1907,7 @@ initialized, regardless of Workspace.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1566498770"></script>
+    <script src="/assets/app.js?v=1566844828"></script>
 
     <div id="fb-root"></div>
 

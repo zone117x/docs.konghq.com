@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566498770"
+    href="/assets/styles.css?v=1566844828"
   />
   
 </head>
@@ -1597,6 +1597,7 @@ vitals <span class="o">=</span> off <span class="c"># vitals is disabled</span>
 <h2 id="vitals-metrics">Vitals Metrics</h2>
 
 <p>Vitals metrics fall into two categories:</p>
+
 <ul>
   <li>Health Metrics - for monitoring the health of a Kong cluster</li>
   <li>Traffic Metrics — for monitoring the usage of upstream services</li>
@@ -1643,7 +1644,7 @@ vitals <span class="o">=</span> off <span class="c"># vitals is disabled</span>
 </ul>
 
 <p>All metrics are collected at 1-second intervals and aggregated into 1-minute
-intervals. The 1-second intervals are retained for one hour. The 1-minute 
+intervals. The 1-second intervals are retained for one hour. The 1-minute
 intervals are retained for 25 hours.</p>
 
 <p>If longer retention times are needed, the Vitals API can be used to pull metrics
@@ -1651,20 +1652,20 @@ out of Kong and into a data retention tool.</p>
 
 <h3 id="health-metrics">Health Metrics</h3>
 
-<p>Health metrics give insight into the performance of a Kong cluster; for example, 
+<p>Health metrics give insight into the performance of a Kong cluster; for example,
 how many requests it is processing and the latency on those requests.</p>
 
 <p>Health metrics are tracked for each node in a cluster as well as for the cluster
-as a whole. In Kong, a node is a running process with a unique identifier, 
-configuration, cache layout, and connections to both Kong’s datastores and the 
-upstream APIs it proxies. Note that node identifiers are unique to the process, 
-and not to the host on which the process runs. In other words, each Kong restart 
+as a whole. In Kong, a node is a running process with a unique identifier,
+configuration, cache layout, and connections to both Kong’s datastores and the
+upstream APIs it proxies. Note that node identifiers are unique to the process,
+and not to the host on which the process runs. In other words, each Kong restart
 results in a new node, and therefore a new node ID.</p>
 
 <h4 id="latency">Latency</h4>
 
-<p>The Vitals API may return null for Latency metrics—this occurs when no API 
-requests were proxied during the timeframe. Null latencies are not graphed in 
+<p>The Vitals API may return null for Latency metrics—this occurs when no API
+requests were proxied during the timeframe. Null latencies are not graphed in
 Kong Manager—periods with null latencies appear as gaps in Vitals charts.</p>
 
 <h5 id="proxy-latency-request">Proxy Latency (Request)</h5>
@@ -1738,16 +1739,19 @@ Kong Manager—periods with null latencies appear as gaps in Vitals charts.</p>
 <p>This metric is referenced in the Vitals API with the following label: <code class="highlighter-rouge">status_codes_per_route_total</code></p>
 
 <h5 id="total-status-codes-per-consumer">Total Status Codes per Consumer</h5>
+
 <p>This metric is the total count of each specific status code for a given consumer.</p>
 
 <p>This metric is referenced in the Vitals API with the following label: <code class="highlighter-rouge">status_codes_per_consumer_total</code></p>
 
 <h5 id="total-status-codes-per-consumer-per-route">Total Status Codes per Consumer Per Route</h5>
+
 <p>This metric is the total count of each specific status code for a given consumer and route.</p>
 
 <p>This metric is referenced in the Vitals API with the following label: <code class="highlighter-rouge">status_codes_per_consumer_route_total</code></p>
 
 <h2 id="vitals-api">Vitals API</h2>
+
 <p>Vitals data is available via endpoints on Kong’s Admin API. Access to these endpoints may be controlled via Admin API RBAC. The Vitals API is described in the attached OAS (Open API Spec, formerly Swagger) file <a href="/enterprise/0.35-x/admin-api/vitals/vitalsSpec.yaml">vitalsSpec.yaml</a></p>
 
 <h2 id="vitals-data-visualization-in-kong-manager">Vitals Data Visualization in Kong Manager</h2>
@@ -1761,6 +1765,7 @@ Kong Manager—periods with null latencies appear as gaps in Vitals charts.</p>
 <p>Timestamps on the x-axis of Vitals charts are displayed either in the browser’s local time zone, or in UTC, depending on the UTC option that appears adjacent to Vitals charts.</p>
 
 <h3 id="cluster-and-node-data">Cluster and Node Data</h3>
+
 <p>Metrics can be displayed on Vitals charts at both node and cluster level. Controls are available to show cluster-wide metrics and/or node-specific metrics. Clicking on individual nodes will toggle the display of data from those nodes. Nodes can be identified by a unique Kong node identifier, by hostname, or by a combination of the two.</p>
 
 <h3 id="status-code-data">Status Code Data</h3>
@@ -1772,7 +1777,7 @@ Kong Manager—periods with null latencies appear as gaps in Vitals charts.</p>
 <p>Vitals data does not appear in Kong Manager or the Admin API.
 First, make sure Vitals is enabled. (<code class="highlighter-rouge">vitals = on</code> in your Kong configuration).</p>
 
-<p>Then, check your log files. If you see <code class="highlighter-rouge">[vitals] kong_vitals_requests_consumers cache is full</code> or <code class="highlighter-rouge">[vitals] error attempting to push to list: no memory</code>, then Vitals is no longer able to track requests because its cache is full.  This condition may resolve itself if traffic to the node subsides long enough for it to work down the cache. Regardless, the node will continue to proxy requests as usual.</p>
+<p>Then, check your log files. If you see <code class="highlighter-rouge">[vitals] kong_vitals_requests_consumers cache is full</code> or <code class="highlighter-rouge">[vitals] error attempting to push to list: no memory</code>, then Vitals is no longer able to track requests because its cache is full. This condition may resolve itself if traffic to the node subsides long enough for it to work down the cache. Regardless, the node will continue to proxy requests as usual.</p>
 
 <h3 id="limitations-in-cassandra-2x">Limitations in Cassandra 2.x</h3>
 
@@ -1977,7 +1982,7 @@ First, make sure Vitals is enabled. (<code class="highlighter-rouge">vitals = on
 </script>
 
 
-    <script src="/assets/app.js?v=1566498770"></script>
+    <script src="/assets/app.js?v=1566844828"></script>
 
     <div id="fb-root"></div>
 
