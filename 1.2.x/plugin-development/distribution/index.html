@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566854504"
+    href="/assets/styles.css?v=1566859835"
   />
   
 </head>
@@ -1549,59 +1549,59 @@ of doing so: via LuaRocks, or manually. Choose one, and jump to section 3.</p>
     <p>Via LuaRocks from the created ‘rock’</p>
 
     <p>The <code class="highlighter-rouge">.rock</code> file is a self contained package that can be installed locally
- or from a remote server.</p>
+or from a remote server.</p>
 
     <p>If the <code class="highlighter-rouge">luarocks</code> utility is installed in your system (this is likely the
- case if you used one of the official installation packages), you can
- install the ‘rock’ in your LuaRocks tree (a directory in which LuaRocks
- installs Lua modules).</p>
+case if you used one of the official installation packages), you can
+install the ‘rock’ in your LuaRocks tree (a directory in which LuaRocks
+installs Lua modules).</p>
 
     <p>It can be installed by doing:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ luarocks install &lt;rock-filename&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ luarocks install &lt;rock-filename&gt;
 </code></pre></div>    </div>
 
     <p>The filename can be a local name, or any of the supported methods, eg.
- <code class="highlighter-rouge">http://myrepository.lan/rocks/my-plugin-0.1.0-1.all.rock</code></p>
+<code class="highlighter-rouge">http://myrepository.lan/rocks/my-plugin-0.1.0-1.all.rock</code></p>
   </li>
   <li>
     <p>Via LuaRocks from the source archive</p>
 
     <p>If the <code class="highlighter-rouge">luarocks</code> utility is installed in your system (this is likely the
- case if you used one of the official installation packages), you can
- install the Lua sources in your LuaRocks tree (a directory in which
- LuaRocks installs Lua modules).</p>
+case if you used one of the official installation packages), you can
+install the Lua sources in your LuaRocks tree (a directory in which
+LuaRocks installs Lua modules).</p>
 
     <p>You can do so by changing the current directory to the extracted archive,
- where the rockspec file is:</p>
+where the rockspec file is:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ cd &lt;plugin-name&gt;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd &lt;plugin-name&gt;
 </code></pre></div>    </div>
 
     <p>And then run the following:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ luarocks make
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ luarocks make
 </code></pre></div>    </div>
 
     <p>This will install the Lua sources in <code class="highlighter-rouge">kong/plugins/&lt;plugin-name&gt;</code> in your
- system’s LuaRocks tree, where all the Kong sources are already present.</p>
+system’s LuaRocks tree, where all the Kong sources are already present.</p>
   </li>
   <li>
     <p>Manually</p>
 
     <p>A more conservative way of installing your plugin’s sources is
- to avoid “polluting” the LuaRocks tree, and instead, point Kong
- to the directory containing them.</p>
+to avoid “polluting” the LuaRocks tree, and instead, point Kong
+to the directory containing them.</p>
 
     <p>This is done by tweaking the <code class="highlighter-rouge">lua_package_path</code> property of your Kong
- configuration. Under the hood, this property is an alias to the <code class="highlighter-rouge">LUA_PATH</code>
- variable of the Lua VM, if you are familiar with it.</p>
+configuration. Under the hood, this property is an alias to the <code class="highlighter-rouge">LUA_PATH</code>
+variable of the Lua VM, if you are familiar with it.</p>
 
     <p>Those properties contain a semicolon-separated list of directories in
- which to search for Lua sources. It should be set like so in your Kong
- configuration file:</p>
+which to search for Lua sources. It should be set like so in your Kong
+configuration file:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /&lt;path-to-plugin-location&gt;/?.lua;;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_package_path = /&lt;path-to-plugin-location&gt;/?.lua;;
 </code></pre></div>    </div>
 
     <p>Where:</p>
@@ -1619,23 +1619,23 @@ not change it.</li>
     <p>Example:</p>
 
     <p>The plugin <code class="highlighter-rouge">something</code> being located on the file system such that the
- handler file is:</p>
+handler file is:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /usr/local/custom/kong/plugins/&lt;something&gt;/handler.lua
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/local/custom/kong/plugins/&lt;something&gt;/handler.lua
 </code></pre></div>    </div>
 
     <p>The location of the <code class="highlighter-rouge">kong</code> directory is: <code class="highlighter-rouge">/usr/local/custom</code>, hence the
- proper path setup would be:</p>
+proper path setup would be:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /usr/local/custom/?.lua;;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_package_path = /usr/local/custom/?.lua;;
 </code></pre></div>    </div>
 
     <p>Multiple plugins:</p>
 
     <p>If you wish to install two or more custom plugins this way, you can set
- the variable to something like:</p>
+the variable to something like:</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lua_package_path = /path/to/plugin1/?.lua;/path/to/plugin2/?.lua;;
 </code></pre></div>    </div>
 
     <ul>
@@ -1644,7 +1644,7 @@ not change it.</li>
     </ul>
 
     <p>Note: you can also set this property via its environment variable
- equivalent: <code class="highlighter-rouge">KONG_LUA_PACKAGE_PATH</code>.</p>
+equivalent: <code class="highlighter-rouge">KONG_LUA_PACKAGE_PATH</code>.</p>
   </li>
 </ol>
 
@@ -1686,8 +1686,7 @@ in your Kong cluster.</p>
 
 <p>Reminder: the plugin will take effect after restart kong:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong restart
-</code></pre></div></div>
+<p>kong restart</p>
 
 <p>But, if you want to apply plugin while kong never stop, you can use this:</p>
 
@@ -1734,7 +1733,7 @@ on a Service, Route, or Consumer entity.</p>
     <p>Remove the plugin from your Kong Service or Route configuration. Make sure
 that it is no longer applied globally nor for any Service, Route, or
 consumer. This has to be done only once for the entire Kong cluster, no
-restart/reload required.  This step in itself will make that the plugin is
+restart/reload required. This step in itself will make that the plugin is
 no longer in use. But it remains available and it is still possible to
 re-apply the plugin.</p>
   </li>
@@ -2008,7 +2007,7 @@ the <code class="highlighter-rouge">schema.lua</code> file is present alongside 
 </script>
 
 
-    <script src="/assets/app.js?v=1566854504"></script>
+    <script src="/assets/app.js?v=1566859835"></script>
 
     <div id="fb-root"></div>
 

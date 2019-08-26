@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566854504"
+    href="/assets/styles.css?v=1566859835"
   />
   
 </head>
@@ -1044,11 +1044,11 @@ authentication <strong>Plugin</strong> will run and credentials will be checked 
 credential verification is successful, then the session <strong>Plugin</strong> will create a new
 session for usage with subsequent requests.</p>
 
-<p>When a new request comes in, and a session is present, then the Kong Session 
-<strong>Plugin</strong> will attach the <code class="highlighter-rouge">ngx.ctx</code> variables to let the authentication 
-<strong>Plugin</strong> know that authentication has already occured via session validation. 
-Since this configuration is a logical OR scenario, it is desired that anonymous 
-access be forbidden, then the <a href="https://docs.konghq.com/hub/kong-inc/request-termination/">Request Termination</a> <strong>Plugin</strong> should be 
+<p>When a new request comes in, and a session is present, then the Kong Session
+<strong>Plugin</strong> will attach the <code class="highlighter-rouge">ngx.ctx</code> variables to let the authentication
+<strong>Plugin</strong> know that authentication has already occured via session validation.
+Since this configuration is a logical OR scenario, it is desired that anonymous
+access be forbidden, then the <a href="https://docs.konghq.com/hub/kong-inc/request-termination/">Request Termination</a> <strong>Plugin</strong> should be
 configured on an anonymous consumer. Failure to do so will allow unauthorized
 requests. For more information please see section on <a href="https://docs.konghq.com/0.14.x/auth/#multiple-authentication">multiple authentication</a>.</p>
 
@@ -1060,33 +1060,33 @@ requests. For more information please see section on <a href="https://docs.kongh
   <li>
     <p>Create an example Service and a Route</p>
 
-    <p>Issue the following cURL request to create <code class="highlighter-rouge">example-service</code> pointing to 
- mockbin.org, which will echo the request:</p>
+    <p>Issue the following cURL request to create <code class="highlighter-rouge">example-service</code> pointing to
+mockbin.org, which will echo the request:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/services/ <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s1">'name=example-service'</span> <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s1">'url=http://mockbin.org/request'</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/services/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'name=example-service'</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'url=http://mockbin.org/request'</span>
 </code></pre></div>    </div>
 
     <p>Add a route to the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/services/example-service/routes <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s1">'paths[]=/sessions-test'</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/services/example-service/routes <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'paths[]=/sessions-test'</span>
 </code></pre></div>    </div>
 
-    <p>The url <code class="highlighter-rouge">http://localhost:8000/sessions-test</code> will now echo whatever is being 
- requested.</p>
+    <p>The url <code class="highlighter-rouge">http://localhost:8000/sessions-test</code> will now echo whatever is being
+requested.</p>
   </li>
   <li>
     <p>Configure the key-auth <strong>Plugin</strong> for the Service</p>
 
     <p>Issue the following cURL request to add the key-auth <strong>Plugin</strong> to the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s1">'name=key-auth'</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/services/example-service/plugins/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'name=key-auth'</span>
 </code></pre></div>    </div>
 
     <p>Be sure to note the created <strong>Plugin</strong> <code class="highlighter-rouge">id</code> - it will be needed later.</p>
@@ -1095,79 +1095,81 @@ requests. For more information please see section on <a href="https://docs.kongh
     <p>Verify that the key-auth <strong>Plugin</strong> is properly configured</p>
 
     <p>Issue the following cURL request to verify that the [key-auth][key-auth]
- <strong>Plugin</strong> was properly configured on the Service:</p>
+<strong>Plugin</strong> was properly configured on the Service:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8000/sessions-test
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/sessions-test
 </code></pre></div>    </div>
 
-    <p>Since the required header or parameter <code class="highlighter-rouge">apikey</code> was not specified, and 
- anonymous access was not yet enabled, the response should be <code class="highlighter-rouge">401 Unauthorized</code>:</p>
+    <p>Since the required header or parameter <code class="highlighter-rouge">apikey</code> was not specified, and
+anonymous access was not yet enabled, the response should be <code class="highlighter-rouge">401 Unauthorized</code>:</p>
   </li>
   <li>
     <p>Create a Consumer and an anonymous Consumer</p>
 
-    <p>Every request proxied and authenticated by Kong must be associated with a 
- Consumer. You’ll now create a Consumer named <code class="highlighter-rouge">anonymous_users</code> by issuing 
- the following request:</p>
+    <p>Every request proxied and authenticated by Kong must be associated with a
+Consumer. You’ll now create a Consumer named <code class="highlighter-rouge">anonymous_users</code> by issuing
+the following request:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s2">"username=anonymous_users"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"username=anonymous_users"</span>
 </code></pre></div>    </div>
 
     <p>Be sure to note the Consumer <code class="highlighter-rouge">id</code> - you’ll need it in a later step.</p>
 
     <p>Now create a consumer that will authenticate via sessions</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s2">"username=fiona"</span>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"username=fiona"</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p>Provision key-auth credentials for your Consumer</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/consumers/fiona/key-auth/ <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s1">'key=open_sesame'</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/consumers/fiona/key-auth/ <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'key=open_sesame'</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p>Enable anonymous access</p>
 
-    <p>You’ll now re-configure the key-auth <strong>Plugin</strong> to permit anonymous access by 
- issuing the following request (<strong>replace the uuids below by the <code class="highlighter-rouge">id</code> value
- from previous steps</strong>):</p>
+    <p>You’ll now re-configure the key-auth <strong>Plugin</strong> to permit anonymous access by
+issuing the following request (<strong>replace the uuids below by the <code class="highlighter-rouge">id</code> value
+from previous steps</strong>):</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8001/plugins/&lt;your-key-auth-plugin-id&gt; <span class="se">\</span>
-   <span class="nt">--data</span> <span class="s2">"config.anonymous=&lt;anonymous_consumer_id&gt;"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> PATCH <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8001/plugins/&lt;your-key-auth-plugin-id&gt; <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.anonymous=&lt;anonymous_consumer_id&gt;"</span>
 </code></pre></div>    </div>
   </li>
   <li>
     <p>Add the Kong Session <strong>Plugin</strong> to the service</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"config.storage=kong"</span> <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"config.cookie_secure=false"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.storage=kong"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.cookie_secure=false"</span>
 </code></pre></div>    </div>
+
     <blockquote>
       <p>Note: cookie_secure is true by default, and should always be true, but is set to
- false for the sake of this demo in order to avoid using HTTPS.</p>
+false for the sake of this demo in order to avoid using HTTPS.</p>
     </blockquote>
   </li>
   <li>
     <p>Add the Request Termination <strong>Plugin</strong></p>
 
     <p>To disable anonymous access to only allow users access via sessions or via
- authentication credentials, enable the Request Termination <strong>Plugin</strong>.</p>
+authentication credentials, enable the Request Termination <strong>Plugin</strong>.</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"name=request-termination"</span>  <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"config.status_code=403"</span> <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"config.message=So long and thanks for all the fish!"</span> <span class="se">\</span>
-     <span class="nt">--data</span> <span class="s2">"consumer.id=&lt;anonymous_consumer_id&gt;"</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/example-service/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=request-termination"</span>  <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.status_code=403"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.message=So long and thanks for all the fish!"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"consumer.id=&lt;anonymous_consumer_id&gt;"</span>
 </code></pre></div>    </div>
   </li>
 </ol>
@@ -1177,42 +1179,42 @@ requests. For more information please see section on <a href="https://docs.kongh
 <p>Add all these to the declarative config file:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">example-service</span>
-  <span class="na">url</span><span class="pi">:</span> <span class="s">http://mockbin.org/request</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">example-service</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">http://mockbin.org/request</span>
 
 <span class="na">routes</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
-  <span class="na">paths</span><span class="pi">:</span> <span class="pi">[</span> <span class="s2">"</span><span class="s">/sessions-test"</span> <span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
+    <span class="na">paths</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">/sessions-test'</span><span class="pi">]</span>
 
 <span class="na">consumers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">anonymous_users</span>
-  <span class="c1"># manually set to fixed uuid in order to use it in key-auth plugin</span>
-  <span class="na">id</span><span class="pi">:</span> <span class="s">81823632-10c0-4098-a4f7-31062520c1e6</span>
-<span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">fiona</span>
+  <span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">anonymous_users</span>
+    <span class="c1"># manually set to fixed uuid in order to use it in key-auth plugin</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="s">81823632-10c0-4098-a4f7-31062520c1e6</span>
+  <span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">fiona</span>
 
 <span class="na">keyauth_credentials</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">consumer</span><span class="pi">:</span> <span class="s">fiona</span>
-  <span class="na">key</span><span class="pi">:</span> <span class="s">open_sesame</span>
+  <span class="pi">-</span> <span class="na">consumer</span><span class="pi">:</span> <span class="s">fiona</span>
+    <span class="na">key</span><span class="pi">:</span> <span class="s">open_sesame</span>
 
 <span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key-auth</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
-  <span class="na">config</span><span class="pi">:</span>
-    <span class="c1"># using the anonymous consumer fixed uuid (can't use the username)</span>
-    <span class="na">anonymous</span><span class="pi">:</span> <span class="s">81823632-10c0-4098-a4f7-31062520c1e6</span>
-    <span class="c1"># cookie_secure is true by default, and should always be true,</span>
-    <span class="c1"># but is set to false for the sake of this demo in order to avoid using HTTPS.</span>
-    <span class="na">cookie_secure</span><span class="pi">:</span> <span class="no">false</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">session</span>
-  <span class="na">config</span><span class="pi">:</span>
-    <span class="na">storage</span><span class="pi">:</span> <span class="s">kong</span>
-    <span class="na">cookie_secure</span><span class="pi">:</span> <span class="no">false</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-termination</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
-  <span class="na">consumer</span><span class="pi">:</span> <span class="s">anonymous_users</span>
-  <span class="na">config</span><span class="pi">:</span>
-    <span class="na">status_code</span><span class="pi">:</span> <span class="m">403</span>
-    <span class="na">message</span><span class="pi">:</span> <span class="s2">"</span><span class="s">So</span><span class="nv"> </span><span class="s">long</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">thanks</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">all</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">fish!"</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key-auth</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="c1"># using the anonymous consumer fixed uuid (can't use the username)</span>
+      <span class="na">anonymous</span><span class="pi">:</span> <span class="s">81823632-10c0-4098-a4f7-31062520c1e6</span>
+      <span class="c1"># cookie_secure is true by default, and should always be true,</span>
+      <span class="c1"># but is set to false for the sake of this demo in order to avoid using HTTPS.</span>
+      <span class="na">cookie_secure</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">session</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">storage</span><span class="pi">:</span> <span class="s">kong</span>
+      <span class="na">cookie_secure</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-termination</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">example-service</span>
+    <span class="na">consumer</span><span class="pi">:</span> <span class="s">anonymous_users</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">status_code</span><span class="pi">:</span> <span class="m">403</span>
+      <span class="na">message</span><span class="pi">:</span> <span class="s1">'</span><span class="s">So</span><span class="nv"> </span><span class="s">long</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">thanks</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">all</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">fish!'</span>
 </code></pre></div></div>
 
 <h3 id="verification">Verification</h3>
@@ -1230,46 +1232,47 @@ requests. For more information please see section on <a href="https://docs.kongh
   <li>
     <p>Verify that a user can authenticate via sessions</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-   <span class="nt">--url</span> http://localhost:8000/sessions-test?apikey<span class="o">=</span>open_sesame
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+  <span class="nt">--url</span> http://localhost:8000/sessions-test?apikey<span class="o">=</span>open_sesame
 </code></pre></div>    </div>
 
     <p>The response should now have the <code class="highlighter-rouge">Set-Cookie</code> header. Make sure that this
- cookie works.</p>
+cookie works.</p>
 
     <p>If cookie looks like this:</p>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Set-Cookie: session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8.; Path=/; SameSite=Strict; HttpOnly
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Set-Cookie: session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8.; Path=/; SameSite=Strict; HttpOnly
 </code></pre></div>    </div>
 
     <p>Use it like this:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
-     <span class="nt">--url</span> http://localhost:8000/sessions-test <span class="se">\</span>
-     <span class="nt">-H</span> <span class="s2">"cookie:session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8."</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="se">\</span>
+    <span class="nt">--url</span> http://localhost:8000/sessions-test <span class="se">\</span>
+    <span class="nt">-H</span> <span class="s2">"cookie:session=emjbJ3MdyDsoDUkqmemFqw..|1544654411|4QMKAE3I-jFSgmvjWApDRmZHMB8."</span>
 </code></pre></div>    </div>
 
     <p>This request should succeed, and <code class="highlighter-rouge">Set-Cookie</code> response header will not appear
- until renewal period.</p>
+until renewal period.</p>
   </li>
-  <li>You can also now verify cookie is attached to browser session: Navigate to 
-  http://localhost:8000/sessions-test  which should return <code class="highlighter-rouge">403</code> 
-  and see the message “So long and thanks for all the fish!”</li>
-  <li>In same browser session, navigate to http://localhost:8000/sessions-test?apikey=open_sesame 
-  which should return <code class="highlighter-rouge">200</code>, authenticated via key-auth key query param.</li>
-  <li>In same browser session, navigate to http://localhost:8000/sessions-test, 
-  which will now use the session cookie that was granted by the Kong Session 
-  <strong>Plugin</strong>.</li>
+  <li>You can also now verify cookie is attached to browser session: Navigate to
+http://localhost:8000/sessions-test which should return <code class="highlighter-rouge">403</code>
+and see the message “So long and thanks for all the fish!”</li>
+  <li>In same browser session, navigate to http://localhost:8000/sessions-test?apikey=open_sesame
+which should return <code class="highlighter-rouge">200</code>, authenticated via key-auth key query param.</li>
+  <li>In same browser session, navigate to http://localhost:8000/sessions-test,
+which will now use the session cookie that was granted by the Kong Session
+<strong>Plugin</strong>.</li>
 </ol>
 
 <h3 id="defaults">Defaults</h3>
 
-<p>By default, the Kong Session <strong>Plugin</strong> favors security using a <code class="highlighter-rouge">Secure</code>, <code class="highlighter-rouge">HTTPOnly</code>, 
-<code class="highlighter-rouge">Samesite=Strict</code> cookie. <code class="highlighter-rouge">cookie_domain</code> is automatically set using Nginx 
+<p>By default, the Kong Session <strong>Plugin</strong> favors security using a <code class="highlighter-rouge">Secure</code>, <code class="highlighter-rouge">HTTPOnly</code>,
+<code class="highlighter-rouge">Samesite=Strict</code> cookie. <code class="highlighter-rouge">cookie_domain</code> is automatically set using Nginx
 variable host, but can be overridden.</p>
 
 <h3 id="session-data-storage">Session Data Storage</h3>
 
-<p>The session data can be stored in the cookie itself (encrypted) <code class="highlighter-rouge">storage=cookie</code>, 
+<p>The session data can be stored in the cookie itself (encrypted) <code class="highlighter-rouge">storage=cookie</code>,
 or inside <a href="#-kong-storage-adapter">Kong</a>. The session data stores two context
 variables:</p>
 
@@ -1283,32 +1286,32 @@ ngx.ctx.authenticated_credential.id
 session data storage adapter when <code class="highlighter-rouge">storage=kong</code>. This will store encrypted
 session data into the current database strategy (e.g. postgres, cassandra etc.)
 and the cookie will not contain any session data. Data stored in the database is
-encrypted and the cookie will contain only the session id, expiration time and 
-HMAC signature. Sessions will use the built-in Kong DAO <code class="highlighter-rouge">ttl</code> mechanism which destroys 
-sessions after specified <code class="highlighter-rouge">cookie_lifetime</code> unless renewal occurs during normal 
-browser activity. It is recommended that the application logout via XHR request 
+encrypted and the cookie will contain only the session id, expiration time and
+HMAC signature. Sessions will use the built-in Kong DAO <code class="highlighter-rouge">ttl</code> mechanism which destroys
+sessions after specified <code class="highlighter-rouge">cookie_lifetime</code> unless renewal occurs during normal
+browser activity. It is recommended that the application logout via XHR request
 (or something similar) to manually handle redirects.</p>
 
 <h2 id="logging-out">Logging Out</h2>
 
 <p>It is typical to provide users the ability to log out (i.e. to manually destroy) their
-current session. Logging out is possible with either query params or <code class="highlighter-rouge">POST</code> params in 
+current session. Logging out is possible with either query params or <code class="highlighter-rouge">POST</code> params in
 the request URL. The config’s <code class="highlighter-rouge">logout_methods</code> allows the <strong>Plugin</strong> to limit logging
-out based on the HTTP verb. When <code class="highlighter-rouge">logout_query_arg</code> is set, it will check the 
+out based on the HTTP verb. When <code class="highlighter-rouge">logout_query_arg</code> is set, it will check the
 presence of the URL query param specified, and likewise when <code class="highlighter-rouge">logout_post_arg</code>
 is set it will check the presence of the specified variable in the request body.
-Allowed HTTP verbs are <code class="highlighter-rouge">GET</code>, <code class="highlighter-rouge">DELETE</code>, and <code class="highlighter-rouge">POST</code>. When there is a session 
-present and the incoming request is a logout request, the Kong Session <strong>Plugin</strong> will 
+Allowed HTTP verbs are <code class="highlighter-rouge">GET</code>, <code class="highlighter-rouge">DELETE</code>, and <code class="highlighter-rouge">POST</code>. When there is a session
+present and the incoming request is a logout request, the Kong Session <strong>Plugin</strong> will
 return a 200 before continuing in the <strong>Plugin</strong> run loop, and the request will not
 continue to the upstream.</p>
 
 <h2 id="known-limitations">Known Limitations</h2>
 
 <p>Due to limitations of OpenResty, the <code class="highlighter-rouge">header_filter</code> phase cannot connect to the
-database, which poses a problem for initial retrieval of cookie (fresh session). 
-There is a small window of time where cookie is sent to client, but database 
-insert has not yet been committed, as database call is in <code class="highlighter-rouge">ngx.timer</code> thread. 
-Current workaround is to wait some interval of time (~100-500ms) after 
+database, which poses a problem for initial retrieval of cookie (fresh session).
+There is a small window of time where cookie is sent to client, but database
+insert has not yet been committed, as database call is in <code class="highlighter-rouge">ngx.timer</code> thread.
+Current workaround is to wait some interval of time (~100-500ms) after
 <code class="highlighter-rouge">Set-Cookie</code> header is sent to client before making subsequent requests. This is
 <em>not</em> a problem during session renewal period as renew happens in <code class="highlighter-rouge">access</code> phase.</p>
 
@@ -1494,7 +1497,7 @@ Current workaround is to wait some interval of time (~100-500ms) after
 </script>
 
 
-    <script src="/assets/app.js?v=1566854504"></script>
+    <script src="/assets/app.js?v=1566859835"></script>
 
     <div id="fb-root"></div>
 

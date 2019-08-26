@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1566854504"
+    href="/assets/styles.css?v=1566859835"
   />
   
 </head>
@@ -1568,7 +1568,7 @@ Server: kong/1.1.0
 }
 </code></pre></div></div>
 
-<p>Kong is running, but no declarative configuration was loaded yet. This 
+<p>Kong is running, but no declarative configuration was loaded yet. This
 means that the configuration of this node is empty. There are no Routes,
 Services or entities of any kind:</p>
 
@@ -1583,7 +1583,7 @@ Date: Wed, 27 Mar 2019 15:30:02 GMT
 Server: kong/1.1.0
 
 {
-    "data": [], 
+    "data": [],
     "next": null
 }
 </code></pre></div></div>
@@ -1609,22 +1609,22 @@ by default. You can experiment by uncommenting the examples
 entities and their attributes. This is a small, yet, complete
 example, which illustrates a number of features:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">_format_version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.1"</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">_format_version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1.1'</span>
 
 <span class="na">services</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-service</span>
-  <span class="na">url</span><span class="pi">:</span> <span class="s">https://example.com</span>
-  <span class="na">plugins</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key-auth</span>
-  <span class="na">routes</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-route</span>
-    <span class="na">paths</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">/</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-service</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">https://example.com</span>
+    <span class="na">plugins</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key-auth</span>
+    <span class="na">routes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-route</span>
+        <span class="na">paths</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="s">/</span>
 
 <span class="na">consumers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">my-user</span>
-  <span class="na">keyauth_credentials</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">my-key</span>
+  <span class="pi">-</span> <span class="na">username</span><span class="pi">:</span> <span class="s">my-user</span>
+    <span class="na">keyauth_credentials</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">my-key</span>
 </code></pre></div></div>
 
 <p>The only mandatory piece of metadata is <code class="highlighter-rouge">_format_version: "1.1"</code>, which
@@ -1634,8 +1634,7 @@ This also matches the minimum version of Kong required to parse the file.</p>
 <p>At the top level, you can specify any Kong entity, be it a core entity such as
 <code class="highlighter-rouge">services</code> and <code class="highlighter-rouge">consumers</code> as in the above example, or custom entities created
 by Plugins, such as <code class="highlighter-rouge">keyauth_credentials</code>. (This makes the declarative
-configuration format inherently extensible, and it is the reason why <code class="highlighter-rouge">kong
-config</code> commands that process declarative configuration require <code class="highlighter-rouge">kong.conf</code> to
+configuration format inherently extensible, and it is the reason why <code class="highlighter-rouge">kong config</code> commands that process declarative configuration require <code class="highlighter-rouge">kong.conf</code> to
 be available, so that the <code class="highlighter-rouge">plugins</code> directive is taken into account.)</p>
 
 <p>When entities have a relationship, such as a Route which points to a Service,
@@ -1651,9 +1650,9 @@ in the Admin API). This is an example of a plugin applied to a Service and
 a Consumer:</p>
 
 <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">syslog</span>
-  <span class="na">consumer</span><span class="pi">:</span> <span class="s">my-user</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="s">my-service</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">syslog</span>
+    <span class="na">consumer</span><span class="pi">:</span> <span class="s">my-user</span>
+    <span class="na">service</span><span class="pi">:</span> <span class="s">my-service</span>
 </code></pre></div></div>
 
 <h2 id="checking-the-declarative-configuration-file">Checking The Declarative Configuration File</h2>
@@ -1681,7 +1680,7 @@ $ kong start -c kong.conf
 </code></pre></div></div>
 
 <p>Alternatively, you can load a declarative configuration into a running
-Kong node via its Admin API, using the <code class="highlighter-rouge">/config</code> endpoint. The 
+Kong node via its Admin API, using the <code class="highlighter-rouge">/config</code> endpoint. The
 following example loads <code class="highlighter-rouge">kong.yml</code> using HTTPie:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http :8001/config config=@kong.yml
@@ -1761,7 +1760,7 @@ their initial config) so they are fully compatible with DB-less:</p>
 <p>Authentication plugins can be used insofar as the set of credentials
 used is static and specified as part of the declarative configuration.
 Admin API endpoints to dynamically create, update or delete credentials
-are not available in DB-less mode. Plugins that fall into this 
+are not available in DB-less mode. Plugins that fall into this
 category are:</p>
 
 <ul>
@@ -1994,7 +1993,7 @@ DB-less.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1566854504"></script>
+    <script src="/assets/app.js?v=1566859835"></script>
 
     <div id="fb-root"></div>
 
