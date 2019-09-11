@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1568239000"
+    href="/assets/styles.css?v=1568239325"
   />
   
 </head>
@@ -1590,7 +1590,11 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#introduction" class="scroll-to">Introduction</a></li>
   <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
   <li><a href="#kong-configuration" class="scroll-to">Kong Configuration</a></li>
-  <li><a href="#okta-idp-configuration" class="scroll-to">Okta IDP Configuration</a></li>
+  <li><a href="#okta-idp-configuration" class="scroll-to">Okta IDP Configuration</a>
+    <ul>
+      <li><a href="#sample-okta-configuration-steps" class="scroll-to">Sample Okta Configuration Steps</a></li>
+    </ul>
+  </li>
   <li><a href="#plugin-configuration" class="scroll-to">Plugin Configuration</a>
     <ul>
       <li><a href="#access-restrictions" class="scroll-to">Access Restrictions</a>
@@ -1619,7 +1623,44 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="okta-idp-configuration">Okta IDP Configuration</h2>
 
-<p>In Okta, you must <a href="https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/register-app-in-okta/">register an Application</a> and choose the application type. From there you will need to fill out the application’s settings: set a login redirect URI that is handled by your Kong Route and select which grant types to allow. After creating your app, you will see that a Client ID and Client Secret (depending on the application type you selected) have been associated with your Okta application. This configuration assumes that you already have an <a href="https://developer.okta.com/docs/guides/customize-authz-server/create-authz-server/">authorization server defined and configured</a>.</p>
+<h3 id="sample-okta-configuration-steps">Sample Okta Configuration Steps</h3>
+
+<ol>
+  <li>
+    <p><a href="https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/register-app-in-okta/">Register an Application</a>. Select the <strong>Applications</strong> page, click <strong>Add Application</strong>.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/01-add-application.png" /></p>
+  </li>
+  <li>
+    <p>Select <strong>Web</strong> as the platform.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/02-web-app.png" /></p>
+  </li>
+  <li>
+    <p>Fill out the Application’s Settings</p>
+
+    <p><strong>Login re-direct URIs</strong> is a URI that corresponds to a Route you have configured in Kong that will use Okta to authenticate. <strong>Group Assignment</strong> defines who is allowed to use this application. <strong>Grant Type Allowed</strong> indicates the Grant types to allow for your application.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/03-app-settings.png" /></p>
+  </li>
+  <li>
+    <p>After submitting the Application configuration, the client credentials will display on the <strong>General</strong> page.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/04-client-id-secret.png" /></p>
+  </li>
+  <li>
+    <p><a href="https://developer.okta.com/docs/guides/customize-authz-server/create-authz-server/">Define and configure an Authorization server</a>. Select the <strong>API</strong> page and add an Authorization Server if you don’t have an existing one to use.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/05-auth-server.png" /></p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/06-name-auth.png" /></p>
+  </li>
+  <li>
+    <p>Click <strong>Save</strong> and view your Authorization Server Settings.</p>
+
+    <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/07-auth-server-settings.png" /></p>
+  </li>
+</ol>
 
 <h2 id="plugin-configuration">Plugin Configuration</h2>
 
@@ -1629,7 +1670,7 @@ window['_fs_namespace'] = 'FS';
   <span class="nt">--data</span> config.issuer<span class="o">=</span><span class="s2">"https://YOUR_OKTA_DOMAIN/oauth2/YOUR_AUTH_SERVER/.well-known/openid-configuration"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.client_id<span class="o">=</span><span class="s2">"YOUR_CLIENT_ID"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.client_secret<span class="o">=</span><span class="s2">"YOUR_CLIENT_SECRET"</span> <span class="se">\</span>
-  <span class="nt">--data</span> config.redirect_uri<span class="o">=</span><span class="s2">"https://example.com/api"</span> <span class="se">\</span>
+  <span class="nt">--data</span> config.redirect_uri<span class="o">=</span><span class="s2">"https://kong.com/api"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.scopes<span class="o">=</span><span class="s2">"openid"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.scopes<span class="o">=</span><span class="s2">"email"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.scopes<span class="o">=</span><span class="s2">"profile"</span>
@@ -1877,7 +1918,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1568239000"></script>
+    <script src="/assets/app.js?v=1568239325"></script>
 
     <div id="fb-root"></div>
 
