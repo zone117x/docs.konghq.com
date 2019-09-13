@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1568322390"
+    href="/assets/styles.css?v=1568381012"
   />
   
 </head>
@@ -745,7 +745,8 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#kong-via-helm" class="scroll-to">Kong via Helm</a></li>
   <li><a href="#kong-via-manifest-files" class="scroll-to">Kong via Manifest Files</a></li>
   <li><a href="#installation-steps" class="scroll-to">Installation Steps</a></li>
-  <li><a href="#additional-steps-for-kong-enterprise-trial-users" class="scroll-to">Additional Steps for Kong Enterprise Trial Users</a></li>
+  <li><a href="#additional-postgresql-steps-for-kong-enterprise-trial-users" class="scroll-to">Additional PostgreSQL Steps for Kong Enterprise Trial Users</a></li>
+  <li><a href="#final-steps-for-kong-enterprise-trial-users" class="scroll-to">Final Steps for Kong Enterprise Trial Users</a></li>
 </ul>
 
             
@@ -815,7 +816,7 @@ in the <a href="https://github.com/Kong/kong-dist-kubernetes/">Kong Kubernetes r
 
 <p>For Cassandra, continue to <a href="#cassandra-backed-kong">Cassandra Backed Kong</a></p>
 
-<p>For Postgres, continue to <a href="#postgres-backed-kong">Postgres Backed Kong</a></p>
+<p>For Postgres, continue to <a href="#postgresql-backed-kong">Postgres Backed Kong</a></p>
 
 <p>For DB-less mode, continue to <a href="#using-kong-without-a-database">Using Kong without a Database</a></p>
 
@@ -862,7 +863,7 @@ plane node</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kubectl <span class="nt">-n</span> kong apply <span class="nt">-f</span> kong-ingress-data-plane-postgres.yaml
 </code></pre></div></div>
 
-<p>Continue to <a href="#using-datastore-backed-kong">Using Datastore Backed Kong</a></p>
+<p>If you are using installing the Kong Enterprise Trial, you will need to continue to <a href="#additional-postgresql-steps-for-kong-enterprise-trial-users">Additional PostgreSQL Steps for Kong Enterprise Trial Users</a>. Otherwise, continue to <a href="#using-datastore-backed-kong">Using Datastore Backed Kong</a></p>
 
 <h3 id="using-datastore-backed-kong">Using Datastore Backed Kong</h3>
 
@@ -880,7 +881,7 @@ pod/kong-ingress-data-plane    1/1     Running
 <span class="nv">$ </span><span class="nb">export </span><span class="nv">ADMIN_PORT</span><span class="o">=</span><span class="si">$(</span>kubectl get svc <span class="nt">--namespace</span> kong kong-control-plane  <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.ports[0].nodePort}'</span><span class="si">)</span>
 </code></pre></div></div>
 
-<p>Continue to <a href="/latest/getting-started/configuring-a-service/">configuring a service</a>.</p>
+<p>If you are installing the Kong Enterprise Trial, you will need to continue to <a href="#final-steps-for-kong-enterprise-trial-users">Final Steps for Kong Enterprise Trial Users</a>. Otherwise, continue to <a href="/latest/getting-started/configuring-a-service/">configuring a service</a>.</p>
 
 <h3 id="using-kong-without-a-database">Using Kong without a Database</h3>
 
@@ -914,7 +915,7 @@ this repository</p>
 
 <p>Continue to <a href="/latest/db-less-and-declarative-config/">db-less and declarative configuration documentation page</a></p>
 
-<h2 id="additional-steps-for-kong-enterprise-trial-users">Additional Steps for Kong Enterprise Trial Users</h2>
+<h2 id="additional-postgresql-steps-for-kong-enterprise-trial-users">Additional PostgreSQL Steps for Kong Enterprise Trial Users</h2>
 
 <ol>
   <li>
@@ -942,7 +943,7 @@ this repository</p>
  <code class="highlighter-rouge">YOUR_LICENSE_HERE</code> with your Kong Enterprise License File string - it should look like:</p>
 
     <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">KONG_LICENSE_DATA</span>
- <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">{"license":{"signature":"alongstringofcharacters","payload":{"customer":"Test</span><span class="nv"> </span><span class="s">Company","license_creation_date":"2018-03-06","product_subscription":"Kong</span><span class="nv"> </span><span class="s">Only","admin_seats":"5","support_plan":"Premier","license_expiration_date":"2018-06-04","license_key":"anotherstringofcharacters"},"version":1}}'</span>
+   <span class="na">value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">{"license":{"signature":"alongstringofcharacters","payload":{"customer":"Test</span><span class="nv"> </span><span class="s">Company","license_creation_date":"2018-03-06","product_subscription":"Kong</span><span class="nv"> </span><span class="s">Only","admin_seats":"5","support_plan":"Premier","license_expiration_date":"2018-06-04","license_key":"anotherstringofcharacters"},"version":1}}'</span>
 </code></pre></div>    </div>
   </li>
   <li>
@@ -952,15 +953,45 @@ this repository</p>
  <code class="highlighter-rouge">image: kong</code> with <code class="highlighter-rouge">image: gcr.io/&lt;project ID&gt;/kong-ee</code>, using the same project ID as above.</p>
   </li>
   <li>
-    <p><strong>Deploy Kong Enterprise</strong></p>
+    <p><strong>Updating Postgres configuration (Optional)</strong></p>
 
-    <p>Continue from step 4 in the <strong>Kong or Kong Enterprise via Manifest Files</strong>
- instruction above, using the <code class="highlighter-rouge">kong_trial_*</code> YAML files in the
- <a href="https://github.com/Kong/kong-dist-kubernetes/tree/master/ee-trial">Kong Enterprise Trial directory</a>.
- Once Kong Enterprise is running, you should be able to access the Kong Admin GUI
- at <code class="highlighter-rouge">&lt;kong-admin-ip-address&gt;:8002</code> or <code class="highlighter-rouge">https://&lt;kong-ssl-admin-ip-address&gt;:8445</code>.</p>
+    <p>The migration job assumes that your Postgres instance is located in the default namespace. If you followed the steps above, you can skip this step. If you used a different namespace, you will need to update the configuration. Update <code class="highlighter-rouge">kong_trial_migration_postgres.yaml</code> and set the <code class="highlighter-rouge">KONG_PG_HOST</code> env variable to <code class="highlighter-rouge">postgres.{namespace}.svc.cluster.local</code> so it looks like:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">KONG_PG_HOST</span>
+   <span class="na">value</span><span class="pi">:</span> <span class="s">postgres.{namespace}.svc.cluster.local</span>
+</code></pre></div>    </div>
   </li>
 </ol>
+
+<p>Continue to <a href="#using-datastore-backed-kong">Using Datastore Backed Kong</a></p>
+
+<h2 id="final-steps-for-kong-enterprise-trial-users">Final Steps for Kong Enterprise Trial Users</h2>
+
+<ol>
+  <li>
+    <p><strong>Deploy Kong Enterprise</strong></p>
+
+    <p>You will need to deploy the <code class="highlighter-rouge">kong_trial_*</code> YAML files in the
+ <a href="https://github.com/Kong/kong-dist-kubernetes/tree/master/ee-trial">Kong Enterprise Trial directory</a>.
+ using:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">kubectl apply -n kong -f ee-trial/kong_trial_migration_postgres.yaml</span>
+ <span class="s">kubectl apply -n kong -f ee-trial/kong_trial_postgres.yaml</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Access the Enterprise Dashboard</strong></p>
+
+    <p>Once Kong Enterprise is running, you should be able to access the Kong Admin UI. Use the BASH script below to obtain the URL’s.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">hostname</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>kubectl get service kong-admin <span class="nt">-n</span> kong <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.loadBalancer.ingress[0].hostname}'</span><span class="si">)</span><span class="s2">"</span>
+ <span class="nv">sslhostname</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>kubectl get service kong-admin-ssl <span class="nt">-n</span> kong <span class="nt">-o</span> <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.loadBalancer.ingress[0].hostname}'</span><span class="si">)</span><span class="s2">"</span>
+ <span class="nb">echo</span> <span class="s2">"Access the Admin UI at http://</span><span class="nv">$hostname</span><span class="s2">:8002 or https://</span><span class="nv">$sslhostname</span><span class="s2">:8445."</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Continue to <a href="/latest/getting-started/configuring-a-service/">configuring a service</a>.</p>
 
 
           <div class="update-subscribe">
@@ -1156,7 +1187,7 @@ this repository</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1568322390"></script>
+    <script src="/assets/app.js?v=1568381012"></script>
 
     <div id="fb-root"></div>
 
