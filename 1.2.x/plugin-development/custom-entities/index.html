@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1568381012"
+    href="/assets/styles.css?v=1568841581"
   />
   
 </head>
@@ -1566,7 +1566,7 @@ can choose to support either both of them or just one.</p>
 
 <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- `&lt;plugin_name&gt;/migrations/000_base_my_plugin.lua`</span>
 <span class="k">return</span> <span class="p">{</span>
-  <span class="n">postgresql</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">postgres</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">up</span> <span class="o">=</span> <span class="s">[[
       CREATE TABLE IF NOT EXISTS "my_plugin_table" (
         "id"           UUID                         PRIMARY KEY,
@@ -2019,10 +2019,10 @@ Consumer, setting its <code class="highlighter-rouge">key</code> to <code class=
 
 <p>The following example modifies the <code class="highlighter-rouge">key</code> field of an existing credential given the credential’s id:</p>
 
-<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">update</span><span class="p">({</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">update</span><span class="p">(</span>
   <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="s2">"updated_secret"</span> <span class="p">},</span>
-<span class="p">})</span>
+  <span class="p">{</span> <span class="n">key</span> <span class="o">=</span> <span class="s2">"updated_secret"</span> <span class="p">}</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when updating keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
@@ -2046,10 +2046,10 @@ Consumer, setting its <code class="highlighter-rouge">key</code> to <code class=
 
 <p>Given this code:</p>
 
-<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">upsert</span><span class="p">({</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">entity</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">upsert</span><span class="p">(</span>
   <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"a96145fb-d71e-4c88-8a5a-2c8b1947534c"</span> <span class="p">}</span> <span class="p">},</span>
-<span class="p">})</span>
+  <span class="p">{</span> <span class="n">consumer</span> <span class="o">=</span> <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"a96145fb-d71e-4c88-8a5a-2c8b1947534c"</span> <span class="p">}</span> <span class="p">}</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">entity</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when upserting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
@@ -2082,9 +2082,9 @@ must do it manually, by checking with <code class="highlighter-rouge">select</co
 
 <p>Example:</p>
 
-<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">delete</span><span class="p">({</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">ok</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">keyauth_credentials</span><span class="p">:</span><span class="n">delete</span><span class="p">(</span>
   <span class="p">{</span> <span class="n">id</span> <span class="o">=</span> <span class="s2">"2b6a2022-770a-49df-874d-11e2bf2634f5"</span> <span class="p">}</span>
-<span class="p">})</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span> <span class="k">then</span>
   <span class="n">kong</span><span class="p">.</span><span class="n">log</span><span class="p">.</span><span class="n">err</span><span class="p">(</span><span class="s2">"Error when deleting keyauth credential: "</span> <span class="o">..</span> <span class="n">err</span><span class="p">)</span>
@@ -2309,7 +2309,7 @@ when they change in the datastore: <a href="/1.2.x/plugin-development/entities-c
 </script>
 
 
-    <script src="/assets/app.js?v=1568381012"></script>
+    <script src="/assets/app.js?v=1568841581"></script>
 
     <div id="fb-root"></div>
 

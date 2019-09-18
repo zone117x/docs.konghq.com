@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1568381012"
+    href="/assets/styles.css?v=1568841581"
   />
   
 </head>
@@ -1634,7 +1634,8 @@ using default config that listens on port <code class="highlighter-rouge">9090</
 
 <p>The latest release of StatsD exporter can be found at the
 <a href="https://bintray.com/kong/statsd-exporter">Bintray</a>. The binary is distributed
-with some specific features like min/max gauges and Unix domain socket support.</p>
+with some specific features like min/max gauges. Alternatively, a
+<a href="https://bintray.com/kong/statsd-exporter-docker">Docker image</a> is also available.</p>
 
 <p>StatsD exporter needed to configured with a set of mapping rules to translate
 the StatsD UDP events to Prometheus metrics. A default set of mapping rules can
@@ -1653,7 +1654,10 @@ section.</p>
 
 <p>StatsD exporter can run either on a separate node from Kong (to avoid resource
 competition with Kong), or on the same host with Kong (to reduce unnecessary
-network overhead).</p>
+network overhead). Note that feeding metrics from multiple Kong nodes into a single
+StatsD exporter is currently not supported, as it would result in a metrics conflict.
+It’s also recommended to match the number of Kong nodes to StatsD exporters for
+better scalability.</p>
 
 <p>In this guide, we assume StatsD exporter is running on hostname <code class="highlighter-rouge">statsd-node</code>,
 using default config that listens to UDP traffic on port <code class="highlighter-rouge">9125</code> and the metrics 
@@ -1731,8 +1735,8 @@ vitals_statsd_prefix <span class="o">=</span> kong-vitals
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># in statsd.rules</span>
 <span class="na">mappings</span><span class="pi">:</span>
-<span class="c1"># by API</span>
-<span class="pi">-</span> <span class="na">match</span><span class="pi">:</span> <span class="s">kong-vitals.api.*.request.count</span>
+<span class="c1"># by Service</span>
+<span class="pi">-</span> <span class="na">match</span><span class="pi">:</span> <span class="s">kong.service.*.request.count</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_requests_proxy"</span>
   <span class="na">labels</span><span class="pi">:</span>
     <span class="na">job</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kong_metrics"</span>
@@ -1995,7 +1999,7 @@ above, all metrics are also labeled with <code class="highlighter-rouge">job=vit
 </script>
 
 
-    <script src="/assets/app.js?v=1568381012"></script>
+    <script src="/assets/app.js?v=1568841581"></script>
 
     <div id="fb-root"></div>
 
