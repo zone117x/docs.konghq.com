@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>How to Install Kong Enterprise and PostgreSQL onto Amazon Linux - v0.36-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>How to Install Kong Enterprise and on Amazon Linux - v0.36-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1570566688"
+    href="/assets/styles.css?v=1570754984"
   />
   
 </head>
@@ -362,7 +362,7 @@ window['_fs_namespace'] = 'FS';
           alt="Documentation" />
       </div>
       <div class="page-header-title">
-        <h1>How to Install Kong Enterprise and PostgreSQL onto Amazon Linux</h1>
+        <h1>How to Install Kong Enterprise and on Amazon Linux</h1>
       </div>
 
       
@@ -1432,7 +1432,6 @@ window['_fs_namespace'] = 'FS';
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
   <li><a href="#installation-steps" class="scroll-to">Installation Steps</a></li>
-  <li><a href="#install-httpie-to-make-commands-more-easily" class="scroll-to">Install HTTPie to Make Commands more Easily</a></li>
   <li><a href="#verify-kong-installation" class="scroll-to">Verify Kong Installation</a></li>
   <li><a href="#install-kong-manager" class="scroll-to">Install Kong Manager</a></li>
 </ul>
@@ -1453,26 +1452,23 @@ window['_fs_namespace'] = 'FS';
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-enterprise-edition
-<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95 postgresql95-server
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 initdb
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 start
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql postgresql-server
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql-setup initdb
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql start
 <span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
 </code></pre></div></div>
-
-<p><strong>Note</strong>: <code class="highlighter-rouge">&lt;USERNAME&gt;</code> is obtained from your access key, by appending a <code class="highlighter-rouge">%40kong</code>
-to it (encoded form of <code class="highlighter-rouge">@kong</code>). For example, if your access key is <code class="highlighter-rouge">bob-company</code>,
-your username will be <code class="highlighter-rouge">bob-company%40kong</code>.</p>
 
 <p>Create <code class="highlighter-rouge">kong</code> user</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>psql
 <span class="o">&gt;</span> CREATE USER kong<span class="p">;</span> CREATE DATABASE kong OWNER kong<span class="p">;</span> ALTER USER kong WITH password <span class="s1">'kong'</span><span class="p">;</span> 
 <span class="o">&gt;</span> <span class="se">\q</span>
+<span class="o">&gt;</span> <span class="nb">exit</span>
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql95/data/pg_hba.conf
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 restart
+<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql/data/pg_hba.conf
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql restart
 
 <span class="c"># add contents of license file</span>
 <span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/license.json
@@ -1487,17 +1483,9 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 
 <p><strong>Note:</strong> You may use <code class="highlighter-rouge">kong.conf.default</code> or create <a href="/0.13.x/configuration/#configuration-loading">your own configuration</a>.</p>
 
-<h2 id="install-httpie-to-make-commands-more-easily">Install HTTPie to Make Commands more Easily</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip setuptools
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> httpie
-</code></pre></div></div>
-
 <h2 id="verify-kong-installation">Verify Kong Installation</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8001/apis <span class="nv">name</span><span class="o">=</span>demo <span class="nv">uris</span><span class="o">=</span>/ <span class="nv">upstream_url</span><span class="o">=</span>http://httpbin.org
-<span class="nv">$ </span>http :8000/ip
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> GET <span class="nt">--url</span> http://localhost:8001/services
 </code></pre></div></div>
 
 <h2 id="install-kong-manager">Install Kong Manager</h2>
@@ -1713,7 +1701,7 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 </script>
 
 
-    <script src="/assets/app.js?v=1570566688"></script>
+    <script src="/assets/app.js?v=1570754984"></script>
 
     <div id="fb-root"></div>
 
