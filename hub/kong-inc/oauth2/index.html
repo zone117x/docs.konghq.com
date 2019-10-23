@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1571357600"
+    href="/assets/styles.css?v=1571847712"
   />
   
 </head>
@@ -330,6 +330,7 @@ window['_fs_namespace'] = 'FS';
               <a href="#" class="nav-link">Company</a>
               <ul class="sub-menu">
                 <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12505 navbar-item"><a href="https://konghq.com/about-kong-inc" class="nav-link"><img src="/assets/images/nav/about.svg"> About</a></li>
+                <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12505 navbar-item"><a href="https://konghq.com/customers/" class="nav-link"><img src="/assets/images/nav/meetups.svg"> Customers</a></li>
                 <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12506 navbar-item"><a href="https://konghq.com/investors" class="nav-link"><img src="/assets/images/nav/investors.svg"> Investors</a></li>
                 <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12507 navbar-item"><a href="https://konghq.com/careers/" class="nav-link"><img src="/assets/images/nav/careers.svg"> Careers</a></li>
                 <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12508 navbar-item"><a href="https://konghq.com/partners" class="nav-link"><img src="/assets/images/nav/partners.svg"> Partners</a></li>
@@ -446,6 +447,7 @@ window['_fs_namespace'] = 'FS';
     </ul>
   </li>
   <li><a href="#migrating-access-tokens">Migrating Access Tokens</a></li>
+  <li><a href="#viewing-and-invalidating-access-tokens">Viewing and Invalidating Access Tokens</a></li>
   <li><a href="#upstream-headers">Upstream Headers</a></li>
   <li><a href="#oauth-20-flows">OAuth 2.0 Flows</a></li>
   <li><a href="#client-credentials">Client Credentials</a>
@@ -570,6 +572,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.4.x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -880,7 +891,7 @@ adding this section do your declarative configuration file:</p>
     <tr><td><code>name</code></td><td>The name of the plugin to use, in this case <code>oauth2</code></td></tr>
 
     
-      <tr><td><code>service_id</code></td><td>The id of the Service which this plugin will target.</td></tr>
+      <tr><td><code>service.id</code></td><td>The id of the Service which this plugin will target.</td></tr>
     
     
       <tr><td><code>enabled</code><br /><br /><strong>default value: </strong><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
@@ -1074,6 +1085,14 @@ blacklist groups of users.</p>
       <td><code class="highlighter-rouge">/oauth2/token</code></td>
       <td>The endpoint to the Authorization Server that provision access tokens. This is also the only endpoint to use for the <a href="https://tools.ietf.org/html/rfc6749#section-4.4">Client Credentials</a> and <a href="https://tools.ietf.org/html/rfc6749#section-4.3">Resource Owner Password Credentials Grant</a> flows. Only <code class="highlighter-rouge">POST</code> is supported.</td>
     </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/oauth2_tokens</code></td>
+      <td>The endpoint to the Authorization Server that allows creating new tokens. Useful on migrations (see below).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">/oauth2_tokens/:token_id</code></td>
+      <td>The endpoint to the Authorization Server that allows reading, modifying and deleting access tokens.</td>
+    </tr>
   </tbody>
 </table>
 
@@ -1220,6 +1239,44 @@ blacklist groups of users.</p>
     </tr>
   </tbody>
 </table>
+
+<h2 id="viewing-and-invalidating-access-tokens">Viewing and Invalidating Access Tokens</h2>
+
+<p>Active tokens can be listed and modified using the Admin API. A GET on the <code class="highlighter-rouge">/oauth2_tokens</code> endpoint returns the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-sX</span> GET http://kong:8001/oauth2_tokens/
+<span class="o">{</span>
+  <span class="s2">"total"</span>: 2,
+  <span class="s2">"data"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"expires_in"</span>: 7200,
+      <span class="s2">"created_at"</span>: 1523386491000,
+      <span class="s2">"access_token"</span>: <span class="s2">"FOEtUHwg0das9PhsasVmgMGbZn7nWSgK"</span>,
+      <span class="s2">"credential_id"</span>: <span class="s2">"2c74324f-fa2d-434b-b6de-bd138652158f"</span>,
+      <span class="s2">"scope"</span>: <span class="s2">"email"</span>,
+      <span class="s2">"id"</span>: <span class="s2">"610740e5-700a-45f0-889a-5c7f0422c48d"</span>,
+      <span class="s2">"api_id"</span>: <span class="s2">"898dfc5f-20f9-4315-a028-2ecb0193f834"</span>,
+      <span class="s2">"token_type"</span>: <span class="s2">"bearer"</span>
+    <span class="o">}</span>,
+    <span class="o">{</span>
+      <span class="s2">"expires_in"</span>: 7200,
+      <span class="s2">"created_at"</span>: 1523386680000,
+      <span class="s2">"access_token"</span>: <span class="s2">"58eat7UHEiPOmjNb16uQAxt4vu3fbu95"</span>,
+      <span class="s2">"credential_id"</span>: <span class="s2">"2c74324f-fa2d-434b-b6de-bd138652158f"</span>,
+      <span class="s2">"scope"</span>: <span class="s2">"email"</span>,
+      <span class="s2">"id"</span>: <span class="s2">"edff2fc7-1634-4fb5-b714-de9435531e10"</span>,
+      <span class="s2">"api_id"</span>: <span class="s2">"898dfc5f-20f9-4315-a028-2ecb0193f834"</span>,
+      <span class="s2">"token_type"</span>: <span class="s2">"bearer"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">credential_id</code> is the ID of the OAuth application at <code class="highlighter-rouge">kong:8001/consumers/{consumer_id}/oauth2</code> and <code class="highlighter-rouge">api_id</code> or <code class="highlighter-rouge">service_id</code> is the API or service that the token is valid for.</p>
+
+<p>Note that <code class="highlighter-rouge">expires_in</code> is static and does not decrement based on elapsed time: you must add it to <code class="highlighter-rouge">created_at</code> to calculate when the token will expire.</p>
+
+<p><code class="highlighter-rouge">DELETE http://kong:8001/oauth2_tokens/&lt;token ID&gt;</code> allows you to immediately invalidate a token if needed.</p>
 
 <h2 id="upstream-headers">Upstream Headers</h2>
 
@@ -1505,6 +1562,7 @@ blacklist groups of users.</p>
           <h5>Company</h5>
           <ul>
             <li><a href="http://konghq.com/about-kong-inc/">About</a></li>
+            <li><a href="http://konghq.com/customers/">Customers</a></li>
             <li><a href="http://konghq.com/investors/">Investors</a></li>
             <li><a href="http://konghq.com/blog/">News</a></li>
             <li>
@@ -1575,7 +1633,7 @@ blacklist groups of users.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1571357600"></script>
+    <script src="/assets/app.js?v=1571847712"></script>
 
     <div id="fb-root"></div>
 
