@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1571847712"
+    href="/assets/styles.css?v=1572368287"
   />
   
 </head>
@@ -1437,7 +1437,6 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#download-prometheus" class="scroll-to">Download Prometheus</a></li>
       <li><a href="#download-and-configure-statsd-exporter" class="scroll-to">Download and configure StatsD exporter</a></li>
       <li><a href="#configure-prometheus-to-scrape-statsd-exporter" class="scroll-to">Configure Prometheus to scrape StatsD exporter</a></li>
-      <li><a href="#enable-vitals-with-prometheus-strategy-in-kong" class="scroll-to">Enable Vitals with Prometheus strategy in Kong</a></li>
     </ul>
   </li>
   <li><a href="#tuning-and-optimization" class="scroll-to">Tuning and Optimization</a>
@@ -1519,15 +1518,36 @@ multiple StatsD exporters in Prometheus. Please refer to the
 <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Cscrape_config%3E">scape_configs</a>
 section of Prometheus document for further reading.</p>
 
-<h3 id="enable-vitals-with-prometheus-strategy-in-kong">Enable Vitals with Prometheus strategy in Kong</h3>
+<p>By default, the Vitals graph in Kong Manager uses the configured target address
+in the legend, which is named <code class="highlighter-rouge">instance</code> in the Prometheus metrics label. For some service
+discovery setups where <code class="highlighter-rouge">instance</code> is <code class="highlighter-rouge">IP:PORT</code>, the user might want to relabel the <code class="highlighter-rouge">instance</code>
+label to display a more meaningful hostname in the legend.
+To do so, the user can also refer to the <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Cscrape_config%3E">scape_configs</a>
+section and rewrite the <code class="highlighter-rouge">instance</code> label with the corresponding meta label.</p>
 
-<p>You can change this in your configuration to enable Vitals with Prometheus:</p>
+<p>For example, in a Kubernetes environment, use the following relabel rules:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
-vitals <span class="o">=</span> on
-vitals_strategy <span class="o">=</span> prometheus
-vitals_statsd_address <span class="o">=</span> statsd-node:9125
-vitals_tsdb_address <span class="o">=</span> prometheus-node:9090
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">scrape_configs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">job_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">vitals_statsd_exporter'</span>
+    <span class="na">kubernetes_sd_configs</span><span class="pi">:</span>
+      <span class="c1"># your SD config to filter statsd exporter pods</span>
+    <span class="na">relabel_configs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">source_labels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">__meta_kubernetes_pod_name</span><span class="pi">]</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">replace</span>
+        <span class="na">target_label</span><span class="pi">:</span> <span class="s1">'</span><span class="s">instance'</span>
+
+
+
+<span class="c1">### Enable Vitals with Prometheus strategy in Kong</span>
+
+<span class="na">You can change this in your configuration to enable Vitals with Prometheus</span><span class="pi">:</span>
+
+<span class="err">```</span><span class="s">bash</span>
+<span class="c1"># via your Kong configuration file</span>
+<span class="s">vitals = on</span>
+<span class="s">vitals_strategy = prometheus</span>
+<span class="s">vitals_statsd_address = statsd-node:9125</span>
+<span class="s">vitals_tsdb_address = prometheus-node:9090</span>
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environment variables</span>
@@ -1837,7 +1857,7 @@ above, all metrics are also labeled with <code class="highlighter-rouge">job=vit
 </script>
 
 
-    <script src="/assets/app.js?v=1571847712"></script>
+    <script src="/assets/app.js?v=1572368287"></script>
 
     <div id="fb-root"></div>
 
