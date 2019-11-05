@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -371,14 +371,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 0.36-x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/enterprise/1.3-x" >
+              1.3-x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/enterprise/0.36-x"  class="active" >
-              0.36-x <em>(latest)</em>
+              0.36-x 
             </a>
           </li>
           
@@ -630,14 +636,6 @@ window['_fs_namespace'] = 'FS';
           <li>
             <a href="/enterprise/references/rate-limiting"  >
               Rate Limiting Library
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/0.36-x/cli"  >
-              CLI reference
             </a>
             
           </li>
@@ -1427,6 +1425,11 @@ window['_fs_namespace'] = 'FS';
         <div class="content show-anchor-links">
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1437,6 +1440,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#download-prometheus" class="scroll-to">Download Prometheus</a></li>
       <li><a href="#download-and-configure-statsd-exporter" class="scroll-to">Download and configure StatsD exporter</a></li>
       <li><a href="#configure-prometheus-to-scrape-statsd-exporter" class="scroll-to">Configure Prometheus to scrape StatsD exporter</a></li>
+      <li><a href="#enable-vitals-with-prometheus-strategy-in-kong" class="scroll-to">Enable Vitals with Prometheus strategy in Kong</a></li>
     </ul>
   </li>
   <li><a href="#tuning-and-optimization" class="scroll-to">Tuning and Optimization</a>
@@ -1447,6 +1451,7 @@ window['_fs_namespace'] = 'FS';
   </li>
   <li><a href="#accessing-vitals-metrics-from-prometheus" class="scroll-to">Accessing Vitals metrics from Prometheus</a></li>
 </ul>
+
 
           
 
@@ -1535,19 +1540,17 @@ section and rewrite the <code class="highlighter-rouge">instance</code> label wi
       <span class="pi">-</span> <span class="na">source_labels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">__meta_kubernetes_pod_name</span><span class="pi">]</span>
         <span class="na">action</span><span class="pi">:</span> <span class="s">replace</span>
         <span class="na">target_label</span><span class="pi">:</span> <span class="s1">'</span><span class="s">instance'</span>
+</code></pre></div></div>
 
+<h3 id="enable-vitals-with-prometheus-strategy-in-kong">Enable Vitals with Prometheus strategy in Kong</h3>
 
+<p>You can change this in your configuration to enable Vitals with Prometheus:</p>
 
-<span class="c1">### Enable Vitals with Prometheus strategy in Kong</span>
-
-<span class="na">You can change this in your configuration to enable Vitals with Prometheus</span><span class="pi">:</span>
-
-<span class="err">```</span><span class="s">bash</span>
-<span class="c1"># via your Kong configuration file</span>
-<span class="s">vitals = on</span>
-<span class="s">vitals_strategy = prometheus</span>
-<span class="s">vitals_statsd_address = statsd-node:9125</span>
-<span class="s">vitals_tsdb_address = prometheus-node:9090</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># via your Kong configuration file</span>
+vitals <span class="o">=</span> on
+vitals_strategy <span class="o">=</span> prometheus
+vitals_statsd_address <span class="o">=</span> statsd-node:9125
+vitals_tsdb_address <span class="o">=</span> prometheus-node:9090
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># or via environment variables</span>
@@ -1681,7 +1684,7 @@ above, all metrics are also labeled with <code class="highlighter-rouge">job=vit
   docsearch({
     appId: 'T5JKD83LWT',
     apiKey: '1390283021f26e36117242934deb8d9d',
-    indexName: 'prod_EE',
+    indexName: 'private_RC',
     inputSelector: '#getkong-algolia-search-input',
     algoliaOptions: {
       hitsPerPage: 5,
@@ -1857,7 +1860,7 @@ above, all metrics are also labeled with <code class="highlighter-rouge">job=vit
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

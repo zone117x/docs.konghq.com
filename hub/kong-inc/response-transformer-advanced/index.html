@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -500,6 +500,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong Enterprise</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.3-x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -933,6 +942,36 @@ adding this section do your declarative configuration file:</p>
 </td>
       </tr>
     
+      <tr>
+        <td><code>config.whitelist.json</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>Set of parameter names. Only allows whitelisted parameters in the JSON response body.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.transform.functions</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>Set of Lua functions to perform arbitrary transforms in a response JSON body.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.transform.if_status</code>
+          <br /><em>optional</em>
+          
+          
+        </td>
+        <td><p>List of response status codes or ranges to which the arbitrary transformation applies. Leaving empty implies that the transformations apply to all response codes.</p>
+</td>
+      </tr>
+    
   </tbody>
 </table>
 
@@ -1124,6 +1163,39 @@ similar for Services.</p>
 <p><strong>Note</strong>: the plugin doesn’t validate the value in <code class="highlighter-rouge">config.replace.body</code> against
 the content type as defined in the <code class="highlighter-rouge">Content-Type</code> response header.</p>
 
+<ul>
+  <li>Perform arbitrary transforms to a JSON body</li>
+</ul>
+
+<p>Use the power of embedding Lua to perform arbitrary transformations on JSON bodies. Transformation functions
+receive an argument with the JSON body, and must return the transformed response body:</p>
+
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- transform.lua</span>
+<span class="c1">-- this function transforms</span>
+<span class="c1">-- { "foo": "something", "something": "else" }</span>
+<span class="c1">-- into</span>
+<span class="c1">-- { "foobar": "hello world", "something": "else" }</span>
+<span class="k">return</span> <span class="k">function</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">~=</span> <span class="s2">"table"</span> <span class="k">then</span>
+    <span class="k">return</span> <span class="n">data</span>
+  <span class="k">end</span>
+
+  <span class="c1">-- remove foo key</span>
+  <span class="n">data</span><span class="p">[</span><span class="s2">"foo"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">nil</span>
+
+  <span class="c1">-- add a new key</span>
+  <span class="n">data</span><span class="p">[</span><span class="s2">"foobar"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"hello world"</span>
+
+  <span class="k">return</span> <span class="n">data</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/routes/<span class="o">{</span>route <span class="nb">id</span><span class="o">}</span>/plugins <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"name=response-transformer-advanced"</span> <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.transform.functions=@transform.lua"</span>
+  <span class="nt">-F</span> <span class="s2">"config.transform.if_status=200"</span>
+</code></pre></div></div>
+
 
 
       
@@ -1307,7 +1379,7 @@ the content type as defined in the <code class="highlighter-rouge">Content-Type<
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

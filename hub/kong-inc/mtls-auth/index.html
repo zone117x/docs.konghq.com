@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -432,6 +432,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#global-plugins">Global plugins</a></li>
       <li><a href="#parameters">Parameters</a></li>
       <li><a href="#usage">Usage</a></li>
+      <li><a href="#client-certificate-request">Client Certificate request</a></li>
       <li><a href="#adding-certificate-authorities">Adding certificate authorities</a></li>
       <li><a href="#create-manual-mappings-between-certificate-and-consumer-object">Create manual mappings between certificate and Consumer object</a></li>
       <li><a href="#matching-behaviors">Matching behaviors</a></li>
@@ -491,6 +492,8 @@ window['_fs_namespace'] = 'FS';
           <tr class="kong-compatibility">
             <td colspan="2">
               <ul class="compat-list">
+              
+                
               
                 
                   
@@ -630,7 +633,8 @@ making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=mtls-auth"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.ca_certificates=</span><span class="sb">`</span><span class="o">[</span> <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="o">}</span>, <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="o">}</span> <span class="o">]</span><span class="sb">`</span><span class="s2">"</span>
+    <span class="nt">--data</span> <span class="s2">"config.ca_certificates=</span><span class="sb">`</span><span class="o">[</span> <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="o">}</span>, <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="o">}</span> <span class="o">]</span><span class="sb">`</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.authenticated_group_by=CN"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -643,6 +647,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">ca_certificates</span><span class="pi">:</span> <span class="err">`</span><span class="pi">[</span> <span class="pi">{</span> <span class="s2">"</span><span class="s">id"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="pi">},</span> <span class="pi">{</span> <span class="s2">"</span><span class="s">id"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="pi">}</span> <span class="pi">]</span><span class="err">`</span>
+    <span class="na">authenticated_group_by</span><span class="pi">:</span> <span class="s">CN</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -659,7 +664,8 @@ adding this section do your declarative configuration file:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=mtls-auth"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.ca_certificates=</span><span class="sb">`</span><span class="o">[</span> <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="o">}</span>, <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="o">}</span> <span class="o">]</span><span class="sb">`</span><span class="s2">"</span>
+    <span class="nt">--data</span> <span class="s2">"config.ca_certificates=</span><span class="sb">`</span><span class="o">[</span> <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="o">}</span>, <span class="o">{</span> <span class="s2">"id"</span>: <span class="s2">"aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="o">}</span> <span class="o">]</span><span class="sb">`</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.authenticated_group_by=CN"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -672,6 +678,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">ca_certificates</span><span class="pi">:</span> <span class="err">`</span><span class="pi">[</span> <span class="pi">{</span> <span class="s2">"</span><span class="s">id"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fdac360e-7b19-4ade-a553-6dd22937c82f"</span> <span class="pi">},</span> <span class="pi">{</span> <span class="s2">"</span><span class="s">id"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">aabc360e-7b19-5aab-1231-6da229a7b82f"</span><span class="pi">}</span> <span class="pi">]</span><span class="err">`</span>
+    <span class="na">authenticated_group_by</span><span class="pi">:</span> <span class="s">CN</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -748,13 +755,24 @@ adding this section do your declarative configuration file:</p>
       </tr>
     
       <tr>
-        <td><code>config.cache_ttl</code>
+        <td><code>config.skip_consumer_lookup</code>
           
           
-          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60</code></p>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
 
         </td>
-        <td><p>Cache expiry time in seconds.</p>
+        <td><p>Skip consumer look once certificate is trusted against the configured CA list.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.authenticated_group_by</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">CN</code></p>
+
+        </td>
+        <td><p>Certificate property which will be used as authenticated group. Once <code class="highlighter-rouge">skip_consumer_lookup</code> is applied, any client with a valid certificate can access the Service/API. To restrict usage to only some of the authenticated users, also add the ACL plugin (not covered here) and create whitelist or blacklist groups of users.</p>
 </td>
       </tr>
     
@@ -778,6 +796,21 @@ If <strong>Consumer</strong> did not present a valid certificate (this includes 
 then the response will be <code class="highlighter-rouge">HTTP 401</code> “No required TLS certificate was sent”. That exception is if the <code class="highlighter-rouge">config.anonymous</code>
 option was configured on the plugin, in which case the anonymous <strong>Consumer</strong> will be used
 and the request will be allowed to proceed.</p>
+
+<h3 id="client-certificate-request">Client Certificate request</h3>
+<p>Client certificates are requested in <code class="highlighter-rouge">ssl_certifica_by_lua</code> phase where Kong does not have access to <code class="highlighter-rouge">route</code> and <code class="highlighter-rouge">workspace</code> information. Due to this information gap, Kong will ask for the client certificate on every handshake if the mtls-auth plugin is configured on any Route or Service. In most cases, the failure of the client to present a client certificate is not going to affect subsequent proxying if that Route or Service does not have the mtls-auth plugin applied. The exception is where the client is a desktop browser which will prompt the end user to choose the client cert to send and lead to User Experience issues rather than proxy behavior problems.
+To improve this situation, Kong builds an in-memory map of SNIs from the configured Kong Routes that should present a client certificate. To limit client certificate requests during handshake while ensuring the client certificat is requested when needed, the in memory map is dependent on all the Routes in Kong having the SNIs attriubute set. When any routes do not have SNIs set, Kong must request the client certificate during every TLS handhshake.</p>
+
+<ul>
+  <li>On every request irrespective of Workspace when plugin enabled in global Workspace scope.</li>
+  <li>On every request irrespective of Workspace when plugin applied at Service level
+and one or more of the Routes <em>do not</em> have SNIs set.</li>
+  <li>On every request irrespective of Workspace when plugin applied at Route level
+and one or more Routes <em>do not</em> have SNIs set.</li>
+  <li>On specific request only when plugin applied at route level and all Routes have SNIs set.</li>
+</ul>
+
+<p>The result is all Routes must have SNIs if you wish to restrict the handshake request for client certificates to specific requests.</p>
 
 <h3 id="adding-certificate-authorities">Adding certificate authorities</h3>
 
@@ -843,7 +876,7 @@ HTTP/1.1 201 Created
 
 <h3 id="matching-behaviors">Matching behaviors</h3>
 
-<p>Once a client certificate has been verified as valid, the <strong>Consumer</strong> object will be determined in the following order:</p>
+<p>Once a client certificate has been verified as valid, the <strong>Consumer</strong> object will be determined in the following order unless <code class="highlighter-rouge">skip_consumer_lookup</code> is set to <code class="highlighter-rouge">true</code>:</p>
 
 <ol>
   <li>Manual mappings with <code class="highlighter-rouge">subject_name</code> matching the certificate’s SAN or CN (in that order) and <code class="highlighter-rouge">ca_certificate = &lt;issuing authority of the client certificate&gt;</code></li>
@@ -863,6 +896,17 @@ HTTP/1.1 201 Created
   <li><code class="highlighter-rouge">X-Credential-Username</code>, the <code class="highlighter-rouge">username</code> of the Credential (only if the consumer is not the ‘anonymous’ consumer)</li>
   <li><code class="highlighter-rouge">X-Anonymous-Consumer</code> will be set to <code class="highlighter-rouge">true</code> if authentication failed and the ‘anonymous’ <strong>Consumer</strong> was set instead.</li>
 </ul>
+
+<p>When <code class="highlighter-rouge">skip_consumer_lookup</code> is set to <code class="highlighter-rouge">true</code>, consumer lookup will be skipped and instead of appending afromentioned headers, plugin will append following two headers</p>
+
+<ul>
+  <li><code class="highlighter-rouge">X-Client-Cert-Dn</code>, distinguished name of the client certificate</li>
+  <li><code class="highlighter-rouge">X-Client-Cert-San</code>, SAN of the client certificate</li>
+</ul>
+
+<p>Once <code class="highlighter-rouge">skip_consumer_lookup</code> is applied, any client with a valid certificate can access the Service/API.
+To restrict usage to only some of the authenticated users, also add the ACL plugin (not covered here) and create whitelist or blacklist groups of users using same
+certificate property being set in <code class="highlighter-rouge">authenticated_group_by</code>.</p>
 
 <h3 id="troubleshooting">Troubleshooting</h3>
 
@@ -1054,7 +1098,7 @@ filter.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

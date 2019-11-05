@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -371,14 +371,20 @@ window['_fs_namespace'] = 'FS';
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
           Version 0.36-x
-          <em>(latest)</em>
+          
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
           
+          <li >
+            <a href="/enterprise/1.3-x" >
+              1.3-x <em>(latest)</em>
+            </a>
+          </li>
+          
           <li  class="active" >
             <a href="/enterprise/0.36-x"  class="active" >
-              0.36-x <em>(latest)</em>
+              0.36-x 
             </a>
           </li>
           
@@ -630,14 +636,6 @@ window['_fs_namespace'] = 'FS';
           <li>
             <a href="/enterprise/references/rate-limiting"  >
               Rate Limiting Library
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/0.36-x/cli"  >
-              CLI reference
             </a>
             
           </li>
@@ -1427,6 +1425,11 @@ window['_fs_namespace'] = 'FS';
         <div class="content show-anchor-links">
           
           
+          <div class="alert alert-warning">
+            <strong>Careful!</strong> You are browsing documentation for an outdated version of Kong. Go <a href="/latest">here</a>
+            to browse the documentation for the latest version.
+          </div>
+          
 
           
           
@@ -1437,25 +1440,24 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#install-kong-manager" class="scroll-to">Install Kong Manager</a></li>
 </ul>
 
+
           
 
           <h2 id="installation-steps">Installation Steps</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum update
-<span class="nv">$ </span>wget <span class="s1">'https://&lt;BINTRAY_USER:&lt;PASSWORD&gt;@bintray.com/kong/kong-enterprise-edition-aws/rpm'</span> <span class="nt">-O</span> bintray-kong-kong-enterprise-edition-aws.repo <span class="nt">--auth-no-challenge</span>
-<span class="nv">$ </span><span class="nb">sudo mv </span>bintray-kong-kong-enterprise-edition-aws.repo /etc/yum.repos.d/
 <span class="nv">$ </span><span class="nb">sudo </span>vi /etc/yum.repos.d/bintray-kong-kong-enterprise-edition-aws.repo
-</code></pre></div></div>
-
-<p>Ensure <code class="highlighter-rouge">baseurl</code> is correct</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
+<span class="o">[</span>kong-enterprise]
+name <span class="o">=</span> kong-enterprise
+baseurl <span class="o">=</span> https://&lt;BINTRAY_USER:&lt;PASSWORD&gt;@kong.bintray.com/kong-enterprise-edition-aws
+gpgcheck <span class="o">=</span> 0
+enabled <span class="o">=</span> 1
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-enterprise-edition
-<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql postgresql-server
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql-setup initdb
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql start
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95 postgresql-server95
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 initdb
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 start
 <span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
 </code></pre></div></div>
 
@@ -1468,21 +1470,33 @@ window['_fs_namespace'] = 'FS';
 </code></pre></div></div>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql/data/pg_hba.conf
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql restart
+<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql95/data/pg_hba.conf
+<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 restart
 
 <span class="c"># add contents of license file</span>
 <span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/license.json
 
-<span class="c"># Uncomment and add 'kong' to pg_password line</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf]
+<span class="c"># Make a copy of the default configuration file</span>
+
+    <span class="sb">```</span>
+    <span class="nv">$ </span><span class="nb">sudo cp</span> /etc/kong/kong.conf.default /etc/kong/kong.conf
+    <span class="sb">```</span>
+
+<span class="c"># Uncomment and update the PostgreSQL database properties inside the Kong conf:</span>
+
+    <span class="sb">```</span>
+    <span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/kong.conf
+    <span class="sb">```</span>
+    <span class="sb">```</span>
+    pg_user <span class="o">=</span> kong
+    pg_password <span class="o">=</span> kong
+    pg_database <span class="o">=</span> kong
+    <span class="sb">```</span>
 
 <span class="c"># Run migrations and start kong</span>
-<span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
-<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong migrations bootstrap <span class="nt">-c</span> /etc/kong/kong.conf
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start /etc/kong/kong.conf
 </code></pre></div></div>
-
-<p><strong>Note:</strong> You may use <code class="highlighter-rouge">kong.conf.default</code> or create <a href="/0.13.x/configuration/#configuration-loading">your own configuration</a>.</p>
 
 <h2 id="verify-kong-installation">Verify Kong Installation</h2>
 
@@ -1494,14 +1508,13 @@ window['_fs_namespace'] = 'FS';
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
 <span class="nv">$ </span>ifconfig 
 
-<span class="c"># Uncomment the admin_listen setting, and update to something like this `admin_listen = 172.31.3.8:8001`</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf] 
+<span class="c"># Uncomment the admin_listen setting, and update to the network IP in the step before.  For example `admin_listen = 172.31.3.8:8001`</span>
+<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong.conf
 
 <span class="c"># Restart kong</span>
 <span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong stop 
-<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start /etc/kong/kong.conf
 </code></pre></div></div>
-
 <p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
 
 
@@ -1527,7 +1540,7 @@ window['_fs_namespace'] = 'FS';
   docsearch({
     appId: 'T5JKD83LWT',
     apiKey: '1390283021f26e36117242934deb8d9d',
-    indexName: 'prod_EE',
+    indexName: 'private_RC',
     inputSelector: '#getkong-algolia-search-input',
     algoliaOptions: {
       hitsPerPage: 5,
@@ -1703,7 +1716,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -421,6 +421,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#verification">Verification</a></li>
       <li><a href="#defaults">Defaults</a></li>
       <li><a href="#session-data-storage">Session Data Storage</a></li>
+      <li><a href="#groups">Groups</a></li>
     </ul>
   </li>
   <li><a href="#kong-storage-adapter">Kong Storage Adapter</a></li>
@@ -497,6 +498,24 @@ window['_fs_namespace'] = 'FS';
                 
               
                 
+                  
+                  <h6>Kong Enterprise</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  0.36-x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  0.35-x
+                  </li>
+                
               
                 
               
@@ -509,12 +528,26 @@ window['_fs_namespace'] = 'FS';
               </ul><ul class="compat-list">
               
                 
-              
+                  
+                  <h6>Kong</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.4.x
+                  </li>
                 
               
                 
                   
-                  <h6>Kong</h6>
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.3.x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -1106,12 +1139,23 @@ variable host, but can be overridden.</p>
 <h3 id="session-data-storage">Session Data Storage</h3>
 
 <p>The session data can be stored in the cookie itself (encrypted) <code class="highlighter-rouge">storage=cookie</code>,
-or inside <a href="#-kong-storage-adapter">Kong</a>. The session data stores two context
+or inside <a href="#-kong-storage-adapter">Kong</a>. The session data stores these context
 variables:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ngx.ctx.authenticated_consumer.id
 ngx.ctx.authenticated_credential.id
+ngx.ctx.authenticated_groups
 </code></pre></div></div>
+
+<p>The plugin also sets a <code class="highlighter-rouge">ngx.ctx.authenticated_session</code> for communication between
+the <code class="highlighter-rouge">access</code> and <code class="highlighter-rouge">header_filter</code> phases in the plugin.</p>
+
+<h3 id="groups">Groups</h3>
+
+<p>Authenticated groups are stored on <code class="highlighter-rouge">ngx.ctx.authenticated_groups</code> from other 
+authentication plugins and the session plugin will store them in the data of 
+the current session. Since the session plugin runs before authentication 
+plugins, it will also set <code class="highlighter-rouge">authenticated_groups</code> associated headers.</p>
 
 <h2 id="kong-storage-adapter">Kong Storage Adapter</h2>
 
@@ -1331,7 +1375,7 @@ Current workaround is to wait some interval of time (~100-500ms) after
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

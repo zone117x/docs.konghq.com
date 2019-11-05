@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -517,6 +517,8 @@ window['_fs_namespace'] = 'FS';
               <ul class="compat-list">
               
                 
+              
+                
                   
                   <h6>Kong Enterprise</h6>
                   
@@ -895,7 +897,8 @@ different priority in the plugin chain.</p>
   <li>
     <p>Create a file named <code class="highlighter-rouge">custom-auth.lua</code> with the following content:</p>
 
-    <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="c1">-- Get list of request headers</span>
+    <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="k">return</span> <span class="k">function</span><span class="p">()</span>
+   <span class="c1">-- Get list of request headers</span>
    <span class="kd">local</span> <span class="n">custom_auth</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"x-custom-auth"</span><span class="p">)</span>
 
    <span class="c1">-- Terminate request early if our custom authentication header</span>
@@ -906,6 +909,7 @@ different priority in the plugin chain.</p>
 
    <span class="c1">-- Remove custom authentication header from request</span>
    <span class="n">kong</span><span class="p">.</span><span class="n">service</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">clear_header</span><span class="p">(</span><span class="s1">'x-custom-auth'</span><span class="p">)</span>
+ <span class="k">end</span>
 </code></pre></div>    </div>
   </li>
   <li>
@@ -965,17 +969,19 @@ different priority in the plugin chain.</p>
  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">pre-function</span>
    <span class="na">config</span><span class="pi">:</span>
      <span class="na">functions</span><span class="pi">:</span> <span class="pi">|</span>
-       <span class="s">-- Get list of request headers</span>
-       <span class="s">local custom_auth = kong.request.get_header("x-custom-auth")</span>
+       <span class="s">return function()</span>
+         <span class="s">-- Get list of request headers</span>
+         <span class="s">local custom_auth = kong.request.get_header("x-custom-auth")</span>
 
-       <span class="s">-- Terminate request early if our custom authentication header</span>
-       <span class="s">-- does not exist</span>
-       <span class="s">if not custom_auth then</span>
-         <span class="s">return kong.response.exit(401, "Invalid Credentials")</span>
+         <span class="s">-- Terminate request early if our custom authentication header</span>
+         <span class="s">-- does not exist</span>
+         <span class="s">if not custom_auth then</span>
+           <span class="s">return kong.response.exit(401, "Invalid Credentials")</span>
+         <span class="s">end</span>
+
+         <span class="s">-- Remove custom authentication header from request</span>
+         <span class="s">kong.service.request.clear_header('x-custom-auth')</span>
        <span class="s">end</span>
-
-       <span class="s">-- Remove custom authentication header from request</span>
-       <span class="s">kong.service.request.clear_header('x-custom-auth')</span>
 </code></pre></div>    </div>
   </li>
   <li>
@@ -1225,7 +1231,7 @@ using a <a href="https://mothereff.in/lua-minifier">minifier</a>.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

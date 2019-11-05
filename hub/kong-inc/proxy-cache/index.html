@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Proxy Caching plugin | Kong</title>
+  <title>Proxy Cache plugin | Kong</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -380,7 +380,7 @@ window['_fs_namespace'] = 'FS';
       <div class="page-header-title">
         
 
-        <h1>Proxy Caching</h1>
+        <h1>Proxy Cache</h1>
 
         
       </div>
@@ -537,6 +537,15 @@ window['_fs_namespace'] = 'FS';
                 
                   
                   <h6>Kong Enterprise</h6>
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
+                  1.3-x
+                  </li>
+                
+              
+                
                   
                   <li>
                   
@@ -987,7 +996,7 @@ target.</li>
           
           
         </td>
-        <td><p>The backing data store in which to hold cache entities. Accepted values are; <code class="highlighter-rouge">memory</code>, and <code class="highlighter-rouge">redis</code>.</p>
+        <td><p>The backing data store in which to hold cache entities. Accepted values are; <code class="highlighter-rouge">memory</code>.</p>
 </td>
       </tr>
     
@@ -1002,98 +1011,6 @@ target.</li>
 </td>
       </tr>
     
-      <tr>
-        <td><code>config.redis.host</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Host to use for Redis connection when the redis strategy is defined</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.port</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Port to use for Redis connection when the redis strategy is defined</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.timeout</code>
-          
-          <br /><em>semi-optional</em>
-          <br /><br /><strong>default value: </strong><p>2000</p>
-
-        </td>
-        <td><p>Connection timeout to use for Redis connection when the redis strategy is defined</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.password</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Password to use for Redis connection when the redis strategy is defined. If undefined, no AUTH commands are sent to Redis.</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.database</code>
-          
-          <br /><em>semi-optional</em>
-          <br /><br /><strong>default value: </strong><p>0</p>
-
-        </td>
-        <td><p>Database to use for Redis connection when the redis strategy is defined</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.sentinel_master</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Sentinel master to use for Redis connection when the redis strategy is defined. Defining this value implies using Redis Sentinel.</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.sentinel_role</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Sentinel role to use for Redis connection when the redis strategy is defined. Defining this value implies using Redis Sentinel.</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.sentinel_addresses</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Sentinel addresses to use for Redis connection when the redis strategy is defined. Defining this value implies using Redis Sentinel.</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.redis.cluster_addresses</code>
-          
-          <br /><em>semi-optional</em>
-          
-        </td>
-        <td><p>Cluster addresses to use for Redis connection when the <code class="highlighter-rouge">redis</code> strategy is defined. Defining this value implies using Redis cluster.</p>
-</td>
-      </tr>
-    
   </tbody>
 </table>
 
@@ -1105,10 +1022,9 @@ target.</li>
 
       <h3 id="strategies">Strategies</h3>
 
-<p><code class="highlighter-rouge">kong-plugin-enterprise-proxy-cache</code> is designed to support storing proxy cache data in different backend formats. Currently the following strategies are provided:</p>
+<p><code class="highlighter-rouge">kong-plugin-proxy-cache</code> is designed to support storing proxy cache data in different backend formats. Currently the following strategies are provided:</p>
 <ul>
   <li><code class="highlighter-rouge">memory</code>: A <code class="highlighter-rouge">lua_shared_dict</code>. Note that the default dictionary, <code class="highlighter-rouge">kong_cache</code>, is also used by other plugins and elements of Kong to store unrelated database cache entities. Using this dictionary is an easy way to bootstrap the proxy-cache plugin, but it is not recommended for large-scale installations as significant usage will put pressure on other facets of Kong’s database caching operations. It is recommended to define a separate <code class="highlighter-rouge">lua_shared_dict</code> via a custom Nginx template at this time.</li>
-  <li><code class="highlighter-rouge">redis</code>: Supports Redis and Redis Sentinel deployments.</li>
 </ul>
 
 <h3 id="cache-key">Cache Key</h3>
@@ -1465,7 +1381,7 @@ target.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 

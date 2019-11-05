@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1572473221"
+    href="/assets/styles.css?v=1572991001"
   />
   
 </head>
@@ -502,6 +502,15 @@ window['_fs_namespace'] = 'FS';
                   <li>
                   
                     <i class="fa fa-check"></i>
+                  1.3-x
+                  </li>
+                
+              
+                
+                  
+                  <li>
+                  
+                    <i class="fa fa-check"></i>
                   0.36-x
                   </li>
                 
@@ -817,7 +826,8 @@ making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-size-limiting"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span>
+    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.size_unit=megabytes"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -830,6 +840,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">allowed_payload_size</span><span class="pi">:</span> <span class="m">128</span>
+    <span class="na">size_unit</span><span class="pi">:</span> <span class="s">megabytes</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -846,7 +857,8 @@ adding this section do your declarative configuration file:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-size-limiting"</span>  <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span>
+    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.size_unit=megabytes"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -859,6 +871,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">allowed_payload_size</span><span class="pi">:</span> <span class="m">128</span>
+    <span class="na">size_unit</span><span class="pi">:</span> <span class="s">megabytes</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -877,7 +890,8 @@ on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=request-size-limiting"</span> <span class="se">\</span>
      <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span>
+    <span class="nt">--data</span> <span class="s2">"config.allowed_payload_size=128"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.size_unit=megabytes"</span>
 </code></pre></div></div>
 
 <p><strong>Without a database</strong></p>
@@ -890,6 +904,7 @@ adding this section do your declarative configuration file:</p>
   <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">allowed_payload_size</span><span class="pi">:</span> <span class="m">128</span>
+    <span class="na">size_unit</span><span class="pi">:</span> <span class="s">megabytes</span>
 </code></pre></div></div>
 
 <p>In both cases, <code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
@@ -946,6 +961,17 @@ adding this section do your declarative configuration file:</p>
 
         </td>
         <td><p>Allowed request payload size in megabytes, default is <code class="highlighter-rouge">128</code> (128000000 Bytes)</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.size_unit</code>
+          
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">megabytes</code></p>
+
+        </td>
+        <td><p>Size unit can be set either in <code class="highlighter-rouge">bytes</code>, <code class="highlighter-rouge">kilobytes</code>, or <code class="highlighter-rouge">megabytes</code>. Note- this configuration is only supported in Kong Enterprise 1.3 and above, and may eventually extend to Kong Gateway</p>
 </td>
       </tr>
     
@@ -1142,7 +1168,7 @@ adding this section do your declarative configuration file:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1572473221"></script>
+    <script src="/assets/app.js?v=1572991001"></script>
 
     <div id="fb-root"></div>
 
