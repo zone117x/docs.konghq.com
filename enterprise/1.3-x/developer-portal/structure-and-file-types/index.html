@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1573061372"
+    href="/assets/styles.css?v=1573177353"
   />
   
 </head>
@@ -1626,36 +1626,41 @@ window['_fs_namespace'] = 'FS';
           <ul>
   <li><a href="#introduction" class="scroll-to">Introduction</a></li>
   <li><a href="#directory-structure" class="scroll-to">Directory Structure</a></li>
+  <li><a href="#portal-configuration-file" class="scroll-to">Portal Configuration File</a></li>
+  <li><a href="#router-configuration-file-optional" class="scroll-to">Router Configuration File (Optional)</a></li>
+  <li><a href="#content-files" class="scroll-to">Content Files</a></li>
+  <li><a href="#spec-files" class="scroll-to">Spec Files</a></li>
+  <li><a href="#theme-files" class="scroll-to">Theme Files</a></li>
 </ul>
 
 
           
 
-          <h3 id="introduction">Introduction</h3>
+          <h2 id="introduction">Introduction</h2>
 
 <p>The Kong Portal templates have been completely revamped to allow for easier customization, clearer separation of concerns between content and layouts, and more powerful hooks into Kong lifecycle/data.  Under the hood we have implemented a flat file CMS built on top of the <code class="highlighter-rouge">https://github.com/bungle/lua-resty-template</code> library.  This system should feel familiar for anyone who has worked with projects like <code class="highlighter-rouge">jekyll</code>, <code class="highlighter-rouge">kirby cms</code>, or <code class="highlighter-rouge">vuepress</code> in the past.</p>
 
 <blockquote>
-  <p>Note: To follow along with this guide, it is best to clone the <a href="https://github.com/Kong/kong-portal-templates">portal-tempalates-repo</a> and checkout the <code class="highlighter-rouge">master</code> branch. This guide will make the assumption that you are working within a single workspace (the templates repo can host many different sets of portal files per workspace).  Navigate to the <code class="highlighter-rouge">workspaces/default</code> directory from root to view the default workspaces portal files.</p>
+  <p>Note: To follow along with this guide, it is best to clone the <a href="https://github.com/Kong/kong-portal-templates">portal-tempalates-repo</a> and check out the <code class="highlighter-rouge">master</code> branch. This guide makes the assumption that you are working within a single workspace (the templates repo can host many different sets of portal files per workspace).  Navigate to the <code class="highlighter-rouge">workspaces/default</code> directory from root to view the default workspaces portal files.</p>
 </blockquote>
 
-<h3 id="directory-structure">Directory Structure</h3>
+<h2 id="directory-structure">Directory Structure</h2>
 
-<p>Navigate to <code class="highlighter-rouge">workspaces/default</code> from the kong-portal-templates root directory to access the default portals template files. The relative file structure in this directory will directly map to the file <code class="highlighter-rouge">path</code> schema attribute.  (<code class="highlighter-rouge">content/homepage.txt</code> here will map to <code class="highlighter-rouge">content/homepage.txt</code> in Kong).</p>
+<p>Navigate to <code class="highlighter-rouge">workspaces/default</code> from the kong-portal-templates root directory to access the default portals template files. The relative file structure in this directory directly maps to the file <code class="highlighter-rouge">path</code> schema attribute.  (<code class="highlighter-rouge">content/homepage.txt</code> here maps to <code class="highlighter-rouge">content/homepage.txt</code> in Kong).</p>
 
 <p>From <code class="highlighter-rouge">workspaces/default</code> we can see the different elements that make up a single instance of the kong developer portal:</p>
 <ul>
-  <li><strong>content</strong>
+  <li><strong>content/</strong>
     <ul>
-      <li>The content directory contains files that determine both site structure of the Kong Dev Portal as well as the dynamic content that will be rendered within each page.</li>
+      <li>The content directory contains files that determine both site structure of the Kong Dev Portal as well as the dynamic content that renders within each page.</li>
     </ul>
   </li>
-  <li><strong>specs</strong>
+  <li><strong>specs/</strong>
     <ul>
       <li>Specs are similar to content in that they contain the data needed to render dynamic content on the page.  In the case of <code class="highlighter-rouge">specs</code> the files contain valid OAS or Swagger to be rendered as a spec.</li>
     </ul>
   </li>
-  <li><strong>themes</strong>
+  <li><strong>themes/</strong>
     <ul>
       <li>The theme directory contains different themes to be applied to the content of the portal.  Each theme contains html templates, assets, and a config file which sets global styles available to the theme.</li>
     </ul>
@@ -1665,28 +1670,45 @@ window['_fs_namespace'] = 'FS';
       <li>This config file determines which theme the portal uses to render, the name of the portal, as well configuration for special behavior such as redirect paths for user actions like login/logout.</li>
     </ul>
   </li>
+  <li><strong>router.conf.yaml (optional)</strong>
+    <ul>
+      <li>This optional config file overrides the portals default routing system with hardcoded values.  This is useful for implementing single page applications, as well as for setting a static site structure.</li>
+    </ul>
+  </li>
 </ul>
 
-<h4 id="portalconfyaml"><code class="highlighter-rouge">portal.conf.yaml</code></h4>
+<h2 id="portal-configuration-file">Portal Configuration File</h2>
 
-<p>The <code class="highlighter-rouge">portal.conf.yaml</code> file determines which theme the portal uses to render, the name of the portal, as well configuration for special behavior such as redirect paths for user actions like login/logout.  It is required in the root of every portal.</p>
+<h4 id="path">Path</h4>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">portal.conf.yaml</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.yaml</code></li>
+</ul>
 
-<p>Example:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name: Kong Portal
-theme:
-  name: light-theme
-redirect:
-  unauthenticated: login
-  unauthorized: unauthorized
-  login: dashboard
-  logout: ''
-  pending_approval: ''
-  pending_email_verification: ''
+<h4 id="description">Description</h4>
+<p>The Portal Configuration File determines which theme the portal uses to render, the name of the portal, as well as configuration for special behavior such as redirect paths for user actions like login/logout.  It is required in the root of every portal.  There can only be one Portal Configuration File, it must be named <code class="highlighter-rouge">portal.conf.yaml</code>, and it must be a direct child of the root directory.</p>
+
+<h4 id="example">Example</h4>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Kong Portal</span>
+<span class="na">theme</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">light-theme</span>
+<span class="na">redirect</span><span class="pi">:</span>
+  <span class="na">unauthenticated</span><span class="pi">:</span> <span class="s">login</span>
+  <span class="na">unauthorized</span><span class="pi">:</span> <span class="s">unauthorized</span>
+  <span class="na">login</span><span class="pi">:</span> <span class="s">dashboard</span>
+  <span class="na">logout</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>
+  <span class="na">pending_approval</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>
+  <span class="na">pending_email_verification</span><span class="pi">:</span> <span class="s1">'</span><span class="s">'</span>
+<span class="na">collections</span><span class="pi">:</span>
+  <span class="na">posts</span><span class="pi">:</span>
+    <span class="na">output</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">route</span><span class="pi">:</span> <span class="s">/:stub/:collection/:name</span>
+    <span class="na">layout</span><span class="pi">:</span> <span class="s">post.html</span>
 </code></pre></div></div>
 
 <ul>
-  <li>
-    <h6 id="name"><code class="highlighter-rouge">name</code>:</h6>
+  <li><code class="highlighter-rouge">name</code>:
     <ul>
       <li><strong>required</strong>: true</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
@@ -1694,39 +1716,89 @@ redirect:
       <li><strong>example</strong>: <code class="highlighter-rouge">Kong Portal</code></li>
     </ul>
   </li>
-  <li>
-    <h6 id="theme"><code class="highlighter-rouge">theme</code></h6>
+  <li><code class="highlighter-rouge">theme</code>
     <ul>
       <li><strong>required</strong>: true</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">object</code></li>
       <li><strong>description</strong>: The theme object is used for declaring which theme you would like your portal to render, as well as theme style overrides. While the overrides are not required, declaring which theme you would like to use is.</li>
     </ul>
   </li>
-  <li>
-    <h6 id="redirect"><code class="highlighter-rouge">redirect</code></h6>
+  <li><code class="highlighter-rouge">redirect</code>
     <ul>
       <li><strong>required</strong>: true</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">object</code></li>
-      <li><strong>description</strong>: The redirect object informs kong how to redirect the user after certain actions.  If one of these values is not set, Kong will serve a default template based off of the action.</li>
+      <li><strong>description</strong>: The redirect object informs kong how to redirect the user after certain actions. If one of these values is not set, Kong serves a default template based off of the action. Each key represents the name of the action taking place, the value represents the route to which the application redirects the user.</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">collections</code>
+    <ul>
+      <li><strong>required</strong>: false</li>
+      <li><strong>type</strong>: <code class="highlighter-rouge">object</code></li>
+      <li><strong>description</strong>: Collections are a powerful tool enabling you to render sets of content as a group.  Content rendered as a collection share a configurable route pattern, as well as a layout. For more information check out the <a href="/enterprise/1.3-x/developer-portal/working-with-templates/#collections">collections</a> section of our <a href="/enterprise/1.3-x/developer-portal/working-with-templates">Working with Templates</a> guide.</li>
     </ul>
   </li>
 </ul>
 
-<h4 id="content"><code class="highlighter-rouge">content/</code></h4>
-<p>Content files establish portal site structure, as well as provide its accompanying html template with metadata and dynamic content at time of render. Below is an example of a basic content file:</p>
+<h2 id="router-configuration-file-optional">Router Configuration File (Optional)</h2>
 
-<h5 id="path">path</h5>
-<p><code class="highlighter-rouge">content/homepage.txt</code></p>
-
-<p>The path of a piece of content determines not only how a file is parsed, but the route in which it will render in the portal site structure.  Below are examples of file paths and how they will be rendered in the portal:</p>
+<h4 id="path-1">Path</h4>
 <ul>
-  <li><code class="highlighter-rouge">content/index.txt</code> -&gt; <code class="highlighter-rouge">/</code></li>
-  <li><code class="highlighter-rouge">content/homepage.txt</code> -&gt; <code class="highlighter-rouge">/homepage</code></li>
-  <li><code class="highlighter-rouge">content/guides/index.txt</code> -&gt; <code class="highlighter-rouge">/guides</code></li>
-  <li><code class="highlighter-rouge">content/guides/howtocode.txt</code> -&gt; <code class="highlighter-rouge">/guides/howtocode</code></li>
+  <li><strong>format:</strong> <code class="highlighter-rouge">router.conf.yaml</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.yaml</code></li>
 </ul>
 
-<h5 id="contents">contents</h5>
+<h4 id="description-1">Description</h4>
+<p>This optional config file overrides the portals default routing system with hardcoded values.  This is useful for implementing single page applications, as well as for setting a static site structure.  There can only be one Router Configuration File, it must be named <code class="highlighter-rouge">router.conf.yaml</code>, and it must be a direct child of the root directory.</p>
+
+<h4 id="example-1">Example</h4>
+<p>The <code class="highlighter-rouge">router.conf.yaml</code> file expects sets of key value pairs.  The key should be the route you wish to set, the value should be the content file path you wish that route to resolve to. Routes should begin with a backslash.  <code class="highlighter-rouge">/*</code> is a reserved route and acts as a catchall/wildcard, if the requested route is not explicitly defined in the config file the portal will resolve to the wildcard route if present.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">/*</span><span class="pi">:</span> <span class="s">content/index.txt</span>
+<span class="s">/about</span><span class="pi">:</span> <span class="s">content/about/index.txt</span>
+<span class="s">/dashboard</span><span class="pi">:</span> <span class="s">content/dashboard.txt</span>
+</code></pre></div></div>
+
+<h2 id="content-files">Content Files</h2>
+
+<h4 id="path-2">Path</h4>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">content/**/*</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.txt</code>, <code class="highlighter-rouge">.md</code>, <code class="highlighter-rouge">.html</code>, <code class="highlighter-rouge">.yaml</code>, <code class="highlighter-rouge">.json</code></li>
+</ul>
+
+<h4 id="description-2">Description</h4>
+<p>Content files establish portal site structure, as well as provide its accompanying HTML layout with metadata and dynamic content at the time of render. Content files can be nested in as many subdirectories as desired as long as the parent directory is <code class="highlighter-rouge">content/</code>.</p>
+
+<p>In addition to providing metainfo and content for the current page at time of render, content files determine the path at which a piece of content can be accessed in the browser.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content Path</th>
+      <th>Portal URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">content/index.txt</code></td>
+      <td><code class="highlighter-rouge">http://portal_gui_url/</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">content/about.txt</code></td>
+      <td><code class="highlighter-rouge">http://portal_gui_url/about</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">content/documentation/index.txt</code></td>
+      <td><code class="highlighter-rouge">http://portal_gui_url/documentation</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">content/documentation/spec_one.txt</code></td>
+      <td><code class="highlighter-rouge">http://portal_gui_url/documentation/spec_one</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="contents">Contents</h4>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
 title: homepage
 layout: homepage.html
@@ -1736,15 +1808,14 @@ readable_by: [red, blue]
 Welcome to the homepage!
 </code></pre></div></div>
 
-<p>Content can be broken down into two parts:</p>
+<p>File contents can be broken down into two parts: <code class="highlighter-rouge">headmatter</code> and <code class="highlighter-rouge">body</code></p>
 
 <h5 id="headmatter">headmatter</h5>
 
-<p>The first thing you will notice in the example files contents are the two sets of <code class="highlighter-rouge">---</code> delimeters at the start.  The text contained within these markers is called <code class="highlighter-rouge">headmatter</code> and will always be parsed and validated as valid <code class="highlighter-rouge">yaml</code>.  <code class="highlighter-rouge">headmatter</code> contains information necessary for a file to render successfully, as well as any information you would like to access within a template.  Any valid <code class="highlighter-rouge">yaml</code> key value pair will be parsed by Kong and made available within the contends coinciding html template. There are a few reserved attributes that have special meaning to Kong at time of render. They are as follows:</p>
+<p>The first thing to notice in the example files contents are the two sets of <code class="highlighter-rouge">---</code> delimiters at the start.  The text contained within these markers is called <code class="highlighter-rouge">headmatter</code> and always gets parsed and validated as valid <code class="highlighter-rouge">yaml</code>.  <code class="highlighter-rouge">headmatter</code> contains information necessary for a file to render successfully, as well as any information you would like to access within a template.  Kong parses any valid <code class="highlighter-rouge">yaml</code> key-value pair and becomes available within the content’s coinciding HTML template. There are a few reserved attributes that have special meaning to Kong at the time of render. They are as follows:</p>
 
 <ul>
-  <li>
-    <h6 id="title"><code class="highlighter-rouge">title</code>:</h6>
+  <li><code class="highlighter-rouge">title</code>:
     <ul>
       <li><strong>required</strong>: false</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
@@ -1752,8 +1823,7 @@ Welcome to the homepage!
       <li><strong>example</strong>: <code class="highlighter-rouge">homepage</code></li>
     </ul>
   </li>
-  <li>
-    <h6 id="layout"><code class="highlighter-rouge">layout</code></h6>
+  <li><code class="highlighter-rouge">layout</code>
     <ul>
       <li><strong>required</strong>: true</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
@@ -1761,57 +1831,60 @@ Welcome to the homepage!
       <li><strong>example</strong>: <code class="highlighter-rouge">bio.html</code> or <code class="highlighter-rouge">team/about.html</code></li>
     </ul>
   </li>
-  <li>
-    <h6 id="readable_by"><code class="highlighter-rouge">readable_by</code></h6>
+  <li><code class="highlighter-rouge">readable_by</code>
     <ul>
       <li><strong>required</strong>: false</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">array</code> (multiple), <code class="highlighter-rouge">string</code> (singular)</li>
-      <li><strong>description</strong>: The optional readable_by attribute determines which developers can access a piece of content.  In the case of the example above, only developers with rbac roles of “red” or “blue” may access the <code class="highlighter-rouge">/homepage</code> route.</li>
+      <li><strong>description</strong>: The optional <code class="highlighter-rouge">readable_by</code> attribute determines which developers can access a piece of content.  In the case of the example above, only developers with rbac roles of “red” or “blue” may access the <code class="highlighter-rouge">/homepage</code> route.</li>
       <li><strong>example</strong>: <code class="highlighter-rouge">[red, blue]</code> (multiple), <code class="highlighter-rouge">red</code> (singular)</li>
     </ul>
   </li>
-  <li>
-    <h6 id="route"><code class="highlighter-rouge">route</code></h6>
+  <li><code class="highlighter-rouge">route</code>
     <ul>
       <li><strong>required</strong>: false</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
       <li><strong>description</strong>: This optional attribute overrides the generated route Kong assigns to content, and replaces it with the route included here.</li>
-      <li><strong>example</strong>: <code class="highlighter-rouge">route: /example/dog</code> will render the example page above at <code class="highlighter-rouge">&lt;url&gt;/example/dog</code> instead of the auto generated <code class="highlighter-rouge">/homepage</code> route.</li>
+      <li><strong>example</strong>: <code class="highlighter-rouge">route: /example/dog</code> renders the example page above at <code class="highlighter-rouge">&lt;url&gt;/example/dog</code> instead of the auto generated <code class="highlighter-rouge">/homepage</code> route.</li>
     </ul>
   </li>
-  <li>
-    <h6 id="output"><code class="highlighter-rouge">output</code></h6>
+  <li><code class="highlighter-rouge">output</code>
     <ul>
       <li><strong>required</strong>: false</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">boolean</code></li>
       <li><strong>default</strong>: <code class="highlighter-rouge">true</code></li>
-      <li><strong>description</strong>: This optional attribute is <code class="highlighter-rouge">true</code> by default and determines whether a piece of content should be rendered. (no route or page will be created when set to <code class="highlighter-rouge">false</code>)</li>
+      <li><strong>description</strong>: This optional attribute is <code class="highlighter-rouge">true</code> by default and determines whether a piece of content should be rendered. (no route or page gets created when this value is set to <code class="highlighter-rouge">false</code>)</li>
     </ul>
   </li>
-  <li>
-    <h6 id="stub"><code class="highlighter-rouge">stub</code></h6>
+  <li><code class="highlighter-rouge">stub</code>
     <ul>
       <li><strong>required</strong>: false</li>
       <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
-      <li><strong>description</strong>: Used by <code class="highlighter-rouge">collection</code> config to determine custom routing.  You can read more about Collections in the collections section of this guide.</li>
+      <li><strong>description</strong>: Used by <code class="highlighter-rouge">collection</code> config to determine custom routing.  You can read more about Collections in the collections section of the <em>working with templates</em> guide.</li>
     </ul>
   </li>
 </ul>
 
 <h5 id="body">body</h5>
-<p>The information located under headmatter represents the content body.  Body content is freeform and will be parsed as by the file extension included in the file path.  In the case of the example above, the file is <code class="highlighter-rouge">.txt</code> and will be available in the template as such.</p>
+<p>The information located under headmatter represents the content body.  Body content is freeform and gets parsed as by the file extension included in the file path.  In the case of the example above, the file is <code class="highlighter-rouge">.txt</code> and is available in the template as such.</p>
 
-<h4 id="specs"><code class="highlighter-rouge">specs/</code></h4>
-<p>Specs are similar to <code class="highlighter-rouge">content</code> files in that they provide the dynamic data needed to render a page, as well as any metadata a user wishes to provide as <code class="highlighter-rouge">headmatter</code>.  The format in which these are provided to the Portal differs from <code class="highlighter-rouge">content</code> files, which can be seen in the example below:</p>
+<h2 id="spec-files">Spec Files</h2>
 
-<h4 id="path-1">path</h4>
-<p><code class="highlighter-rouge">specs/myfirstspec.yaml</code></p>
+<h4 id="path-3">Path</h4>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">specs/**/*</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.yaml</code>, <code class="highlighter-rouge">.json</code></li>
+</ul>
 
-<p>Pathing for specs is very simple, it is recommended to keep spec folder structure flat.  Spec files must be valid OAS or Swagger <code class="highlighter-rouge">.yaml</code> or <code class="highlighter-rouge">.json</code> files.</p>
+<h4 id="description-3">Description</h4>
+<p>Specs are similar to <code class="highlighter-rouge">content</code> files in that they provide the dynamic data needed to render a page, as well as any metadata a user wishes to provide as <code class="highlighter-rouge">headmatter</code>.  The format in which these are provided to the Portal differs from <code class="highlighter-rouge">content</code> files, which can be seen in the example below.</p>
 
-<h4 id="contents-1">contents</h4>
+<blockquote>
+  <p>It is recommended to keep spec folder structure flat.  Spec files must be valid OAS or Swagger <code class="highlighter-rouge">.yaml</code>/<code class="highlighter-rouge">.yml</code> or <code class="highlighter-rouge">.json</code> files.</p>
+</blockquote>
+
+<h4 id="contents-1">Contents</h4>
+
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swagger: "2.0"
-layout: system/spec-renderer.html
 info:
   version: 1.0.0
   title: Swagger Petstore
@@ -1825,11 +1898,10 @@ x-headmatter
 ...
 </code></pre></div></div>
 
-<p>Spec file contents themselves should be valid OAS or Swagger specifications.  If you would like to inject headmatter to the specification, you can do so by including an <code class="highlighter-rouge">x-headmatter</code> key to the root of the spec object.  This may be useful if you wanted to for example provide your own renderer template via <code class="highlighter-rouge">headmatter.layout</code> or override the specs default route via <code class="highlighter-rouge">headmatter.route</code>.</p>
+<p>Spec file contents themselves should be valid OAS or Swagger specifications.  If you would like to inject headmatter into the specification, you can do so by including an <code class="highlighter-rouge">x-headmatter</code> key to the root of the spec object.  This may be useful if you wanted to for example provide your own renderer template via <code class="highlighter-rouge">x-headmatter.layout</code> or override the specs default route via <code class="highlighter-rouge">x-headmatter.route</code>.</p>
 
 <p>Example:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swagger: "2.0"
-layout: system/spec-renderer.html
 info:
   version: 1.0.0
   title: Swagger Petstore
@@ -1843,10 +1915,11 @@ x-headmatter:
 ...
 </code></pre></div></div>
 
-<p>Specs are a collection meaning their <code class="highlighter-rouge">layout</code> and <code class="highlighter-rouge">route</code> are determined by portal configuration and not the file itself.  Specs are rendered with the <code class="highlighter-rouge">system/spec-renderer.html</code> layout, under the route pattern <code class="highlighter-rouge">/documentation/:name</code> where name is the name of the particular spec file.  So a spec with a path of <code class="highlighter-rouge">specs/myfirstspec.json</code> will render in the portal as <code class="highlighter-rouge">/documentation/myfirstspec</code>.  If you would like to overwrite the hard coded spec collection config, you can do so by including your own in <code class="highlighter-rouge">portal.conf.yaml</code>.</p>
+<p>Specs are a collection meaning their <code class="highlighter-rouge">layout</code> and <code class="highlighter-rouge">route</code> are determined by the portal configuration and not the file itself.  Specs are rendered by default by the <code class="highlighter-rouge">system/spec-renderer.html</code> layout, under the route pattern <code class="highlighter-rouge">/documentation/:name</code> where name is the name of the particular spec file.  So a spec with a path of <code class="highlighter-rouge">specs/myfirstspec.json</code> renders in the portal as <code class="highlighter-rouge">/documentation/myfirstspec</code>.  If you would like to overwrite the hardcoded spec collection config, you can do so by including your own in <code class="highlighter-rouge">portal.conf.yaml</code>.  Check out the Collections section of our <code class="highlighter-rouge">Working with Templates</code> guide to learn more.</p>
 
-<h4 id="themestheme-name"><code class="highlighter-rouge">themes/&lt;theme-name&gt;/...</code></h4>
-<p>The theme directory contains different instances of portal themes, each one of which determines the look and feel of the developer portal via html/css/js.  Which theme is used at time of render is determined by setting <code class="highlighter-rouge">theme.name</code> within <code class="highlighter-rouge">portal.conf.yaml</code>.  (setting <code class="highlighter-rouge">theme.name</code> to <code class="highlighter-rouge">best-theme</code> will cause the portal to load theme files under <code class="highlighter-rouge">themes/best-theme/**</code>).</p>
+<h2 id="theme-files">Theme Files</h2>
+<h4 id="themes-directory-structure">Themes Directory Structure</h4>
+<p>The theme directory contains different instances of portal themes, each one of which determines the look and feel of the developer portal via html/css/js.  Which theme is used at time of render is determined by setting <code class="highlighter-rouge">theme.name</code> within <code class="highlighter-rouge">portal.conf.yaml</code>.  (setting <code class="highlighter-rouge">theme.name</code> to <code class="highlighter-rouge">best-theme</code> causes the portal to load theme files under <code class="highlighter-rouge">themes/best-theme/**</code>).</p>
 
 <p>Each theme file is compromised of a few different folders:</p>
 <ul>
@@ -1872,56 +1945,110 @@ x-headmatter:
   </li>
 </ul>
 
-<h4 id="assets">assets</h4>
-<p>The asset folder contains css/js/fonts/images for your templates to reference.  To access asset files from your templates, keep in mind that Kong assumes a path from the root of your selected theme.</p>
+<h4 id="theme-assets">Theme Assets</h4>
 
+<h5 id="path-4">Path</h5>
 <ul>
-  <li>Examples:
-    <ul>
-      <li><code class="highlighter-rouge">themes/light-theme/assets/images/image1.jpeg</code> -&gt; <code class="highlighter-rouge">&lt;img src="assets/images/image1"&gt;</code></li>
-      <li><code class="highlighter-rouge">themes/light-theme/assets/js/my-script.js</code> -&gt; <code class="highlighter-rouge">&lt;script src="assets/js/my-script.js"&gt;&lt;/script&gt;</code></li>
-      <li><code class="highlighter-rouge">themes/light-theme/assets/styles/my-styles.css</code> -&gt; <code class="highlighter-rouge">&lt;link href="assets/styles/normalize.min.css" rel="stylesheet" /&gt;</code></li>
-    </ul>
-  </li>
+  <li><strong>format:</strong> <code class="highlighter-rouge">theme/*/assets/**/*</code></li>
 </ul>
 
-<h4 id="layouts">layouts</h4>
+<h5 id="description-4">Description</h5>
+<p>The asset folder contains css/js/fonts/images for your templates to reference.</p>
+
+<p>To access asset files from your templates, keep in mind that Kong assumes a path from the root of your selected theme.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Asset Path</th>
+      <th>Href Element</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">themes/light-theme/assets/images/image1.jpeg</code></td>
+      <td><code class="highlighter-rouge">&lt;img src="assets/images/image1"&gt;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">themes/light-theme/assets/js/my-script.js</code></td>
+      <td><code class="highlighter-rouge">&lt;script src="assets/js/my-script.js"&gt;&lt;/script&gt;</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">themes/light-theme/assets/styles/my-styles.css</code></td>
+      <td><code class="highlighter-rouge">&lt;link href="assets/styles/normalize.min.css" rel="stylesheet" /&gt;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>Note: Image files uploaded to the <code class="highlighter-rouge">theme/*/assets/</code> directory should either be a svg text string or <code class="highlighter-rouge">base64</code> encoded, ‘base64` images will be decoded when served.</p>
+</blockquote>
+
+<h4 id="theme-layouts">Theme Layouts</h4>
+
+<h5 id="path-5">Path</h5>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">theme/*/layouts/**/*</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.html</code></li>
+</ul>
+
+<h5 id="description-5">Description</h5>
 <p>Layouts act as the html skeleton of the page you wish to render.  Each file within the layouts directory must have an <code class="highlighter-rouge">html</code> filetype.  They can exist as vanilla <code class="highlighter-rouge">html</code>, or can reference partials and parent layouts via the portals templating syntax.  Layouts also have access to the <code class="highlighter-rouge">headmatter</code> and <code class="highlighter-rouge">body</code> attributes set in <code class="highlighter-rouge">content</code>.</p>
 
 <p>The example below shows what a typical layout could look like.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div class="homepage"&gt;
-  {(partials/header.html)}       &lt;- syntax for calling a partial within a template
-  &lt;div class="page"&gt;
-    &lt;div class="row"&gt;
-      &lt;h1&gt;Developer Portal Structure and File Types&lt;/h1&gt;    &lt;- 'title' retrieved from page headmatter
-    &lt;/div&gt;
-    &lt;div class="row"&gt;
-      &lt;p&gt;&lt;/p&gt;       &lt;- 'body' retrieved from page body
-    &lt;/div&gt;
-  &lt;/div&gt;
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"homepage"</span><span class="nt">&gt;</span>
+  {(partials/header.html)}       <span class="nt">&lt;-</span> <span class="na">syntax</span> <span class="na">for</span> <span class="na">calling</span> <span class="na">a</span> <span class="na">partial</span> <span class="na">within</span> <span class="na">a</span> <span class="na">template</span>
+  <span class="err">&lt;</span><span class="na">div</span> <span class="na">class=</span><span class="s">"page"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;h1&gt;</span>{{page.title}}<span class="nt">&lt;/h1&gt;</span>    <span class="nt">&lt;-</span> <span class="err">'</span><span class="na">title</span><span class="err">'</span> <span class="na">retrieved</span> <span class="na">from</span> <span class="na">page</span> <span class="na">headmatter</span>
+    <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;p&gt;</span>{{page.body}}<span class="nt">&lt;/p&gt;</span>       <span class="nt">&lt;-</span> <span class="err">'</span><span class="na">body</span><span class="err">'</span> <span class="na">retrieved</span> <span class="na">from</span> <span class="na">page</span> <span class="na">body</span>
+    <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
   {(partials/footer.html)}
-&lt;/div&gt;
+<span class="nt">&lt;/div&gt;</span>
 </code></pre></div></div>
 
-<p>To learn more about the templating syntax used in this example check out the <code class="highlighter-rouge">templating</code> section.</p>
+<p>To learn more about the templating syntax used in this example check out our <a href="/enterprise/1.3-x/developer-portal/working-with-templates">templating guide</a>.</p>
 
-<h4 id="partials">partials</h4>
+<h4 id="theme-partials">Theme Partials</h4>
+
+<h5 id="path-6">Path</h5>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">theme/*/partials/**/*</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.html</code></li>
+</ul>
+
+<h5 id="description-6">Description</h5>
 <p>Partials are very similar to layouts: they share the same syntax, can call other partials within themselves, and have access to the same data/helpers at time of render.  The thing that differentiates partials from layouts it that layouts call on partials to build the page, but partials cannot call on layouts.</p>
 
 <p>The example below shows the <code class="highlighter-rouge">header.html</code> partial referenced from the example above:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;header&gt;
-  &lt;div class="row"&gt;
-    &lt;div class="column&gt;
-      &lt;img src=""&gt;      &lt;- can access the same page data the parent layout
-    &lt;/div&gt;
-    &lt;div class="column"&gt;
-      {(partials/header_nav.html)}   &lt;- partials can call other partials
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/header&gt;
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;header&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"column&gt;
+      &lt;img src="</span><span class="err">{{</span><span class="na">page</span><span class="err">.</span><span class="na">logo</span><span class="err">}}"</span><span class="nt">&gt;</span>      <span class="nt">&lt;-</span> <span class="na">can</span> <span class="na">access</span> <span class="na">the</span> <span class="na">same</span> <span class="na">page</span> <span class="na">data</span> <span class="na">the</span> <span class="na">parent</span> <span class="na">layout</span>
+    <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"column"</span><span class="nt">&gt;</span>
+      {(partials/header_nav.html)}   <span class="nt">&lt;-</span> <span class="na">partials</span> <span class="na">can</span> <span class="na">call</span> <span class="na">other</span> <span class="na">partials</span>
+    <span class="err">&lt;/</span><span class="na">div</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/header&gt;</span>
 </code></pre></div></div>
+
+<h4 id="theme-configuration-file">Theme Configuration File</h4>
+
+<h5 id="path-7">Path</h5>
+<ul>
+  <li><strong>format:</strong> <code class="highlighter-rouge">theme/*/theme.conf.yaml</code></li>
+  <li><strong>file extensions:</strong> <code class="highlighter-rouge">.yaml</code></li>
+</ul>
+
+<h5 id="description-7">Description</h5>
+<p>The Theme Configuration File determines color/font/image values a theme makes available for templates/CSS at the time of render.  It is required in the root of every theme.  There can only be one Theme Configuration File, it must be named <code class="highlighter-rouge">theme.conf.yaml</code>, and it must be a direct child of the themes root directory.</p>
+
 
 
         </div>
@@ -2122,7 +2249,7 @@ x-headmatter:
 </script>
 
 
-    <script src="/assets/app.js?v=1573061372"></script>
+    <script src="/assets/app.js?v=1573177353"></script>
 
     <div id="fb-root"></div>
 

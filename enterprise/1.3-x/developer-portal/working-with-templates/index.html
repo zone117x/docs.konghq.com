@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1573061372"
+    href="/assets/styles.css?v=1573177353"
   />
   
 </head>
@@ -1628,6 +1628,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#syntax" class="scroll-to">Syntax</a></li>
   <li><a href="#using-partials" class="scroll-to">Using Partials</a></li>
   <li><a href="#using-blocks" class="scroll-to">Using Blocks</a></li>
+  <li><a href="#collections" class="scroll-to">collections</a></li>
 </ul>
 
 
@@ -1803,6 +1804,109 @@ hero_description: Partials are wicked sick!
     <span class="nt">&lt;/footer&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h3 id="collections">collections</h3>
+<p>Collections are a powerful tool enabling you to render sets of content as a group.  Content rendered as a collection share a configurable route pattern, as well as a layout.  Collections are configured in you portals <code class="highlighter-rouge">portal.conf.yaml</code> file.</p>
+
+<p>The example below shows all the necessary configuration/files needed to render a basic <code class="highlighter-rouge">blog</code> collection made up of individual <code class="highlighter-rouge">posts</code>.</p>
+
+<h4 id="portalconfyaml">portal.conf.yaml</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>name: Kong Portal
+theme:
+  name: base
+collections:
+  posts:
+    output: true
+    route: /:stub/:collection/:name
+    layout: post.html
+</code></pre></div></div>
+
+<p>Above you can see we have declared a <code class="highlighter-rouge">collections</code> object which is made up of individual collection configurations.  In this example, we are configuring a collection called <code class="highlighter-rouge">posts</code>.  The renderer looks for a root directory called <code class="highlighter-rouge">_posts</code> within the <code class="highlighter-rouge">content</code> folder for individual pages to render.  If we created another collection conf called <code class="highlighter-rouge">animals</code>, the renderer would look for a directory called <code class="highlighter-rouge">_animals</code> for content files to render.</p>
+
+<p>Each configuration item is made up of a few parts:</p>
+<ul>
+  <li>
+    <h6 id="output-2"><code class="highlighter-rouge">output</code></h6>
+    <ul>
+      <li><strong>required</strong>: false</li>
+      <li><strong>type</strong>: <code class="highlighter-rouge">boolean</code></li>
+      <li><strong>description</strong>: This optional attribute determines whether the collections should render or not.  When set to <code class="highlighter-rouge">false</code> virtual routes for the collection are not created.</li>
+    </ul>
+  </li>
+  <li>
+    <h6 id="route"><code class="highlighter-rouge">route</code></h6>
+    <ul>
+      <li><strong>required</strong>: true</li>
+      <li><strong>type</strong>: <code class="highlighter-rouge">string</code></li>
+      <li><strong>default</strong>: <code class="highlighter-rouge">none</code></li>
+      <li><strong>description</strong>: The <code class="highlighter-rouge">route</code> attribute is required and tells the renderer what pattern to generate collection routes from. A collection route should always include at least one valid dynamic namespace that uniquely identifies each collection member.
+        <ul>
+          <li>Any namespace in the route declaration which begins with <code class="highlighter-rouge">:</code> is considered dynamic.</li>
+          <li>Only certain dynamic namespaces are recognized by kong as valid:
+            <ul>
+              <li><code class="highlighter-rouge">:title</code>: Replaces namespac with a contents <code class="highlighter-rouge">title</code>, declared in headmatter.</li>
+              <li><code class="highlighter-rouge">:name</code>: Replaces namespace with the filename of a piece of content.</li>
+              <li><code class="highlighter-rouge">:collection</code>: Replaces namespace with name of current collection.</li>
+              <li><code class="highlighter-rouge">:stub</code>: Replaces namespace with value of <code class="highlighter-rouge">headmatter.stub</code> in each contents headmatter.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <h6 id="route-1"><code class="highlighter-rouge">route</code></h6>
+    <ul>
+      <li><strong>required</strong>: true
+        <ul>
+          <li><strong>type</strong>: <code class="highlighter-rouge">boolean</code></li>
+          <li><strong>description</strong>: The <code class="highlighter-rouge">layout</code> attribute determines what HTML layout the collections use to render.  The path root is assessed from within the current themes <code class="highlighter-rouge">layouts</code> directory.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="content_postspost1md"><code class="highlighter-rouge">content/_posts/post1.md</code></h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+title: Post One
+stub: blog
+---
+
+This is my first post!
+</code></pre></div></div>
+
+<h5 id="content_postspost2md"><code class="highlighter-rouge">content/_posts/post2.md</code></h5>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+title: Post Two
+stub: blog
+---
+
+This is my second post!
+</code></pre></div></div>
+
+<h5 id="themesbaselayoutsposthtml"><code class="highlighter-rouge">themes/base/layouts/post.html</code></h5>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>{{ page.title }}<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>{* page.body *}<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<h4 id="output-3">Output:</h4>
+
+<h5 id="kong_portal_gui_urlblogpostspost1"><code class="highlighter-rouge">&lt;kong_portal_gui_url&gt;/blog/posts/post1</code></h5>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>Post One<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>This is my first post!<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+
+<h5 id="kong_portal_gui_urlblogpostspost2"><code class="highlighter-rouge">&lt;kong_portal_gui_url&gt;/blog/posts/post2</code></h5>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;h1&gt;</span>Post Two<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>This is my second post!<span class="nt">&lt;/p&gt;</span>
 </code></pre></div></div>
 
 
@@ -2004,7 +2108,7 @@ hero_description: Partials are wicked sick!
 </script>
 
 
-    <script src="/assets/app.js?v=1573061372"></script>
+    <script src="/assets/app.js?v=1573177353"></script>
 
     <div id="fb-root"></div>
 
