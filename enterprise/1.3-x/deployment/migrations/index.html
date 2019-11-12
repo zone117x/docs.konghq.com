@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1573508668"
+    href="/assets/styles.css?v=1573596139"
   />
   
 </head>
@@ -356,17 +356,20 @@ window['_fs_namespace'] = 'FS';
       <nav class="docs-navigation">
         <a href="/" >Kong</a>
         <a href="/enterprise"  class="active" >Kong Enterprise</a>
+        <a href="/studio" >Kong Studio</a>
         <span class="sidebar-toggle">Open Sidebar</span>
       </nav>
       <div class="page-header-icon">
-        <img src="/assets/images/icons/icn-documentation-ee.svg"
-          alt="Documentation" />
+          
+          
+          <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
+          
+          
       </div>
       <div class="page-header-title">
         <h1>Migrating to 1.3</h1>
       </div>
 
-      
       <div class="versions-dropdown dropdown page-header-right  page-header-right-enterprise ">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
@@ -424,13 +427,14 @@ window['_fs_namespace'] = 'FS';
           <input type="text" placeholder="Search" id="getkong-algolia-search-input" />
         </div>
       </div>
-      
     </div>
   </header>
 
   <div class="container">
     <aside class="page-navigation">
       <span class="close-sidebar"></span>
+      
+      
       
 
       
@@ -1726,7 +1730,7 @@ requests to your 1.3 nodes.</li>
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>kong migrations migrate-community-to-enterprise <span class="o">[</span><span class="nt">-c</span> config] <span class="o">[</span><span class="nt">-f</span><span class="o">]</span> <span class="o">[</span><span class="nt">-y</span><span class="o">]</span>
 </code></pre></div></div>
 
-<p>Confirm now that all the entities are now available on your Kong Enterprise 0.35 node.</p>
+<p>Confirm now that all the entities are now available on your Kong Enterprise 1.3 node.</p>
 
 
         </div>
@@ -1752,6 +1756,29 @@ requests to your 1.3 nodes.</li>
     appId: 'T5JKD83LWT',
     apiKey: '1390283021f26e36117242934deb8d9d',
     indexName: 'prod_EE',
+    inputSelector: '#getkong-algolia-search-input',
+    algoliaOptions: {
+      hitsPerPage: 5,
+      'facetFilters': ["version: 1.3-x"]
+    },
+    // Override selected event to allow for local environment navigation
+    handleSelected: function (input, event, suggestion) {
+      input.setVal('');
+      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split(
+        "docs.konghq.com")[1]
+    }
+    // ,debug: true // Set debug to true if you want to inspect the dropdown
+  });
+
+</script>
+
+
+
+<script type="text/javascript">
+  docsearch({
+    appId: 'T5JKD83LWT',
+    apiKey: '1390283021f26e36117242934deb8d9d',
+    indexName: 'prod_Studio',
     inputSelector: '#getkong-algolia-search-input',
     algoliaOptions: {
       hitsPerPage: 5,
@@ -1828,7 +1855,7 @@ requests to your 1.3 nodes.</li>
           <ul>
             <li><a href="http://konghq.com/kong/">Kong</a></li>
             <li><a href="http://konghq.com/kong-enterprise/">Kong Enterprise</a></li>
-            <li><a href="http://konghq.com/cloud/">Kong Cloud</a></li>
+            <li><a href="http://konghq.com/kong-enterprise/studio/">Kong Studio</a></li>
             <li><a href="http://konghq.com/subscriptions/">Subscriptions</a></li>
           </ul>
         </nav>
@@ -1927,7 +1954,7 @@ requests to your 1.3 nodes.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1573508668"></script>
+    <script src="/assets/app.js?v=1573596139"></script>
 
     <div id="fb-root"></div>
 
