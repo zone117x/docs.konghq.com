@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1574285887"
+    href="/assets/styles.css?v=1574468309"
   />
   
 </head>
@@ -666,8 +666,11 @@ needs to be activated on a service that points to a GraphQL endpoint
 
 <h3 id="1-create-a-service-and-a-route-in-kong">1. Create a Service and a Route in Kong:</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>http :8001/services <span class="nv">name</span><span class="o">=</span>github <span class="nv">url</span><span class="o">=</span>https://api.github.com
-  <span class="nv">$ </span>http <span class="nt">-f</span> :8001/services/github/routes <span class="nv">paths</span><span class="o">=</span>/api
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"github"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">url</span><span class="o">=</span><span class="s2">"https://api.github.com"</span>
+  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/github/routes <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">paths</span><span class="o">=</span><span class="s2">"/api"</span>
 </code></pre></div></div>
 
 <h3 id="2-configure-the-plugin-on-the-service">2. Configure the Plugin on the Service</h3>
@@ -676,7 +679,8 @@ needs to be activated on a service that points to a GraphQL endpoint
 our REST api and not the graphql endpoint itself. It will return a 404 Not Found
 if no DeGraphQL routes have been configured.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>http :8001/services/github/plugins <span class="nv">name</span><span class="o">=</span>degraphql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/github/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"degraphql"</span>
 </code></pre></div></div>
 
 <h3 id="3-configure-degraphql-routes-on-the-service">3. Configure DeGraphQL Routes on the Service</h3>
@@ -684,10 +688,12 @@ if no DeGraphQL routes have been configured.</p>
 <p>Once the Plugin is activated on a Service, we can add our own routes to build
 our service, by defining uris and associating them to GraphQL queries.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>http :8001/services/github/degraphql/routes <span class="nv">uri</span><span class="o">=</span><span class="s1">'/me'</span> <span class="se">\</span>
-          <span class="nv">query</span><span class="o">=</span><span class="s1">'query { viewer { login } }'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/github/degraphql/routes <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">uri</span><span class="o">=</span><span class="s2">"/me"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">query</span><span class="o">=</span><span class="s2">"query { viewer { login } }"</span>
 
-  <span class="nv">$ </span>http :8000/api/me <span class="s2">"Authorization: Bearer some-token"</span>
+  <span class="nv">$ </span>curl http://localhost:8000/api/me <span class="se">\</span>
+    <span class="nt">--header</span> <span class="s2">"Authorization: Bearer some-token"</span>
   <span class="o">{</span>
       <span class="s2">"data"</span>: <span class="o">{</span>
           <span class="s2">"viewer"</span>: <span class="o">{</span>
@@ -699,16 +705,18 @@ our service, by defining uris and associating them to GraphQL queries.</p>
 
 <p>GraphQL Query Variables can be defined on uris</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>http :8001/services/github/degraphql/routes <span class="nv">uri</span><span class="o">=</span><span class="s1">'/:owner/:name'</span> <span class="se">\</span>
-       <span class="nv">query</span><span class="o">=</span><span class="s1">'query ($owner:String! $name:String!){
-                repository(owner:$owner, name:$name) {
-                  name
-                  forkCount
-                  description
-                }
-              }'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/github/degraphql/routes <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">uri</span><span class="o">=</span><span class="s1">'/:owner/:name'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">query</span><span class="o">=</span><span class="s1">'query ($owner:String! $name:String!){
+                    repository(owner:$owner, name:$name) {
+                      name
+                      forkCount
+                      description
+                   }
+                 }'</span>
 
-  <span class="nv">$ </span>http :8000/api/kong/kong <span class="s2">"Authorization: Bearer some-token"</span>
+  <span class="nv">$ </span>curl http://localhost:8000/api/kong/kong <span class="se">\</span>
+    <span class="nt">--header</span> <span class="s2">"Authorization: Bearer some-token"</span>
   <span class="o">{</span>
     <span class="s2">"data"</span>: <span class="o">{</span>
         <span class="s2">"repository"</span>: <span class="o">{</span>
@@ -722,17 +730,18 @@ our service, by defining uris and associating them to GraphQL queries.</p>
 
 <p>The same Variables can also be provided as GET arguments</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>http :8001/services/github/degraphql/routes <span class="nv">uri</span><span class="o">=</span><span class="s1">'/repo'</span> <span class="se">\</span>
-       <span class="nv">query</span><span class="o">=</span><span class="s1">'query ($owner:String! $name:String!){
-                repository(owner:$owner, name:$name) {
-                  name
-                  forkCount
-                  description
-                }
-              }'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://localhost:8001/services/github/degraphql/routes <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">uri</span><span class="o">=</span><span class="s1">'/repo'</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="nv">query</span><span class="o">=</span><span class="s1">'query ($owner:String! $name:String!){
+                    repository(owner:$owner, name:$name) {
+                      name
+                      forkCount
+                      description
+                    }
+                  }'</span>
 
-  <span class="nv">$ </span>http GET :8000/api/repo <span class="s2">"Authorization: Bearer some-token"</span> <span class="se">\</span>
-         <span class="nv">owner</span><span class="o">=</span>kong <span class="nv">name</span><span class="o">=</span>kuma
+  <span class="nv">$ </span>curl <span class="s2">"http://localhost:8000/api/repo?owner=kong&amp;name=kuma"</span> <span class="se">\</span>
+    <span class="nt">--header</span> <span class="s2">"Authorization: Bearer some-token"</span>
   <span class="o">{</span>
     <span class="s2">"data"</span>: <span class="o">{</span>
         <span class="s2">"repository"</span>: <span class="o">{</span>
@@ -982,7 +991,7 @@ our service, by defining uris and associating them to GraphQL queries.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1574285887"></script>
+    <script src="/assets/app.js?v=1574468309"></script>
 
     <div id="fb-root"></div>
 
