@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>RBAC in Kong Manager - v1.3-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Kafka Upstream plugin | Kong</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1575662441"
+    href="/assets/styles.css?v=1576116669"
   />
   
 </head>
@@ -131,7 +131,7 @@ window['_fs_namespace'] = 'FS';
 
 
   <body
-    id=""
+    id="/hub/kong-inc/kafka-upstream/index"
     
     data-spy="scroll"
     data-target="#scroll-sidebar"
@@ -362,1540 +362,633 @@ window['_fs_namespace'] = 'FS';
   </header>
 
 
-    <div class="page ">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- BEGIN PAGE OUTPUT -->
+
+<div class="page page-extension-profile">
+  
+    
+
+
   <header class="page-header">
     <div class="container">
-      <div class="edit-this-page">
-        <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/enterprise/1.3-x/kong-manager/administration/rbac/index.md"><i class="fa fa-github"></i>
-          Edit this Page</a>
-      </div>
-      <nav class="docs-navigation">
-        <a href="/" >Kong</a>
-        <a href="/enterprise"  class="active" >Kong Enterprise</a>
-        <a href="/studio" >Kong Studio</a>
-        <span class="sidebar-toggle">Open Sidebar</span>
-      </nav>
-      <div class="page-header-icon">
-          
-          
-          <img src="/assets/images/icons/icn-documentation-ee.svg" alt="Documentation" />
-          
-          
-      </div>
+      
+        <div class="page-header-icon">
+          <img src="/assets/images/icons/hub/kong-inc_kafka-upstream.png" alt="header icon"/>
+        </div>
+      
+
       <div class="page-header-title">
-        <h1>RBAC in Kong Manager</h1>
+        
+
+        <h1>Kafka Upstream</h1>
+
+        
       </div>
 
-      <div class="dropdown page-header-right" id="searchBar">
-        <div id="getkong-algolia-search" class="search-input">
-          <i class="fa fa-search"></i>
-          <input type="text" placeholder="Search" id="getkong-algolia-search-input" />
-        </div>
-      </div>
-      <div class="versions-dropdown dropdown page-header-right  page-header-right-enterprise ">
-        <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          Version 1.3-x
-          (2020)
-          <em>(latest)</em>
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="version-dropdown">
-          
-          <li  class="active" >
-            <a href="/enterprise/1.3-x"  class="active" >
-              1.3-x
-              (2020)
-              <em>(latest)</em>
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.36-x" >
-              0.36-x
-              
-              
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.35-x" >
-              0.35-x
-              
-              
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.34-x" >
-              0.34-x
-              
-              
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.33-x" >
-              0.33-x
-              
-              
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.32-x" >
-              0.32-x
-              
-              
-            </a>
-          </li>
-          
-          <li >
-            <a href="/enterprise/0.31-x" >
-              0.31-x
-              
-              
-            </a>
-          </li>
-          
-        </ul>
-      </div>
+      
+
+      
     </div>
   </header>
 
+
+  
+
   <div class="container">
+
+    
+
+    
+
     <aside class="page-navigation">
-      <span class="close-sidebar"></span>
+      <span class="close-sidebar">Close Sidebar</span>
       
-      
+        <nav>
+          <ul>
+  <li><a href="#terminology">Terminology</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#global-plugins">Global plugins</a></li>
+      <li><a href="#parameters">Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#configuration">Configuration</a>
+    <ul>
+      <li><a href="#enabling-on-a-serviceless-route">Enabling on a serviceless route</a></li>
+    </ul>
+  </li>
+  <li><a href="#implementation-details">Implementation details</a></li>
+  <li><a href="#known-issues-and-limitations">Known issues and limitations</a></li>
+  <li><a href="#quickstart">Quickstart</a></li>
+</ul>
+
+        </nav>
       
 
-      
-      <nav>
-        
-        <h5>Deployment</h5>
-        
-        <ul>
+      <table id="about-extn">
+        <tr>
+          <th colspan="2">About this Plugin</th>
+        </tr>
+        <tr class="publisher">
+          <td>Made by</td>
+          <td>
           
-          
-          <li>
-            <a href="/enterprise/1.3-x/deployment/licensing"  >
-              Licensing
-            </a>
             
-            <ul>
+<svg width="78" height="15" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd">
+    <path d="M23.685 7.372l-1.217 1.265V12h-1.313V2.047h1.313v4.922l4.423-4.922h1.586L24.56 6.442 28.784 12h-1.572l-3.527-4.628zm5.714.861c0-.724.143-1.376.428-1.955a3.187 3.187 0 0 1 1.19-1.34c.507-.314 1.087-.471 1.739-.471 1.007 0 1.822.348 2.444 1.046.622.697.933 1.624.933 2.782v.089c0 .72-.138 1.366-.414 1.938a3.14 3.14 0 0 1-1.182 1.336c-.513.32-1.102.479-1.767.479-1.003 0-1.815-.349-2.437-1.046-.623-.697-.934-1.62-.934-2.769v-.089zm1.272.15c0 .821.19 1.48.57 1.976.381.497.89.745 1.529.745.642 0 1.153-.251 1.53-.755.379-.503.568-1.209.568-2.116 0-.81-.192-1.468-.577-1.972-.386-.503-.897-.755-1.535-.755-.624 0-1.128.248-1.51.745-.384.497-.575 1.208-.575 2.133zm8.244-3.78l.041.93c.565-.71 1.303-1.066 2.215-1.066 1.563 0 2.351.882 2.365 2.645V12h-1.265V7.105c-.004-.533-.126-.927-.365-1.182-.24-.255-.612-.383-1.118-.383-.41 0-.77.11-1.08.328-.31.219-.551.506-.725.861V12H37.72V4.604h1.196zm6.228 3.637c0-1.153.266-2.07.8-2.751.533-.682 1.239-1.022 2.119-1.022.902 0 1.606.319 2.112.957l.061-.82h1.156v7.218c0 .957-.284 1.712-.851 2.263-.568.551-1.33.827-2.287.827a3.804 3.804 0 0 1-1.566-.342c-.51-.228-.9-.54-1.168-.936l.656-.759c.542.67 1.205 1.005 1.99 1.005.614 0 1.094-.173 1.438-.52.344-.346.516-.834.516-1.463v-.635c-.506.583-1.196.875-2.071.875-.866 0-1.567-.349-2.102-1.046-.536-.697-.803-1.648-.803-2.85zm1.271.144c0 .834.171 1.489.513 1.965.342.476.82.714 1.435.714.798 0 1.383-.362 1.757-1.086V6.6c-.387-.707-.968-1.06-1.743-1.06-.615 0-1.096.24-1.442.718-.347.478-.52 1.187-.52 2.126zM58.37 12h-1.312V2.047h1.312V12zm3.398-7.396l.04.93c.566-.712 1.304-1.067 2.215-1.067 1.564 0 2.352.882 2.366 2.645V12h-1.265V7.105c-.005-.533-.126-.927-.366-1.182-.239-.255-.612-.383-1.117-.383-.41 0-.77.11-1.08.328-.31.219-.552.506-.725.861V12H60.57V4.604h1.197zm9.495 6.5c.45 0 .845-.136 1.182-.41.338-.273.524-.615.56-1.025h1.197a2.293 2.293 0 0 1-.437 1.21 2.881 2.881 0 0 1-1.077.916 3.107 3.107 0 0 1-1.425.342c-1.007 0-1.808-.336-2.403-1.009-.595-.672-.892-1.591-.892-2.758v-.212c0-.72.132-1.36.396-1.92a3.02 3.02 0 0 1 1.138-1.306c.495-.31 1.08-.465 1.754-.465.83 0 1.519.248 2.068.745.549.497.842 1.142.878 1.934h-1.196c-.037-.478-.218-.871-.544-1.179-.325-.307-.728-.461-1.206-.461-.643 0-1.14.231-1.494.694-.353.462-.53 1.131-.53 2.006v.24c0 .852.176 1.508.527 1.968.35.46.852.69 1.504.69zm4.388.233c0-.219.065-.401.195-.547.13-.146.325-.219.585-.219.26 0 .457.073.591.219a.776.776 0 0 1 .202.547c0 .21-.068.385-.202.526-.134.142-.332.212-.591.212-.26 0-.455-.07-.585-.212a.748.748 0 0 1-.195-.526z" fill="#002A49"/>
+    <path fill="#149DCB" d="M5.143 11.531l-.385.487.87 1.355-.09.627H9.23l.255-.627-1.484-1.842z"/>
+    <path fill="#0EB399" d="M7.162 3.284l-1.335 2.33 6.514 7.682-.186.704h2.988l.542-2.499-6.971-8.22z"/>
+    <path fill="#3DB664" d="M9.93 0L8.049 1.532l-.635 1.166H8.99l2.705 3.207 1.608-1.316v-.836l-.559-.781.413-.428z"/>
+    <path fill="#17BDCB" d="M3.2 8.024h-.88L0 10.96V14h2.489l.438-.57 1.921-2.478h2.776l.855-1.304-3.01-3.562z"/>
+  </g>
+</svg>
+
+
+          
+          </td>
+        </tr>
+        <tr class="categories">
+          <td>Categories</td>
+          <td>
+            <ul class="categories">
+            
               
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/licensing" >Overview</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/access-license" >How to Access Your License</a>
-                
-              </li>
-              
+              <li><a href="/hub/#transformations">Transformations</a></li>
+            
             </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/deployment/installation/overview"  >
-              Installation
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/installation/docker" >Docker</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-for-kubernetes/install" >Kubernetes</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/installation/ubuntu" >Ubuntu</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/installation/centos" >CentOS</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/deployment/installation/amazon-linux" >Amazon Linux</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-cloud"  >
-              Kong Cloud
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/changelog"  >
-              Changelog
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/deployment/migrations"  >
-              Migrating to 1.3
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
+          </td>
+        </tr>
         
-        <a href="/enterprise/1.3-x/getting-started/">
-          <h5>Getting Started</h5>
-        </a>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/"  >
-              Overview
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/start-kong"  >
-              How to Start Kong Enterprise
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/add-workspace"  >
-              How to Add a Workspace
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/add-role"  >
-              How to Add a Role and Permissions
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/add-admin"  >
-              How to Add an Admin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/add-service"  >
-              How to Add a Service and Route
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/enable-plugin"  >
-              How to Enable a Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/add-consumer"  >
-              How to Add a Consumer
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/getting-started/enable-dev-portal"  >
-              How to Enable the Dev Portal
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
         
-        <a href="/enterprise/1.3-x/property-reference">
-          <h5>Guides & References</h5>
-        </a>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/property-reference"  >
-              Configuration Property Reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/cli"  >
-              CLI Reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/references/rate-limiting"  >
-              Rate Limiting Library
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/proxy"  >
-              Proxy reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/auth"  >
-              Authentication reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/loadbalancing"  >
-              Load balancing reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/health-checks-circuit-breakers"  >
-              Health checks and circuit breakers reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/clustering"  >
-              Clustering reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/logging"  >
-              Logging reference
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/network"  >
-              Network &amp; Firewall
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/secure-admin-api"  >
-              Securing the Admin API
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugin-development"  >
-              Plugin Development Guide
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/pdk"  >
-              Plugin Development Kit
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/oasconfig"  >
-              OpenAPI Spec to Kong Entities
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/systemd"  >
-              Control Kong through systemd
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/1.3-x/admin-api">
-          <h5>Admin API</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api"  >
-              Overview
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#supported-content-types"  >
-              Supported Content Types
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#information-routes"  >
-              Information Routes
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#tags"  >
-              Tags
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#service-object"  >
-              Service Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#route-object"  >
-              Route Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#consumer-object"  >
-              Consumer Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#plugin-object"  >
-              Plugin Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#certificate-object"  >
-              Certificate Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#sni-object"  >
-              SNI Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#upstream-object"  >
-              Upstream Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/#target-object"  >
-              Target Object
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/workspaces/reference"  >
-              Workspace Object routes
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/rbac/reference"  >
-              RBAC Object routes
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/workspaces/reference"  >
-              Workspaces
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/rbac/reference"  >
-              RBAC
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/admins/reference"  >
-              Admins
-            </a>
-            
-            <ul>
+          <tr class="kong-editions">
+            <th colspan="2">
               
+                Bundled with...
               
-              <li>
-                <a href="/enterprise/1.3-x/admin-api/admins/reference" >API Reference</a>
+            </th>
+          </tr>
+          <tr class="kong-compatibility">
+            <td colspan="2">
+              <ul class="compat-list">
+              
                 
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/admin-api/admins/examples" >Examples</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/vitals"  >
-              Vitals
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/admin-api/vitals" >Vitals Overview</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/admin-api/vitals/vitals-influx-strategy" >Kong Vitals with InfluxDB</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/admin-api/vitals/vitals-prometheus-strategy" >Kong Vitals with Prometheus</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/admin-api/audit-log"  >
-              Audit Logging
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/1.3-x/kong-manager/overview">
-          <h5>Kong Manager</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/overview"  >
-              Overview
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/service-directory-mapping"  >
-              Service Directory Mapping
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/networking/configuration"  >
-              Networking
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/networking/configuration" >Default and Custom Configuration</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/networking/email" >Configuring to Send Email</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/security"  >
-              Securing Kong Manager
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/authentication/super-admin"  >
-              Authentication
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/authentication/super-admin" >How to Create a Super Admin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/authentication/basic" >Basic Auth</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/authentication/ldap" >LDAP</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/authentication/oidc" >OIDC</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/authentication/sessions" >Sessions</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/reset-password"  >
-              How to Reset Passwords and RBAC Tokens
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces"  >
-              Administration
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x" ></a>
-                
-                <ul>
                   
+                  <h6>Kong Enterprise</h6>
                   
                   <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces in Kong Manager</a>
+                  
+                    <i class="fa fa-check"></i>
+                  1.3-x
                   </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/create-workspace" >How to Create a Workspace</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/update-workspace" >How to Update a Workspace</a>
-                  </li>
-                  
-                </ul>
                 
-              </li>
               
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC</a>
                 
-              </li>
               
-              
-              <li>
-                <a href="/enterprise/1.3-x" ></a>
                 
-                <ul>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC in Kong Manager</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/new-role" >How to Create a New Role</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/add-user" >How to Create an RBAC User</a>
-                  </li>
-                  
-                </ul>
+              
                 
-              </li>
               
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/admins/invite" >Admins</a>
                 
-              </li>
               
-              
-              <li>
-                <a href="/enterprise/1.3-x" ></a>
                 
-                <ul>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/admins/invite" >How to Invite an Admin</a>
-                  </li>
-                  
-                </ul>
-                
-              </li>
               
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-manager/vitals"  >
-              Vitals
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
+                
+              
+              </ul><ul class="compat-list">
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+              </ul>
+            </td>
+          </tr>
         
-        <a href="/enterprise/1.3-x/developer-portal">
-          <h5>Kong Dev Portal</h5>
-        </a>
         
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/"  >
-              Introduction
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/overview"  >
-              Overview
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/legacy-migration"  >
-              Migrating from Legacy
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/structure-and-file-types"  >
-              Structure and File Types
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/working-with-templates"  >
-              Working with Templates
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/using-the-editor"  >
-              Using the Editor
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/networking"  >
-              Networking
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/configuration"  >
-              Configuration
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/configuration/authentication" >Authentication</a>
-                
-                <ul>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/developer-portal/configuration/authentication/basic-auth" >Basic Auth</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/developer-portal/configuration/authentication/key-auth" >Key Auth</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/developer-portal/configuration/authentication/oidc" >OIDC</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/developer-portal/configuration/authentication/sessions" >Sessions</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/developer-portal/configuration/authentication/adding-registration-fields" >Adding Custom Registration Fields</a>
-                  </li>
-                  
-                </ul>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/configuration/smtp" >SMTP</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/configuration/workspaces" >Workspaces</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/administration/"  >
-              Administration
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/administration/managing-developers" >Managing Developers</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/administration/developer-permissions" >Developer Roles and Content Permissions</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/theme-customization/easy-theme-editing"  >
-              Customization
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/theme-customization/easy-theme-editing" >Easy Theme Editing</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/theme-customization/adding-javascript-assets" >Adding and Using Javascript Assets</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/theme-customization/single-page-app" >Single Page App in Dev Portal</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/developer-portal/helpers/cli"  >
-              Helpers
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/developer-portal/helpers/cli" >CLI</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/1.3-x/kong-for-kubernetes/">
-          <h5>Kong for Kubernetes Enterprise</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-for-kubernetes"  >
-              Overview
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-for-kubernetes/install"  >
-              Installation
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-for-kubernetes/using-kong-for-kubernetes"  >
-              Using Kong for Kubernetes
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/kong-for-kubernetes/changelog"  >
-              Changelog
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/1.3-x/brain-immunity/install-configure">
-          <h5>Kong Brain & Kong Immunity</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/brain-immunity/install-configure"  >
-              Installation and Configuration
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/brain-immunity/service-map"  >
-              Service Map
-            </a>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
-      <nav>
-        
-        <a href="/enterprise/1.3-xhttps://konghq.com/hub">
-          <h5>Plugins</h5>
-        </a>
-        
-        <ul>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x"  >
-              OpenID Connect
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/openid-connect" >OpenID Connect Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/oidc-azuread" >OpenID Connect with Azure AD</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/oidc-google" >OpenID Connect with Google</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/oidc-okta" >OpenID Connect with Okta</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/oidc-auth0" >OpenID Connect with Auth0</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/oidc-cognito" >OpenID Connect with Cognito</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x"  >
-              GraphQL
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/graphql-quickstart" >GraphQL Quickstart</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/degraphql" >DegraphQL</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/graphql-proxy-cache-advanced" >GraphQL Proxy Cache Advanced</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/graphql-rate-limiting-advanced" >GraphQL Rate Limiting Advanced</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x"  >
-              Kafka
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/kafka-log" >Kafka Log Plugin</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/kafka-upstream" >Kafka Upstream Plugin</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/proxy-cache-advanced"  >
-              Proxy Cache Advanced Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/canary-release"  >
-              Canary Release Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/rate-limiting-advanced"  >
-              Rate Limiting Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/request-transformer"  >
-              Request Transformer Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/response-transformer-advanced"  >
-              Response Transformer Advanced Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/oauth2-introspection"  >
-              OAuth2 Introspection Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/http-proxy-caching"  >
-              HTTP Proxy Caching
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/forward-proxy"  >
-              Forward Proxy
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/statsd-advanced"  >
-              StatsD Advanced Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/ldap-authentication-advanced"  >
-              LDAP Auth Advanced Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/session"  >
-              Session Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/route-by-header"  >
-              Route By Header Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/route-transformer-advanced"  >
-              Route Transformer Advanced
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/jwt-signer"  >
-              JWT Signer Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/upstream-tls"  >
-              Upstream TLS Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/vault-auth"  >
-              Vault Auth Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/request-validator"  >
-              Request Validator Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x/plugins/exit-transformer"  >
-              Exit Transformer Plugin
-            </a>
-            
-          </li>
-          
-          
-          <li>
-            <a href="/enterprise/1.3-x"  >
-              Implementation
-            </a>
-            
-            <ul>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/plugins/allowing-multiple-authentication-methods" >Multiple Authentication Methods</a>
-                
-              </li>
-              
-            </ul>
-            
-          </li>
-          
-        </ul>
-      </nav>
-      
+      </table>
+
     </aside>
 
-    <div class="page-content-container" id="documentation">
+    <div class="page-content-container">
       <div class="page-content">
         <div class="content show-anchor-links">
           
-          
+      
+
+      
+        <div class="alert alert-warning">
+          <strong>Kong Enterprise only</strong>: This plugin is only available with a <a href="https://konghq.com/kong-enterprise-edition">Kong Enterprise subscription</a>.
+        </div>
+
+        Please inquire about Kong Enterprise by <a href="https://konghq.com/request-demo">contacting us</a> - or start a <a href="https://konghq.com/free-trial/">free trial</a> today.
+        <hr>
+      
+
+      <p>This plugin transforms requests into <a href="https://kafka.apache.org/">Kafka</a> messages in a topic.</p>
+
+
+      
+        <hr>
+        <h2 id="terminology">Terminology</h2>
+        <ul>
+          <li><code>plugin</code>: a plugin executing actions inside Kong before or after a request has been proxied to the upstream API.</li>
 
           
           
+          
+            <li><code>upstream service</code>: this refers to your own API/service sitting behind Kong, to which client requests are forwarded.</li>
+          
+        </ul>
+      
 
-          <h3 id="introduction-to-rbac-in-kong-manager">Introduction to RBAC in Kong Manager</h3>
+      
 
-<p>In addition to authenticating <strong>Admins</strong> and segmenting <strong>Workspaces</strong>, 
-Kong Enterprise has the ability to enforce Role-Based Access Control 
-(RBAC) for all resources with the use of <strong>Roles</strong> assigned to <strong>Admins</strong>.</p>
+      
+        <h2 id="configuration">Configuration</h2>
+        
 
-<p>As the <strong>Super Admin</strong> (or any <strong>Role</strong> with <strong>read</strong> and <strong>write</strong> 
-access to the <code class="highlighter-rouge">/admins</code> and <code class="highlighter-rouge">/rbac</code> endpoints), it is possible to 
-create new <strong>Roles</strong> and customize <strong>Permissions</strong>.</p>
+        
 
-<p>In Kong Manager, RBAC affects how <strong>Admins</strong> are able to navigate 
-through the application.</p>
+        
 
-<h3 id="default-roles">Default Roles</h3>
+        
+        
+        
+        
 
-<p>Kong includes Role-Based Access Control (RBAC). Every <strong>Admin</strong> using Kong Manager 
-will need an assigned <strong>Role</strong> based on the resources they have <strong>Permission</strong> to access.</p>
+        <h3 id="global-plugins">Global plugins</h3>
 
-<p>When a <strong>Super Admin</strong> starts Kong for the first time, the <code class="highlighter-rouge">default</code> <strong>Workspace</strong> will 
-include three default <strong>Roles</strong>: <code class="highlighter-rouge">read-only</code>, <code class="highlighter-rouge">admin</code>, and <code class="highlighter-rouge">super-admin</code>. The three 
-<strong>Roles</strong> have <strong>Permissions</strong> related to every <strong>Workspace</strong> in the cluster.</p>
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
 
-<p>Similarly, if a <strong>Role</strong> is confined to certain <strong>Workspaces</strong>, the <strong>Admin</strong> assigned to it 
-will not be able to see either the overview or links to other <strong>Workspaces</strong>.</p>
+        <p>A plugin which is not associated to any Service, Route or Consumer (or API, if you are using an older
+        version of Kong) is considered "global", and will be run on every request.
+        Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
+        <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
+        </p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: Although a default <strong>Admin</strong> has full permissions with every 
-endpoint in Kong, only a <strong>Super Admin</strong> has the ability to assign and modify RBAC 
-<strong>Permissions</strong>. An <strong>Admin</strong> is not able to modify their own <strong>Permissions</strong> or delimit a 
-<strong>Super Admin’s</strong> <strong>Permissions</strong>.</p>
+        <h3 id="parameters">Parameters</h3>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If a <strong>Role</strong> does not have <strong>Permission</strong> to access entire endpoints, 
-the <strong>Admin</strong> assigned to the <strong>Role</strong> will not be able to see the related navigation links.</p>
+        <p>Here's a list of all the parameters which can be used in this plugin's configuration: </p>
 
-<h3 id="rbac-in-workspaces">RBAC in Workspaces</h3>
+        
+<table>
+  <thead>
+    <tr><th>form parameter</th><th>description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>name</code></td><td>The name of the plugin to use, in this case <code>kafka-upstream</code></td></tr>
 
-<p>RBAC <strong>Roles</strong> and <strong>Permissions</strong> will be specific to a <strong>Workspace</strong> if they are assigned 
-from within one. For example, if there are two <strong>Workspaces</strong>, <strong>Payments</strong> and 
-<strong>Deliveries</strong>, an <strong>Admin</strong> created in <strong>Payments</strong> will not have access to any 
-endpoints in <strong>Deliveries</strong>.</p>
+    
+    
+      <tr><td><code>enabled</code><br /><br /><strong>default value: </strong><code>true</code></td><td>Whether this plugin will be applied.</td></tr>
+    
+    
+    
+      <tr>
+        <td><code>config.bootstrap_servers</code>
+          
+          
+          
+        </td>
+        <td><p>List of bootstrap brokers in a <code class="highlighter-rouge">{host: host, port: port}</code> format.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.topic</code>
+          
+          
+          
+        </td>
+        <td><p>The Kafka topic to publish to</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.timeout</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">10000</code></p>
 
-<p>When a <strong>Super Admin</strong> creates a new <strong>Workspace</strong>, there are three default <strong>Roles</strong> that 
-mirror the cluster-level <strong>Roles</strong>, and a fourth unique to each <strong>Workspace</strong>: 
-<code class="highlighter-rouge">workspace-read-only</code>, <code class="highlighter-rouge">workspace-admin</code>, <code class="highlighter-rouge">workspace-super-admin</code>, and 
-<code class="highlighter-rouge">workspace-portal-admin</code>.</p>
+        </td>
+        <td><p>Socket timeout in milliseconds.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.keepalive</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60000</code></p>
 
-<p>These roles can be viewed in the <strong>Teams</strong> tab under <strong>Roles</strong></p>
+        </td>
+        <td><p>Keepalive timeout in milliseconds.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.forward_method</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
 
-<p><img src="https://doc-assets.konghq.com/1.3/manager/teams/kong-manager-default-roles.png" alt="Default Roles in New Workspaces" /></p>
+        </td>
+        <td><p>Include the request method in the message.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.forward_uri</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
 
-<p>⚠️ <strong>IMPORTANT</strong>: Any Role assigned in the <strong>Default Workspace</strong> will have 
-<strong>Permissions</strong> applied to all subsequently created <strong>Workspaces</strong>. A <strong>Super Admin</strong> in 
-in <code class="highlighter-rouge">default</code> has RBAC <strong>Permissions</strong> across all <strong>Workspaces</strong>.</p>
+        </td>
+        <td><p>Include the request URI and URI arguments (i.e., query arguments) in the message.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.forward_headers</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
 
-<div class="docs-grid">
-  <div class="docs-grid-block">
-    <h3>
-        <img src="/assets/images/icons/documentation/icn-window.svg" />
-        <a href="/enterprise/1.3-x/kong-manager/administration/rbac/new-role">Create a New Role</a>
-    </h3>
-    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/new-role">
-        Learn how to create new roles with custom permissions &rarr;
-    </a>
-  </div>
+        </td>
+        <td><p>Include the request headers in the message</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.forward_body</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
 
-  <div class="docs-grid-block">
-    <h3>
-        <img src="/assets/images/icons/documentation/icn-window.svg" />
-        <a href="/enterprise/1.3-x/kong-manager/administration/rbac/add-user">Create RBAC Users</a>
-    </h3>
-    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/add-user">
-        Learn how to create new RBAC users &rarr;
-    </a>
-  </div>
+        </td>
+        <td><p>Include the request headers in the message</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_acks</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">1</code></p>
 
-</div>
+        </td>
+        <td><p>The number of acknowledgments the producer requires the leader to have received before considering a request complete. Allowed values are 0 for no acknowledgments, 1 for only the leader, and -1 for the full ISR</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_timeout</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">2000</code></p>
+
+        </td>
+        <td><p>Time to wait for a Produce response in milliseconds</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_limits_messages_per_request</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">200</code></p>
+
+        </td>
+        <td><p>Maximum number of messages to include into a single Produce request</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_limits_bytes_per_request</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">1048576</code></p>
+
+        </td>
+        <td><p>Maximum size of a Produce request in bytes</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_retries_max_attempts</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">10</code></p>
+
+        </td>
+        <td><p>Maximum number of retry attempts per single Produce request</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_request_retries_backoff_timeout</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">100</code></p>
+
+        </td>
+        <td><p>Backoff interval between retry attempts in milliseconds.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_async</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
+        </td>
+        <td><p>Flag to enable asynchronous mode.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_async_flush_timeout</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">1000</code></p>
+
+        </td>
+        <td><p>Maximum time interval in milliseconds between buffer flushes in asynchronous mode.</p>
+</td>
+      </tr>
+    
+      <tr>
+        <td><code>config.producer_async_buffering_limits_messages_in_memory</code>
+          <br /><em>optional</em>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">50000</code></p>
+
+        </td>
+        <td><p>Maximum number of messages that can be buffered in memory in asynchronous mode.</p>
+</td>
+      </tr>
+    
+  </tbody>
+</table>
 
 
+      
+
+      
+
+
+      <h2 id="installation">Installation</h2>
+
+<p>Manually download and install:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/kong/kong-plugin-kafka-upstream.git /path/to/kong/plugins/kong-plugin-kafka-upstream
+$ cd /path/to/kong/plugins/kong-plugin-kafka-upstream
+$ luarocks make *.rockspec
+</code></pre></div></div>
+
+<p>In both cases, you need to change your Kong <a href="https://docs.konghq.com/1.3.x/configuration/#plugins"><code class="highlighter-rouge">plugins</code> configuration option</a>
+to include this plugin:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = bundled,kafka-upstream
+</code></pre></div></div>
+
+<p>Or, if you don’t want to activate any of the bundled plugins:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>plugins = kafka-upstream
+</code></pre></div></div>
+
+<p>Then reload kong:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kong reload
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="enabling-on-a-serviceless-route">Enabling on a serviceless route</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/my-route/plugins <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=kafka-upstream"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.bootstrap_servers[1].host=localhost"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.bootstrap_servers[1].port=9092"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.topic=kong-upstream"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.timeout=10000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.keepalive=60000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.forward_method=false"</span>,
+    <span class="nt">--data</span> <span class="s2">"config.forward_uri=false"</span>,
+    <span class="nt">--data</span> <span class="s2">"config.forward_headers=false"</span>,
+    <span class="nt">--data</span> <span class="s2">"config.forward_body=true"</span>,
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_acks=1"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_timeout=2000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_limits_messages_per_request=200"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_limits_bytes_per_request=1048576"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_retries_max_attempts=10"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_request_retries_backoff_timeout=100"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_async=true"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_async_flush_timeout=1000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.producer_async_buffering_limits_messages_in_memory=50000"</span>
+</code></pre></div></div>
+
+<h2 id="implementation-details">Implementation details</h2>
+
+<p>This plugin makes use of <a href="https://github.com/doujiang24/lua-resty-kafka">lua-resty-kafka</a> client under the hood.</p>
+
+<p>When encoding request bodies, several things happen:</p>
+
+<ul>
+  <li>For requests with content-type header of <code class="highlighter-rouge">application/x-www-form-urlencoded</code>, <code class="highlighter-rouge">multipart/form-data</code>
+or <code class="highlighter-rouge">application/json</code>, this plugin will pass the request body “raw” on the <code class="highlighter-rouge">body</code> attribute, but also try
+to return a parse version of those arguments in <code class="highlighter-rouge">body_args</code>. If this parsing fails, an error message will be
+returned and the message will not be sent.</li>
+  <li>If the <code class="highlighter-rouge">content-type</code> is not <code class="highlighter-rouge">text/plain</code>, <code class="highlighter-rouge">text/html</code>, <code class="highlighter-rouge">application/xml</code>, <code class="highlighter-rouge">text/xml</code> or <code class="highlighter-rouge">application/soap+xml</code>,
+then the body will be base64-encoded to ensure that the message can be sent as JSON. In such a case,
+the message will have an extra attribute called <code class="highlighter-rouge">body_base64</code> set to <code class="highlighter-rouge">true</code>.</li>
+</ul>
+
+<h2 id="known-issues-and-limitations">Known issues and limitations</h2>
+
+<p>Known limitations:</p>
+
+<ol>
+  <li>There is no support for TLS</li>
+  <li>There is no support for Authentication</li>
+  <li>There is no support for message compression</li>
+  <li>The message format is not customizable</li>
+</ol>
+
+<h2 id="quickstart">Quickstart</h2>
+
+<p>The following guidelines assume that both <code class="highlighter-rouge">Kong</code> and <code class="highlighter-rouge">Kafka</code> have been installed on your local machine:</p>
+
+<ol>
+  <li>
+    <p>Install <code class="highlighter-rouge">kong-plugin-kafka-upstream</code> as mentioned on the “Installation” section of this readme.</p>
+  </li>
+  <li>
+    <p>Create <code class="highlighter-rouge">kong-upstream</code> topic in your <code class="highlighter-rouge">Kafka</code> cluster:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ${KAFKA_HOME}/bin/kafka-topics.sh --create \
+     --zookeeper localhost:2181 \
+     --replication-factor 1 \
+     --partitions 10 \
+     --topic kong-upstream
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a Service-less Route, and add the <code class="highlighter-rouge">kong-plugin-kafka-upstream</code> plugin to it:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X POST http://localhost:8001/routes \
+     --data "name=kafka-upstream" \
+     --data "hosts[]=kafka-upstream.dev"
+</code></pre></div>    </div>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X POST http://localhost:8001/routes/kafka-upstream/plugins \
+     --data "name=kafka-upstream" \
+     --data "config.bootstrap_servers[1].host=localhost" \
+     --data "config.bootstrap_servers[1].port=9092" \
+     --data "config.topic=kong-upstream"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>(On a different console) start a Kafka consumer:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ${KAFKA_HOME}/bin/kafka-console-consumer.sh \
+     --bootstrap-server localhost:9092 \
+     --topic kong-upstream \
+     --partition 0 \
+     --from-beginning \
+     --timeout-ms 1000
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Make sample requests:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> curl -X POST http://localhost:8000 --header 'Host: kafka-upstream.dev' foo=bar
+</code></pre></div>    </div>
+
+    <p>You should receive a <code class="highlighter-rouge">200 { message: "message sent" }</code> response, and should see the request bodies appear on
+ the Kafka consumer console you started on the previous step.</p>
+  </li>
+</ol>
+
+
+      
+
+      
+    
         </div>
       </div>
     </div>
   </div>
 </div>
-<style>
-  @media (max-width: 768px) {
-    .algolia-docsearch-suggestion--subcategory-column{
-      display: none !important;
-    }
-  }
-</style>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-
-
-
-
-<script type="text/javascript">
-  docsearch({
-    appId: 'T5JKD83LWT',
-    apiKey: '1390283021f26e36117242934deb8d9d',
-    indexName: 'prod_EE',
-    inputSelector: '#getkong-algolia-search-input',
-    algoliaOptions: {
-      hitsPerPage: 5,
-      'facetFilters': ["version: 1.3-x"]
-    },
-    // Override selected event to allow for local environment navigation
-    handleSelected: function (input, event, suggestion) {
-      input.setVal('');
-      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split(
-        "docs.konghq.com")[1]
-    }
-    // ,debug: true // Set debug to true if you want to inspect the dropdown
-  });
-
+<!-- <script>
+/* eslint-disable */
+  window.intercomSettings = {
+    app_id: "gwoi3d8y"
+  };
 </script>
 
-
-
-<script type="text/javascript">
-  docsearch({
-    appId: 'T5JKD83LWT',
-    apiKey: '1390283021f26e36117242934deb8d9d',
-    indexName: 'prod_Studio',
-    inputSelector: '#getkong-algolia-search-input',
-    algoliaOptions: {
-      hitsPerPage: 5,
-      'facetFilters': ["version: 1.3-x"]
-    },
-    // Override selected event to allow for local environment navigation
-    handleSelected: function (input, event, suggestion) {
-      input.setVal('');
-      window.location.href = window.location.protocol + "//" + window.location.host + suggestion.url.split(
-        "docs.konghq.com")[1]
-    }
-    // ,debug: true // Set debug to true if you want to inspect the dropdown
-  });
-
+<script>
+/* eslint-disable */
+(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/gwoi3d8y';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
 </script>
-
+ -->
 
 
     
@@ -2055,7 +1148,7 @@ in <code class="highlighter-rouge">default</code> has RBAC <strong>Permissions</
 </script>
 
 
-    <script src="/assets/app.js?v=1575662441"></script>
+    <script src="/assets/app.js?v=1576116669"></script>
 
     <div id="fb-root"></div>
 
