@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1576276687"
+    href="/assets/styles.css?v=1576277532"
   />
   
 </head>
@@ -1744,7 +1744,8 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#immunity-generated-alerts" class="scroll-to">Immunity Generated Alerts</a></li>
   <li><a href="#alert-slack-integration" class="scroll-to">Alert Slack Integration</a></li>
   <li><a href="#deleting-a-rule" class="scroll-to">Deleting a Rule</a></li>
-  <li><a href="#clean-up-the-data" class="scroll-to">Clean-Up-the-Data</a></li>
+  <li><a href="#charts-in-slack-notifications" class="scroll-to">Charts in Slack notifications</a></li>
+  <li><a href="#clean-up-the-data" class="scroll-to">Clean Up the Data</a></li>
   <li><a href="#troubleshooting-common-setup-pitfalls" class="scroll-to">Troubleshooting-Common-Setup-Pitfalls</a></li>
   <li><a href="#still-having-problems" class="scroll-to">Still having problems?</a></li>
   <li><a href="#send-us-feature-requests" class="scroll-to">Send us feature requests</a></li>
@@ -1828,7 +1829,7 @@ window['_fs_namespace'] = 'FS';
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http --form POST http://&lt;KONG_HOST&gt;:8001/&lt;workspace&gt;/plugins name=collector config.service_token=foo config.host=&lt;COLLECTOR_HOST&gt; config.port=&lt;COLLECTOR_PORT&gt; config.https=false config.log_bodies=true
 </code></pre></div></div>
 
-<p>(Optional) It is possible to set up the Collector Plugin to only be applied to specific routes or services, by adding route.id=<ROUTE_ID> or service.id=<SERVICE_ID> to the request.</SERVICE_ID></ROUTE_ID></p>
+<p>(Optional) It is possible to set up the Collector Plugin to only be applied to specific routes or services, by adding <code class="highlighter-rouge">route.id=&lt;ROUTE_ID&gt;</code> or <code class="highlighter-rouge">service.id=&lt;SERVICE_ID&gt;</code> to the request.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ http --form POST http://&lt;KONG_HOST&gt;:8001/&lt;workspace&gt;/plugins name=collector config.service_token=foo config.host=&lt;COLLECTOR_HOST&gt; config.port=&lt;COLLECTOR_PORT&gt; config.https=false config.log_bodies=true route.id=&lt;ROUTE_ID&gt;
 </code></pre></div></div>
@@ -1884,7 +1885,7 @@ window['_fs_namespace'] = 'FS';
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://&lt;BINTRAY_USERNAME&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/&lt;kong-brain-immunity-base&gt;/docker-compose.zip
 </code></pre></div></div>
 <ul>
-  <li>If successful, you should see docker-compose.zip in your current directory.</li>
+  <li>If successful, you should see <code class="highlighter-rouge">docker-compose.zip</code> in your current directory.</li>
 </ul>
 
 <ol>
@@ -1906,7 +1907,7 @@ window['_fs_namespace'] = 'FS';
       <li><code class="highlighter-rouge">KONG_PORT</code>: Usually 8001, but may be set otherwise</li>
     </ul>
   </li>
-  <li>You are adding A postgres database</li>
+  <li>You are adding a Postgres database</li>
 </ul>
 
 <h4 id="step-4-advanced-configuration-opt-out-of-har-redaction">Step 4. (Advanced Configuration) Opt-Out of Har Redaction</h4>
@@ -1940,46 +1941,47 @@ window['_fs_namespace'] = 'FS';
 
 <p>To create Brain’s Swagger files, the Collector endpoint /swagger returns a swagger file, generated considering traffic that match the submitted filter parameters: <code class="highlighter-rouge">host</code>, <code class="highlighter-rouge">route_id</code>, <code class="highlighter-rouge">service_id</code> and <code class="highlighter-rouge">workspace_name</code>. Also, it fills the fields <code class="highlighter-rouge">title</code>, <code class="highlighter-rouge">version</code> and <code class="highlighter-rouge">description</code> within the swagger file with the respective submitted parameters.</p>
 
-<h4 id="httpswaggerhostopenapi_version23route_idservice_idworkspace_nametitle">**http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/swagger?host=<request_host>&amp;openapi_version=&lt;2|3&gt;&amp;route_id=<route_id>&amp;service_id=<service_id>&amp;workspace_name=<workspace_name>?title=**</workspace_name></service_id></route_id></request_host></COLLECTOR_PORT></COLLECTOR_HOST></h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/swagger?host=&lt;request_host&gt;&amp;openapi_version=&lt;2|3&gt;&amp;route_id=&lt;route_id&gt;&amp;service_id=&lt;service_id&gt;&amp;workspace_name=&lt;workspace_name&gt;?title=
+</code></pre></div></div>
 
 <h3 id="using-kong-immunity">Using Kong Immunity</h3>
 
 <h4 id="immunity-model-training">Immunity Model Training</h4>
 
-<p>Immunity automatically starts training its models once it is up and running and receiving data. Immunity will create a unique model for every unique endpoint + method combination it sees in incoming traffic. For example, if you have an endpoint “<a href="http://www.test-website.com/buy"><em>www.test-website.com/buy</em></a>” and traffic comes in with both GET and POST requests for that endpoint, Immunity will create two models one for the endpoint + GET traffic and one for the endpoint + POST traffic.</p>
+<p>Immunity automatically starts training its models once it is up and running and receiving data. Immunity will create a unique model for every unique endpoint + method combination it sees in incoming traffic. For example, if you have an endpoint <a href="http://www.test-website.com/buy">www.test-website.com/buy</a> and traffic comes in with both GET and POST requests for that endpoint, Immunity will create two models one for the endpoint + GET traffic and one for the endpoint + POST traffic.</p>
 
 <p>Our first model version gets created after the first hour and will continuously retrain itself for the first week to provide the best model possible. After that, every week all models retrain with a week of data.</p>
 
-<p>We also provide clients an endpoint to retrigger training themselves. We recommend retraining when the context of your app is expected to change a lot. For example, maybe there is an upcoming app release that will change several endpoints. If this is the case, one can POST to http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/resettrainer to start the training cycle all over again.</COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>We also provide clients an endpoint to retrigger training themselves. We recommend retraining when the context of your app is expected to change a lot. For example, maybe there is an upcoming app release that will change several endpoints. If this is the case, one can POST to <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/resettrainer</code> to start the training cycle all over again.</p>
 
-<p>Let’s say you’d like slightly more control over the data your model sees, for example perhaps you know that weekend data is not particularly useful for model building because weekends are normally outliers that your team is prepared for. You can trigger model training for all models with a specified time period of data. Simply POST to **http://<BRAIN_HOST>:<COLLECTOR_PORT>/trainer**, with the start and end time of data you’d like included in training like this:</COLLECTOR_PORT></BRAIN_HOST></p>
+<p>Let’s say you’d like slightly more control over the data your model sees, for example perhaps you know that weekend data is not particularly useful for model building because weekends are normally outliers that your team is prepared for. You can trigger model training for all models with a specified time period of data. Simply POST to <code class="highlighter-rouge">http://&lt;BRAIN_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer</code>, with the start and end time of data you’d like included in training like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00"}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;BRAIN_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00"}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;BRAIN_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer
 </code></pre></div></div>
 <p>or, in the browser like this:</p>
 
-<h4 id="httptrainerstartend">**http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/trainer?start=&amp;end=**</COLLECTOR_PORT></COLLECTOR_HOST></h4>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer?start=&amp;end=
+</code></pre></div></div>
 <p>** datetime value format: YYYY-MM-DD HH:mm:ss</p>
 
 <p>Additionally, you can specify the kong service_id or route_id of the urls you would like trained using the kong_entity parameter. Immunity would then only train urls associated with the ID provided, and with the data specified by the start and end dates.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00", "kong_entity":"2beff163-061d-43ad-8d87-8f40d10805ba"}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00", "kong_entity":"2beff163-061d-43ad-8d87-8f40d10805ba"}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer
 </code></pre></div></div>
 
 <h4 id="checking-models-trained">Checking Models Trained</h4>
 
-<p>Only endpoints + method combinations that have a model trained can be monitored for alerts. If you want to check which endpoints have models, you can use **http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/monitoredendpoints** which will give back a list of all models in the system. Each item in this list contains the following identifying information for the model:</COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>Only endpoints + method combinations that have a model trained can be monitored for alerts. If you want to check which endpoints have models, you can use <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/monitoredendpoints</code> which will give back a list of all models in the system. Each item in this list contains the following identifying information for the model:</p>
 
 <ul>
-  <li><strong>base_url</strong>: The url of the traffic used to train the model.</li>
-  <li><strong>method</strong>: The method of the traffic used to train the model.</li>
-  <li><strong>route_id</strong>: The Kong route_id that the traffic used to train the model is associated with. <strong>service_id</strong>: The Kong service_id that the traffic used to train the model is associated with. <strong>model_version_id</strong>: The model version number of the current, active model.</li>
-  <li><strong>active_models</strong>: A json object containing information on the active status of each of the 6 core alert types in Immunity (unknown_parameters, abnormal_value, latency, traffic, status codes, and value_type).</li>
+  <li><code class="highlighter-rouge">base_url</code>: The url of the traffic used to train the model.</li>
+  <li><code class="highlighter-rouge">method</code>: The method of the traffic used to train the model.</li>
+  <li><code class="highlighter-rouge">route_id</code>: The Kong route_id that the traffic used to train the model is associated with. <strong>service_id</strong>: The Kong service_id that the traffic used to train the model is associated with. <strong>model_version_id</strong>: The model version number of the current, active model.</li>
+  <li><code class="highlighter-rouge">active_models</code>: A json object containing information on the active status of each of the 6 core alert types in Immunity (unknown_parameters, abnormal_value, latency, traffic, status codes, and value_type).</li>
 </ul>
 
 <p>In this object, the value is a specific alert type and the value is a boolean value where True indicates that the model is actively monitoring for that alert type.</p>
@@ -1992,7 +1994,7 @@ window['_fs_namespace'] = 'FS';
 
 <p>Immunity automatically sets up training jobs when it first starts up, and retrains all models on an optimized schedule based on time since data started flowing through Immunity. If you have experienced large changes in the type of data you expect to be coming through Immunity and do not feel comfortable choosing an “optimal” time period to use for retraining with the /trainer endpoint, you can re-trigger Immunity’s auto-training by posting to the /trainer/reset endpoint. Immunity will then recreate its retraining schedule as if it was just being started and newly ingesting data.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/reset`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/reset
 </code></pre></div></div>
 
 <h4 id="configuring-auto-training-rules">Configuring Auto-Training Rules</h4>
@@ -2000,16 +2002,16 @@ window['_fs_namespace'] = 'FS';
 <p>For best use, Immunity retrains on a regular basis. If you do not feel like you need to retrain your models regularly and are happy with the current model you have now, you can stop auto retraining via post request to the /trainer/config endpoint. This endpoint takes these parameters:</p>
 
 <ul>
-  <li><strong>kong_entity</strong>: The route_id or service_id that you would like to turn on or off auto-training.</li>
-  <li><strong>method</strong>: One of values: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE. Specifying a method will restrict the rule being made on auto-training to only traffic matching the method specified. When this value is null, all traffic from all methods will be included in the rule.</li>
-  <li><strong>enable</strong>: True or False, where true means auto-training is on and false means auto-training is off for the kong_entity specified.</li>
+  <li><code class="highlighter-rouge">kong_entity</code>: The route_id or service_id that you would like to turn on or off auto-training.</li>
+  <li><code class="highlighter-rouge">method</code>: One of values: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE. Specifying a method will restrict the rule being made on auto-training to only traffic matching the method specified. When this value is null, all traffic from all methods will be included in the rule.</li>
+  <li><code class="highlighter-rouge">enable</code>: True or False, where true means auto-training is on and false means auto-training is off for the <code class="highlighter-rouge">kong_entity</code> specified.</li>
 </ul>
 
 <p>You can turn off auto-training for a particular route or service via curl request like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"kong_entity":"your-route-id", "enable":false}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"kong_entity":"your-route-id", "enable":false}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config
 </code></pre></div></div>
 
 <p>Similarly, if you turned off auto-training for a route and feel like turning it back on, you can post to /trainer/config with enable = true.</p>
@@ -2020,25 +2022,25 @@ window['_fs_namespace'] = 'FS';
 
 <p>To see all of your configured training rules, just create a get request to /trainer/config like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config
 </code></pre></div></div>
 
-<p>A list of all your rules will be returned, where kong_entity refers to the service_id or route_id the rule applies to, and enabled is a true or false value.</p>
+<p>A list of all your rules will be returned, where <code class="highlighter-rouge">kong_entity</code> refers to the <code class="highlighter-rouge">service_id</code> or <code class="highlighter-rouge">route_id</code> the rule applies to, and enabled is a true or false value.</p>
 
 <h4 id="resetting-or-deleting-configured-rules">Resetting or Deleting Configured Rules</h4>
 
-<p>To delete a single auto-train rule that you created, you can send a delete request to /trainer/config with a kong_entity parameter and value of the service_id or route_id of the rule you would like to delete.</p>
+<p>To delete a single auto-train rule that you created, you can send a delete request to /trainer/config with a <code class="highlighter-rouge">kong_entity</code> parameter and value of the <code class="highlighter-rouge">service_id</code> or <code class="highlighter-rouge">route_id</code> of the rule you would like to delete.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"kong_entity":"your-route-id"}' \`
-` -H "Content-Type: application/json" \`
-` -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"kong_entity":"your-route-id"}' \
+ -H "Content-Type: application/json" \
+ -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config
 </code></pre></div></div>
 
 <p>Without a rule established, Immunity will default to auto-training. In other words, once you delete a configured rule, Immunity will continue or start auto-training on the route or service of the deleted rule.</p>
 
 <p>If you would like to delete all the configurations you create, you can do so by sending an empty DELETE request to /trainer/config like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -X http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer/config
 </code></pre></div></div>
 
 <h3 id="immunity-generated-alerts">Immunity Generated Alerts</h3>
@@ -2047,21 +2049,23 @@ window['_fs_namespace'] = 'FS';
 
 <h4 id="types-of-generated-alerts">Types of Generated Alerts</h4>
 
-<p>Immunity is monitoring different types of data points in all traffic coming through Kong. Alerts generated will be based on these data points. Here are the alert types of violations Immunity is looking for:
-<strong>value_type</strong>: These alerts are triggered when incoming requests have a value to a parameter of a different type (such as Int instead of Str) than seen historically.
-<strong>unknown_parameter</strong>: These alerts are triggered when requests include parameters not seen before.
-<strong>abnormal_value</strong>: These alerts are triggered when requests contain values abnormal to historical values seen paired with its parameter.
-<strong>latency_ms</strong>: These alerts are triggered when incoming requests are significantly slower than historical records.
-<strong>traffic</strong>: These alerts are triggered when Immunity sees a rise on 4XX and 5XX codes for incoming traffic, or when the overall traffic experiences an abnormal spike or dip.
-<strong>statuscode</strong>: When the proportion of 4XX or 5XX codes is increasing, regardless of traffic volume</p>
+<p>Immunity is monitoring different types of data points in all traffic coming through Kong. Alerts generated will be based on these data points. Here are the alert types of violations Immunity is looking for:</p>
+<ul>
+  <li><code class="highlighter-rouge">value_type</code>: These alerts are triggered when incoming requests have a value to a parameter of a different type (such as Int instead of Str) than seen historically.</li>
+  <li><code class="highlighter-rouge">unknown_parameter</code>: These alerts are triggered when requests include parameters not seen before.</li>
+  <li><code class="highlighter-rouge">abnormal_value</code>: These alerts are triggered when requests contain values abnormal to historical values seen paired with its parameter.</li>
+  <li><code class="highlighter-rouge">latency_ms</code>: These alerts are triggered when incoming requests are significantly slower than historical records.</li>
+  <li><code class="highlighter-rouge">traffic</code>: These alerts are triggered when Immunity sees a rise on 4XX and 5XX codes for incoming traffic, or when the overall traffic experiences an abnormal spike or dip.</li>
+  <li><code class="highlighter-rouge">statuscode</code>: When the proportion of 4XX or 5XX codes is increasing, regardless of traffic volume</li>
+</ul>
 
 <h4 id="retrieving-generated-alerts">Retrieving Generated Alerts</h4>
 
 <p>You can monitor the created alerts by running the following commands:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00"}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"start":"2019-01-08 10:00:00", "end":"2019-01-09 23:30:00"}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts
 </code></pre></div></div>
 
 <p>Or, you can access the alerts via browser, passing in the end and start values as parameters like this:</p>
@@ -2069,28 +2073,32 @@ window['_fs_namespace'] = 'FS';
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts?start=2019-01-01 00:00:00&amp;end=2019-01-02 00:00:00
 </code></pre></div></div>
 
-<p>The /alerts endpoint takes these parameters and you can mix and match them to your monitoring needs:
-<strong>start and end</strong>: Returns only alerts generated between the values in start and end parameters passed.
-<strong>alert_type</strong>: Returns only alerts of the alert_type in specified in alert_type parameter. This parameter does not accept lists of alert types. The value passed must be one of [‘query_params’, ‘statuscode’, ‘latency_ms’, ‘traffic’]
-<strong>url</strong>: Returns only the alerts associated with the endpoint specified with url parameter.
-<strong>method</strong>: Returns only alerts with the method specified. Must be one of these values: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, or TRACE. Full capitalization is necessary.
-<strong>workspace_name</strong>: The name of the Kong workspace for the alerts you want returned.
-<strong>route_id</strong>: The Kong Route id for the alerts you want returned
-<strong>service_id</strong>: The Kong Service id for the alerts you want returned
-<strong>system_restored</strong>: A true/false value indicated you only want returned alerts where the system_restored value is matching the boolean value passed into this parameter.
-<strong>severity</strong>: One of “low”, “medium”, “high” which will restrict returned alerts of severities matching the value provided with this parameter.</p>
+<p>The /alerts endpoint takes these parameters and you can mix and match them to your monitoring needs:</p>
+<ul>
+  <li><code class="highlighter-rouge">start and end</code>: Returns only alerts generated between the values in start and end parameters passed.</li>
+  <li><code class="highlighter-rouge">alert_type</code>: Returns only alerts of the alert_type in specified in alert_type parameter. This parameter does not accept lists of alert types. The value passed must be one of [‘query_params’, ‘statuscode’, ‘latency_ms’, ‘traffic’]</li>
+  <li><code class="highlighter-rouge">url</code>: Returns only the alerts associated with the endpoint specified with url parameter.</li>
+  <li><code class="highlighter-rouge">method</code>: Returns only alerts with the method specified. Must be one of these values: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, or TRACE. Full capitalization is necessary.</li>
+  <li><code class="highlighter-rouge">workspace_name</code>: The name of the Kong workspace for the alerts you want returned.</li>
+  <li><code class="highlighter-rouge">route_id</code>: The Kong Route id for the alerts you want returned</li>
+  <li><code class="highlighter-rouge">service_id</code>: The Kong Service id for the alerts you want returned</li>
+  <li><code class="highlighter-rouge">system_restored</code>: A true/false value indicated you only want returned alerts where the system_restored value is matching the boolean value passed into this parameter.</li>
+  <li><code class="highlighter-rouge">severity</code>: One of “low”, “medium”, “high” which will restrict returned alerts of severities matching the value provided with this parameter.</li>
+</ul>
 
 <h4 id="alerts-object">Alerts Object</h4>
 
-<p>Two types of data are returned by the /alerts endpoint. The first is a list of the alerts generated, which are structured like this:
-<strong>id</strong>: The alert_id of the alert.
-<strong>detected_at</strong>: The time in which the generated alert was detected at. This time also correlates with the last time point in the data time series that generated this alert. For example, if the alert was generated on data from 1:00 pm to 1:01 pm, then the detected_at time would correspond with the most recent time point of 1:01 pm in the data used to make that alert.
-<strong>detected_at_unix</strong>: The time from detected_at expressed in unix time.
-<strong>url</strong>: The url who’s data generated this alert.
-<strong>alert_type</strong>: the type of alert generated, will be one of [‘query_params’, ‘statuscode’, ‘latency_ms’, ‘traffic’]
-<strong>summary</strong>: The summary of the alert generated, includes a description of the anomalous event for clarity.
-<strong>system_restored</strong>: This parameter takes True or False as a value, and will return notifications where the anomalous event’s system_restored status matches the value passed in the parameter.
-<strong>severity</strong>: The severity level of this alert, values within [low, medium, high].</p>
+<p>Two types of data are returned by the /alerts endpoint. The first is a list of the alerts generated, which are structured like this:</p>
+<ul>
+  <li><code class="highlighter-rouge">id</code>: The alert_id of the alert.</li>
+  <li><code class="highlighter-rouge">detected_at</code>: The time in which the generated alert was detected at. This time also correlates with the last time point in the data time series that generated this alert. For example, if the alert was generated on data from 1:00 pm to 1:01 pm, then the detected_at time would correspond with the most recent time point of 1:01 pm in the data used to make that alert.</li>
+  <li><code class="highlighter-rouge">detected_at_unix</code>: The time from detected_at expressed in unix time.</li>
+  <li><code class="highlighter-rouge">url</code>: The url who’s data generated this alert.</li>
+  <li><code class="highlighter-rouge">alert_type</code>: the type of alert generated, will be one of [‘query_params’, ‘statuscode’, ‘latency_ms’, ‘traffic’]</li>
+  <li><code class="highlighter-rouge">summary</code>: The summary of the alert generated, includes a description of the anomalous event for clarity.</li>
+  <li><code class="highlighter-rouge">system_restored</code>: This parameter takes True or False as a value, and will return notifications where the anomalous event’s system_restored status matches the value passed in the parameter.</li>
+  <li><code class="highlighter-rouge">severity</code>: The severity level of this alert, values within [low, medium, high].</li>
+</ul>
 
 <h4 id="alerts-metadata">Alerts Metadata</h4>
 
@@ -2100,125 +2108,143 @@ window['_fs_namespace'] = 'FS';
 
 <h4 id="severity-levels">Severity-Levels</h4>
 
-<p>Alerts can be classified on 4-severity levels:
-low: The low severity classification denotes the least important alerts to the user. While the user ultimately decides what a low severity means to them, we recommend that low severity indicates an alert that you’d want to look at eventually, but not right away. It’s an alert you wouldn’t wake up at 2 am to fix but something you’ll find useful down the road maybe with planning or minor bug fixing.
-medium: A medium severity classification denotes a mid-level important alert to the user. We think of this level as not something you’d want to wake up at 2 am to fix, but not so unimportant that you would wait till sprint planning prep to address. This is a level where you’ll likely address it within the sprint or couple of days following it coming up.
-high: A high severity classification is the highest severity level of alert. These are the alerts that you want to be woken up for in the middle of the night, the alert who’s ping means all hands on deck.
-ignored: Alerts that are designated as ignored are not surfaced in the Kong Manager, slack alerts, nor /alerts endpoint. For the later, ignored relates will be returned when explicitly asked for via /alerts parameter “severity”.</p>
+<p>Alerts can be classified on 4-severity levels:</p>
+<ul>
+  <li><code class="highlighter-rouge">low</code>: The low severity classification denotes the least important alerts to the user. While the user ultimately decides what a low severity means to them, we recommend that low severity indicates an alert that you’d want to look at eventually, but not right away. It’s an alert you wouldn’t wake up at 2 am to fix but something you’ll find useful down the road maybe with planning or minor bug fixing.</li>
+  <li><code class="highlighter-rouge">medium</code>: A medium severity classification denotes a mid-level important alert to the user. We think of this level as not something you’d want to wake up at 2 am to fix, but not so unimportant that you would wait till sprint planning prep to address. This is a level where you’ll likely address it within the sprint or couple of days following it coming up.</li>
+  <li><code class="highlighter-rouge">high</code>: A high severity classification is the highest severity level of alert. These are the alerts that you want to be woken up for in the middle of the night, the alert who’s ping means all hands on deck.</li>
+  <li><code class="highlighter-rouge">ignored</code>: Alerts that are designated as ignored are not surfaced in the Kong Manager, slack alerts, nor /alerts endpoint. For the later, ignored relates will be returned when explicitly asked for via /alerts parameter “severity”.</li>
+</ul>
 
 <h4 id="immunity-default-severities">Immunity Default Severities</h4>
 
 <p>Immunity provides default severity levels based on the alert type, and these defaults are:</p>
 
 <ul>
-  <li>value_type: low</li>
-  <li>unknown_parameter: low</li>
-  <li>latency_ms: high</li>
-  <li>traffic: medium</li>
-  <li>statuscode: high</li>
+  <li><code class="highlighter-rouge">value_type</code>: low</li>
+  <li><code class="highlighter-rouge">unknown_parameter</code>: low</li>
+  <li><code class="highlighter-rouge">latency_ms</code>: high</li>
+  <li><code class="highlighter-rouge">traffic</code>: medium</li>
+  <li><code class="highlighter-rouge">statuscode</code>: high</li>
 </ul>
 
 <h4 id="creating-or-updated-new-rules">Creating or Updated New Rules</h4>
 
-<p>Of course, we think you know your system best and you can adjust the severities of your alerts to varying degrees of specificity. Users of Immunity will be able to configure alert severity on alert type, kong route_id or service_id, or any combination of the two.
-For example, if you decide that for your system, unknown_parameter alerts are always system-breaking you can set the severity configuration for unknown_parameter alerts to high. Let’s say after doing so, you find that while usually an unknown_parameter alert is what you consider high-severity, there’s one route where it’s actually more of a medium. You can then specify a medium severity for unknown_parameter alerts generated only on that route and preserve the high-severity setting for the rest of unknown_parameters for the rest of your system.</p>
+<p>Of course, we think you know your system best and you can adjust the severities of your alerts to varying degrees of specificity. Users of Immunity will be able to configure alert severity on alert type, kong <code class="highlighter-rouge">route_id</code> or <code class="highlighter-rouge">service_id</code>, or any combination of the two.</p>
+
+<p>For example, if you decide that for your system, <code class="highlighter-rouge">unknown_parameter</code> alerts are always system-breaking you can set the severity configuration for <code class="highlighter-rouge">unknown_parameter</code> alerts to high. Let’s say after doing so, you find that while usually an unknown_parameter alert is what you consider high-severity, there’s one route where it’s actually more of a medium. You can then specify a medium severity for <code class="highlighter-rouge">unknown_parameter</code> alerts generated only on that route and preserve the high-severity setting for the rest of <code class="highlighter-rouge">unknown_parameters</code> for the rest of your system.</p>
 
 <p>To set a severity configuration on alerts, Immunity provides a /alerts/config endpoint. Posting to /alerts/config will create a new configuration, and requires these parameters:</p>
 
 <ul>
-  <li>alert_name: one of the alert types from [‘traffic’, ‘value_type’, ‘unknown_parameter’, ‘latency_ms’, ‘traffic’, ‘statuscode’], or null.</li>
-  <li>kong_entity: a route_id or service_id for the entity you want to create the configuration for, or null.</li>
-  <li>severity: the severity you want this rule to make, must be one of [‘low’, ‘medium’, ‘high’, ‘ignored’]. No other severity options will be accepted.</li>
+  <li><code class="highlighter-rouge">alert_name</code>: one of the alert types from [‘traffic’, ‘value_type’, ‘unknown_parameter’, ‘latency_ms’, ‘traffic’, ‘statuscode’], or null.</li>
+  <li><code class="highlighter-rouge">kong_entity</code>: a route_id or service_id for the entity you want to create the configuration for, or null.</li>
+  <li><code class="highlighter-rouge">severity</code>: the severity you want this rule to make, must be one of [‘low’, ‘medium’, ‘high’, ‘ignored’]. No other severity options will be accepted.</li>
 </ul>
 
-<p>In the example above, to set the first alert type wide rule for all unknown_parameter alerts in your system, you would pass ‘unknown_parameter’ to the “alert_name” parameter and null to the “kong_entity” parameter. Here’s an example of what that curl would look like:</p>
+<p>In the example above, to set the first alert type wide rule for all <code class="highlighter-rouge">unknown_parameter</code> alerts in your system, you would pass <code class="highlighter-rouge">unknown_parameter</code> to the <code class="highlighter-rouge">alert_name</code> parameter and null to the <code class="highlighter-rouge">kong_entity</code> parameter. Here’s an example of what that curl would look like:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"alert_name":"unknown_parameter", "kong_entity":null, "severity": "high"}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"alert_name":"unknown_parameter", "kong_entity":null, "severity": "high"}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config
 </code></pre></div></div>
 
-<p>To add that second rule for unknown_parameter alerts only coming from a specific route, you’d make a request like this:</p>
+<p>To add that second rule for <code class="highlighter-rouge">unknown_parameter</code> alerts only coming from a specific route, you’d make a request like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"alert_name":"unknown_parameter", "kong_entity":"your-route-id", "severity": "medium"}' \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"alert_name":"unknown_parameter", "kong_entity":"your-route-id", "severity": "medium"}' \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config
 </code></pre></div></div>
 
 <p>When determining which severity to assign, Immunity will look for your configurations and default to the configuration that’s “most specific” to the alert in question. Immunity thinks of alert configuration specification like this (in order from most specific configuration to least specific configuration):</p>
 
 <ul>
-  <li>kong route_id + alert_name combo</li>
-  <li>kong service_id + alert_name combo</li>
-  <li>route_id</li>
-  <li>service_id</li>
-  <li>alert_name</li>
-  <li>Immunity alert_name defaults</li>
+  <li>kong <code class="highlighter-rouge">route_id</code> + <code class="highlighter-rouge">alert_name</code> combo</li>
+  <li>kong <code class="highlighter-rouge">service_id</code> + <code class="highlighter-rouge">alert_name</code> combo</li>
+  <li><code class="highlighter-rouge">route_id</code></li>
+  <li><code class="highlighter-rouge">service_id</code></li>
+  <li><code class="highlighter-rouge">alert_name</code></li>
+  <li>Immunity <code class="highlighter-rouge">alert_name</code> defaults</li>
 </ul>
 
-<p>When you hit the /alerts endpoint, for each alert, Immunity will first look for a rule specifying a severity for that route’s kong route_id and alert_name. If it doesn’t find a severity configuration, it moves down the list above until it returns the Immunity defaults for the alert’s alert type.</p>
+<p>When you hit the /alerts endpoint, for each alert, Immunity will first look for a rule specifying a severity for that route’s kong <code class="highlighter-rouge">route_id</code> and <code class="highlighter-rouge">alert_name</code>. If it doesn’t find a severity configuration, it moves down the list above until it returns the Immunity defaults for the alert’s alert type.</p>
 
-<h4 id="removing-alert-severity-rule">Removing-Alert-Severity-Rule</h4>
+<h4 id="removing-alert-severity-rule">Removing Alert Severity Rule</h4>
 
-<p>You can remove alert-severity configuration rules by sending a delete request to /alerts/config. This endpoint takes these parameters:
-kong_entity: The kong_entity of the rule you want deleted, or null for alert type rules.
-alert_name: The alert type of the rule you wanted deleted, or null for a kong_entity rule you want deleted.</p>
+<p>You can remove alert-severity configuration rules by sending a delete request to /alerts/config. This endpoint takes these parameters:</p>
+<ul>
+  <li><code class="highlighter-rouge">kong_entity</code>: The kong_entity of the rule you want deleted, or null for alert type rules.</li>
+  <li><code class="highlighter-rouge">alert_name</code>: The alert type of the rule you wanted deleted, or null for a <code class="highlighter-rouge">kong_entity</code> rule you want deleted.</li>
+</ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"alert_name":"unknown_parameter", "kong_entity":"your-route-id"}' \`
-` -H "Content-Type: application/json" \`
-` -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"alert_name":"unknown_parameter", "kong_entity":"your-route-id"}' \
+ -H "Content-Type: application/json" \
+ -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config
 </code></pre></div></div>
 
-<p>If you want to delete all configuration rules, you can by passing null values for both kong_entity and alert_name in your request. If you pass null for both kong_entity and alert_name parameters, all configurations will be deleted, like this:</p>
+<p>If you want to delete all configuration rules, you can by passing null values for both <code class="highlighter-rouge">kong_entity</code> and <code class="highlighter-rouge">alert_name</code> in your request. If you pass null for both <code class="highlighter-rouge">kong_entity</code> and <code class="highlighter-rouge">alert_name</code> parameters, all configurations will be deleted, like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"alert_name":null, "kong_entity":null}' \`
-` -H "Content-Type: application/json" \`
-` -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"alert_name":null, "kong_entity":null}' \
+ -H "Content-Type: application/json" \
+ -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config
 </code></pre></div></div>
 
 <h4 id="seeing-alert-severity-configuration">Seeing-Alert-Severity-Configuration</h4>
 
 <p>To see what rules you already have made, make a get request to /alerts/config to see all the rules like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/alerts/config
 </code></pre></div></div>
 
 <p>In return you’ll get back a json like this, where each row is a configuration rule:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`[`
-`` ```{'alert_name': null, 'kong_entity': 'route-id-1', 'severity': 'low'},`
-` ``` ```{'alert_name': 'traffic', 'kong_entity': null, 'severity': 'high'},`
-` ``` ```{'alert_name': 'value_type', 'kong_entity': 'route-id-2', 'severity': 'medium'}`
-`]`
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"route-id-1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"low"</span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"traffic"</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_type"</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"route-id-2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"medium"</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
 
-<p>Any kong entity plus alert type rule will be represented by a json object with both alert_name and kong_entity are not null. In the example above, that would be 
-{‘alert_name’: ‘value_type’, ‘kong_entity’: ‘route-id-2’, ‘severity’: ‘medium’}. An alert type wide rule will be represented by an json object where the alert_name is not null but the kong_entity is, like 
-<code class="highlighter-rouge">{'alert_name': 'traffic', 'kong_entity': null, 'severity': 'high'}</code>.A kong entity wide rule is the reverse with a json object that has a non-null kong_entity value but a null alert_name value like <code class="highlighter-rouge">{'alert_name': null, 'kong_entity': 'route-id-1', 'severity': 'low'}</code></p>
+<p>Any kong entity plus alert type rule will be represented by a json object with both <code class="highlighter-rouge">alert_name</code> and <code class="highlighter-rouge">kong_entity</code> are not null. In the example above, that would be</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value_type"</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"route-id-2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"medium"</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>An alert type wide rule will be represented by an json object where the <code class="highlighter-rouge">alert_name</code> is not null but the <code class="highlighter-rouge">kong_entity</code> is, like</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"traffic"</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>A kong entity wide rule is the reverse with a json object that has a non-null <code class="highlighter-rouge">kong_entity</code> value but a null <code class="highlighter-rouge">alert_name</code> value like</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">"alert_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nl">"kong_entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"route-id-1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"low"</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <h4 id="looking-at-offending-hars">Looking at Offending Hars</h4>
 
-<p>For value_type, unknown_parameter, and abnormal_value alerts, you can retrieve the hars that created those alerts via the http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/hars endpoint. This endpoint accepts alert_id and/or har_id as parameters and returns hars related to the parameters sent. You must specify one of these two parameters to receive hars on the http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/hars endpoint.
-These are the parameters http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/hars accepts:</COLLECTOR_PORT></COLLECTOR_HOST></COLLECTOR_PORT></COLLECTOR_HOST></COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>For value_type, unknown_parameter, and abnormal_value alerts, you can retrieve the hars that created those alerts via the <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars</code> endpoint. This endpoint accepts <code class="highlighter-rouge">alert_id</code> and/or <code class="highlighter-rouge">har_id</code> as parameters and returns hars related to the parameters sent. You must specify one of these two parameters to receive hars on the <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars</code> endpoint.
+These are the parameters <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars</code> accepts:</p>
 
-<p><strong>alert_id</strong>: The id of the alert related to the hars you’d like to inspect. This parameter only accepts one alert_id at a time (no lists).
-<strong>har_ids</strong>: A list of har_ids you want returned.</p>
+<ul>
+  <li><code class="highlighter-rouge">alert_id</code>: The id of the alert related to the hars you’d like to inspect. This parameter only accepts one alert_id at a time (no lists).</li>
+  <li><code class="highlighter-rouge">har_ids</code>: A list of har_ids you want returned.</li>
+</ul>
 
-<p>The response will include these values:
-<strong>har_id</strong>: The har id of the har returned
-<strong>alert_id</strong>: The alert_id of the alert_returned.
-<strong>har</strong>: The full har for the request that generated that har.</p>
+<p>The response will include these values:</p>
+<ul>
+  <li><code class="highlighter-rouge">har_id</code>: The har id of the har returned</li>
+  <li><code class="highlighter-rouge">alert_id</code>: The alert_id of the alert_returned.</li>
+  <li><code class="highlighter-rouge">har</code>: The full har for the request that generated that har.</li>
+</ul>
 
 <p>Here’s an example using curl:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"alert_id":1} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"alert_id":1} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars
 </code></pre></div></div>
 
 <p>Here’s an example using the browser</p>
 
-<p>**http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/hars?alert_id=1**</COLLECTOR_PORT></COLLECTOR_HOST></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/hars?alert_id=1
+</code></pre></div></div>
 
 <h3 id="alert-slack-integration">Alert Slack Integration</h3>
 
@@ -2244,9 +2270,9 @@ Change the OFF switch to ON. That will make visible a button “Add new webhook 
 
 <p>To add your first Slack configuration, copy the webhook URL that you just created with your app (when you finished the Slack app creation, you should have been directed to a page where you could copy the webhook URL). Then, simply create a POST request to /notifications/slack/config with an endpoint parameter equal to the webhook URL. Here’s an example via curl:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"endpoint":"www.your-slack-webhook.com"} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"endpoint":"www.your-slack-webhook.com"} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
 <p>Now, you’ve successfully connected your Slack channel to Immunity and all alerts will notify you.</p>
@@ -2255,35 +2281,34 @@ Change the OFF switch to ON. That will make visible a button “Add new webhook 
 
 <p>Immunity will send alerts to all Slack channels you ask it too. You can even restrict the type of alerts that go to a channel with additional parameters in your POST request. To do so, the /notifications/slack/config endpoint takes these parameters on POST:</p>
 
-<p><strong>endpoint</strong>: The endpoint that you would like the current POST request rule you’re setting to apply to.
-<strong>kong_entity</strong>: Will restrict notifications set to the endpoint to only those arising from the service_id, route_id, or workspace name specified here.
-<strong>severity</strong>: Will route only alerts with severity specified to the endpoint. Severity values can be one of “low”, “medium”, “high”.
-<strong>alert_type</strong>: Will route only alerts.
-<strong>enable</strong>: When set to False, the rule in the POST request is disabled, meaning Immunity will ignore that configuration rule. When set to True, the rule in enabled and Immunity will route traffic according to the full request rule. This parameter is set to True by default in all POST requests.</p>
+<ul>
+  <li><code class="highlighter-rouge">endpoint</code>: The endpoint that you would like the current POST request rule you’re setting to apply to.</li>
+  <li><code class="highlighter-rouge">kong_entity</code>: Will restrict notifications set to the endpoint to only those arising from the service_id, route_id, or workspace name specified here.</li>
+  <li><code class="highlighter-rouge">severity</code>: Will route only alerts with severity specified to the endpoint. Severity values can be one of “low”, “medium”, “high”.</li>
+  <li><code class="highlighter-rouge">alert_type</code>: Will route only alerts.</li>
+  <li><code class="highlighter-rouge">enable</code>: When set to False, the rule in the POST request is disabled, meaning Immunity will ignore that configuration rule. When set to True, the rule in enabled and Immunity will route traffic according to the full request rule. This parameter is set to True by default in all POST requests.</li>
+</ul>
 
 <p>When you send a POST request with only the endpoint parameter specified (like the one we did above), Immunity will route all traffic to that endpoint. Once a more specific POST request is made with more parameters filled, for example:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"endpoint":"www.your-slack-webhook.com",`
-`` ```` ``` "severity": "high"} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"endpoint":"www.your-slack-webhook.com", "severity": "high"} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
-<p>Immunity will no longer route all traffic to “<a href="http://www.your-slack-webhook.com/"><em>www.your-slack-webhook.com</em></a>”, and only route alerts at high severity to “<a href="http://www.your-slack-webhook.com/"><em>www.your-slack-webhook.com</em></a>”.</p>
+<p>Immunity will no longer route all traffic to <a href="http://www.your-slack-webhook.com/">www.your-slack-webhook.com</a>, and only route alerts at high severity to <a href="http://www.your-slack-webhook.com/">www.your-slack-webhook.com</a>.</p>
 
-<p>You can set multiple rules of varying specificity for the same endpoint. For example, let’s say you want “<a href="http://www.your-slack-webhook.com/"><em>www.your-slack-webhook.com</em></a>” to show notifications on all alerts from service_id = “my-service-1-id” and only high-severity alerts on route_id = “my-route-1-id”, you can do so with two post requests:</p>
+<p>You can set multiple rules of varying specificity for the same endpoint. For example, let’s say you want <a href="http://www.your-slack-webhook.com/">www.your-slack-webhook.com</a> to show notifications on all alerts from <code class="highlighter-rouge">service_id = "my-service-1-id"</code> and only high-severity alerts on <code class="highlighter-rouge">route_id = "my-route-1-id"</code>, you can do so with two post requests:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"endpoint":"www.your-slack-webhook.com",`
-`` ```` ``` "kong_entity": "my-service-1-id"} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"endpoint":"www.your-slack-webhook.com", "kong_entity": "my-service-1-id"} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 
 
-`curl -d '{"endpoint":"www.your-slack-webhook.com",`
-`` ```` ``` "severity": "high",`
-`` ```` ``` "kong_entity": "my-route-1-id"} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+curl -d '{"endpoint":"www.your-slack-webhook.com", "severity": "high", \
+ "kong_entity": "my-route-1-id"} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
 <p>Once one specific Slack configuration rule is created for a given Slack endpoint, Immunity considers all following configuration rules as “additive”, meaning that each new rule will add more.</p>
@@ -2292,103 +2317,110 @@ Change the OFF switch to ON. That will make visible a button “Add new webhook 
 
 <p>Configured rules can get complicated. To see all the slack rules and slack urls you have configured, make a GET request to /notifications/slack/config like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X GET http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
-<p>Which will return a json object where each key is an endpoint configured its value are the rules configured in a tree like structure with a boolean at the leaf of the tree indicating whether that rule is enabled or not. For the multi-config example we made above for <a href="http://www.your-slack-webhook.com/"><em>www.your-slack-webhook.com</em></a>, the returned GET object will look like:</p>
+<p>Which will return a json object where each key is an endpoint configured its value are the rules configured in a tree like structure with a boolean at the leaf of the tree indicating whether that rule is enabled or not. For the multi-config example we made above for <a href="http://www.your-slack-webhook.com/">www.your-slack-webhook.com</a>, the returned GET object will look like:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`{"www.your-slack-webhook.com": {"kong_entities": {"my-service-1-id": true,`
-`` ```` ```` ```` ```` ```` ```` ```` ```` ```` ```` ```` ``` "my-route-1-id": {"severities": {"high": true}},`
-`` ```` ```` ```` ```` ```` ```` ```` ```` ```` ```` ```` ``` },`
-`` ```` ```` ```` ```` ```` ```` ``` }`
-`}`
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"www.your-slack-webhook.com"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"kong_entities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"my-service-1-id"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"my-route-1-id"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"severities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nl">"high"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <h4 id="disabling-a-rule">Disabling a Rule</h4>
 
-<p>You might want to temporarily disable a rule you created. No problem, simply make the same POST request to /notifications/slack/config and add or change the enable parameter to false. Using the same example from above, let’s set the configuration on <a href="http://www.your-slack-webhook.com/"><em>www.your-slack-webhook.com</em></a> on my-service-1-id to false.</p>
+<p>You might want to temporarily disable a rule you created. No problem, simply make the same POST request to /notifications/slack/config and add or change the enable parameter to false. Using the same example from above, let’s set the configuration on <a href="http://www.your-slack-webhook.com/">www.your-slack-webhook.com</a> on <code class="highlighter-rouge">my-service-1-id</code> to false.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"endpoint":"www.your-slack-webhook.com",`
-`` ```` ``` "kong_entity": "my-service-1-id",`
-`` ```` ``` "enable": false} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"endpoint":"www.your-slack-webhook.com",
+ "kong_entity": "my-service-1-id",
+ "enable": false} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
 <p>It’s important when disabling a rule to use the exact same specification parameter values (kong_entity, severity, and alert_type) that were used to create the rule.</p>
 
 <h3 id="deleting-a-rule">Deleting a Rule</h3>
 
-<p>Sometimes you want to delete a rule. Functionally this is the same as disabling a rule in the sense that notifications will no longer be sent as the deleted or disabled rule specified. To delete a configuration rule, send a DELETE request to /notifications/slack/config, and just like with disabling rules, make sure you’re passing the correct values to the configuration specifying parameters (kong_entity, severity, and alert_type). With the same example from above that disabled the config rule for my-service-1-id, a DELETE would look like:</p>
+<p>Sometimes you want to delete a rule. Functionally this is the same as disabling a rule in the sense that notifications will no longer be sent as the deleted or disabled rule specified. To delete a configuration rule, send a DELETE request to /notifications/slack/config, and just like with disabling rules, make sure you’re passing the correct values to the configuration specifying parameters (kong_entity, severity, and alert_type). With the same example from above that disabled the config rule for <code class="highlighter-rouge">my-service-1-id</code>, a DELETE would look like:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"endpoint":"www.your-slack-webhook.com",`
-`` ```` ``` "kong_entity": "my-service-1-id"} \`
-` -H "Content-Type: application/json" \`
-` -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"endpoint":"www.your-slack-webhook.com",
+ "kong_entity": "my-service-1-id"} \
+ -H "Content-Type: application/json" \
+ -X DELETE http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/notifications/slack/config
 </code></pre></div></div>
 
-<p>Charts in Slack notifications</p>
+<h3 id="charts-in-slack-notifications">Charts in Slack notifications</h3>
 
 <p>Some alerts include images to better describe the context in which the alert was created. We rely on Amazon S3 to store the images that are sent to Slack. In order to have notifications with images, please provide access information to an S3 bucket (with permission to add files), by setting the environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.</p>
 
-<h3 id="clean-up-the-data">Clean-Up-the-Data</h3>
+<h3 id="clean-up-the-data">Clean Up the Data</h3>
 
-<p>Collector will clean the amount of HARs stored daily up to the max number of hars specified in the environment variable MAX_HARS_STORAGE and tables with extracted information to a max of two weeks of data. This means that at any day, the max number of HARs stored is the MAX_HARS_STORAGE + days_incoming_number_of_hars. If no MAX_HARS_STORAGE is specified, collector defaults to keeping 2 million hars in the database.</p>
+<p>Collector will clean the amount of HARs stored daily up to the max number of hars specified in the environment variable <code class="highlighter-rouge">MAX_HARS_STORAGE</code> and tables with extracted information to a max of two weeks of data. This means that at any day, the max number of HARs stored is the <code class="highlighter-rouge">MAX_HARS_STORAGE</code> + days_incoming_number_of_hars. If no <code class="highlighter-rouge">MAX_HARS_STORAGE</code> is specified, collector defaults to keeping 2 million hars in the database.</p>
 
-<p>You can set your own value of MAX_HARS_STORAGE by setting the app environment variable through whatever means you’ve been deploying collector.</p>
+<p>You can set your own value of <code class="highlighter-rouge">MAX_HARS_STORAGE</code> by setting the app environment variable through whatever means you’ve been deploying collector.</p>
 
-<p>Additionally, collector provides an endpoint to delete the HARs data at /clean-hars. This endpoint accepts get and post and takes one parameter “max_hars_storage” which will delete all hars until only the value passed with max_hars_storage remains and contains the most recent HARs added to the database. If no value is passed to max_hars_storage, it will clean the database to the default value set with the environment variable MAX_HARS_STORAGE. An example of using this endpoint with curl looks like this:</p>
+<p>Additionally, collector provides an endpoint to delete the HARs data at /clean-hars. This endpoint accepts get and post and takes one parameter <code class="highlighter-rouge">max_hars_storage</code> which will delete all hars until only the value passed with <code class="highlighter-rouge">max_hars_storage</code> remains and contains the most recent HARs added to the database. If no value is passed to <code class="highlighter-rouge">max_hars_storage</code>, it will clean the database to the default value set with the environment variable <code class="highlighter-rouge">MAX_HARS_STORAGE</code>. An example of using this endpoint with curl looks like this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`curl -d '{"max_hars_storage":10000} \`
-` -H "Content-Type: application/json" \`
-` -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/clean-hars`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -d '{"max_hars_storage":10000} \
+ -H "Content-Type: application/json" \
+ -X POST http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/clean-hars
 </code></pre></div></div>
 
 <h3 id="troubleshooting-common-setup-pitfalls">Troubleshooting-Common-Setup-Pitfalls</h3>
 
 <h4 id="im-sending-requests-with-strange-parameters-but-im-not-seeing-any-alerts-related-to-it">“I’m sending requests with strange parameters, but I’m not seeing any alerts related to it”</h4>
 
-<p>There are a couple of things that can prevent the alerts you’re expecting from showing up. First, check your Collector instance again at http://<COLLECTOR_HOST>:<COLLECTOR_PORT> and make sure it’s returning HARS data. If you’re not seeing data, there are 2 possible explanations. First, its likely your Brain plugin setup is not correct. Retry setting up your Brain plugin, for example making sure that the host specified on config is the same as <COLLECTOR_HOST>, until you see data coming in on http://<COLLECTOR_HOST>:<COLLECTOR_PORT>. Second, if the plugin setup is correct but your test request data is not coming through, then make sure that the url you are sending your test data through is correct. For data to reach Collector, it must be sent through the kong service or route configured.</COLLECTOR_PORT></COLLECTOR_HOST></COLLECTOR_HOST></COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>There are a couple of things that can prevent the alerts you’re expecting from showing up. First, check your Collector instance again at <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;</code> and make sure it’s returning HARS data. If you’re not seeing data, there are 2 possible explanations. First, its likely your Brain plugin setup is not correct. Retry setting up your Brain plugin, for example making sure that the host specified on config is the same as <code class="highlighter-rouge">&lt;COLLECTOR_HOST&gt;</code>, until you see data coming in on <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;</code>. Second, if the plugin setup is correct but your test request data is not coming through, then make sure that the url you are sending your test data through is correct. For data to reach Collector, it must be sent through the kong service or route configured.</p>
 
-<p>If you are seeing data, let’s examine the data that you’ve sent. The data given back are the last 100 requests Brain has. Click on one of them, and drill in until you get to queryString. Pro tip: if you don’t have random traffic coming into your system, and you know the last request you sent was the one with the strange parameters that you expected to trigger an alert, then the last entry in the list returned should correspond directly to that strange parameters request you sent.</p>
+<p>If you are seeing data, let’s examine the data that you’ve sent. The data given back are the last 100 requests Brain has. Click on one of them, and drill in until you get to <code class="highlighter-rouge">queryString</code>. Pro tip: if you don’t have random traffic coming into your system, and you know the last request you sent was the one with the strange parameters that you expected to trigger an alert, then the last entry in the list returned should correspond directly to that strange parameters request you sent.</p>
 
-<p>On this view, check the contents of queryString. The queryString entry will list all parameters sent with the request your examining. If this entry is empty, then it indicates that no parameters were sent with this request, and properly sending parameters with your test request is the first step to seeing corresponding alerts.</p>
+<p>On this view, check the contents of <code class="highlighter-rouge">queryString</code>. The <code class="highlighter-rouge">queryString</code> entry will list all parameters sent with the request your examining. If this entry is empty, then it indicates that no parameters were sent with this request, and properly sending parameters with your test request is the first step to seeing corresponding alerts.</p>
 
-<p>If the queryString is looking good and you’re still not seeing alerts, then it might be that your models haven’t been built yet. When you first start Immunity, training is automatically scheduled to occur on the hour, every hour for the first week. This means that the first hour of immunityactivation will trigger no alerts because no models have been trained. You can check which endpoints have models by hitting http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/monitoredendpoints and verify that the endpoint that you're testing with is included in the list of endpoints with models.</COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>If the <code class="highlighter-rouge">queryString</code> is looking good and you’re still not seeing alerts, then it might be that your models haven’t been built yet. When you first start Immunity, training is automatically scheduled to occur on the hour, every hour for the first week. This means that the first hour of immunity activation will trigger no alerts because no models have been trained. You can check which endpoints have models by hitting <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/monitoredendpoints</code> and verify that the endpoint that you’re testing with is included in the list of endpoints with models.</p>
 
-<p>If you’re not seeing any endpoints being returned with /monitoredendpoints, then it’s likely training hasn’t happened. If you haven’t triggered training via the http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/trainer endpoint and it’s within the first hour of Brain activation, then it’s likely no model has been made. If you would like to trigger training and not wait for the auto-generated models, hit http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/trainer with the start parameter set to yesterday, and the end parameter set to tomorrow. This will create models using all available data.</COLLECTOR_PORT></COLLECTOR_HOST></COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>If you’re not seeing any endpoints being returned with /monitoredendpoints, then it’s likely training hasn’t happened. If you haven’t triggered training via the <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer</code> endpoint and it’s within the first hour of Brain activation, then it’s likely no model has been made. If you would like to trigger training and not wait for the auto-generated models, hit <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer</code> with the start parameter set to yesterday, and the end parameter set to tomorrow. This will create models using all available data.</p>
 
-<p>If you are seeing endpoints but not the endpoint you’re testing, this likely means that not enough data for that endpoint is available for proper model training. If it’s possible to test alert generation with another endpoint on the /monitoredendpoints list, then switching your testing endpoint is recommended. If not, please create normal traffic for your test endpoint and hit http://<COLLECTOR_HOST>:<COLLECTOR_PORT>/trainer again for full training. Then confirm that your test endpoint is listed in /monistorendpoints.</COLLECTOR_PORT></COLLECTOR_HOST></p>
+<p>If you are seeing endpoints but not the endpoint you’re testing, this likely means that not enough data for that endpoint is available for proper model training. If it’s possible to test alert generation with another endpoint on the /monitoredendpoints list, then switching your testing endpoint is recommended. If not, please create normal traffic for your test endpoint and hit <code class="highlighter-rouge">http://&lt;COLLECTOR_HOST&gt;:&lt;COLLECTOR_PORT&gt;/trainer</code> again for full training. Then confirm that your test endpoint is listed in /monistorendpoints.</p>
 
 <h3 id="still-having-problems">Still having problems?</h3>
 
 <p>Email us at immunity@konghq.com with your bug report, please use the following format.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`Summary`
-`Please include a description of what happened, and a description of what you expected to happen`
-`Steps To Reproduce (With pictures if helpful)`
-`1.`
-`2.`
-`3.`
-`4.`
-`Additional Details &amp; Logs`
-`* Immunity version (same as Brain version on Brain image name)`
-`* Immunity logs (docker compose -f &lt;files used to start containers, with -f put in front of each file name&gt; logs)`
-`* Immunity configuration`
-`* Deployment Method (docker deployment, bare metals, kubernetes ? etc)`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Summary
+Please include a description of what happened, and a description of what you expected to happen
+Steps To Reproduce (With pictures if helpful)
+1.
+2.
+3.
+4.
+Additional Details &amp; Logs
+* Immunity version (same as Brain version on Brain image name)
+* Immunity logs (docker compose -f &lt;files used to start containers, with -f put in front of each file name&gt; logs)
+* Immunity configuration
+* Deployment Method (docker deployment, bare metals, kubernetes ? etc)
 </code></pre></div></div>
 
 <h3 id="send-us-feature-requests">Send us feature requests</h3>
 
 <h4 id="send-us-a-feature-request-to-immunitykonghqcom">Send us a feature request to immunity@konghq.com!</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`Summary of Proposed Feature`
-`SUMMARY_GOES_HERE`
-`User steps through feature (if applicable)`
-`1.`
-`2.`
-`3.`
-`4.`
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Summary of Proposed Feature
+SUMMARY_GOES_HERE
+User steps through feature (if applicable)
+1.
+2.
+3.
+4.
 </code></pre></div></div>
 
 
@@ -2613,7 +2645,7 @@ Change the OFF switch to ON. That will make visible a button “Add new webhook 
 </script>
 
 
-    <script src="/assets/app.js?v=1576276687"></script>
+    <script src="/assets/app.js?v=1576277532"></script>
 
     <div id="fb-root"></div>
 
