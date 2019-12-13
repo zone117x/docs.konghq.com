@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1576196145"
+    href="/assets/styles.css?v=1576263491"
   />
   
 </head>
@@ -1103,7 +1103,13 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces</a>
+                <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces in Kong Manager</a>
+                
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/1.3-x/kong-manager/administration/rbac" >RBAC</a>
                 
               </li>
               
@@ -1115,38 +1121,7 @@ window['_fs_namespace'] = 'FS';
                   
                   
                   <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces in Kong Manager</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/create-workspace" >How to Create a Workspace</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/update-workspace" >How to Update a Workspace</a>
-                  </li>
-                  
-                </ul>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x" ></a>
-                
-                <ul>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC in Kong Manager</a>
+                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac" >RBAC in Kong Manager</a>
                   </li>
                   
                   
@@ -1760,42 +1735,25 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#using-the-organization-page-to-manage-users" class="scroll-to">Using the Organization Page to Manage Users</a></li>
-  <li><a href="#how-to-invite-a-new-admin-from-the-organization-page" class="scroll-to">How to Invite a New Admin from the Organization Page</a></li>
-  <li><a href="#how-to-invite-a-new-admin-in-a-workspace" class="scroll-to">How to Invite a New Admin in a Workspace</a></li>
+  <li><a href="#invite-an-admin" class="scroll-to">Invite an Admin</a></li>
   <li><a href="#how-to-copy-and-send-a-registration-link" class="scroll-to">How to Copy and Send a Registration Link</a></li>
-  <li><a href="#how-to-grant-an-admin-access-with-ldap" class="scroll-to">How to Grant an Admin Access with LDAP</a></li>
 </ul>
 
 
           
 
-          <h2 id="using-the-organization-page-to-manage-users">Using the Organization Page to Manage Users</h2>
-
-<p>To view all of the current <strong>Workspaces</strong> and <strong>Roles</strong>, click 
-the <strong>Organization</strong> link on the top navigation bar.</p>
-
-<p>From this page, it is possible to update each <strong>Admin’s</strong> <strong>Role</strong> across 
-any <strong>Workspace</strong>. From the <strong>Roles</strong> tab, it is also possible to 
-update the <strong>Permissions</strong> assigned to each <strong>Role</strong>.</p>
-
-<h2 id="how-to-invite-a-new-admin-from-the-organization-page">How to Invite a New Admin from the Organization Page</h2>
-
-<p>Inviting a new <strong>Admin</strong> through the <strong>Organization</strong> page is similar to inviting an 
-<a href="#how-to-invite-a-new-admin-in-a-workspace"><strong>Admin</strong> within a <strong>Workspace</strong></a>. However, 
-from the <strong>Organization</strong> page, <strong>Roles</strong> can be assigned to a new <strong>Admin</strong> for multiple 
-<strong>Workspaces</strong> at once. The <strong>Super Admin</strong> can also view global roles across <strong>Workspaces</strong> 
-from this page.</p>
+          <h3 id="invite-an-admin">Invite an Admin</h3>
 
 <ol>
   <li>
-    <p>On the <strong>Organization</strong> page, to invite a new <strong>Admin</strong>, click the <strong>Invite User</strong>
-button.</p>
+    <p>Navigate to the <strong>Teams</strong> page in Kong Manager</p>
+  </li>
+  <li>
+    <p>From the <strong>Admins</strong> tab select <strong>Invite Admin</strong></p>
   </li>
   <li>
     <p>Fill out the username and email address. When a new <strong>Admin</strong> receives an 
-invitation, they will only be able to log in with that email address. Assign 
-the appropriate <strong>Role</strong> and click <strong>Invite User</strong> to send the invitation.</p>
+invitation, they will only be able to log in with that email address. Assign the appropriate <strong>Role</strong> and click <strong>Invite User</strong> to send the invitation.</p>
 
     <p>⚠️ <strong>IMPORTANT</strong>: <strong>Super Admins</strong> can invite users to multiple <strong>Workspaces</strong>, and 
  assign them any <strong>Role</strong> available within <strong>Workspaces</strong>, including <strong>Roles</strong> that exist 
@@ -1805,82 +1763,40 @@ the appropriate <strong>Role</strong> and click <strong>Invite User</strong> to 
     <p>⚠️ <strong>IMPORTANT</strong>: The <strong>Super Admin</strong> can see all available roles across 
  <strong>Workspaces</strong> on the <strong>Roles</strong> tab of the <strong>Organization</strong> page.</p>
 
-    <p><img src="https://konghq.com/wp-content/uploads/2018/12/org2.png" alt="Role List" /></p>
+    <p>⚠️ <strong>IMPORTANT</strong>: By default, the registration link will expire after 259,200 
+ seconds (3 days). This time frame can be configured with the <code class="highlighter-rouge">kong.conf</code> 
+ file in <code class="highlighter-rouge">admin_invitation_expiry</code>.</p>
+
+    <p>⚠️ <strong>IMPORTANT</strong>: If an email fails to send, either due to an incorrect email 
+ address or an external error, it will be possible to resend an invitation.</p>
+
+    <p>⚠️ <strong>IMPORTANT</strong>: If SMTP is not enabled or the invitation email fails to send, 
+ it is possible for the Super Admin to copy and provide a registration link 
+ directly. See the next section.</p>
   </li>
   <li>
-    <p>On the <strong>Organization</strong> page, the new invitee will appear on the list with the 
-<strong>Invited</strong> status. Once they accept the invitation, the user will be listed in 
-the main <strong>Users</strong> list.</p>
+    <p>On the <strong>Teams</strong> page, the new invitee will appear on the <strong>Admins</strong> list with the under <strong>Invited</strong>. Once they accept the invitation, the user will be listed in the main <strong>Admins</strong> list.</p>
 
-    <p><img src="https://konghq.com/wp-content/uploads/2018/12/org3-1.png" alt="User List" /></p>
+    <p><img src="https://doc-assets.konghq.com/1.3/manager/teams/teams-invited-admin.png" alt="Invited Admins" /></p>
   </li>
   <li>
-    <p>The newly invited <strong>Admin</strong> will have the ability to set a password. If the 
-<strong>Admin</strong> ever forgets the password, it is possible for them to reset it through a 
-recovery email.</p>
-  </li>
-</ol>
-
-<video width="100%" autoplay="" loop="" controls="">
-  <source src="https://konghq.com/wp-content/uploads/2019/02/org-super-admin-ent-34.mov" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-
-<h2 id="how-to-invite-a-new-admin-in-a-workspace">How to Invite a New Admin in a Workspace</h2>
-
-<p><img src="https://konghq.com/wp-content/uploads/2018/07/admins2.png" alt="Create an Admin in Kong Manager" /></p>
-
-<ol>
-  <li>
-    <p>On the “Admins” page, to invite a new admin, click the “Create New Admin” 
-button.</p>
-  </li>
-  <li>
-    <p>When a new Admin receives an invitation, they will only be able to log in 
-with that email address. Assign the appropriate Role and click “Invite Admin” 
-to send the invitation.</p>
-
-    <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-name-admin.png" alt="Create New Admin" /></p>
-  </li>
-  <li>
-    <p>On the “Admins” page, the new invitee will appear on the list with the 
- “invited” status. Once they accept the invitation, their status will 
- change to “accepted”.</p>
-
-    <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-invited-admins.png" alt="Invited Admins" /></p>
-  </li>
-  <li>
-    <p>The newly invited Admin will have the ability to set a password. If the 
- <strong>Admin</strong> forgets the password, it is possible to reset it through a recovery 
- email.</p>
+    <p>The newly invited <strong>Admin</strong> will have the ability to set a password. If the <strong>Admin</strong> ever forgets the password, it is possible for them to reset it through a recovery email.</p>
   </li>
 </ol>
 
-<p>⚠️ <strong>IMPORTANT</strong>: By default, the registration link will expire after 259,200 
-    seconds (3 days). This timeframe can be configured with the <code class="highlighter-rouge">kong.conf</code> 
-    file in <code class="highlighter-rouge">admin_invitation_expiry</code>.</p>
+<h3 id="how-to-copy-and-send-a-registration-link">How to Copy and Send a Registration Link</h3>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If an email fails to send, either due to an incorrect email 
-    address or an external error, it will be possible to resend an invitation.</p>
-
-<p>⚠️ <strong>IMPORTANT</strong>: If SMTP is not enabled or the invitation email fails to send, 
-    it is possible for the Super Admin to copy and provide a registration link 
-    directly. See the next section.</p>
-
-<h2 id="how-to-copy-and-send-a-registration-link">How to Copy and Send a Registration Link</h2>
-
-<p>If a mail server is not yet set up, it is still possible to invite Admins to 
-register and log in.</p>
+<p>If a mail server is not yet set up, it is still possible to invite Admins to register and log in.</p>
 
 <ol>
   <li>
-    <p>Invite an Admin as described in the section above.</p>
+    <p>Invite an <strong>Admin</strong> as described in the section above.</p>
   </li>
   <li>
     <p>If the “View” link is clicked next to the invited Admin’s name, a 
  <code class="highlighter-rouge">register_url</code> is displayed on the invitee’s details page.</p>
 
-    <p><img src="https://konghq.com/wp-content/uploads/2018/11/km-registration-url.png" alt="Registration URL" /></p>
+    <p><img src="https://doc-assets.konghq.com/1.3/manager/teams/teams-invite-admin-generate-registration-link.png" alt="Registration URL" /></p>
   </li>
   <li>
     <p>Copy and directly send this link to the invited Admin so that they may set 
@@ -1888,8 +1804,9 @@ register and log in.</p>
   </li>
 </ol>
 
-<p>⚠️ <strong>IMPORTANT</strong>: If <code class="highlighter-rouge">admin_gui_auth</code> is <code class="highlighter-rouge">ldap-auth-advanced</code>, credentials are 
-not stored in Kong, and the Admin will be directed to Login.</p>
+<blockquote>
+  <p>⚠️ <strong>IMPORTANT</strong>: If <code class="highlighter-rouge">admin_gui_auth</code> is <code class="highlighter-rouge">ldap-auth-advanced</code>, credentials are not stored in Kong, and the Admin will be directed to Login.</p>
+</blockquote>
 
 <h2 id="how-to-grant-an-admin-access-with-ldap">How to Grant an Admin Access with LDAP</h2>
 
@@ -2155,7 +2072,7 @@ in Kong Manager</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1576196145"></script>
+    <script src="/assets/app.js?v=1576263491"></script>
 
     <div id="fb-root"></div>
 

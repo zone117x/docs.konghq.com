@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Admins in Kong Manager - v1.3-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>RBAC in Kong Manager - v1.3-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1576196145"
+    href="/assets/styles.css?v=1576263491"
   />
   
 </head>
@@ -368,7 +368,7 @@ window['_fs_namespace'] = 'FS';
   <header class="page-header">
     <div class="container">
       <div class="edit-this-page">
-        <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/enterprise/1.3-x/kong-manager/administration/admins/admins.md"><i class="fa fa-github"></i>
+        <a target="_blank" href="https://github.com/Kong/docs.konghq.com/tree/master/app/enterprise/1.3-x/kong-manager/administration/rbac/index.md"><i class="fa fa-github"></i>
           Edit this Page</a>
       </div>
       <nav class="docs-navigation">
@@ -385,7 +385,7 @@ window['_fs_namespace'] = 'FS';
           
       </div>
       <div class="page-header-title">
-        <h1>Admins in Kong Manager</h1>
+        <h1>RBAC in Kong Manager</h1>
       </div>
 
       <div class="dropdown page-header-right" id="searchBar">
@@ -1103,7 +1103,13 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces</a>
+                <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces in Kong Manager</a>
+                
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/1.3-x/kong-manager/administration/rbac" class="active" >RBAC</a>
                 
               </li>
               
@@ -1115,38 +1121,7 @@ window['_fs_namespace'] = 'FS';
                   
                   
                   <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/workspaces" >Workspaces in Kong Manager</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/create-workspace" >How to Create a Workspace</a>
-                  </li>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/workspaces/update-workspace" >How to Update a Workspace</a>
-                  </li>
-                  
-                </ul>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC</a>
-                
-              </li>
-              
-              
-              <li>
-                <a href="/enterprise/1.3-x" ></a>
-                
-                <ul>
-                  
-                  
-                  <li>
-                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/rbac" >RBAC in Kong Manager</a>
+                    <a href="/enterprise/1.3-x/kong-manager/administration/rbac" class="active" >RBAC in Kong Manager</a>
                   </li>
                   
                   
@@ -1758,22 +1733,82 @@ window['_fs_namespace'] = 'FS';
 
           
           
-          <h2 id="table-of-contents">Table of Contents</h2>
-          <ul>
-  <li><a href="#using-the-organization-page-to-manage-users" class="scroll-to">Using the Organization Page to Manage Users</a></li>
-</ul>
 
+          <h3 id="introduction-to-rbac-in-kong-manager">Introduction to RBAC in Kong Manager</h3>
 
-          
+<p>In addition to authenticating <strong>Admins</strong> and segmenting <strong>Workspaces</strong>, 
+Kong Enterprise has the ability to enforce Role-Based Access Control 
+(RBAC) for all resources with the use of <strong>Roles</strong> assigned to <strong>Admins</strong>.</p>
 
-          <h2 id="using-the-organization-page-to-manage-users">Using the Organization Page to Manage Users</h2>
+<p>As the <strong>Super Admin</strong> (or any <strong>Role</strong> with <strong>read</strong> and <strong>write</strong> 
+access to the <code class="highlighter-rouge">/admins</code> and <code class="highlighter-rouge">/rbac</code> endpoints), it is possible to 
+create new <strong>Roles</strong> and customize <strong>Permissions</strong>.</p>
 
-<p>To view all of the current <strong>Workspaces</strong> and <strong>Roles</strong>, click 
-the <strong>Organization</strong> link on the top navigation bar.</p>
+<p>In Kong Manager, RBAC affects how <strong>Admins</strong> are able to navigate 
+through the application.</p>
 
-<p>From this page, it is possible to update each <strong>Admin’s</strong> <strong>Role</strong> across 
-any <strong>Workspace</strong>. From the <strong>Roles</strong>“** tab, it is also possible to 
-update the <strong>Permissions</strong> assigned to each <strong>Role</strong>.</p>
+<h3 id="default-roles">Default Roles</h3>
+
+<p>Kong includes Role-Based Access Control (RBAC). Every <strong>Admin</strong> using Kong Manager 
+will need an assigned <strong>Role</strong> based on the resources they have <strong>Permission</strong> to access.</p>
+
+<p>When a <strong>Super Admin</strong> starts Kong for the first time, the <code class="highlighter-rouge">default</code> <strong>Workspace</strong> will 
+include three default <strong>Roles</strong>: <code class="highlighter-rouge">read-only</code>, <code class="highlighter-rouge">admin</code>, and <code class="highlighter-rouge">super-admin</code>. The three 
+<strong>Roles</strong> have <strong>Permissions</strong> related to every <strong>Workspace</strong> in the cluster.</p>
+
+<p>Similarly, if a <strong>Role</strong> is confined to certain <strong>Workspaces</strong>, the <strong>Admin</strong> assigned to it 
+will not be able to see either the overview or links to other <strong>Workspaces</strong>.</p>
+
+<p>⚠️ <strong>IMPORTANT</strong>: Although a default <strong>Admin</strong> has full permissions with every 
+endpoint in Kong, only a <strong>Super Admin</strong> has the ability to assign and modify RBAC 
+<strong>Permissions</strong>. An <strong>Admin</strong> is not able to modify their own <strong>Permissions</strong> or delimit a 
+<strong>Super Admin’s</strong> <strong>Permissions</strong>.</p>
+
+<p>⚠️ <strong>IMPORTANT</strong>: If a <strong>Role</strong> does not have <strong>Permission</strong> to access entire endpoints, 
+the <strong>Admin</strong> assigned to the <strong>Role</strong> will not be able to see the related navigation links.</p>
+
+<h3 id="rbac-in-workspaces">RBAC in Workspaces</h3>
+
+<p>RBAC <strong>Roles</strong> and <strong>Permissions</strong> will be specific to a <strong>Workspace</strong> if they are assigned 
+from within one. For example, if there are two <strong>Workspaces</strong>, <strong>Payments</strong> and 
+<strong>Deliveries</strong>, an <strong>Admin</strong> created in <strong>Payments</strong> will not have access to any 
+endpoints in <strong>Deliveries</strong>.</p>
+
+<p>When a <strong>Super Admin</strong> creates a new <strong>Workspace</strong>, there are three default <strong>Roles</strong> that 
+mirror the cluster-level <strong>Roles</strong>, and a fourth unique to each <strong>Workspace</strong>: 
+<code class="highlighter-rouge">workspace-read-only</code>, <code class="highlighter-rouge">workspace-admin</code>, <code class="highlighter-rouge">workspace-super-admin</code>, and 
+<code class="highlighter-rouge">workspace-portal-admin</code>.</p>
+
+<p>These roles can be viewed in the <strong>Teams</strong> tab under <strong>Roles</strong></p>
+
+<p><img src="https://doc-assets.konghq.com/1.3/manager/teams/kong-manager-default-roles.png" alt="Default Roles in New Workspaces" /></p>
+
+<p>⚠️ <strong>IMPORTANT</strong>: Any Role assigned in the <strong>Default Workspace</strong> will have 
+<strong>Permissions</strong> applied to all subsequently created <strong>Workspaces</strong>. A <strong>Super Admin</strong> in 
+in <code class="highlighter-rouge">default</code> has RBAC <strong>Permissions</strong> across all <strong>Workspaces</strong>.</p>
+
+<div class="docs-grid">
+  <div class="docs-grid-block">
+    <h3>
+        <img src="/assets/images/icons/documentation/icn-window.svg" />
+        <a href="/enterprise/1.3-x/kong-manager/administration/rbac/new-role">Create a New Role</a>
+    </h3>
+    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/new-role">
+        Learn how to create new roles with custom permissions &rarr;
+    </a>
+  </div>
+
+  <div class="docs-grid-block">
+    <h3>
+        <img src="/assets/images/icons/documentation/icn-window.svg" />
+        <a href="/enterprise/1.3-x/kong-manager/administration/rbac/add-user">Create RBAC Users</a>
+    </h3>
+    <a href="/enterprise/1.3-x/kong-manager/administration/rbac/add-user">
+        Learn how to create new RBAC users &rarr;
+    </a>
+  </div>
+
+</div>
 
 
         </div>
@@ -1997,7 +2032,7 @@ update the <strong>Permissions</strong> assigned to each <strong>Role</strong>.<
 </script>
 
 
-    <script src="/assets/app.js?v=1576196145"></script>
+    <script src="/assets/app.js?v=1576263491"></script>
 
     <div id="fb-root"></div>
 
