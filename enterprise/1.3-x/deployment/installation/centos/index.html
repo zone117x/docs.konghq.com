@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1576613379"
+    href="/assets/styles.css?v=1576790385"
   />
   
 </head>
@@ -783,6 +783,14 @@ window['_fs_namespace'] = 'FS';
             
           </li>
           
+          
+          <li>
+            <a href="/enterprise/1.3-x/db-encryption"  >
+              Keyring and Data Encryption
+            </a>
+            
+          </li>
+          
         </ul>
       </nav>
       
@@ -980,6 +988,14 @@ window['_fs_namespace'] = 'FS';
           <li>
             <a href="/enterprise/1.3-x/admin-api/audit-log"  >
               Audit Logging
+            </a>
+            
+          </li>
+          
+          
+          <li>
+            <a href="/enterprise/1.3-x/admin-api/db-encryption"  >
+              Keyring and Data Encryption
             </a>
             
           </li>
@@ -1332,6 +1348,12 @@ window['_fs_namespace'] = 'FS';
               
               <li>
                 <a href="/enterprise/1.3-x/developer-portal/theme-customization/easy-theme-editing" >Easy Theme Editing</a>
+                
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/1.3-x/developer-portal/theme-customization/emails" >Customizing Portal Emails</a>
                 
               </li>
               
@@ -1702,6 +1724,14 @@ window['_fs_namespace'] = 'FS';
           
           
           <li>
+            <a href="/enterprise/1.3-x/plugins/key-auth-enc"  >
+              Key Auth (encrypted)
+            </a>
+            
+          </li>
+          
+          
+          <li>
             <a href="/enterprise/1.3-x"  >
               Implementation
             </a>
@@ -1816,12 +1846,27 @@ account files in Bintray
 
 <ol>
   <li>
+    <p>Verify the Kong Enterprise Signature</p>
+
+    <p>Kong’s official Key ID is 2cac36c51d5f3726. Verify it by querying the RPM package:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ rpm -qpi kong-enterprise-edition-1.3.el7.noarch.rpm | grep Signature
+</code></pre></div>    </div>
+
+    <p>Download Kong’s official public key and ensure the RPM package’s integrity:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ curl -o kong.key https://bintray.com/user/downloadSubjectPublicKey?username=kong
+ $ rpm --import kong.key
+ $ rpm -K kong-enterprise-edition-1.3.el7.noarch.rpm
+</code></pre></div>    </div>
+  </li>
+  <li>
     <p>Install Kong Enterprise</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo yum install kong-enterprise-edition-0.35-1.el7.noarch.rpm
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ sudo yum install kong-enterprise-edition-1.3.el7.noarch.rpm
 </code></pre></div>    </div>
     <blockquote>
-      <p>Note: Your version may be different based on when you obtained the rpm</p>
+      <p>Note: Your version may be different based on when you obtained the RPM</p>
     </blockquote>
   </li>
   <li>
@@ -2256,7 +2301,7 @@ out of Kong Enterprise.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1576613379"></script>
+    <script src="/assets/app.js?v=1576790385"></script>
 
     <div id="fb-root"></div>
 
