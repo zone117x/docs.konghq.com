@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1578357124"
+    href="/assets/styles.css?v=1578372298"
   />
   
 </head>
@@ -1753,14 +1753,101 @@ window['_fs_namespace'] = 'FS';
 
           
           
+          <h2 id="table-of-contents">Table of Contents</h2>
+          <ul>
+  <li><a href="#security" class="scroll-to">Security</a></li>
+  <li><a href="#kong-manager" class="scroll-to">Kong Manager</a></li>
+  <li><a href="#plugins" class="scroll-to">Plugins</a>
+    <ul>
+      <li><a href="#list-of-unavailable-plugins-on-kong-cloud" class="scroll-to">List of Unavailable Plugins on Kong Cloud</a></li>
+    </ul>
+  </li>
+  <li><a href="#vitals" class="scroll-to">Vitals</a></li>
+  <li><a href="#aws" class="scroll-to">AWS</a></li>
+</ul>
 
-          <h2 id="kong-cloud-proxy-tls">Kong Cloud Proxy TLS</h2>
 
-<p>Kong Cloud enforces HTTPS for all of the services that it operates, including Admin API, Kong Manager, and Kong Developer Portal. Kong Cloud does not enforce HTTPS for traffic destined for the customer’s proxy, since certificate management and associated domains are under the customer’s control. To enforce HTTPS on upstream traffic, use the <a href="https://docs.konghq.com/enterprise/1.3-x/admin-api/#certificate-object">certificate</a> and <a href="https://docs.konghq.com/enterprise/1.3-x/admin-api/#sni-object.">SNI</a> objects through the Admin API.</p>
+          
 
-<p>For non-proxy traffic, Kong Cloud is the terminus for the request, and Kong controls the protocol and shape of traffic carefully. Additionally, Kong generally considers non-proxy traffic to be sensitive (e.g., Admin API requests, login credentials to Kong Manager). Kong Cloud accomplishes enforcement through HTTP → HTTPS redirects, and the use of the HSTS response header. Because Kong Cloud controls the domain hosting the endpoints for these services, e.g., <code class="highlighter-rouge">https://manager-client.kong-cloud.com</code>, Kong Cloud maintains the TLS certificate for this service since Kong owns the domain.</p>
+          <h1 id="kong-cloud-overview">Kong Cloud Overview</h1>
+<p>Kong Cloud is our managed Kong Enterprise offering, based on the proven Kong Enterprise Gateway (Kong API Gateway). Kong Inc. handles all infrastructure concerns such as updates, scaling, data persistence, secure subnet configuration, high availability, and disaster recovery. <a href="https://konghq.com/products/kong-enterprise/free-trial">Start a free trial</a> today and end your operational worries.</p>
 
-<p>For dedicated production Kong Cloud clusters (e.g., clusters setup for paying customers), proxy traffic is funneled through a network load balancer to Kong nodes, which then pass the request to the customer’s upstream. Kong Cloud does not enforce any protocol or application layer behaviors here, because this traffic would be specific to the customer’s upstream APIs. Thus, securing proxy traffic on a production Kong Cloud cluster is the customer’s responsibility (e.g., setting up TLS certificates through Kong’s Admin API/Manager). Customers generally use their own domain name for production API (e.g., api.example.com), so Kong does not provide a TLS certificate to use out-of-the-box for production proxy traffic. Kong would have no way to enforce TLS traffic and no manageable certificate/key to provide. Thus, securing production proxy traffic via TLS is the customer’s responsibility.</p>
+<h1 id="kong-cloud--differences-from-on-premise">Kong Cloud  differences from on-premise</h1>
+<p>Despite simply being a managed deployment of Kong Enterprise, Kong Cloud has a few key differences from a customer-hosted Kong Enterprise deployment.</p>
+
+<h2 id="security">Security</h2>
+<p>By default, RBAC is enabled on both Kong Manager and the Kong Enterprise Admin API to prevent unauthorized access to your Kong Enterprise cluster.</p>
+
+<p>A root account named <strong>kong_admin</strong> is created and provisioned on sign up.</p>
+
+<h2 id="kong-manager">Kong Manager</h2>
+<p>In Kong Manager, some parts of the interface are hidden or disabled since they aren’t relevant for a hosted setting due to being irrelevant, ephemeral, or inaccessible from outside of the private network. These hidden parts include details about the license, database, and cluster node.</p>
+
+<p>Certain plugins and plugin fields are also disabled. See the plugins section below.</p>
+
+<h2 id="plugins">Plugins</h2>
+<p>Not all plugins bundled with Kong Enterprise are available in Kong Cloud.</p>
+
+<h3 id="list-of-unavailable-plugins-on-kong-cloud">List of Unavailable Plugins on Kong Cloud</h3>
+
+<h4 id="logging-plugins">Logging Plugins</h4>
+<p>Customers can request access to Kong Cloud’s own Log API, which contains all logs necessary for customers to ingest and analyze. The following plugins would be redundant, and as a result, they are unavailable:</p>
+
+<ul>
+  <li>prometheus</li>
+  <li>datadog</li>
+  <li>file-log</li>
+  <li>http-log</li>
+  <li>kafka-log</li>
+  <li>loggly</li>
+  <li>statsd</li>
+  <li>statsd-advanced</li>
+  <li>syslog</li>
+  <li>tcp-log</li>
+  <li>udp-log</li>
+</ul>
+
+<h4 id="serverless-plugins">Serverless Plugins</h4>
+<p>The following plugins allow executing arbitrary code on the Kong Enterprise Gateway (Kong API Gateway) and are disabled to ensure a secure hosted environment:</p>
+
+<ul>
+  <li>pre_function</li>
+  <li>post_function</li>
+</ul>
+
+<h4 id="other-plugins">Other Plugins</h4>
+<p>There are other plugins not categorized above, which are unavailable for the reasons specified:</p>
+
+<ul>
+  <li>request-size-limiting - Disabled for potential memory exhaustion.</li>
+  <li>rate-limiting - Only the open-source version is unavailable. Rate Limiting Advanced is available for use in its place.</li>
+  <li>kubernetes-sidecar-injector - Kong Cloud does not run in a Kubernetes environment.</li>
+  <li>zipkin</li>
+</ul>
+
+<h4 id="third-party--custom-plugins">Third-party / Custom Plugins</h4>
+<p>Third-party and custom plugins are currently not supported on Kong Cloud. Any plugin deployed on Kong Cloud must first be thoroughly vetted for scalability and security before being allowed to run in the hosted environment.</p>
+
+<h2 id="vitals">Vitals</h2>
+<p>Kong Cloud only displays vital metrics for the 5-minute timeframe.</p>
+
+<p>Per-node statistics are disabled, only cluster-level metrics are available.</p>
+
+<h1 id="kong-cloud-ip-addresses-for-firewall-configuration">Kong Cloud IP Addresses for Firewall Configuration</h1>
+<p>All traffic from Kong Cloud originates from the following list of providers’ IP addresses:</p>
+
+<h2 id="aws">AWS</h2>
+<h4 id="us-west-1">us-west-1</h4>
+<ul>
+  <li>54.177.235.50/32</li>
+  <li>13.57.90.100/32</li>
+</ul>
+
+<h4 id="us-east-1">us-east-1</h4>
+<ul>
+  <li>18.204.28.183/32</li>
+  <li>54.209.226.208/32</li>
+</ul>
 
 
         </div>
@@ -1984,7 +2071,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1578357124"></script>
+    <script src="/assets/app.js?v=1578372298"></script>
 
     <div id="fb-root"></div>
 
