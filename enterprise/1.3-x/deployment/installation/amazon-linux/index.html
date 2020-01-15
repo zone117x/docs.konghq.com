@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>How to Install Kong Enterprise and PostgreSQL onto Amazon Linux - v1.3-x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Install Kong Enterprise with Amazon Linux 1 - v1.3-x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1578975997"
+    href="/assets/styles.css?v=1579048845"
   />
   
 </head>
@@ -385,7 +385,7 @@ window['_fs_namespace'] = 'FS';
           
       </div>
       <div class="page-header-title">
-        <h1>How to Install Kong Enterprise and PostgreSQL onto Amazon Linux</h1>
+        <h1>Install Kong Enterprise with Amazon Linux 1</h1>
       </div>
 
       <div class="dropdown page-header-right" id="searchBar">
@@ -537,7 +537,13 @@ window['_fs_namespace'] = 'FS';
               
               
               <li>
-                <a href="/enterprise/1.3-x/deployment/installation/amazon-linux" class="active" >Amazon Linux</a>
+                <a href="/enterprise/1.3-x/deployment/installation/amazon-linux" class="active" >Amazon Linux 1</a>
+                
+              </li>
+              
+              
+              <li>
+                <a href="/enterprise/1.3-x/deployment/installation/amazon-linux-2" >Amazon Linux 2</a>
                 
               </li>
               
@@ -1755,90 +1761,344 @@ window['_fs_namespace'] = 'FS';
           
           <h2 id="table-of-contents">Table of Contents</h2>
           <ul>
-  <li><a href="#installation-steps" class="scroll-to">Installation Steps</a></li>
-  <li><a href="#install-httpie-to-make-commands-more-easily" class="scroll-to">Install HTTPie to Make Commands more Easily</a></li>
-  <li><a href="#verify-kong-installation" class="scroll-to">Verify Kong Installation</a></li>
-  <li><a href="#install-kong-manager" class="scroll-to">Install Kong Manager</a></li>
+  <li><a href="#introduction" class="scroll-to">Introduction</a></li>
+  <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
+  <li><a href="#step-1-download-kong-enterprise" class="scroll-to">Step 1. Download Kong Enterprise</a></li>
+  <li><a href="#step-2-install-kong-enterprise" class="scroll-to">Step 2. Install Kong Enterprise</a></li>
+  <li><a href="#step-3-install-and-initialize-the-database" class="scroll-to">Step 3. Install and Initialize the Database</a>
+    <ul>
+      <li><a href="#postgresql" class="scroll-to">PostgreSQL</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-4-customize-your-configuration" class="scroll-to">Step 4. Customize Your Configuration</a>
+    <ul>
+      <li><a href="#enable-rbac" class="scroll-to">Enable RBAC</a></li>
+      <li><a href="#enable-kong-manager" class="scroll-to">Enable Kong Manager</a></li>
+      <li><a href="#enable-the-dev-portal" class="scroll-to">Enable the Dev Portal</a></li>
+    </ul>
+  </li>
+  <li><a href="#step-5-start-kong" class="scroll-to">Step 5. Start Kong</a></li>
+  <li><a href="#step-6-verify-kong-is-receiving-requests" class="scroll-to">Step 6. Verify Kong is Receiving Requests</a></li>
+  <li><a href="#troubleshooting" class="scroll-to">Troubleshooting</a></li>
+  <li><a href="#next-steps" class="scroll-to">Next Steps</a></li>
 </ul>
 
 
           
 
-          <h2 id="installation-steps">Installation Steps</h2>
+          <h2 id="introduction">Introduction</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum update
-<span class="nv">$ </span>wget <span class="s1">'https://&lt;BINTRAY_USER:&lt;PASSWORD&gt;@bintray.com/kong/kong-enterprise-edition-aws/rpm'</span> <span class="nt">-O</span> bintray-kong-kong-enterprise-edition-aws.repo <span class="nt">--auth-no-challenge</span>
-<span class="nv">$ </span><span class="nb">sudo mv </span>bintray-kong-kong-enterprise-edition-aws.repo /etc/yum.repos.d/
-<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/yum.repos.d/bintray-kong-kong-enterprise-edition-aws.repo
+<p>This guide will walk you through installing and running <strong>Kong Enterprise</strong> on an existing <strong>Amazon Linux 1 EC2</strong> instance. Click <a href="/enterprise/1.3-x/deployment/installation/amazon-linux-2">HERE</a> for installing on Amazon Linux <strong>2</strong>.</p>
+
+<p><strong>Supported Database Options:</strong></p>
+
+<ul>
+  <li>PostgreSQL 9.5, 9.6</li>
+  <li>Cassandra 3</li>
+</ul>
+
+<p>Due to the nature of setting up a Kong cluster with Cassandra, this documentation only covers Postgres. For assistance in setting up Cassandra, please contact your Sales or Support representative.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>To complete this installation guide you will need:</p>
+
+<ul>
+  <li>A valid <em>Bintray</em> account. You will need your <em>username</em>, account <em>password</em> and account <em>API KEY</em>.
+    <ul>
+      <li>Example:
+        <ul>
+          <li>Bintray Access key = <code class="highlighter-rouge">john-company</code></li>
+          <li>Bintray username = <code class="highlighter-rouge">john-company@kong</code></li>
+          <li>Bintray password = <code class="highlighter-rouge">12345678</code></li>
+          <li>Bintray API KEY = <code class="highlighter-rouge">12234e314356291a2b11058591bba195830</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>SSH access to a running EC2 instance</li>
+  <li>A valid <strong>Kong Enterprise License</strong> JSON file, this can be found in your Bintray account. See <a href="/enterprise/1.3-x/deployment/access-license">Accessing Your License</a>)</li>
+  <li>HTTPIE with Python3 <em>(optional)</em> - this allows for making easier commands to Kong, see <a href="/#step-6-verify-kong-is-receiving-requests">Step 6. Set up HTTPIE</a> for details.</li>
+</ul>
+
+<h2 id="step-1-download-kong-enterprise">Step 1. Download Kong Enterprise</h2>
+
+<ol>
+  <li>Download the RPM package from Bintray
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo yum update
+  $ wget 'https://&lt;BINTRAY_USERNAME&gt;:&lt;PASSWORD&gt;@bintray.com/kong/kong-enterprise-edition-aws/rpm' -O bintray-kong-kong-enterprise-edition-aws.repo --auth-no-challenge`
+</code></pre></div>    </div>
+    <blockquote>
+      <p>Note: this command requires your Bintray account PASSWORD, <strong>not</strong> your API KEY, 
+If you receive the error “BAD PORT” ensure your password does not contain any shell meta-characters like $,@, or /</p>
+    </blockquote>
+  </li>
+  <li>Move the package into <code class="highlighter-rouge">/etc/yum.repos.d/</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo mv bintray-kong-kong-enterprise-edition-aws.repo /etc/yum.repos.d/
+</code></pre></div>    </div>
+  </li>
+  <li>Open the package to and add your Bintray credentials to the <code class="highlighter-rouge">baseurl</code> value.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo vi /etc/yum.repos.d/bintray-kong-kong-enterprise-edition-aws.repo
+</code></pre></div>    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  baseurl=https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
+</code></pre></div>    </div>
+    <blockquote>
+      <p>Note: Unlike step 1, this command requires your Bintray account API KEY, <strong>not</strong> your PASSWORD.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Obtain your Kong Enterprise license file.
+  If you do not already have your license file, you can download it from your account files in Bintray <em><code class="highlighter-rouge">https://bintray.com/kong/&lt;YOUR_REPO_NAME&gt;/license#files</code></em>. See <a href="/enterprise/latest/deployment/access-license">How you Access Your Enterprise License</a> for help.</p>
+  </li>
+  <li>Ensure your license file is in proper <em><code class="highlighter-rouge">JSON</code></em>:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> {"license":{"signature":"91e6dd9716d12ffsn4a5ckkb16a556dbebdbc4d0a66d9b2c53f8c8d717eb93dd2bdbe2cb3ef51c20806f14345128907da35","payload":{"customer":"Kong Inc","license_creation_date":"2019-05-07","product_subscription":"Kong Enterprise Edition","admin_seats":"5","support_plan":"None","license_expiration_date":"2021-04-01","license_key":"00Q1K00000zuUAwUAM_a1V1K000005kRhuUAE"},"version":1}}
+</code></pre></div>    </div>
+  </li>
+  <li>Securely copy the license file to the EC2 instance
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ scp license.json &lt;ec2-username&gt;@&lt;serverip&gt;:~
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="step-2-install-kong-enterprise">Step 2. Install Kong Enterprise</h2>
+
+<ol>
+  <li>Install Kong Enterprise
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo yum install kong-enterprise-edition
+</code></pre></div>    </div>
+  </li>
+  <li>Copy the license file to <code class="highlighter-rouge">/etc/kong/license.json</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo cp kong-se-license.json /etc/kong/license.json
+</code></pre></div>    </div>
+    <p>Kong will look for a valid license in this location.</p>
+  </li>
+</ol>
+
+<h2 id="step-3-install-and-initialize-the-database">Step 3. Install and Initialize the Database</h2>
+
+<p><strong>Kong Enterprise</strong> on Amazon Linux  supports:</p>
+
+<ul>
+  <li><a href="/#postgresql">PostgreSQL</a></li>
+  <li>Cassandra</li>
+</ul>
+
+<h3 id="postgresql">PostgreSQL</h3>
+
+<p>This configuration supports PostgreSQL 9.5 and 9.6.</p>
+
+<p><strong>Steps for this section:</strong></p>
+
+<ul>
+  <li>i. <a href="/#install-and-start-postgresql">Install and Start Postgres</a></li>
+  <li>ii. <a href="/#create-a-kong-user-and-database">Create a Kong user and database</a></li>
+  <li>iii. <a href="/#connect-kong-to-the-postgresql-database">Connect Kong to the Postgres database</a></li>
+</ul>
+
+<p><strong>i. Install and Start PostgreSQL</strong></p>
+
+<ol>
+  <li>Install PostgreSQL
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo yum install postgresql96 postgresql96-server
+</code></pre></div>    </div>
+  </li>
+  <li>Initialize the database
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo service postgresql96 initdb
+</code></pre></div>    </div>
+  </li>
+  <li>Start PostgreSQL
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo service postgresql96 start
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><strong>ii. Create a Kong user and database</strong></p>
+
+<p>The user and database can easily be created via the command line by using PostgreSQL’s command line tool <code class="highlighter-rouge">psql</code></p>
+
+<ol>
+  <li>Change to the <code class="highlighter-rouge">postgres</code> user
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo -i -u postgres
+</code></pre></div>    </div>
+  </li>
+  <li>Launch the PostgreSQL command line tool <code class="highlighter-rouge">psql</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ psql
+</code></pre></div>    </div>
+  </li>
+  <li>Create the <code class="highlighter-rouge">kong</code> user and database
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ psql&gt; CREATE USER kong; CREATE DATABASE kong OWNER kong; ALTER USER kong WITH password 'kong';
+</code></pre></div>    </div>
+    <blockquote>
+      <p>⚠️Note: Make sure the username and password for the Kong Database are kept safe. We have used a simple example for illustration purposes only.</p>
+    </blockquote>
+  </li>
+  <li>Exit <code class="highlighter-rouge">psql</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ psql&gt; \q
+</code></pre></div>    </div>
+  </li>
+  <li>Return to the terminal
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ exit
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p><strong>iii. Connect Kong to the PostgreSQL database</strong></p>
+
+<p>Postgres uses <code class="highlighter-rouge">ident</code> authentication by default, to allow the <code class="highlighter-rouge">kong</code> user to communicate with the database locally we must change the authentication method to <code class="highlighter-rouge">md5</code> by modifying the Postgres configuration file.</p>
+
+<ol>
+  <li>Open the configuration file:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo vi /var/lib/pgsql96/data/pg_hba.conf
+</code></pre></div>    </div>
+  </li>
+  <li>Change the <code class="highlighter-rouge">IPV4</code> local connection method to <code class="highlighter-rouge">md5</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> | TYPE | DATABASE | USER | ADDRESS      | METHOD |
+ | # IPv4 local connections:                      |
+ | host | all      | all  | 127.0.0.1/32 |  md5   |
+ | # IPv6 local connections:                      |
+ | host | all      | all  | ::1/128      | ident  |
+</code></pre></div>    </div>
+  </li>
+  <li>Save and exit the file, then restart Postgres
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ sudo service postgresql96 restart
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Now that the database is set up, Kong must be given credentials to access the database. This is done by adding the Postgres user and password information to Kong’s configuration file.</p>
+
+<ol>
+  <li>Make a copy of Kong’s configuration file
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sudo cp /etc/kong/kong.conf.default kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>Open the new configuration file
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sudo vi /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>Search for <code class="highlighter-rouge">pg_password</code> under <code class="highlighter-rouge">DATASTORE,</code> uncomment <code class="highlighter-rouge">pg_password</code> and add the value.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  #pg_user = kong
+  pg_password = kong
+  #pg_datastore = kong
+</code></pre></div>    </div>
+    <blockquote>
+      <p>Note: If you used different values for the user and database name, uncomment the pg_user and pg_datastore variables and add the username and datastore values</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h2 id="step-4-customize-your-configuration">Step 4. Customize Your Configuration</h2>
+<p>Before starting Kong, you can further modify Kong’s configuration file to enable a host of different features:</p>
+
+<h3 id="enable-rbac">Enable RBAC</h3>
+
+<p>Kong Enterprise allows applying RBAC to all requests. To enable RBAC, you must set RBAC to <code class="highlighter-rouge">on</code>, select an authentication plugin for Kong Manager, and configure the <a href="/hub/kong-inc/session">Session plugin</a>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  enforce_rbac = on
+
+  admin_gui_auth = basic-auth
+
+  admin_gui_session_conf = {"secret":"password", "cookie_secure": false, "cookie_samesite": "off", "cookie_name": "admin_session", "storage": "kong"}
 </code></pre></div></div>
 
-<p>Ensure <code class="highlighter-rouge">baseurl</code> is correct</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>https://&lt;BINTRAY_USER&gt;:&lt;BINTRAY_API_KEY&gt;@kong.bintray.com/kong-enterprise-edition-aws
+<p>Export the KONG_PASSWORD environment variable:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  export KONG_PASSWORD=kong
 </code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-enterprise-edition
-<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95 postgresql95-server
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 initdb
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 start
-<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-i</span> <span class="nt">-u</span> postgres <span class="o">(</span>puts you into new shell<span class="o">)</span>
+<h3 id="enable-kong-manager">Enable Kong Manager</h3>
+
+<p>Kong Enterprise’s Graphical User Interface <strong>Kong Manager</strong> can be connected by setting the <code class="highlighter-rouge">admin_gui_url</code> property to the EC2 instances <code class="highlighter-rouge">IPv4</code> address</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  admin_gui_url = http://ec2-xx-xxx-xx-xx.us-east-2.compute.amazonaws.com:8002
 </code></pre></div></div>
 
-<p><strong>Note</strong>: <code class="highlighter-rouge">&lt;USERNAME&gt;</code> is obtained from your access key, by appending a <code class="highlighter-rouge">%40kong</code>
-to it (encoded form of <code class="highlighter-rouge">@kong</code>). For example, if your access key is <code class="highlighter-rouge">bob-company</code>,
-your username will be <code class="highlighter-rouge">bob-company%40kong</code>.</p>
+<h3 id="enable-the-dev-portal">Enable the Dev Portal</h3>
 
-<p>Create <code class="highlighter-rouge">kong</code> user</p>
+<p>Kong Enterprise’s <strong>Developer Portal</strong> can be connected by setting the <code class="highlighter-rouge">portal</code> property to <code class="highlighter-rouge">on</code> and setting the <code class="highlighter-rouge">portal_gui_host</code> property to the EC2 instance’s <code class="highlighter-rouge">IPv4</code> address</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>psql
-<span class="o">&gt;</span> CREATE USER kong<span class="p">;</span> CREATE DATABASE kong OWNER kong<span class="p">;</span> ALTER USER kong WITH password <span class="s1">'kong'</span><span class="p">;</span> 
-<span class="o">&gt;</span> <span class="se">\q</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  portal = on
+  portal_gui_host = http://ec2-xx-xxx-xx-xx.us-east-2.compute.amazonaws.com:8003
 </code></pre></div></div>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Change entries from ident to md5</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi /var/lib/pgsql95/data/pg_hba.conf
-<span class="nv">$ </span><span class="nb">sudo </span>service postgresql95 restart
+<h2 id="step-5-start-kong">Step 5. Start Kong</h2>
 
-<span class="c"># add contents of license file</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/kong/license.json
+<ol>
+  <li>Run migrations
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  kong migrations bootstrap -c /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+  <li>Start Kong
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sudo /usr/local/bin/kong start -c /etc/kong/kong.conf
+</code></pre></div>    </div>
+  </li>
+</ol>
 
-<span class="c"># Uncomment and add 'kong' to pg_password line</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf]
+<h2 id="step-6-verify-kong-is-receiving-requests">Step 6. Verify Kong is Receiving Requests</h2>
 
-<span class="c"># Run migrations and start kong</span>
-<span class="nv">$ </span>kong migrations bootstrap <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
-<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+<h5 id="install-httpie-to-easily-send-requests-to-kong-optional">Install HTTPie to easily send requests to Kong <em>(optional)</em></h5>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sudo yum install python36
+
+  sudo pip-3.6 install --upgrade pip setuptools
+
+  sudo /usr/local/bin/pip3.6 install --upgrade httpie
 </code></pre></div></div>
 
-<p><strong>Note:</strong> You may use <code class="highlighter-rouge">kong.conf.default</code> or create <a href="/0.13.x/configuration/#configuration-loading">your own configuration</a>.</p>
+<h4 id="test-your-connection-to-kong">Test your connection to Kong</h4>
 
-<h2 id="install-httpie-to-make-commands-more-easily">Install HTTPie to Make Commands more Easily</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip setuptools
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install</span> <span class="nt">--upgrade</span> httpie
+<p><strong>httpie</strong></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  http :8001/services 
+  
+  if RBAC is enabled:
+  *http :8001/services Kong-Admin-Token:$KONG_PASSWORD
 </code></pre></div></div>
 
-<h2 id="verify-kong-installation">Verify Kong Installation</h2>
+<p><strong>curl</strong></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  curl -i -X GET --url http://localhost:8001/services
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8001/apis <span class="nv">name</span><span class="o">=</span>demo <span class="nv">uris</span><span class="o">=</span>/ <span class="nv">upstream_url</span><span class="o">=</span>http://httpbin.org
-<span class="nv">$ </span>http :8000/ip
+  if RBAC is enabled:
+  curl -i -X GET --url http://localhost:8001/services --header 'kong-admin-token:&lt;KONG_PASSWORD&gt;'
 </code></pre></div></div>
 
-<h2 id="install-kong-manager">Install Kong Manager</h2>
+<p>You should receive a <code class="highlighter-rouge">200 OK</code> response:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Get the local IP address</span>
-<span class="nv">$ </span>ifconfig 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 23
+Content-Type: application/json; charset=utf-8
+Date:
+Server: kong/kong-enterprise-edition
+X-Kong-Admin-Request-ID: 
 
-<span class="c"># Uncomment the admin_listen setting, and update to something like this `admin_listen = 172.31.3.8:8001`</span>
-<span class="nv">$ </span><span class="nb">sudo </span>vi <span class="o">[</span>/path/to/kong.conf] 
-
-<span class="c"># Restart kong</span>
-<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong stop 
-<span class="nv">$ </span><span class="nb">sudo</span> /usr/local/bin/kong start <span class="o">[</span><span class="nt">-c</span> /path/to/kong.conf]
+{
+    "data": [],
+    "next": null
+}
 </code></pre></div></div>
 
-<p>In a browser, load your server on port <code class="highlighter-rouge">8002</code></p>
+<p>If you did not receive a <code class="highlighter-rouge">200</code> check out the troubleshooting section below or contact your Sales or Support Representative for assistance.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h5 id="i-receive-an-error-when-downloading-the-rpm-package">I receive an error when downloading the RPM Package</h5>
+<p>Ensure that you are using your Bintray Username and Bintray account **password **in the <code class="highlighter-rouge">wget</code> request - note that this is different from your Bintray API KEY.</p>
+
+<h5 id="http-401---unauthorized">HTTP 401 - Unauthorized</h5>
+<p>If you have enabled RBAC all request must be sent with the <code class="highlighter-rouge">kong-admin-token</code> header</p>
+
+<p><strong>httpie</strong>
+    <code class="highlighter-rouge">
+    Kong-Admin-Token:$KONG_PASSWORD
+   </code></p>
+
+<p><strong>curl</strong>
+    <code class="highlighter-rouge">
+    --header 'kong-admin-token:&lt;KONG_PASSWORD&gt;'
+   </code></p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>Now that Kong Enterprise is up and running, checkout our <a href="/enterprise/1.3-x/getting-started">Getting Started</a> guide.</p>
 
 
         </div>
@@ -2062,7 +2322,7 @@ your username will be <code class="highlighter-rouge">bob-company%40kong</code>.
 </script>
 
 
-    <script src="/assets/app.js?v=1578975997"></script>
+    <script src="/assets/app.js?v=1579048845"></script>
 
     <div id="fb-root"></div>
 
