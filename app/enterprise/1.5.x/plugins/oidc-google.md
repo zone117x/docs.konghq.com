@@ -22,8 +22,10 @@ If you have not yet [added a **Service**][add-service], go ahead and do so. Agai
 
 ### Basic Plugin Configuration
 
-Add a plugin with the configuration below to your API using an HTTP client or Kong Manager. Make sure to use the same redirect URI as configured earlier:
+Add a plugin with the configuration below to your API using an HTTP client, Kong Manager, or `kubectl apply`. Make sure to use the same redirect URI as configured earlier:
 
+{% navtabs %}
+{% navtab Admin API %}
 ```bash
 $ curl -i -X POST http://kong:8001/apis/example/plugins --data name="openid-connect" \
   --data config.issuer="https://accounts.google.com/.well-known/openid-configuration" \
@@ -32,6 +34,45 @@ $ curl -i -X POST http://kong:8001/apis/example/plugins --data name="openid-conn
   --data config.redirect_uri="https://example.com/api" \
   --data config.scopes="openid,email"
 ```
+{% endnavtab %}
+{% navtab Kong for Kubernetes %}
+```yaml
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: my-google-oidc
+  annotations:
+    kubernetes.io/ingress.class: kong
+configFrom:
+    secretKeyRef:
+        name: my-google-oidc-conf
+        key: conf
+plugin: openid-connect
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-google-oidc-conf
+stringData:
+  conf: |
+    issuer: "https://accounts.google.com/.well-known/openid-configuration"
+    client_id:
+    - "YOUR_CLIENT_ID"
+    client_secret:
+    - "YOUR_CLIENT_SECRET"
+    redirect_uri:
+    - "https://example.com/api"
+    scopes:
+    - "openid"
+    - "email"
+
+
+type: Opaque
+```
+{% endnavtab %}
+{% endnavtabs %}
 
 Visiting a URL matched by that API in a browser will now redirect to Google's authentication site and return you to the redirect URI after authenticating. You'll note, however, that we did not configure anything to map authentication to consumers and that no consumer is associated with the subsequent request. Indeed, if you have configured other plugins that rely on consumer information, such as the ACL plugin, you will not have access. At present, the plugin configuration confirms that
 users have a Google account, but doesn't do anything with that information.
@@ -42,6 +83,8 @@ Depending on your needs, it may not be necessary to associate clients with a con
 
 If you need to interact with other Kong plugins using consumer information, you must add configuration that maps account data received from the identity provider to a Kong consumer. For this example, we'll map the user's Google account email by setting a `custom_id` on their consumer, e.g.
 
+{% navtabs %}
+{% navtab Admin API %}
 ```bash
 $ curl -i -X POST http://kong:8001/consumers/ \
   --data username="Yoda" \
@@ -51,6 +94,46 @@ $ curl -i -X PATCH http://kong:8001/apis/example/plugins/<OIDC plugin ID> \
   --data config.consumer_by="custom_id" \
   --data config.consumer_claim="email"
 ```
+{% endnavtab %}
+{% navtab Kong for Kubernetes %}
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-google-oidc-conf
+stringData:
+  conf: |
+    issuer: "https://accounts.google.com/.well-known/openid-configuration"
+    client_id:
+    - "YOUR_CLIENT_ID"
+    client_secret:
+    - "YOUR_CLIENT_SECRET"
+    redirect_uri:
+    - "https://example.com/api"
+    scopes:
+    - "openid"
+    - "email"
+    consumer_by:
+    - "custom_id"
+    consumer_claim:
+    - "email"
+
+
+type: Opaque
+
+---
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: kong
+  name: yoda
+username: Yoda
+custom_id: user@example.com
+```
+{% endnavtab %}
+{% endnavtabs %}
 
 Now, if a user logs into a Google account with the email `user@example.com`, Kong will apply configuration associated with the consumer `Yoda` to their requests. Note that while Google provides account emails, not all identity providers will. OpenID Connect does not have many required claims--the [only required user identity claim][oidc-id-token] is `sub`, a unique subscriber ID. Many optional claims [are
 standardized][oidc-standard-claims], however--if a provider returns an `email` claim, the contents will always be an email address.
