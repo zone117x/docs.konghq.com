@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -697,47 +695,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/statsd-advanced/0.35-x.html">
-                      0.35-x </a>
-                      
-                  </li>
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/statsd-advanced/0.34-x.html">
-                      0.34-x </a>
-                      
-                  </li>
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/statsd-advanced/0.33-x.html">
-                      0.33-x </a>
-                      
-                  </li>
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -838,12 +795,10 @@ making the following request:</p>
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
-on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<p>Configure this plugin on a <a href="/latest/admin-api/#Consumer-object">Consumer</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=statsd-advanced"</span> <span class="se">\</span>
-     <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=statsd-advanced"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.port=8125"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.allow_status_codes=200-205,400-499"</span>
@@ -881,17 +836,15 @@ target.</li>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -923,7 +876,8 @@ target.</li>
         <td><code>config.host</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`127.0.0.1`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">127.0.0.1</code></p>
+
         </td>
         <td><p>The IP address or host name of StatsD server to send data to</p>
 </td>
@@ -933,7 +887,8 @@ target.</li>
         <td><code>config.port</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`8125`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">8125</code></p>
+
         </td>
         <td><p>The port of StatsD server to send data to</p>
 </td>
@@ -943,7 +898,8 @@ target.</li>
         <td><code>config.metrics</code>
           
           
-          <br /><br /><strong>default value: </strong><code>All metrics<br />are logged</code>
+          <br /><br /><strong>default value: </strong><p>All metrics<br />are logged</p>
+
         </td>
         <td><p>List of Metrics to be logged. Available values are described under <a href="#metrics">Metrics</a>.</p>
 </td>
@@ -953,7 +909,8 @@ target.</li>
         <td><code>config.prefix</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`kong`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">kong</code></p>
+
         </td>
         <td><p>String to be prefixed to each metric’s name</p>
 </td>
@@ -963,7 +920,8 @@ target.</li>
         <td><code>config.udp_packet_size</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`0` (not combined)</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">0</code> (not combined)</p>
+
         </td>
         <td><p>Combine UDP packet up to the size configured</p>
 </td>
@@ -973,7 +931,8 @@ target.</li>
         <td><code>config.use_tcp</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>Use TCP instead of UDP</p>
 </td>
@@ -983,7 +942,8 @@ target.</li>
         <td><code>config.allow_status_codes</code>
           
           
-          <br /><br /><strong>default value: </strong><code>All responses are passed to log metrics</code>
+          <br /><br /><strong>default value: </strong><p>All responses are passed to log metrics</p>
+
         </td>
         <td><p>List of status code ranges which are allowed to be logged in metrics</p>
 </td>
@@ -1288,8 +1248,9 @@ you can find it at the following path:
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1369,7 +1330,7 @@ you can find it at the following path:
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

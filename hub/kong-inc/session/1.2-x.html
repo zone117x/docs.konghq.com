@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -646,7 +644,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
       </table>
 
     </aside>
@@ -700,26 +697,12 @@ It is built using
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
-<p><strong>With a database</strong></p>
-
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.secret=opensesame"</span>
-</code></pre></div></div>
-
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">session</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">secret</span><span class="pi">:</span> <span class="s">opensesame</span>
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -730,25 +713,11 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
-<p><strong>With a database</strong></p>
-
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=session"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.secret=opensesame"</span>
-</code></pre></div></div>
-
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">session</span>
-  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">secret</span><span class="pi">:</span> <span class="s">opensesame</span>
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -759,17 +728,15 @@ adding this section to your declarative configuration file:</p>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -797,7 +764,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.secret</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>random number generated from `kong.utils.random_string`</code>
+          <br /><br /><strong>default value: </strong><p>random number generated from <code class="highlighter-rouge">kong.utils.random_string</code></p>
+
         </td>
         <td><p>The secret that is used in keyed HMAC generation.​</p>
 </td>
@@ -807,7 +775,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_name</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`session`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">session</code></p>
+
         </td>
         <td><p>The name of the cookie</p>
 </td>
@@ -817,7 +786,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_lifetime</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>3600</code>
+          <br /><br /><strong>default value: </strong><p>3600</p>
+
         </td>
         <td><p>The duration (in seconds) that the session will remain open</p>
 </td>
@@ -827,7 +797,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_renew</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>600</code>
+          <br /><br /><strong>default value: </strong><p>600</p>
+
         </td>
         <td><p>The duration (in seconds) of a session remaining at which point the Plugin renews the session</p>
 </td>
@@ -837,7 +808,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_path</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>/</code>
+          <br /><br /><strong>default value: </strong><p>/</p>
+
         </td>
         <td><p>The resource in the host where the cookie is available</p>
 </td>
@@ -847,7 +819,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_domain</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>Set using Nginx variable host, but may be overridden</code>
+          <br /><br /><strong>default value: </strong><p>Set using Nginx variable host, but may be overridden</p>
+
         </td>
         <td><p>The domain with which the cookie is intended to be exchanged</p>
 </td>
@@ -857,7 +830,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_samesite</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>Strict</code>
+          <br /><br /><strong>default value: </strong><p>Strict</p>
+
         </td>
         <td><p>Determines whether and how a cookie may be sent with cross-site requests. “Strict”: the browser will send cookies only if the request originated from the website that set the cookie. “Lax”: same-site cookies are withheld on cross-domain subrequests, but will be sent when a user navigates to the URL from an external site, for example, by following a link. “off”: disables the same-site attribute so that a cookie may be sent with cross-site requests. https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#SameSite_cookies</p>
 </td>
@@ -867,7 +841,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_httponly</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>true</code>
+          <br /><br /><strong>default value: </strong><p>true</p>
+
         </td>
         <td><p>Applies the <code class="highlighter-rouge">HttpOnly</code> tag so that the cookie is sent only to a server https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies</p>
 </td>
@@ -877,7 +852,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_secure</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>true</code>
+          <br /><br /><strong>default value: </strong><p>true</p>
+
         </td>
         <td><p>Applies the Secure directive so that the cookie may be sent to the server only with an encrypted request over the HTTPS protocol https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#Secure_and_HttpOnly_cookies</p>
 </td>
@@ -887,7 +863,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.cookie_discard</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>10</code>
+          <br /><br /><strong>default value: </strong><p>10</p>
+
         </td>
         <td><p>The duration (in seconds) after which an old session’s TTL is updated that an old cookie is discarded.</p>
 </td>
@@ -897,7 +874,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.storage</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>cookie</code>
+          <br /><br /><strong>default value: </strong><p>cookie</p>
+
         </td>
         <td><p>Determines where the session data is stored. <code class="highlighter-rouge">kong</code>: stores encrypted session data into Kong’s current database strategy (e.g. Postgres, Cassandra); the cookie will not contain any session data. <code class="highlighter-rouge">cookie</code>: stores encrypted session data within the cookie itself.</p>
 </td>
@@ -907,7 +885,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.logout_methods</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>[`"POST"`, `"DELETE"`]</code>
+          <br /><br /><strong>default value: </strong><p>[<code class="highlighter-rouge">"POST"</code>, <code class="highlighter-rouge">"DELETE"</code>]</p>
+
         </td>
         <td><p>The methods that may be used to end sessions: POST, DELETE, GET.</p>
 </td>
@@ -917,7 +896,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.logout_query_arg</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>session_logout</code>
+          <br /><br /><strong>default value: </strong><p>session_logout</p>
+
         </td>
         <td><p>The query argument passed to logout requests.</p>
 </td>
@@ -927,7 +907,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.logout_post_arg</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>session_logout</code>
+          <br /><br /><strong>default value: </strong><p>session_logout</p>
+
         </td>
         <td><p>The post argument passed to logout requests. Do not change this property.</p>
 </td>
@@ -1327,8 +1308,9 @@ Current workaround is to wait some interval of time (~100-500ms) after
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1408,7 +1390,7 @@ Current workaround is to wait some interval of time (~100-500ms) after
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

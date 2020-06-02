@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -666,38 +664,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/mtls-auth/">
-                      1.5.x </a>
-                      <em>(latest)</em>
-                  </li>
-                
-              
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/mtls-auth/0.36-x.html">
-                      0.36-x </a>
-                      
-                  </li>
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -787,17 +753,15 @@ making the following request:</p>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -835,7 +799,8 @@ making the following request:</p>
         <td><code>config.consumer_by</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`[ "username", "custom_id" ]`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">[ "username", "custom_id" ]</code></p>
+
         </td>
         <td><p>Whether to match the subject name of the client-supplied certificate against consumer’s <code class="highlighter-rouge">username</code> and/or <code class="highlighter-rouge">custom_id</code> attribute. If set to <code class="highlighter-rouge">[]</code> (the empty array) then auto-matching is disabled.</p>
 </td>
@@ -855,7 +820,8 @@ making the following request:</p>
         <td><code>config.skip_consumer_lookup</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`true`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
         </td>
         <td><p>Skip consumer look once certificate is trusted against the configured CA list.</p>
 </td>
@@ -865,7 +831,8 @@ making the following request:</p>
         <td><code>config.authenticated_group_by</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`CN`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">CN</code></p>
+
         </td>
         <td><p>Certificate property which will be used as authenticated group. Once <code class="highlighter-rouge">skip_consumer_lookup</code> is applied, any client with a valid certificate can access the Service/API. To restrict usage to only some of the authenticated users, also add the ACL plugin (not covered here) and create whitelist or blacklist groups of users.</p>
 </td>
@@ -1112,8 +1079,9 @@ filter.</p>
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1193,7 +1161,7 @@ filter.</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

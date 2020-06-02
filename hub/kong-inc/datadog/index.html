@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -481,7 +479,7 @@ window['_fs_namespace'] = 'FS';
       <div class="versions-dropdown dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-          Plugin Version 1.0-x
+          Plugin Version 3.0.x
           <em>(latest)</em>
           <span class="caret"></span>
         </button>
@@ -490,7 +488,14 @@ window['_fs_namespace'] = 'FS';
             
             <li  class="active" >
               <a href="/hub/kong-inc/datadog/">
-                1.0-x <em>(latest)</em>
+                3.0.x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/datadog/1.0-x.html">
+                1.0-x 
               </a>
             </li>
           
@@ -528,6 +533,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#metric-requirements">Metric requirements</a></li>
     </ul>
   </li>
+  <li><a href="#migrating-datadog-queries">Migrating Datadog queries</a></li>
   <li><a href="#kong-process-errors">Kong Process Errors</a></li>
 </ul>
 
@@ -817,29 +823,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/datadog/0.1-x.html">
-                      0.1-x </a>
-                      
-                  </li>
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -859,7 +842,7 @@ window['_fs_namespace'] = 'FS';
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
-  with versions of Kong prior to 0.11.0 differs from what is documented herein.
+  with versions of Kong prior to 1.4.0 differs from what is documented herein.
   Refer to the
   <a href="https://github.com/Kong/kong/blob/master/CHANGELOG.md">CHANGELOG</a>
   for details.
@@ -912,8 +895,22 @@ window['_fs_namespace'] = 'FS';
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
-<p><strong>With a database</strong></p>
-
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-da225cf3-c4c4-4473-96a8-36d391c03312-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-da225cf3-c4c4-4473-96a8-36d391c03312-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-da225cf3-c4c4-4473-96a8-36d391c03312-0" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
@@ -923,8 +920,11 @@ making the following request:</p>
     <span class="nt">--data</span> <span class="s2">"config.port=8125"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-da225cf3-c4c4-4473-96a8-36d391c03312-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -936,6 +936,11 @@ adding this section to your declarative configuration file:</p>
     <span class="na">port</span><span class="pi">:</span> <span class="m">8125</span>
 </code></pre></div></div>
 
+    </div>
+  
+  </div>
+</div>
+
 <p><code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
 
 
@@ -944,8 +949,22 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
-<p><strong>With a database</strong></p>
-
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-5fc78cbd-33fb-44d8-b3d2-9b76554e806c-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-5fc78cbd-33fb-44d8-b3d2-9b76554e806c-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-5fc78cbd-33fb-44d8-b3d2-9b76554e806c-0" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
@@ -954,8 +973,11 @@ adding this section to your declarative configuration file:</p>
     <span class="nt">--data</span> <span class="s2">"config.port=8125"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-5fc78cbd-33fb-44d8-b3d2-9b76554e806c-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -967,6 +989,11 @@ adding this section to your declarative configuration file:</p>
     <span class="na">port</span><span class="pi">:</span> <span class="m">8125</span>
 </code></pre></div></div>
 
+    </div>
+  
+  </div>
+</div>
+
 <p><code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
 
 
@@ -975,20 +1002,35 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p><strong>With a database</strong></p>
-
-<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
-on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-5d449615-6d62-4bcf-9d63-cc6a8b430ca1-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-5d449615-6d62-4bcf-9d63-cc6a8b430ca1-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-5d449615-6d62-4bcf-9d63-cc6a8b430ca1-0" class="navtab-content">
+      
+<p>Configure this plugin on a <a href="/latest/admin-api/#Consumer-object">Consumer</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=datadog"</span> <span class="se">\</span>
-     <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=datadog"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.host=127.0.0.1"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.port=8125"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-5d449615-6d62-4bcf-9d63-cc6a8b430ca1-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#consumer-object">Consumer</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -1000,6 +1042,11 @@ adding this section to your declarative configuration file:</p>
     <span class="na">port</span><span class="pi">:</span> <span class="m">8125</span>
 </code></pre></div></div>
 
+    </div>
+  
+  </div>
+</div>
+
 <p><code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
 
 <p>You can combine <code class="highlighter-rouge">consumer.id</code> and <code class="highlighter-rouge">service.id</code> in the same request, to further narrow the scope of the plugin.</p>
@@ -1009,17 +1056,17 @@ adding this section to your declarative configuration file:</p>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -1049,7 +1096,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.host</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`127.0.0.1`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">127.0.0.1</code></p>
+
         </td>
         <td><p>The IP address or host name to send data to.</p>
 </td>
@@ -1059,7 +1107,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.port</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`8125`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">8125</code></p>
+
         </td>
         <td><p>The port to send data to on the upstream server</p>
 </td>
@@ -1069,7 +1118,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.metrics</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>All metrics are logged</code>
+          <br /><br /><strong>default value: </strong><p>All metrics are logged</p>
+
         </td>
         <td><p>List of Metrics to be logged. Available values are described at <a href="#metrics">Metrics</a>.</p>
 </td>
@@ -1079,7 +1129,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.prefix</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`kong`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">kong</code></p>
+
         </td>
         <td><p>String to be attached as prefix to metric’s name.</p>
 </td>
@@ -1095,8 +1146,7 @@ adding this section to your declarative configuration file:</p>
 
 
       <h2 id="metrics">Metrics</h2>
-
-<p>Plugin currently logs following metrics to the Datadog server about a Service or Route.</p>
+<p>Plugin currently logs the following metrics to the Datadog server about a Service or Route.</p>
 
 <table>
   <thead>
@@ -1110,55 +1160,37 @@ adding this section to your declarative configuration file:</p>
     <tr>
       <td><code class="highlighter-rouge">request_count</code></td>
       <td>tracks the request</td>
-      <td>kong.&lt;service_name&gt;.request.count</td>
+      <td>kong.request.count</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">request_size</code></td>
       <td>tracks the request’s body size in bytes</td>
-      <td>kong.&lt;service_name&gt;.request.size</td>
+      <td>kong.request.size</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">response_size</code></td>
       <td>tracks the response’s body size in bytes</td>
-      <td>kong.&lt;service_name&gt;.response.size</td>
+      <td>kong.response.size</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">latency</code></td>
       <td>tracks the time interval between the request started and response received from the upstream server</td>
-      <td>kong.&lt;service_name&gt;.latency</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">status_count</code></td>
-      <td>tracks each status code returned as response</td>
-      <td>kong.&lt;service_name&gt;.status.&lt;status&gt;.count and kong.&lt;service_name&gt;.status.&lt;status&gt;.total</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">unique_users</code></td>
-      <td>tracks unique users made a request</td>
-      <td>kong.&lt;service_name&gt;.user.uniques</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">request_per_user</code></td>
-      <td>tracks request/user</td>
-      <td>kong.&lt;service_name&gt;.user.&lt;consumer_id&gt;.count</td>
+      <td>kong.latency</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">upstream_latency</code></td>
       <td>tracks the time it took for the final service to process the request</td>
-      <td>kong.&lt;service_name&gt;.upstream_latency</td>
+      <td>kong.upstream_latency</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">kong_latency</code></td>
       <td>tracks the internal Kong latency that it took to run all the plugins</td>
-      <td>kong.&lt;service_name&gt;.kong_latency</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">status_count_per_user</code></td>
-      <td>tracks request/status/user</td>
-      <td>kong.&lt;service_name&gt;.user.&lt;customer_id&gt;.status.&lt;status&gt; and kong.&lt;service_name&gt;.user.&lt;customer_id&gt;.status.total</td>
+      <td>kong.kong_latency</td>
     </tr>
   </tbody>
 </table>
+
+<p>The metrics will be sent with the tags <code class="highlighter-rouge">name</code> and <code class="highlighter-rouge">status</code> carrying the API name and HTTP status code respectively. If you specify <code class="highlighter-rouge">consumer_identifier</code> with the metric, a tag <code class="highlighter-rouge">consumer</code> will be added.</p>
 
 <h3 id="metric-fields">Metric fields</h3>
 
@@ -1206,10 +1238,19 @@ adding this section to your declarative configuration file:</p>
 <ol>
   <li>by default all metrics get logged.</li>
   <li>metric with <code class="highlighter-rouge">stat_type</code> as <code class="highlighter-rouge">counter</code> or <code class="highlighter-rouge">gauge</code> must have <code class="highlighter-rouge">sample_rate</code> defined as well.</li>
-  <li><code class="highlighter-rouge">unique_users</code> metric only works with <code class="highlighter-rouge">stat_type</code> as <code class="highlighter-rouge">set</code>.</li>
-  <li><code class="highlighter-rouge">status_count</code>, <code class="highlighter-rouge">status_count_per_user</code> and <code class="highlighter-rouge">request_per_user</code> work only with <code class="highlighter-rouge">stat_type</code>  as <code class="highlighter-rouge">counter</code>.</li>
-  <li><code class="highlighter-rouge">status_count_per_user</code>, <code class="highlighter-rouge">request_per_user</code> and <code class="highlighter-rouge">unique_users</code> must have <code class="highlighter-rouge">customer_identifier</code> defined.</li>
 </ol>
+
+<h2 id="migrating-datadog-queries">Migrating Datadog queries</h2>
+<p>The plugin updates replace the api, status, and consumer-specific metrics with a generic metric name.
+You have to change your Datadog queries in dashboards and alerts to reflect the metrics updates.</p>
+
+<p>For example, the following query:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>avg:kong.sample_service.latency.avg{*}
+</code></pre></div></div>
+<p>would need to change to:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>avg:kong.latency.avg{name:sample-service}
+</code></pre></div></div>
 
 <h2 id="kong-process-errors">Kong Process Errors</h2>
 
@@ -1319,8 +1360,9 @@ you can find it at the following path:
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1400,7 +1442,7 @@ you can find it at the following path:
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

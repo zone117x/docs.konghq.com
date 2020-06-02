@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -665,38 +663,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/vault-auth/">
-                      1.3-x </a>
-                      <em>(latest)</em>
-                  </li>
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/vault-auth/0.36-x.html">
-                      0.36-x </a>
-                      
-                  </li>
-                
-              
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -788,17 +754,15 @@ making the following request:</p>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -826,7 +790,8 @@ making the following request:</p>
         <td><code>config.access_token_name</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`access_token`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">access_token</code></p>
+
         </td>
         <td><p>Describes an array of comma separated parameter names where the plugin will look for an access token. The client must send the access token in one of those key names, and the plugin will try to read the credential from a header or the querystring parameter with the same name.<br /><em>note</em>: the key names may only contain [a-z], [A-Z], [0-9], [_] and [-].</p>
 </td>
@@ -846,7 +811,8 @@ making the following request:</p>
         <td><code>config.secret_token_name</code>
           
           
-          <br /><br /><strong>default value: </strong><code>`access_token`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">access_token</code></p>
+
         </td>
         <td><p>Describes an array of comma separated parameter names where the plugin will look for a secret token. The client must send the secret in one of those key names, and the plugin will try to read the credential from a header or the querystring parameter with the same name.<br /><em>note</em>: the key names may only contain [a-z], [A-Z], [0-9], [_] and [-].</p>
 </td>
@@ -856,7 +822,8 @@ making the following request:</p>
         <td><code>config.key_in_body</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>If enabled, the plugin will read the request body (if said request has one and its MIME type is supported) and try to find the key in it. Supported MIME types are <code class="highlighter-rouge">application/www-form-urlencoded</code>, <code class="highlighter-rouge">application/json</code>, and <code class="highlighter-rouge">multipart/form-data</code>.</p>
 </td>
@@ -866,7 +833,8 @@ making the following request:</p>
         <td><code>config.hide_credentials</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional boolean value telling the plugin to show or hide the credential from the upstream service. If <code class="highlighter-rouge">true</code>, the plugin will strip the credential from the request (i.e. the header or querystring containing the key) before proxying it.</p>
 </td>
@@ -886,7 +854,8 @@ making the following request:</p>
         <td><code>config.run_on_preflight</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`true`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
         </td>
         <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests, if set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
@@ -1200,8 +1169,9 @@ HTTP/1.1 204 No Content
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1281,7 +1251,7 @@ HTTP/1.1 204 No Content
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

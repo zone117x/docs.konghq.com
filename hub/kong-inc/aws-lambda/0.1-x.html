@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -490,7 +488,14 @@ window['_fs_namespace'] = 'FS';
             
             <li >
               <a href="/hub/kong-inc/aws-lambda/">
-                1.0-x <em>(latest)</em>
+                3.0.x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/aws-lambda/1.0-x.html">
+                1.0-x 
               </a>
             </li>
           
@@ -709,29 +714,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/aws-lambda/">
-                      1.0-x </a>
-                      <em>(latest)</em>
-                  </li>
-                
-              
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -796,8 +778,6 @@ the function.</p>
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
-<p><strong>With a database</strong></p>
-
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
@@ -809,21 +789,6 @@ making the following request:</p>
     <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">aws-lambda</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">aws_key</span><span class="pi">:</span> <span class="s">AWS_KEY</span>
-    <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
-    <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
-    <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
-</code></pre></div></div>
-
 <p><code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
 
 
@@ -831,8 +796,6 @@ adding this section to your declarative configuration file:</p>
         
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
-
-<p><strong>With a database</strong></p>
 
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
@@ -844,21 +807,6 @@ adding this section to your declarative configuration file:</p>
     <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">aws-lambda</span>
-  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">aws_key</span><span class="pi">:</span> <span class="s">AWS_KEY</span>
-    <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
-    <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
-    <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
-</code></pre></div></div>
-
 <p><code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
 
 
@@ -867,33 +815,14 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p><strong>With a database</strong></p>
-
-<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
-on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<p>Configure this plugin on a <a href="/latest/admin-api/#Consumer-object">Consumer</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
-     <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
-</code></pre></div></div>
-
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#consumer-object">Consumer</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">aws-lambda</span>
-  <span class="na">consumer</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">consumer</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
-    <span class="na">aws_key</span><span class="pi">:</span> <span class="s">AWS_KEY</span>
-    <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
-    <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
-    <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
@@ -929,17 +858,15 @@ target.</li>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -1021,7 +948,8 @@ target.</li>
         <td><code>config.invocation_type</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`RequestResponse`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">RequestResponse</code></p>
+
         </td>
         <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">InvocationType</code></a> to use when invoking the function. Available types are <code class="highlighter-rouge">RequestResponse</code>, <code class="highlighter-rouge">Event</code>, <code class="highlighter-rouge">DryRun</code></p>
 </td>
@@ -1031,7 +959,8 @@ target.</li>
         <td><code>config.log_type</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`Tail`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">Tail</code></p>
+
         </td>
         <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">LogType</code></a> to use when invoking the function. By default <code class="highlighter-rouge">None</code> and <code class="highlighter-rouge">Tail</code> are supported</p>
 </td>
@@ -1041,7 +970,8 @@ target.</li>
         <td><code>config.timeout</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`60000`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60000</code></p>
+
         </td>
         <td><p>An optional timeout in milliseconds when invoking the function</p>
 </td>
@@ -1051,7 +981,8 @@ target.</li>
         <td><code>config.keepalive</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`60000`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60000</code></p>
+
         </td>
         <td><p>An optional value in milliseconds that defines how long an idle connection will live before being closed</p>
 </td>
@@ -1061,7 +992,8 @@ target.</li>
         <td><code>config.unhandled_status</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`200`, `202` or `204`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">200</code>, <code class="highlighter-rouge">202</code> or <code class="highlighter-rouge">204</code></p>
+
         </td>
         <td><p>The response status code to use (instead of the default <code class="highlighter-rouge">200</code>, <code class="highlighter-rouge">202</code>, or <code class="highlighter-rouge">204</code>) in the case of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_ResponseSyntax"><code class="highlighter-rouge">Unhandled</code> Function Error</a></p>
 </td>
@@ -1071,7 +1003,8 @@ target.</li>
         <td><code>config.forward_request_body</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the request body is to be sent in the <code class="highlighter-rouge">request_body</code> field of the JSON-encoded request. If the body arguments can be parsed, they will be sent in the separate <code class="highlighter-rouge">request_body_args</code> field of the request. The body arguments can be parsed for <code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>, and <code class="highlighter-rouge">multipart/form-data</code> content types.</p>
 </td>
@@ -1081,7 +1014,8 @@ target.</li>
         <td><code>config.forward_request_headers</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request headers are to be sent as a map in the <code class="highlighter-rouge">request_headers</code> field of the JSON-encoded request.</p>
 </td>
@@ -1091,7 +1025,8 @@ target.</li>
         <td><code>config.forward_request_method</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request method verb is to be sent in the <code class="highlighter-rouge">request_method</code> field of the JSON-encoded request.</p>
 </td>
@@ -1101,7 +1036,8 @@ target.</li>
         <td><code>config.forward_request_uri</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request URI is to be sent in the <code class="highlighter-rouge">request_uri</code> field of the JSON-encoded request. Request URI arguments (if any) will be sent in the separate <code class="highlighter-rouge">request_uri_args</code> field of the JSON body.</p>
 </td>
@@ -1181,7 +1117,7 @@ from being executed. We are planning to remove this limitation in the future.</p
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">json</span>
  <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
      <span class="n">jsonbody</span><span class="o">=</span><span class="s">'''{"response": "yes"}'''</span>
-     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonbody</span><span class="p">)</span>
+     <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonbody</span><span class="p">)</span>
 </code></pre></div>    </div>
 
     <p>Test the lambda function from the AWS console and make sure the execution succeeds.</p>
@@ -1327,8 +1263,9 @@ from being executed. We are planning to remove this limitation in the future.</p
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1408,7 +1345,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -481,7 +479,7 @@ window['_fs_namespace'] = 'FS';
       <div class="versions-dropdown dropdown page-header-right">
         <button class="page-header-btn" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-          Plugin Version 1.0-x
+          Plugin Version 3.0.x
           <em>(latest)</em>
           <span class="caret"></span>
         </button>
@@ -490,7 +488,14 @@ window['_fs_namespace'] = 'FS';
             
             <li  class="active" >
               <a href="/hub/kong-inc/aws-lambda/">
-                1.0-x <em>(latest)</em>
+                3.0.x <em>(latest)</em>
+              </a>
+            </li>
+          
+            
+            <li >
+              <a href="/hub/kong-inc/aws-lambda/1.0-x.html">
+                1.0-x 
               </a>
             </li>
           
@@ -523,7 +528,7 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#sending-parameters">Sending parameters</a></li>
       <li><a href="#notes">Notes</a></li>
       <li><a href="#known-issues">Known Issues</a></li>
-      <li><a href="#step-by-step-guide">Step By Step Guide</a></li>
+      <li><a href="#step-by-step-guide">Step-By-Step Guide</a></li>
     </ul>
   </li>
 </ul>
@@ -786,29 +791,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
-          <tr>
-            <th colspan="2">Other Versions</th>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <ul class="extn-versions">
-              
-                
-              
-                
-                  
-                  <li>
-                    <a href="/hub/kong-inc/aws-lambda/0.1-x.html">
-                      0.1-x </a>
-                      
-                  </li>
-                
-              
-              </ul>
-            </td>
-          </tr>
-        
       </table>
 
     </aside>
@@ -824,8 +806,8 @@ window['_fs_namespace'] = 'FS';
       
 
       <p>Invoke an <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> function from Kong. It
-can be used in combination with other request plugins to secure, manage or extend
-the function.</p>
+can be used in combination with other request plugins to secure, manage, or
+extend the function.</p>
 
 <div class="alert alert-warning">
   <strong>Note:</strong> The functionality of this plugin as bundled
@@ -869,6 +851,10 @@ the function.</p>
             
               <li><code>https</code></li>
             
+              <li><code>grpc</code></li>
+            
+              <li><code>grpcs</code></li>
+            
           </ul>
         
 
@@ -882,8 +868,22 @@ the function.</p>
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
-<p><strong>With a database</strong></p>
-
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-602610f2-db1a-4e17-92ab-646e1fbeb01a-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-602610f2-db1a-4e17-92ab-646e1fbeb01a-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-602610f2-db1a-4e17-92ab-646e1fbeb01a-0" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
@@ -892,11 +892,16 @@ making the following request:</p>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.timeout=60000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.keepalive=60000"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-602610f2-db1a-4e17-92ab-646e1fbeb01a-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -908,7 +913,14 @@ adding this section to your declarative configuration file:</p>
     <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
     <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
     <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
+    <span class="na">timeout</span><span class="pi">:</span> <span class="m">60000</span>
+    <span class="na">keepalive</span><span class="pi">:</span> <span class="m">60000</span>
 </code></pre></div></div>
+
+    </div>
+  
+  </div>
+</div>
 
 <p><code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
 
@@ -918,8 +930,22 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
-<p><strong>With a database</strong></p>
-
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-eaa8a5cb-3a1e-4d9a-8bd7-236f5012ff00-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-eaa8a5cb-3a1e-4d9a-8bd7-236f5012ff00-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-eaa8a5cb-3a1e-4d9a-8bd7-236f5012ff00-0" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
@@ -927,11 +953,16 @@ adding this section to your declarative configuration file:</p>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.timeout=60000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.keepalive=60000"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-eaa8a5cb-3a1e-4d9a-8bd7-236f5012ff00-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -943,7 +974,14 @@ adding this section to your declarative configuration file:</p>
     <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
     <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
     <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
+    <span class="na">timeout</span><span class="pi">:</span> <span class="m">60000</span>
+    <span class="na">keepalive</span><span class="pi">:</span> <span class="m">60000</span>
 </code></pre></div></div>
+
+    </div>
+  
+  </div>
+</div>
 
 <p><code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
 
@@ -953,22 +991,39 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-consumer">Enabling the plugin on a Consumer</h3>
 
-<p><strong>With a database</strong></p>
-
-<p>You can use the <code class="highlighter-rouge">http://localhost:8001/plugins</code> endpoint to enable this plugin
-on specific <a href="/latest/admin-api/#Consumer-object">Consumers</a>:</p>
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-0c52e6a4-9ab4-4702-89f4-29bead8b4cbd-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-0c52e6a4-9ab4-4702-89f4-29bead8b4cbd-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-0c52e6a4-9ab4-4702-89f4-29bead8b4cbd-0" class="navtab-content">
+      
+<p>Configure this plugin on a <a href="/latest/admin-api/#Consumer-object">Consumer</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/consumers/<span class="o">{</span>consumer<span class="o">}</span>/plugins <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span> <span class="se">\</span>
-     <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"name=aws-lambda"</span>  <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_key=AWS_KEY"</span> <span class="se">\</span>
     <span class="nt">--data-urlencode</span> <span class="s2">"config.aws_secret=AWS_SECRET"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.aws_region=AWS_REGION"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span>
+    <span class="nt">--data</span> <span class="s2">"config.function_name=LAMBDA_FUNCTION_NAME"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.timeout=60000"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.keepalive=60000"</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
 
+    </div>
+  
+    <div data-navtab-content="navtab-0c52e6a4-9ab4-4702-89f4-29bead8b4cbd-1" class="navtab-content">
+      
 <p>Configure this plugin on a <a href="/latest/admin-api/#consumer-object">Consumer</a> by
 adding this section to your declarative configuration file:</p>
 
@@ -980,7 +1035,14 @@ adding this section to your declarative configuration file:</p>
     <span class="na">aws_secret</span><span class="pi">:</span> <span class="s">AWS_SECRET</span>
     <span class="na">aws_region</span><span class="pi">:</span> <span class="s">AWS_REGION</span>
     <span class="na">function_name</span><span class="pi">:</span> <span class="s">LAMBDA_FUNCTION_NAME</span>
+    <span class="na">timeout</span><span class="pi">:</span> <span class="m">60000</span>
+    <span class="na">keepalive</span><span class="pi">:</span> <span class="m">60000</span>
 </code></pre></div></div>
+
+    </div>
+  
+  </div>
+</div>
 
 <p><code class="highlighter-rouge">{consumer}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">username</code> of the Consumer that this plugin configuration will target.</p>
 
@@ -991,17 +1053,17 @@ adding this section to your declarative configuration file:</p>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <ul>
+          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
+          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
+        </ul>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -1053,7 +1115,12 @@ adding this section to your declarative configuration file:</p>
           
           
         </td>
-        <td><p>The AWS region where the Lambda function is located. Regions supported are: <code class="highlighter-rouge">ap-northeast-1</code>, <code class="highlighter-rouge">ap-northeast-2</code>, <code class="highlighter-rouge">ap-south-1</code>, <code class="highlighter-rouge">ap-southeast-1</code>, <code class="highlighter-rouge">ap-southeast-2</code>, <code class="highlighter-rouge">ca-central-1</code>, <code class="highlighter-rouge">cn-north-1</code>, <code class="highlighter-rouge">cn-northwest-1</code>, <code class="highlighter-rouge">eu-central-1</code>, <code class="highlighter-rouge">eu-west-1</code>, <code class="highlighter-rouge">eu-west-2</code>, <code class="highlighter-rouge">sa-east-1</code>, <code class="highlighter-rouge">us-east-1</code>, <code class="highlighter-rouge">us-east-2</code>, <code class="highlighter-rouge">us-gov-west-1</code>, <code class="highlighter-rouge">us-west-1</code>, <code class="highlighter-rouge">us-west-2</code>.</p>
+        <td><p>The AWS region where the Lambda function is located. Regions supported
+are: <code class="highlighter-rouge">ap-northeast-1</code>, <code class="highlighter-rouge">ap-northeast-2</code>, <code class="highlighter-rouge">ap-south-1</code>,
+<code class="highlighter-rouge">ap-southeast-1</code>, <code class="highlighter-rouge">ap-southeast-2</code>, <code class="highlighter-rouge">ca-central-1</code>, <code class="highlighter-rouge">cn-north-1</code>,
+<code class="highlighter-rouge">cn-northwest-1</code>, <code class="highlighter-rouge">eu-central-1</code>, <code class="highlighter-rouge">eu-north-1</code>, <code class="highlighter-rouge">eu-west-1</code>,
+<code class="highlighter-rouge">eu-west-2</code>, <code class="highlighter-rouge">eu-west-3</code>, <code class="highlighter-rouge">me-south-1</code>, <code class="highlighter-rouge">sa-east-1</code>,
+<code class="highlighter-rouge">us-east-1</code>, <code class="highlighter-rouge">us-east-2</code>, <code class="highlighter-rouge">us-gov-west-1</code>, <code class="highlighter-rouge">us-west-1</code>, <code class="highlighter-rouge">us-west-2</code>.</p>
 </td>
       </tr>
     
@@ -1063,7 +1130,7 @@ adding this section to your declarative configuration file:</p>
           
           
         </td>
-        <td><p>The AWS Lambda function name to invoke</p>
+        <td><p>The AWS Lambda function name to invoke.</p>
 </td>
       </tr>
     
@@ -1081,9 +1148,10 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.invocation_type</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`RequestResponse`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">RequestResponse</code></p>
+
         </td>
-        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">InvocationType</code></a> to use when invoking the function. Available types are <code class="highlighter-rouge">RequestResponse</code>, <code class="highlighter-rouge">Event</code>, <code class="highlighter-rouge">DryRun</code></p>
+        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">InvocationType</code></a> to use when invoking the function. Available types are <code class="highlighter-rouge">RequestResponse</code>, <code class="highlighter-rouge">Event</code>, <code class="highlighter-rouge">DryRun</code>.</p>
 </td>
       </tr>
     
@@ -1091,19 +1159,21 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.log_type</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`Tail`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">Tail</code></p>
+
         </td>
-        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">LogType</code></a> to use when invoking the function. By default <code class="highlighter-rouge">None</code> and <code class="highlighter-rouge">Tail</code> are supported</p>
+        <td><p>The <a href="http://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_RequestSyntax"><code class="highlighter-rouge">LogType</code></a> to use when invoking the function. By default, <code class="highlighter-rouge">None</code> and <code class="highlighter-rouge">Tail</code> are supported.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.timeout</code>
-          <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`60000`</code>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60000</code></p>
+
         </td>
-        <td><p>An optional timeout in milliseconds when invoking the function</p>
+        <td><p>An optional timeout in milliseconds when invoking the function.</p>
 </td>
       </tr>
     
@@ -1111,7 +1181,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.port</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`443`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">443</code></p>
+
         </td>
         <td><p>The TCP port that this plugin will use to connect to the server.</p>
 </td>
@@ -1119,11 +1190,12 @@ adding this section to your declarative configuration file:</p>
     
       <tr>
         <td><code>config.keepalive</code>
-          <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`60000`</code>
+          
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">60000</code></p>
+
         </td>
-        <td><p>An optional value in milliseconds that defines how long an idle connection will live before being closed</p>
+        <td><p>An optional value in milliseconds that defines how long an idle connection will live before being closed.</p>
 </td>
       </tr>
     
@@ -1131,9 +1203,10 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.unhandled_status</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`200`, `202` or `204`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">200</code>, <code class="highlighter-rouge">202</code>, or <code class="highlighter-rouge">204</code></p>
+
         </td>
-        <td><p>The response status code to use (instead of the default <code class="highlighter-rouge">200</code>, <code class="highlighter-rouge">202</code>, or <code class="highlighter-rouge">204</code>) in the case of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_ResponseSyntax"><code class="highlighter-rouge">Unhandled</code> Function Error</a></p>
+        <td><p>The response status code to use (instead of the default <code class="highlighter-rouge">200</code>, <code class="highlighter-rouge">202</code>, or <code class="highlighter-rouge">204</code>) in the case of an <a href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html#API_Invoke_ResponseSyntax"><code class="highlighter-rouge">Unhandled</code> Function Error</a>.</p>
 </td>
       </tr>
     
@@ -1141,7 +1214,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.forward_request_body</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the request body is to be sent in the <code class="highlighter-rouge">request_body</code> field of the JSON-encoded request. If the body arguments can be parsed, they will be sent in the separate <code class="highlighter-rouge">request_body_args</code> field of the request. The body arguments can be parsed for <code class="highlighter-rouge">application/json</code>, <code class="highlighter-rouge">application/x-www-form-urlencoded</code>, and <code class="highlighter-rouge">multipart/form-data</code> content types.</p>
 </td>
@@ -1151,7 +1225,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.forward_request_headers</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request headers are to be sent as a map in the <code class="highlighter-rouge">request_headers</code> field of the JSON-encoded request.</p>
 </td>
@@ -1161,7 +1236,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.forward_request_method</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request method verb is to be sent in the <code class="highlighter-rouge">request_method</code> field of the JSON-encoded request.</p>
 </td>
@@ -1171,7 +1247,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.forward_request_uri</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the original HTTP request URI is to be sent in the <code class="highlighter-rouge">request_uri</code> field of the JSON-encoded request. Request URI arguments (if any) will be sent in the separate <code class="highlighter-rouge">request_uri_args</code> field of the JSON body.</p>
 </td>
@@ -1181,7 +1258,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.is_proxy_integration</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the response format to receive from the Lambda to <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-output-format">this format</a>. Note that the parameter <code class="highlighter-rouge">isBase64Encoded</code> is not implemented.</p>
 </td>
@@ -1191,7 +1269,8 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.awsgateway_compatible</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`false`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">false</code></p>
+
         </td>
         <td><p>An optional value that defines whether the plugin should wrap requests into the Amazon API gateway.</p>
 </td>
@@ -1213,7 +1292,7 @@ adding this section to your declarative configuration file:</p>
           <br /><em>semi-optional</em>
           
         </td>
-        <td><p>An optional value that defines which HTTP protocol scheme to use in order to connect through the proxy server. The schemes supported are: <code class="highlighter-rouge">http</code> and <code class="highlighter-rouge">https</code>. This value is required if <code class="highlighter-rouge">proxy_url</code> is defined.</p>
+        <td><p>An optional value that defines which HTTP scheme to use for connecting through the proxy server. The schemes supported are: <code class="highlighter-rouge">http</code> and <code class="highlighter-rouge">https</code>. This value is required if <code class="highlighter-rouge">proxy_url</code> is defined.</p>
 </td>
       </tr>
     
@@ -1221,9 +1300,10 @@ adding this section to your declarative configuration file:</p>
         <td><code>config.skip_large_bodies</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`true`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
         </td>
-        <td><p>An optional value that defines whether Kong should send large bodies that are buffered to disk. To define the threshold for the body size, use <a href="https://docs.konghq.com/latest/configuration/#client_body_buffer_size">client_body_buffer_size</a> property. Note that sending large bodies will have an impact on system memory.</p>
+        <td><p>An optional value that defines whether Kong should send large bodies that are buffered to disk. To define the threshold for the body size, use the <a href="https://docs.konghq.com/latest/configuration/#client_body_buffer_size">client_body_buffer_size</a> property. Note that sending large bodies will have an impact on system memory.</p>
 </td>
       </tr>
     
@@ -1233,23 +1313,23 @@ adding this section to your declarative configuration file:</p>
 
       
 
-      <p><strong>Reminder</strong>: curl by default sends payloads with an
+      <p><strong>Reminder</strong>: By default, cURL sends payloads with an
 <code class="highlighter-rouge">application/x-www-form-urlencoded</code> MIME type, which will naturally be URL-
-decoded by Kong. To ensure special characters that are likely to appear in your
-AWS key or secret (like <code class="highlighter-rouge">+</code>) are correctly decoded, you must URL-encode them,
-hence use <code class="highlighter-rouge">--data-urlencode</code> if you are using curl. Alternatives to this
-approach would be to send your payload with a different MIME type (like
-<code class="highlighter-rouge">application/json</code>), or to use a different HTTP client.</p>
+decoded by Kong. To ensure special characters that are likely to appear in
+your AWS key or secret (like <code class="highlighter-rouge">+</code>) are correctly decoded, you must
+URL-encode them with <code class="highlighter-rouge">--data-urlencode</code>.
+Alternatives to this approach would be to send your payload with a
+different MIME type (like <code class="highlighter-rouge">application/json</code>), or to use a different HTTP client.</p>
 
 
       <h3 id="sending-parameters">Sending parameters</h3>
 
-<p>Any form parameter sent along with the request, will be also sent as an
+<p>Any form parameter sent along with the request will be also sent as an
 argument to the AWS Lambda function.</p>
 
 <h3 id="notes">Notes</h3>
 
-<p>If you do not provide <code class="highlighter-rouge">aws.key</code> or <code class="highlighter-rouge">aws.secret</code>, the plugin uses an IAM role inherited from the instance running Kong.</p>
+<p>If you do not provide an <code class="highlighter-rouge">aws.key</code> and <code class="highlighter-rouge">aws.secret</code>, the plugin uses an IAM role inherited from the instance running Kong.</p>
 
 <p>First, the plugin will try ECS metadata to get the role. If no ECS metadata is available, the plugin will fall back on EC2 metadata.</p>
 
@@ -1259,9 +1339,9 @@ argument to the AWS Lambda function.</p>
 
 <p>When using the AWS Lambda plugin, the response will be returned by the plugin
 itself without proxying the request to any upstream service. This means that
-a Service’s <code class="highlighter-rouge">host</code>, <code class="highlighter-rouge">port</code>, <code class="highlighter-rouge">path</code> properties will be ignored, but must still
-be specified for the entity to be validated by Kong. The <code class="highlighter-rouge">host</code> property in
-particular must either be an IP address, or a hostname that gets resolved by
+a Service’s <code class="highlighter-rouge">host</code>, <code class="highlighter-rouge">port</code>, and <code class="highlighter-rouge">path</code> properties will be ignored, but must
+still be specified for the entity to be validated by Kong. The <code class="highlighter-rouge">host</code> property
+in particular must either be an IP address, or a hostname that gets resolved by
 your nameserver.</p>
 
 <h4 id="response-plugins">Response plugins</h4>
@@ -1270,35 +1350,45 @@ your nameserver.</p>
 from being executed. We are planning to remove this limitation in the future.</p>
 
 <hr />
-<h3 id="step-by-step-guide">Step By Step Guide</h3>
+<h3 id="step-by-step-guide">Step-By-Step Guide</h3>
 
-<h4 id="the-steps">The Steps</h4>
+<h4 id="steps">Steps</h4>
+
+<p>Prerequisite: You must have access to the AWS Console as a user who is
+allowed to operate with lambda functions, and create users and roles.</p>
+
 <ol>
-  <li>Access to AWS Console as user allowed to operate with lambda functions and create user and roles.</li>
-  <li>Create an Execution role in AWS</li>
-  <li>Create an user which will be invoke the function via Kong, test it.</li>
-  <li>Create a Service &amp; Route in Kong, add the aws-lambda plugin linked to our aws function and execute it.</li>
+  <li>Create an Execution role in AWS.</li>
+  <li>Create a user that will invoke the function via Kong and test it.</li>
+  <li>Create a Service and Route in Kong, add the aws-lambda plugin linked to
+our AWS function, and execute it.</li>
 </ol>
 
 <h4 id="configure">Configure</h4>
 
 <ol>
   <li>
-    <p>First, let’s create an execution role called <code class="highlighter-rouge">LambdaExecutor</code> for our lambda function.</p>
+    <p>First, create an execution role called <code class="highlighter-rouge">LambdaExecutor</code> for your
+lambda function.</p>
 
-    <p>In IAM Console create a new Role choosing the AWS Lambda service, there will be no policies as our function in this example will simply execute itself giving us back an hardcoded JSON as response without accessing other AWS resources.</p>
+    <p>In the IAM Console, create a new Role choosing the AWS Lambda service. There
+ will be no policies because the function in this example will simply execute
+ itself, returning a hardcoded JSON response without accessing other
+ AWS resources.</p>
   </li>
   <li>
-    <p>Now let’s create a user named KongInvoker, used by our Kong API gateway to invoke the function.</p>
+    <p>Create a user named <code class="highlighter-rouge">KongInvoker</code>, used by the Kong API gateway
+to invoke the function.</p>
 
-    <p>In IAM Console create a new user, must be provided to it programmatic access via Access and Secret keys; then will attach existing policies directly particularly the AWSLambdaRole predefined. Once the user creation is confirmed, store Access Key and Secret Key in a safe place.</p>
+    <p>In the IAM Console, create a new user. Programmatic access must be provided to the user via Access and Secret keys. Then, attach existing policies directly, particularly the predefined <code class="highlighter-rouge">AWSLambdaRole</code>. After the user creation is confirmed, store the Access Key and Secret Key in a safe place.</p>
   </li>
   <li>
-    <p>Now we need to create the lambda function itself, will do so in N.Virginia Region (code us-east-1).</p>
+    <p>Next, create the lambda function itself in the N. Virginia Region
+(code <code class="highlighter-rouge">us-east-1</code>).</p>
 
-    <p>In Lambda Management, create a new function Mylambda, there will be no blueprint as we are going to paste the code below; for the execution role let’s choose an existing role specifically LambdaExecutor created previously</p>
+    <p>In Lambda Management, create a new function <code class="highlighter-rouge">MyLambda</code>. There will be no blueprint because you are going to paste the code below (which is an example code snippet). For the execution role, choose the <code class="highlighter-rouge">LambdaExecutor</code> created previously.</p>
 
-    <p>Use the inline code below to have a simple JSON response in return, note this is code for Python 3.6 interpreter.</p>
+    <p><strong>Note</strong>: The following code snippet is only an example. The Kong AWS Lambda plugin supports all runtimes provided by AWS. See the list of runtimes in the <strong>AWS Lambda</strong> &gt; <strong>Functions</strong> &gt; <strong>Create function</strong> dialog.</p>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">json</span>
  <span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
@@ -1307,24 +1397,39 @@ from being executed. We are planning to remove this limitation in the future.</p
        jsonbody='''{"statusCode": 200, "body": {"response": "yes"}}'''
      """</span>
      <span class="n">jsonbody</span><span class="o">=</span><span class="s">'''{"response": "yes"}'''</span>
-     <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonbody</span><span class="p">)</span>
+     <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">jsonbody</span><span class="p">)</span>
 </code></pre></div>    </div>
 
     <p>Test the lambda function from the AWS console and make sure the execution succeeds.</p>
   </li>
   <li>
-    <p>Finally we setup a Service &amp; Route in Kong and link it to the function just created.</p>
+    <p>Set up a Service and Route in Kong and link it to the
+<code class="highlighter-rouge">MyLambda</code> function you just created.</p>
   </li>
 </ol>
 
-<p><strong>With a database</strong></p>
-
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-5afebf92-a387-4725-a4fc-b6c3ba393c62-0" class="navtab-title">
+      With a database
+    </div>
+  
+    <div data-navtab-id="navtab-5afebf92-a387-4725-a4fc-b6c3ba393c62-1" class="navtab-title">
+      Without a database
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-5afebf92-a387-4725-a4fc-b6c3ba393c62-0" class="navtab-content">
+      
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8001/services <span class="se">\</span>
 <span class="nt">--data</span> <span class="s1">'name=lambda1'</span> <span class="se">\</span>
 <span class="nt">--data</span> <span class="s1">'url=http://localhost:8000'</span> <span class="se">\</span>
 </code></pre></div></div>
 
-<p>The Service doesn’t really need a real <code class="highlighter-rouge">url</code> since we are not going to have an HTTP call to upstream but rather a response generated by our function.</p>
+<p>The Service doesn’t really need a real <code class="highlighter-rouge">url</code> because this example won’t have an HTTP call to an Upstream but rather a response generated by the lambda function.</p>
 
 <p>Also create a Route for the Service:</p>
 
@@ -1342,9 +1447,11 @@ from being executed. We are planning to remove this limitation in the future.</p
 <span class="nt">--data</span> <span class="s1">'config.function_name=MyLambda'</span>
 </code></pre></div></div>
 
-<p><strong>Without a database</strong></p>
-
-<p>Add a Service, Route and Plugin to the declarative config file:</p>
+    </div>
+  
+    <div data-navtab-content="navtab-5afebf92-a387-4725-a4fc-b6c3ba393c62-1" class="navtab-content">
+      
+<p>Add a Service, Route, and Plugin to the declarative config file:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">lambda1</span>
@@ -1364,7 +1471,13 @@ from being executed. We are planning to remove this limitation in the future.</p
     <span class="na">function_name</span><span class="pi">:</span> <span class="s">MyLambda</span>
 </code></pre></div></div>
 
-<p>Once everything is created, call the Service and verify the correct invocation, execution and response:</p>
+    </div>
+  
+  </div>
+</div>
+
+<p>After everything is created, call the Service and verify the correct
+invocation, execution, and response:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl http://<span class="o">{</span>kong_hostname<span class="o">}</span>:8000/lambda1
 </code></pre></div></div>
@@ -1482,8 +1595,9 @@ from being executed. We are planning to remove this limitation in the future.</p
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1563,7 +1677,7 @@ from being executed. We are planning to remove this limitation in the future.</p
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 

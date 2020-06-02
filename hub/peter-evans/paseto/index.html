@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1586545544"
+    href="/assets/styles.css?v=1591120482"
   />
 
   <script>
@@ -379,12 +379,10 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12491 navbar-item">
                 <a class="nav-link">Learning</a>
                 <ul class="sub-menu">
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/ebooks?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/webinars?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/briefs?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12495 navbar-item"><a href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/ebooks.svg"> eBooks</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12496 navbar-item"><a href="https://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/webinars.svg"> Webinars</a></li>
+                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/briefs.svg"> Briefs</a></li>
                   <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/blog?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/blog.svg"> Blog</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12497 navbar-item"><a href="https://konghq.com/learning-center/api-gateway?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> API Gateway</a></li>
-                  <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12494 navbar-item"><a href="https://konghq.com/learning-center/microservices?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/deploy-plugins-master-launch.svg"> Microservices</a></li>
                 </ul>
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12492 navbar-item">
@@ -688,7 +686,6 @@ window['_fs_namespace'] = 'FS';
             </td>
           </tr>
         
-        
       </table>
 
     </aside>
@@ -765,24 +762,11 @@ The plugin can also perform verifications on registered claims and custom claims
           
 <h3 id="enabling-the-plugin-on-a-service">Enabling the plugin on a Service</h3>
 
-<p><strong>With a database</strong></p>
-
 <p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=paseto"</span> 
-</code></pre></div></div>
-
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">paseto</span>
-  <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">{service}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service that this plugin configuration will target.</p>
@@ -793,23 +777,10 @@ adding this section to your declarative configuration file:</p>
           
 <h3 id="enabling-the-plugin-on-a-route">Enabling the plugin on a Route</h3>
 
-<p><strong>With a database</strong></p>
-
 <p>Configure this plugin on a <a href="/latest/admin-api/#Route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://kong:8001/routes/<span class="o">{</span>route<span class="o">}</span>/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=paseto"</span> 
-</code></pre></div></div>
-
-<p><strong>Without a database</strong></p>
-
-<p>Configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
-adding this section to your declarative configuration file:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">paseto</span>
-  <span class="na">route</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">route</span><span class="pi">}</span>
-  <span class="na">config</span><span class="pi">:</span> 
 </code></pre></div></div>
 
 <p><code class="highlighter-rouge">{route}</code> is the <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Route that this plugin configuration will target.</p>
@@ -840,17 +811,15 @@ target.</li>
         
 
         <h3 id="global-plugins">Global plugins</h3>
-
-        <ul>
-          <li><strong>Using a database</strong>, all plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.</li>
-          <li><strong>Without a database</strong>, all plugins can be configured via the <code>plugins:</code> entry on the declarative configuration file.</li>
-        </ul>
-
         <p>A plugin which is not associated to any Service, Route, or Consumer (or API, if you are using an older
         version of Kong) is considered "global", and will be run on every request.
         Read the <a href="/latest/admin-api/#add-plugin">Plugin Reference</a> and the
         <a href="/latest/admin-api/#precedence">Plugin Precedence</a> sections for more information.
         </p>
+        
+        <p>Plugins can be configured using the <code>http://kong:8001/plugins/</code> endpoint.
+        </p>
+        
 
         <h3 id="parameters">Parameters</h3>
 
@@ -880,7 +849,8 @@ target.</li>
         <td><code>config.uri_param_names</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`paseto`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">paseto</code></p>
+
         </td>
         <td><p>A list of querystring parameters that the plugin will inspect to retrieve PASETOs.</p>
 </td>
@@ -930,7 +900,8 @@ target.</li>
         <td><code>config.kid_claim_name</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`kid`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">kid</code></p>
+
         </td>
         <td><p>The name of the claim in which the kid identifying the PASETO key pair <strong>must</strong> be passed. The plugin will attempt to read this claim from the PASETO footer.</p>
 </td>
@@ -950,7 +921,8 @@ target.</li>
         <td><code>config.run_on_preflight</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><code>`true`</code>
+          <br /><br /><strong>default value: </strong><p><code class="highlighter-rouge">true</code></p>
+
         </td>
         <td><p>A boolean value that indicates whether the plugin should run (and try to authenticate) on <code class="highlighter-rouge">OPTIONS</code> preflight requests, if set to <code class="highlighter-rouge">false</code> then <code class="highlighter-rouge">OPTIONS</code> requests will always be allowed.</p>
 </td>
@@ -1257,8 +1229,9 @@ HTTP/1.1 200 OK
               <a href="https://docs.konghq.com">Documentation</a>
             </li>
             <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/webinars/">Webinars</a></li>
-            <li><a href="http://konghq.com/ebooks/">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
+            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
+            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
           </ul>
         </nav>
       </li>
@@ -1338,7 +1311,7 @@ HTTP/1.1 200 OK
 </script>
 
 
-    <script src="/assets/app.js?v=1586545544"></script>
+    <script src="/assets/app.js?v=1591120482"></script>
 
     <div id="fb-root"></div>
 
