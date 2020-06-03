@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1591123015"
+    href="/assets/styles.css?v=1591209063"
   />
 
   <script>
@@ -211,7 +211,7 @@ window['_fs_namespace'] = 'FS';
     <nav class="navbar full-width">
       <div class="collapse navbar-collapse col justify-content-md-end kong-navbar_nav">
         <ul id="menu-primary-nav" class="menu">
-          <li class="btn menu-item menu-item-type-custom menu-item-object-custom menu-item-12447 navbar-item"><a href="https://konghq.com/request-demo?itm_source=website&itm_medium=nav" class="nav-link">Request Demo</a></li>
+          <li class="btn menu-item menu-item-type-custom menu-item-object-custom menu-item-12447 navbar-item"><a href="https://konghq.com/get-started?itm_source=website&itm_medium=nav" class="nav-link">Get Started</a></li>
           <li class="btn menu-item menu-item-type-custom menu-item-object-custom menu-item-12448 navbar-item"><a href="https://konghq.com/install?itm_source=website&itm_medium=nav" class="nav-link">Install</a></li>
           <li class="two-row nav1 menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor menu-item-has-children menu-item-12449 navbar-item">
             <a href="#" class="nav-link">Products</a>
@@ -247,7 +247,7 @@ window['_fs_namespace'] = 'FS';
               </li>
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12455 navbar-item">
                 <a href="https://konghq.com/products/kong-enterprise?itm_source=website&itm_medium=nav" class="nav-link">Kong Enterprise</a>
-                <div class="nav-btns"><a class="navbtn" href="https://konghq.com/request-demo?itm_source=website&itm_medium=nav">Demo</a><a class="navbtn" href="https://konghq.com/products/kong-enterprise/free-trial?itm_source=website&itm_medium=nav">Free Trial</a></div>
+                <div class="nav-btns"><a class="navbtn" href="https://konghq.com/get-started?itm_source=website&itm_medium=nav">Get Started</a></div>
                 <ul class="sub-menu">
                   <li class="mobile-nav menu-item menu-item-type-custom menu-item-object-custom menu-item-12456 navbar-item"><a href="https://konghq.com/products/kong-enterprise" class="nav-link">Overview</a></li>
                   <li class="nav3 menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-12457 navbar-item">
@@ -412,7 +412,7 @@ window['_fs_namespace'] = 'FS';
               <li class="nav2 menu-item menu-item-type-custom menu-item-object-custom menu-item-12510 navbar-item"><a href="https://konghq.com/contact?itm_source=website&itm_medium=nav" class="nav-link"><img src="/assets/images/nav/contact.svg"> Contact</a></li>
             </ul>
           </li>
-          <li class="demo-btn menu-item menu-item-type-custom menu-item-object-custom menu-item-12511 navbar-item"><a href="https://konghq.com/request-demo?itm_source=website&itm_medium=nav" class="nav-link">Request Demo</a></li>
+          <li class="demo-btn menu-item menu-item-type-custom menu-item-object-custom menu-item-12511 navbar-item"><a href="https://konghq.com/get-started?itm_source=website&itm_medium=nav" class="nav-link">Get Started</a></li>
         </ul>
       </div>
     </nav>
@@ -526,7 +526,7 @@ window['_fs_namespace'] = 'FS';
     <ul>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#schema-definition">Schema Definition</a></li>
-      <li><a href="#schema-example">Schema Example</a></li>
+      <li><a href="#kong-schema-example">Kong Schema Example</a></li>
       <li><a href="#parameter-schema-definition">Parameter Schema Definition</a></li>
       <li><a href="#further-references">Further References</a></li>
     </ul>
@@ -698,10 +698,9 @@ window['_fs_namespace'] = 'FS';
 
       
 
-      <p>Validate requests before they reach their upstream Service. Supports request
-body validation, according to a schema. <strong>Note</strong>: the schema format is <strong>NOT</strong>
-<a href="https://json-schema.org/">JSON schema</a> compliant; instead, Kong’s own schema
-format is used.</p>
+      <p>Validate requests before they reach their upstream Service. Supports validating
+the schema of the body and the parameters of the request using either Kong’s own
+schema validator (body only) or a JSON Schema Draft 4-compliant validator.</p>
 
 
       
@@ -837,10 +836,11 @@ making the following request:</p>
         <td><code>config.allowed_content_types</code>
           <br /><em>optional</em>
           
-          <br /><br /><strong>default value: </strong><p>{“application/json”=&gt;nil}</p>
+          <br /><br /><strong>default value: </strong><p>application/json</p>
 
         </td>
-        <td><p>Set of allowed content types</p>
+        <td><p>List of allowed content types. <br /><strong>Note:</strong> Body validation is only
+done for <code class="highlighter-rouge">application/json</code> and skipped for any other allowed content types.</p>
 </td>
       </tr>
     
@@ -851,7 +851,8 @@ making the following request:</p>
           <br /><br /><strong>default value: </strong><p>kong</p>
 
         </td>
-        <td><p>validator type</p>
+        <td><p>What validator to use. Supported values are <code class="highlighter-rouge">kong</code> (default) for using Kong’s own schema
+validator, or <code class="highlighter-rouge">draft4</code> for using a JSON Schema Draft 4-compliant validator.</p>
 </td>
       </tr>
     
@@ -861,7 +862,7 @@ making the following request:</p>
           
           
         </td>
-        <td><p>Array of parameter validator specification</p>
+        <td><p>Array of parameter validator specifications</p>
 </td>
       </tr>
     
@@ -887,6 +888,7 @@ before being proxied.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://kong:8001/services/<span class="o">{</span>service<span class="o">}</span>/plugins <span class="se">\</span>
   <span class="nt">--data</span> <span class="s2">"name=request-validator"</span> <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s2">"config.version=kong"</span> <span class="se">\</span>
   <span class="nt">--data</span> <span class="s1">'config.body_schema=[{"name":{"type": "string", "required": true}}]'</span>
 </code></pre></div></div>
 
@@ -898,42 +900,23 @@ before being proxied.</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">request-validator</span>
   <span class="na">service</span><span class="pi">:</span> <span class="pi">{</span><span class="nv">service</span><span class="pi">}</span>
   <span class="na">config</span><span class="pi">:</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">kong</span>
     <span class="na">body_schema</span><span class="pi">:</span>
       <span class="na">name</span><span class="pi">:</span>
         <span class="na">type</span><span class="pi">:</span> <span class="s">string</span>
         <span class="na">required</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
 
-<p>The parameters/fields in both cases mean:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>form parameter</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code class="highlighter-rouge">{service}</code></td>
-      <td>The <code class="highlighter-rouge">id</code> or <code class="highlighter-rouge">name</code> of the Service to which the plugin will be associated.</td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">name</code></td>
-      <td>The name of the plugin to use, in this case: <code class="highlighter-rouge">request-validator</code></td>
-    </tr>
-    <tr>
-      <td><code class="highlighter-rouge">config.body_schema</code></td>
-      <td>The request body schema specification</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>In this example, the request body data would have to be a valid JSON and
+<p>In this example, the request body data would have to be valid JSON and
 conform to the schema specified in <code class="highlighter-rouge">body_schema</code> - i.e., it would be required
 to contain a <code class="highlighter-rouge">name</code> field only, which needs to be a string.</p>
 
+<p>In case the validation fails, a <code class="highlighter-rouge">400 Bad Request</code> will be returned as the response.</p>
+
 <h3 id="schema-definition">Schema Definition</h3>
+
+<p><em>For using the JSON Schema Draft 4-compliant validator, see the <a href="https://json-schema.org/">JSON Schema website</a> for details on the format and examples. The rest of
+this paragraph will explain the Kong schema.</em></p>
 
 <p>The <code class="highlighter-rouge">config.body_schema</code> field expects a JSON array with the definition of each
 field expected to be in the request body; for example:</p>
@@ -1160,9 +1143,9 @@ validations:</p>
   </tbody>
 </table>
 
-<p><strong>Note</strong>: check <a href="https://www.lua.org/pil/20.2.html">this</a> out to learn about Lua patterns.</p>
+<p><strong>Note</strong>: To learn more, see <a href="https://www.lua.org/pil/20.2.html">Lua patterns</a>.</p>
 
-<h3 id="schema-example">Schema Example</h3>
+<h3 id="kong-schema-example">Kong Schema Example</h3>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[
   {
@@ -1213,14 +1196,11 @@ validations:</p>
 
 </code></pre></div></div>
 
-<p>In case either the JSON or schema validation fail, a <code class="highlighter-rouge">400 Bad Request</code> will
-be returned as response.</p>
-
 <h3 id="parameter-schema-definition">Parameter Schema Definition</h3>
 
-<p>You can setup definitions for each parameter based of the OpenAPI Specification and
+<p>You can setup definitions for each parameter based on the OpenAPI Specification and
 the plugin will validate each parameter against it. For more information see the
-<a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#parameter-object">OpenAPI spec</a> or the <a href="https://swagger.io/docs/specification/serialization/">OpenAPI examples</a>.</p>
+<a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#parameter-object">OpenAPI specification</a> or the <a href="https://swagger.io/docs/specification/serialization/">OpenAPI examples</a>.</p>
 
 <h4 id="fixed-fields">Fixed Fields</h4>
 
@@ -1241,7 +1221,7 @@ the plugin will validate each parameter against it. For more information see the
     <tr>
       <td>in</td>
       <td><code class="highlighter-rouge">string</code></td>
-      <td><strong>REQUIRED</strong>. The location of the parameter. Possible values are “query”, “header” or “path”.</td>
+      <td><strong>REQUIRED</strong>. The location of the parameter. Possible values are <code class="highlighter-rouge">query</code>, <code class="highlighter-rouge">header</code>, or <code class="highlighter-rouge">path</code>.</td>
     </tr>
     <tr>
       <td>required</td>
@@ -1371,7 +1351,7 @@ HTTP/1.1 201 Created
  }
 </code></pre></div>    </div>
 
-    <p>content of file <code class="highlighter-rouge">parameter_schema.json</code></p>
+    <p>Content of file <code class="highlighter-rouge">parameter_schema.json</code>:</p>
 
     <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"request-validator"</span><span class="p">,</span><span class="w">
@@ -1418,7 +1398,7 @@ HTTP/1.1 201 Created
 
 <h3 id="further-references">Further References</h3>
 
-<p>Check out the Kong docs on storing custom entities <a href="/1.0.x/plugin-development/custom-entities/#defining-a-schema">here</a>.</p>
+<p>See the Kong docs on storing custom entities <a href="/1.0.x/plugin-development/custom-entities/#defining-a-schema">here</a>.</p>
 
 <hr />
 
@@ -1448,8 +1428,7 @@ HTTP/1.1 201 Created
  -->
 
 
-    
-<footer class="marketing-footer--light-gray">
+    <footer class="marketing-footer--light-gray">
   <section>
     <ul class="newsletter">
       <li class="logo-wrapper">
@@ -1457,10 +1436,18 @@ HTTP/1.1 201 Created
           <img src="/assets/images/Kogo-gradient.svg" alt="Kong" />
         </div>
         <div class="form">
-            <iframe src="https://go.konghq.com/l/392112/2019-02-14/bhxq9c" width="100%" height="60" type="text/html" frameborder="0" allowTransparency="true" scrolling="no" style="overflow:hidden; border: 0"></iframe>
+          <iframe
+            src="https://go.konghq.com/l/392112/2019-02-14/bhxq9c"
+            width="100%"
+            height="60"
+            type="text/html"
+            frameborder="0"
+            allowTransparency="true"
+            scrolling="no"
+            style="overflow: hidden; border: 0;"
+          ></iframe>
         </div>
         <div class="social">
-
           <div class="social-link">
             <a href="https://www.facebook.com/konghq/" title="Facebook"
               ><i
@@ -1482,20 +1469,33 @@ HTTP/1.1 201 Created
           <div class="social-link">
             <a href="https://www.meetup.com/topics/kong/all/" title="Meetup"
               ><i
-              aria-label="Meetup"
-              class="fa fa-meetup"
-              aria-hidden="true"
-            ></i
-          ></a>
-          </div>
-          <div class="social-link">
-            <a href="https://linkedin.com/company/278819" title="LinkedIn"
-              ><i aria-label="GitHub" class="fa fa-linkedin" aria-hidden="true"></i
+                aria-label="Meetup"
+                class="fa fa-meetup"
+                aria-hidden="true"
+              ></i
             ></a>
           </div>
           <div class="social-link">
-            <a href="https://github.com/kong/kong" target="blank" class="btn-gh">
-              <i class="fa fa-github" aria-hidden="true" aria-label="GitHub"></i> Star
+            <a href="https://linkedin.com/company/278819" title="LinkedIn"
+              ><i
+                aria-label="GitHub"
+                class="fa fa-linkedin"
+                aria-hidden="true"
+              ></i
+            ></a>
+          </div>
+          <div class="social-link">
+            <a
+              href="https://github.com/kong/kong"
+              target="blank"
+              class="btn-gh"
+            >
+              <i
+                class="fa fa-github"
+                aria-hidden="true"
+                aria-label="GitHub"
+              ></i>
+              Star
             </a>
           </div>
         </div>
@@ -1504,10 +1504,30 @@ HTTP/1.1 201 Created
         <nav>
           <h5>Products</h5>
           <ul>
-            <li><a href="http://konghq.com/kong/">Kong</a></li>
-            <li><a href="http://konghq.com/kong-enterprise/">Kong Enterprise</a></li>
-            <li><a href="http://konghq.com/kong-enterprise/studio/">Kong Studio</a></li>
-            <li><a href="http://konghq.com/subscriptions/">Subscriptions</a></li>
+            <li>
+              <a
+                href="http://konghq.com/kong/?itm_source=website&itm_medium=footer-nav"
+                >Kong Gateway</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/kong-enterprise/?itm_source=website&itm_medium=footer-nav"
+                >Kong Enterprise</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/get-started/?itm_source=website&itm_medium=footer-nav"
+                >Get Started</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/subscriptions/?itm_source=website&itm_medium=footer-nav"
+                >Subscriptions</a
+              >
+            </li>
           </ul>
         </nav>
       </li>
@@ -1516,17 +1536,42 @@ HTTP/1.1 201 Created
           <h5>Resources</h5>
           <ul>
             <li>
-              <a href="https://support.konghq.com" target="blank"
-                >Enterprise Support</a
+              <a
+                href="https://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav"
+                target="blank"
+                >eBooks</a
               >
             </li>
             <li>
-              <a href="https://docs.konghq.com">Documentation</a>
+              <a
+                href="https://konghq.com/resources/?content=webinarss&itm_source=website&itm_medium=footer-nav"
+                >Webinars</a
+              >
             </li>
-            <li><a href="http://konghq.com/partners/">Partners</a></li>
-            <li><a href="http://konghq.com/resources/?content=webinars&itm_source=website&itm_medium=footer-nav">Webinars</a></li>
-            <li><a href="http://konghq.com/resources/?content=ebooks&itm_source=website&itm_medium=footer-nav">Ebooks</a></li>
-            <li><a href="http://konghq.com/resources/?content=whitepaper&itm_source=website&itm_medium=footer-nav">Briefs</a></li>
+            <li>
+              <a
+                href="https://konghq.com/resources/?content=whitepaper,datasheet,case-studies&itm_source=website&itm_medium=footer-nav"
+                >Briefs</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/blog/?content=webinars&itm_source=website&itm_medium=footer-nav"
+                >Blog</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://konghq.com/learning-center/api-gateway/?itm_source=website&itm_medium=footer-nav"
+                >API Gateway</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://konghq.com/learning-center/microservices/?itm_source=website&itm_medium=footer-nav"
+                >Microservices</a
+              >
+            </li>
           </ul>
         </nav>
       </li>
@@ -1534,15 +1579,54 @@ HTTP/1.1 201 Created
         <nav>
           <h5>Company</h5>
           <ul>
-            <li><a href="http://konghq.com/about-kong-inc/">About</a></li>
-            <li><a href="http://konghq.com/customers/">Customers</a></li>
-            <li><a href="http://konghq.com/investors/">Investors</a></li>
-            <li><a href="http://konghq.com/blog/">News</a></li>
             <li>
-              <a href="http://konghq.com/careers/">Careers <span>Hiring!</span></a>
+              <a
+                href="http://konghq.com/about-kong-inc/?itm_source=website&itm_medium=footer-nav"
+                >About</a
+              >
             </li>
-            <li><a href="http://konghq.com/kong-summit/">Kong Summit</a></li>
-            <li><a href="http://konghq.com/contact/">Contact</a></li>
+            <li>
+              <a
+                href="http://konghq.com/customers/?itm_source=website&itm_medium=footer-nav"
+                >Customers</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/investors/?itm_source=website&itm_medium=footer-nav"
+                >Investors</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/careers/?itm_source=website&itm_medium=footer-nav"
+                >Careers <span>Hiring!</span></a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/partners/?itm_source=website&itm_medium=footer-nav"
+                >Partners</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/press-room/?itm_source=website&itm_medium=footer-nav"
+                >Press</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/contact/?itm_source=website&itm_medium=footer-nav"
+                >Contact</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/kong-summit/?itm_source=website&itm_medium=footer-nav"
+                >Kong Summit</a
+              >
+            </li>
           </ul>
         </nav>
       </li>
@@ -1550,10 +1634,36 @@ HTTP/1.1 201 Created
         <nav>
           <h5>Open Source</h5>
           <ul>
-            <li><a href="http://konghq.com/install/">Install</a></li>
-            <li><a target="blank" href="https://github.com/Kong/">GitHub</a></li>
-            <li><a href="https://discuss.konghq.com/"">Kong Nation</a></li>
-            <li><a href="http://konghq.com/community/">Community</a></li>
+            <li>
+              <a
+                href="http://konghq.com/install/?itm_source=website&itm_medium=footer-nav"
+                >Install Kong Gateway</a
+              >
+            </li>
+            <li>
+              <a
+                href="http://konghq.com/community/?itm_source=website&itm_medium=footer-nav"
+                >Kong Community</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://github.com/Kong/kubernetes-ingress-controller/?itm_source=website&itm_medium=footer-nav"
+                >Kubernetes Ingress</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://kuma.io/?itm_source=website&itm_medium=footer-nav"
+                >Kuma</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://insomnia.rest/?itm_source=website&itm_medium=footer-nav"
+                >Insomnia</a
+              >
+            </li>
           </ul>
         </nav>
       </li>
@@ -1563,17 +1673,21 @@ HTTP/1.1 201 Created
   <section class="legal">
     <ul>
       <li>
-        <span class="mashape-footer-content">&copy; Kong Inc. 2020 &nbsp; <a href="http://konghq.com/terms/">Terms</a><b>•</b><a href="http://konghq.com/privacy/">Privacy</a></span>
+        <span class="mashape-footer-content"
+          >&copy; Kong Inc. 2020 &nbsp;
+          <a href="http://konghq.com/terms/">Terms</a><b>•</b
+          ><a href="http://konghq.com/privacy/">Privacy</a></span
+        >
       </li>
     </ul>
   </section>
 
   <script type="text/javascript">
     function onSubmit(response) {
-      document.getElementById('subscription_form').submit();
-      document.getElementById('follow_up_subscription_form').submit();
+      document.getElementById("subscription_form").submit();
+      document.getElementById("follow_up_subscription_form").submit();
       if (response.length == 0) {
-        alert('reCaptcha verification failed');
+        alert("reCaptcha verification failed");
       }
     }
   </script>
@@ -1606,7 +1720,7 @@ HTTP/1.1 201 Created
 </script>
 
 
-    <script src="/assets/app.js?v=1591123015"></script>
+    <script src="/assets/app.js?v=1591209063"></script>
 
     <div id="fb-root"></div>
 
