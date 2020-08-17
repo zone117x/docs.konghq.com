@@ -65,7 +65,7 @@ You need to add an OAuth2 application definition to the User Pool we just create
     <img src="https://doc-assets.konghq.com/oidc/cognito/cognito11.png">
     
 1. Enter a Refresh token expiration (in days). We will use the default of 30 days.
-1. Do not select “Generate client secret”. This example will use a public client.
+1. Make sure that you check “Generate client secret”. This will create a client secret for us to use in conjunction with our Client ID.
 
     <img src="https://doc-assets.konghq.com/oidc/cognito/cognito12.png">
     
@@ -123,7 +123,7 @@ The number of options in the plug-in can seem overwhelming but the configuration
 * Issuer: we can use the OIDC discovery endpoint here, e.g.
 https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_ie577myCv/.well-known/openid-configuration 
 * `config.client_id` - This is the client ID noted when the application was created
-* `config.client_secret` - This is the client secret noted when the application was created. In this demo we are leaving this blank as we didn’t create a client secret.
+* `config.client_secret` - This is the client secret noted when the application was created (See above).
 * `config.auth_methods` - If this is left blank, all flows will be enabled. If only specific flows are in scope, configure the appropriate flows accordingly.  
 
 ## Validating the Flows
@@ -180,6 +180,9 @@ Copy and paste the following Auth Config JSON object:
     "logout_query_arg": "logout",
     "client_id": [
         "1pf00c5or942c2hm37mgv0u509"
+    ],
+    "client_secret": [
+        "1jm7uk6v5dhnehm371jss8l48jqck85lkr77494un46a615q5siai"
     ],
     "login_action": "redirect",
     "logout_redirect_uri": [
