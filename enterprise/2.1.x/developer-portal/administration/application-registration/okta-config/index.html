@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Set up Okta and Kong for use with external OAuth - v2.1.x | Kong - Open-Source API Management and Microservice Management</title>
+  <title>Set Up External Portal Application Authentication with Okta and OIDC - v2.1.x | Kong - Open-Source API Management and Microservice Management</title>
   <meta name="description" content="Secure, Manage &amp; Extend your APIs or Microservices with plugins for authentication, logging, rate-limiting, transformations and more." />
   <meta name="author" content="KongHQ" />
   <meta property="og:title" content="Open-Source API Management and Microservice Management" />
@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -198,35 +198,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -1139,7 +1122,7 @@ window['_fs_namespace'] = 'FS';
 
       <div class="title-version-search-container">
         <div class="page-header-title">
-          <h1>Set up Okta and Kong for use with external OAuth</h1>
+          <h1>Set Up External Portal Application Authentication with Okta and OIDC</h1>
           <h2></h2>
         </div>
       </div>
@@ -5497,7 +5480,8 @@ of the <code class="language-plaintext highlighter-rouge">Issuer</code> URL, whi
 
     <p><img src="/assets/images/docs/dev-portal/okta-add-claim.png" alt="Okta Claim" /></p>
 
-    <p>Now that you have created a custom claim, you can associate the <code class="language-plaintext highlighter-rouge">client_id</code> with a Service via the Application Registration plugin. Start by creating a Service in Kong Manager.</p>
+    <p>Now that you have created a custom claim, you can associate the <code class="language-plaintext highlighter-rouge">client_id</code>
+ with a Service via the Application Registration plugin. Start by creating a Service in Kong Manager.</p>
   </li>
   <li>
     <p>Create a Service and a Route and instantiate an OIDC plugin on that Service.
@@ -5510,13 +5494,13 @@ You can allow most options to use their defaults.</p>
         <p><img src="/assets/images/docs/dev-portal/oidc-issuer-url.png" alt="OIDC with Okta Issuer URL" /></p>
       </li>
       <li>
-        <p>In the <code class="language-plaintext highlighter-rouge">Config.Consumer Claim</code> field, enter <code class="language-plaintext highlighter-rouge">&lt;application_id&gt;</code>.</p>
+        <p>In the <code class="language-plaintext highlighter-rouge">Config.Consumer Claim</code> field, enter your <code class="language-plaintext highlighter-rouge">&lt;application_id&gt;</code>.</p>
       </li>
     </ol>
 
     <p><strong>Tip:</strong> Because Okta’s discovery document does not include all supported
-auth types by default, it is recommended to disable the
-<code class="language-plaintext highlighter-rouge">config.verify_parameters</code> option.</p>
+auth types by default, ensure the
+<code class="language-plaintext highlighter-rouge">config.verify_parameters</code> option is disabled.</p>
 
     <p><img src="/assets/images/docs/dev-portal/oidc-clear-verify-params-app-reg.png" alt="Clear Config Verify Parameters for OIDC with Okta" /></p>
 
@@ -5530,7 +5514,8 @@ auth types by default, it is recommended to disable the
 
 </code></pre></div>    </div>
   </li>
-  <li>Configure a Portal Application Registration plugin on the Service as well. See <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/enable-application-registration#config-app-reg-plugin">Application Registration</a>.</li>
+  <li>Configure a Portal Application Registration plugin on the Service as well. See
+<a href="/enterprise/2.1.x/developer-portal/administration/application-registration/enable-application-registration#config-app-reg-plugin">Application Registration</a>.</li>
 </ol>
 
 <h2 id="register-an-application-in-okta">Register an application in Okta</h2>
@@ -5572,8 +5557,15 @@ your Okta application will vary:</p>
 <h2 id="associate-the-identity-provider-application-with-your-kong-application">Associate the identity provider application with your Kong application</h2>
 
 <p>Now that the application has been configured in Okta, you need to associate the
-Okta application with the corresponding application in Kong’s Developer Portal.
-This example assumes Client Credentials is the chosen OAuth flow.</p>
+Okta application with the corresponding application in Kong’s Developer Portal.</p>
+
+<div class="alert alert-warning">
+  <strong>Note:</strong> Each developer should have their own application in both Okta and Kong.  
+  Each Okta application has its own `client_id` that maps to its respective application in Kong.
+  Essentially, this maps identity provider applications to portal applications.
+</div>
+
+<p>This example assumes Client Credentials is the chosen OAuth flow.</p>
 
 <ol>
   <li>In the Kong Dev Portal, create an account if you haven’t already.</li>
@@ -6003,7 +5995,7 @@ endpoint using the supported and recommended
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 

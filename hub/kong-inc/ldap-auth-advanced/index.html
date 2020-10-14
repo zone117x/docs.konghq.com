@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -199,35 +199,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -1328,7 +1311,9 @@ window['_fs_namespace'] = 'FS';
       
       
 
-      <p>Add LDAP Bind Authentication with username and password protection. The plugin will check for valid credentials in the <code class="language-plaintext highlighter-rouge">Proxy-Authorization</code> and <code class="language-plaintext highlighter-rouge">Authorization</code> header (in this order).</p>
+      <p>Add LDAP Bind Authentication with username and password protection. The plugin
+checks for valid credentials in the <code class="language-plaintext highlighter-rouge">Proxy-Authorization</code> and <code class="language-plaintext highlighter-rouge">Authorization</code> headers
+(in that order).</p>
 
 
       
@@ -1344,8 +1329,26 @@ window['_fs_namespace'] = 'FS';
         the Kong configuration file.<p/>
         
         
+          <p>This plugin is compatible with requests with the following protocols:</p>
+          <ul>
+            
+              <li><code>http</code></li>
+            
+              <li><code>https</code></li>
+            
+              <li><code>gprc</code></li>
+            
+              <li><code>grpcs</code></li>
+            
+          </ul>
+        
 
         
+          <p>This plugin is <strong>compatible</strong> with DB-less mode.</p>
+        
+        
+          <p>In DB-less mode, Kong does not have an Admin API. If using this
+            mode, configure the plugin using declarative configuration.<p>
         
 
         
@@ -1358,22 +1361,22 @@ window['_fs_namespace'] = 'FS';
 <div class="navtabs ">
   <div class="navtab-titles">
   
-    <div data-navtab-id="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-0" class="navtab-title">
+    <div data-navtab-id="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-0" class="navtab-title">
       Kong Admin API
     </div>
   
-    <div data-navtab-id="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-1" class="navtab-title">
+    <div data-navtab-id="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-1" class="navtab-title">
       Kubernetes
     </div>
   
-    <div data-navtab-id="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-2" class="navtab-title">
+    <div data-navtab-id="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-2" class="navtab-title">
       Declarative (YAML)
     </div>
   
   </div>
   <div class="navtab-contents">
   
-    <div data-navtab-content="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-0" class="navtab-content">
+    <div data-navtab-content="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-0" class="navtab-content">
       
 <p>For example, configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 making the following request:</p>
@@ -1381,14 +1384,20 @@ making the following request:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services/&lt;service&gt;/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=ldap-auth-advanced"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.ldap_host=ldap.example.com"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldap_port=389"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.start_tls=true"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldaps=false"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.base_dn=dc=example,dc=com"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span>
+    <span class="nt">--data</span> <span class="s2">"config.verify_ldap_host=false"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.cache_ttl=60"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_type=ldap"</span>
 </code></pre></div></div>
 
 
     </div>
   
-    <div data-navtab-content="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-1" class="navtab-content">
+    <div data-navtab-content="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-1" class="navtab-content">
       
 <p>First, create a <a href="https://github.com/Kong/kubernetes-ingress-controller/blob/main/docs/references/custom-resources.md#kongplugin">KongPlugin</a>
 resource:</p>
@@ -1399,8 +1408,14 @@ resource:</p>
   <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
 <span class="na">config</span><span class="pi">:</span> 
   <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+  <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+  <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+  <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+  <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+  <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 <span class="na">plugin</span><span class="pi">:</span> <span class="s">ldap-auth-advanced</span>
 </code></pre></div></div>
 
@@ -1415,7 +1430,7 @@ follows:</p>
   <span class="na">labels</span><span class="pi">:</span>
     <span class="na">app</span><span class="pi">:</span> <span class="s">&lt;service&gt;</span>
   <span class="na">annotations</span><span class="pi">:</span>
-    <span class="s">plugins.konghq.com</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
+    <span class="s">konghq.com/plugins</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
 <span class="na">spec</span><span class="pi">:</span>
   <span class="na">ports</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>
@@ -1436,7 +1451,7 @@ follows:</p>
 
     </div>
   
-    <div data-navtab-content="navtab-0299357b-6247-4896-95fa-ea4ace61adb6-2" class="navtab-content">
+    <div data-navtab-content="navtab-74b5afa4-fcff-4d1e-90fd-612efc70d116-2" class="navtab-content">
       
 <p>For example, configure this plugin on a <a href="/latest/admin-api/#service-object">Service</a> by
 adding this section to your declarative configuration file:</p>
@@ -1446,8 +1461,14 @@ adding this section to your declarative configuration file:</p>
   <span class="na">service</span><span class="pi">:</span> <span class="s">&lt;service&gt;</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+    <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+    <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+    <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+    <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+    <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 </code></pre></div></div>
 
     </div>
@@ -1474,36 +1495,42 @@ adding this section to your declarative configuration file:</p>
 <div class="navtabs ">
   <div class="navtab-titles">
   
-    <div data-navtab-id="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-0" class="navtab-title">
+    <div data-navtab-id="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-0" class="navtab-title">
       Kong Admin API
     </div>
   
-    <div data-navtab-id="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-1" class="navtab-title">
+    <div data-navtab-id="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-1" class="navtab-title">
       Kubernetes
     </div>
   
-    <div data-navtab-id="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-2" class="navtab-title">
+    <div data-navtab-id="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-2" class="navtab-title">
       Declarative (YAML)
     </div>
   
   </div>
   <div class="navtab-contents">
   
-    <div data-navtab-content="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-0" class="navtab-content">
+    <div data-navtab-content="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-0" class="navtab-content">
       
 <p>For example, configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/routes/&lt;route&gt;/plugins <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=ldap-auth-advanced"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.ldap_host=ldap.example.com"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldap_port=389"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.start_tls=true"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldaps=false"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.base_dn=dc=example,dc=com"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span>
+    <span class="nt">--data</span> <span class="s2">"config.verify_ldap_host=false"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.cache_ttl=60"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_type=ldap"</span>
 </code></pre></div></div>
 
 
     </div>
   
-    <div data-navtab-content="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-1" class="navtab-content">
+    <div data-navtab-content="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-1" class="navtab-content">
       
 <p>First, create a <a href="https://github.com/Kong/kubernetes-ingress-controller/blob/main/docs/references/custom-resources.md#kongplugin">KongPlugin</a>
 resource:</p>
@@ -1514,8 +1541,14 @@ resource:</p>
   <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
 <span class="na">config</span><span class="pi">:</span> 
   <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+  <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+  <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+  <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+  <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+  <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 <span class="na">plugin</span><span class="pi">:</span> <span class="s">ldap-auth-advanced</span>
 </code></pre></div></div>
 
@@ -1527,7 +1560,8 @@ by annotating the ingress as follows:</p>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;route&gt;</span>
   <span class="na">annotations</span><span class="pi">:</span>
-    <span class="s">plugins.konghq.com</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
+    <span class="s">kubernetes.io/ingress.class</span><span class="pi">:</span> <span class="s">kong</span>
+    <span class="s">konghq.com/plugins</span><span class="pi">:</span> <span class="s">&lt;ldap-auth-advanced-example&gt;</span>
 <span class="na">spec</span><span class="pi">:</span>
   <span class="na">rules</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">host</span><span class="pi">:</span> <span class="s">examplehostname.com</span>
@@ -1549,7 +1583,7 @@ by annotating the ingress as follows:</p>
 
     </div>
   
-    <div data-navtab-content="navtab-cc5141c0-ec84-4554-8c37-795a9c89bb30-2" class="navtab-content">
+    <div data-navtab-content="navtab-77a856b7-6d03-4dcd-a7f8-d87b8f80c181-2" class="navtab-content">
       
 <p>For example, configure this plugin on a <a href="/latest/admin-api/#route-object">Route</a> by
 adding this section to your declarative configuration file:</p>
@@ -1559,8 +1593,14 @@ adding this section to your declarative configuration file:</p>
   <span class="na">route</span><span class="pi">:</span> <span class="s">&lt;route&gt;</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+    <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+    <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+    <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+    <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+    <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 </code></pre></div></div>
 
     </div>
@@ -1589,36 +1629,42 @@ sections for more information.</p>
 <div class="navtabs ">
   <div class="navtab-titles">
   
-    <div data-navtab-id="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-0" class="navtab-title">
+    <div data-navtab-id="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-0" class="navtab-title">
       Kong Admin API
     </div>
   
-    <div data-navtab-id="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-1" class="navtab-title">
+    <div data-navtab-id="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-1" class="navtab-title">
       Kubernetes
     </div>
   
-    <div data-navtab-id="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-2" class="navtab-title">
+    <div data-navtab-id="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-2" class="navtab-title">
       Declarative (YAML)
     </div>
   
   </div>
   <div class="navtab-contents">
   
-    <div data-navtab-content="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-0" class="navtab-content">
+    <div data-navtab-content="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-0" class="navtab-content">
       
 <p>For example, configure this plugin globally with:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/plugins/ <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"name=ldap-auth-advanced"</span>  <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.ldap_host=ldap.example.com"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldap_port=389"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.start_tls=true"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.ldaps=false"</span> <span class="se">\</span>
     <span class="nt">--data</span> <span class="s2">"config.base_dn=dc=example,dc=com"</span> <span class="se">\</span>
-    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span>
+    <span class="nt">--data</span> <span class="s2">"config.verify_ldap_host=false"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.attribute=cn"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.cache_ttl=60"</span> <span class="se">\</span>
+    <span class="nt">--data</span> <span class="s2">"config.header_type=ldap"</span>
 </code></pre></div></div>
 
 
     </div>
   
-    <div data-navtab-content="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-1" class="navtab-content">
+    <div data-navtab-content="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-1" class="navtab-content">
       
 <p>Create a <a href="https://github.com/Kong/kubernetes-ingress-controller/blob/main/docs/references/custom-resources.md#kongclusterplugin">KongClusterPlugin</a>
 resource and label it as global:</p>
@@ -1627,19 +1673,27 @@ resource and label it as global:</p>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">KongClusterPlugin</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;global-ldap-auth-advanced&gt;</span>
+  <span class="na">annotations</span><span class="pi">:</span>
+    <span class="s">kubernetes.io/ingress.class</span><span class="pi">:</span> <span class="s">kong</span>
   <span class="na">labels</span><span class="pi">:</span>
     <span class="na">global</span><span class="pi">:</span> <span class="s">\"true\"</span>
 <span class="na">config</span><span class="pi">:</span> 
   <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+  <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+  <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+  <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
   <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+  <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+  <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 <span class="na">plugin</span><span class="pi">:</span> <span class="s">ldap-auth-advanced</span>
 </code></pre></div></div>
 
 
     </div>
   
-    <div data-navtab-content="navtab-93aef0ad-2c5f-4180-894d-b175435fcff7-2" class="navtab-content">
+    <div data-navtab-content="navtab-0af2f22b-7650-4c3d-9734-126270fdd604-2" class="navtab-content">
       
 <p>For example, configure this plugin using the <code>plugins:</code> entry in the declarative
 configuration file:</p>
@@ -1648,8 +1702,14 @@ configuration file:</p>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">ldap-auth-advanced</span>
   <span class="na">config</span><span class="pi">:</span> 
     <span class="na">ldap_host</span><span class="pi">:</span> <span class="s">ldap.example.com</span>
+    <span class="na">ldap_port</span><span class="pi">:</span> <span class="m">389</span>
+    <span class="na">start_tls</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">ldaps</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">base_dn</span><span class="pi">:</span> <span class="s">dc=example,dc=com</span>
+    <span class="na">verify_ldap_host</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">attribute</span><span class="pi">:</span> <span class="s">cn</span>
+    <span class="na">cache_ttl</span><span class="pi">:</span> <span class="m">60</span>
+    <span class="na">header_type</span><span class="pi">:</span> <span class="s">ldap</span>
 </code></pre></div></div>
 
     </div>
@@ -1691,18 +1751,21 @@ configuration file:</p>
           
           
         </td>
-        <td><p>Host on which the LDAP server is running</p>
+        <td><p>Host on which the LDAP server is running.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.ldap_port</code>
+          <br /><em>required</em>
           
           
-          
-          
+          <br /><br /><strong>default value: </strong><p>389</p>
+
         </td>
-        <td><p>TCP port where the LDAP server is listening</p>
+        <td><p>TCP port where the LDAP server is listening. 389 is the default
+port for non-SSL LDAP and AD. 686 is the port required for SSL LDAP and AD. If <code class="language-plaintext highlighter-rouge">ldaps</code> is
+configured, you must use port 686.</p>
 </td>
       </tr>
     
@@ -1713,32 +1776,36 @@ configuration file:</p>
           
           
         </td>
-        <td><p>The password to the LDAP server</p>
+        <td><p>The password to the LDAP server.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.start_tls</code>
-          
+          <br /><em>required</em>
           
           
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
 
         </td>
-        <td><p>Set it to <code class="language-plaintext highlighter-rouge">true</code> to issue StartTLS (Transport Layer Security) extended operation over <code class="language-plaintext highlighter-rouge">ldap</code> connection</p>
+        <td><p>Set it to <code class="language-plaintext highlighter-rouge">true</code> to issue StartTLS (Transport Layer Security) extended operation
+over <code class="language-plaintext highlighter-rouge">ldap</code> connection. If the <code class="language-plaintext highlighter-rouge">start_tls</code> setting is enabled, ensure the <code class="language-plaintext highlighter-rouge">ldaps</code>
+setting is disabled.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.ldaps</code>
-          
+          <br /><em>required</em>
           
           
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
 
         </td>
         <td><p>Set it to <code class="language-plaintext highlighter-rouge">true</code> to use <code class="language-plaintext highlighter-rouge">ldaps</code>, a secure protocol (that can be configured
-to TLS) to connect to the LDAP server.</p>
+to TLS) to connect to the LDAP server. When <code class="language-plaintext highlighter-rouge">ldaps</code> is
+configured, you must use port 686. If the <code class="language-plaintext highlighter-rouge">ldap</code> setting is enabled, ensure the
+<code class="language-plaintext highlighter-rouge">start_tls</code> setting is disabled.</p>
 </td>
       </tr>
     
@@ -1749,19 +1816,19 @@ to TLS) to connect to the LDAP server.</p>
           
           
         </td>
-        <td><p>Base DN as the starting point for the search; e.g., “dc=example,dc=com”</p>
+        <td><p>Base DN as the starting point for the search; e.g., “dc=example,dc=com”.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.verify_ldap_host</code>
-          
+          <br /><em>required</em>
           
           
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
 
         </td>
-        <td><p>Set it to <code class="language-plaintext highlighter-rouge">true</code> to authenticate LDAP server. The server certificate will be verified according to the CA certificates specified by the <code class="language-plaintext highlighter-rouge">lua_ssl_trusted_certificate</code> directive.</p>
+        <td><p>Set to <code class="language-plaintext highlighter-rouge">true</code> to authenticate LDAP server. The server certificate will be verified according to the CA certificates specified by the <code class="language-plaintext highlighter-rouge">lua_ssl_trusted_certificate</code> directive.</p>
 </td>
       </tr>
     
@@ -1772,19 +1839,19 @@ to TLS) to connect to the LDAP server.</p>
           
           
         </td>
-        <td><p>Attribute to be used to search the user; e.g., “cn”</p>
+        <td><p>Attribute to be used to search the user; e.g., “cn”.</p>
 </td>
       </tr>
     
       <tr>
         <td><code>config.cache_ttl</code>
-          
+          <br /><em>required</em>
           
           
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">60</code></p>
 
         </td>
-        <td><p>Cache expiry time in seconds</p>
+        <td><p>Cache expiry time in seconds.</p>
 </td>
       </tr>
     
@@ -1796,7 +1863,7 @@ to TLS) to connect to the LDAP server.</p>
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">10000</code></p>
 
         </td>
-        <td><p>An optional timeout in milliseconds when waiting for connection with LDAP server</p>
+        <td><p>An optional timeout in milliseconds when waiting for connection with LDAP server.</p>
 </td>
       </tr>
     
@@ -1808,7 +1875,7 @@ to TLS) to connect to the LDAP server.</p>
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">10000</code></p>
 
         </td>
-        <td><p>An optional value in milliseconds that defines for how long an idle connection to LDAP server will live before being closed</p>
+        <td><p>An optional value in milliseconds that defines how long an idle connection to LDAP server will live before being closed.</p>
 </td>
       </tr>
     
@@ -1819,7 +1886,7 @@ to TLS) to connect to the LDAP server.</p>
           
           
         </td>
-        <td><p>An optional string (consumer uuid) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="language-plaintext highlighter-rouge">4xx</code>. Please note that this value must refer to the Consumer <code class="language-plaintext highlighter-rouge">id</code> attribute which is internal to Kong, and <strong>not</strong> its <code class="language-plaintext highlighter-rouge">custom_id</code>.</p>
+        <td><p>An optional string (consumer UUID) value to use as an “anonymous” consumer if authentication fails. If empty (default), the request will fail with an authentication failure <code class="language-plaintext highlighter-rouge">4xx</code>. The value must refer to the Consumer <code class="language-plaintext highlighter-rouge">id</code> attribute that is internal to Kong, <strong>not</strong> its <code class="language-plaintext highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
     
@@ -1855,7 +1922,7 @@ to TLS) to connect to the LDAP server.</p>
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">[ "username", "custom_id" ]</code></p>
 
         </td>
-        <td><p>Whether to authenticate consumer based on <code class="language-plaintext highlighter-rouge">username</code> and/or <code class="language-plaintext highlighter-rouge">custom_id</code></p>
+        <td><p>Whether to authenticate Consumers based on <code class="language-plaintext highlighter-rouge">username</code> and/or <code class="language-plaintext highlighter-rouge">custom_id</code>.</p>
 </td>
       </tr>
     
@@ -1878,7 +1945,7 @@ to TLS) to connect to the LDAP server.</p>
           
           
         </td>
-        <td><p>The DN to bind to. Used to perform LDAP search of user. This bind_dn
+        <td><p>The DN to bind to. Used to perform LDAP search of user. This <code class="language-plaintext highlighter-rouge">bind_dn</code>
 should have permissions to search for the user being authenticated.</p>
 </td>
       </tr>
@@ -1891,7 +1958,7 @@ should have permissions to search for the user being authenticated.</p>
           <br /><br /><strong>default value: </strong><p>matches <code class="language-plaintext highlighter-rouge">conf.base_dn</code></p>
 
         </td>
-        <td><p>Sets a distinguished name for the entry where LDAP searches for groups begin.</p>
+        <td><p>Sets a distinguished name (DN) for the entry where LDAP searches for groups begin.</p>
 </td>
       </tr>
     
@@ -1931,21 +1998,29 @@ should have permissions to search for the user being authenticated.</p>
 
       <h2 id="usage">Usage</h2>
 
-<p>In order to authenticate the user, client must set credentials in
-<code class="language-plaintext highlighter-rouge">Proxy-Authorization</code> or <code class="language-plaintext highlighter-rouge">Authorization</code> header in following format:</p>
+<p>To authenticate a user, the client must set credentials in either the
+<code class="language-plaintext highlighter-rouge">Proxy-Authorization</code> or <code class="language-plaintext highlighter-rouge">Authorization</code> header in the following format:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>credentials := [ldap | LDAP] base64(username:password)
 </code></pre></div></div>
 
-<p>The plugin will validate the user against the LDAP server and cache the
-credential for future requests for the duration specified in
+<p>The Authorization header would look something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization:  ldap dGxibGVzc2luZzpLMG5nU3RyMG5n
+</code></pre></div></div>
+
+<p>The plugin validates the user against the LDAP server and caches the
+credentials for future requests for the duration specified in
 <code class="language-plaintext highlighter-rouge">config.cache_ttl</code>.</p>
+
+<p>You can set the header type <code class="language-plaintext highlighter-rouge">ldap</code> to any string (such as <code class="language-plaintext highlighter-rouge">basic</code>) using
+<code class="language-plaintext highlighter-rouge">config.header_type</code>.</p>
 
 <h3 id="upstream-headers">Upstream Headers</h3>
 
-<p>When a client has been authenticated, the plugin will append some headers to the
- request before proxying it to the upstream service, so that you can identify
- the consumer in your code:</p>
+<p>When a client has been authenticated, the plugin appends some headers to the
+request before proxying it to the upstream service so that you can identify
+the consumer in your code:</p>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">X-Credential-Username</code>, the <code class="language-plaintext highlighter-rouge">username</code> of the Credential (only if the
@@ -1960,11 +2035,11 @@ authentication failed and ‘anonymous’ was set)</li>
 authentication failed and ‘anonymous’ was set)</li>
 </ul>
 
-<h3 id="ldap-search-and-configbind_dn">LDAP Search and config.bind_dn</h3>
+<h3 id="ldap-search-and-configbind_dn">LDAP Search and <code class="language-plaintext highlighter-rouge">config.bind_dn</code></h3>
 
 <p>LDAP directory searching is performed during the request/plugin lifecycle. It is
 used to retrieve the fully qualified DN of the user so a bind
-request can be performed with the user’s given LDAP username and password. The
+request can be performed with a user’s given LDAP username and password. The
 search for the user being authenticated uses the <code class="language-plaintext highlighter-rouge">config.bind_dn</code> property. The
 search uses <code class="language-plaintext highlighter-rouge">scope="sub"</code>, <code class="language-plaintext highlighter-rouge">filter="&lt;config.attribute&gt;=&lt;username&gt;"</code>, and
 <code class="language-plaintext highlighter-rouge">base_dn=&lt;config.base_dn&gt;</code>. Here is an example of how it performs the search
@@ -2381,7 +2456,7 @@ using the <code class="language-plaintext highlighter-rouge">ldapsearch</code> c
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 

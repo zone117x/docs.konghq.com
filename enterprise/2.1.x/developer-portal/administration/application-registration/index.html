@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -198,35 +198,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -5469,8 +5452,8 @@ providers. Developers have the flexibility to choose from either
 Kong or a third-party identity provider (IdP) as the system of record for
 application credentials. With third-party (external) OAuth2 support, developers
 can centralize application credential management with the
-<a href="/enterprise/2.1.x/developer-portal/administration/application-registration/3rd-party-oauth#idps">supported identity provider</a> of their
-choice.</p>
+<a href="/enterprise/2.1.x/developer-portal/administration/application-registration/3rd-party-oauth#idps">supported identity provider</a>
+of their choice.</p>
 
 <p>OAuth2 plugins for use with the Application Registration plugin:</p>
 
@@ -5478,6 +5461,12 @@ choice.</p>
   <li>
     <p>When Kong is the system of record, the Application Registration plugin works
 in conjunction with the Kong OAuth2 plugin.</p>
+
+    <div class="alert alert-warning">
+  <strong>Important:</strong> The Kong OAuth2 plugin does not support
+  hybrid mode. If your organization uses hybrid mode, you must use an external identity
+  provider and configure the Kong OIDC plugin.
+</div>
   </li>
   <li>
     <p>When an external OAuth2 is the system of record, the Application Registration
@@ -5497,33 +5486,47 @@ authorization strategy.</p>
 <p>Available options:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">kong-oauth2</code>: Default. Kong is the system of record. The Application Registration plugin is used in conjunction with the Kong OAuth2 plugin.</li>
-  <li><code class="language-plaintext highlighter-rouge">external-oauth2</code>: An external IdP is the system of record. The Developer Portal Application Registration plugin is used in conjunction with the Kong OIDC plugin.</li>
+  <li><code class="language-plaintext highlighter-rouge">kong-oauth2</code>: Default. Kong is the system of record. The Application
+Registration plugin is used in conjunction with the Kong OAuth2 plugin.
+The <code class="language-plaintext highlighter-rouge">kong-oauth2</code> option can only be used with classic (traditional) deployments.
+Because the OAuth2 plugin requires a database for every Kong instance, the
+<code class="language-plaintext highlighter-rouge">kong-oauth2</code> option cannot be used with hybrid mode deployments.</li>
+  <li><code class="language-plaintext highlighter-rouge">external-oauth2</code>: An external IdP is the system of record. The
+Portal Application Registration plugin is used in conjunction with the Kong
+OIDC plugin. The <code class="language-plaintext highlighter-rouge">external-oauth2</code> option can be used with any deployment type.
+The <code class="language-plaintext highlighter-rouge">external-oauth2</code> option must be used with
+<a href="/enterprise/2.1.x/deployment/hybrid-mode/">hybrid mode</a>
+deployments because hybrid mode does not support <code class="language-plaintext highlighter-rouge">kong-oauth2</code>.</li>
 </ul>
 
 <ol>
   <li>
-    <p>Open <code class="language-plaintext highlighter-rouge">kong.conf.default</code> and set the <code class="language-plaintext highlighter-rouge">portal_app_auth</code> option to your chosen strategy. The example configuration below switches from the default (<code class="language-plaintext highlighter-rouge">kong-oauth2</code>) to an external IdP (<code class="language-plaintext highlighter-rouge">external-oauth2</code>).</p>
+    <p>Open <code class="language-plaintext highlighter-rouge">kong.conf.default</code> and set the <code class="language-plaintext highlighter-rouge">portal_app_auth</code> option to your chosen
+strategy. The example configuration below switches from the default
+(<code class="language-plaintext highlighter-rouge">kong-oauth2</code>) to an external IdP (<code class="language-plaintext highlighter-rouge">external-oauth2</code>).</p>
 
     <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>portal_app_auth = external-oauth2
          # Developer Portal application registration
-         # auth provider and strategy. Must be set to configure the
-         # application_registration plugin.
-         # Currently accepts kong-oauth2 (default) or external-oauth2.
+         # auth provider and strategy. Must be set to configure
+         # authentication in conjunction with the application_registration plugin.
+         # Currently accepts kong-oauth2 or external-oauth2.
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Restart your Kong Enterprise instance.</p>
+    <p><a href="https://docs.konghq.com/2.1.x/cli/#kong-restart">Restart</a> your Kong Enterprise
+instance.</p>
   </li>
 </ol>
 
 <h3 id="next-steps">Next steps</h3>
 
 <ol>
-  <li>If you plan to use external OAuth, review the
+  <li>If you plan to use external OAuth2, review the
 <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/3rd-party-oauth#supported-oauth-flows">recommended workflows</a>.
 Configure the identity provider for your application, configure your
-application in Kong, and associate them with each other. See the <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/okta-config">Okta</a>, or the <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/azure-oidc-config">Azure</a> setup examples.</li>
+application in Kong, and associate them with each other. See the
+<a href="/enterprise/2.1.x/developer-portal/administration/application-registration/okta-config">Okta</a>,
+or the <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/azure-oidc-config">Azure</a> setup examples.</li>
   <li>Enable the <a href="/enterprise/2.1.x/developer-portal/administration/application-registration/enable-application-registration">Application Registration plugin</a> on a Service.</li>
   <li>Depending on your configured authentication strategy, configure the Kong
 <a href="/hub/kong-inc/oauth2">OAuth2</a> or
@@ -5944,7 +5947,7 @@ Application Registration plugin.</li>
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 

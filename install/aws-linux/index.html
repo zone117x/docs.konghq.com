@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -198,35 +198,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -1213,19 +1196,24 @@ window['_fs_namespace'] = 'FS';
           
             <h2 id="table-of-contents">Table of Contents</h2>
             <ul class="inline-toc">
-  <li><a href="#packages" class="active scroll-to">Packages</a></li>
+  <li><a href="#introduction" class="active scroll-to">Introduction</a></li>
+  <li><a href="#packages" class="scroll-to">Packages</a></li>
   <li><a href="#yum-repositories" class="scroll-to">YUM Repositories</a></li>
   <li><a href="#installation" class="scroll-to">Installation</a></li>
 </ul>
 
             
         <div class="content">
-          <h2 id="packages">Packages</h2>
+          <h2 id="introduction">Introduction</h2>
+
+<p>This guide walks through downloading, installing, and starting <strong>Kong Gateway</strong> on <strong>Amazon Linux 2</strong>.</p>
+
+<h2 id="packages">Packages</h2>
 
 <p>Start by downloading the following package specifically built for the Amazon Linux AMI:</p>
 
 <ul>
-  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=amazonlinux/amazonlinux/kong-2.1.4.aws.amd64.rpm">Download</a></li>
+  <li><a href="https://bintray.com/kong/kong-rpm/download_file?file_path=amazonlinux/amazonlinux2/kong-2.1.4.aws.amd64.rpm">Download</a></li>
 </ul>
 
 <p><strong>Enterprise trial users</strong> should download their package from their welcome email and save their license to <code class="language-plaintext highlighter-rouge">/etc/kong/license.json</code> after step 1.</p>
@@ -1255,17 +1243,15 @@ amazonlinux/amazonlinux; for instance:</p>
 
     <p>If you are downloading the <a href="#packages">package</a>, execute:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>epel-release
- <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>kong-2.1.4.aws.rpm <span class="nt">--nogpgcheck</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> /path/to/package.rpm <span class="nt">--nogpgcheck</span>
 </code></pre></div>    </div>
 
     <p>If you are using the repository, execute:</p>
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">sudo </span>yum update <span class="nt">-y</span>
  <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> wget
- <span class="nv">$ </span><span class="nb">sudo </span>amazon-linux-extras <span class="nb">install</span> <span class="nt">-y</span> epel
  <span class="nv">$ </span>wget https://bintray.com/kong/kong-rpm/rpm <span class="nt">-O</span> bintray-kong-kong-rpm.repo
  <span class="nv">$ </span><span class="nb">sed</span> <span class="nt">-i</span> <span class="nt">-e</span> <span class="s1">'s/baseurl.*/&amp;\/amazonlinux\/amazonlinux'</span>/ bintray-kong-kong-rpm.repo
- <span class="nv">$ </span><span class="nb">mv </span>bintray-kong-kong-rpm.repo /etc/yum.repos.d/
+ <span class="nv">$ </span><span class="nb">sudo mv </span>bintray-kong-kong-rpm.repo /etc/yum.repos.d/
  <span class="nv">$ </span><span class="nb">sudo </span>yum update <span class="nt">-y</span>
  <span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> kong
 </code></pre></div>    </div>
@@ -1705,7 +1691,7 @@ amazonlinux/amazonlinux; for instance:</p>
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 

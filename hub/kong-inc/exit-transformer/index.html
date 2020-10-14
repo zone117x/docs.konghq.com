@@ -118,7 +118,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -199,35 +199,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -1116,13 +1099,33 @@ window['_fs_namespace'] = 'FS';
       <li><a href="#parameters">Parameters</a></li>
     </ul>
   </li>
-  <li><a href="#transforming-404-and-400-responses">Transforming 404 and 400 responses</a></li>
-  <li><a href="#function-syntax">Function syntax</a>
+  <li><a href="#transforming-4xx-and-5xx-responses">Transforming 4xx and 5xx Responses</a>
     <ul>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#handling-unmatched-400-and-404-responses">Handling Unmatched 400 and 404 Responses</a></li>
+      <li><a href="#http-msgs">HTTP Response Status Codes</a></li>
     </ul>
   </li>
-  <li><a href="#demonstration">Demonstration</a></li>
+  <li><a href="#function-syntax">Function Syntax</a>
+    <ul>
+      <li><a href="#example-lua-functions">Example Lua Functions</a></li>
+    </ul>
+  </li>
+  <li><a href="#demonstration">Demonstration</a>
+    <ul>
+      <li><a href="#step-1-create-a-service-in-kong">Step 1: Create a Service in Kong</a></li>
+      <li><a href="#step-2-create-a-route-in-kong">Step 2: Create a Route in Kong</a></li>
+      <li><a href="#step-3-create-a-transform">Step 3: Create a Transform</a></li>
+      <li><a href="#step-4-configure-the-plugin-with-its-transform">Step 4: Configure the Plugin with its Transform</a></li>
+      <li><a href="#step-5-configure-the-key-auth-plugin-to-test-the-exit-transform">Step 5: Configure the Key-Auth Plugin to Test the Exit Transform</a></li>
+      <li><a href="#testy-exit">Step 6: Test a Forced Generation of an Exit Response</a></li>
+    </ul>
+  </li>
+  <li><a href="#more-examples">More Examples</a>
+    <ul>
+      <li><a href="#apply-the-plugin-globally-to-handle-unknown-responses">Apply the Plugin Globally to Handle Unknown Responses</a></li>
+      <li><a href="#custom-errors-by-mime-type">Custom Errors by MIME Type</a></li>
+    </ul>
+  </li>
 </ul>
 
         </nav>
@@ -1287,8 +1290,8 @@ window['_fs_namespace'] = 'FS';
       
 
       <p>Transform and customize Kong response exit messages using Lua functions.
-The capabilities range from changing messages, status codes, and headers, to completely transforming
-the structure of Kong responses.</p>
+The capabilities range from changing messages, status codes, and headers,
+to completely transforming the structure of Kong responses.</p>
 
 
       
@@ -1409,7 +1412,7 @@ sections for more information.</p>
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
 
         </td>
-        <td><p>Allow transform to apply to unmatched route (404) responses. Should not be enabled on more than one plugin configuration.</p>
+        <td><p>Allow transform to apply to unmatched Service, Route, or Workspace (404) responses.</p>
 </td>
       </tr>
     
@@ -1421,19 +1424,7 @@ sections for more information.</p>
           <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
 
         </td>
-        <td><p>Allow transform to apply to unexpected request (400) responses. Should not be enabled on more than one plugin configuration.</p>
-</td>
-      </tr>
-    
-      <tr>
-        <td><code>config.handle_admin</code>
-          
-          <br /><em>optional</em>
-          
-          <br /><br /><strong>default value: </strong><p><code class="language-plaintext highlighter-rouge">false</code></p>
-
-        </td>
-        <td><p>Allow transform to apply to Admin API responses. Should not be enabled on more than one plugin configuration.</p>
+        <td><p>Allow transform to apply to unexpected request (400) responses.</p>
 </td>
       </tr>
     
@@ -1446,25 +1437,85 @@ sections for more information.</p>
       
 
 
-      <h2 id="transforming-404-and-400-responses">Transforming 404 and 400 responses</h2>
+      <h2 id="transforming-4xx-and-5xx-responses">Transforming 4xx and 5xx Responses</h2>
 
-<p>By default, the exit transformer is only applied to requests that match its
-criteria (its route, service, or consumer matching configuration) or
-globally within a workspace. However, requests that result in 400 or 404
-responses neither match any criteria nor fall within any specific workspace,
-and standard plugin criteria will never match them. Users can designate exit
-transformer configurations that <em>do</em> handle these responses by enabling the
-<code class="language-plaintext highlighter-rouge">handle_unknown</code> (404) and <code class="language-plaintext highlighter-rouge">handle_unexpected</code> (400) settings. These should
-only be enabled on a single plugin configuration.</p>
+<p>By default, the Exit Transformer is only applied to requests that match its
+criteria (its Route or Service matching configuration) or globally within a Workspace.</p>
 
-<p><code class="language-plaintext highlighter-rouge">handle_admin</code> allows the exit transformer to apply to Admin API responses.
-Users should only modify headers only applying functions to Admin API
-responses, as modifying the body or status will interfere with Kong Manager’s
-ability to communicate with the Admin API.</p>
+<h3 id="handling-unmatched-400-and-404-responses">Handling Unmatched 400 and 404 Responses</h3>
 
-<h2 id="function-syntax">Function syntax</h2>
+<p>Requests that result in 400 or 404 responses neither match any criteria nor fall
+within any specific Workspace, and standard plugin criteria will never match those
+responses. You can designate Exit Transformer configurations that <em>do</em> handle these
+responses by enabling the <code class="language-plaintext highlighter-rouge">handle_unexpected</code> (400) and <code class="language-plaintext highlighter-rouge">handle_unknown</code> (404) settings:</p>
 
-<p>The exit transformer expects a configuration function to be Lua code that returns
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">handle_unknown</code> parameter should only be enabled on a single plugin configuration.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">handle_unexpected</code> parameter can be enabled on as many plugin configurations
+as you want.</li>
+</ul>
+
+<p>It’s not a prerequisite for <code class="language-plaintext highlighter-rouge">handle_unexpected</code> to also have <code class="language-plaintext highlighter-rouge">handle_unknown</code> set,
+if an unexpected error happened within some known Service or Route context. If a
+configuration has both <code class="language-plaintext highlighter-rouge">handle_unknown</code> and <code class="language-plaintext highlighter-rouge">handle_unexpected</code> enabled, then an
+unexpected error on an <em>unknown</em> Service or Route will pass through the Exit Transformer plugin.</p>
+
+<h3 id="http-msgs">HTTP Response Status Codes</h3>
+
+<p><strong>4xx</strong> codes are client error responses:</p>
+
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400">400 Bad request</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401">401 Unauthorized</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402">402 Payment required</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403">403 Forbidden</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404">404 Not found</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405">405 Method not allowed</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406">406 Not acceptable</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/407">407 Proxy authentication required</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408">408 Request timeout</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409">409 Conflict</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410">410 Gone</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/411">411 Length required</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/412">412 Precondition failed</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413">413 Payload too large</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/414">414 URI too long</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/415">415 Unsupported media type</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/416">416 Range not satisfiable</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/417">417 Expectation failed</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418">418 I’m a teapot</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/421">421 Misdirected request</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422">422 Unprocessable entity</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/423">423 Locked</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/424">424 Failed dependency</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/425">425 Too early</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/426">426 Upgrade required</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/428">428 Precondition required</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429">429 Too many requests</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/431">431 Request header fields too large</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/451">451 Unavailable for legal reasons</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/494">494 Request header or cookie too large</a></li>
+</ul>
+
+<p><strong>5xx</strong> codes are server error responses:</p>
+
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500">500 An unexpected error occurred</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/501">501 Not implemented</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502">502 An invalid response was received from the upstream server</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503">503 The upstream server is currently unavailable</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504">504 The upstream server is timing out</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/505">505 HTTP version not supported</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/506">506 Variant also negotiates</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/507">507 Insufficient storage</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/508">508 Loop detected</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/510">510 Not extended</a></li>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/511">511 Network authentication required</a></li>
+</ul>
+
+<h2 id="function-syntax">Function Syntax</h2>
+
+<p>The Exit Transformer plugin expects a configuration function to be Lua code that returns
 a function accepting three arguments: status, body, and headers.</p>
 
 <p>Any Kong exit call exposed on the proxy side gets reduced through these
@@ -1477,25 +1528,23 @@ functions.</p>
   <strong>Warning</strong>
   <code>kong.response.exit()</code> requires a <code>status</code> argument only.
   <code>body</code> and <code>headers</code> may be <code>nil</code>.
-  If you manipulate them, first check that they exist and instantiate them
-  if they do not. The "Modify the body and headers, even if none were provided"
-  example below shows how to do this.
+  If you manipulate the body and headers, first check that they exist and
+  instantiate them if they do not exist.
 </div>
 
-<h3 id="examples">Examples</h3>
+<p>If you manipulate body and headers, see the
+<a href="#mod-body-head">Modify the body and headers regardless if provided</a> example below.</p>
 
-<ul>
-  <li>Identity function: does not transform the exit responses</li>
-</ul>
+<h3 id="example-lua-functions">Example Lua Functions</h3>
+
+<h4 id="identity-function-that-does-not-transform-the-exit-responses">Identity function that does not transform the exit responses</h4>
 
 <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
 <span class="k">end</span>
 </code></pre></div></div>
 
-<ul>
-  <li>Always return a 200 status code, bundling the status within the message</li>
-</ul>
+<h4 id="function-that-always-returns-a-200-status-code-with-status-bundled-within-the-message">Function that always returns a 200 status code with status bundled within the message</h4>
 
 <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
   <span class="c1">-- identity</span>
@@ -1509,9 +1558,7 @@ functions.</p>
 <span class="k">end</span>
 </code></pre></div></div>
 
-<ul>
-  <li>Customize particular Kong messages</li>
-</ul>
+<h4 id="customize-particular-kong-messages">Customize particular Kong messages</h4>
 
 <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">responses</span> <span class="o">=</span> <span class="p">{</span>
   <span class="p">[</span><span class="s2">"No API key found in request"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -1540,9 +1587,7 @@ functions.</p>
 <span class="k">end</span>
 </code></pre></div></div>
 
-<ul>
-  <li>Modify the body and headers, even if none were provided</li>
-</ul>
+<h4 id="mod-body-head">Modify the body and headers regardless if provided</h4>
 
 <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
   <span class="k">if</span> <span class="ow">not</span> <span class="n">body</span> <span class="k">then</span>
@@ -1563,86 +1608,411 @@ functions.</p>
 
 <h2 id="demonstration">Demonstration</h2>
 
-<ol>
-  <li>
-    <p>Create a Service and a Route in Kong:</p>
+<h3 id="step-1-create-a-service-in-kong">Step 1: Create a Service in Kong</h3>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>http :8001/services <span class="nv">name</span><span class="o">=</span>example.com <span class="nv">host</span><span class="o">=</span>mockbin.org
- <span class="nv">$ </span>http <span class="nt">-f</span> :8001/services/example.com/routes <span class="nv">hosts</span><span class="o">=</span>example.com
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Create a file named <code class="language-plaintext highlighter-rouge">transform.lua</code> with the transformation code. The
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-751873b7-ff0a-45a1-a0e1-48f76b292a5c-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-751873b7-ff0a-45a1-a0e1-48f76b292a5c-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-751873b7-ff0a-45a1-a0e1-48f76b292a5c-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services <span class="se">\</span>
+     <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span>example.com <span class="se">\</span>
+     <span class="nt">--data</span> <span class="nv">url</span><span class="o">=</span><span class="s1">'http://mockbin.org'</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-751873b7-ff0a-45a1-a0e1-48f76b292a5c-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>http :8001/services <span class="nv">name</span><span class="o">=</span>example.com <span class="nv">host</span><span class="o">=</span>mockbin.org
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
+<h3 id="step-2-create-a-route-in-kong">Step 2: Create a Route in Kong</h3>
+
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-5d640dd4-665b-4935-abc0-255a99692048-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-5d640dd4-665b-4935-abc0-255a99692048-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-5d640dd4-665b-4935-abc0-255a99692048-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services/example.com/routes <span class="se">\</span>
+  <span class="nt">--data</span> <span class="s1">'hosts[]=example.com'</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-5d640dd4-665b-4935-abc0-255a99692048-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http <span class="nt">-f</span> :8001/services/example.com/routes <span class="nv">hosts</span><span class="o">=</span>example.com
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
+<h3 id="step-3-create-a-transform">Step 3: Create a Transform</h3>
+
+<p>Create a file named <code class="language-plaintext highlighter-rouge">transform.lua</code> with the transformation code. The
 following example adds a header, appends “arr!” to any message, and adds
-an <code class="language-plaintext highlighter-rouge">error</code> and <code class="language-plaintext highlighter-rouge">status</code> field on the response.</p>
+<code class="language-plaintext highlighter-rouge">error</code> and <code class="language-plaintext highlighter-rouge">status</code> fields on the response body.</p>
 
-    <div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1">-- transform.lua</span>
- <span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
-   <span class="k">if</span> <span class="ow">not</span> <span class="n">body</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">body</span><span class="p">.</span><span class="n">message</span> <span class="k">then</span>
-     <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
-   <span class="k">end</span>
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">-- transform.lua</span>
+    <span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">body</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">body</span><span class="p">.</span><span class="n">message</span> <span class="k">then</span>
+        <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
+      <span class="k">end</span>
 
-   <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="s2">"x-some-header"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"some value"</span> <span class="p">}</span>
-   <span class="kd">local</span> <span class="n">new_body</span> <span class="o">=</span> <span class="p">{</span>
-     <span class="nb">error</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
-     <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">,</span>
-     <span class="n">message</span> <span class="o">=</span> <span class="n">body</span><span class="p">.</span><span class="n">message</span> <span class="o">..</span> <span class="s2">", arr!"</span><span class="p">,</span>
-   <span class="p">}</span>
+      <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="s2">"x-some-header"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"some value"</span> <span class="p">}</span>
+      <span class="kd">local</span> <span class="n">new_body</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nb">error</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">,</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">body</span><span class="p">.</span><span class="n">message</span> <span class="o">..</span> <span class="s2">", arr!"</span><span class="p">,</span>
+      <span class="p">}</span>
 
-   <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
- <span class="k">end</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Configure the <code class="language-plaintext highlighter-rouge">exit-transformer</code> plugin with <code class="language-plaintext highlighter-rouge">transform.lua</code></p>
+      <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">new_body</span><span class="p">,</span> <span class="n">headers</span>
+    <span class="k">end</span>
+</code></pre></div></div>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>http <span class="nt">-f</span> :8001/services/example.com/plugins <span class="se">\</span>
+<h3 id="step-4-configure-the-plugin-with-its-transform">Step 4: Configure the Plugin with its Transform</h3>
+
+<p>Configure the <code class="language-plaintext highlighter-rouge">exit-transformer</code> plugin with <code class="language-plaintext highlighter-rouge">transform.lua</code>.</p>
+
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-142788f9-1e6b-4571-b891-76a37de9af98-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-142788f9-1e6b-4571-b891-76a37de9af98-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-142788f9-1e6b-4571-b891-76a37de9af98-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services/example.com/plugins <span class="se">\</span>
+     <span class="nt">-F</span> <span class="s2">"name=exit-transformer"</span>  <span class="se">\</span>
+     <span class="nt">-F</span> <span class="s2">"config.functions=@transform.lua"</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-142788f9-1e6b-4571-b891-76a37de9af98-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>http <span class="nt">-f</span> :8001/services/example.com/plugins <span class="se">\</span>
      <span class="nv">name</span><span class="o">=</span>exit-transformer <span class="se">\</span>
      config.functions<span class="o">=</span>@transform.lua
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>(example) Add key-auth plugin to force generation of an exit response</p>
+</code></pre></div></div>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>http :8001/services/example.com/plugins <span class="nv">name</span><span class="o">=</span>key-auth
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Attempt a request to the Service to get the custom error</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>http :8000 Host:example.com
- HTTP/1.1 200 OK
- ...
- X-Some-Header: some value
+    </div>
+  
+  </div>
+</div>
 
- <span class="o">{</span>
-     <span class="s2">"error"</span>: <span class="nb">true</span>,
-     <span class="s2">"status"</span>: 401,
-     <span class="s2">"kong_message"</span>: <span class="s2">"No API key found in request, arr!"</span>
- <span class="o">}</span>
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Note the plugin can also be applied globally</p>
+<h3 id="step-5-configure-the-key-auth-plugin-to-test-the-exit-transform">Step 5: Configure the Key-Auth Plugin to Test the Exit Transform</h3>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span>http :8001/plugins <span class="se">\</span>
-     <span class="nv">name</span><span class="o">=</span>exit-transformer <span class="se">\</span>
-     config.handle_unknown<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
-     config.functions<span class="o">=</span>@transform.lua
+<p>Add the <code class="language-plaintext highlighter-rouge">key-auth</code> plugin to test a forced generation of an exit transform
+response in <a href="#testy-exit">step 6</a>:</p>
 
- <span class="nv">$ </span>http :8000 Host:non-existent.com
- HTTP/1.1 200 OK
- ...
- X-Some-Header: some value
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-fac0d6ab-cdc8-4bb5-95b9-afb6485d5b1b-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-fac0d6ab-cdc8-4bb5-95b9-afb6485d5b1b-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-fac0d6ab-cdc8-4bb5-95b9-afb6485d5b1b-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services/example.com/plugins <span class="se">\</span>
+     <span class="nt">--data</span> <span class="s2">"name=key-auth"</span>
+</code></pre></div></div>
 
- <span class="o">{</span>
-     <span class="s2">"error"</span>: <span class="nb">true</span>,
-     <span class="s2">"status"</span>: 404,
-     <span class="s2">"kong_message"</span>: <span class="s2">"no Route matched with those values, arr!"</span>
- <span class="o">}</span>
-</code></pre></div>    </div>
-  </li>
-</ol>
+
+    </div>
+  
+    <div data-navtab-content="navtab-fac0d6ab-cdc8-4bb5-95b9-afb6485d5b1b-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$ </span>http :8001/services/example.com/plugins <span class="nv">name</span><span class="o">=</span>key-auth
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
+<h3 id="testy-exit">Step 6: Test a Forced Generation of an Exit Response</h3>
+
+<p>Attempt a request to the Service to get the custom error. Because the
+request did not provide credentials (API key), a 401 response is returned
+in the message body.</p>
+
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-79649edc-b5a8-4c36-b96d-3932fba82ee4-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-79649edc-b5a8-4c36-b96d-3932fba82ee4-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-79649edc-b5a8-4c36-b96d-3932fba82ee4-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">--header</span> <span class="s1">'Host: example.com'</span> <span class="s1">'localhost:8000'</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-79649edc-b5a8-4c36-b96d-3932fba82ee4-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8000 Host:example.com
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
+<p>Response:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    HTTP/1.1 200 OK
+    ...
+    X-Some-Header: some value
+
+    <span class="o">{</span>
+        <span class="s2">"error"</span>: <span class="nb">true</span>,
+        <span class="s2">"status"</span>: 401,
+        <span class="s2">"kong_message"</span>: <span class="s2">"No API key found in request, arr!"</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="more-examples">More Examples</h2>
+
+<h3 id="apply-the-plugin-globally-to-handle-unknown-responses">Apply the Plugin Globally to Handle Unknown Responses</h3>
+
+<p>The plugin can also be applied globally:</p>
+
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-60cbaea4-753d-437a-a72e-5477f8b0871b-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-60cbaea4-753d-437a-a72e-5477f8b0871b-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-60cbaea4-753d-437a-a72e-5477f8b0871b-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/plugins/ <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"name=exit-transformer"</span>  <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.handle_unknown=true"</span> <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.functions=@transform.lua"</span>
+...
+<span class="nv">$ </span>curl <span class="nt">--header</span> <span class="s1">'Host: non-existent.com'</span> <span class="s1">'localhost:8000'</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-60cbaea4-753d-437a-a72e-5477f8b0871b-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http :8001/plugins <span class="se">\</span>
+  <span class="nv">name</span><span class="o">=</span>exit-transformer <span class="se">\</span>
+  config.handle_unknown<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  config.functions<span class="o">=</span>@transform.lua
+
+<span class="nv">$ </span>http :8000 Host:non-existent.com
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
+<p>Response:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    HTTP/1.1 200 OK
+    ...
+    X-Some-Header: some value
+
+    <span class="o">{</span>
+        <span class="s2">"error"</span>: <span class="nb">true</span>,
+        <span class="s2">"status"</span>: 404,
+        <span class="s2">"kong_message"</span>: <span class="s2">"No Route matched with those values, arr!"</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="custom-errors-by-mime-type">Custom Errors by MIME Type</h3>
+
+<p>This example shows a use case where you want custom JSON and HTML responses
+based on an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept">Accept header</a>.</p>
+
+<p>Create a file named <code class="language-plaintext highlighter-rouge">custom-errors-by-mimetype.lua</code> with the transformation
+code shown below. Include the status codes you want to customize. See the full list
+of HTTP response codes <a href="#http-msgs">above</a>. Any status code not listed in the
+<code class="language-plaintext highlighter-rouge">custom-errors-by-mimetype.lua</code> file will use the default
+response <code class="language-plaintext highlighter-rouge">The upstream server responded with &lt;status code&gt;</code>.</p>
+
+<div class="language-lua highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">local</span> <span class="n">template</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"resty.template"</span>
+<span class="kd">local</span> <span class="n">split</span> <span class="o">=</span> <span class="nb">require</span> <span class="s2">"kong.tools.utils"</span><span class="p">.</span><span class="n">split</span>
+
+<span class="kd">local</span> <span class="n">HTTP_MESSAGES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">s400</span> <span class="o">=</span> <span class="s2">"Bad request"</span><span class="p">,</span>
+    <span class="n">s401</span> <span class="o">=</span> <span class="s2">"Unauthorized"</span><span class="p">,</span>
+    <span class="c1">-- ...</span>
+    <span class="c1">-- See HTTP Response Status Codes section above for the full list</span>
+    <span class="n">s511</span> <span class="o">=</span> <span class="s2">"Network authentication required"</span><span class="p">,</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s2">"The upstream server responded with %d"</span>
+<span class="p">}</span>
+
+<span class="kd">local</span> <span class="k">function</span> <span class="nf">get_message</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">HTTP_MESSAGES</span><span class="p">[</span><span class="s2">"s"</span> <span class="o">..</span> <span class="n">status</span><span class="p">]</span> <span class="ow">or</span> <span class="n">HTTP_MESSAGES</span><span class="p">.</span><span class="n">default</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="kd">local</span> <span class="n">html</span> <span class="o">=</span> <span class="n">template</span><span class="p">.</span><span class="n">compile</span><span class="p">(</span><span class="s">[[
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Some Title&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;HTTP &lt;/h1&gt;
+    &lt;p&gt;&lt;/p&gt;
+    &lt;img src="https://thumbs.gfycat.com/RegularJointEwe-size_restricted.gif"/&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+]]</span><span class="p">)</span>
+
+<span class="c1">-- Customize responses based on content type</span>
+<span class="kd">local</span> <span class="n">formats</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">[</span><span class="s2">"application/json"</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="p">{</span> <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">,</span> <span class="nb">error</span> <span class="o">=</span> <span class="n">message</span> <span class="p">},</span> <span class="n">headers</span>
+  <span class="k">end</span><span class="p">,</span>
+  <span class="p">[</span><span class="s2">"text/html"</span><span class="p">]</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">html</span> <span class="p">{</span> <span class="n">status</span> <span class="o">=</span> <span class="n">status</span><span class="p">,</span> <span class="nb">error</span> <span class="o">=</span> <span class="n">message</span> <span class="p">},</span> <span class="n">headers</span>
+  <span class="k">end</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">status</span> <span class="o">&lt;</span> <span class="mi">400</span> <span class="k">then</span>
+    <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
+  <span class="k">end</span>
+
+  <span class="kd">local</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">kong</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">get_header</span><span class="p">(</span><span class="s2">"accept"</span><span class="p">)</span>
+  <span class="c1">-- Gets just first accept value. Can be improved to be compliant quality</span>
+  <span class="c1">-- etc parser. Look into kong.pdk.response get_response_type</span>
+  <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">accept</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"table"</span> <span class="k">then</span>
+    <span class="n">accept</span> <span class="o">=</span> <span class="n">accept</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="k">end</span>
+  <span class="n">accept</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">accept</span><span class="p">,</span> <span class="s2">","</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">formats</span><span class="p">[</span><span class="n">accept</span><span class="p">]</span> <span class="k">then</span>
+    <span class="k">return</span> <span class="n">status</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">headers</span>
+  <span class="k">end</span>
+
+  <span class="k">return</span> <span class="n">formats</span><span class="p">[</span><span class="n">accept</span><span class="p">](</span><span class="n">status</span><span class="p">,</span> <span class="n">get_message</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="n">headers</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Configure the <code class="language-plaintext highlighter-rouge">exit-transformer</code> plugin with <code class="language-plaintext highlighter-rouge">custom-errors-by-mimetype.lua</code>.</p>
+
+<div class="navtabs ">
+  <div class="navtab-titles">
+  
+    <div data-navtab-id="navtab-eca657dc-d6f4-4494-8eb6-d996305935b5-0" class="navtab-title">
+      Using cURL
+    </div>
+  
+    <div data-navtab-id="navtab-eca657dc-d6f4-4494-8eb6-d996305935b5-1" class="navtab-title">
+      Using HTTPie
+    </div>
+  
+  </div>
+  <div class="navtab-contents">
+  
+    <div data-navtab-content="navtab-eca657dc-d6f4-4494-8eb6-d996305935b5-0" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-X</span> POST http://&lt;admin-hostname&gt;:8001/services/example.com/plugins <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"name=exit-transformer"</span>  <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.handle_unknown=true"</span> <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.handle_unexpected=true"</span> <span class="se">\</span>
+  <span class="nt">-F</span> <span class="s2">"config.functions=@examples/custom-errors-by-mimetype.lua"</span>
+</code></pre></div></div>
+
+
+    </div>
+  
+    <div data-navtab-content="navtab-eca657dc-d6f4-4494-8eb6-d996305935b5-1" class="navtab-content">
+      
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>http <span class="nt">-f</span> :8001/plugins <span class="nv">name</span><span class="o">=</span>exit-transformer <span class="se">\</span>
+  config.handle_unknown<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  config.handle_unexpected<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+  config.functions<span class="o">=</span>@examples/custom-errors-by-mimetype.lua
+</code></pre></div></div>
+
+
+    </div>
+  
+  </div>
+</div>
+
 
 
       
@@ -2027,7 +2397,7 @@ an <code class="language-plaintext highlighter-rouge">error</code> and <code cla
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 

@@ -117,7 +117,7 @@ window['_fs_namespace'] = 'FS';
   />
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=1601569374"
+    href="/assets/styles.css?v=1602694295"
   />
 
   <script>
@@ -198,35 +198,18 @@ window['_fs_namespace'] = 'FS';
     data-offset="350"
   >
     <header
-  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand"
+  class="navbar navbar-inverse navbar-toggleable-lg kong-navbar flex-row align-items-center fixed-top lower_nav expand closed"
 >
-  <div
-    id="promo-banner"
-    class="summit-header"
-    style="
-      background-image: url(https://2tjosk2rxzc21medji3nfn1g-wpengine.netdna-ssl.com/wp-content/uploads/2020/07/summit2020-scaled.jpg);
-    "
-  >
+
+  <div id="promo-banner" class="summit-header">
     <div class="container">
       <div class="closebanner"></div>
-      <h4 class="countdown">
-        <span><b class="days"></b> Days Until Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
+      <h4>
+        <span>
+          Are you a <b>Kong Gateway</b> user? We'd love your feedback.
+          <a href="https://bit.ly/318dkbZ" target="_blank" rel="noopener"
             ><b style="font-weight: 900; letter-spacing: 0px"
-              >Free tickets available now!</b
-            ></a
-          ></span
-        >
-      </h4>
-      <h4 class="flip"">
-        <span>Kong Summit 2020: The Biggest Event
-          for API Practitioners.<a
-            href="https://konghq.com/kong-summit/?itm_source=website&amp;itm_medium=top-global-promo"
-            style="font-size: 14px; font-weight: 345" target="_blank" rel="noopener"
-            ><b style="font-weight: 900; letter-spacing: 0px"
-              >Join Live!</b
+              >Take the Survey</b
             ></a
           ></span
         >
@@ -5424,7 +5407,7 @@ window['_fs_namespace'] = 'FS';
   <li><a href="#introduction" class="active scroll-to">Introduction</a></li>
   <li><a href="#prerequisites" class="scroll-to">Prerequisites</a></li>
   <li><a href="#kong-configuration" class="scroll-to">Kong Configuration</a></li>
-  <li><a href="#okta-idp-configuration" class="scroll-to">Okta IDP Configuration</a>
+  <li><a href="#okta-idp-configuration" class="scroll-to">Okta IdP Configuration</a>
     <ul>
       <li><a href="#sample-okta-configuration-steps" class="scroll-to">Sample Okta Configuration Steps</a></li>
     </ul>
@@ -5467,15 +5450,26 @@ window['_fs_namespace'] = 'FS';
 
 <p>This guide covers an example OpenID Connect plugin configuration to authenticate browser clients using an Okta identity provider.</p>
 
+<p>For information about configuring OIDC using Okta as an Identity provider
+in conjunction with the Application Registration plugin, see
+<a href="/enterprise/2.1.x/developer-portal/administration/application-registration/okta-config">Set Up External Portal Application Authentication with Okta and OIDC</a>.</p>
+
 <h2 id="prerequisites">Prerequisites</h2>
 
-<p>Because OpenID Connect deals with user credentials, all transactions should take place over HTTPS. Although user passwords for third party identity providers are only submitted to those providers and not Kong, authentication tokens grant access to a subset of user account data and protected APIs, and should be secured. As such, you should make Kong’s proxy available via a fully-qualified domain name and <a href="/1.0.x/admin-api/#add-certificate">add a certificate</a> for it.</p>
+<p>Because OpenID Connect deals with user credentials, all transactions should take place over HTTPS.
+Although user passwords for third party identity providers are only submitted to
+those providers and not Kong, authentication tokens grant access to a subset of
+user account data and protected APIs, and should be secured. As such, you should
+make Kong’s proxy available via a fully-qualified domain name and <a href="/1.0.x/admin-api/#add-certificate">add a certificate</a> for it.</p>
 
 <h2 id="kong-configuration">Kong Configuration</h2>
 
-<p>If you have not yet <a href="/enterprise/2.1.x/kong-manager/add-service">added a <strong>Route</strong> and a <strong>Service</strong></a>, go ahead and do so. Again, note that you should be able to secure this route with HTTPS, so use a hostname you have a certificate for. Add a location handled by your route as an authorized redirect URI in Okta (under the <strong>Authentication</strong> section of your app registration).</p>
+<p>If you have not yet <a href="/enterprise/2.1.x/kong-manager/add-service">added a <strong>Route</strong> and a <strong>Service</strong></a>, go ahead
+and do so. Again, note that you should be able to secure this route with HTTPS,
+so use a hostname you have a certificate for. Add a location handled by your route
+as an authorized redirect URI in Okta (under the <strong>Authentication</strong> section of your app registration).</p>
 
-<h2 id="okta-idp-configuration">Okta IDP Configuration</h2>
+<h2 id="okta-idp-configuration">Okta IdP Configuration</h2>
 
 <h3 id="sample-okta-configuration-steps">Sample Okta Configuration Steps</h3>
 
@@ -5491,7 +5485,7 @@ window['_fs_namespace'] = 'FS';
     <p><img src="https://doc-assets.konghq.com/0.35/plugins/oidc-okta/02-web-app.png" /></p>
   </li>
   <li>
-    <p>Fill out the Application’s Settings</p>
+    <p>Fill out the Application’s Settings.</p>
 
     <p><strong>Login re-direct URIs</strong> is a URI that corresponds to a Route you have configured in Kong that will use Okta to authenticate. <strong>Group Assignment</strong> defines who is allowed to use this application. <strong>Grant Type Allowed</strong> indicates the Grant types to allow for your application.</p>
 
@@ -5518,7 +5512,7 @@ window['_fs_namespace'] = 'FS';
 
 <h2 id="plugin-configuration">Plugin Configuration</h2>
 
-<p>Add a plugin with the configuration below to your route using an HTTP client or <a href="/enterprise/2.1.x/kong-manager/enable-plugin/">Kong Manager</a>.</p>
+<p>Add a plugin with the configuration below to your Route using an HTTP client or <a href="/enterprise/2.1.x/kong-manager/enable-plugin/">Kong Manager</a>.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST https://admin.kong.example/routes/ROUTE_ID/plugins <span class="nt">--data</span> <span class="nv">name</span><span class="o">=</span><span class="s2">"openid-connect"</span> <span class="se">\</span>
   <span class="nt">--data</span> config.issuer<span class="o">=</span><span class="s2">"https://YOUR_OKTA_DOMAIN/oauth2/YOUR_AUTH_SERVER/.well-known/openid-configuration"</span> <span class="se">\</span>
@@ -5530,29 +5524,45 @@ window['_fs_namespace'] = 'FS';
   <span class="nt">--data</span> config.scopes<span class="o">=</span><span class="s2">"profile"</span>
 </code></pre></div></div>
 
-<p>Several pieces of configuration above must use values specific to your environment:</p>
+<p>Some of the configurations above must use values specific to your environment:</p>
 
 <ul>
   <li>The <code class="language-plaintext highlighter-rouge">issuer</code> URL can be found from your Authorization Server settings.</li>
-  <li><code class="language-plaintext highlighter-rouge">redirect_uri</code> should be the URI you specified earlier when configuring your app. You can view and edit this from the <strong>General</strong> page for your application.</li>
-  <li>For <code class="language-plaintext highlighter-rouge">client_id</code> and <code class="language-plaintext highlighter-rouge">client_secret</code> replace <code class="language-plaintext highlighter-rouge">YOUR_CLIENT_ID</code> and <code class="language-plaintext highlighter-rouge">YOUR_CLIENT_SECRET</code> with the client ID and secret shown in your Okta application’s <strong>General</strong> page.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">redirect_uri</code> should be the URI you specified earlier when configuring your app.
+You can view and edit this from the <strong>General</strong> page for your application.</li>
+  <li>For <code class="language-plaintext highlighter-rouge">client_id</code> and <code class="language-plaintext highlighter-rouge">client_secret</code>, replace <code class="language-plaintext highlighter-rouge">YOUR_CLIENT_ID</code> and <code class="language-plaintext highlighter-rouge">YOUR_CLIENT_SECRET</code>
+with the client ID and secret shown in your Okta application’s <strong>General</strong> page.</li>
 </ul>
 
-<p>Visiting a URL matched by that route in a browser will now redirect to Okta’s authentication site and return you to the redirect URI after authenticating.</p>
+<p>Visiting a URL matched by that route in a browser will now redirect to Okta’s authentication
+site and return you to the redirect URI after authenticating.</p>
 
 <p>Additional plugin parameter to consider:</p>
 
 <ul>
-  <li>The <code class="language-plaintext highlighter-rouge">auth_methods</code> parameter defines a lists of all the authentication methods that you want the plugin to accept. By default value is a list of all the supported methods. It is advisable to define this parameter with only the methods you wish to allow.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">auth_methods</code> parameter defines a lists of all the authentication methods
+that you want the plugin to accept. By default, its value is a list of all the supported methods.
+It is advisable to define this parameter with only the methods you want to allow.</li>
 </ul>
 
 <h3 id="access-restrictions">Access Restrictions</h3>
 
-<p>The configuration above allows users to authenticate and access the Route even though no consumer was created for them: any user with a valid account in the directory will have access to the Route. The OIDC plugin allows this as the simplest authentication option, but you may wish to restrict access further. There are several options for this:</p>
+<p>The configuration above allows users to authenticate and access the Route even though
+no Consumer was created for them: any user with a valid account in the directory
+will have access to the Route. The OIDC plugin allows this as the simplest authentication option,
+but you may wish to restrict access further. There are several options for this:</p>
+
+<ul>
+  <li>Consumer Mapping</li>
+  <li>Pseudo-Consumer Mapping</li>
+</ul>
 
 <h4 id="consumer-mapping">Consumer Mapping</h4>
 
-<p>If you need to interact with other Kong plugins using consumer information, you can add configuration that maps account data received from the identity provider to a Kong consumer. For this example, the user’s Okta’s AD account GUID is mapped to a consumer by setting it as the <code class="language-plaintext highlighter-rouge">custom_id</code> on their consumer, e.g.</p>
+<p>If you need to interact with other Kong plugins using consumer information, you
+can add configuration that maps account data received from the identity provider to a Kong consumer.
+For this example, the user’s Okta’s AD account GUID is mapped to a Consumer by setting it
+as the <code class="language-plaintext highlighter-rouge">custom_id</code> on their consumer:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> <span class="nt">-X</span> POST http://admin.kong.example/consumers/ <span class="se">\</span>
   <span class="nt">--data</span> <span class="nv">username</span><span class="o">=</span><span class="s2">"Yoda"</span> <span class="se">\</span>
@@ -5563,13 +5573,19 @@ window['_fs_namespace'] = 'FS';
   <span class="nt">--data</span> config.consumer_claim<span class="o">=</span><span class="s2">"sub"</span>
 </code></pre></div></div>
 
-<p>Now, if a user logs into an Okta account with the GUID <code class="language-plaintext highlighter-rouge">e5634b31-d67f-4661-a6fb-b6cb77849bcf</code>, Kong will apply configuration associated with the consumer <code class="language-plaintext highlighter-rouge">Yoda</code> to their requests.</p>
+<p>Now, if a user logs into an Okta account with the GUID <code class="language-plaintext highlighter-rouge">e5634b31-d67f-4661-a6fb-b6cb77849bcf</code>, Kong will apply configuration associated with the Consumer <code class="language-plaintext highlighter-rouge">Yoda</code> to their requests.</p>
 
-<p>This also requires that clients login using an account mapped to some consumer, which may not be desirable (e.g. you apply OpenID Connect to a service, but only use plugins requiring a consumer on some routes). To deal with this, you can set the <code class="language-plaintext highlighter-rouge">anonymous</code> parameter in your OIDC plugin configuration to the ID of a generic consumer, which will then be used for all authenticated users that cannot be mapped to some other consumer. You can alternately set <code class="language-plaintext highlighter-rouge">consumer_optional</code> to <code class="language-plaintext highlighter-rouge">true</code> to allow similar logins without mapping an anonymous consumer.</p>
+<p>This also requires that clients login using an account mapped to some Consumer, which might
+not be desirable (e.g., you apply OpenID Connect to a service, but only use plugins
+requiring a Consumer on some Routes). To deal with this, you can set the <code class="language-plaintext highlighter-rouge">anonymous</code> parameter
+in your OIDC plugin configuration to the ID of a generic Consumer, which will
+then be used for all authenticated users that cannot be mapped to some other Consumer.
+You can alternately set <code class="language-plaintext highlighter-rouge">consumer_optional</code> to <code class="language-plaintext highlighter-rouge">true</code> to allow similar logins
+without mapping an anonymous Consumer.</p>
 
 <h4 id="pseudo-consumers">Pseudo-consumers</h4>
 
-<p>For plugins that typically require consumers, the OIDC plugin can provide a consumer ID based on the value of a claim without mapping to an actual consumer. Setting <code class="language-plaintext highlighter-rouge">credential_claim</code> to a claim <a href="https://docs.konghq.com/hub/kong-inc/openid-connect/#configcredential_claim">in your plugin configuration</a> will extract the value of that claim and use it where Kong would normally use a consumer ID. Note that this may not work with all consumer-related functionality.</p>
+<p>For plugins that typically require consumers, the OIDC plugin can provide a consumer ID based on the value of a claim without mapping to an actual Consumer. Setting <code class="language-plaintext highlighter-rouge">credential_claim</code> to a claim <a href="https://docs.konghq.com/hub/kong-inc/openid-connect/#configcredential_claim">in your plugin configuration</a> will extract the value of that claim and use it where Kong would normally use a consumer ID. Note that this may not work with all consumer-related functionality.</p>
 
 <p>Similarly, setting <code class="language-plaintext highlighter-rouge">authenticated_groups_claim</code> will extract that claim’s value and use it as a group for the ACL plugin.</p>
 
@@ -5987,7 +6003,7 @@ window['_fs_namespace'] = 'FS';
 </script>
 
 
-    <script src="/assets/app.js?v=1601569374"></script>
+    <script src="/assets/app.js?v=1602694295"></script>
 
     <div id="fb-root"></div>
 
