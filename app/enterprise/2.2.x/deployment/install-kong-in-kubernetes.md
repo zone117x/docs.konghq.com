@@ -4,7 +4,7 @@ title: Kong Enterprise in Kubernetes
 
 # Install Options
 
-Kong provides two main Enterprise packages that you can deploy with Kubernetes. These packages are normally deployed in one of three ways, each with its pros and cons which are outlined below:
+Kong can be deployed on Kubernetes in three ways depending on the requirements.  provides a Enterprise packages that you can deploy with Kubernetes. These packages are normally deployed in one of three ways, each with its pros and cons which are outlined below:
 
 1. **[Kong for Kubernetes Enterprise (K4K8s)](/enterprise/{{page.kong_version}}/deployment/installation/kong-for-kubernetes/)**: The Kong Ingress Controller (KIC) with
 Enterprise plugins. \
