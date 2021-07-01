@@ -4,8 +4,8 @@
   <i class="fa fa-times close-sidebar"></i>
 
   <div class="sidebar-title-container">
-    <div class="docsets-dropdown dropdown">
-      <button class="dropdown-button" id="module-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="docsets-dropdown">
+      <button class="btn dropdown-toggle" id="module-dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span>
           {% if page.edition == 'enterprise' %}{{site.ee_product_name}}
           {% elsif page.edition == 'konnect' %}{{site.konnect_saas}}
@@ -23,46 +23,46 @@
       <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="module-dropdown">
         <div class="dropdown-submenu-title">Kong Konnect Platform</div>
         <li {% if page.edition == 'konnect_platform' %} class="active" {% endif %}>
-          <a href="/konnect-platform/" class="{% if page.edition == 'konnect_platform' %}active{% endif %}">{{site.konnect_product_name}} Platform</a>
+          <a href="/konnect-platform/" class="dropdown-item {% if page.edition == 'konnect_platform' %}active{% endif %}">{{site.konnect_product_name}} Platform</a>
         </li>
         <li {% if page.edition == 'konnect' %} class="active" {% endif %}>
-          <a href="/konnect/" class="{% if page.edition == 'konnect' %}active{% endif %}">Konnect Cloud</a>
+          <a href="/konnect/" class="dropdown-item {% if page.edition == 'konnect' %}active{% endif %}">Konnect Cloud</a>
         </li>
         <li {% if page.edition == 'enterprise' %} class="active" {% endif %}>
-          <a href="/enterprise/" class="{% if page.edition == 'enterprise' %}active{% endif %}">Kong Gateway (Enterprise)</a>
+          <a href="/enterprise/" class="dropdown-item {% if page.edition == 'enterprise' %}active{% endif %}">Kong Gateway (Enterprise)</a>
         </li>
         <li {% if page.edition == 'mesh' %} class="active" {% endif %}>
-          <a href="/mesh/" class="{% if page.edition == 'mesh' %}active{% endif %}">Kong Mesh</a>
+          <a href="/mesh/" class="dropdown-item {% if page.edition == 'mesh' %}active{% endif %}">Kong Mesh</a>
         </li>
         <li>
-          <a href="/hub/">Plugin Hub</a>
+          <a class="dropdown-item" href="/hub/">Plugin Hub</a>
         </li>
         <div class="dropdown-submenu-title">Open Source</div>
         <li {% if page.edition == 'gateway-oss' %} class="active" {% endif %}>
-          <a href="/gateway-oss/" class="{% if page.edition == 'gateway-oss' %}active{% endif %}">Kong Gateway (OSS)</a>
+          <a href="/gateway-oss/" class="dropdown-item {% if page.edition == 'gateway-oss' %}active{% endif %}">Kong Gateway (OSS)</a>
         </li>
         <li {% if page.edition == 'deck' %} class="active" {% endif %}>
-          <a href="/deck/" class="{% if page.edition == 'deck' %}active{% endif %}">decK</a>
+          <a href="/deck/" class="dropdown-item {% if page.edition == 'deck' %}active{% endif %}">decK</a>
         </li>
         <li {% if page.edition == 'kubernetes-ingress-controller' %} class="active" {% endif %}>
-          <a href="/kubernetes-ingress-controller/" class="{% if page.edition == 'kubernetes-ingress-controller' %}active{% endif %}">Kubernetes Ingress Controller</a>
+          <a href="/kubernetes-ingress-controller/" class="dropdown-item {% if page.edition == 'kubernetes-ingress-controller' %}active{% endif %}">Kubernetes Ingress Controller</a>
         </li>
         <li>
-          <a href="https://support.insomnia.rest/" target="_blank">Insomnia</a>
+          <a class="dropdown-item" href="https://support.insomnia.rest/" target="_blank">Insomnia</a>
         </li>
         <li>
-          <a href="https://kuma.io/docs/" target="_blank">Kuma</a>
+          <a class="dropdown-item" href="https://kuma.io/docs/" target="_blank">Kuma</a>
         </li>
         <div class="dropdown-submenu-title">Contribute to the docs</div>
         <li {% if page.edition == 'contributing' %} class="active" {% endif %}>
-          <a href="/contributing/" class="{% if page.edition == 'contributing' %}active{% endif %}">Contribution guidelines</a>
+          <a href="/contributing/" class="dropdown-item {% if page.edition == 'contributing' %}active{% endif %}">Contribution guidelines</a>
         </li>
       </ul>
     </div>
 
     {% unless page.no_version == true %}
-    <div class="versions-dropdown dropdown">
-      <button class="dropdown-button" id="version-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="versions-dropdown">
+      <button class="btn dropdown-toggle" id="version-dropdown" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span>
           Version {{page.kong_version}}
           {% if page.kong_version == page.kong_latest.release %}
@@ -77,7 +77,7 @@
           {% capture version_page_exists %}{% page_exists {{version_page_url}} %}{% endcapture %}
         <li {% if page.kong_version==ver.release %} class="active" {% endif %}>
           <a href="{% if version_page_exists == 'true' %}{{version_page_url}}{% else %}/{% if page.edition == 'gateway-oss' %}gateway-oss/{% endif %}{% if page.edition == 'enterprise' %}enterprise/{% endif %}{% if page.edition == 'mesh' %}mesh/{% endif %}{% if page.edition == 'kubernetes-ingress-controller' %}kubernetes-ingress-controller/{% endif %}{% if page.edition == 'contributing' %}contributing/{% endif %}{% if page.edition == 'deck' %}deck/{% endif %}{{ver.release}}{% endif %}"
-            {% if ver.release==page.kong_version %} class="active" {% endif %}
+            {% if ver.release==page.kong_version %} class="active dropdown-item" {% endif %}
             data-version-id="{{ver.release}}"
           >
             {{ver.release}}
