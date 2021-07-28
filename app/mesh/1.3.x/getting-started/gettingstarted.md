@@ -2,6 +2,8 @@
 title: Getting Started with Kong Mesh
 ---
 
+TODO: get rid of this page, think about getting started replacement/s
+
 ## Getting Started
 
 {{site.mesh_product_name}} &mdash; built on top of CNCF's Kuma and Envoy &mdash;
