@@ -2,4 +2,4 @@
 title: Create certificates and tokens
 ---
 
-TK
+TODO: extract task content from Vault page and put here.
