@@ -393,7 +393,7 @@ breadcrumbs:
             </td>
           </tr>
         {% endif %}
-        {% if compat %}
+        {% if extn_publisher == "kong-inc" %}
           <tr class="kong-editions">
             <th colspan="2">
                 Version Compatibility
@@ -401,37 +401,34 @@ breadcrumbs:
           </tr>
           <tr class="kong-compatibility">
             <td colspan="2">
-              <ul class="compat-list">
-              {% for v in site.data.kong_versions_ee reversed %}
-                {% if ee_compatible contains v.release or ee_incompatible contains v.release %}
-                  {% unless first_ee %}
-                  <h6>{{site.ee_product_name}}</h6>{% assign first_ee = true %}
-                  {% endunless %}
-                  <li>
-                  {% if ee_compatible contains v.release %}
-                    <i class="fa fa-check"></i>
-                  {% elsif ee_incompatible contains v.release %}
-                    <i class="fa fa-times"></i>
-                  {% endif %}{{ v.release }}
-                  </li>
-                {% endif %}
+              {% assign categories = site.data.tables.plugin_index %}
+
+              {% for category in categories %}
+                {% for plugin in category.plugins %}
+                  {% if plugin.name == page.name %}
+                    {% for v in plugin.plugin_versions %}
+                      {% if v.version == page.version %}
+                        {% if v.enterprise_edition %}
+                        <h6>{{site.ee_product_name}}</h6>
+                          <ul class="compat-list">
+                            {% for item in v.enterprise_edition %}
+                            <li><i class="fa fa-check"></i> {{ item }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                        {% if v.community_edition %}
+                        <h6>{{site.ce_product_name}}</h6>
+                          <ul class="compat-list">
+                            {% for item in v.community_edition %}
+                            <li><i class="fa fa-check"></i> {{ item }}</li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
               {% endfor %}
-              </ul><ul class="compat-list">
-              {% for v in site.data.kong_versions_ce reversed %}
-                {% if ce_compatible contains v.release or ce_incompatible contains v.release %}
-                  {% unless first_ce %}
-                  <h6>{{site.ce_product_name}}</h6>{% assign first_ce = true %}
-                  {% endunless %}
-                  <li>
-                  {% if ce_compatible contains v.release %}
-                    <i class="fa fa-check"></i>
-                  {% elsif ce_incompatible contains v.release %}
-                    <i class="fa fa-times"></i>
-                  {% endif %}{{ v.release }}
-                  </li>
-                {% endif %}
-              {% endfor %}
-              </ul>
             </td>
           </tr>
         {% endif %}
