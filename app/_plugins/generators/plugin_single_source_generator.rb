@@ -16,6 +16,8 @@ module PluginSingleSource
 
       # Add any files that did not have a corresponding versions.yml
       Dir.glob('app/_hub/*/*/_index.md').each do |f|
+        next if f == 'app/_hub/_init/my-extension/_index.md' # We always want to skip the sample plugin
+
         name = f.gsub('app/_hub/', '').gsub('/_index.md', '')
         next if seen.include?(name)
 
