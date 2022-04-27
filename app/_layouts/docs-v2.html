@@ -4,8 +4,13 @@ sitemap: true
 id: documentation
 ---
 
-{% assign latest_page_url = page.url | replace: page.kong_version, "latest" %}
-{% capture latest_page_exists %}{% page_exists {{latest_page_url}} %}{% endcapture %}
+{% assign latest_page_url = page.canonical_url %}
+{% capture latest_page_exists %}{% if page.canonical_url and page.canonical_url != page.url %}true{% endif %}{% endcapture %}
+
+{% assign is_legacy_page = false %}
+{% if page.edition == 'gateway-oss' or page.edition == 'enterprise' or page.edition == 'getting-started-guide' %}
+{% assign is_legacy_page = true %}
+{% endif %}
 
 <div class="page v2 {{ page.class }}" data-url={{ page.url }}>
 
@@ -70,7 +75,7 @@ id: documentation
             {% unless page.no_version == true %}
               <div class="content-version">
                 {{page.kong_version}}
-                  {% if page.kong_version == page.kong_latest.release and page.edition != 'gateway-oss' and page.edition != 'enterprise' and page.edition != 'getting-started-guide' %}
+                  {% if page.kong_version == page.kong_latest.release and is_legacy_page == false %}
                   <span>(latest)</span>
                 {% endif %}
               </div>
@@ -79,24 +84,21 @@ id: documentation
               {% include_cached breadcrumbs.html edition=page.edition no_version=page.no_version has_version=page.has_version kong_version=page.kong_version url=page.url dir=page.dir%}
             {% endunless %}
           </div>
-          {% if page.edition == 'gateway-oss' or page.edition == 'enterprise' or page.edition == 'getting-started-guide' %}
+          {% if is_legacy_page %}
           <blockquote class="important">
               You are browsing documentation for an outdated version. The <a href="/gateway/">latest {{site.base_gateway}} documentation </a> is
               now available as a combined doc set for Kong Gateway Enterprise and open-source (OSS).
           </blockquote>
+          {% else if page.kong_version != page.kong_latest.release and page.no_version != true %}
+            <blockquote class="important">
+            You are browsing documentation for an outdated version. See the
+            <a href="{% if latest_page_exists == 'true' %}{{latest_page_url}}{% elsif page.edition == 'gateway' %}/gateway/{% elsif page.edition == 'mesh'%}/mesh/{% elsif page.edition == 'kubernetes-ingress-controller/'%}/kubernetes-ingress-controller/{% else %}/{% endif %}">
+              latest documentation here</a>.
+            </blockquote>
           {% endif %}
-            {% if page.kong_version != page.kong_latest.release and page.no_version != true %}
-            {% unless page.edition == 'gateway-oss' or page.edition == 'enterprise' or page.edition == 'getting-started-guide' %}
-              <blockquote class="important">
-              You are browsing documentation for an outdated version. See the
-              <a href="{% if latest_page_exists == 'true' %}{{latest_page_url}}{% elsif page.edition == 'gateway' %}/gateway/{% elsif page.edition == 'mesh'%}/mesh/{% elsif page.edition == 'kubernetes-ingress-controller/'%}/kubernetes-ingress-controller/{% else %}/{% endif %}">
-                latest documentation here</a>.
-              </blockquote>
-            {% endunless %}
-            {% endif %}
 
             <h1 tabindex="-1" id="main" class="page-content-title"
-            >{{page.title | flatify }}
+            >{{page.title }}
             {% if page.badge %}
               <a href="https://konghq.com/pricing" {%
                 if page.badge == 'plus' %}class="badge plus" aria-label="available with plus subscription"{% endif %}{%
@@ -108,7 +110,7 @@ id: documentation
             </h1>
 
             {% if page.subtitle %}
-              <h2 class="page-content-subtitle">{{page.subtitle | flatify }}</h2>
+              <h2 class="page-content-subtitle">{{page.subtitle }}</h2>
             {% endif %}
 
             {% if page.alpha %}
