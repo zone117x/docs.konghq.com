@@ -126,27 +126,11 @@
     {% endunless %}
   </div>
 
-  {% if include.edition == 'enterprise' %}
-  {% assign docs_url = '/enterprise/' | append: version %}
-  {% elsif include.edition == 'studio' %}
-  {% assign docs_url = '/studio/' | append: version %}
-  {% elsif include.edition == 'getting-started-guide' %}
-  {% assign docs_url = '/getting-started-guide/' | append: version %}
-  {% elsif include.edition == 'mesh' %}
-  {% assign docs_url = '/mesh/' | append: version %}
-  {% elsif include.edition == 'konnect' %}
-  {% assign docs_url = '/konnect' %}
-  {% elsif include.edition == 'kubernetes-ingress-controller' %}
-  {% assign docs_url = '/kubernetes-ingress-controller/' | append: version %}
-  {% elsif include.edition == 'deck' %}
-  {% assign docs_url = '/deck/' | append: version %}
-  {% elsif include.edition == 'gateway-oss' %}
-  {% assign docs_url = '/gateway-oss/' | append: version %}
-  {% elsif include.edition == 'gateway' %}
-  {% assign docs_url = '/gateway/' | append: version %}
-  {% elsif include.edition == 'contributing' %}
-  {% assign docs_url = '/contributing' %}
-  {% endif %}
+  {% assign docs_url = '/' | append: include.edition | append : '/' %}
+
+  {% unless include.edition == 'contributing' || include.edition == 'konnect' %}
+  {% assign docs_url = docs_url | append: version %}
+  {% endunless %}
 
   <ul class="accordion-container">
     <input id="accordion-opened" type="text" />
