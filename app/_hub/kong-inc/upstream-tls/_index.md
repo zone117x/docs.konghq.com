@@ -14,6 +14,7 @@ description: |
   </div>
 enterprise: true
 type: plugin
+categories: []
 kong_version_compatibility:
   enterprise_edition:
     compatible:
