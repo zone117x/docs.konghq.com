@@ -64,12 +64,13 @@ Create the namespace for {{site.base_gateway}} with {{site.kic_product_name}}. F
 kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 ```
 
-Install Cert Manager & Postgresql
+Install Cert Manager
 
 ```sh
 helm upgrade --install cert-manager jetstack/cert-manager --set installCRDs=true --namespace kong
 ```
 
+Bootstrap a self-signed certificate issuer.
 ```sh
 cat <<EOF | kubectl apply -n kong -f -
 ---
@@ -108,7 +109,7 @@ spec:
 EOF
 ```
 
-
+Issue Kong Certificate
 ```sh
 cat <<EOF | kubectl apply -n kong -f -
 apiVersion: cert-manager.io/v1
@@ -132,10 +133,12 @@ spec:
 EOF
 ```
 
+Create Kong License Secret
 ```sh
 kubectl create secret generic kong-enterprise-license -n kong --from-file=license=license.json --dry-run=client -oyaml | kubectl apply -n kong -f -
 ```
 
+Create Kong Credentials & Config Vars Secret
 ```sh
 kubectl create secret generic kong-config-secret -n kong \
     --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
@@ -149,10 +152,12 @@ kubectl create secret generic kong-config-secret -n kong \
   | kubectl apply -f -
 ```
 
+Install Postgres Database (need to remove this step)
 ```sh
 helm upgrade --install postgres bitnami/postgresql --namespace kong --set auth.database=kong --set auth.username=kong --set auth.password=kong
 ```
 
+Deploy Kong Gateway
 ```sh
 helm upgrade --install enterprise kong/kong --namespace kong --values ./app/gateway/2.8.x/helm/values/quickstart-enterprise.yaml
 ```
