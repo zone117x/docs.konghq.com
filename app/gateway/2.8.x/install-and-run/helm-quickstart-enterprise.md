@@ -21,10 +21,10 @@ The {{site.base_gateway}} software is governed by the
 {% navtab Kind %}
 ## Prerequisites for Kind
 
-- `kind` (KinD / Kubernetes-in-Docker)
-- `kubectl` v1.19 or later
 - `helm` Helm 3+
-- A `license.json` file from Kong
+- `kubectl` v1.19 or later
+- An enterprise `license.json` file from Kong
+- `kind` (KinD / Kubernetes-in-Docker)
 
 {% endnavtab %}
 {% navtab Docker%}
