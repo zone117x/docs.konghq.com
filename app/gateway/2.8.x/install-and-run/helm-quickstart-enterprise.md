@@ -19,21 +19,21 @@ The {{site.base_gateway}} software is governed by the
 
 {% navtabs %}
 {% navtab Kind %}
-## Prerequisites for Kind
+## Prerequisites for Kong on Kind
 
-- `helm` Helm 3+
+- `helm` Helm 3
 - `kubectl` v1.19 or later
-- An enterprise `license.json` file from Kong
-- `kind` (KinD / Kubernetes-in-Docker)
+- `license.json` An enterprise license file from Kong
+- `kind` KinD / Kubernetes-in-Docker
 
 {% endnavtab %}
-{% navtab Docker%}
-## Prerequisites for Docker
+{% navtab Docker Desktop Kubernetes%}
+## Prerequisites for Kong on Docker Desktop Kubernetes
 
-- `kind` (KinD / Kubernetes-in-Docker)
+- `helm` Helm 3
 - `kubectl` v1.19 or later
-- `helm` Helm 3+
-- A `license.json` file from Kong
+- `license.json` An enterprise license file from Kong
+- Docker Desktop Kubernetes Cluster
 
 {% endnavtab %}
 {% endnavtabs %}
@@ -41,20 +41,13 @@ The {{site.base_gateway}} software is governed by the
 
 {% navtabs %}
 {% navtab Kind %}
-## Steps for Kind go here
 
-Add Helm Repos for Kong Gateway, Cert Manager, and Postgres.
-```sh
-helm repo add kong https://charts.konghq.com
-helm repo add jetstack https://charts.jetstack.io
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-```
-
+## Install Kong on Kind
 
 Start Kind Cluster listening on ports 80 and 443
+
 ```sh
-cat <<EOF > config.yaml && kind create cluster --config ./config.yaml
+cat <<EOF > /tmp/kind-config.yaml && kind create cluster --config /tmp/kind-config.yaml
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 name: kong
@@ -75,121 +68,58 @@ nodes:
 EOF
 ```
 
+Add Helm Repos for Kong Gateway and Cert Manager.
+
+```sh
+helm repo add kong https://charts.konghq.com
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
 Create the namespace for {{site.base_gateway}} with {{site.kic_product_name}}. For example:
 
 ```sh
 kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 ```
 
-Install Cert Manager
-
-```sh
-helm upgrade --install cert-manager jetstack/cert-manager --set installCRDs=true --namespace kong
-```
-
-Bootstrap a self-signed certificate issuer.
-```sh
-cat <<EOF | kubectl apply -n kong -f -
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: certman-clusterissuer-selfsign-root
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: certman-cluster-root-ca-cert
-spec:
-  isCA: true
-  commonName: certman-cluster-selfsigned-root-ca
-  secretName: certman-cluster-selfsigned-root-ca
-  privateKey:
-    algorithm: ECDSA
-    size: 256
-  issuerRef:
-    name: certman-clusterissuer-selfsign-root
-    kind: ClusterIssuer
-    group: cert-manager.io
-  renewBefore: 360h
-  duration: 2160h
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: certman-selfsigned-issuer
-spec:
-  ca:
-    secretName: certman-cluster-selfsigned-root-ca
-EOF
-```
-
-Issue Kong Certificate
-```sh
-cat <<EOF | kubectl apply -n kong -f -
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kong-tls
-spec:
-  secretName: kong-tls
-  commonName: kong_clustering
-  dnsNames:
-  - "kong_clustering"
-  - "*.7f000001.nip.io"
-  - "*.apps.7f000001.nip.io"
-  - "*.kong.7f000001.nip.io"
-  renewBefore: 360h
-  duration: 2160h
-  isCA: false
-  issuerRef:
-    name: certman-selfsigned-issuer
-    kind: ClusterIssuer
-EOF
-```
-
 Create Kong License Secret
+
 ```sh
 kubectl create secret generic kong-enterprise-license -n kong --from-file=license=license.json --dry-run=client -oyaml | kubectl apply -n kong -f -
 ```
 
-Create Kong Credentials & Config Vars Secret
+Create Kong Credential & Config Variables
+
 ```sh
 kubectl create secret generic kong-config-secret -n kong \
-    --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+    --from-literal=kong_admin_password=kong \
     --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-    --from-literal=pg_host="postgres-postgresql.kong.svc.cluster.local" \
+    --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+    --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
     --from-literal=pg_port="5432" \
     --from-literal=password=kong \
-    --from-literal=database=kong \
-    --from-literal=user=kong \
     --dry-run=client -oyaml \
   | kubectl apply -f -
 ```
 
-Install Postgres Database (need to remove this step)
+Install Cert Manager
+
 ```sh
-helm upgrade --install postgres bitnami/postgresql --namespace kong --set auth.database=kong --set auth.username=kong --set auth.password=kong
+helm upgrade --install cert-manager jetstack/cert-manager --namespace kong --set installCRDs=true
 ```
 
 Deploy Kong Gateway
+
 ```sh
 helm upgrade --install enterprise kong/kong --namespace kong --values ./app/gateway/2.8.x/helm/values/quickstart-enterprise.yaml
 ```
 
-```sh
-```
-
-```sh
-```
+Clean Up
 
 ```sh
 helm uninstall --namespace kong enterprise
-helm uninstall --namespace kong pg
 helm uninstall --namespace kong cert-manager
-rm config.yaml
+rm /tmp/config.yaml
 ```
 {% endnavtab %}
 {% navtab Docker%}

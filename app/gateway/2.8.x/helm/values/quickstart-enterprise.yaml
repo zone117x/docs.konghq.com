@@ -16,7 +16,7 @@ admin:
     enabled: true
     hostname: manager.kong.7f000001.nip.io
     path: /api
-    tls: kong-tls
+    tls: kong-cert
   tls:
     containerPort: 8444
     enabled: true
@@ -64,10 +64,10 @@ env:
   admin_gui_access_log: /dev/stdout
   admin_gui_error_log: /dev/stdout
   admin_gui_protocol: https
-  admin_gui_ssl_cert: /etc/secrets/kong-tls/tls.crt
-  admin_gui_ssl_cert_key: /etc/secrets/kong-tls/tls.key
-  admin_ssl_cert: /etc/secrets/kong-tls/tls.crt
-  admin_ssl_cert_key: /etc/secrets/kong-tls/tls.key
+  admin_gui_ssl_cert: /etc/secrets/kong-cert/tls.crt
+  admin_gui_ssl_cert_key: /etc/secrets/kong-cert/tls.key
+  admin_ssl_cert: /etc/secrets/kong-cert/tls.crt
+  admin_ssl_cert_key: /etc/secrets/kong-cert/tls.key
   admin_gui_host: manager.kong.7f000001.nip.io
   admin_gui_url: https://manager.kong.7f000001.nip.io/
   admin_api_uri: https://manager.kong.7f000001.nip.io/api
@@ -87,46 +87,33 @@ env:
         key: portal_session_conf
         name: kong-config-secret
   portal: true
-  cluster_cert: /etc/secrets/kong-tls/tls.crt
-  cluster_cert_key: /etc/secrets/kong-tls/tls.key
+  cluster_cert: /etc/secrets/kong-cluster/tls.crt
+  cluster_cert_key: /etc/secrets/kong-cluster/tls.key
   cluster_data_plane_purge_delay: 60
   cluster_listen: 0.0.0.0:8005
   cluster_telemetry_listen: 0.0.0.0:8006
   database: postgres
   log_level: debug
   lua_package_path: /opt/?.lua;;
-  lua_ssl_trusted_certificate: /etc/secrets/kong-tls/tls.crt,/etc/ssl/certs/ca-certificates.crt
+  lua_ssl_trusted_certificate: /etc/secrets/kong-cert/tls.crt,/etc/ssl/certs/ca-certificates.crt
   nginx_worker_processes: "2"
   password:
     valueFrom:
       secretKeyRef:
-        key: password
+        key: kong_admin_password
         name: kong-config-secret
   pg_host:
     valueFrom:
       secretKeyRef:
         key: pg_host
         name: kong-config-secret
-  pg_port:
-    valueFrom:
-      secretKeyRef:
-        key: pg_port
-        name: kong-config-secret
   pg_password:
     valueFrom:
       secretKeyRef:
         key: password
         name: kong-config-secret
-  pg_database:
-    valueFrom:
-      secretKeyRef:
-        key: database
-        name: kong-config-secret
-  pg_user:
-    valueFrom:
-      secretKeyRef:
-        key: user
-        name: kong-config-secret
+  pg_database: kong
+  pg_user: kong
   pg_ssl_verify: "off"
   pg_ssl: "off"
   plugins: bundled,openid-connect
@@ -136,13 +123,31 @@ env:
   proxy_stream_access_log: /dev/stdout
   proxy_stream_error_log: /dev/stdout
   smtp_mock: "on"
-  ssl_cert: /etc/secrets/kong-tls/tls.crt
-  ssl_cert_key: /etc/secrets/kong-tls/tls.key
+  ssl_cert: /etc/secrets/kong-cert/tls.crt
+  ssl_cert_key: /etc/secrets/kong-cert/tls.key
   status_listen: 0.0.0.0:8100
   trusted_ips: 0.0.0.0/0,::/0
   vitals: true
 extraLabels:
-  konghq.com/component: controlplane
+  konghq.com/component: quickstart
+postgresql:
+  enabled: true
+  global:
+    postgresql:
+      database: kong
+      username: kong
+      existingSecret: kong-config-secret
+certificate:
+  cluster:
+    enabled: true
+  proxy:
+    enabled: true
+    commonName: "example.com"
+  commonName: "7f000001.nip.io"
+  dnsNames:
+  - "*.7f000001.nip.io"
+  - "*.apps.7f000001.nip.io"
+  - "*.kong.7f000001.nip.io"
 image:
   repository: kong/kong-gateway
   tag: "2.8"
@@ -180,7 +185,7 @@ manager:
     enabled: true
     hostname: manager.kong.7f000001.nip.io
     path: /
-    tls: kong-tls
+    tls: kong-cert
   tls:
     containerPort: 8445
     enabled: true
@@ -212,7 +217,7 @@ portal:
     enabled: true
     hostname: portal.kong.7f000001.nip.io
     path: /
-    tls: kong-tls
+    tls: kong-cert
   tls:
     containerPort: 8446
     enabled: true
@@ -236,7 +241,7 @@ portalapi:
     enabled: true
     hostname: portal.kong.7f000001.nip.io
     path: /api
-    tls: kong-tls
+    tls: kong-cert
   tls:
     containerPort: 8447
     enabled: true
@@ -269,7 +274,8 @@ updateStrategy:
   type: RollingUpdate
 replicaCount: 1
 secretVolumes:
-- kong-tls
+- kong-cert
+- kong-cluster
 status:
   enabled: true
   http:
