@@ -19,6 +19,7 @@ The {{site.base_gateway}} software is governed by the
 
 {% navtabs %}
 {% navtab Kind %}
+
 ## Prerequisites for Kong on Kind
 
 - `helm` Helm 3
@@ -26,25 +27,12 @@ The {{site.base_gateway}} software is governed by the
 - `license.json` An enterprise license file from Kong
 - `kind` KinD / Kubernetes-in-Docker
 
-{% endnavtab %}
-{% navtab Docker Desktop Kubernetes%}
-## Prerequisites for Kong on Docker Desktop Kubernetes
+## Install Kong
 
-- `helm` Helm 3
-- `kubectl` v1.19 or later
-- `license.json` An enterprise license file from Kong
-- Docker Desktop Kubernetes Cluster
+Build local Kong on Kind Kubernetes
 
-{% endnavtab %}
-{% endnavtabs %}
-
-
-{% navtabs %}
-{% navtab Kind %}
-
-## Install Kong on Kind
-
-Start Kind Cluster listening on ports 80 and 443
+> NOTE: This Kong on Kind deployment requires that port 80 and 443 to be available
+>
 
 ```sh
 cat <<EOF > /tmp/kind-config.yaml && kind create cluster --config /tmp/kind-config.yaml
@@ -68,24 +56,30 @@ nodes:
 EOF
 ```
 
-Add Helm Repos for Kong Gateway and Cert Manager.
+Install Cert Manager
 
 ```sh
-helm repo add kong https://charts.konghq.com
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
+# Add and Update Jetstack Cert Manager Helm Repo
+helm repo add jetstack https://charts.jetstack.io ; helm repo update
+
+# Install Cert Manager
+helm upgrade --install cert-manager jetstack/cert-manager \
+    --set installCRDs=true --namespace kong --create-namespace
+
+# May remove this step, it is present to prevent kong helm chart being installed before cert-manager is ready
+kubectl wait --namespace kong --for=condition=complete --timeout=60s job/cert-manager-startupapicheck 2>/dev/null
 ```
 
-Create the namespace for {{site.base_gateway}} with {{site.kic_product_name}}. For example:
+Create the `kong` namespace for {{site.base_gateway}}.
 
 ```sh
 kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 ```
 
-Create Kong License Secret
+Create Kong Enterprise License Secret
 
 ```sh
-kubectl create secret generic kong-enterprise-license -n kong --from-file=license=license.json --dry-run=client -oyaml | kubectl apply -n kong -f -
+kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
 ```
 
 Create Kong Credential & Config Variables
@@ -102,180 +96,177 @@ kubectl create secret generic kong-config-secret -n kong \
   | kubectl apply -f -
 ```
 
-Install Cert Manager
-
-```sh
-helm upgrade --install cert-manager jetstack/cert-manager --namespace kong --set installCRDs=true
-```
-
 Deploy Kong Gateway
 
 ```sh
-helm upgrade --install enterprise kong/kong --namespace kong --values ./app/gateway/2.8.x/helm/values/quickstart-enterprise.yaml
+# Add and Update Kong Helm Repo
+helm repo add kong https://charts.konghq.com ; helm repo update
+
+# Workaround till Helm Chart PR#529 is Released
+git clone https://github.com/kong/charts ~/kong-charts-helm-project
+cd ~/kong-charts-helm-project/charts/kong
+gh pr checkout 592
+helm dependencies update
+
+# Install Kong
+helm upgrade --install enterprise \
+  --namespace kong \
+  --set proxy.type=ClusterIP \
+  --values ./example-values/enterprise-licensed-quickstart.yaml \
+  ./
+
+# Wait for all pods to show ready
+watch kubectl get po -nkong
 ```
+
+Now open your Kong Manager Web GUI at: [https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+
+> Google Chrome may complain about untrusted certificates.  
+> If there is no "Accept risk and continue" option then type `thisisunsafe` while the tab has focus to continue.  
+>
 
 Clean Up
 
 ```sh
+# Remove Kong
 helm uninstall --namespace kong enterprise
+
+# Delete Kong Secrets
+kubectl delete secrets -nkong kong-enterprise-license
+kubectl delete secrets -nkong kong-config-secret
+
+# Remove Kong Database PVC
+kubectl delete pvc -nkong data-enterprise-postgresql-0
+
+# Remove Kong Helm Chart Repository
+helm repo remove kong
+
+# Remove cert-manager
 helm uninstall --namespace kong cert-manager
+
+# Remove jetstack cert-manager Helm Repository
+helm repo remove jetstack
+
+# Destroy your Kind Cluster
+kind delete cluster --name=kong
 rm /tmp/config.yaml
+
+# Remove Kong Helm Chart PR 592
+rm -rf ~/kong-charts-helm-project
 ```
+
 {% endnavtab %}
-{% navtab Docker%}
-## Steps for Docker go here
+{% navtab Docker Desktop Kubernetes %}
 
-Add Helm Repos for Kong Gateway, Cert Manager, and Postgres.
+## Prerequisites for Kong on Docker Desktop Kubernetes
+
+- `helm` Helm 3
+- `kubectl` v1.19 or later
+- `license.json` An enterprise license file from Kong
+- Docker Desktop Kubernetes
+
+## Install Kong on Docker Desktop Kubernetes
+
+Start a clean Docker Desktop Kubernetes Cluster.
+
+Install Cert Manager
+
 ```sh
-helm repo add kong https://charts.konghq.com
-helm repo add jetstack https://charts.jetstack.io
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
+# Add and Update Jetstack Cert Manager Helm Repo
+helm repo add jetstack https://charts.jetstack.io ; helm repo update
+
+# Install Cert Manager
+helm upgrade --install cert-manager jetstack/cert-manager \
+    --set installCRDs=true --namespace kong --create-namespace
+
+# May remove this step, it is present to prevent kong helm chart being installed before cert-manager is ready
+kubectl wait --namespace kong --for=condition=complete --timeout=60s job/cert-manager-startupapicheck 2>/dev/null
 ```
 
-
-Start Kind Cluster listening on ports 80 and 443
-```sh
-cat <<EOF > config.yaml && kind create cluster --config ./config.yaml
-apiVersion: kind.x-k8s.io/v1alpha4
-kind: Cluster
-name: kong
-networking:
-  apiServerAddress: "0.0.0.0"
-  apiServerPort: 16443
-nodes:
-  - role: control-plane
-    extraPortMappings:
-    - listenAddress: "0.0.0.0"
-      protocol: TCP
-      hostPort: 80
-      containerPort: 80
-    - listenAddress: "0.0.0.0"
-      protocol: TCP
-      hostPort: 443
-      containerPort: 443
-EOF
-```
-
-Create the namespace for {{site.base_gateway}} with {{site.kic_product_name}}. For example:
+Create the `kong` namespace for {{site.base_gateway}}.
 
 ```sh
 kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 ```
 
-Install Cert Manager
+Create Kong Enterprise License Secret
 
 ```sh
-helm upgrade --install cert-manager jetstack/cert-manager --set installCRDs=true --namespace kong
+kubectl create secret generic kong-enterprise-license -n kong --from-file=license=license.json --dry-run=client -oyaml | kubectl apply -f -
 ```
 
-Bootstrap a self-signed certificate issuer.
-```sh
-cat <<EOF | kubectl apply -n kong -f -
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: certman-clusterissuer-selfsign-root
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: certman-cluster-root-ca-cert
-spec:
-  isCA: true
-  commonName: certman-cluster-selfsigned-root-ca
-  secretName: certman-cluster-selfsigned-root-ca
-  privateKey:
-    algorithm: ECDSA
-    size: 256
-  issuerRef:
-    name: certman-clusterissuer-selfsign-root
-    kind: ClusterIssuer
-    group: cert-manager.io
-  renewBefore: 360h
-  duration: 2160h
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: certman-selfsigned-issuer
-spec:
-  ca:
-    secretName: certman-cluster-selfsigned-root-ca
-EOF
-```
+Create Kong Credential & Config Variables
 
-Issue Kong Certificate
-```sh
-cat <<EOF | kubectl apply -n kong -f -
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kong-tls
-spec:
-  secretName: kong-tls
-  commonName: kong_clustering
-  dnsNames:
-  - "kong_clustering"
-  - "*.7f000001.nip.io"
-  - "*.apps.7f000001.nip.io"
-  - "*.kong.7f000001.nip.io"
-  renewBefore: 360h
-  duration: 2160h
-  isCA: false
-  issuerRef:
-    name: certman-selfsigned-issuer
-    kind: ClusterIssuer
-EOF
-```
-
-Create Kong License Secret
-```sh
-kubectl create secret generic kong-enterprise-license -n kong --from-file=license=license.json --dry-run=client -oyaml | kubectl apply -n kong -f -
-```
-
-Create Kong Credentials & Config Vars Secret
 ```sh
 kubectl create secret generic kong-config-secret -n kong \
-    --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+    --from-literal=kong_admin_password=kong \
     --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-    --from-literal=pg_host="postgres-postgresql.kong.svc.cluster.local" \
+    --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+    --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
     --from-literal=pg_port="5432" \
     --from-literal=password=kong \
-    --from-literal=database=kong \
-    --from-literal=user=kong \
     --dry-run=client -oyaml \
   | kubectl apply -f -
 ```
 
-Install Postgres Database (need to remove this step)
-```sh
-helm upgrade --install postgres bitnami/postgresql --namespace kong --set auth.database=kong --set auth.username=kong --set auth.password=kong
-```
-
 Deploy Kong Gateway
-```sh
-helm upgrade --install enterprise kong/kong --namespace kong --values ./app/gateway/2.8.x/helm/values/quickstart-enterprise.yaml
-```
 
 ```sh
+# Add and Update Kong Helm Repo
+helm repo add kong https://charts.konghq.com ; helm repo update
+
+# Workaround till Helm Chart PR#529 is Released
+git clone https://github.com/kong/charts ~/kong-charts-helm-project
+cd ~/kong-charts-helm-project/charts/kong
+gh pr checkout 592
+helm dependencies update
+
+helm upgrade --install enterprise \
+  --namespace kong \
+  --set proxy.type=LoadBalancer \
+  --values ./example-values/enterprise-licensed-quickstart.yaml \
+  ./
+
+# Wait for all pods to show ready
+watch kubectl get po -nkong
 ```
 
-```sh
-```
+Now open your Kong Manager Web GUI at: [https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+
+> Google Chrome may complain about untrusted certificates.  
+> If there is no "Accept risk and continue" option then type `thisisunsafe` while the tab has focus to continue.  
+>
+
+Clean Up
 
 ```sh
+# Remove Kong
 helm uninstall --namespace kong enterprise
-helm uninstall --namespace kong pg
+
+# Delete Kong Secrets
+kubectl delete secrets -nkong kong-enterprise-license
+kubectl delete secrets -nkong kong-config-secret
+
+# Remove Kong Database PVC
+kubectl delete pvc -nkong data-enterprise-postgresql-0
+
+# Remove Kong Helm Chart Repository
+helm repo remove kong
+
+# Remove cert-manager
 helm uninstall --namespace kong cert-manager
-rm config.yaml
+
+# Remove jetstack cert-manager Helm Repository
+helm repo remove jetstack
+
+# Remove Kong Helm Chart PR 592
+rm -rf ~/kong-charts-helm-project
 ```
+
+
 {% endnavtab %}
 {% endnavtabs %}
 
+## Conclusion
 
-## Conclusion for both 
 See the [Kong Ingress Controller docs](/kubernetes-ingress-controller/) for  how-to guides, reference guides, and more.
