@@ -1,16 +1,9 @@
 ---
-title: Install Kong Gateway with Helm (Enterprise)
+title: How to Install Kong Gateway with Helm
 ---
-{:.badge .enterprise}
-This is the quick start enterprise
-This page explains how to install {{site.base_gateway}} with {{site.kic_product_name}} using Helm.
 
-* The Enterprise deployment includes a Postgres sub-chart provided by Bitnami.
-* For open-source deployments, you can choose to use the Postgres sub-chart, or install without a database.
-
-Configuration for both options is flexible and depends on your environment.
-
-The documentation on installing with a [flat Kubernetes manifest](/gateway/{{page.kong_version}}/install-and-run/kubernetes) also explains how to install in DB-less mode for both Enterprise and OSS deployments.
+This guide will show you how to install {{site.base_gateway}} with Helm. This guide supports using [Docker Desktop Kubernetes(https://docs.docker.com/desktop/kubernetes/)], or [Kind](https://kind.sigs.k8s.io/). 
+The instructions in this guide will set up a Kubernetes cluster running Kong Gateway that you will viewable using [nip.io](https://nip.io). 
 
 The {{site.base_gateway}} software is governed by the
 [Kong Software License Agreement](https://konghq.com/kongsoftwarelicense/).
@@ -20,19 +13,20 @@ The {{site.base_gateway}} software is governed by the
 {% navtabs %}
 {% navtab Kind %}
 
-## Prerequisites for Kong on Kind
+# Install Kong Gateway with Kind
 
-- `helm` Helm 3
-- `kubectl` v1.19 or later
-- `license.json` An enterprise license file from Kong
-- `kind` KinD / Kubernetes-in-Docker
+Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes clusters using Docker Containers. We will be using Kind to deploy the clusters and Helm to install Kong Gateway. 
+## Prerequisites
 
-## Install Kong
+- [`Helm 3`](https://helm.sh/)
+- [`kubectl`](https://kubernetes.io/docs/tasks/tools/) v1.19 or later
+- A `license.json` enterprise license file from Kong
+- [KinD](https://kind.sigs.k8s.io/)
+- Open port 80, and 443. 
 
-Build local Kong on Kind Kubernetes
+## Create cluster
 
-> NOTE: This Kong on Kind deployment requires that port 80 and 443 to be available
->
+To build a local Kubernetes Cluster you have to create a YAML configuration file that contains details about your cluster. Starting from the `cat` command, and ending with `EOF` highlight and copy this entire code block, then paste it into your terminal.
 
 ```sh
 cat <<EOF > /tmp/kind-config.yaml && kind create cluster --config /tmp/kind-config.yaml
@@ -56,76 +50,87 @@ nodes:
 EOF
 ```
 
-Install Cert Manager
+This creates a configuration file and a cluster based on the configuration file that is running nodes on port `80` and `443`. 
+## Configure Cluster
 
-```sh
-# Add and Update Jetstack Cert Manager Helm Repo
-helm repo add jetstack https://charts.jetstack.io ; helm repo update
+1. Add and Update Jetstack Cert Manager Helm Repo
 
-# Install Cert Manager
-helm upgrade --install cert-manager jetstack/cert-manager \
-    --set installCRDs=true --namespace kong --create-namespace
+        helm repo add jetstack https://charts.jetstack.io ; helm repo update
 
-# May remove this step, it is present to prevent kong helm chart being installed before cert-manager is ready
-kubectl wait --namespace kong --for=condition=complete --timeout=60s job/cert-manager-startupapicheck 2>/dev/null
-```
+2. Install Cert Manager
 
-Create the `kong` namespace for {{site.base_gateway}}.
+        
+        helm upgrade --install cert-manager jetstack/cert-manager \
+            --set installCRDs=true --namespace kong --create-namespace
+        
+3. Create Kong Namespace for {{site.base_gateway}}
 
-```sh
-kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
-```
+        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-Create Kong Enterprise License Secret
+4. Create Kong Enterprise License Secret
 
-```sh
-kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
-```
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
 
-Create Kong Credential & Config Variables
 
-```sh
-kubectl create secret generic kong-config-secret -n kong \
-    --from-literal=kong_admin_password=kong \
-    --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-    --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
-    --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
-    --from-literal=pg_port="5432" \
-    --from-literal=password=kong \
-    --dry-run=client -oyaml \
-  | kubectl apply -f -
-```
+### Credentials and Configuration Variables
 
-Deploy Kong Gateway
+Next, you will create a [secret](https://kubernetes.io/docs/concepts/configuration/secret/) using the `kubectl create secret` command. 
+You will also need to create a secret that contains generic credential and configuration variables. The `kubectl create secret` command packages your `license.json` file and your configuration variables into a secret object on the Kubernetes cluster. If you do not have a `license.json` file, please contact your account manager. 
 
-```sh
-# Add and Update Kong Helm Repo
-helm repo add kong https://charts.konghq.com ; helm repo update
 
-# Workaround till Helm Chart PR#529 is Released
-git clone https://github.com/kong/charts ~/kong-charts-helm-project
-cd ~/kong-charts-helm-project/charts/kong
-gh pr checkout 592
-helm dependencies update
 
-# Install Kong
-helm upgrade --install enterprise \
-  --namespace kong \
-  --set proxy.type=ClusterIP \
-  --values ./example-values/enterprise-licensed-quickstart.yaml \
-  ./
+1. Create Kong Enterprise License Secret
+        
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
 
-# Wait for all pods to show ready
-watch kubectl get po -nkong
-```
+2. Create Kong Credential & Config Variables
 
-Now open your Kong Manager Web GUI at: [https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+      ```sh
+      kubectl create secret generic kong-config-secret -n kong \
+          --from-literal=kong_admin_password=kong \
+          --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+          --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+          --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
+          --from-literal=pg_port="5432" \
+          --from-literal=password=kong \
+          --dry-run=client -oyaml \
+        | kubectl apply -f -
+      ```
 
-> Google Chrome may complain about untrusted certificates.  
-> If there is no "Accept risk and continue" option then type `thisisunsafe` while the tab has focus to continue.  
->
 
-Clean Up
+## Deploy Kong Gateway
+
+
+1. Add and Update Kong Helm Repo
+ 
+        helm repo add kong https://charts.konghq.com ; helm repo update
+
+2. WORKAROUND: Clone the Kong charts repo, checkout Kat's PR, and run `helm dependencies update`
+
+        git clone https://github.com/kong/charts kong-charts-helm-project
+        cd ~/kong-charts-helm-project/charts/kong
+        git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager
+        helm dependencies update
+
+3. (Actual step 2) Install Kong 
+
+      
+        helm upgrade --install enterprise \
+          --namespace kong \
+          --set proxy.type=ClusterIP \
+          --values ./example-values/enterprise-licensed-quickstart.yaml \
+          ./
+     
+
+4. Open the Kong Manager Web Application by navigating to the following URL:
+[https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+
+{:.note}
+> In Chrome you will receive a "Your Connection is not Private" message.  
+> If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
+
+<!---
+### Clean Up
 
 ```sh
 # Remove Kong
@@ -154,6 +159,7 @@ rm /tmp/config.yaml
 # Remove Kong Helm Chart PR 592
 rm -rf ~/kong-charts-helm-project
 ```
+---> 
 
 {% endnavtab %}
 {% navtab Docker Desktop Kubernetes %}
@@ -227,17 +233,17 @@ helm upgrade --install enterprise \
   --values ./example-values/enterprise-licensed-quickstart.yaml \
   ./
 
-# Wait for all pods to show ready
-watch kubectl get po -nkong
+
 ```
 
 Now open your Kong Manager Web GUI at: [https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
 
-> Google Chrome may complain about untrusted certificates.  
-> If there is no "Accept risk and continue" option then type `thisisunsafe` while the tab has focus to continue.  
->
+> Google Chrome may complain about untrusted certificates. If there is no "Accept risk and continue" option, type `thisisunsafe` in the tab to continue.  
 
-Clean Up
+
+
+
+### Clean Up
 
 ```sh
 # Remove Kong
