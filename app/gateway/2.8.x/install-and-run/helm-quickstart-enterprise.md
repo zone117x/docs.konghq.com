@@ -100,12 +100,12 @@ You can use the Kong Admin API with insomnia, httpie, or cURL, at [https://kong.
 {% navtabs codeblock %}
 {% navtab cURL %}
 ```sh
-curl --insecure -i -X GET https://kong.7f000001.nip.io/api
+curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
 ```
 {% endnavtab %}
 {% navtab HTTPie %}
 ```sh
-http --verify=no get https://kong.7f000001.nip.io/api
+http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
 ```
 {% endnavtab %}
 {% endnavtabs %}
@@ -168,6 +168,28 @@ Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes
 - A `license.json` enterprise license file from Kong
 - [KinD](https://kind.sigs.k8s.io/)
 - Open port 80, and 443. 
+
+## Start Kind Kubernetes
+
+    cat <<EOF > /tmp/kind-config.yaml && kind create cluster --config /tmp/kind-config.yaml
+    apiVersion: kind.x-k8s.io/v1alpha4
+    kind: Cluster
+    name: kong
+    networking:
+      apiServerAddress: "0.0.0.0"
+      apiServerPort: 16443
+    nodes:
+      - role: control-plane
+        extraPortMappings:
+        - listenAddress: "0.0.0.0"
+          protocol: TCP
+          hostPort: 80
+          containerPort: 80
+        - listenAddress: "0.0.0.0"
+          protocol: TCP
+          hostPort: 443
+          containerPort: 443
+    EOF
 
 ## Install Dependencies
 
@@ -246,12 +268,12 @@ You can use the Kong Admin API with insomnia, httpie, or cURL, at [https://kong.
 {% navtabs codeblock %}
 {% navtab cURL %}
 ```sh
-curl --insecure -i -X GET https://kong.7f000001.nip.io/api
+curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
 ```
 {% endnavtab %}
 {% navtab HTTPie %}
 ```sh
-http --verify=no get https://kong.7f000001.nip.io/api
+http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
 ```
 {% endnavtab %}
 {% endnavtabs %}
