@@ -3,8 +3,8 @@ title: How to Install Kong Gateway with Helm
 toc: false
 ---
 
-This guide will show you how to install {{site.base_gateway}} with Helm. This guide supports using [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/), or [Kind](https://kind.sigs.k8s.io/). 
-The instructions in this guide will set up a Kubernetes cluster running Kong Gateway that you will viewable using [nip.io](https://nip.io). 
+This guide shows you how to quickly install {{site.base_gateway}} with Helm. This guide supports using [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/), or [Kind](https://kind.sigs.k8s.io/).
+The cluster installed in this guide will be immediately accessible using [nip.io](https://nip.io)
 
 The {{site.base_gateway}} software is governed by the
 [Kong Software License Agreement](https://konghq.com/kongsoftwarelicense/).
@@ -14,7 +14,7 @@ The {{site.base_gateway}} software is governed by the
 
 {% navtabs %}
 {% navtab Docker Desktop Kubernetes %}
-# Install Kong Gateway with Docker Desktop
+## Install Kong Gateway on Docker Desktop
 ## Prerequisites 
 
 - [`Helm 3`](https://helm.sh/)
@@ -24,34 +24,34 @@ The {{site.base_gateway}} software is governed by the
 
 
 ## Install Dependencies
-With Docker Desktop you can enable a standalone Kubernetes server from the Docker application. In this guide, you will be using Docker Desktop to quickly deploy a Kong Gateway Kubernetes cluster. Docker Desktop does not enable Kubernetes functionality by default. To enable Docker Desktop Kubernetes, open the Docker application on your local machine. Click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and tick **Enable Kubernetes**.
 
-With Docker Desktop Kubernetes enabled, you can now install dependencies: 
+Docker Desktop does not enable Kubernetes functionality automatically. To enable Docker Desktop Kubernetes, open the Docker application on your local machine, then click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and **Enable Kubernetes**.
 
-1. Add the Jetstack Cert Manager Helm Repo locally
+Once Docker Desktop Kubernetes is enabled, install the dependencies: 
+
+1. Add the Jetstack Cert Manager Helm repository:
 
         helm repo add jetstack https://charts.jetstack.io ; helm repo update
 
-2. Install Cert Manager
-
+2. Install Cert Manager:
+        
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
 
 ## Configure Kong Gateway
 
-Next, you will create a [secret](https://kubernetes.io/docs/concepts/configuration/secret/) using the `kubectl create secret` command. 
-You will also need to create a secret that contains generic credential and configuration variables. The `kubectl create secret` command packages your `license.json` file and your configuration variables into a secret object on the Kubernetes cluster. If you do not have a `license.json` file, please contact your account manager. 
+Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
-2. Create Kong Namespace for {{site.base_gateway}}
+2. Create Kong Namespace for {{site.base_gateway}}:
 
         kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-3. Create Kong Enterprise License Secret
+3. Create Kong Enterprise License Secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -    
       >These instructions must be run in the directory that contains your `license.json` file. 
 
-4. Create Kong Config & Credential Variables
+4. Create Kong config & credential variables:
 
         kubectl create secret generic kong-config-secret -n kong \
             --from-literal=kong_admin_password=kong \
@@ -74,20 +74,20 @@ You will also need to create a secret that contains generic credential and confi
 3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
 4. `helm dependencies update`
 
-Once all of the dependencies are installed, Deploy Kong Gateway:
+Once all of the dependencies are installed, deploy Kong Gateway to the Kubernetes cluster:
 
-1. Add the Kong Helm Repo
+1. Add the Kong Helm Repo:
 
         helm repo add kong https://charts.konghq.com ; helm repo update
 
-2. Install Kong
+2. Install Kong:
 
         helm upgrade --install quickstart --namespace kong \
           --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
           ./
 
 
-3. Now open the local Kong Manager Web Application in your browser at
+3. Open the local Kong Manager Web Application in your browser at
 [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
 
     {:.note}
@@ -95,20 +95,7 @@ Once all of the dependencies are installed, Deploy Kong Gateway:
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
 
 
-You can use the Kong Admin API with insomnia, httpie, or cURL, at [https://kong.7f000001.nip.io/api](https://kong.7f000001.nip.io/api)
 
-{% navtabs codeblock %}
-{% navtab cURL %}
-```sh
-curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
-```
-{% endnavtab %}
-{% navtab HTTPie %}
-```sh
-http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
-```
-{% endnavtab %}
-{% endnavtabs %}
 
 
 <!---
@@ -158,18 +145,20 @@ rm -rf ~/kong-charts-helm-project
 {% endnavtab %}
 {% navtab Kind %}
 
-# Install Kong Gateway with Kind
+## Install Kong Gateway with Kind
 
-Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes clusters using Docker Containers. We will be using Kind to deploy the clusters and Helm to install Kong Gateway. 
+Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes clusters using Docker Containers. In this guide you use Kind to deploy a cluster and Helm to install Kong Gateway. 
 ## Prerequisites
 
 - [`Helm 3`](https://helm.sh/)
 - [`kubectl`](https://kubernetes.io/docs/tasks/tools/) v1.19 or later
 - A `license.json` enterprise license file from Kong
 - [KinD](https://kind.sigs.k8s.io/)
-- Open port 80, and 443. 
+- Ports 80 and 443 available
 
-## Start Kind Kubernetes
+## Create Kubernetes Cluster
+
+To build a local Kubernetes Cluster you have to create a YAML file that contains details about your cluster. Starting from the cat command, and ending with EOF, highlight and copy this entire text block, then paste it into your terminal.
 
     cat <<EOF > /tmp/kind-config.yaml && kind create cluster --config /tmp/kind-config.yaml
     apiVersion: kind.x-k8s.io/v1alpha4
@@ -191,33 +180,32 @@ Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes
           containerPort: 443
     EOF
 
+Verify that the cluster was installed using `kind get clusters`.  This command will return `kong` if the installation was successful. 
+
 ## Install Dependencies
 
-1. Startup [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/)
-
-2. Add the Jetstack Cert Manager Helm Repo locally
+1. Add the Jetstack Cert Manager Helm Repo:
 
         helm repo add jetstack https://charts.jetstack.io ; helm repo update
 
-3. Install Cert Manager
+2. Install Cert Manager:
 
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
 
 ## Configure Kong Gateway
 
-Next, create a [secret](https://kubernetes.io/docs/concepts/configuration/secret/) using the `kubectl create secret` command. 
-You also need to create a secret that contains generic credential and configuration variables. The `kubectl create secret` command packages your `license.json` file and your configuration variables into a secret object on the Kubernetes cluster. If you do not have a `license.json` file, please contact your account manager. 
+Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets contain Kong’s enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
-2. Create Kong Namespace for {{site.base_gateway}}
+1. Create a Namespace for {{site.base_gateway}}:
 
         kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-3. Create Kong Enterprise License Secret
+2. Create Kong Enterprise License Secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
 
-4. Create Kong Config & Credential Variables
+3. Create Kong config & credential variables:
 
         kubectl create secret generic kong-config-secret -n kong \
             --from-literal=kong_admin_password=kong \
@@ -240,13 +228,13 @@ You also need to create a secret that contains generic credential and configurat
 3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
 4. `helm dependencies update`
 
-Once all of the dependencies are installed, Deploy Kong Gateway:
+Once all of the dependencies are installed, deploy Kong Gateway to the Kubernetes cluster:
 
-1. Add the Kong Helm Repo
+1. Add the Kong Helm Repo:
 
         helm repo add kong https://charts.konghq.com ; helm repo update
 
-2. Install Kong
+2. Install Kong:
 
         helm upgrade --install quickstart \
           --namespace kong \
@@ -255,7 +243,7 @@ Once all of the dependencies are installed, Deploy Kong Gateway:
           ./
 
 
-3. Now open the local Kong Manager Web Application in your browser at
+3. Open the local Kong Manager Web Application in your browser at
 [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
 
     {:.note}
@@ -263,20 +251,6 @@ Once all of the dependencies are installed, Deploy Kong Gateway:
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
 
 
-You can use the Kong Admin API with insomnia, httpie, or cURL, at [https://kong.7f000001.nip.io/api](https://kong.7f000001.nip.io/api)
-
-{% navtabs codeblock %}
-{% navtab cURL %}
-```sh
-curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
-```
-{% endnavtab %}
-{% navtab HTTPie %}
-```sh
-http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
-```
-{% endnavtab %}
-{% endnavtabs %}
 
 
 
@@ -314,6 +288,22 @@ rm -rf ~/kong-charts-helm-project
 
 {% endnavtab %}
 {% endnavtabs %}
+
+You can use the Kong Admin API with Insomnia, HTTPie, or cURL, at [https://kong.7f000001.nip.io/api](https://kong.7f000001.nip.io/api)
+
+{% navtabs codeblock %}
+{% navtab cURL %}
+```sh
+curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
+```
+{% endnavtab %}
+{% navtab HTTPie %}
+```sh
+http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
+```
+{% endnavtab %}
+{% endnavtabs %}
+
 
 ## Conclusion
 
