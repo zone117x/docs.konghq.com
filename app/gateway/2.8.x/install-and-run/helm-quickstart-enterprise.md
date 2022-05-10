@@ -53,23 +53,18 @@ EOF
 This creates a configuration file and a cluster based on the configuration file that is running nodes on port `80` and `443`. 
 ## Configure Cluster
 
-1. Add and Update Jetstack Cert Manager Helm Repo
-
-        helm repo add jetstack https://charts.jetstack.io ; helm repo update
-
-2. Install Cert Manager
-
-        
-        helm upgrade --install cert-manager jetstack/cert-manager \
-            --set installCRDs=true --namespace kong --create-namespace
-        
-3. Create Kong Namespace for {{site.base_gateway}}
+1. Create Kong Namespace for {{site.base_gateway}}
 
         kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-4. Create Kong Enterprise License Secret
+2. Add and Update Jetstack Cert Manager Helm Repo
 
-        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+        helm repo add jetstack https://charts.jetstack.io ; helm repo update
+
+3. Install Cert Manager
+
+        helm upgrade --install cert-manager jetstack/cert-manager \
+            --set installCRDs=true --namespace kong --create-namespace
 
 
 ### Credentials and Configuration Variables
@@ -79,8 +74,12 @@ You will also need to create a secret that contains generic credential and confi
 
 
 
+1. Create Kong Namespace for {{site.base_gateway}}
+
+        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
+
 1. Create Kong Enterprise License Secret
-        
+
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
 
 2. Create Kong Credential & Config Variables
@@ -102,28 +101,31 @@ You will also need to create a secret that contains generic credential and confi
 
 
 1. Add and Update Kong Helm Repo
- 
+
         helm repo add kong https://charts.konghq.com ; helm repo update
 
 2. WORKAROUND: Clone the Kong charts repo, checkout Kat's PR, and run `helm dependencies update`
 
+        # THIS REQUIRES THE gh cli https://cli.github.com/manual/installation
         git clone https://github.com/kong/charts kong-charts-helm-project
         cd ~/kong-charts-helm-project/charts/kong
-        git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager
+        gh pr checkout 592
         helm dependencies update
 
-3. (Actual step 2) Install Kong 
+3. (Actual step 2) Install Kong
 
-      
-        helm upgrade --install enterprise \
+
+        helm upgrade --install quickstart \
           --namespace kong \
           --set proxy.type=ClusterIP \
-          --values ./example-values/enterprise-licensed-quickstart.yaml \
+          --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
           ./
-     
+
 
 4. Open the Kong Manager Web Application by navigating to the following URL:
-[https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+[https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
+
+5. You can also reach the Kong Admin API with curl, httpie, or insomnia at: [https://kong.7f000001.nip.io/api](https://kong.7f000001.nip.io/api)
 
 {:.note}
 > In Chrome you will receive a "Your Connection is not Private" message.  
@@ -134,14 +136,14 @@ You will also need to create a secret that contains generic credential and confi
 
 ```sh
 # Remove Kong
-helm uninstall --namespace kong enterprise
+helm uninstall --namespace kong quickstart
 
 # Delete Kong Secrets
 kubectl delete secrets -nkong kong-enterprise-license
 kubectl delete secrets -nkong kong-config-secret
 
 # Remove Kong Database PVC
-kubectl delete pvc -nkong data-enterprise-postgresql-0
+kubectl delete pvc -nkong data-quickstart-postgresql-0
 
 # Remove Kong Helm Chart Repository
 helm repo remove kong
@@ -227,16 +229,16 @@ cd ~/kong-charts-helm-project/charts/kong
 gh pr checkout 592
 helm dependencies update
 
-helm upgrade --install enterprise \
+helm upgrade --install quickstart \
   --namespace kong \
   --set proxy.type=LoadBalancer \
-  --values ./example-values/enterprise-licensed-quickstart.yaml \
+  --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
   ./
 
 
 ```
 
-Now open your Kong Manager Web GUI at: [https://manager.kong.7f000001.nip.io](https://manager.kong.7f000001.nip.io)
+Now open your Kong Manager Web GUI at: [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
 
 > Google Chrome may complain about untrusted certificates. If there is no "Accept risk and continue" option, type `thisisunsafe` in the tab to continue.  
 
