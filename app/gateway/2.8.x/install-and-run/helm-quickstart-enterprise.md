@@ -156,7 +156,7 @@ helm repo remove jetstack
 
 # Destroy your Kind Cluster
 kind delete cluster --name=kong
-rm /tmp/config.yaml
+rm /tmp/kind-config.yaml
 
 # Remove Kong Helm Chart PR 592
 rm -rf ~/kong-charts-helm-project
