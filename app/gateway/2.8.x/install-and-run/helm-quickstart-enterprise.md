@@ -3,8 +3,8 @@ title: How to Install Kong Gateway with Helm
 toc: false
 ---
 
-This guide shows you how to quickly install {{site.base_gateway}} with Helm. This guide supports using [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/), or [Kind](https://kind.sigs.k8s.io/).
-The cluster installed in this guide will be immediately accessible by using [nip.io](https://nip.io) to forward the external DNS request to your local network. 
+This guide shows you how to deploy {{site.base_gateway}} with Helm on your local environment. These steps are known to work on [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/) and [Kind](https://kind.sigs.k8s.io/).
+Once deployed, Kong will be locally accessible at `https://kong.7f000001.nip.io`. We are using [nip.io](https://nip.io) to automatically resolve this domain to localhost. 
 
 The {{site.base_gateway}} software is governed by the
 [Kong Software License Agreement](https://konghq.com/kongsoftwarelicense/).
@@ -25,9 +25,9 @@ The {{site.base_gateway}} software is governed by the
 
 ## Install Dependencies
 
-Docker Desktop does not enable Kubernetes functionality automatically. To enable Docker Desktop Kubernetes, open the Docker application on your local machine, then click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and **Enable Kubernetes**.
+Docker Desktop does not enable Kubernetes functionality automatically. To enable Docker Desktop Kubernetes, open the Docker application on your local machine, click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and **Enable Kubernetes**.
 
-Once Docker Desktop Kubernetes is enabled, install the dependencies: 
+Once Docker Desktop Kubernetes is ready, let's install dependencies: 
 
 1. Add the Jetstack Cert Manager Helm repository:
 
@@ -40,7 +40,7 @@ Once Docker Desktop Kubernetes is enabled, install the dependencies:
 
 ## Configure Kong Gateway
 
-Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+Configuring Kong Gateway requires a Namespace and configuration Secrets. Our secrets will contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
 2. Create Kong Namespace for {{site.base_gateway}}:
 
@@ -75,7 +75,7 @@ Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets 
 3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
 4. `helm dependencies update`
 
-Once all of the dependencies are installed, deploy Kong Gateway to the Kubernetes cluster:
+Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
 
 1. Add the Kong Helm Repo:
 
@@ -149,7 +149,7 @@ rm -rf ~/kong-charts-helm-project
 
 ## Install Kong Gateway with Kind
 
-Kind stands for Kubernetes In Docker, and is a tool for running local Kubernetes clusters using Docker Containers. In this guide you use Kind to deploy a cluster and Helm to install Kong Gateway. 
+Kind or Kubernetes-in-Docker, is a tool for running local Kubernetes clusters in Docker Containers. In this guide you can deploy a Kind Kubernetes cluster and then use Helm to install Kong Enterprise Gateway. 
 ## Prerequisites
 
 - [`Helm 3`](https://helm.sh/)
@@ -197,7 +197,7 @@ Verify that the cluster was installed using `kind get clusters`.  This command w
 
 ## Configure Kong Gateway
 
-Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets contain Kong’s enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+Configuring Kong Gateway requires a Namespace and configuration Secrets. Our secrets will contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
 1. Create a Namespace for {{site.base_gateway}}:
 
@@ -232,7 +232,7 @@ Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets 
 3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
 4. `helm dependencies update`
 
-Once all of the dependencies are installed, deploy Kong Gateway to the Kubernetes cluster:
+Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
 
 1. Add the Kong Helm Repo:
 
