@@ -4,7 +4,7 @@ toc: false
 ---
 
 This guide shows you how to quickly install {{site.base_gateway}} with Helm. This guide supports using [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/), or [Kind](https://kind.sigs.k8s.io/).
-The cluster installed in this guide will be immediately accessible using [nip.io](https://nip.io)
+The cluster installed in this guide will be immediately accessible by using [nip.io](https://nip.io) to forward the external DNS request to your local network. 
 
 The {{site.base_gateway}} software is governed by the
 [Kong Software License Agreement](https://konghq.com/kongsoftwarelicense/).
@@ -49,6 +49,7 @@ Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets 
 3. Create Kong Enterprise License Secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -    
+      
       >These instructions must be run in the directory that contains your `license.json` file. 
 
 4. Create Kong config & credential variables:
@@ -87,11 +88,12 @@ Once all of the dependencies are installed, deploy Kong Gateway to the Kubernete
           ./
 
 
-3. Open the local Kong Manager Web Application in your browser at
-[https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
+3. Open the Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+
+4. Log in with the default username and password combination: `kong_admin`:`kong`
 
     {:.note}
-    > In Chrome you may receive a warning "Your Connection is not Private" message.  
+    > In Chrome you may receive a "Your Connection is not Private" warning message.  
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
 
 
@@ -204,6 +206,8 @@ Configuring Kong Gateway requires creating a Namespace and Secrets. The Secrets 
 2. Create Kong Enterprise License Secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+        
+    >These instructions must be run in the directory that contains your `license.json` file. 
 
 3. Create Kong config & credential variables:
 
@@ -243,14 +247,13 @@ Once all of the dependencies are installed, deploy Kong Gateway to the Kubernete
           ./
 
 
-3. Open the local Kong Manager Web Application in your browser at
-[https://kong.7f000001.nip.io](https://kong.7f000001.nip.io)
+3. Open the Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+
+4. Log in with the default username and password combination: `kong_admin`:`kong`
 
     {:.note}
-    > In Chrome you may receive a warning "Your Connection is not Private" message.  
+    > In Chrome you may receive a "Your Connection is not Private" warning message.  
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
-
-
 
 
 
