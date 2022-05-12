@@ -3,7 +3,7 @@ title: How to Install Kong Gateway with Helm
 toc: false
 ---
 
-This guide shows you how to deploy {{site.base_gateway}} with Helm on your local environment. These steps are known to work on [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/) and [Kind](https://kind.sigs.k8s.io/).
+This guide shows you how to deploy {{site.base_gateway}} with Helm on your local kubernetes environment. These steps are known to work on [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/) and [Kind](https://kind.sigs.k8s.io/).
 Once deployed, Kong will be locally accessible at `https://kong.7f000001.nip.io`. We are using [nip.io](https://nip.io) to automatically resolve this domain to localhost. 
 
 The {{site.base_gateway}} software is governed by the
@@ -70,9 +70,9 @@ Configuring Kong Gateway requires a Namespace and configuration Secrets. Our sec
 > The following 4 steps are temporary development steps and will be removed from the guide.
 > These steps are required to access the helm-chart before it is merged into production.
 
-1. `git clone https://github.com/kong/charts ~/kong-charts-helm-project` 
+1. `gh repo clone Kong/charts ~/kong-charts-helm-project` 
 2. `cd ~/kong-charts-helm-project/charts/kong`
-3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
+3. `gh pr checkout 592`
 4. `helm dependencies update`
 
 Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
@@ -87,10 +87,13 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
           --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
           ./
 
+3. Watch for all pods to be in `Running` state:
 
-3. Open the Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+        kubectl get po --namespace kong
 
-4. Log in with the default username and password combination: `kong_admin`:`kong`
+4. Once pods are ready, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+
+5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
     {:.note}
     > In Chrome you may receive a "Your Connection is not Private" warning message.  
@@ -227,9 +230,9 @@ Configuring Kong Gateway requires a Namespace and configuration Secrets. Our sec
 > The following 4 steps are temporary development steps and will be removed from the guide.
 > These steps are required to access the helm-chart before it is merged into production.
 
-1. `git clone https://github.com/kong/charts ~/kong-charts-helm-project` 
+1. `gh repo clone Kong/charts ~/kong-charts-helm-project` 
 2. `cd ~/kong-charts-helm-project/charts/kong`
-3. `git pull https://github.com/usrbinkat/kong-charts-feat-cert-manager.git feature-proxy-and-mtls-with-certmanager`
+3. `gh pr checkout 592`
 4. `helm dependencies update`
 
 Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
@@ -246,10 +249,13 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
           --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
           ./
 
+3. Watch for all pods to be in `Running` state:
 
-3. Open the Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+        kubectl get po --namespace kong
 
-4. Log in with the default username and password combination: `kong_admin`:`kong`
+4. Once pods are ready, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+
+5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
     {:.note}
     > In Chrome you may receive a "Your Connection is not Private" warning message.  
