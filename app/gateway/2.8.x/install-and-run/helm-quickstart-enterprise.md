@@ -27,7 +27,7 @@ The {{site.base_gateway}} software is governed by the
 
 Docker Desktop does not enable Kubernetes functionality automatically. To enable Docker Desktop Kubernetes, open the Docker application on your local machine, click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and **Enable Kubernetes**.
 
-Once Docker Desktop Kubernetes is ready, let's install dependencies: 
+Once Docker Desktop Kubernetes is enabled, install dependencies: 
 
 1. Add the Jetstack Cert Manager Helm repository:
 
@@ -40,13 +40,13 @@ Once Docker Desktop Kubernetes is ready, let's install dependencies:
 
 ## Configure Kong Gateway
 
-Configuring Kong Gateway requires a Namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
-2. Create Kong Namespace for {{site.base_gateway}}:
+2. Create Kong namespace for {{site.base_gateway}}:
 
         kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-3. Create Kong Enterprise License Secret:
+3. Create Kong Enterprise License secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -    
       
@@ -93,6 +93,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
         kubectl get po --namespace kong
 
 4. Once all pods are running, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+        > This may take 
 
 5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
@@ -111,7 +112,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 # Remove Kong
 helm uninstall --namespace kong enterprise
 
-# Delete Kong Secrets
+# Delete Kong secrets
 kubectl delete secrets -nkong kong-enterprise-license
 kubectl delete secrets -nkong kong-config-secret
 
@@ -126,7 +127,7 @@ helm repo remove kong
 # Remove Kong
 helm uninstall --namespace kong enterprise
 
-# Delete Kong Secrets
+# Delete Kong secrets
 kubectl delete secrets -nkong kong-enterprise-license
 kubectl delete secrets -nkong kong-config-secret
 
@@ -201,13 +202,13 @@ Verify that the cluster was installed using `kind get clusters`.  This command r
 
 ## Configure Kong Gateway
 
-Configuring Kong Gateway requires a Namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
 
-1. Create a Namespace for {{site.base_gateway}}:
+1. Create a namespace for {{site.base_gateway}}:
 
         kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
 
-2. Create Kong Enterprise License Secret:
+2. Create Kong Enterprise License secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
         
@@ -257,7 +258,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 
         kubectl get po --namespace kong
 
-4. Once pods all pods are running, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+4. Once all pods are running, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
 
 5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
@@ -274,7 +275,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 # Remove Kong
 helm uninstall --namespace kong quickstart
 
-# Delete Kong Secrets
+# Delete Kong secrets
 kubectl delete secrets -nkong kong-enterprise-license
 kubectl delete secrets -nkong kong-config-secret
 
