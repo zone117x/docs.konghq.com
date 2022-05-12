@@ -4,7 +4,7 @@ toc: false
 ---
 
 This guide shows you how to deploy {{site.base_gateway}} with Helm on your local Kubernetes environment. These steps are known to work on [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/) and [Kind](https://kind.sigs.k8s.io/).
-Once deployed, Kong will be locally accessible at `https://kong.7f000001.nip.io`. [nip.io](https://nip.io) is used to automatically resolve this domain to localhost. 
+Once deployed, Kong will be locally accessible at `https://kong.127-0-0-1.nip.io`. [nip.io](https://nip.io) is used to automatically resolve this domain to localhost. 
 
 The {{site.base_gateway}} software is governed by the
 [Kong Software License Agreement](https://konghq.com/kongsoftwarelicense/).
@@ -20,12 +20,12 @@ The {{site.base_gateway}} software is governed by the
 - [`Helm 3`](https://helm.sh/)
 - [`kubectl`](https://kubernetes.io/docs/tasks/tools/) v1.19 or later
 - A `license.json` enterprise license file from Kong
-- [Docker Desktop](https://docs.docker.com/desktop/#download-and-install) with Kubernetes enabled. 
+- [Docker Desktop Kubernetes](https://docs.docker.com/desktop/kubernetes/)
 
 
-## Install Dependencies
+## Install Cert Manager
 
-Docker Desktop does not enable Kubernetes functionality automatically. To enable Docker Desktop Kubernetes, open the Docker application on your local machine, click the **Settings Cog** in the top-right corner of the application to open **Preferences**. From the **Preferences** menu, click the Kubernetes option, and **Enable Kubernetes**.
+Cert Manager provides automation for generating ssl certificates. This Kong deployment will use Cert Manager to provide several required certs.
 
 Once Docker Desktop Kubernetes is enabled, install dependencies: 
 
@@ -56,8 +56,8 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 
         kubectl create secret generic kong-config-secret -n kong \
             --from-literal=kong_admin_password=kong \
-            --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
             --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
             --from-literal=pg_port="5432" \
             --from-literal=password=kong \
@@ -65,6 +65,8 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
           | kubectl apply -f -
 
 ## Deploy Kong Gateway
+
+Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost. 
 
 {:.important}
 > The following 4 steps are temporary development steps and will be removed from the guide.
@@ -92,8 +94,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 
         kubectl get po --namespace kong
 
-4. Once all pods are running, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
-        > This may take 
+4. Once all pods are running, open Kong Manager in your browser at [https://kong.127-0-0-1.nip.io](https://kong.127-0-0-1.nip.io). The [nip.io](https://nip.io) domain is a service that automatically resolves the cluster's domain to localhost.
 
 5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
@@ -101,11 +102,24 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
     > In Chrome you may receive a "Your Connection is not Private" warning message.  
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
 
-
-
-
-
 <!---
+## Uninstall 
+
+The following steps can be used to uninstall Kong Gateway. 
+
+### Remove Kong
+
+`helm uninstall --namespace kong enterprise`
+
+### Delete Kong secretes
+
+1. `kubectl delete secrets -nkong kong-enterprise-license`
+2. `kubectl delete secrets -nkong kong-config-secret`
+
+### Remove Kong Database PVC
+
+`kubectl delete pvc -nkong data-enterprise-postgresql-0`
+
 ### Clean Up
 
 ```sh
@@ -218,8 +232,8 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 
         kubectl create secret generic kong-config-secret -n kong \
             --from-literal=kong_admin_password=kong \
-            --from-literal=portal_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"CHANGEME-secret-salt","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
             --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
             --from-literal=pg_port="5432" \
             --from-literal=password=kong \
@@ -258,7 +272,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 
         kubectl get po --namespace kong
 
-4. Once all pods are running, open Kong Manager in your browser at [https://kong.7f000001.nip.io](https://kong.7f000001.nip.io). 
+4. Once all pods are running, open Kong Manager in your browser at [https://kong.127-0-0-1.nip.io](https://kong.127-0-0-1.nip.io). The [nip.io](https://nip.io) domain is a service that automatically resolves the cluster's domain to localhost.
 
 5. Log in with the Super Admin username and password combination: `kong_admin`:`kong`
 
@@ -303,17 +317,17 @@ rm -rf ~/kong-charts-helm-project
 {% endnavtab %}
 {% endnavtabs %}
 
-You can use the Kong Admin API with Insomnia, HTTPie, or cURL, at [https://kong.7f000001.nip.io/api](https://kong.7f000001.nip.io/api)
+You can use the Kong Admin API with Insomnia, HTTPie, or cURL, at [https://kong.127-0-0-1.nip.io/api](https://kong.127-0-0-1.nip.io/api)
 
 {% navtabs codeblock %}
 {% navtab cURL %}
 ```sh
-curl --insecure -i -X GET https://kong.7f000001.nip.io/api -H 'kong-admin-token:kong'
+curl --insecure -i -X GET https://kong.127-0-0-1.nip.io/api -H 'kong-admin-token:kong'
 ```
 {% endnavtab %}
 {% navtab HTTPie %}
 ```sh
-http --verify=no get https://kong.7f000001.nip.io/api kong-admin-token:kong_admin
+http --verify=no get https://kong.127-0-0-1.nip.io/api kong-admin-token:kong_admin
 ```
 {% endnavtab %}
 {% endnavtabs %}
