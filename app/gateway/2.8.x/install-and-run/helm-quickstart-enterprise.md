@@ -327,7 +327,7 @@ curl --insecure -i -X GET https://kong.127-0-0-1.nip.io/api -H 'kong-admin-token
 {% endnavtab %}
 {% navtab HTTPie %}
 ```sh
-http --verify=no get https://kong.127-0-0-1.nip.io/api kong-admin-token:kong_admin
+http --verify=no get https://kong.127-0-0-1.nip.io/api kong-admin-token:kong
 ```
 {% endnavtab %}
 {% endnavtabs %}
