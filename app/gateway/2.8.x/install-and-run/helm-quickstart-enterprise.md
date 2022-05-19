@@ -41,7 +41,34 @@ Once Docker Desktop Kubernetes is enabled, install dependencies:
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
 
-3. Create a self signed Certificate Issuer:
+
+## Configure Kong Gateway
+
+Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+
+2. Create Kong namespace for {{site.base_gateway}}:
+
+        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
+
+3. Create Kong Enterprise License secret:
+
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+
+      >These instructions must be run in the directory that contains your `license.json` file.
+
+4. Create Kong config & credential variables:
+
+        kubectl create secret generic kong-config-secret -n kong \
+            --from-literal=kong_admin_password=kong \
+            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
+            --from-literal=pg_port="5432" \
+            --from-literal=password=kong \
+            --dry-run=client -oyaml \
+          | kubectl apply -f -
+
+6. Create a SelfSigned certificate issuer:
 
        cat <<EOF | kubectl apply -n kong -f -
        apiVersion: cert-manager.io/v1
@@ -77,33 +104,7 @@ Once Docker Desktop Kubernetes is enabled, install dependencies:
          ca:
            secretName: quickstart-kong-selfsigned-issuer-ca
        EOF
-
-## Configure Kong Gateway
-
-Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
-
-2. Create Kong namespace for {{site.base_gateway}}:
-
-        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
-
-3. Create Kong Enterprise License secret:
-
-        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
-
-      >These instructions must be run in the directory that contains your `license.json` file.
-
-4. Create Kong config & credential variables:
-
-        kubectl create secret generic kong-config-secret -n kong \
-            --from-literal=kong_admin_password=kong \
-            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
-            --from-literal=pg_port="5432" \
-            --from-literal=password=kong \
-            --dry-run=client -oyaml \
-          | kubectl apply -f -
-
+ 
 ## Deploy Kong Gateway
 
 Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost.
@@ -254,7 +255,35 @@ Verify that the cluster was installed using `kind get clusters`.  This command r
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
 
-3. Create a self signed Certificate Issuer:
+
+
+## Configure Kong Gateway
+
+Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+
+2. Create Kong namespace for {{site.base_gateway}}:
+
+        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
+
+3. Create Kong Enterprise License secret:
+
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+
+      >These instructions must be run in the directory that contains your `license.json` file.
+
+4. Create Kong config & credential variables:
+
+        kubectl create secret generic kong-config-secret -n kong \
+            --from-literal=kong_admin_password=kong \
+            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
+            --from-literal=pg_port="5432" \
+            --from-literal=password=kong \
+            --dry-run=client -oyaml \
+          | kubectl apply -f -
+
+5. Create a SelfSigned certificate issuer:
 
        cat <<EOF | kubectl apply -n kong -f -
        apiVersion: cert-manager.io/v1
@@ -290,32 +319,6 @@ Verify that the cluster was installed using `kind get clusters`.  This command r
          ca:
            secretName: quickstart-kong-selfsigned-issuer-ca
        EOF
-
-## Configure Kong Gateway
-
-Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
-
-2. Create Kong namespace for {{site.base_gateway}}:
-
-        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
-
-3. Create Kong Enterprise License secret:
-
-        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
-
-      >These instructions must be run in the directory that contains your `license.json` file.
-
-4. Create Kong config & credential variables:
-
-        kubectl create secret generic kong-config-secret -n kong \
-            --from-literal=kong_admin_password=kong \
-            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
-            --from-literal=pg_port="5432" \
-            --from-literal=password=kong \
-            --dry-run=client -oyaml \
-          | kubectl apply -f -
 
 ## Deploy Kong Gateway
 
