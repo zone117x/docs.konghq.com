@@ -15,7 +15,10 @@ The {{site.base_gateway}} software is governed by the
 {% navtabs %}
 {% navtab Docker Desktop Kubernetes %}
 ## Install Kong Gateway on Docker Desktop
-## Prerequisites 
+
+Docker Desktop Kubernetes, is a tool for running a local Kubernetes cluster in Docker Desktop. In this guide you can deploy a Docker Dekstop Kubernetes cluster and then use Helm to install Kong Enterprise Gateway.
+
+## Prerequisites
 
 - [`Helm 3`](https://helm.sh/)
 - [`kubectl`](https://kubernetes.io/docs/tasks/tools/) v1.19 or later
@@ -27,16 +30,53 @@ The {{site.base_gateway}} software is governed by the
 
 Cert Manager provides automation for generating ssl certificates. This Kong deployment will use Cert Manager to provide several required certs.
 
-Once Docker Desktop Kubernetes is enabled, install dependencies: 
+Once Docker Desktop Kubernetes is enabled, install dependencies:
 
 1. Add the Jetstack Cert Manager Helm repository:
 
         helm repo add jetstack https://charts.jetstack.io ; helm repo update
 
 2. Install Cert Manager:
-        
+
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
+
+3. Create a self signed Certificate Issuer:
+
+       cat <<EOF | kubectl apply -n kong -f -
+       apiVersion: cert-manager.io/v1
+       kind: Issuer
+       metadata:
+         name: quickstart-kong-selfsigned-issuer-root
+       spec:
+         selfSigned: {}
+       ---
+       apiVersion: cert-manager.io/v1
+       kind: Certificate
+       metadata:
+         name: quickstart-kong-selfsigned-issuer-ca
+       spec:
+         commonName: quickstart-kong-selfsigned-issuer-ca
+         duration: 2160h0m0s
+         isCA: true
+         issuerRef:
+           group: cert-manager.io
+           kind: Issuer
+           name: quickstart-kong-selfsigned-issuer-root
+         privateKey:
+           algorithm: ECDSA
+           size: 256
+         renewBefore: 360h0m0s
+         secretName: quickstart-kong-selfsigned-issuer-ca
+       ---
+       apiVersion: cert-manager.io/v1
+       kind: Issuer
+       metadata:
+         name: quickstart-kong-selfsigned-issuer
+       spec:
+         ca:
+           secretName: quickstart-kong-selfsigned-issuer-ca
+       EOF
 
 ## Configure Kong Gateway
 
@@ -48,9 +88,9 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 
 3. Create Kong Enterprise License secret:
 
-        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -    
-      
-      >These instructions must be run in the directory that contains your `license.json` file. 
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+
+      >These instructions must be run in the directory that contains your `license.json` file.
 
 4. Create Kong config & credential variables:
 
@@ -66,14 +106,14 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 
 ## Deploy Kong Gateway
 
-Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost. 
+Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost.
 
 {:.important}
 > The following 4 steps are temporary development steps and will be removed from the guide.
 > These steps are required to access the helm-chart before it is merged into production.
 > These steps require the [Github CLI](https://cli.github.com/).
 
-1. `gh repo clone Kong/charts ~/kong-charts-helm-project` 
+1. `gh repo clone Kong/charts ~/kong-charts-helm-project`
 2. `cd ~/kong-charts-helm-project/charts/kong`
 3. `gh pr checkout 592`
 4. `helm dependencies update`
@@ -103,9 +143,9 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
     > If there is no "Accept risk and continue" option then type `thisisunsafe` while the in the tab to continue.
 
 <!---
-## Uninstall 
+## Uninstall
 
-The following steps can be used to uninstall Kong Gateway. 
+The following steps can be used to uninstall Kong Gateway.
 
 ### Remove Kong
 
@@ -160,7 +200,7 @@ helm repo remove jetstack
 # Remove Kong Helm Chart PR 592
 rm -rf ~/kong-charts-helm-project
 ```
----> 
+--->
 
 
 {% endnavtab %}
@@ -201,7 +241,7 @@ To build a local Kubernetes Cluster you have to create a YAML file that contains
           containerPort: 443
     EOF
 
-Verify that the cluster was installed using `kind get clusters`.  This command returns `kong` if the installation was successful. 
+Verify that the cluster was installed using `kind get clusters`.  This command returns `kong` if the installation was successful.
 
 ## Install Dependencies
 
@@ -214,6 +254,84 @@ Verify that the cluster was installed using `kind get clusters`.  This command r
         helm upgrade --install cert-manager jetstack/cert-manager \
             --set installCRDs=true --namespace cert-manager --create-namespace
 
+3. Create a self signed Certificate Issuer:
+
+       cat <<EOF | kubectl apply -n kong -f -
+       apiVersion: cert-manager.io/v1
+       kind: Issuer
+       metadata:
+         name: quickstart-kong-selfsigned-issuer-root
+       spec:
+         selfSigned: {}
+       ---
+       apiVersion: cert-manager.io/v1
+       kind: Certificate
+       metadata:
+         name: quickstart-kong-selfsigned-issuer-ca
+       spec:
+         commonName: quickstart-kong-selfsigned-issuer-ca
+         duration: 2160h0m0s
+         isCA: true
+         issuerRef:
+           group: cert-manager.io
+           kind: Issuer
+           name: quickstart-kong-selfsigned-issuer-root
+         privateKey:
+           algorithm: ECDSA
+           size: 256
+         renewBefore: 360h0m0s
+         secretName: quickstart-kong-selfsigned-issuer-ca
+       ---
+       apiVersion: cert-manager.io/v1
+       kind: Issuer
+       metadata:
+         name: quickstart-kong-selfsigned-issuer
+       spec:
+         ca:
+           secretName: quickstart-kong-selfsigned-issuer-ca
+       EOF
+
+## Configure Kong Gateway
+
+Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
+
+2. Create Kong namespace for {{site.base_gateway}}:
+
+        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
+
+3. Create Kong Enterprise License secret:
+
+        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
+
+      >These instructions must be run in the directory that contains your `license.json` file.
+
+4. Create Kong config & credential variables:
+
+        kubectl create secret generic kong-config-secret -n kong \
+            --from-literal=kong_admin_password=kong \
+            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
+            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
+            --from-literal=pg_port="5432" \
+            --from-literal=password=kong \
+            --dry-run=client -oyaml \
+          | kubectl apply -f -
+
+## Deploy Kong Gateway
+
+Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost.
+
+{:.important}
+> The following 4 steps are temporary development steps and will be removed from the guide.
+> These steps are required to access the helm-chart before it is merged into production.
+> These steps require the [Github CLI](https://cli.github.com/).
+
+1. `gh repo clone Kong/charts ~/kong-charts-helm-project`
+2. `cd ~/kong-charts-helm-project/charts/kong`
+3. `gh pr checkout 592`
+4. `helm dependencies update`
+
+Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
 ## Configure Kong Gateway
 
 Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
@@ -225,8 +343,8 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 2. Create Kong Enterprise License secret:
 
         kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
-        
-    >These instructions must be run in the directory that contains your `license.json` file. 
+
+    >These instructions must be run in the directory that contains your `license.json` file.
 
 3. Create Kong config & credential variables:
 
@@ -247,7 +365,7 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 > These steps are required to access the helm-chart before it is merged into production.
 > These steps require the [Github CLI](https://cli.github.com/).
 
-1. `gh repo clone Kong/charts ~/kong-charts-helm-project` 
+1. `gh repo clone Kong/charts ~/kong-charts-helm-project`
 2. `cd ~/kong-charts-helm-project/charts/kong`
 3. `gh pr checkout 592`
 4. `helm dependencies update`
@@ -262,9 +380,7 @@ Once all dependencies are installed and ready, deploy Kong Gateway to your clust
 
 2. Install Kong:
 
-        helm upgrade --install quickstart \
-          --namespace kong \
-          --set proxy.type=ClusterIP \
+        helm upgrade --install quickstart --namespace kong \
           --values ./example-values/quickstart-enterprise-licensed-aio.yaml \
           ./
 
@@ -312,7 +428,7 @@ rm /tmp/kind-config.yaml
 # Remove Kong Helm Chart PR 592
 rm -rf ~/kong-charts-helm-project
 ```
----> 
+--->
 
 {% endnavtab %}
 {% endnavtabs %}
@@ -322,7 +438,7 @@ You can use the Kong Admin API with Insomnia, HTTPie, or cURL, at [https://kong.
 {% navtabs codeblock %}
 {% navtab cURL %}
 ```sh
-curl --insecure -i -X GET https://kong.127-0-0-1.nip.io/api -H 'kong-admin-token:kong'
+curl --silent --insecure -X GET https://kong.127-0-0-1.nip.io/api -H 'kong-admin-token:kong'
 ```
 {% endnavtab %}
 {% navtab HTTPie %}
