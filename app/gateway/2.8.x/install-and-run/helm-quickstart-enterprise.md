@@ -322,8 +322,6 @@ Configuring Kong Gateway requires a namespace and configuration secrets. Our sec
 
 ## Deploy Kong Gateway
 
-Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide uses [nip.io](https://nip.io) to automatically resolve this domain to localhost.
-
 {:.important}
 > The following 4 steps are temporary development steps and will be removed from the guide.
 > These steps are required to access the helm-chart before it is merged into production.
@@ -334,47 +332,6 @@ Kong Gateway locally accessible at `https://kong.127-0-0-1.nip.io`. This guide u
 3. `gh pr checkout 592`
 4. `helm dependencies update`
 
-Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
-## Configure Kong Gateway
-
-Configuring Kong Gateway requires a namespace and configuration secrets. Our secrets contain Kong's enterprise license, admin password, session configurations, and Postgres connection details. If you do not have a `license.json` file, please contact your account manager.
-
-1. Create a namespace for {{site.base_gateway}}:
-
-        kubectl create namespace kong --dry-run=client -oyaml | kubectl apply -f -
-
-2. Create Kong Enterprise License secret:
-
-        kubectl create secret generic kong-enterprise-license --from-file=license=license.json -n kong --dry-run=client -oyaml | kubectl apply -f -
-
-    >These instructions must be run in the directory that contains your `license.json` file.
-
-3. Create Kong config & credential variables:
-
-        kubectl create secret generic kong-config-secret -n kong \
-            --from-literal=kong_admin_password=kong \
-            --from-literal=portal_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"portal_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=admin_gui_session_conf='{"storage":"kong","secret":"super_secret_salt_string","cookie_name":"admin_session","cookie_samesite":"off","cookie_secure":false}' \
-            --from-literal=pg_host="enterprise-postgresql.kong.svc.cluster.local" \
-            --from-literal=pg_port="5432" \
-            --from-literal=password=kong \
-            --dry-run=client -oyaml \
-          | kubectl apply -f -
-
-## Deploy Kong Gateway
-
-{:.important}
-> The following 4 steps are temporary development steps and will be removed from the guide.
-> These steps are required to access the helm-chart before it is merged into production.
-> These steps require the [Github CLI](https://cli.github.com/).
-
-1. `gh repo clone Kong/charts ~/kong-charts-helm-project`
-2. `cd ~/kong-charts-helm-project/charts/kong`
-3. `gh pr checkout 592`
-4. `helm dependencies update`
-
-{:.important}
-> 
 Once all dependencies are installed and ready, deploy Kong Gateway to your cluster:
 
 1. Add the Kong Helm Repo:
