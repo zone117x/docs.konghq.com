@@ -1,6 +1,7 @@
 ---
 title: deck konnect sync
 source_url: https://github.com/Kong/deck/tree/main/cmd
+content-type: reference
 ---
 
 The konnect sync command reads the state file and performs operations in Konnect
@@ -28,8 +29,12 @@ deck konnect sync [command-specific flags] [global flags]
 `--parallelism`
 :  Maximum number of concurrent operations. (Default: `100`)
 
+{% if_version gte:1.8.x %}
+
 `--silence-events`
 :  disable printing events to stdout (Default: `false`)
+
+{% endif_version %}
 
 `-s`, `--state`
 :  file(s) containing Konnect's configuration.
